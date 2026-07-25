@@ -52,552 +52,218 @@
       ] },
       render:null },
     { id:'pattern-singleton', category:'patterns-creational', title:'Singleton',
-      label:'Singleton - Unique Instance', cpp:'pattern_singleton.cpp', diagram:null,
-      narration:[
-        {text:'Creating Singleton instance...', color:'#ec4899'},
-        {text:'getInstance() called - checks static instance', color:'#ec4899'},
-        {text:'Instance is null, creating new Singleton()', color:'#fbbf24'},
-        {text:'Singleton created and stored in static variable', color:'#34d399'},
-        {text:'All subsequent getInstance() calls return same instance', color:'#ec4899'}
-      ],
-      render: function (svg) {
-        svg.innerHTML = '';
-
-        // Singleton box
-        const singletonBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        singletonBox.setAttribute('x', '150'); singletonBox.setAttribute('y', '80');
-        singletonBox.setAttribute('width', '300'); singletonBox.setAttribute('height', '120');
-        singletonBox.setAttribute('fill', '#ec4899'); singletonBox.setAttribute('stroke', '#be185d'); singletonBox.setAttribute('stroke-width', '2');
-        svg.appendChild(singletonBox);
-
-        // Class name
-        const className = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        className.setAttribute('x', '300'); className.setAttribute('y', '105');
-        className.setAttribute('text-anchor', 'middle'); className.setAttribute('font-size', '16'); className.setAttribute('font-weight', 'bold');
-        className.setAttribute('fill', 'white');
-        className.textContent = 'Singleton';
-        svg.appendChild(className);
-
-        // Members
-        const members = ['- static instance', '- private constructor', '+ getInstance()'];
-        members.forEach((m, i) => {
-            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            text.setAttribute('x', '165'); text.setAttribute('y', '130 + i*18');
-            text.setAttribute('font-family', 'monospace'); text.setAttribute('font-size', '11'); text.setAttribute('fill', '#fca5a5');
-            text.textContent = m;
-            svg.appendChild(text);
-        });
-
-        // Access arrows
-        const arrow1 = PatternVizDraw.arrow(svg, '300', '200', '300', '240', '#fbbf24');
-        const label1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        label1.setAttribute('x', '310'); label1.setAttribute('y', '225');
-        label1.setAttribute('font-size', '12'); label1.setAttribute('fill', '#fbbf24');
-        label1.textContent = 'Unique Instance';
-        svg.appendChild(label1);
-
-        // Instance box
-        const instBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        instBox.setAttribute('x', '180'); instBox.setAttribute('y', '240');
-        instBox.setAttribute('width', '240'); instBox.setAttribute('height', '40');
-        instBox.setAttribute('fill', '#fef08a'); instBox.setAttribute('stroke', '#eab308'); instBox.setAttribute('stroke-width', '2');
-        svg.appendChild(instBox);
-
-        const instText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        instText.setAttribute('x', '300'); instText.setAttribute('y', '267');
-        instText.setAttribute('text-anchor', 'middle'); instText.setAttribute('font-size', '13'); instText.setAttribute('font-family', 'monospace');
-        instText.setAttribute('fill', '#78350f');
-        instText.textContent = 's1 = Singleton::getInstance()';
-        svg.appendChild(instText);
-      } },
+      label:'Singleton - Unique Instance', cpp:'pattern_singleton.cpp',
+      diagram:{ nodes:[
+        {id:'cls',x:150,y:40,w:300,h:130,label:'Singleton',members:['- static instance','- private ctor()','+ getInstance()'],color:'#ec4899',active:[0,1,2,3]},
+        {id:'inst',x:190,y:240,w:260,h:60,label:'Instance',members:['s1 = Singleton::getInstance()'],color:'#eab308',active:[2,3]}
+      ], edges:[ {from:'cls',to:'inst',label:'creates',active:[2,3]} ],
+      steps:[
+        {caption:{en:'getInstance() called — checks the static instance', zh:'getInstance() 被呼叫，檢查靜態成員 instance 是否存在'}},
+        {caption:{en:'instance is null, so a new Singleton() is constructed', zh:'instance 為 null，於是建構一個新的 Singleton()'}},
+        {caption:{en:'The new object is stored in the static member instance', zh:'新建立的物件被儲存於靜態成員 instance 中'}},
+        {caption:{en:'Every later getInstance() call returns that same instance', zh:'之後每次呼叫 getInstance() 都回傳同一個 instance'}}
+      ] },
+      render:null },
     { id:'pattern-factory', category:'patterns-creational', title:'Factory Method',
-      label:'Factory - Object Creation', cpp:'pattern_factory.cpp', diagram:null,
-      narration:[
-        {text:'Using Factory to create objects...', color:'#ec4899'},
-        {text:'VehicleFactory::createVehicle("car") called', color:'#f59e0b'},
-        {text:'Factory returns new Car() instance', color:'#34d399'},
-        {text:'VehicleFactory::createVehicle("bike") called', color:'#f59e0b'},
-        {text:'Factory returns new Bike() instance', color:'#34d399'},
-        {text:'Client code depends on interface, not concrete classes', color:'#10b981'}
+      label:'Factory - Object Creation', cpp:'pattern_factory.cpp',
+      diagram:{ nodes:[
+        {id:'fact',x:180,y:20,w:240,h:60,label:'VehicleFactory',members:['+ createVehicle(type)'],color:'#ec4899',active:[0,1]},
+        {id:'prod',x:200,y:120,w:160,h:70,label:'Vehicle',members:['<<interface>>'],color:'#60a5fa',active:[2]},
+        {id:'car',x:80,y:230,w:120,h:50,label:'Car',color:'#34d399',active:[0,2]},
+        {id:'bike',x:340,y:230,w:120,h:50,label:'Bike',color:'#34d399',active:[1,2]}
+      ], edges:[
+        {from:'fact',to:'car',label:'creates',active:[0]},
+        {from:'fact',to:'bike',label:'creates',active:[1]},
+        {from:'prod',to:'car',label:'implements',active:[2]},
+        {from:'prod',to:'bike',label:'implements',active:[2]}
       ],
-      render: function (svg) {
-        svg.innerHTML = '';
-
-        // Factory box
-        const factoryBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        factoryBox.setAttribute('x', '180'); factoryBox.setAttribute('y', '20');
-        factoryBox.setAttribute('width', '240'); factoryBox.setAttribute('height', '60');
-        factoryBox.setAttribute('fill', '#ec4899'); factoryBox.setAttribute('stroke', '#be185d'); factoryBox.setAttribute('stroke-width', '2');
-        svg.appendChild(factoryBox);
-
-        const factoryText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        factoryText.setAttribute('x', '300'); factoryText.setAttribute('y', '55');
-        factoryText.setAttribute('text-anchor', 'middle'); factoryText.setAttribute('font-size', '14'); factoryText.setAttribute('font-weight', 'bold');
-        factoryText.setAttribute('fill', 'white');
-        factoryText.textContent = 'VehicleFactory';
-        svg.appendChild(factoryText);
-
-        // Product interface
-        const prodBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        prodBox.setAttribute('x', '240'); prodBox.setAttribute('y', '120');
-        prodBox.setAttribute('width', '120'); prodBox.setAttribute('height', '50');
-        prodBox.setAttribute('fill', '#60a5fa'); prodBox.setAttribute('stroke', '#1e40af'); prodBox.setAttribute('stroke-width', '2');
-        svg.appendChild(prodBox);
-
-        const prodText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        prodText.setAttribute('x', '300'); prodText.setAttribute('y', '153');
-        prodText.setAttribute('text-anchor', 'middle'); prodText.setAttribute('font-size', '12'); prodText.setAttribute('font-weight', 'bold');
-        prodText.setAttribute('fill', 'white');
-        prodText.textContent = '<<interface>>';
-        svg.appendChild(prodText);
-
-        const prodName = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        prodName.setAttribute('x', '300'); prodName.setAttribute('y', '168');
-        prodName.setAttribute('text-anchor', 'middle'); prodName.setAttribute('font-size', '11');
-        prodName.setAttribute('fill', 'white');
-        prodName.textContent = 'Vehicle';
-        svg.appendChild(prodName);
-
-        // Concrete products
-        const carBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        carBox.setAttribute('x', '100'); carBox.setAttribute('y', '220');
-        carBox.setAttribute('width', '100'); carBox.setAttribute('height', '40');
-        carBox.setAttribute('fill', '#34d399'); carBox.setAttribute('stroke', '#059669'); carBox.setAttribute('stroke-width', '2');
-        svg.appendChild(carBox);
-
-        const carText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        carText.setAttribute('x', '150'); carText.setAttribute('y', '247');
-        carText.setAttribute('text-anchor', 'middle'); carText.setAttribute('font-size', '12');
-        carText.setAttribute('fill', 'white');
-        carText.textContent = 'Car';
-        svg.appendChild(carText);
-
-        const bikeBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        bikeBox.setAttribute('x', '280'); bikeBox.setAttribute('y', '220');
-        bikeBox.setAttribute('width', '100'); bikeBox.setAttribute('height', '40');
-        bikeBox.setAttribute('fill', '#34d399'); bikeBox.setAttribute('stroke', '#059669'); bikeBox.setAttribute('stroke-width', '2');
-        svg.appendChild(bikeBox);
-
-        const bikeText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        bikeText.setAttribute('x', '330'); bikeText.setAttribute('y', '247');
-        bikeText.setAttribute('text-anchor', 'middle'); bikeText.setAttribute('font-size', '12');
-        bikeText.setAttribute('fill', 'white');
-        bikeText.textContent = 'Bike';
-        svg.appendChild(bikeText);
-
-        // Factory creates arrow
-        PatternVizDraw.arrow(svg, '240', '85', '180', '220', '#f59e0b');
-        PatternVizDraw.arrow(svg, '360', '85', '380', '220', '#f59e0b');
-
-        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        label.setAttribute('x', '280'); label.setAttribute('y', '200');
-        label.setAttribute('font-size', '11'); label.setAttribute('fill', '#f59e0b');
-        label.textContent = 'creates';
-        svg.appendChild(label);
-      } },
+      steps:[
+        {caption:{en:'client.createVehicle("car") → factory returns a new Car()', zh:'client.createVehicle("car") → 工廠回傳一個新建的 Car()'}},
+        {caption:{en:'client.createVehicle("bike") → factory returns a new Bike()', zh:'client.createVehicle("bike") → 工廠回傳一個新建的 Bike()'}},
+        {caption:{en:'Client code depends only on the Vehicle interface, never on Car/Bike directly', zh:'用戶端程式碼只依賴 Vehicle 介面，從不直接依賴 Car 或 Bike'}}
+      ] },
+      render:null },
     { id:'pattern-adapter', category:'patterns-structural', title:'Adapter',
-      label:'Adapter - Interface Bridge', cpp:'pattern_adapter.cpp', diagram:null,
-      narration:[
-        {text:'Adapting legacy interface to modern interface...', color:'#ec4899'},
-        {text:'Legacy system uses getData()', color:'#fb7185'},
-        {text:'Adapter wraps legacy object', color:'#10b981'},
-        {text:'fetch() calls legacy.getData() internally', color:'#34d399'},
-        {text:'Modern code calls adapter.fetch()', color:'#60a5fa'},
-        {text:'Incompatible interfaces now work together!', color:'#34d399'}
+      label:'Adapter - Interface Bridge', cpp:'pattern_adapter.cpp',
+      diagram:{ nodes:[
+        {id:'client',x:40,y:30,w:160,h:70,label:'Client',color:'#6366f1',active:[0,3]},
+        {id:'target',x:280,y:60,w:200,h:70,label:'Target',members:['<<interface>>','+ request()'],color:'#60a5fa',active:[0,1,3]},
+        {id:'adapter',x:250,y:180,w:200,h:100,label:'Adapter',members:['+ request()'],color:'#10b981',active:[1,2,3]},
+        {id:'adaptee',x:40,y:170,w:170,h:70,label:'Adaptee (Legacy)',members:['+ specificRequest()'],color:'#fb7185',active:[1,2,3]}
+      ], edges:[
+        {from:'client',to:'target',label:'calls',active:[0,3]},
+        {from:'target',to:'adapter',label:'implements',active:[1,3]},
+        {from:'adapter',to:'adaptee',label:'wraps',active:[1,2,3]}
       ],
-      render: function (svg) {
-        svg.innerHTML = '';
-
-        // Legacy system
-        const legacyBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        legacyBox.setAttribute('x', '50'); legacyBox.setAttribute('y', '100');
-        legacyBox.setAttribute('width', '120'); legacyBox.setAttribute('height', '60');
-        legacyBox.setAttribute('fill', '#fb7185'); legacyBox.setAttribute('stroke', '#be185d'); legacyBox.setAttribute('stroke-width', '2');
-        svg.appendChild(legacyBox);
-
-        const legacyText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        legacyText.setAttribute('x', '110'); legacyText.setAttribute('y', '128');
-        legacyText.setAttribute('text-anchor', 'middle'); legacyText.setAttribute('font-size', '11'); legacyText.setAttribute('font-weight', 'bold');
-        legacyText.setAttribute('fill', 'white');
-        legacyText.textContent = 'Legacy';
-        svg.appendChild(legacyText);
-
-        // Adapter bridge
-        const adapterBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        adapterBox.setAttribute('x', '220'); adapterBox.setAttribute('y', '80');
-        adapterBox.setAttribute('width', '160'); adapterBox.setAttribute('height', '100');
-        adapterBox.setAttribute('fill', '#10b981'); adapterBox.setAttribute('stroke', '#047857'); adapterBox.setAttribute('stroke-width', '2');
-        svg.appendChild(adapterBox);
-
-        const adapterTitle = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        adapterTitle.setAttribute('x', '300'); adapterTitle.setAttribute('y', '100');
-        adapterTitle.setAttribute('text-anchor', 'middle'); adapterTitle.setAttribute('font-size', '12'); adapterTitle.setAttribute('font-weight', 'bold');
-        adapterTitle.setAttribute('fill', 'white');
-        adapterTitle.textContent = 'Adapter';
-        svg.appendChild(adapterTitle);
-
-        const adapterLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        adapterLine.setAttribute('x1', '220'); adapterLine.setAttribute('y1', '115');
-        adapterLine.setAttribute('x2', '380'); adapterLine.setAttribute('y2', '115');
-        adapterLine.setAttribute('stroke', 'rgba(255,255,255,0.3)'); adapterLine.setAttribute('stroke-width', '1');
-        svg.appendChild(adapterLine);
-
-        const adapterContent = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        adapterContent.setAttribute('x', '230'); adapterContent.setAttribute('y', '140');
-        adapterContent.setAttribute('font-size', '10'); adapterContent.setAttribute('fill', '#d1fae5');
-        adapterContent.textContent = '+ fetch()';
-        svg.appendChild(adapterContent);
-
-        const adapterImpl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        adapterImpl.setAttribute('x', '230'); adapterImpl.setAttribute('y', '160');
-        adapterImpl.setAttribute('font-size', '10'); adapterImpl.setAttribute('font-style', 'italic'); adapterImpl.setAttribute('fill', '#a7f3d0');
-        adapterImpl.textContent = 'wraps legacy.getData()';
-        svg.appendChild(adapterImpl);
-
-        // Modern system
-        const modernBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        modernBox.setAttribute('x', '450'); modernBox.setAttribute('y', '100');
-        modernBox.setAttribute('width', '120'); modernBox.setAttribute('height', '60');
-        modernBox.setAttribute('fill', '#60a5fa'); modernBox.setAttribute('stroke', '#1e40af'); modernBox.setAttribute('stroke-width', '2');
-        svg.appendChild(modernBox);
-
-        const modernText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        modernText.setAttribute('x', '510'); modernText.setAttribute('y', '128');
-        modernText.setAttribute('text-anchor', 'middle'); modernText.setAttribute('font-size', '11'); modernText.setAttribute('font-weight', 'bold');
-        modernText.setAttribute('fill', 'white');
-        modernText.textContent = 'Modern';
-        svg.appendChild(modernText);
-
-        // Connections
-        PatternVizDraw.arrow(svg, '170', '130', '220', '130', '#fbbf24');
-        PatternVizDraw.arrow(svg, '380', '130', '450', '130', '#fbbf24');
-      } },
+      steps:[
+        {caption:{en:'Client calls target.request() through the Target interface', zh:'用戶端透過 Target 介面呼叫 target.request()'}},
+        {caption:{en:'The Adapter implements Target and wraps the legacy Adaptee object', zh:'轉接器（Adapter）實作 Target 介面，並包裝舊有的 Adaptee 物件'}},
+        {caption:{en:'adapter.request() internally calls adaptee.specificRequest()', zh:'adapter.request() 內部呼叫 adaptee.specificRequest()'}},
+        {caption:{en:'Incompatible interfaces now interoperate', zh:'原本不相容的介面，現在得以協同運作'}}
+      ] },
+      render:null },
     { id:'pattern-decorator', category:'patterns-structural', title:'Decorator',
-      label:'Decorator - Dynamic Behavior', cpp:'pattern_decorator.cpp', diagram:null,
-      narration:[
-        {text:'Decorating SimpleCoffee with features...', color:'#ec4899'},
-        {text:'Create SimpleCoffee: $2.00', color:'#34d399'},
-        {text:'Add Milk decorator: +$0.50', color:'#f59e0b'},
-        {text:'Compose: new Milk(coffee)', color:'#34d399'},
-        {text:'Result: Coffee with Milk - $2.50', color:'#fbbf24'},
-        {text:'Each decorator adds behavior/cost without subclassing', color:'#34d399'}
+      label:'Decorator - Dynamic Behavior', cpp:'pattern_decorator.cpp',
+      diagram:{ nodes:[
+        {id:'component',x:260,y:20,w:200,h:70,label:'Component',members:['<<interface>>','+ cost()'],color:'#06b6d4',active:[0,1,2,3]},
+        {id:'base',x:40,y:140,w:160,h:70,label:'SimpleCoffee',members:['cost() = $2.00'],color:'#10b981',active:[0,1,3]},
+        {id:'decA',x:300,y:160,w:170,h:90,label:'MilkDecorator',members:['wraps Component','cost() = wrapped+$0.5'],color:'#f59e0b',active:[1,2,3]},
+        {id:'decB',x:490,y:200,w:180,h:110,label:'SugarDecorator',members:['wraps Component','cost() = wrapped+$0.25'],color:'#fb923c',active:[2,3]}
+      ], edges:[
+        {from:'component',to:'base',label:'implements',active:[0]},
+        {from:'component',to:'decA',label:'implements',active:[1]},
+        {from:'component',to:'decB',label:'implements',active:[2]},
+        {from:'base',to:'decA',label:'wraps',active:[1,3]},
+        {from:'decA',to:'decB',label:'wraps',active:[2,3]}
       ],
-      render: function (svg) {
-        svg.innerHTML = '';
-
-        // Component interface
-        const compBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        compBox.setAttribute('x', '240'); compBox.setAttribute('y', '20');
-        compBox.setAttribute('width', '120'); compBox.setAttribute('height', '50');
-        compBox.setAttribute('fill', '#06b6d4'); compBox.setAttribute('stroke', '#0369a1'); compBox.setAttribute('stroke-width', '2');
-        svg.appendChild(compBox);
-
-        const compText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        compText.setAttribute('x', '300'); compText.setAttribute('y', '52');
-        compText.setAttribute('text-anchor', 'middle'); compBox.setAttribute('font-size', '12'); compText.setAttribute('fill', 'white');
-        compText.textContent = 'Coffee';
-        svg.appendChild(compText);
-
-        // Simple coffee
-        const simpleBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        simpleBox.setAttribute('x', '100'); simpleBox.setAttribute('y', '120');
-        simpleBox.setAttribute('width', '100'); simpleBox.setAttribute('height', '50');
-        simpleBox.setAttribute('fill', '#10b981'); simpleBox.setAttribute('stroke', '#059669'); simpleBox.setAttribute('stroke-width', '2');
-        svg.appendChild(simpleBox);
-
-        const simpleText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        simpleText.setAttribute('x', '150'); simpleText.setAttribute('y', '150');
-        simpleText.setAttribute('text-anchor', 'middle'); simpleText.setAttribute('font-size', '11'); simpleText.setAttribute('fill', 'white');
-        simpleText.textContent = 'SimpleCoffee';
-        svg.appendChild(simpleText);
-
-        // Decorators
-        const decBox1 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        decBox1.setAttribute('x', '280'); decBox1.setAttribute('y', '120');
-        decBox1.setAttribute('width', '100'); decBox1.setAttribute('height', '50');
-        decBox1.setAttribute('fill', '#f59e0b'); decBox1.setAttribute('stroke', '#d97706'); decBox1.setAttribute('stroke-width', '2');
-        svg.appendChild(decBox1);
-
-        const decText1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        decText1.setAttribute('x', '330'); decText1.setAttribute('y', '150');
-        decText1.setAttribute('text-anchor', 'middle'); decText1.setAttribute('font-size', '11'); decText1.setAttribute('fill', 'white');
-        decText1.textContent = 'Milk';
-        svg.appendChild(decText1);
-
-        const decBox2 = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        decBox2.setAttribute('x', '460'); decBox2.setAttribute('y', '120');
-        decBox2.setAttribute('width', '100'); decBox2.setAttribute('height', '50');
-        decBox2.setAttribute('fill', '#f59e0b'); decBox2.setAttribute('stroke', '#d97706'); decBox2.setAttribute('stroke-width', '2');
-        svg.appendChild(decBox2);
-
-        const decText2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        decText2.setAttribute('x', '510'); decText2.setAttribute('y', '150');
-        decText2.setAttribute('text-anchor', 'middle'); decText2.setAttribute('font-size', '11'); decText2.setAttribute('fill', 'white');
-        decText2.textContent = 'Sugar';
-        svg.appendChild(decText2);
-
-        // Inheritance arrows
-        PatternVizDraw.arrow(svg, '150', '120', '280', '70', '#34d399');
-        PatternVizDraw.arrow(svg, '330', '120', '300', '70', '#34d399');
-        PatternVizDraw.arrow(svg, '510', '120', '340', '70', '#34d399');
-
-        // Composition chain
-        PatternVizDraw.arrow(svg, '200', '147', '280', '147', '#fbbf24');
-        PatternVizDraw.arrow(svg, '380', '147', '460', '147', '#fbbf24');
-
-        const label1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        label1.setAttribute('x', '238'); label1.setAttribute('y', '140');
-        label1.setAttribute('font-size', '10'); label1.setAttribute('fill', '#fbbf24');
-        label1.textContent = 'wraps';
-        svg.appendChild(label1);
-      } },
+      steps:[
+        {caption:{en:'SimpleCoffee (ConcreteComponent) implements Component directly — cost() = $2.00', zh:'SimpleCoffee（具體元件）直接實作 Component 介面，cost() = $2.00'}},
+        {caption:{en:'Wrap with a Milk decorator: new Milk(coffee) — Milk also implements Component and holds the wrapped object', zh:'包上 Milk 裝飾器：new Milk(coffee)——Milk 同樣實作 Component 介面，並持有被包裝的物件'}},
+        {caption:{en:'Wrap again with Sugar: new Sugar(milk) — Sugar wraps the Milk decorator', zh:'再包上 Sugar 裝飾器：new Sugar(milk)——Sugar 包裝了 Milk 裝飾器'}},
+        {caption:{en:'A call to cost() chains through every wrapper down to the base SimpleCoffee', zh:'呼叫 cost() 會一路穿過每一層裝飾器，往下傳遞到最底層的 SimpleCoffee'}}
+      ] },
+      render:null },
     { id:'pattern-observer', category:'patterns-behavioral', title:'Observer',
-      label:'Observer - Event Notification', cpp:'pattern_observer.cpp', diagram:null,
-      narration:[
-        {text:'Setting up Observer pattern...', color:'#ec4899'},
-        {text:'Create Subject and register Observers', color:'#f59e0b'},
-        {text:'Observer1, Observer2, Observer3 attached', color:'#34d399'},
-        {text:'Subject state changes: notify() called', color:'#fbbf24'},
-        {text:'All observers receive update notification', color:'#34d399'},
-        {text:'Loose coupling: Subject knows only Observer interface', color:'#06b6d4'}
+      label:'Observer - Event Notification', cpp:'pattern_observer.cpp',
+      diagram:{ nodes:[
+        {id:'subject',x:250,y:30,w:180,h:90,label:'Subject',members:['- state','+ attach(observer)','+ notify()'],color:'#f97316',active:[1,2,4]},
+        {id:'obs1',x:40,y:220,w:140,h:60,label:'Observer1',members:['+ update()'],color:'#06b6d4',active:[0,3,4]},
+        {id:'obs2',x:230,y:240,w:140,h:60,label:'Observer2',members:['+ update()'],color:'#06b6d4',active:[0,3,4]},
+        {id:'obs3',x:470,y:220,w:140,h:60,label:'Observer3',members:['+ update()'],color:'#06b6d4',active:[0,3,4]}
+      ], edges:[
+        {from:'obs1',to:'subject',label:'attach()',active:[0,4]},
+        {from:'obs2',to:'subject',label:'attach()',active:[0,4]},
+        {from:'obs3',to:'subject',label:'attach()',active:[0,4]},
+        {from:'subject',to:'obs1',label:'notify()',active:[2,3,4]},
+        {from:'subject',to:'obs2',label:'notify()',active:[2,3,4]},
+        {from:'subject',to:'obs3',label:'notify()',active:[2,3,4]}
       ],
-      render: function (svg) {
-        svg.innerHTML = '';
-
-        // Subject
-        const subjectBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        subjectBox.setAttribute('x', '220'); subjectBox.setAttribute('y', '50');
-        subjectBox.setAttribute('width', '160'); subjectBox.setAttribute('height', '70');
-        subjectBox.setAttribute('fill', '#f97316'); subjectBox.setAttribute('stroke', '#c2410c'); subjectBox.setAttribute('stroke-width', '2');
-        svg.appendChild(subjectBox);
-
-        const subText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        subText.setAttribute('x', '300'); subText.setAttribute('y', '75');
-        subText.setAttribute('text-anchor', 'middle'); subText.setAttribute('font-size', '12'); subText.setAttribute('font-weight', 'bold');
-        subText.setAttribute('fill', 'white');
-        subText.textContent = 'Subject';
-        svg.appendChild(subText);
-
-        const subMethod = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        subMethod.setAttribute('x', '230'); subMethod.setAttribute('y', '100');
-        subMethod.setAttribute('font-size', '10'); subMethod.setAttribute('fill', '#fed7aa');
-        subMethod.textContent = '+ notify()';
-        svg.appendChild(subMethod);
-
-        // Observers
-        for (let i = 0; i < 3; i++) {
-            const obsBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            obsBox.setAttribute('x', String(60 + i * 170)); obsBox.setAttribute('y', '180');
-            obsBox.setAttribute('width', '130'); obsBox.setAttribute('height', '50');
-            obsBox.setAttribute('fill', '#06b6d4'); obsBox.setAttribute('stroke', '#0369a1'); obsBox.setAttribute('stroke-width', '2');
-            svg.appendChild(obsBox);
-
-            const obsText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            obsText.setAttribute('x', String(125 + i * 170)); obsText.setAttribute('y', '212');
-            obsText.setAttribute('text-anchor', 'middle'); obsText.setAttribute('font-size', '11');
-            obsText.setAttribute('fill', 'white');
-            obsText.textContent = `Observer${i + 1}`;
-            svg.appendChild(obsText);
-
-            // Notification arrow
-            PatternVizDraw.arrow(svg, String(280 - 20 * i), '120', String(125 + i * 170), '180', '#34d399');
-        }
-      } },
+      steps:[
+        {caption:{en:'Observer1, Observer2, and Observer3 each attach() themselves to the Subject', zh:'Observer1、Observer2、Observer3 各自呼叫 attach() 訂閱 Subject'}},
+        {caption:{en:"The Subject's internal state changes", zh:'Subject 的內部狀態發生變化'}},
+        {caption:{en:'subject.notify() is called, iterating over every attached observer', zh:'subject.notify() 被呼叫，依序走訪每一個已訂閱的 Observer'}},
+        {caption:{en:"Each observer's update() runs, reading the new state off the Subject", zh:'每個 Observer 的 update() 執行，從 Subject 讀取最新狀態'}},
+        {caption:{en:'The Subject depends only on the Observer interface — loose coupling', zh:'Subject 只依賴 Observer 介面——彼此鬆散耦合'}}
+      ] },
+      render:null },
     { id:'pattern-strategy', category:'patterns-behavioral', title:'Strategy',
-      label:'Strategy - Algorithm Encapsulation', cpp:'pattern_strategy.cpp', diagram:null,
-      narration:[
-        {text:'Using Strategy pattern for flexible algorithms...', color:'#ec4899'},
-        {text:'PaymentProcessor created', color:'#f59e0b'},
-        {text:'setStrategy(CreditCardPayment)', color:'#34d399'},
-        {text:'processPayment(100): Credit Card payment', color:'#fbbf24'},
-        {text:'setStrategy(CryptoCurrencyPayment)', color:'#34d399'},
-        {text:'processPayment(0.005): Crypto payment', color:'#fbbf24'},
-        {text:'Algorithm can be changed at runtime!', color:'#34d399'}
+      label:'Strategy - Algorithm Encapsulation', cpp:'pattern_strategy.cpp',
+      diagram:{ nodes:[
+        {id:'context',x:40,y:140,w:160,h:80,label:'PaymentProcessor',members:['+ setStrategy(s)','+ processPayment(amount)'],color:'#f97316',active:[0,1,2,3]},
+        {id:'strategy',x:280,y:30,w:180,h:70,label:'Strategy',members:['<<interface>>','+ execute(amount)'],color:'#06b6d4',active:[0,1,2,3]},
+        {id:'card',x:250,y:200,w:150,h:60,label:'CardPayment',members:['+ execute(amount)'],color:'#10b981',active:[0,1]},
+        {id:'crypto',x:460,y:200,w:170,h:60,label:'CryptoPayment',members:['+ execute(amount)'],color:'#3b82f6',active:[2,3]}
+      ], edges:[
+        {from:'context',to:'strategy',label:'delegates to',active:[0,1,2,3]},
+        {from:'strategy',to:'card',label:'implements',active:[0,1]},
+        {from:'strategy',to:'crypto',label:'implements',active:[2,3]}
       ],
-      render: function (svg) {
-        svg.innerHTML = '';
-
-        // Context
-        const contextBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        contextBox.setAttribute('x', '50'); contextBox.setAttribute('y', '100');
-        contextBox.setAttribute('width', '140'); contextBox.setAttribute('height', '70');
-        contextBox.setAttribute('fill', '#f97316'); contextBox.setAttribute('stroke', '#c2410c'); contextBox.setAttribute('stroke-width', '2');
-        svg.appendChild(contextBox);
-
-        const contextText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        contextText.setAttribute('x', '120'); contextText.setAttribute('y', '125');
-        contextText.setAttribute('text-anchor', 'middle'); contextText.setAttribute('font-size', '11'); contextText.setAttribute('font-weight', 'bold');
-        contextText.setAttribute('fill', 'white');
-        contextText.textContent = 'Processor';
-        svg.appendChild(contextText);
-
-        const contextMethod = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        contextMethod.setAttribute('x', '60'); contextMethod.setAttribute('y', '150');
-        contextMethod.setAttribute('font-size', '9'); contextMethod.setAttribute('fill', '#fed7aa');
-        contextMethod.textContent = '+ execute()';
-        svg.appendChild(contextMethod);
-
-        // Strategy interface
-        const stratBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-        stratBox.setAttribute('x', '280'); stratBox.setAttribute('y', '80');
-        stratBox.setAttribute('width', '120'); stratBox.setAttribute('height', '60');
-        stratBox.setAttribute('fill', '#06b6d4'); stratBox.setAttribute('stroke', '#0369a1'); stratBox.setAttribute('stroke-width', '2');
-        svg.appendChild(stratBox);
-
-        const stratText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        stratText.setAttribute('x', '340'); stratText.setAttribute('y', '100');
-        stratText.setAttribute('text-anchor', 'middle'); stratText.setAttribute('font-size', '11'); stratText.setAttribute('font-weight', 'bold');
-        stratText.setAttribute('fill', 'white');
-        stratText.textContent = '<<interface>>';
-        svg.appendChild(stratText);
-
-        const stratMethod = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        stratMethod.setAttribute('x', '340'); stratMethod.setAttribute('y', '125');
-        stratMethod.setAttribute('text-anchor', 'middle'); stratMethod.setAttribute('font-size', '10');
-        stratMethod.setAttribute('fill', 'white');
-        stratMethod.textContent = 'Strategy';
-        svg.appendChild(stratMethod);
-
-        // Concrete strategies
-        const concreteBg = ['#10b981', '#3b82f6'];
-        const concreteNames = ['CardPayment', 'CryptoPayment'];
-        for (let i = 0; i < 2; i++) {
-            const concBox = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            concBox.setAttribute('x', String(280 + i * 130)); concBox.setAttribute('y', '190');
-            concBox.setAttribute('width', '120'); concBox.setAttribute('height', '50');
-            concBox.setAttribute('fill', concreteBg[i]); concBox.setAttribute('stroke', '#1f2937'); concBox.setAttribute('stroke-width', '2');
-            svg.appendChild(concBox);
-
-            const concText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-            concText.setAttribute('x', String(340 + i * 130)); concText.setAttribute('y', '220');
-            concText.setAttribute('text-anchor', 'middle'); concText.setAttribute('font-size', '10');
-            concText.setAttribute('fill', 'white');
-            concText.textContent = concreteNames[i];
-            svg.appendChild(concText);
-
-            // Inheritance
-            PatternVizDraw.arrow(svg, String(340 + i * 130), '190', String(340 + i * 25), '140', '#34d399');
-        }
-
-        // Context uses strategy
-        PatternVizDraw.arrow(svg, '190', '135', '280', '110', '#fbbf24');
-      } },
+      steps:[
+        {caption:{en:'context.setStrategy(CardPayment) — the Context now holds CardPayment through the Strategy interface', zh:'context.setStrategy(CardPayment)：Context 透過 Strategy 介面持有 CardPayment 策略'}},
+        {caption:{en:'context.processPayment(100) → strategy.execute(100) — the call is delegated to the current strategy, running the card algorithm', zh:'context.processPayment(100) → strategy.execute(100)：委派給目前的策略，執行信用卡付款演算法'}},
+        {caption:{en:'context.setStrategy(CryptoPayment) — swap the strategy at runtime', zh:'context.setStrategy(CryptoPayment)：在執行期切換為 CryptoPayment 策略'}},
+        {caption:{en:'context.processPayment(0.005) → strategy.execute(0.005) — same call, now running the crypto algorithm instead', zh:'context.processPayment(0.005) → strategy.execute(0.005)：同樣的呼叫，改為執行加密貨幣付款演算法'}}
+      ] },
+      render:null },
     { id:'pattern-mvc', category:'patterns-architectural', title:'MVC (Model-View-Controller)',
-      label:'MVC (Model-View-Controller)', cpp:'pattern_mvc.cpp', diagram:null,
-      narration:[
-        {text:'User input arrives at the Controller...', color:'#f59e0b'},
-        {text:'Controller updates the Model (data + state)', color:'#34d399'},
-        {text:'Model change notifies the View, which re-renders', color:'#60a5fa'}
+      label:'MVC (Model-View-Controller)', cpp:'pattern_mvc.cpp',
+      diagram:{ nodes:[
+        {id:'user',x:20,y:20,w:140,h:56,label:'User Input',color:'#94a3b8',active:[0]},
+        {id:'ctrl',x:280,y:110,w:170,h:64,label:'Controller',members:['handles input'],color:'#f59e0b',active:[0,1]},
+        {id:'model',x:60,y:210,w:180,h:70,label:'Model',members:['data + state'],color:'#34d399',active:[1,2,3]},
+        {id:'view',x:420,y:230,w:190,h:70,label:'View',members:['renders model'],color:'#60a5fa',active:[2,3]}
+      ], edges:[
+        {from:'user',to:'ctrl',label:'input',active:[0]},
+        {from:'ctrl',to:'model',label:'updates',active:[1]},
+        {from:'model',to:'view',label:'notifies',active:[2]},
+        {from:'view',to:'model',label:'reads',active:[3]}
       ],
-      render: function (svg) {
-        if (!svg) return;
-        svg.innerHTML = '';
-        PatternVizDraw.drawOopBox(svg, { x: 190, y: 26, w: 140, h: 56, title: 'Controller', titleColor: '#f59e0b',
-            lines: [ { text: 'handles input', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopBox(svg, { x: 40, y: 200, w: 140, h: 56, title: 'Model', titleColor: '#34d399',
-            lines: [ { text: 'data + state', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopBox(svg, { x: 340, y: 200, w: 140, h: 56, title: 'View', titleColor: '#60a5fa',
-            lines: [ { text: 'renders model', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopLine(svg, 225, 82, 120, 200);   // Controller -> Model
-        PatternVizDraw.drawOopLine(svg, 180, 228, 340, 228);  // Model -> View
-        PatternVizDraw.drawOopLine(svg, 400, 200, 295, 82);   // View -> Controller
-        PatternVizDraw.drawOopLabel(svg, 150, 150, 'updates', '#f59e0b');
-        PatternVizDraw.drawOopLabel(svg, 260, 246, 'notifies', '#34d399');
-        PatternVizDraw.drawOopLabel(svg, 372, 150, 'user input', '#60a5fa');
-      } },
+      steps:[
+        {caption:{en:'User input arrives at the Controller', zh:'使用者輸入抵達 Controller（控制器）'}},
+        {caption:{en:'The Controller updates the Model (business logic + state)', zh:'Controller 更新 Model（商業邏輯與狀態）'}},
+        {caption:{en:'The Model change notifies the View', zh:'Model 狀態改變後通知 View'}},
+        {caption:{en:'The View reads the Model and re-renders the UI', zh:'View 從 Model 讀取資料並重新渲染畫面'}}
+      ] },
+      render:null },
     { id:'pattern-layered', category:'patterns-architectural', title:'Layered Architecture',
-      label:'Layered Architecture', cpp:'pattern_layered.cpp', diagram:null,
-      narration:[
-        {text:'Presentation layer formats a request...', color:'#60a5fa'},
-        {text:'Business layer applies rules, calls the layer below', color:'#f59e0b'},
-        {text:'Data layer returns raw records — each layer calls only downward', color:'#34d399'}
+      label:'Layered Architecture', cpp:'pattern_layered.cpp',
+      diagram:{ nodes:[
+        {id:'presentation',x:120,y:25,w:220,h:64,label:'Presentation',members:['formats output'],color:'#60a5fa',active:[0,1]},
+        {id:'business',x:180,y:140,w:220,h:64,label:'Business',members:['applies rules'],color:'#f59e0b',active:[1,2]},
+        {id:'data',x:120,y:245,w:220,h:64,label:'Data',members:['raw records'],color:'#34d399',active:[2]}
+      ], edges:[
+        {from:'presentation',to:'business',label:'calls',active:[1]},
+        {from:'business',to:'data',label:'calls',active:[2]}
       ],
-      render: function (svg) {
-        if (!svg) return;
-        svg.innerHTML = '';
-        PatternVizDraw.drawOopBox(svg, { x: 150, y: 24, w: 200, h: 58, title: 'Presentation', titleColor: '#60a5fa',
-            lines: [ { text: 'formats output', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopBox(svg, { x: 150, y: 122, w: 200, h: 58, title: 'Business', titleColor: '#f59e0b',
-            lines: [ { text: 'applies rules', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopBox(svg, { x: 150, y: 220, w: 200, h: 58, title: 'Data', titleColor: '#34d399',
-            lines: [ { text: 'raw records', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopLine(svg, 250, 82, 250, 122);    // Presentation -> Business
-        PatternVizDraw.drawOopLine(svg, 250, 180, 250, 220);   // Business -> Data
-        PatternVizDraw.drawOopLabel(svg, 320, 106, 'calls', '#94a3b8');
-        PatternVizDraw.drawOopLabel(svg, 320, 204, 'calls', '#94a3b8');
-      } },
+      steps:[
+        {caption:{en:'A request enters the Presentation layer, which formats it', zh:'請求進入 Presentation（展示層），並將其格式化'}},
+        {caption:{en:'Presentation calls down into the Business layer, which applies rules', zh:'Presentation 向下呼叫 Business（商業邏輯層），套用商業規則'}},
+        {caption:{en:'Business calls down into the Data layer, which returns raw records', zh:'Business 向下呼叫 Data（資料層），取得原始資料紀錄'}}
+      ] },
+      render:null },
     { id:'pattern-pubsub', category:'patterns-architectural', title:'Publish-Subscribe',
-      label:'Publish-Subscribe', cpp:'pattern_pubsub.cpp', diagram:null,
-      narration:[
-        {text:'Publisher emits an event to the EventBus...', color:'#f59e0b'},
-        {text:'EventBus fans the event out to every subscriber', color:'#a78bfa'},
-        {text:'Subscribers A, B, C all receive it — fully decoupled', color:'#34d399'}
+      label:'Publish-Subscribe', cpp:'pattern_pubsub.cpp',
+      diagram:{ nodes:[
+        {id:'publisher',x:20,y:150,w:140,h:60,label:'Publisher',members:['emits events'],color:'#f59e0b',active:[0]},
+        {id:'bus',x:230,y:110,w:140,h:60,label:'EventBus',members:['broker'],color:'#a78bfa',active:[0,1,2,3]},
+        {id:'subA',x:460,y:20,w:140,h:56,label:'Subscriber A',color:'#34d399',active:[1]},
+        {id:'subB',x:460,y:150,w:140,h:56,label:'Subscriber B',color:'#34d399',active:[2]},
+        {id:'subC',x:460,y:250,w:140,h:56,label:'Subscriber C',color:'#34d399',active:[3]}
+      ], edges:[
+        {from:'publisher',to:'bus',label:'publish',active:[0]},
+        {from:'bus',to:'subA',label:'notify',active:[1]},
+        {from:'bus',to:'subB',label:'notify',active:[2]},
+        {from:'bus',to:'subC',label:'notify',active:[3]}
       ],
-      render: function (svg) {
-        if (!svg) return;
-        svg.innerHTML = '';
-        PatternVizDraw.drawOopBox(svg, { x: 24, y: 130, w: 120, h: 58, title: 'Publisher', titleColor: '#f59e0b',
-            lines: [ { text: 'emits events', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopBox(svg, { x: 196, y: 130, w: 120, h: 58, title: 'EventBus', titleColor: '#a78bfa',
-            lines: [ { text: 'broker', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopBox(svg, { x: 372, y: 36, w: 116, h: 50, title: 'Subscriber A', titleColor: '#34d399' });
-        PatternVizDraw.drawOopBox(svg, { x: 372, y: 134, w: 116, h: 50, title: 'Subscriber B', titleColor: '#34d399' });
-        PatternVizDraw.drawOopBox(svg, { x: 372, y: 232, w: 116, h: 50, title: 'Subscriber C', titleColor: '#34d399' });
-        PatternVizDraw.drawOopLine(svg, 144, 159, 196, 159);   // Publisher -> EventBus
-        PatternVizDraw.drawOopLine(svg, 316, 159, 372, 61);    // EventBus -> A
-        PatternVizDraw.drawOopLine(svg, 316, 159, 372, 159);   // EventBus -> B
-        PatternVizDraw.drawOopLine(svg, 316, 159, 372, 257);   // EventBus -> C
-        PatternVizDraw.drawOopLabel(svg, 170, 150, 'publish', '#f59e0b');
-        PatternVizDraw.drawOopLabel(svg, 344, 110, 'notify', '#34d399');
-      } },
+      steps:[
+        {caption:{en:'Publisher publishes an event to the EventBus', zh:'Publisher（發布者）將事件發布到 EventBus'}},
+        {caption:{en:'The EventBus forwards the event to Subscriber A', zh:'EventBus 將事件轉發給 Subscriber A'}},
+        {caption:{en:'The EventBus forwards the event to Subscriber B', zh:'EventBus 將事件轉發給 Subscriber B'}},
+        {caption:{en:'The EventBus forwards the event to Subscriber C — all three are fully decoupled from the Publisher', zh:'EventBus 將事件轉發給 Subscriber C——三者皆與 Publisher 完全解耦'}}
+      ] },
+      render:null },
     { id:'pattern-pipefilter', category:'patterns-architectural', title:'Pipe-and-Filter',
-      label:'Pipe-and-Filter', cpp:'pattern_pipefilter.cpp', diagram:null,
-      narration:[
-        {text:'Input enters the pipeline...', color:'#94a3b8'},
-        {text:'Each filter transforms the data and passes it on', color:'#34d399'},
-        {text:'Trim -> Upper -> Exclaim -> Output', color:'#60a5fa'}
+      label:'Pipe-and-Filter', cpp:'pattern_pipefilter.cpp',
+      diagram:{ nodes:[
+        {id:'input',x:20,y:140,w:110,h:60,label:'Input',color:'#94a3b8',active:[0,1]},
+        {id:'trim',x:160,y:90,w:110,h:60,label:'Trim',color:'#34d399',active:[1,2]},
+        {id:'upper',x:300,y:140,w:110,h:60,label:'Upper',color:'#34d399',active:[2,3]},
+        {id:'exclaim',x:440,y:90,w:110,h:60,label:'Exclaim',color:'#34d399',active:[3,4]},
+        {id:'output',x:580,y:140,w:110,h:60,label:'Output',color:'#60a5fa',active:[4]}
+      ], edges:[
+        {from:'input',to:'trim',active:[1]},
+        {from:'trim',to:'upper',active:[2]},
+        {from:'upper',to:'exclaim',active:[3]},
+        {from:'exclaim',to:'output',active:[4]}
       ],
-      render: function (svg) {
-        if (!svg) return;
-        svg.innerHTML = '';
-        const stages = [
-            { x: 12, title: 'Input', color: '#94a3b8' },
-            { x: 110, title: 'Trim', color: '#34d399' },
-            { x: 208, title: 'Upper', color: '#34d399' },
-            { x: 306, title: 'Exclaim', color: '#34d399' },
-            { x: 404, title: 'Output', color: '#60a5fa' },
-        ];
-        stages.forEach((s) => {
-            PatternVizDraw.drawOopBox(svg, { x: s.x, y: 132, w: 80, h: 56, title: s.title, titleColor: s.color });
-        });
-        for (let i = 0; i < stages.length - 1; i++) {
-            PatternVizDraw.drawOopLine(svg, stages[i].x + 80, 160, stages[i + 1].x, 160);
-        }
-        PatternVizDraw.drawOopLabel(svg, 250, 220, 'data flows through each filter via pipes', '#94a3b8');
-      } },
+      steps:[
+        {caption:{en:'Data enters the pipeline at Input', zh:'資料從 Input（輸入端）進入管線'}},
+        {caption:{en:'The Trim filter removes surrounding whitespace and passes the result on', zh:'Trim 過濾器移除前後空白字元，並將結果往下傳遞'}},
+        {caption:{en:'The Upper filter converts the text to uppercase', zh:'Upper 過濾器將文字轉換為大寫'}},
+        {caption:{en:'The Exclaim filter appends an exclamation mark', zh:'Exclaim 過濾器在文字尾端加上驚嘆號'}},
+        {caption:{en:'The transformed data arrives at Output — each filter only knows the one before and after it', zh:'轉換後的資料到達 Output（輸出端）——每個過濾器只需知道前後相鄰的過濾器'}}
+      ] },
+      render:null },
     { id:'pattern-di', category:'patterns-architectural', title:'Dependency Injection',
-      label:'Dependency Injection', cpp:'pattern_di.cpp', diagram:null,
-      narration:[
-        {text:'Composition root creates the concrete ConsoleService...', color:'#34d399'},
-        {text:'Service is injected into the Consumer constructor', color:'#60a5fa'},
-        {text:'Consumer depends only on the Service abstraction — easy to test', color:'#ec4899'}
+      label:'Dependency Injection', cpp:'pattern_di.cpp',
+      diagram:{ nodes:[
+        {id:'root',x:260,y:20,w:200,h:60,label:'Composition Root',members:['wires dependencies'],color:'#ec4899',active:[0,1]},
+        {id:'iface',x:260,y:130,w:200,h:60,label:'IService',members:['<<interface>>'],color:'#60a5fa',active:[2,3]},
+        {id:'concrete',x:40,y:230,w:190,h:70,label:'ConsoleService',members:['implements IService'],color:'#34d399',active:[0,1,2]},
+        {id:'consumer',x:480,y:230,w:190,h:70,label:'Consumer',members:['depends on IService only','never calls new'],color:'#818cf8',active:[1,3]}
+      ], edges:[
+        {from:'root',to:'concrete',label:'creates',active:[0]},
+        {from:'root',to:'consumer',label:'injects',active:[1]},
+        {from:'iface',to:'concrete',label:'implements',active:[2]},
+        {from:'consumer',to:'iface',label:'depends on',active:[3]}
       ],
-      render: function (svg) {
-        if (!svg) return;
-        svg.innerHTML = '';
-        PatternVizDraw.drawOopBox(svg, { x: 150, y: 24, w: 210, h: 56, title: 'Composition Root', titleColor: '#ec4899',
-            lines: [ { text: 'wires dependencies', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopBox(svg, { x: 50, y: 192, w: 180, h: 70, title: 'ConsoleService', titleColor: '#34d399',
-            lines: [ { text: 'concrete Service', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopBox(svg, { x: 290, y: 192, w: 180, h: 70, title: 'Consumer', titleColor: '#60a5fa',
-            lines: [ { text: 'depends on Service', color: '#cbd5e1' }, { text: 'never calls new', color: '#cbd5e1' } ] });
-        PatternVizDraw.drawOopLine(svg, 210, 80, 140, 192);   // Composition Root -> Service
-        PatternVizDraw.drawOopLine(svg, 300, 80, 380, 192);   // Composition Root -> Consumer
-        PatternVizDraw.drawOopLine(svg, 230, 227, 290, 227);  // Service injected -> Consumer
-        PatternVizDraw.drawOopLabel(svg, 150, 150, 'creates', '#34d399');
-        PatternVizDraw.drawOopLabel(svg, 360, 150, 'injects', '#60a5fa');
-        PatternVizDraw.drawOopLabel(svg, 260, 248, 'inject', '#ec4899');
-      } }
+      steps:[
+        {caption:{en:'The Composition Root constructs the concrete ConsoleService', zh:'Composition Root（組合根）建立具體的 ConsoleService 物件'}},
+        {caption:{en:"The Composition Root injects the Service into the Consumer's constructor", zh:'Composition Root 將 Service 注入 Consumer 的建構函式'}},
+        {caption:{en:'ConsoleService implements the IService interface', zh:'ConsoleService 實作 IService 介面'}},
+        {caption:{en:'Consumer depends only on the IService abstraction, never the concrete class — easy to swap or test', zh:'Consumer 只依賴 IService 抽象介面，而非具體類別——易於替換與測試'}}
+      ] },
+      render:null }
   ];
   const byId = {}; PATTERNS.forEach((p) => { byId[p.id] = p; });
   const api = {
