@@ -1408,7 +1408,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderMethodSections(getMethodGroupForMode(currentMode).id);
     window.VizKit = {
         acquireDynamicVizHost,
-        buildStepControls,
+        buildFrameControls,
         getInputDifficulty,
         langOf: (m) => (window.I18N && window.I18N.getCurrentLanguage() === 'zh') ? m.zh : m.en,
         t,
@@ -1913,47 +1913,68 @@ document.addEventListener('DOMContentLoaded', () => {
         return host;
     }
 
-    function buildStepControls(onStep, onReset, runIntervalMs) {
+    function buildFrameControls(frames, paint, opts) {
+        opts = opts || {};
+        const last = Math.max(0, frames.length - 1);
         const mode = (typeof currentMode !== 'undefined' && currentMode) ? currentMode : 'default';
         const storeKey = 'dsvisual.stepSpeed.' + mode;
         const clampV = (v) => Math.max(10, Math.min(600, v));
-        let sliderVal = clampV(610 - (runIntervalMs || 500));
-        try {
-            const saved = localStorage.getItem(storeKey);
-            if (saved !== null && saved !== '') { const n = parseInt(saved, 10); if (Number.isFinite(n)) sliderVal = clampV(n); }
-        } catch (e) { /* localStorage unavailable — use default */ }
+        let sliderVal = clampV(610 - (opts.runIntervalMs || 500));
+        try { const s = localStorage.getItem(storeKey); if (s !== null && s !== '') { const n = parseInt(s, 10); if (Number.isFinite(n)) sliderVal = clampV(n); } } catch (e) { /* ignore */ }
+        const L = (zh, en) => { try { return (typeof I18N !== 'undefined' && I18N.getCurrentLanguage && I18N.getCurrentLanguage() === 'zh') ? zh : en; } catch (e) { return en; } };
+
+        let idx = Math.max(0, Math.min(opts.initialIndex || 0, last));
+        let timer = null, playing = false;
 
         const strip = document.createElement('div');
         strip.className = 'stepctl';
         strip.innerHTML =
-            '<button type="button" data-action="step">Step</button>' +
-            '<button type="button" data-action="run">Run</button>' +
-            '<button type="button" data-action="reset">Reset</button>' +
-            '<label class="stepctl-speed-wrap">Speed <input type="range" class="stepctl-speed" min="10" max="600" value="' + sliderVal + '"></label>';
+            '<button type="button" class="tbtn" data-action="reset" title="' + L('回到開頭', 'To start') + '">⏮</button>' +
+            '<button type="button" class="tbtn" data-action="back" title="' + L('上一步', 'Previous step') + '">◀</button>' +
+            '<button type="button" class="tbtn play" data-action="run" title="' + L('播放 / 暫停', 'Play / Pause') + '">▶</button>' +
+            '<button type="button" class="tbtn" data-action="step" title="' + L('下一步', 'Next step') + '">▶︎</button>' +
+            '<input type="range" class="stepctl-scrubber" min="0" max="' + last + '" value="' + idx + '" title="' + L('步驟位置', 'Step position') + '">' +
+            '<label class="stepctl-speed-wrap">' + L('速度', 'Speed') + ' <input type="range" class="stepctl-speed" min="10" max="600" value="' + sliderVal + '"></label>' +
+            '<span class="stepctl-count"></span>';
 
         const runBtn = strip.querySelector('[data-action="run"]');
-        const slider = strip.querySelector('.stepctl-speed');
-        let timer = null;
-        let state = 'idle'; // 'idle' | 'running' | 'paused'
-        const delay = () => 610 - parseInt(slider.value, 10);
+        const scrub = strip.querySelector('.stepctl-scrubber');
+        const speed = strip.querySelector('.stepctl-speed');
+        const cnt = strip.querySelector('.stepctl-count');
+        const delay = () => 610 - parseInt(speed.value, 10);
 
-        function setBtn() { runBtn.textContent = (state === 'running') ? 'Pause' : (state === 'paused' ? 'Resume' : 'Run'); }
-        function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
-        function startTimer() {
-            stopTimer();
-            timer = setInterval(() => { const more = onStep(); if (more === false) { stopTimer(); state = 'idle'; setBtn(); } }, delay());
+        function render() {
+            paint(frames[idx], idx);
+            scrub.value = idx;
+            cnt.textContent = L('步 ', 'Step ') + idx + ' / ' + last;
+            runBtn.textContent = playing ? '⏸' : '▶';
+            if (opts.onIndexChange) opts.onIndexChange(idx);
         }
-        function run() { state = 'running'; setBtn(); startTimer(); }
-        function pause() { stopTimer(); state = 'paused'; setBtn(); }
+        function goTo(i) { idx = Math.max(0, Math.min(i, last)); render(); }
+        function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+        function pause() { stopTimer(); playing = false; runBtn.textContent = '▶'; }
+        function play() {
+            if (idx >= last) goTo(0);
+            playing = true; runBtn.textContent = '⏸';
+            stopTimer();
+            timer = setInterval(() => {
+                if (!strip.isConnected) { stopTimer(); return; } // orphaned (swapped out / re-rendered) — stop, no more repaints
+                if (idx >= last) { pause(); return; }
+                goTo(idx + 1);
+            }, delay());
+        }
 
-        strip.querySelector('[data-action="step"]').onclick = () => { if (state === 'running') pause(); onStep(); };
-        runBtn.onclick = () => { if (state === 'running') pause(); else run(); };
-        strip.querySelector('[data-action="reset"]').onclick = () => { stopTimer(); state = 'idle'; setBtn(); onReset(); };
-        slider.addEventListener('input', () => {
-            try { localStorage.setItem(storeKey, String(slider.value)); } catch (e) { /* ignore */ }
-            if (state === 'running') startTimer(); // live re-apply new speed
+        strip.querySelector('[data-action="reset"]').onclick = () => { pause(); goTo(0); };
+        strip.querySelector('[data-action="back"]').onclick = () => { pause(); goTo(idx - 1); };
+        strip.querySelector('[data-action="step"]').onclick = () => { pause(); goTo(idx + 1); };
+        runBtn.onclick = () => { if (playing) pause(); else play(); };
+        scrub.addEventListener('input', () => { pause(); goTo(+scrub.value); });
+        speed.addEventListener('input', () => {
+            try { localStorage.setItem(storeKey, String(speed.value)); } catch (e) { /* ignore */ }
+            if (playing && idx < last) play(); // re-apply new speed live (skip at last frame — about to auto-pause)
         });
-        setBtn();
+
+        render();
         return strip;
     }
 
@@ -2089,19 +2110,21 @@ document.addEventListener('DOMContentLoaded', () => {
         slot = document.createElement('div');
         slot.setAttribute('data-oop-step-controls', '');
         slot.setAttribute('data-oop-step-mode', mode);
-        slot.appendChild(buildStepControls(() => {
-            const next = oopStep(mode) + 1;
-            if (next >= OOP_STEPS[mode].length) return false;
-            setOopStep(mode, next);
-            renderOOP();
-            showStatus(OOP_STEPS[mode][oopStep(mode)], '#2563eb');
-            return true;
-        }, () => {
-            setOopStep(mode, 0);
-            renderOOP();
-            showStatus('OOP visualization reset.', '#6366f1');
-        }, 900));
+        // Append the (empty) slot BEFORE building the frame controls: buildFrameControls
+        // paints frame 0 synchronously during construction, and that paint calls renderOOP(),
+        // which calls back into syncOopStepControls(). Appending early means that reentrant
+        // call finds this slot already in the DOM with a matching mode and no-ops, instead of
+        // recursing (early stepped-viz controls never painted synchronously, so this never came up before).
         oopActions.appendChild(slot);
+        slot.appendChild(buildFrameControls(OOP_STEPS[mode], (frame, i) => {
+            setOopStep(mode, i);
+            renderOOP();
+            showStatus(OOP_STEPS[mode][i], '#2563eb');
+        }, {
+            runIntervalMs: 900,
+            initialIndex: oopStep(mode),
+            onIndexChange: (i) => setOopStep(mode, i),
+        }));
     }
 
     function renderOOP() {
