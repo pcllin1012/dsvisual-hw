@@ -27,7 +27,6 @@
   var DEFAULT_SERIALIZED = global.TrieViz.SAMPLE.words.join(',') + '|' + global.TrieViz.SAMPLE.query;
   var MISS_SERIALIZED = 'CAR,CARD|CARE';
   var _st = { words: global.TrieViz.SAMPLE.words.slice(), query: global.TrieViz.SAMPLE.query, mode: 'build' };
-  var FOCUS_CHROME_RESERVE = 210;   // px reserved for controls+banner+msg+VCR in focus; keep == the CSS calc(100vh - 210px)
 
   function computeLayout(nodes) {
     var pos = {}, LEVEL_H = 70;
@@ -130,7 +129,13 @@
       var w = layout.width, h = layout.height;
       if (document.body.classList.contains('viz-focus')) {
         var availW = Math.max(scrollEl.clientWidth - 6, 120);
-        var availH = Math.max(window.innerHeight - FOCUS_CHROME_RESERVE, 140);
+        // Available height from STABLE viewport-anchored positions (drawing top + the pinned
+        // siblings below it), not scrollEl.clientHeight — the flex-grown height isn't settled on
+        // the first focus paint, which mis-sized the fit (drawing jitter + CI flake). The flex
+        // chain still bounds the box so the VCR stays put; this only picks the fit size.
+        var below = 0;
+        for (var sib = scrollEl.nextElementSibling; sib; sib = sib.nextElementSibling) below += sib.getBoundingClientRect().height;
+        var availH = Math.max(window.innerHeight - scrollEl.getBoundingClientRect().top - below - 8, 120);
         var fit = Math.min(availW / layout.width, availH / layout.height);
         fit = Math.max(0.3, Math.min(fit, 3));
         var zoom = readZoom();
