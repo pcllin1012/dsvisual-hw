@@ -2151,7 +2151,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function fitFocusSize(scrollEl, natW, natH) {
         if (!scrollEl || !document.body.classList.contains('viz-focus')) return { w: natW, h: natH };
-        const availW = Math.max(scrollEl.clientWidth - 6, 120);
+        // availW comes from the fullscreen container, not the scroll region (whose width tracks
+        // the drawing's own content under flex centering, so it could never drive growth). -24 =
+        // the container's horizontal padding (.method-section-visual-live: 12px each side).
+        const box = scrollEl.closest && scrollEl.closest('.method-section-visual');
+        const availW = Math.max((box ? box.clientWidth : scrollEl.clientWidth) - 24, 120);
         let below = 0;
         for (let sib = scrollEl.nextElementSibling; sib; sib = sib.nextElementSibling) below += sib.getBoundingClientRect().height;
         const availH = Math.max(window.innerHeight - scrollEl.getBoundingClientRect().top - below - 8, 120);
