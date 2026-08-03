@@ -105,4 +105,46 @@ test.describe('graph workbench (edge-list + VCR)', () => {
     await sec.locator('.stepctl-scrubber').evaluate((el) => { el.value = el.max; el.dispatchEvent(new Event('input', { bubbles: true })); });
     await expect(sec.locator('.gw-svg .graph-distance').first()).toBeVisible();
   });
+
+  test('graph: workbench renders drawing + adjacency matrix, no VCR', async ({ page }) => {
+    await loadMethod(page, 'graph');
+    const sec = page.locator('[data-method-section="graph"]');
+    await expect(sec.locator('[data-testid="gw-input"]')).toBeVisible();
+    await expect(sec.locator('.gw-svg .graph-node')).toHaveCount(5);
+    await expect(sec.locator('.gw-matrix')).toBeVisible();
+    await expect(sec.locator('.stepctl')).toHaveCount(0);       // structural view: no VCR
+    await expect(sec.locator('[data-testid="gw-source"]')).toHaveCount(0);
+  });
+
+  test('graph-adjlist: workbench renders drawing + adjacency list rows', async ({ page }) => {
+    await loadMethod(page, 'graph-adjlist');
+    const sec = page.locator('[data-method-section="graph-adjlist"]');
+    await expect(sec.locator('.gw-svg .graph-node')).toHaveCount(5);
+    await expect(sec.locator('.adjlist-row')).toHaveCount(5);
+    await expect(sec.locator('.stepctl')).toHaveCount(0);
+  });
+
+  test('graph-traversal: dual panes driven by one synchronized VCR', async ({ page }) => {
+    await loadMethod(page, 'graph-traversal');
+    const sec = page.locator('[data-method-section="graph-traversal"]');
+    await expect(sec.locator('.graph-dual-pane')).toHaveCount(2);
+    await expect(sec.locator('.stepctl')).toHaveCount(1);        // ONE shared transport
+    await expect(sec.locator('[data-testid="gw-source"]')).toHaveCount(1);
+    await expect(sec.locator('.gw-svg-bfs .graph-node')).toHaveCount(5);
+    await expect(sec.locator('.gw-svg-dfs .graph-node')).toHaveCount(5);
+    const cnt = sec.locator('.stepctl-count');
+    const before = await cnt.textContent();
+    await sec.locator('.stepctl [data-action="step"]').click();
+    await expect(cnt).not.toHaveText(before);
+  });
+
+  test('graph/adjlist/traversal: random fills input and rebuilds', async ({ page }) => {
+    for (const id of ['graph', 'graph-adjlist', 'graph-traversal']) {
+      await loadMethod(page, id);
+      const sec = page.locator('[data-method-section="' + id + '"]');
+      await sec.locator('.rand-btn').click();
+      await expect(sec.locator('[data-testid="gw-input"]')).not.toHaveValue('');
+      await expect(sec.locator('.gw-svg .graph-node').first()).toBeVisible();
+    }
+  });
 });
