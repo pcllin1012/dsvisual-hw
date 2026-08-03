@@ -694,16 +694,17 @@ test.describe('Data Structure Visualizer Full Suite', () => {
         await expect(cnt).not.toHaveText(before);
     });
 
-    test('Graphs: Bellman-Ford renders a directed graph + distance array and steps', async ({ page }) => {
+    test('Graphs: Bellman-Ford renders the directed workbench + VCR transport', async ({ page }) => {
         await loadMethod(page, 'graph-bellman-ford');
         const card = page.locator('[data-method-section="graph-bellman-ford"]');
         await expect(card.locator('.code-panel-filename')).toContainText('graph_bellman_ford.cpp');
-        await expect(card.locator('.wgraph-node')).toHaveCount(5);
-        await expect(card.locator('.wgraph-edge')).toHaveCount(10);
-        await expect(card.locator('.bellman-dcell')).toHaveCount(5);
-        await card.locator('[data-action="step"]').click();
-        await expect(card.locator('[data-testid="bellman-msg"]')).toContainText('pass');
-        await expect(card.locator('.bellman-dcell[data-dist="1"]')).toContainText('6');
+        await expect(card.locator('[data-testid="gw-input"]')).toBeVisible();
+        await expect(card.locator('.gw-svg .graph-node')).toHaveCount(5);
+        await expect(card.locator('.gw-svg line[marker-end]').first()).toBeAttached(); // directed arrows
+        const cnt = card.locator('.stepctl-count');
+        const before = await cnt.textContent();
+        await card.locator('.stepctl [data-action="step"]').click();
+        await expect(cnt).not.toHaveText(before);
     });
 
     test('Graphs: Floyd-Warshall renders a distance matrix and steps per k', async ({ page }) => {

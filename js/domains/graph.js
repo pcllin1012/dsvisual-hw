@@ -932,6 +932,8 @@
     'graph-dijkstra': { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.dijkstraFrames(p.adj, s) },
     'graph-kruskal':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.kruskalFrames(p.edges, p.n) },
     'graph-prim':     { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.primFrames(p.adj, s) },
+    'graph-topo':         { weighted: false, directed: true, usesSource: false, gen: (p, s) => GraphWorkbench.topoFrames(p.adj, p.n) },
+    'graph-bellman-ford': { weighted: true,  directed: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s) },
   };
   let _gwState = {};
 
@@ -976,7 +978,7 @@
     }
 
     function rebuild() {
-      const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted);
+      const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted, meta.directed);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
       if (srcSel) rebuildSource(parsed.n);
@@ -992,20 +994,40 @@
       function draw(f) {
         const has = (arr, x) => arr.indexOf(x) !== -1;
         const treeKeys = new Set((f.treeEdges || []).map((e) => e.u + '-' + e.v));
+        const R = 20;
+        const dirSet = meta.directed ? new Set(parsed.edges.map((e) => e.u + '-' + e.v)) : null;
         let s = '';
+        if (meta.directed) {
+          s += '<defs>' +
+            '<marker id="gw-arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker>' +
+            '<marker id="gw-arrow-active" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#60a5fa"/></marker>' +
+            '</defs>';
+        }
         for (const e of parsed.edges) {
-          const key = e.u + '-' + e.v;
           const active = f.activeEdge && f.activeEdge.u === e.u && f.activeEdge.v === e.v;
-          const ecls = 'graph-edge' + (active ? ' active' : (treeKeys.has(key) ? ' tree' : ''));
-          s += '<line class="' + ecls + '" x1="' + pos[e.u].x + '" y1="' + pos[e.u].y + '" x2="' + pos[e.v].x + '" y2="' + pos[e.v].y + '"></line>';
-          if (meta.weighted) s += '<text class="graph-weight" x="' + ((pos[e.u].x + pos[e.v].x) / 2) + '" y="' + ((pos[e.u].y + pos[e.v].y) / 2) + '">' + e.w + '</text>';
+          const ecls = 'graph-edge' + (active ? ' active' : (treeKeys.has(e.u + '-' + e.v) ? ' tree' : ''));
+          const A = pos[e.u], B = pos[e.v];
+          let x1 = A.x, y1 = A.y, x2 = B.x, y2 = B.y, mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
+          if (meta.directed) {
+            const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy) || 1, ux = dx / len, uy = dy / len;
+            const px = -uy, py = ux;                         // perpendicular unit
+            const off = dirSet.has(e.v + '-' + e.u) ? 9 : 0; // anti-parallel → offset both sides apart
+            x1 = A.x + ux * R + px * off; y1 = A.y + uy * R + py * off;
+            x2 = B.x - ux * R + px * off; y2 = B.y - uy * R + py * off;
+            mx = (x1 + x2) / 2; my = (y1 + y2) / 2;
+            const marker = active ? 'gw-arrow-active' : 'gw-arrow';
+            s += '<line class="' + ecls + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" marker-end="url(#' + marker + ')"></line>';
+          } else {
+            s += '<line class="' + ecls + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '"></line>';
+          }
+          if (meta.weighted) s += '<text class="graph-weight" x="' + mx + '" y="' + my + '">' + e.w + '</text>';
         }
         for (let k = 0; k < parsed.n; k++) {
           let cls = 'graph-node';
           if (f.active === k) cls += ' active'; else if (has(f.visited, k)) cls += ' visited'; else if (has(f.frontier, k)) cls += ' frontier';
           s += '<circle class="' + cls + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
           s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + k + '</text>';
-          if (meta.weighted && f.dist) { const d = f.dist[k]; s += '<text class="graph-distance" x="' + pos[k].x + '" y="' + (pos[k].y - 26) + '">' + (d === Infinity ? '∞' : d) + '</text>'; }
+          if (f.dist != null) { const d = f.dist[k]; s += '<text class="graph-distance" x="' + pos[k].x + '" y="' + (pos[k].y - 26) + '">' + (d === Infinity ? '∞' : d) + '</text>'; }
         }
         svg.innerHTML = s;
         descEl.textContent = langOf(f.message);
@@ -1016,7 +1038,7 @@
 
     function applyText(text) {
       st.text = text; input.value = text;
-      const parsed = GraphWorkbench.parseEdges(text, meta.weighted);
+      const parsed = GraphWorkbench.parseEdges(text, meta.weighted, meta.directed);
       if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshExamplesSelect(); }
       rebuild();
     }
@@ -1052,9 +1074,9 @@
   R().attach('graph-dfs',      { render: () => renderGraphVcr('graph-dfs'),      code: () => codeGraphDFS,      layout: { host: 'dynamic' } });
   R().attach('graph-kruskal', { render: () => renderGraphVcr('graph-kruskal'), code: () => codeGraphKruskal, layout: { host: 'dynamic' } });
   R().attach('graph-dijkstra', { render: () => renderGraphVcr('graph-dijkstra'), code: () => codeGraphDijkstra, layout: { host: 'dynamic' } });
-  R().attach('graph-topo', { render: renderGraph, code: () => codeGraphTopo, layout: { host: 'dynamic' } });
+  R().attach('graph-topo',         { render: () => renderGraphVcr('graph-topo'),         code: () => codeGraphTopo,        layout: { host: 'dynamic' } });
   R().attach('graph-prim', { render: () => renderGraphVcr('graph-prim'), code: () => codeGraphPrim, layout: { host: 'dynamic' } });
-  R().attach('graph-bellman-ford', { render: renderBellmanFord, code: () => codeGraphBellmanFord, layout: { host: 'dynamic' } });
+  R().attach('graph-bellman-ford', { render: () => renderGraphVcr('graph-bellman-ford'), code: () => codeGraphBellmanFord, layout: { host: 'dynamic' } });
   R().attach('graph-floyd-warshall', { render: renderFloydWarshall, code: () => codeGraphFloydWarshall, layout: { host: 'dynamic' } });
   C().registerDomain({ id: 'graph', init: init, onModeSwitch: onModeSwitch });
 })(typeof window !== 'undefined' ? window : globalThis);

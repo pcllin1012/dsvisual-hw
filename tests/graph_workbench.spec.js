@@ -80,4 +80,29 @@ test.describe('graph workbench (edge-list + VCR)', () => {
     await loadMethod(page, 'graph-prim');
     await expect(page.locator('[data-method-section="graph-prim"] [data-testid="gw-source"]')).toHaveCount(1);
   });
+
+  test('graph-topo: directed workbench renders 6 nodes with arrows, no source', async ({ page }) => {
+    await loadMethod(page, 'graph-topo');
+    const sec = page.locator('[data-method-section="graph-topo"]');
+    await expect(sec.locator('[data-testid="gw-input"]')).toBeVisible();
+    await expect(sec.locator('.stepctl')).toBeVisible();
+    await expect(sec.locator('.gw-svg .graph-node')).toHaveCount(6);
+    await expect(sec.locator('.gw-svg line[marker-end]').first()).toBeAttached();
+    await expect(sec.locator('[data-testid="gw-source"]')).toHaveCount(0); // topo has no source
+    const cnt = sec.locator('.stepctl-count');
+    const before = await cnt.textContent();
+    await sec.locator('.stepctl [data-action="step"]').click();
+    await expect(cnt).not.toHaveText(before);
+  });
+
+  test('graph-bellman-ford: directed workbench has a source and directed arrows', async ({ page }) => {
+    await loadMethod(page, 'graph-bellman-ford');
+    const sec = page.locator('[data-method-section="graph-bellman-ford"]');
+    await expect(sec.locator('.gw-svg .graph-node')).toHaveCount(5);
+    await expect(sec.locator('.gw-svg line[marker-end]').first()).toBeAttached();
+    await expect(sec.locator('[data-testid="gw-source"]')).toHaveCount(1);
+    // scrub to the last frame → distances shown (graph-distance labels present)
+    await sec.locator('.stepctl-scrubber').evaluate((el) => { el.value = el.max; el.dispatchEvent(new Event('input', { bubbles: true })); });
+    await expect(sec.locator('.gw-svg .graph-distance').first()).toBeVisible();
+  });
 });
