@@ -436,7 +436,9 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 <script src="js/viz/viz_graph_workbench.js" defer></script>
 ```
 
-- [ ] **Step 2: Implement `renderGraphVcr`** — add to `js/domains/graph.js` (inside the IIFE, near the other renders). Read `renderTreeRB` in `js/domains/tree.js` for the transport button/slider/speed idiom and reuse the same `.tbtn`/`rbviz-transport`-equivalent styling class names (use `.gw-transport`). Full implementation:
+> **REVISION (authoritative):** Do NOT hand-roll a transport. Reuse the existing VCR helper `K().buildFrameControls(frames, draw, { runIntervalMs })` — it renders `⏮ ◀ ▶/⏸ ▶︎` + a `.stepctl-scrubber` slider + speed slider + `.stepctl-count`, is bilingual, and is already used by `renderBellmanFord`/`renderFloydWarshall`/`renderGraphDual` in this same file. Also, `buildExamplesSelect`/`loadExamples`/`saveExample` are NOT on VizKit — define local `gw*` helpers in graph.js (mirror `js/viz/viz_matrix_sparse_list.js`, which uses the `ExamplesStore` global + `localStorage`). The Task-4 subagent brief carries the full revised code; the code block below is the earlier hand-rolled version, kept for reference only — prefer the `buildFrameControls` version. Transport E2E selectors are therefore `.stepctl` / `[data-action="step"]` / `.stepctl-scrubber` / `.stepctl-count` (NOT `.gw-transport`).
+
+- [ ] **Step 2: Implement `renderGraphVcr`** — add to `js/domains/graph.js` (inside the IIFE, near the other renders). Model on `renderBellmanFord` (frames + `draw(f)` + `buildFrameControls`). Reference implementation (superseded by the REVISION note above where they differ):
 
 ```js
   const GW_META = {
