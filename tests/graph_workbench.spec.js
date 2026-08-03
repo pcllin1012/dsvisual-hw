@@ -60,4 +60,24 @@ test.describe('graph workbench (edge-list + VCR)', () => {
     await page.evaluate(() => window.I18N.setLanguage('en'));
     await expect(sec.locator('[data-testid="gw-build"]')).toHaveText('Build');
   });
+
+  for (const id of ['graph-kruskal', 'graph-prim']) {
+    test(id + ': workbench renders and the final frame shows MST tree edges', async ({ page }) => {
+      await loadMethod(page, id);
+      const sec = page.locator('[data-method-section="' + id + '"]');
+      await expect(sec.locator('[data-testid="gw-input"]')).toBeVisible();
+      await expect(sec.locator('.stepctl')).toBeVisible();
+      await expect(sec.locator('.gw-svg .graph-node')).toHaveCount(5);
+      // jump the scrubber to the end → MST complete → tree edges present
+      await sec.locator('.stepctl-scrubber').evaluate((el) => { el.value = el.max; el.dispatchEvent(new Event('input', { bubbles: true })); });
+      await expect(sec.locator('.gw-svg .graph-edge.tree')).toHaveCount(4); // MST on 5 nodes = 4 edges
+    });
+  }
+
+  test('graph-kruskal has no source selector; graph-prim has one', async ({ page }) => {
+    await loadMethod(page, 'graph-kruskal');
+    await expect(page.locator('[data-method-section="graph-kruskal"] [data-testid="gw-source"]')).toHaveCount(0);
+    await loadMethod(page, 'graph-prim');
+    await expect(page.locator('[data-method-section="graph-prim"] [data-testid="gw-source"]')).toHaveCount(1);
+  });
 });
