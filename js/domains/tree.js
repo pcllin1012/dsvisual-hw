@@ -243,10 +243,20 @@
           return true;
       }
 
-      host.querySelector('.rbviz-insert').addEventListener('click', () => { if (rbInsert(+input.value)) input.value = ''; });
-      host.querySelector('.rbviz-delete').addEventListener('click', () => { if (rbDelete(+input.value)) input.value = ''; });
-      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { if (rbInsert(+input.value)) input.value = ''; } });
-      host.querySelector('.rbviz-clear').addEventListener('click', () => { rbReset(); showStatus(langOf({ zh: '清空了', en: 'Cleared' }), '#94a3b8'); });
+      // Default the Key box to a fresh random value (1–99), preferring one not
+      // already in the tree so the primed value is insertable rather than a dup.
+      function randKey() {
+          const t = _rbState.tree;
+          let k = 1 + Math.floor(Math.random() * 99);
+          for (let i = 0; i < 40 && t.find(k); i++) k = 1 + Math.floor(Math.random() * 99);
+          return k;
+      }
+
+      host.querySelector('.rbviz-insert').addEventListener('click', () => { if (rbInsert(+input.value)) input.value = randKey(); });
+      host.querySelector('.rbviz-delete').addEventListener('click', () => { if (rbDelete(+input.value)) input.value = randKey(); });
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { if (rbInsert(+input.value)) input.value = randKey(); } });
+      host.querySelector('.rbviz-clear').addEventListener('click', () => { rbReset(); input.value = randKey(); showStatus(langOf({ zh: '清空了', en: 'Cleared' }), '#94a3b8'); });
+      input.value = randKey();
 
       const presetsEl = host.querySelector('[data-testid="rbviz-presets"]');
       RBTreeViz.PRESETS.forEach((p) => {
@@ -357,10 +367,20 @@
           return true;
       }
 
-      host.querySelector('.avlviz-insert').addEventListener('click', () => { if (avlInsert(+input.value)) input.value = ''; });
-      host.querySelector('.avlviz-delete').addEventListener('click', () => { if (avlDelete(+input.value)) input.value = ''; });
-      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { if (avlInsert(+input.value)) input.value = ''; } });
-      host.querySelector('.avlviz-clear').addEventListener('click', () => { avlReset(); showStatus(langOf({ zh: '清空了', en: 'Cleared' }), '#94a3b8'); });
+      // Default the Key box to a fresh random value (1–99), preferring one not
+      // already in the tree so the primed value is insertable rather than a dup.
+      function randKey() {
+          const t = _avlState.tree;
+          let k = 1 + Math.floor(Math.random() * 99);
+          for (let i = 0; i < 40 && t.find(k); i++) k = 1 + Math.floor(Math.random() * 99);
+          return k;
+      }
+
+      host.querySelector('.avlviz-insert').addEventListener('click', () => { if (avlInsert(+input.value)) input.value = randKey(); });
+      host.querySelector('.avlviz-delete').addEventListener('click', () => { if (avlDelete(+input.value)) input.value = randKey(); });
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { if (avlInsert(+input.value)) input.value = randKey(); } });
+      host.querySelector('.avlviz-clear').addEventListener('click', () => { avlReset(); input.value = randKey(); showStatus(langOf({ zh: '清空了', en: 'Cleared' }), '#94a3b8'); });
+      input.value = randKey();
 
       const presetsEl = host.querySelector('[data-testid="avlviz-presets"]');
       AVLViz.PRESETS.forEach((p) => {

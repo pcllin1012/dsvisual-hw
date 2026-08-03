@@ -17,6 +17,16 @@ test.describe('tree-avl (AVL 旋轉觀測站)', () => {
         await expect(sec.locator('.avlviz-logcol h4')).toHaveText('步驟紀錄');
     });
 
+    test('Key input defaults to a random 1–99 value on load', async ({ page }) => {
+        const sec = page.locator('[data-method-section="tree-avl"]');
+        const v = await sec.locator('[data-testid="avlviz-input"]').inputValue();
+        expect(v).not.toBe('');
+        const n = Number(v);
+        expect(Number.isInteger(n)).toBe(true);
+        expect(n).toBeGreaterThanOrEqual(1);
+        expect(n).toBeLessThanOrEqual(99);
+    });
+
     test('code panel is a collapsed drawer, opened via the header toggle', async ({ page }) => {
         const sec = page.locator('[data-method-section="tree-avl"]');
         await expect(sec.locator('.method-section-grid .code-panel')).toHaveCount(0);
