@@ -231,14 +231,14 @@
       var a = Math.min(u, v), b = Math.max(u, v);
       if (a === b) return false;
       var k = a + '-' + b; if (seen[k]) return false; seen[k] = true;
-      lines.push(weighted ? (a + ' ' + b + ' ' + randInt(rng, 1, 9)) : (a + ' ' + b));
+      lines.push(weighted ? (a + '-' + b + ':' + randInt(rng, 1, 9)) : (a + '-' + b));
       return true;
     }
     var i;
     for (i = 1; i < n; i++) add(i, randInt(rng, 0, i - 1)); // spanning tree → connected
     var tries = 0;
     while (extra > 0 && tries < 200) { tries++; if (add(randInt(rng, 0, n - 1), randInt(rng, 0, n - 1))) extra--; }
-    return lines.join('\n');
+    return lines.join(',');
   }
 
   function graphDagText(rng, difficulty, weighted) {
@@ -250,12 +250,12 @@
     var lines = [], seen = {};
     function add(u, v) {
       var k = u + '-' + v; if (seen[k] || u === v) return; seen[k] = true;
-      lines.push(weighted ? (u + ' ' + v + ' ' + randInt(rng, -5, 9)) : (u + ' ' + v));
+      lines.push(weighted ? (u + '-' + v + ':' + randInt(rng, -5, 9)) : (u + '-' + v));
     }
     for (var j = 1; j < n; j++) add(randInt(rng, 0, j - 1), j); // spanning chain (i<j) → weakly connected DAG
     var extra = difficulty === 'large' ? n : Math.floor(n / 2);
     for (var e = 0; e < extra; e++) { var a = randInt(rng, 0, n - 2), b = randInt(rng, a + 1, n - 1); add(a, b); } // forward edges (a<b) keep it acyclic
-    return lines.join('\n');
+    return lines.join(',');
   }
 
   function randomInputFor(methodId, difficulty, rng) {
