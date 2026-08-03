@@ -682,14 +682,16 @@ test.describe('Data Structure Visualizer Full Suite', () => {
         await expect(card.locator('[data-testid="fenwick-phase"]')).toContainText('Phase 1');
     });
 
-    test('Graphs: Prim MST renders a weighted graph and steps', async ({ page }) => {
+    test('Graphs: Prim MST renders the workbench + VCR transport', async ({ page }) => {
         await loadMethod(page, 'graph-prim');
         const card = page.locator('[data-method-section="graph-prim"]');
         await expect(card.locator('.code-panel-filename')).toContainText('graph_prim.cpp');
-        await expect(card.locator('.wgraph-node')).toHaveCount(5);
-        await expect(card.locator('.wgraph-edge')).toHaveCount(7);
-        await card.locator('[data-action="step"]').click();
-        await expect(card.locator('[data-testid="prim-stats"]')).toContainText('2');
+        await expect(card.locator('[data-testid="gw-input"]')).toBeVisible();
+        await expect(card.locator('.gw-svg .graph-node')).toHaveCount(5);
+        const cnt = card.locator('.stepctl-count');
+        const before = await cnt.textContent();
+        await card.locator('.stepctl [data-action="step"]').click();
+        await expect(cnt).not.toHaveText(before);
     });
 
     test('Graphs: Bellman-Ford renders a directed graph + distance array and steps', async ({ page }) => {
