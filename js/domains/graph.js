@@ -911,16 +911,19 @@
   // ---- Graph workbench (edge-list + VCR) : pilot bfs/dfs/dijkstra ----
   function gwLoadExamples(methodId) { try { return ExamplesStore.load(localStorage, methodId); } catch (e) { return []; } }
   function gwSaveExample(methodId, text, def) { try { ExamplesStore.save(localStorage, methodId, text, def); } catch (e) { /* ignore */ } }
-  function gwBuildExamplesSelect(methodId, defaultText) {
+  function gwExamplesOptionsHtml(methodId, defaultText) {
     const langOf = K().langOf;
     const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
     const trunc = (s) => { s = String(s).replace(/\n/g, ' '); return s.length > 24 ? s.slice(0, 24) + '…' : s; };
-    let h = '<select class="ex-select" data-method="' + esc(methodId) + '">';
-    h += '<option value="">' + langOf({ zh: '範例…', en: 'Examples…' }) + '</option>';
+    let h = '<option value="">' + langOf({ zh: '範例…', en: 'Examples…' }) + '</option>';
     h += '<option value="' + esc(defaultText) + '">' + langOf({ zh: '預設', en: 'Default' }) + '</option>';
     gwLoadExamples(methodId).forEach((e) => { h += '<option value="' + esc(e.text) + '">' + esc(trunc(e.text)) + '</option>'; });
-    h += '</select>';
     return h;
+  }
+  function gwBuildExamplesSelect(methodId, defaultText) {
+    const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    return '<select class="ex-select" data-method="' + esc(methodId) + '">' +
+      gwExamplesOptionsHtml(methodId, defaultText) + '</select>';
   }
 
   const GW_META = {
@@ -1006,8 +1009,20 @@
     function applyText(text) {
       st.text = text; input.value = text;
       const parsed = GraphWorkbench.parseEdges(text, meta.weighted);
-      if (parsed.ok) gwSaveExample(methodId, text, DEF);
+      if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshExamplesSelect(); }
       rebuild();
+    }
+
+    // Re-populate the examples <select> from localStorage without disturbing the
+    // rest of the toolbar (input text, source picker) — needed because a
+    // successful build/random-fill saves a new example and it should be pickable
+    // again in the same session, not only after the workbench fully re-renders
+    // (e.g. on a language switch).
+    function refreshExamplesSelect() {
+      if (!exSel) return;
+      const cur = exSel.value;
+      exSel.innerHTML = gwExamplesOptionsHtml(methodId, DEF);
+      exSel.value = cur;
     }
 
     host.querySelector('.gw-build').addEventListener('click', () => applyText(input.value));
