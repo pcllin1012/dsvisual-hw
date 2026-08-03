@@ -408,6 +408,39 @@ header p { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
 .graph-distance { fill: #f472b6; font-size: 11px; font-weight: 600; text-anchor: middle; dominant-baseline: middle; }
 .graph-order { fill: #a78bfa; font-size: 11px; font-weight: 600; text-anchor: middle; dominant-baseline: middle; }
 
+/* Graph workbench (edge-list + VCR): pilot bfs/dfs/dijkstra.
+   .graph-weight/.graph-distance above are reused as-is (already SVG <text> rules).
+   .graph-node/.graph-edge above are authored for the *old* div+SVG canvas
+   (position:absolute, transform:translate(-50%,-50%), dashed animated stroke) and would
+   visually break plain SVG <circle>/<line> if applied unscoped, so the node/edge state
+   rules below are scoped under .gw-svg to override just what's needed. */
+.gw { display: flex; flex-direction: column; gap: 0.75rem; }
+.gw-toolbar { display: flex; flex-direction: column; gap: 0.5rem; }
+.gw-input { width: 100%; box-sizing: border-box; font-family: 'SF Mono', Consolas, monospace; font-size: 0.9rem; resize: vertical; }
+.gw-btns { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.gw-err { color: #f87171; font-size: 0.85rem; }
+.gw-stage { display: flex; justify-content: center; overflow: auto; }
+.gw-svg { max-width: 100%; height: auto; }
+.gw-stepdesc { color: #94a3b8; min-height: 1.4em; font-size: 0.9rem; }
+
+.gw-svg .graph-node {
+  width: auto; height: auto; position: static; transform: none; display: inline;
+  background: none; box-shadow: none; z-index: auto;
+  fill: var(--primary-color, #64748b); stroke: #1e293b; stroke-width: 2;
+  transition: fill 0.2s, stroke 0.2s;
+}
+.gw-svg .graph-node.visited { background: none; box-shadow: none; fill: #34d399; }
+.gw-svg .graph-node.frontier { fill: #fbbf24; }
+.gw-svg .graph-node.active { fill: #60a5fa; stroke: #1e3a8a; }
+.gw-svg .graph-node-label { text-anchor: middle; dominant-baseline: central; fill: #fff; font-weight: 600; pointer-events: none; }
+.gw-svg .graph-edge { stroke: #94a3b8; stroke-width: 2; stroke-dasharray: none; animation: none; }
+.gw-svg .graph-edge.active { stroke: #60a5fa; stroke-width: 4; }
+
+@media (prefers-color-scheme: dark) {
+  .gw-svg .graph-node { stroke: #0f172a; }
+  .gw-svg .graph-node.active { stroke: #1e3a8a; }
+}
+
 /* Tree */
 .tree-container { width: 400px; height: 300px; position: relative; }
 #tree-edges { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none;}
