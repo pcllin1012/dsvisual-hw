@@ -49,3 +49,37 @@ test('DEFAULTS parse cleanly for each pilot method', () => {
   assert.ok(GW.parseEdges(GW.DEFAULTS['graph-dfs'], false).ok);
   assert.ok(GW.parseEdges(GW.DEFAULTS['graph-dijkstra'], true).ok);
 });
+
+function adjOf(txt, w) { return GW.parseEdges(txt, w).adj; }
+
+test('bfsFrames: correct visit order + frame invariants', () => {
+  const fr = GW.bfsFrames(adjOf('0 1\n0 2\n1 3\n2 3\n3 4', false), 0);
+  const last = fr[fr.length - 1];
+  assert.deepStrictEqual(last.order, [0, 1, 2, 3, 4]); // BFS from 0, neighbors asc
+  assert.strictEqual(last.frontier.length, 0);
+  assert.ok(fr[0].frontier.includes(0));
+  assert.ok(fr.every(f => f.message && f.message.zh && f.message.en));
+  assert.ok(fr.every(f => f.dist === null));
+});
+
+test('dfsFrames: correct visit order', () => {
+  const fr = GW.dfsFrames(adjOf('0 1\n0 2\n1 3\n2 3\n3 4', false), 0);
+  const last = fr[fr.length - 1];
+  // Hand-traced recursive lowest-index-first DFS from 0 on adj[0]=[1,2], adj[1]=[0,3],
+  // adj[2]=[0,3], adj[3]=[1,2,4], adj[4]=[3]:
+  // visit 0 -> visit 1 (0's first unvisited neighbor) -> visit 3 (1's unvisited neighbor)
+  // -> visit 2 (3's first unvisited neighbor, 2<4) -> backtrack to 3 -> visit 4 (3's remaining neighbor)
+  // Verified empirically to match: order = [0,1,3,2,4].
+  assert.deepStrictEqual(last.order, [0, 1, 3, 2, 4]);
+  assert.ok(fr.every(f => f.message && f.message.zh && f.message.en));
+  assert.ok(fr.every(f => f.dist === null));
+});
+
+test('dijkstraFrames: textbook shortest distances', () => {
+  const fr = GW.dijkstraFrames(adjOf('0 1 4\n0 2 1\n2 1 2\n1 3 1\n2 3 5\n3 4 3', true), 0);
+  const last = fr[fr.length - 1];
+  // 0→2 (1), 2→1 (1+2=3), 1→3 (3+1=4), 3→4 (4+3=7)
+  assert.deepStrictEqual(last.dist, [0, 3, 1, 4, 7]);
+  assert.ok(fr.every(f => Array.isArray(f.dist)));
+  assert.ok(fr.every(f => f.message && f.message.zh && f.message.en));
+});
