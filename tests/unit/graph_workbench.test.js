@@ -83,3 +83,23 @@ test('dijkstraFrames: textbook shortest distances', () => {
   assert.ok(fr.every(f => Array.isArray(f.dist)));
   assert.ok(fr.every(f => f.message && f.message.zh && f.message.en));
 });
+
+const RI = require('../../js/random_input.js');
+
+test('random graph inputs parse ok, connected, within cap', () => {
+  const diffs = ['edge', 'special', 'large', 'medium'];
+  for (const id of ['graph-bfs', 'graph-dfs', 'graph-dijkstra']) {
+    const weighted = id === 'graph-dijkstra';
+    for (const d of diffs) {
+      let seed = 1;
+      const rng = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+      const txt = RI.randomInputFor(id, d, rng).text; // randomInputFor returns { text } (matches matrix-sparse convention)
+      const p = GW.parseEdges(txt, weighted);
+      assert.strictEqual(p.ok, true, id + '/' + d + ' → ' + JSON.stringify(txt));
+      assert.ok(p.n >= 3 && p.n <= 12, id + '/' + d + ' n=' + p.n);
+      // connected: BFS from 0 reaches all n nodes
+      const reached = GW.bfsFrames(p.adj, 0)[GW.bfsFrames(p.adj, 0).length - 1].order.length;
+      assert.strictEqual(reached, p.n, id + '/' + d + ' not connected');
+    }
+  }
+});

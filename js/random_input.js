@@ -220,6 +220,27 @@
     return { keys, m: 3 };
   }
 
+  function graphEdgeList(rng, difficulty, weighted) {
+    var n, extra;
+    if (difficulty === 'edge') { n = randInt(rng, 3, 4); extra = 0; }
+    else if (difficulty === 'large') { n = randInt(rng, 9, 12); extra = randInt(rng, n, n + 3); }
+    else if (difficulty === 'special') { n = 6; extra = 2; }
+    else { n = randInt(rng, 5, 7); extra = randInt(rng, 1, 3); }
+    var seen = {}, lines = [];
+    function add(u, v) {
+      var a = Math.min(u, v), b = Math.max(u, v);
+      if (a === b) return false;
+      var k = a + '-' + b; if (seen[k]) return false; seen[k] = true;
+      lines.push(weighted ? (a + ' ' + b + ' ' + randInt(rng, 1, 9)) : (a + ' ' + b));
+      return true;
+    }
+    var i;
+    for (i = 1; i < n; i++) add(i, randInt(rng, 0, i - 1)); // spanning tree → connected
+    var tries = 0;
+    while (extra > 0 && tries < 200) { tries++; if (add(randInt(rng, 0, n - 1), randInt(rng, 0, n - 1))) extra--; }
+    return lines.join('\n');
+  }
+
   function randomInputFor(methodId, difficulty, rng) {
     rng = rng || Math.random;
     if (['normal', 'special', 'edge', 'large'].indexOf(difficulty) === -1) difficulty = 'normal';
@@ -255,6 +276,11 @@
       case 'search-interpolation': return searchInput(rng, difficulty, true);
       case 'search-binary':
       case 'search-linear': return searchInput(rng, difficulty, false);
+      case 'graph-bfs':
+      case 'graph-dfs':
+        return { text: graphEdgeList(rng, difficulty, false) };
+      case 'graph-dijkstra':
+        return { text: graphEdgeList(rng, difficulty, true) };
       default: return null;
     }
   }
