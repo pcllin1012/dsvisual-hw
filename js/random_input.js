@@ -241,6 +241,23 @@
     return lines.join('\n');
   }
 
+  function graphDagText(rng, difficulty, weighted) {
+    var n;
+    if (difficulty === 'edge') n = randInt(rng, 3, 4);
+    else if (difficulty === 'large') n = randInt(rng, 9, 12);
+    else if (difficulty === 'special') n = 6;
+    else n = randInt(rng, 5, 7);
+    var lines = [], seen = {};
+    function add(u, v) {
+      var k = u + '-' + v; if (seen[k] || u === v) return; seen[k] = true;
+      lines.push(weighted ? (u + ' ' + v + ' ' + randInt(rng, -5, 9)) : (u + ' ' + v));
+    }
+    for (var j = 1; j < n; j++) add(randInt(rng, 0, j - 1), j); // spanning chain (i<j) → weakly connected DAG
+    var extra = difficulty === 'large' ? n : Math.floor(n / 2);
+    for (var e = 0; e < extra; e++) { var a = randInt(rng, 0, n - 2), b = randInt(rng, a + 1, n - 1); add(a, b); } // forward edges (a<b) keep it acyclic
+    return lines.join('\n');
+  }
+
   function randomInputFor(methodId, difficulty, rng) {
     rng = rng || Math.random;
     if (['normal', 'special', 'edge', 'large'].indexOf(difficulty) === -1) difficulty = 'normal';
@@ -284,6 +301,8 @@
       case 'graph-kruskal':
       case 'graph-prim':
         return { text: graphEdgeList(rng, difficulty, true) };
+      case 'graph-topo': return { text: graphDagText(rng, difficulty, false) };
+      case 'graph-bellman-ford': return { text: graphDagText(rng, difficulty, true) };
       default: return null;
     }
   }

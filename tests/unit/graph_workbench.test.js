@@ -210,3 +210,19 @@ test('bellmanFordFrames computes CLRS distances and detects negative cycle', () 
   const nc = GW.bellmanFordFrames(GW.parseEdges('0 1 1\n1 0 -3', true, true).adj, 2, 0);
   assert.ok(/負|negative/i.test(nc[nc.length - 1].message.zh + nc[nc.length - 1].message.en));
 });
+
+test('random topo/bellman inputs are DAGs (parse ok, acyclic, n<=12)', () => {
+  for (const id of ['graph-topo', 'graph-bellman-ford']) {
+    const weighted = id === 'graph-bellman-ford';
+    for (const d of ['edge', 'normal', 'large', 'special']) {
+      let seed = 5;
+      const rng = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+      const p = GW.parseEdges(RI.randomInputFor(id, d, rng).text, weighted, true);
+      assert.ok(p.ok, id + '/' + d + ' parses');
+      assert.ok(p.n >= 3 && p.n <= 12, id + '/' + d + ' n range');
+      // topoFrames orders all nodes → acyclic
+      const frames = GW.topoFrames(p.adj, p.n);
+      assert.strictEqual(frames[frames.length - 1].order.length, p.n, id + '/' + d + ' is a DAG');
+    }
+  }
+});
