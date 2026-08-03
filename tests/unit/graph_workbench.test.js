@@ -226,3 +226,34 @@ test('random topo/bellman inputs are DAGs (parse ok, acyclic, n<=12)', () => {
     }
   }
 });
+
+test('adjMatrix builds a symmetric 0/1 matrix with zero diagonal', () => {
+  const p = GW.parseEdges('0 1\n1 2\n0 2', false, false);
+  const m = GW.adjMatrix(p.adj, p.n);
+  assert.strictEqual(m.length, 3);
+  for (let i = 0; i < 3; i++) assert.strictEqual(m[i][i], 0);
+  assert.strictEqual(m[0][1], 1); assert.strictEqual(m[1][0], 1);
+  assert.strictEqual(m[0][2], 1); assert.strictEqual(m[2][0], 1);
+  assert.strictEqual(m[1][2], 1);
+});
+
+test('DEFAULTS for graph/adjlist/traversal parse as undirected n=5', () => {
+  for (const id of ['graph', 'graph-adjlist', 'graph-traversal']) {
+    const p = GW.parseEdges(GW.DEFAULTS[id], false, false);
+    assert.ok(p.ok); assert.strictEqual(p.n, 5);
+  }
+});
+
+test('random graph/adjlist/traversal inputs are connected undirected graphs', () => {
+  for (const id of ['graph', 'graph-adjlist', 'graph-traversal']) {
+    for (const d of ['edge', 'normal', 'large', 'special']) {
+      let seed = 9;
+      const rng = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+      const p = GW.parseEdges(RI.randomInputFor(id, d, rng).text, false, false);
+      assert.ok(p.ok && p.n >= 3 && p.n <= 12, id + '/' + d);
+      const seen = new Set([0]); const q = [0];
+      while (q.length) { const u = q.shift(); for (const e of p.adj[u]) if (!seen.has(e.to)) { seen.add(e.to); q.push(e.to); } }
+      assert.strictEqual(seen.size, p.n, id + '/' + d + ' connected');
+    }
+  }
+});

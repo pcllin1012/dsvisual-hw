@@ -67,7 +67,10 @@
     'graph-kruskal': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
     'graph-prim': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
     'graph-topo': '0 1\n0 2\n1 3\n2 3\n3 4\n3 5',
-    'graph-bellman-ford': '0 1 6\n0 2 7\n1 2 8\n1 3 5\n1 4 -4\n2 3 -3\n2 4 9\n3 1 -2\n4 0 2\n4 3 7'
+    'graph-bellman-ford': '0 1 6\n0 2 7\n1 2 8\n1 3 5\n1 4 -4\n2 3 -3\n2 4 9\n3 1 -2\n4 0 2\n4 3 7',
+    'graph': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
+    'graph-adjlist': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
+    'graph-traversal': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2'
   };
 
   function bfsFrames(adj, source) {
@@ -264,7 +267,14 @@
     return frames;
   }
 
-  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames };
+  function adjMatrix(adj, n) {
+    var m = [], i, j;
+    for (i = 0; i < n; i++) { var row = []; for (j = 0; j < n; j++) row.push(0); m.push(row); }
+    for (i = 0; i < n; i++) for (j = 0; j < adj[i].length; j++) m[i][adj[i][j].to] = 1;
+    return m;
+  }
+
+  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.GraphWorkbench = api;
 })(typeof window !== 'undefined' ? window : globalThis);
