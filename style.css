@@ -3438,3 +3438,6 @@ body.viz-focus .method-section-card.active .gw-svg { max-height: 100%; }
 .gw-matrix th, .gw-matrix td { border: 1px solid var(--border, #334155); padding: 2px 8px; text-align: center; color: var(--text, inherit); }
 .gw-matrix th { color: #94a3b8; font-weight: 600; }
 .gw-matrix td.on { background: #34d39933; color: #34d399; font-weight: 700; }
+
+/* Graph traversal workbench (graph-traversal): dual BFS|DFS panes, one shared VCR. */
+.gw-pane-info { font-size: 0.8rem; color: #94a3b8; font-family: ui-monospace, monospace; margin-top: 0.3rem; }
