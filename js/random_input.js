@@ -281,6 +281,9 @@
         return { text: graphEdgeList(rng, difficulty, false) };
       case 'graph-dijkstra':
         return { text: graphEdgeList(rng, difficulty, true) };
+      case 'graph-kruskal':
+      case 'graph-prim':
+        return { text: graphEdgeList(rng, difficulty, true) };
       default: return null;
     }
   }

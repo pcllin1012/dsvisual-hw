@@ -142,3 +142,20 @@ test('DEFAULTS for kruskal and prim parse ok with n=5', () => {
     assert.ok(p.ok); assert.strictEqual(p.n, 5);
   }
 });
+
+test('random kruskal/prim inputs are connected weighted graphs (n<=12)', () => {
+  for (const id of ['graph-kruskal', 'graph-prim']) {
+    for (const d of ['edge', 'normal', 'large', 'special']) {
+      let seed = 7;
+      const rng = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+      const txt = RI.randomInputFor(id, d, rng).text;
+      const p = GW.parseEdges(txt, true);
+      assert.ok(p.ok, id + '/' + d + ' parses');
+      assert.ok(p.n >= 3 && p.n <= 12, id + '/' + d + ' n in range');
+      // connected: BFS from 0 reaches all n
+      const seen = new Set([0]); const q = [0];
+      while (q.length) { const u = q.shift(); for (const e of p.adj[u]) if (!seen.has(e.to)) { seen.add(e.to); q.push(e.to); } }
+      assert.strictEqual(seen.size, p.n, id + '/' + d + ' connected');
+    }
+  }
+});
