@@ -908,13 +908,142 @@
     });
   }
 
+  // ---- Graph workbench (edge-list + VCR) : pilot bfs/dfs/dijkstra ----
+  function gwLoadExamples(methodId) { try { return ExamplesStore.load(localStorage, methodId); } catch (e) { return []; } }
+  function gwSaveExample(methodId, text, def) { try { ExamplesStore.save(localStorage, methodId, text, def); } catch (e) { /* ignore */ } }
+  function gwExamplesOptionsHtml(methodId, defaultText) {
+    const langOf = K().langOf;
+    const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    const trunc = (s) => { s = String(s).replace(/\n/g, ' '); return s.length > 24 ? s.slice(0, 24) + '…' : s; };
+    let h = '<option value="">' + langOf({ zh: '範例…', en: 'Examples…' }) + '</option>';
+    h += '<option value="' + esc(defaultText) + '">' + langOf({ zh: '預設', en: 'Default' }) + '</option>';
+    gwLoadExamples(methodId).forEach((e) => { h += '<option value="' + esc(e.text) + '">' + esc(trunc(e.text)) + '</option>'; });
+    return h;
+  }
+  function gwBuildExamplesSelect(methodId, defaultText) {
+    const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    return '<select class="ex-select" data-method="' + esc(methodId) + '">' +
+      gwExamplesOptionsHtml(methodId, defaultText) + '</select>';
+  }
+
+  const GW_META = {
+    'graph-bfs':      { weighted: false, gen: (a, s) => GraphWorkbench.bfsFrames(a, s) },
+    'graph-dfs':      { weighted: false, gen: (a, s) => GraphWorkbench.dfsFrames(a, s) },
+    'graph-dijkstra': { weighted: true,  gen: (a, s) => GraphWorkbench.dijkstraFrames(a, s) },
+  };
+  let _gwState = {};
+
+  function renderGraphVcr(methodId) {
+    const host = K().acquireDynamicVizHost();
+    host.style.width = '100%';
+    const langOf = K().langOf;
+    const meta = GW_META[methodId];
+    const DEF = GraphWorkbench.DEFAULTS[methodId];
+    const st = _gwState[methodId] || (_gwState[methodId] = { text: DEF, source: 0 });
+
+    host.innerHTML =
+      '<div class="gw" data-testid="gw">' +
+        '<div class="gw-toolbar">' +
+          '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
+            langOf({ zh: '每行一條邊:' + (meta.weighted ? 'u v w' : 'u v'), en: 'One edge per line: ' + (meta.weighted ? 'u v w' : 'u v') }) + '"></textarea>' +
+          '<div class="gw-btns">' +
+            '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
+            '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
+            gwBuildExamplesSelect(methodId, DEF) +
+            '<label class="gw-src-lbl">' + langOf({ zh: '起點', en: 'Source' }) + ' <select class="gw-source" data-testid="gw-source"></select></label>' +
+          '</div>' +
+          '<div class="gw-err" data-testid="gw-err" style="display:none"></div>' +
+        '</div>' +
+        '<div class="gw-body"></div>' +
+      '</div>';
+
+    const input = host.querySelector('.gw-input');
+    const srcSel = host.querySelector('.gw-source');
+    const errEl = host.querySelector('.gw-err');
+    const body = host.querySelector('.gw-body');
+    input.value = st.text;
+
+    function rebuildSource(n) {
+      srcSel.innerHTML = '';
+      for (let k = 0; k < n; k++) { const o = document.createElement('option'); o.value = k; o.textContent = k; srcSel.appendChild(o); }
+      if (st.source >= n) st.source = 0;
+      srcSel.value = st.source;
+    }
+
+    function rebuild() {
+      const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted);
+      if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
+      errEl.style.display = 'none';
+      rebuildSource(parsed.n);
+      const frames = meta.gen(parsed.adj, st.source);
+      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
+
+      body.innerHTML =
+        '<div class="gw-stepdesc" data-testid="gw-stepdesc"></div>' +
+        '<div class="gw-stage"><svg class="gw-svg" data-testid="gw-svg" viewBox="0 0 600 400"></svg></div>';
+      const svg = body.querySelector('.gw-svg');
+      const descEl = body.querySelector('.gw-stepdesc');
+
+      function draw(f) {
+        const has = (arr, x) => arr.indexOf(x) !== -1;
+        let s = '';
+        for (const e of parsed.edges) {
+          const active = f.activeEdge && f.activeEdge.u === e.u && f.activeEdge.v === e.v;
+          s += '<line class="graph-edge' + (active ? ' active' : '') + '" x1="' + pos[e.u].x + '" y1="' + pos[e.u].y + '" x2="' + pos[e.v].x + '" y2="' + pos[e.v].y + '"></line>';
+          if (meta.weighted) s += '<text class="graph-weight" x="' + ((pos[e.u].x + pos[e.v].x) / 2) + '" y="' + ((pos[e.u].y + pos[e.v].y) / 2) + '">' + e.w + '</text>';
+        }
+        for (let k = 0; k < parsed.n; k++) {
+          let cls = 'graph-node';
+          if (f.active === k) cls += ' active'; else if (has(f.visited, k)) cls += ' visited'; else if (has(f.frontier, k)) cls += ' frontier';
+          s += '<circle class="' + cls + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
+          s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + k + '</text>';
+          if (meta.weighted && f.dist) { const d = f.dist[k]; s += '<text class="graph-distance" x="' + pos[k].x + '" y="' + (pos[k].y - 26) + '">' + (d === Infinity ? '∞' : d) + '</text>'; }
+        }
+        svg.innerHTML = s;
+        descEl.textContent = langOf(f.message);
+      }
+
+      body.appendChild(K().buildFrameControls(frames, draw, { runIntervalMs: 700 }));
+    }
+
+    function applyText(text) {
+      st.text = text; input.value = text;
+      const parsed = GraphWorkbench.parseEdges(text, meta.weighted);
+      if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshExamplesSelect(); }
+      rebuild();
+    }
+
+    // Re-populate the examples <select> from localStorage without disturbing the
+    // rest of the toolbar (input text, source picker) — needed because a
+    // successful build/random-fill saves a new example and it should be pickable
+    // again in the same session, not only after the workbench fully re-renders
+    // (e.g. on a language switch).
+    function refreshExamplesSelect() {
+      if (!exSel) return;
+      const cur = exSel.value;
+      exSel.innerHTML = gwExamplesOptionsHtml(methodId, DEF);
+      exSel.value = cur;
+    }
+
+    host.querySelector('.gw-build').addEventListener('click', () => applyText(input.value));
+    host.querySelector('.rand-btn').addEventListener('click', () => {
+      const r = window.RandomInput && RandomInput.randomInputFor(methodId, K().getInputDifficulty());
+      if (r && r.text) applyText(r.text);
+    });
+    srcSel.addEventListener('change', () => { st.source = +srcSel.value; rebuild(); });
+    const exSel = host.querySelector('.ex-select');
+    if (exSel) exSel.addEventListener('change', (ev) => { const v = ev.target.value; if (v) applyText(v); });
+
+    rebuild();
+  }
+
   R().attach('graph', { render: renderGraph, code: () => codeGraph, layout: { host: 'dynamic' } });
   R().attach('graph-adjlist', { render: renderGraph, code: () => codeGraphAdjlist, layout: { host: 'dynamic' } });
   R().attach('graph-traversal', { render: renderGraphDual, code: () => codeGraphTraversal, layout: { host: 'dynamic' } });
-  R().attach('graph-bfs', { render: renderGraph, code: () => codeGraphBFS, layout: { host: 'dynamic' } });
-  R().attach('graph-dfs', { render: renderGraph, code: () => codeGraphDFS, layout: { host: 'dynamic' } });
+  R().attach('graph-bfs',      { render: () => renderGraphVcr('graph-bfs'),      code: () => codeGraphBFS,      layout: { host: 'dynamic' } });
+  R().attach('graph-dfs',      { render: () => renderGraphVcr('graph-dfs'),      code: () => codeGraphDFS,      layout: { host: 'dynamic' } });
   R().attach('graph-kruskal', { render: renderGraph, code: () => codeGraphKruskal, layout: { host: 'dynamic' } });
-  R().attach('graph-dijkstra', { render: renderGraph, code: () => codeGraphDijkstra, layout: { host: 'dynamic' } });
+  R().attach('graph-dijkstra', { render: () => renderGraphVcr('graph-dijkstra'), code: () => codeGraphDijkstra, layout: { host: 'dynamic' } });
   R().attach('graph-topo', { render: renderGraph, code: () => codeGraphTopo, layout: { host: 'dynamic' } });
   R().attach('graph-prim', { render: renderPrim, code: () => codeGraphPrim, layout: { host: 'dynamic' } });
   R().attach('graph-bellman-ford', { render: renderBellmanFord, code: () => codeGraphBellmanFord, layout: { host: 'dynamic' } });

@@ -240,22 +240,22 @@ test.describe('Data Structure Visualizer Full Suite', () => {
         await expect(rows).toHaveCount(5);
     });
 
-    test('Graphs: BFS renders SVG nodes and a queue strip', async ({ page }) => {
+    test('Graphs: BFS renders the edge-list workbench + VCR transport', async ({ page }) => {
         await loadMethod(page, 'graph-bfs');
         const card = page.locator('[data-method-section="graph-bfs"]');
         await expect(card.locator('.code-panel-filename')).toContainText('graph_bfs.cpp');
-        await expect(card.locator('.bfs-svg')).toBeVisible();
-        await expect(card.locator('[data-testid="bfs-queue"]')).toBeVisible();
-        await expect(card.locator('.bfs-svg .nodes circle')).toHaveCount(5);
+        await expect(card.locator('[data-testid="gw-input"]')).toBeVisible();
+        await expect(card.locator('.stepctl')).toBeVisible();
+        await expect(card.locator('.gw-svg .graph-node')).toHaveCount(5); // default graph: nodes 0..4
     });
 
-    test('Graphs: DFS renders SVG nodes and a stack strip', async ({ page }) => {
+    test('Graphs: DFS renders the edge-list workbench + VCR transport', async ({ page }) => {
         await loadMethod(page, 'graph-dfs');
         const card = page.locator('[data-method-section="graph-dfs"]');
         await expect(card.locator('.code-panel-filename')).toContainText('graph_dfs.cpp');
-        await expect(card.locator('.dfs-svg')).toBeVisible();
-        await expect(card.locator('[data-testid="dfs-stack"]')).toBeVisible();
-        await expect(card.locator('.dfs-svg .nodes circle')).toHaveCount(5);
+        await expect(card.locator('[data-testid="gw-input"]')).toBeVisible();
+        await expect(card.locator('.stepctl')).toBeVisible();
+        await expect(card.locator('.gw-svg .graph-node')).toHaveCount(5); // default graph: nodes 0..4
     });
 
     test('Graphs: graph-traversal renders two dual panes (BFS & DFS)', async ({ page }) => {
