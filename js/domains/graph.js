@@ -927,9 +927,11 @@
   }
 
   const GW_META = {
-    'graph-bfs':      { weighted: false, gen: (a, s) => GraphWorkbench.bfsFrames(a, s) },
-    'graph-dfs':      { weighted: false, gen: (a, s) => GraphWorkbench.dfsFrames(a, s) },
-    'graph-dijkstra': { weighted: true,  gen: (a, s) => GraphWorkbench.dijkstraFrames(a, s) },
+    'graph-bfs':      { weighted: false, usesSource: true,  gen: (p, s) => GraphWorkbench.bfsFrames(p.adj, s) },
+    'graph-dfs':      { weighted: false, usesSource: true,  gen: (p, s) => GraphWorkbench.dfsFrames(p.adj, s) },
+    'graph-dijkstra': { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.dijkstraFrames(p.adj, s) },
+    'graph-kruskal':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.kruskalFrames(p.edges, p.n) },
+    'graph-prim':     { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.primFrames(p.adj, s) },
   };
   let _gwState = {};
 
@@ -941,6 +943,9 @@
     const DEF = GraphWorkbench.DEFAULTS[methodId];
     const st = _gwState[methodId] || (_gwState[methodId] = { text: DEF, source: 0 });
 
+    const sourceCtl = (meta.usesSource === false) ? '' :
+      '<label class="gw-src-lbl">' + langOf({ zh: '起點', en: 'Source' }) + ' <select class="gw-source" data-testid="gw-source"></select></label>';
+
     host.innerHTML =
       '<div class="gw" data-testid="gw">' +
         '<div class="gw-toolbar">' +
@@ -950,7 +955,7 @@
             '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
             gwBuildExamplesSelect(methodId, DEF) +
-            '<label class="gw-src-lbl">' + langOf({ zh: '起點', en: 'Source' }) + ' <select class="gw-source" data-testid="gw-source"></select></label>' +
+            sourceCtl +
           '</div>' +
           '<div class="gw-err" data-testid="gw-err" style="display:none"></div>' +
         '</div>' +
@@ -974,8 +979,8 @@
       const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
-      rebuildSource(parsed.n);
-      const frames = meta.gen(parsed.adj, st.source);
+      if (srcSel) rebuildSource(parsed.n);
+      const frames = meta.gen(parsed, st.source);
       const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
 
       body.innerHTML =
@@ -986,10 +991,13 @@
 
       function draw(f) {
         const has = (arr, x) => arr.indexOf(x) !== -1;
+        const treeKeys = new Set((f.treeEdges || []).map((e) => e.u + '-' + e.v));
         let s = '';
         for (const e of parsed.edges) {
+          const key = e.u + '-' + e.v;
           const active = f.activeEdge && f.activeEdge.u === e.u && f.activeEdge.v === e.v;
-          s += '<line class="graph-edge' + (active ? ' active' : '') + '" x1="' + pos[e.u].x + '" y1="' + pos[e.u].y + '" x2="' + pos[e.v].x + '" y2="' + pos[e.v].y + '"></line>';
+          const ecls = 'graph-edge' + (active ? ' active' : (treeKeys.has(key) ? ' tree' : ''));
+          s += '<line class="' + ecls + '" x1="' + pos[e.u].x + '" y1="' + pos[e.u].y + '" x2="' + pos[e.v].x + '" y2="' + pos[e.v].y + '"></line>';
           if (meta.weighted) s += '<text class="graph-weight" x="' + ((pos[e.u].x + pos[e.v].x) / 2) + '" y="' + ((pos[e.u].y + pos[e.v].y) / 2) + '">' + e.w + '</text>';
         }
         for (let k = 0; k < parsed.n; k++) {
@@ -1030,7 +1038,7 @@
       const r = window.RandomInput && RandomInput.randomInputFor(methodId, K().getInputDifficulty());
       if (r && r.text) applyText(r.text);
     });
-    srcSel.addEventListener('change', () => { st.source = +srcSel.value; rebuild(); });
+    if (srcSel) srcSel.addEventListener('change', () => { st.source = +srcSel.value; rebuild(); });
     const exSel = host.querySelector('.ex-select');
     if (exSel) exSel.addEventListener('change', (ev) => { const v = ev.target.value; if (v) applyText(v); });
 
@@ -1042,10 +1050,10 @@
   R().attach('graph-traversal', { render: renderGraphDual, code: () => codeGraphTraversal, layout: { host: 'dynamic' } });
   R().attach('graph-bfs',      { render: () => renderGraphVcr('graph-bfs'),      code: () => codeGraphBFS,      layout: { host: 'dynamic' } });
   R().attach('graph-dfs',      { render: () => renderGraphVcr('graph-dfs'),      code: () => codeGraphDFS,      layout: { host: 'dynamic' } });
-  R().attach('graph-kruskal', { render: renderGraph, code: () => codeGraphKruskal, layout: { host: 'dynamic' } });
+  R().attach('graph-kruskal', { render: () => renderGraphVcr('graph-kruskal'), code: () => codeGraphKruskal, layout: { host: 'dynamic' } });
   R().attach('graph-dijkstra', { render: () => renderGraphVcr('graph-dijkstra'), code: () => codeGraphDijkstra, layout: { host: 'dynamic' } });
   R().attach('graph-topo', { render: renderGraph, code: () => codeGraphTopo, layout: { host: 'dynamic' } });
-  R().attach('graph-prim', { render: renderPrim, code: () => codeGraphPrim, layout: { host: 'dynamic' } });
+  R().attach('graph-prim', { render: () => renderGraphVcr('graph-prim'), code: () => codeGraphPrim, layout: { host: 'dynamic' } });
   R().attach('graph-bellman-ford', { render: renderBellmanFord, code: () => codeGraphBellmanFord, layout: { host: 'dynamic' } });
   R().attach('graph-floyd-warshall', { render: renderFloydWarshall, code: () => codeGraphFloydWarshall, layout: { host: 'dynamic' } });
   C().registerDomain({ id: 'graph', init: init, onModeSwitch: onModeSwitch });

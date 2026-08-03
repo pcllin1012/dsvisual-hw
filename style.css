@@ -435,10 +435,12 @@ header p { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
 .gw-svg .graph-node-label { text-anchor: middle; dominant-baseline: central; fill: #fff; font-weight: 600; pointer-events: none; }
 .gw-svg .graph-edge { stroke: #94a3b8; stroke-width: 2; stroke-dasharray: none; animation: none; }
 .gw-svg .graph-edge.active { stroke: #60a5fa; stroke-width: 4; }
+.gw-svg .graph-edge.tree { stroke: #34d399; stroke-width: 4; }
 
 @media (prefers-color-scheme: dark) {
   .gw-svg .graph-node { stroke: #0f172a; }
   .gw-svg .graph-node.active { stroke: #1e3a8a; }
+  .gw-svg .graph-edge.tree { stroke: #34d399; }
 }
 
 /* Tree */
