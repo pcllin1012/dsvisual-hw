@@ -257,3 +257,53 @@ test('random graph/adjlist/traversal inputs are connected undirected graphs', ()
     }
   }
 });
+
+test('parseEdges accepts compact comma form (unweighted, directed)', () => {
+  const p = GW.parseEdges('0-1,1-2,2-0', false, true);
+  assert.ok(p.ok); assert.strictEqual(p.n, 3);
+  assert.ok(p.edges.some((e) => e.u === 2 && e.v === 0));
+  assert.deepStrictEqual(p.adj[0].map((x) => x.to), [1]);
+});
+
+test('parseEdges accepts compact weighted form u-v:w incl. negatives', () => {
+  const p = GW.parseEdges('0-1:4,1-2:1', true, false);
+  assert.ok(p.ok); assert.strictEqual(p.adj[0][0].w, 4);
+  const d = GW.parseEdges('0-1:-4,1-2:-3', true, true); // directed allows negatives
+  assert.ok(d.ok); assert.strictEqual(d.adj[0][0].w, -4);
+});
+
+test('parseEdges is backward compatible with legacy whitespace form', () => {
+  const oldU = GW.parseEdges('0 1\n1 2', false, false);
+  const newU = GW.parseEdges('0-1,1-2', false, false);
+  assert.deepStrictEqual(oldU.edges, newU.edges);
+  // legacy negative weight (directed) keeps its sign (not eaten by the dash split)
+  const bf = GW.parseEdges('0 1 6\n1 4 -4', true, true);
+  assert.ok(bf.ok);
+  assert.ok(bf.edges.some((e) => e.u === 1 && e.v === 4 && e.w === -4));
+});
+
+test('parseEdges handles mixed comma+newline separators', () => {
+  const p = GW.parseEdges('0-1,1-2\n2-3', false, false);
+  assert.ok(p.ok); assert.strictEqual(p.n, 4); assert.strictEqual(p.edges.length, 3);
+});
+
+test('parseEdges errors: weighted method missing weight; undirected w<1; too many nodes', () => {
+  assert.strictEqual(GW.parseEdges('0-1', true, false).ok, false);       // weight required
+  assert.strictEqual(GW.parseEdges('0-1:-4', true, false).ok, false);    // undirected weighted rejects w<1
+  assert.strictEqual(GW.parseEdges('0-13', false, false).ok, false);     // n=14 > 12  (0-13 = edge 0->13)
+  for (const bad of ['0-1', 'x-1', '']) { /* smoke: no throw */ GW.parseEdges(bad, false, false); }
+});
+
+test('all 10 DEFAULTS parse ok in their weighted/directed mode with expected n', () => {
+  const spec = {
+    'graph-bfs': [false, false, 5], 'graph-dfs': [false, false, 5], 'graph-dijkstra': [true, false, 5],
+    'graph-kruskal': [true, false, 5], 'graph-prim': [true, false, 5],
+    'graph-topo': [false, true, 6], 'graph-bellman-ford': [true, true, 5],
+    'graph': [false, false, 5], 'graph-adjlist': [false, false, 5], 'graph-traversal': [false, false, 5],
+  };
+  for (const id of Object.keys(spec)) {
+    const [w, d, n] = spec[id];
+    const p = GW.parseEdges(GW.DEFAULTS[id], w, d);
+    assert.ok(p.ok, id + ' parses'); assert.strictEqual(p.n, n, id + ' n');
+  }
+});

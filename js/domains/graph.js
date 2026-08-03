@@ -969,7 +969,7 @@
       '<div class="gw" data-testid="gw">' +
         '<div class="gw-toolbar">' +
           '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
-            langOf({ zh: '每行一條邊:' + (meta.weighted ? 'u v w' : 'u v'), en: 'One edge per line: ' + (meta.weighted ? 'u v w' : 'u v') }) + '"></textarea>' +
+            langOf({ zh: '邊以逗號或換行分隔:' + (meta.weighted ? 'u-v:w(例 0-1:4)' : 'u-v(例 0-1,1-2)'), en: 'Edges by comma or newline: ' + (meta.weighted ? 'u-v:w (e.g. 0-1:4)' : 'u-v (e.g. 0-1,1-2)') }) + '"></textarea>' +
           '<div class="gw-btns">' +
             '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
@@ -1096,7 +1096,7 @@
       '<div class="gw" data-testid="gw">' +
         '<div class="gw-toolbar">' +
           '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
-            langOf({ zh: '每行一條邊:u v', en: 'One edge per line: u v' }) + '"></textarea>' +
+            langOf({ zh: '邊以逗號或換行分隔:u-v(例 0-1,1-2)', en: 'Edges by comma or newline: u-v (e.g. 0-1,1-2)' }) + '"></textarea>' +
           '<div class="gw-btns">' +
             '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
@@ -1176,7 +1176,7 @@
       '<div class="gw" data-testid="gw">' +
         '<div class="gw-toolbar">' +
           '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
-            langOf({ zh: '每行一條邊:u v', en: 'One edge per line: u v' }) + '"></textarea>' +
+            langOf({ zh: '邊以逗號或換行分隔:u-v(例 0-1,1-2)', en: 'Edges by comma or newline: u-v (e.g. 0-1,1-2)' }) + '"></textarea>' +
           '<div class="gw-btns">' +
             '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +

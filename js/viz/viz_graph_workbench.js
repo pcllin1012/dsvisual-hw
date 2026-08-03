@@ -3,24 +3,37 @@
   var CAP = 12;
 
   function parseEdges(text, weighted, directed) {
-    var lines = String(text == null ? '' : text).split('\n')
+    var toks = String(text == null ? '' : text).split(/[,\n]/)
       .map(function (s) { return s.trim(); }).filter(function (s) { return s.length; });
-    if (!lines.length) {
-      return { ok: false, error: { zh: '請輸入至少一條邊(每行「u v」或「u v w」)', en: 'Enter at least one edge (one "u v" or "u v w" per line)' } };
+    if (!toks.length) {
+      return { ok: false, error: { zh: '請輸入至少一條邊(例:0-1,1-2' + (weighted ? ',權重 0-1:4' : '') + ')', en: 'Enter at least one edge (e.g. 0-1,1-2' + (weighted ? '; weighted 0-1:4' : '') + ')' } };
     }
-    var need = weighted ? 3 : 2;
+    var fmtErr = { ok: false, error: { zh: '格式錯誤。用 u-v(加權 u-v:w),以逗號或換行分隔', en: 'Bad format. Use u-v (weighted u-v:w), separated by commas or newlines' } };
+    var intErr = { ok: false, error: { zh: '節點索引與權重需為整數', en: 'Indices and weight must be integers' } };
     var raw = [], maxIdx = -1, i;
-    for (i = 0; i < lines.length; i++) {
-      var parts = lines[i].split(/\s+/);
-      if (parts.length !== need) {
-        return { ok: false, error: { zh: '每行需 ' + need + ' 個整數:「' + (weighted ? 'u v w' : 'u v') + '」', en: 'Each line needs ' + need + ' integers: "' + (weighted ? 'u v w' : 'u v') + '"' } };
+    for (i = 0; i < toks.length; i++) {
+      var t = toks[i], u, v, w, ci = t.indexOf(':');
+      if (ci >= 0) {
+        // compact weighted "u-v:w" (or "u v:w") — pair has no minus sign, safe to split on -/space
+        var pair = t.slice(0, ci).split(/[-\s]+/).filter(function (s) { return s.length; }).map(Number);
+        var ws = t.slice(ci + 1).trim();
+        if (pair.length !== 2) return fmtErr;
+        u = pair[0]; v = pair[1]; w = Number(ws);
+        if (ws === '' || !Number.isInteger(u) || !Number.isInteger(v) || !Number.isInteger(w)) return intErr;
+      } else if (/^\d+-\d+$/.test(t)) {
+        // compact unweighted "u-v"
+        var p = t.split('-').map(function (s) { return Number(s.trim()); });
+        u = p[0]; v = p[1]; w = weighted ? null : 1;
+      } else {
+        // legacy whitespace form "u v" or "u v w" (w may be negative)
+        var ps = t.split(/\s+/).map(Number);
+        if (ps.length === 2) { u = ps[0]; v = ps[1]; w = weighted ? null : 1; }
+        else if (ps.length === 3) { u = ps[0]; v = ps[1]; w = ps[2]; }
+        else return fmtErr;
+        if (!Number.isInteger(u) || !Number.isInteger(v) || (ps.length === 3 && !Number.isInteger(w))) return intErr;
       }
-      var nums = parts.map(Number);
-      if (nums.some(function (x) { return !Number.isInteger(x); })) {
-        return { ok: false, error: { zh: '節點索引與權重需為整數', en: 'Indices and weight must be integers' } };
-      }
-      var u = nums[0], v = nums[1], w = weighted ? nums[2] : 1;
       if (u < 0 || v < 0) return { ok: false, error: { zh: '節點索引需 ≥ 0', en: 'Node indices must be ≥ 0' } };
+      if (weighted && (w === null || w === undefined)) return { ok: false, error: { zh: '加權圖每條邊需權重:u-v:w', en: 'Weighted graph needs a weight per edge: u-v:w' } };
       if (weighted && !directed && w < 1) return { ok: false, error: { zh: '權重需 ≥ 1', en: 'Weight must be ≥ 1' } };
       maxIdx = Math.max(maxIdx, u, v);
       raw.push({ u: u, v: v, w: w });
@@ -61,16 +74,16 @@
   // (0-1-2-3-4-0) plus the 0-2 diagonal — connected, has cycles, good for
   // BFS/DFS/shortest-path demos. Weights mirror the original DEFAULT_WEIGHTED_EDGES.
   var DEFAULTS = {
-    'graph-bfs': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
-    'graph-dfs': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
-    'graph-dijkstra': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
-    'graph-kruskal': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
-    'graph-prim': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
-    'graph-topo': '0 1\n0 2\n1 3\n2 3\n3 4\n3 5',
-    'graph-bellman-ford': '0 1 6\n0 2 7\n1 2 8\n1 3 5\n1 4 -4\n2 3 -3\n2 4 9\n3 1 -2\n4 0 2\n4 3 7',
-    'graph': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
-    'graph-adjlist': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
-    'graph-traversal': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2'
+    'graph-bfs': '0-1,1-2,2-3,3-4,4-0,0-2',
+    'graph-dfs': '0-1,1-2,2-3,3-4,4-0,0-2',
+    'graph-dijkstra': '0-1:4,1-2:1,2-3:6,3-4:2,4-0:3,0-2:5',
+    'graph-kruskal': '0-1:4,1-2:1,2-3:6,3-4:2,4-0:3,0-2:5',
+    'graph-prim': '0-1:4,1-2:1,2-3:6,3-4:2,4-0:3,0-2:5',
+    'graph-topo': '0-1,0-2,1-3,2-3,3-4,3-5',
+    'graph-bellman-ford': '0-1:6,0-2:7,1-2:8,1-3:5,1-4:-4,2-3:-3,2-4:9,3-1:-2,4-0:2,4-3:7',
+    'graph': '0-1,1-2,2-3,3-4,4-0,0-2',
+    'graph-adjlist': '0-1,1-2,2-3,3-4,4-0,0-2',
+    'graph-traversal': '0-1,1-2,2-3,3-4,4-0,0-2'
   };
 
   function bfsFrames(adj, source) {

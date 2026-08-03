@@ -53,6 +53,15 @@ test.describe('graph workbench (edge-list + VCR)', () => {
     await expect(sec.locator('[data-testid="gw-err"]')).toBeVisible();
   });
 
+  test('workbench accepts compact comma edge-list input', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const sec = page.locator('[data-method-section="graph-bfs"]');
+    await sec.locator('[data-testid="gw-input"]').fill('0-1,1-2,2-0');
+    await sec.locator('[data-testid="gw-build"]').click();
+    await expect(sec.locator('.gw-svg .graph-node')).toHaveCount(3);
+    await expect(sec.locator('[data-testid="gw-err"]')).toBeHidden();
+  });
+
   test('language toggle updates workbench text', async ({ page }) => {
     await loadMethod(page, 'graph-bfs');
     const sec = page.locator('[data-method-section="graph-bfs"]');
