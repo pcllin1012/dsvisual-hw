@@ -3428,3 +3428,16 @@ body.viz-focus .method-section-card.active .gw-svg { max-height: 100%; }
 .gt-node.gt-pruned { fill: #cbd5e1; stroke: #94a3b8; opacity: 0.5; }
 .gt-node.active { fill: #f59e0b; stroke: #b45309; }
 .gt-node-label { fill: #ffffff; font-size: 12px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
+
+/* Graph structural workbench (graph / graph-adjlist): drawing + representation side by side. */
+.gw-struct-grid { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-start; }
+.gw-struct-grid .gw-stage { flex: 1 1 320px; min-width: 0; }
+.gw-rep { flex: 1 1 260px; min-width: 0; }
+.gw-rep-title { font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.4rem; }
+.gw-matrix { border-collapse: collapse; font-family: ui-monospace, monospace; font-size: 0.85rem; }
+.gw-matrix th, .gw-matrix td { border: 1px solid var(--border, #334155); padding: 2px 8px; text-align: center; color: var(--text, inherit); }
+.gw-matrix th { color: #94a3b8; font-weight: 600; }
+.gw-matrix td.on { background: #34d39933; color: #34d399; font-weight: 700; }
+
+/* Graph traversal workbench (graph-traversal): dual BFS|DFS panes, one shared VCR. */
+.gw-pane-info { font-size: 0.8rem; color: #94a3b8; font-family: ui-monospace, monospace; margin-top: 0.3rem; }

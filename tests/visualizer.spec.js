@@ -263,8 +263,10 @@ test.describe('Data Structure Visualizer Full Suite', () => {
         const card = page.locator('[data-method-section="graph-traversal"]');
         await expect(card.locator('.code-panel-filename')).toContainText('graph_traversal.cpp');
         await expect(card.locator('.graph-dual-pane')).toHaveCount(2);
-        await expect(card.locator('[data-pane="bfs"] [data-testid="bfs-queue"]')).toBeVisible();
-        await expect(card.locator('[data-pane="dfs"] [data-testid="dfs-stack"]')).toBeVisible();
+        await expect(card.locator('.stepctl')).toHaveCount(1);
+        await expect(card.locator('[data-testid="gw-source"]')).toBeVisible();
+        await expect(card.locator('.gw-info-bfs')).toBeVisible();
+        await expect(card.locator('.gw-info-dfs')).toBeVisible();
     });
 
     test('Advanced Sort: Radix Sort completes execution properly', async ({ page }) => {
@@ -493,7 +495,8 @@ test.describe('Data Structure Visualizer Full Suite', () => {
 
     test('Graphs: undirected graph starts with default edges visible', async ({ page }) => {
         await loadMethod(page, 'graph');
-        await expect(page.locator('#graph-edges line.graph-edge')).toHaveCount(6);
+        const card = page.locator('[data-method-section="graph"]');
+        await expect(card.locator('.gw-svg .graph-edge')).toHaveCount(6);
     });
 
     test('Trees: Disjoint Set renders SVG forest and supports union via op-sequence', async ({ page }) => {

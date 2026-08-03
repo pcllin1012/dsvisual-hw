@@ -937,6 +937,23 @@
   };
   let _gwState = {};
 
+  function drawUndirectedGraph(parsed, pos, frame) {
+    const has = (arr, x) => !!arr && arr.indexOf(x) !== -1;
+    const ae = frame && frame.activeEdge ? frame.activeEdge : null;
+    let s = '';
+    for (const e of parsed.edges) {
+      const isActive = ae && ae.u === e.u && ae.v === e.v;
+      s += '<line class="graph-edge' + (isActive ? ' active' : '') + '" x1="' + pos[e.u].x + '" y1="' + pos[e.u].y + '" x2="' + pos[e.v].x + '" y2="' + pos[e.v].y + '"></line>';
+    }
+    for (let k = 0; k < parsed.n; k++) {
+      let cls = 'graph-node';
+      if (frame) { if (frame.active === k) cls += ' active'; else if (has(frame.visited, k)) cls += ' visited'; else if (has(frame.frontier, k)) cls += ' frontier'; }
+      s += '<circle class="' + cls + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
+      s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + k + '</text>';
+    }
+    return s;
+  }
+
   function renderGraphVcr(methodId) {
     const host = K().acquireDynamicVizHost();
     host.style.width = '100%';
@@ -1067,9 +1084,179 @@
     rebuild();
   }
 
-  R().attach('graph', { render: renderGraph, code: () => codeGraph, layout: { host: 'dynamic' } });
-  R().attach('graph-adjlist', { render: renderGraph, code: () => codeGraphAdjlist, layout: { host: 'dynamic' } });
-  R().attach('graph-traversal', { render: renderGraphDual, code: () => codeGraphTraversal, layout: { host: 'dynamic' } });
+  function renderGraphStruct(methodId) {
+    const host = K().acquireDynamicVizHost();
+    host.style.width = '100%';
+    const langOf = K().langOf;
+    const view = methodId === 'graph' ? 'matrix' : 'list';
+    const DEF = GraphWorkbench.DEFAULTS[methodId];
+    const st = _gwState[methodId] || (_gwState[methodId] = { text: DEF });
+
+    host.innerHTML =
+      '<div class="gw" data-testid="gw">' +
+        '<div class="gw-toolbar">' +
+          '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
+            langOf({ zh: '每行一條邊:u v', en: 'One edge per line: u v' }) + '"></textarea>' +
+          '<div class="gw-btns">' +
+            '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
+            '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
+            gwBuildExamplesSelect(methodId, DEF) +
+          '</div>' +
+          '<div class="gw-err" data-testid="gw-err" style="display:none"></div>' +
+        '</div>' +
+        '<div class="gw-struct-body"></div>' +
+      '</div>';
+
+    const input = host.querySelector('.gw-input');
+    const errEl = host.querySelector('.gw-err');
+    const body = host.querySelector('.gw-struct-body');
+    input.value = st.text;
+
+    function rebuild() {
+      const parsed = GraphWorkbench.parseEdges(st.text, false, false);
+      if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
+      errEl.style.display = 'none';
+      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
+      let rep = '';
+      if (view === 'matrix') {
+        const m = GraphWorkbench.adjMatrix(parsed.adj, parsed.n);
+        rep = '<div class="gw-rep-title">' + langOf({ zh: '鄰接矩陣', en: 'Adjacency matrix' }) + '</div><table class="gw-matrix"><tr><th></th>';
+        for (let j = 0; j < parsed.n; j++) rep += '<th>' + j + '</th>';
+        rep += '</tr>';
+        for (let i = 0; i < parsed.n; i++) {
+          rep += '<tr><th>' + i + '</th>';
+          for (let j = 0; j < parsed.n; j++) rep += '<td class="' + (m[i][j] ? 'on' : '') + '">' + m[i][j] + '</td>';
+          rep += '</tr>';
+        }
+        rep += '</table>';
+      } else {
+        rep = '<div class="gw-rep-title">' + langOf({ zh: '鄰接串列', en: 'Adjacency list' }) + '</div><div class="adjlist-container">';
+        for (let i = 0; i < parsed.n; i++) {
+          rep += '<div class="adjlist-row"><span class="adjlist-vertex">[' + i + ']</span>';
+          for (const nb of parsed.adj[i]) rep += '<span class="adjlist-arrow">→</span><span class="adjlist-node">' + nb.to + '</span>';
+          rep += '<span class="adjlist-arrow">→</span><span class="adjlist-null">null</span></div>';
+        }
+        rep += '</div>';
+      }
+      body.innerHTML =
+        '<div class="gw-struct-grid">' +
+          '<div class="gw-stage"><svg class="gw-svg" data-testid="gw-svg" viewBox="0 0 600 400">' + drawUndirectedGraph(parsed, pos, null) + '</svg></div>' +
+          '<div class="gw-rep">' + rep + '</div>' +
+        '</div>';
+    }
+
+    function refreshEx() { const ex = host.querySelector('.ex-select'); if (!ex) return; const c = ex.value; ex.innerHTML = gwExamplesOptionsHtml(methodId, DEF); ex.value = c; }
+    function applyText(text) {
+      st.text = text; input.value = text;
+      const parsed = GraphWorkbench.parseEdges(text, false, false);
+      if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshEx(); }
+      rebuild();
+    }
+
+    host.querySelector('.gw-build').addEventListener('click', () => applyText(input.value));
+    host.querySelector('.rand-btn').addEventListener('click', () => {
+      const r = window.RandomInput && RandomInput.randomInputFor(methodId, K().getInputDifficulty());
+      if (r && r.text) applyText(r.text);
+    });
+    const exSel = host.querySelector('.ex-select');
+    if (exSel) exSel.addEventListener('change', (ev) => { const v = ev.target.value; if (v) applyText(v); });
+
+    rebuild();
+  }
+
+  function renderGraphTraversal() {
+    const methodId = 'graph-traversal';
+    const host = K().acquireDynamicVizHost();
+    host.style.width = '100%';
+    const langOf = K().langOf;
+    const DEF = GraphWorkbench.DEFAULTS[methodId];
+    const st = _gwState[methodId] || (_gwState[methodId] = { text: DEF, source: 0 });
+
+    host.innerHTML =
+      '<div class="gw" data-testid="gw">' +
+        '<div class="gw-toolbar">' +
+          '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
+            langOf({ zh: '每行一條邊:u v', en: 'One edge per line: u v' }) + '"></textarea>' +
+          '<div class="gw-btns">' +
+            '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
+            '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
+            gwBuildExamplesSelect(methodId, DEF) +
+            '<label class="gw-src-lbl">' + langOf({ zh: '起點', en: 'Source' }) + ' <select class="gw-source" data-testid="gw-source"></select></label>' +
+          '</div>' +
+          '<div class="gw-err" data-testid="gw-err" style="display:none"></div>' +
+        '</div>' +
+        '<div class="gw-dual-body"></div>' +
+      '</div>';
+
+    const input = host.querySelector('.gw-input');
+    const srcSel = host.querySelector('.gw-source');
+    const errEl = host.querySelector('.gw-err');
+    const body = host.querySelector('.gw-dual-body');
+    input.value = st.text;
+
+    function rebuildSource(n) {
+      srcSel.innerHTML = '';
+      for (let k = 0; k < n; k++) { const o = document.createElement('option'); o.value = k; o.textContent = k; srcSel.appendChild(o); }
+      if (st.source >= n) st.source = 0;
+      srcSel.value = st.source;
+    }
+
+    function rebuild() {
+      const parsed = GraphWorkbench.parseEdges(st.text, false, false);
+      if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
+      errEl.style.display = 'none';
+      rebuildSource(parsed.n);
+      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
+      const bfs = GraphWorkbench.bfsFrames(parsed.adj, st.source);
+      const dfs = GraphWorkbench.dfsFrames(parsed.adj, st.source);
+      const L = Math.max(bfs.length, dfs.length);
+
+      body.innerHTML =
+        '<div class="graph-dual-grid">' +
+          '<div class="graph-dual-pane" data-pane="bfs"><h4>' + langOf({ zh: 'BFS(佇列)', en: 'BFS (queue)' }) + '</h4>' +
+            '<div class="gw-stage"><svg class="gw-svg gw-svg-bfs" viewBox="0 0 600 400"></svg></div><div class="gw-pane-info gw-info-bfs"></div></div>' +
+          '<div class="graph-dual-pane" data-pane="dfs"><h4>' + langOf({ zh: 'DFS(堆疊)', en: 'DFS (stack)' }) + '</h4>' +
+            '<div class="gw-stage"><svg class="gw-svg gw-svg-dfs" viewBox="0 0 600 400"></svg></div><div class="gw-pane-info gw-info-dfs"></div></div>' +
+        '</div>' +
+        '<div class="gw-stepdesc" data-testid="gw-stepdesc"></div>';
+      const svgBfs = body.querySelector('.gw-svg-bfs'), svgDfs = body.querySelector('.gw-svg-dfs');
+      const infoBfs = body.querySelector('.gw-info-bfs'), infoDfs = body.querySelector('.gw-info-dfs');
+      const descEl = body.querySelector('.gw-stepdesc');
+
+      function paint(_f, i) {
+        const fb = bfs[Math.min(i, bfs.length - 1)], fd = dfs[Math.min(i, dfs.length - 1)];
+        svgBfs.innerHTML = drawUndirectedGraph(parsed, pos, fb);
+        svgDfs.innerHTML = drawUndirectedGraph(parsed, pos, fd);
+        infoBfs.textContent = langOf({ zh: '佇列', en: 'Queue' }) + ': [' + fb.frontier.join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fb.order.join(', ') + ']';
+        infoDfs.textContent = langOf({ zh: '堆疊', en: 'Stack' }) + ': [' + fd.frontier.join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fd.order.join(', ') + ']';
+        descEl.textContent = 'BFS: ' + langOf(fb.message) + '   |   DFS: ' + langOf(fd.message);
+      }
+      body.appendChild(K().buildFrameControls(Array.from({ length: L }), paint, { runIntervalMs: 700 }));
+    }
+
+    function refreshEx() { const ex = host.querySelector('.ex-select'); if (!ex) return; const c = ex.value; ex.innerHTML = gwExamplesOptionsHtml(methodId, DEF); ex.value = c; }
+    function applyText(text) {
+      st.text = text; input.value = text;
+      const parsed = GraphWorkbench.parseEdges(text, false, false);
+      if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshEx(); }
+      rebuild();
+    }
+
+    host.querySelector('.gw-build').addEventListener('click', () => applyText(input.value));
+    host.querySelector('.rand-btn').addEventListener('click', () => {
+      const r = window.RandomInput && RandomInput.randomInputFor(methodId, K().getInputDifficulty());
+      if (r && r.text) applyText(r.text);
+    });
+    srcSel.addEventListener('change', () => { st.source = +srcSel.value; rebuild(); });
+    const exSel = host.querySelector('.ex-select');
+    if (exSel) exSel.addEventListener('change', (ev) => { const v = ev.target.value; if (v) applyText(v); });
+
+    rebuild();
+  }
+
+  R().attach('graph',         { render: () => renderGraphStruct('graph'),         code: () => codeGraph,        layout: { host: 'dynamic' } });
+  R().attach('graph-adjlist', { render: () => renderGraphStruct('graph-adjlist'), code: () => codeGraphAdjlist, layout: { host: 'dynamic' } });
+  R().attach('graph-traversal', { render: renderGraphTraversal, code: () => codeGraphTraversal, layout: { host: 'dynamic' } });
   R().attach('graph-bfs',      { render: () => renderGraphVcr('graph-bfs'),      code: () => codeGraphBFS,      layout: { host: 'dynamic' } });
   R().attach('graph-dfs',      { render: () => renderGraphVcr('graph-dfs'),      code: () => codeGraphDFS,      layout: { host: 'dynamic' } });
   R().attach('graph-kruskal', { render: () => renderGraphVcr('graph-kruskal'), code: () => codeGraphKruskal, layout: { host: 'dynamic' } });
