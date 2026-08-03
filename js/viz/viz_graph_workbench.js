@@ -51,10 +51,13 @@
     return pos;
   }
 
+  // Defaults = the graph category's original demo graph: a 5-node pentagon
+  // (0-1-2-3-4-0) plus the 0-2 diagonal — connected, has cycles, good for
+  // BFS/DFS/shortest-path demos. Weights mirror the original DEFAULT_WEIGHTED_EDGES.
   var DEFAULTS = {
-    'graph-bfs': '0 1\n0 2\n1 3\n2 3\n3 4',
-    'graph-dfs': '0 1\n0 2\n1 3\n2 3\n3 4',
-    'graph-dijkstra': '0 1 4\n0 2 1\n2 1 2\n1 3 1\n2 3 5\n3 4 3'
+    'graph-bfs': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
+    'graph-dfs': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
+    'graph-dijkstra': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5'
   };
 
   function bfsFrames(adj, source) {
