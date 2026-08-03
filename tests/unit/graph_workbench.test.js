@@ -159,3 +159,54 @@ test('random kruskal/prim inputs are connected weighted graphs (n<=12)', () => {
     }
   }
 });
+
+test('parseEdges directed: single-direction adj, ordered dedupe, anti-parallel kept', () => {
+  const p = GW.parseEdges('0 1\n1 0\n1 2', false, true);
+  assert.ok(p.ok); assert.strictEqual(p.n, 3);
+  // both directions present as distinct edges
+  assert.ok(p.edges.some((e) => e.u === 0 && e.v === 1));
+  assert.ok(p.edges.some((e) => e.u === 1 && e.v === 0));
+  // adj is directed: 0 -> [1] only
+  assert.deepStrictEqual(p.adj[0].map((x) => x.to), [1]);
+  assert.deepStrictEqual(p.adj[1].map((x) => x.to).sort(), [0, 2]);
+});
+
+test('parseEdges directed weighted allows negative weights', () => {
+  const p = GW.parseEdges('0 1 -4\n1 2 -3', true, true);
+  assert.ok(p.ok);
+  assert.strictEqual(p.adj[0][0].w, -4);
+});
+
+test('parseEdges undirected weighted still rejects w<1', () => {
+  const p = GW.parseEdges('0 1 -4', true, false);
+  assert.strictEqual(p.ok, false);
+});
+
+test('topoFrames produces a valid topological order on a DAG', () => {
+  const p = GW.parseEdges(GW.DEFAULTS['graph-topo'], false, true);
+  const frames = GW.topoFrames(p.adj, p.n);
+  const last = frames[frames.length - 1];
+  assert.strictEqual(last.order.length, p.n); // all ordered → no cycle
+  const posOf = {}; last.order.forEach((node, idx) => { posOf[node] = idx; });
+  for (const e of p.edges) assert.ok(posOf[e.u] < posOf[e.v], 'edge ' + e.u + '->' + e.v + ' respects order');
+  for (const f of frames) { assert.ok(Array.isArray(f.dist)); assert.ok(f.message.zh.length && f.message.en.length); }
+});
+
+test('topoFrames detects a cycle', () => {
+  const p = GW.parseEdges('0 1\n1 2\n2 0', false, true);
+  const frames = GW.topoFrames(p.adj, p.n);
+  const last = frames[frames.length - 1];
+  assert.ok(last.order.length < p.n);
+  assert.ok(/環|cycle/i.test(last.message.zh + last.message.en));
+});
+
+test('bellmanFordFrames computes CLRS distances and detects negative cycle', () => {
+  const p = GW.parseEdges(GW.DEFAULTS['graph-bellman-ford'], true, true);
+  const frames = GW.bellmanFordFrames(p.adj, p.n, 0);
+  const last = frames[frames.length - 1];
+  assert.deepStrictEqual(last.dist, [0, 2, 7, 4, -2]);
+  for (const f of frames) { assert.ok(Array.isArray(f.dist)); assert.ok(f.message.zh.length && f.message.en.length); }
+  // negative cycle: 0->1 (1), 1->0 (-3)
+  const nc = GW.bellmanFordFrames(GW.parseEdges('0 1 1\n1 0 -3', true, true).adj, 2, 0);
+  assert.ok(/負|negative/i.test(nc[nc.length - 1].message.zh + nc[nc.length - 1].message.en));
+});

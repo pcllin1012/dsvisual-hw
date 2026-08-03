@@ -2,7 +2,7 @@
   'use strict';
   var CAP = 12;
 
-  function parseEdges(text, weighted) {
+  function parseEdges(text, weighted, directed) {
     var lines = String(text == null ? '' : text).split('\n')
       .map(function (s) { return s.trim(); }).filter(function (s) { return s.length; });
     if (!lines.length) {
@@ -21,7 +21,7 @@
       }
       var u = nums[0], v = nums[1], w = weighted ? nums[2] : 1;
       if (u < 0 || v < 0) return { ok: false, error: { zh: '節點索引需 ≥ 0', en: 'Node indices must be ≥ 0' } };
-      if (weighted && w < 1) return { ok: false, error: { zh: '權重需 ≥ 1', en: 'Weight must be ≥ 1' } };
+      if (weighted && !directed && w < 1) return { ok: false, error: { zh: '權重需 ≥ 1', en: 'Weight must be ≥ 1' } };
       maxIdx = Math.max(maxIdx, u, v);
       raw.push({ u: u, v: v, w: w });
     }
@@ -31,11 +31,17 @@
     for (i = 0; i < n; i++) adj.push([]);
     for (i = 0; i < raw.length; i++) {
       var e = raw[i]; if (e.u === e.v) continue;
-      var a = Math.min(e.u, e.v), b = Math.max(e.u, e.v), key = a + '-' + b;
+      var key = directed ? (e.u + '-' + e.v) : (Math.min(e.u, e.v) + '-' + Math.max(e.u, e.v));
       if (seen[key]) continue; seen[key] = true;
-      edges.push({ u: a, v: b, w: e.w });
-      adj[e.u].push({ to: e.v, w: e.w });
-      adj[e.v].push({ to: e.u, w: e.w });
+      if (directed) {
+        edges.push({ u: e.u, v: e.v, w: e.w });
+        adj[e.u].push({ to: e.v, w: e.w });
+      } else {
+        var a = Math.min(e.u, e.v), b = Math.max(e.u, e.v);
+        edges.push({ u: a, v: b, w: e.w });
+        adj[e.u].push({ to: e.v, w: e.w });
+        adj[e.v].push({ to: e.u, w: e.w });
+      }
     }
     for (i = 0; i < n; i++) adj[i].sort(function (x, y) { return x.to - y.to; });
     return { ok: true, n: n, adj: adj, edges: edges };
@@ -59,7 +65,9 @@
     'graph-dfs': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
     'graph-dijkstra': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
     'graph-kruskal': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
-    'graph-prim': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5'
+    'graph-prim': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
+    'graph-topo': '0 1\n0 2\n1 3\n2 3\n3 4\n3 5',
+    'graph-bellman-ford': '0 1 6\n0 2 7\n1 2 8\n1 3 5\n1 4 -4\n2 3 -3\n2 4 9\n3 1 -2\n4 0 2\n4 3 7'
   };
 
   function bfsFrames(adj, source) {
@@ -197,7 +205,66 @@
     return frames;
   }
 
-  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames };
+  function topoFrames(adj, n) {
+    var frames = [], order = [], indeg = [], queue = [], i, j;
+    for (i = 0; i < n; i++) indeg.push(0);
+    for (i = 0; i < n; i++) for (j = 0; j < adj[i].length; j++) indeg[adj[i][j].to]++;
+    function snap(active, activeEdge, msg) {
+      frames.push({ visited: order.slice(), frontier: queue.slice(), active: active, activeEdge: activeEdge, dist: indeg.slice(), order: order.slice(), message: msg });
+    }
+    for (i = 0; i < n; i++) if (indeg[i] === 0) queue.push(i);
+    snap(null, null, { zh: '計算入度,入度 0 的節點先入佇列:[' + queue.join(', ') + ']', en: 'Compute in-degrees; enqueue in-degree-0 nodes: [' + queue.join(', ') + ']' });
+    while (queue.length) {
+      var u = queue.shift(); order.push(u);
+      snap(u, null, { zh: '移除入度 0 的節點 ' + u + ',加入拓撲序', en: 'Remove in-degree-0 node ' + u + '; append to the order' });
+      for (j = 0; j < adj[u].length; j++) {
+        var to = adj[u][j].to; indeg[to]--; var enq = indeg[to] === 0;
+        snap(u, { u: u, v: to }, enq
+          ? { zh: '邊 ' + u + '→' + to + ':入度降為 0 → 入佇列', en: 'Edge ' + u + '→' + to + ': in-degree 0 → enqueue' }
+          : { zh: '邊 ' + u + '→' + to + ':入度降為 ' + indeg[to], en: 'Edge ' + u + '→' + to + ': in-degree now ' + indeg[to] });
+        if (enq) queue.push(to);
+      }
+    }
+    if (order.length === n) {
+      snap(null, null, { zh: '拓撲排序完成:' + order.join(' → '), en: 'Topological sort done: ' + order.join(' → ') });
+    } else {
+      var rem = []; for (i = 0; i < n; i++) if (order.indexOf(i) === -1) rem.push(i);
+      snap(null, null, { zh: '偵測到環:節點 [' + rem.join(', ') + '] 無法排序', en: 'Cycle detected: nodes [' + rem.join(', ') + '] cannot be ordered' });
+    }
+    return frames;
+  }
+
+  function bellmanFordFrames(adj, n, source) {
+    var frames = [], dist = [], E = [], i, j;
+    for (i = 0; i < n; i++) dist.push(Infinity);
+    dist[source] = 0;
+    for (i = 0; i < n; i++) for (j = 0; j < adj[i].length; j++) E.push({ u: i, v: adj[i][j].to, w: adj[i][j].w });
+    function fmt(x) { return x === Infinity ? '∞' : x; }
+    function snap(active, activeEdge, msg) {
+      frames.push({ visited: [], frontier: [], active: active, activeEdge: activeEdge, dist: dist.slice(), order: [], message: msg });
+    }
+    snap(null, null, { zh: '起點 ' + source + ' 距離 0,其餘 ∞;最多 ' + (n - 1) + ' 輪鬆弛', en: 'Source ' + source + ' = 0, others ∞; up to ' + (n - 1) + ' relaxation passes' });
+    for (var pass = 1; pass <= n - 1; pass++) {
+      var changed = false;
+      for (i = 0; i < E.length; i++) {
+        var e = E[i], ae = { u: e.u, v: e.v };
+        if (dist[e.u] !== Infinity && dist[e.u] + e.w < dist[e.v]) {
+          dist[e.v] = dist[e.u] + e.w; changed = true;
+          snap(e.v, ae, { zh: '第 ' + pass + ' 輪:鬆弛 ' + e.u + '→' + e.v + ',d[' + e.v + ']=' + dist[e.v], en: 'Pass ' + pass + ': relax ' + e.u + '→' + e.v + ', d[' + e.v + ']=' + dist[e.v] });
+        } else {
+          snap(null, ae, { zh: '第 ' + pass + ' 輪:' + e.u + '→' + e.v + ' 不更新(' + fmt(dist[e.u]) + '+' + e.w + ' ≥ ' + fmt(dist[e.v]) + ')', en: 'Pass ' + pass + ': ' + e.u + '→' + e.v + ' no update' });
+        }
+      }
+      if (!changed) break;
+    }
+    var neg = false;
+    for (i = 0; i < E.length; i++) { var e2 = E[i]; if (dist[e2.u] !== Infinity && dist[e2.u] + e2.w < dist[e2.v]) { neg = true; break; } }
+    if (neg) snap(null, null, { zh: '偵測到負權環:距離無下界', en: 'Negative-weight cycle detected: distances unbounded' });
+    else snap(null, null, { zh: 'Bellman-Ford 完成', en: 'Bellman-Ford done' });
+    return frames;
+  }
+
+  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.GraphWorkbench = api;
 })(typeof window !== 'undefined' ? window : globalThis);
