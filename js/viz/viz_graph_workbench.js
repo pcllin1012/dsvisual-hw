@@ -57,7 +57,9 @@
   var DEFAULTS = {
     'graph-bfs': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
     'graph-dfs': '0 1\n1 2\n2 3\n3 4\n4 0\n0 2',
-    'graph-dijkstra': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5'
+    'graph-dijkstra': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
+    'graph-kruskal': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5',
+    'graph-prim': '0 1 4\n1 2 1\n2 3 6\n3 4 2\n4 0 3\n0 2 5'
   };
 
   function bfsFrames(adj, source) {
@@ -139,7 +141,63 @@
     return frames;
   }
 
-  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames };
+  function kruskalFrames(edges, n) {
+    var frames = [], tree = [], order = [], inTree = [], parent = [], rank = [], i;
+    for (i = 0; i < n; i++) { inTree.push(false); parent.push(i); rank.push(0); }
+    function find(x) { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }
+    function union(a, b) {
+      var ra = find(a), rb = find(b); if (ra === rb) return false;
+      if (rank[ra] < rank[rb]) { var t = ra; ra = rb; rb = t; }
+      parent[rb] = ra; if (rank[ra] === rank[rb]) rank[ra]++; return true;
+    }
+    function snap(activeEdge, msg) {
+      frames.push({ visited: order.slice(), frontier: [], active: null, activeEdge: activeEdge, dist: null, order: order.slice(), treeEdges: tree.slice(), message: msg });
+    }
+    var sorted = edges.slice().sort(function (a, b) { return a.w - b.w || a.u - b.u || a.v - b.v; });
+    var total = 0;
+    snap(null, { zh: '依權重由小到大考慮每條邊(共 ' + sorted.length + ' 條)', en: 'Consider edges in increasing weight (' + sorted.length + ' total)' });
+    for (i = 0; i < sorted.length; i++) {
+      var e = sorted[i], ae = { u: Math.min(e.u, e.v), v: Math.max(e.u, e.v) };
+      if (union(e.u, e.v)) {
+        tree.push(ae); total += e.w;
+        if (!inTree[e.u]) { inTree[e.u] = true; order.push(e.u); }
+        if (!inTree[e.v]) { inTree[e.v] = true; order.push(e.v); }
+        snap(ae, { zh: '加入邊 ' + ae.u + '–' + ae.v + '(w=' + e.w + ')', en: 'Add edge ' + ae.u + '–' + ae.v + ' (w=' + e.w + ')' });
+      } else {
+        snap(ae, { zh: '捨棄 ' + ae.u + '–' + ae.v + ':會成環', en: 'Skip ' + ae.u + '–' + ae.v + ': would form a cycle' });
+      }
+    }
+    snap(null, { zh: 'MST 完成,總權重 ' + total, en: 'MST done. Total weight ' + total });
+    return frames;
+  }
+
+  function primFrames(adj, source) {
+    var n = adj.length, frames = [], tree = [], order = [], inTree = [], i, j;
+    for (i = 0; i < n; i++) inTree.push(false);
+    function fringe() {
+      var f = [], k;
+      for (k = 0; k < n; k++) if (inTree[k]) for (var t = 0; t < adj[k].length; t++) { var to = adj[k][t].to; if (!inTree[to] && f.indexOf(to) === -1) f.push(to); }
+      return f;
+    }
+    function snap(activeEdge, msg) {
+      frames.push({ visited: order.slice(), frontier: fringe(), active: null, activeEdge: activeEdge, dist: null, order: order.slice(), treeEdges: tree.slice(), message: msg });
+    }
+    inTree[source] = true; order.push(source);
+    snap(null, { zh: '從起點 ' + source + ' 開始長樹', en: 'Grow the tree from source ' + source });
+    var total = 0;
+    for (var cnt = 0; cnt < n - 1; cnt++) {
+      var bu = -1, bv = -1, bw = Infinity;
+      for (i = 0; i < n; i++) if (inTree[i]) for (j = 0; j < adj[i].length; j++) { var to = adj[i][j].to, w = adj[i][j].w; if (!inTree[to] && w < bw) { bw = w; bu = i; bv = to; } }
+      if (bv === -1) break; // disconnected: stop growing this component
+      inTree[bv] = true; order.push(bv);
+      var ae = { u: Math.min(bu, bv), v: Math.max(bu, bv) }; tree.push(ae); total += bw;
+      snap(ae, { zh: '加入 ' + ae.u + '–' + ae.v + '(w=' + bw + '),節點 ' + bv + ' 入樹', en: 'Add ' + ae.u + '–' + ae.v + ' (w=' + bw + '); node ' + bv + ' joins the tree' });
+    }
+    snap(null, { zh: 'MST 完成,總權重 ' + total, en: 'Prim done. Total weight ' + total });
+    return frames;
+  }
+
+  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.GraphWorkbench = api;
 })(typeof window !== 'undefined' ? window : globalThis);

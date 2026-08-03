@@ -103,3 +103,42 @@ test('random graph inputs parse ok, connected, within cap', () => {
     }
   }
 });
+
+test('kruskalFrames builds a valid MST on the pentagon (weight 10)', () => {
+  const p = GW.parseEdges(GW.DEFAULTS['graph-kruskal'], true);
+  const frames = GW.kruskalFrames(p.edges, p.n);
+  const last = frames[frames.length - 1];
+  assert.strictEqual(last.treeEdges.length, p.n - 1); // 4 edges
+  // total weight of chosen tree edges
+  const wByKey = {}; for (const e of p.edges) wByKey[e.u + '-' + e.v] = e.w;
+  const total = last.treeEdges.reduce((s, e) => s + wByKey[e.u + '-' + e.v], 0);
+  assert.strictEqual(total, 10);
+  // at least one reject (cycle) frame appears (pentagon has 6 edges, MST has 4)
+  assert.ok(frames.some((f) => /環|cycle/.test(f.message.zh + f.message.en)));
+  for (const f of frames) {
+    assert.strictEqual(f.dist, null);
+    assert.ok(f.message.zh.length > 0 && f.message.en.length > 0);
+  }
+});
+
+test('primFrames grows the MST from the source; same weight as Kruskal', () => {
+  const p = GW.parseEdges(GW.DEFAULTS['graph-prim'], true);
+  const frames = GW.primFrames(p.adj, 0);
+  const first = frames[0], last = frames[frames.length - 1];
+  assert.deepStrictEqual(first.visited, [0]); // only source in tree at start
+  assert.strictEqual(last.treeEdges.length, p.n - 1);
+  const wByKey = {}; for (const e of p.edges) wByKey[e.u + '-' + e.v] = e.w;
+  const total = last.treeEdges.reduce((s, e) => s + wByKey[e.u + '-' + e.v], 0);
+  assert.strictEqual(total, 10);
+  for (const f of frames) {
+    assert.strictEqual(f.dist, null);
+    assert.ok(f.message.zh.length > 0 && f.message.en.length > 0);
+  }
+});
+
+test('DEFAULTS for kruskal and prim parse ok with n=5', () => {
+  for (const id of ['graph-kruskal', 'graph-prim']) {
+    const p = GW.parseEdges(GW.DEFAULTS[id], true);
+    assert.ok(p.ok); assert.strictEqual(p.n, 5);
+  }
+});
