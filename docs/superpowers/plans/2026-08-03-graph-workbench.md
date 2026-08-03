@@ -351,7 +351,7 @@ test('random graph inputs parse ok, connected, within cap', () => {
     for (const d of diffs) {
       let seed = 1;
       const rng = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
-      const txt = RI.randomInputFor(id, d, rng);
+      const txt = RI.randomInputFor(id, d, rng).text; // randomInputFor returns { text } (matches matrix-sparse convention)
       const p = GW.parseEdges(txt, weighted);
       assert.strictEqual(p.ok, true, id + '/' + d + ' → ' + JSON.stringify(txt));
       assert.ok(p.n >= 3 && p.n <= 12, id + '/' + d + ' n=' + p.n);
@@ -394,13 +394,13 @@ function graphEdgeList(rng, difficulty, weighted) {
   return lines.join('\n');
 }
 ```
-Add to `randomInputFor`'s dispatch:
+Add to `randomInputFor`'s dispatch (return a `{ text }` object — the same shape `matrix-sparse`/`matrix-sparse-list` return, NOT a raw string):
 ```js
 case 'graph-bfs':
 case 'graph-dfs':
-  return graphEdgeList(rng, difficulty, false);
+  return { text: graphEdgeList(rng, difficulty, false) };
 case 'graph-dijkstra':
-  return graphEdgeList(rng, difficulty, true);
+  return { text: graphEdgeList(rng, difficulty, true) };
 ```
 
 - [ ] **Step 4: Run to verify pass**
@@ -570,8 +570,8 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
     host.querySelector('.gw-build').addEventListener('click', () => applyText(input.value));
     host.querySelector('.rand-btn').addEventListener('click', () => {
-      const t = window.RandomInput && RandomInput.randomInputFor(methodId, K().getInputDifficulty());
-      if (t) applyText(t);
+      const r = window.RandomInput && RandomInput.randomInputFor(methodId, K().getInputDifficulty());
+      if (r && r.text) applyText(r.text); // randomInputFor returns { text }
     });
     srcSel.addEventListener('change', () => { st.source = +srcSel.value; if (recompute()) paint(); });
     const exSel = host.querySelector('.ex-select');
