@@ -616,7 +616,11 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>"
 
 **Files:**
 - Create: `tests/graph_workbench.spec.js`
-- Modify: any existing graph spec that asserted the OLD fixed-graph UI for `graph-bfs`/`graph-dfs`/`graph-dijkstra` (update selectors to the new workbench, or move those assertions to non-pilot methods). Read `tests/*.spec.js` + `tests/visualizer.spec.js` for existing bfs/dfs/dijkstra assertions first.
+- Modify: `tests/visualizer.spec.js` — two tests assert the OLD UI and WILL break:
+  - **BFS test** (~L243 "Graphs: BFS renders SVG nodes and a queue strip"): asserts `.bfs-svg`, `[data-testid="bfs-queue"]`, `.bfs-svg .nodes circle` count 5. Rewrite to the new workbench: keep the `.code-panel-filename` contains `graph_bfs.cpp` check, replace the SVG/queue asserts with `[data-testid="gw-input"]` visible, `[data-testid="gw-transport"]` visible, and `.gw-svg .graph-node` count 5 (default graph has 5 nodes).
+  - **DFS test** (~L252 "Graphs: DFS renders SVG nodes and a stack strip"): asserts `.dfs-svg`, `[data-testid="dfs-stack"]`, count 5. Rewrite the same way (keep `graph_dfs.cpp` filename check; `.gw-svg .graph-node` count 5).
+  - **Dijkstra test** (~L221) only checks `data-runtime-state=active` + `.code-panel-filename` contains `graph_dijkstra.cpp` — both still true with the new render (code panel comes from the registry `code:`, unchanged), so it should PASS unchanged. Verify; only touch it if it actually fails.
+  - Do NOT touch the other graph tests (adjlist, topo, traversal, prim, bellman-ford, etc.).
 
 **Interfaces:**
 - Consumes: shared `loadMethod(page, methodId)` from `tests/helpers.js`.
