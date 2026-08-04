@@ -97,6 +97,17 @@ test('force layout reduces crossings vs circle (K4)', () => {
   const p = GW.parseEdges('A-B,A-C,A-D,B-C,B-D,C-D', false, false); // planar; circle order has a crossing
   const circle = GW.layout(p.n, 300, 200, 150);          // no edges → circle
   const force = GW.layout(p.n, 300, 200, 150, p.edges);
+  // K4 is planar (one node inside the other 3's triangle → 0 crossings achievable).
+  // Multi-seed FR + local crossing-repair must actually find that embedding, not tie the circle.
+  assert.strictEqual(countCrossings(p.edges, circle), 1);
+  assert.strictEqual(countCrossings(p.edges, force), 0);
+  assert.ok(countCrossings(p.edges, force) < countCrossings(p.edges, circle));
+});
+
+test('force layout on the pentagon default is no worse than the circle', () => {
+  const p = GW.parseEdges('A-B,B-C,C-D,D-E,E-A,A-C', false, false); // pentagon + one diagonal
+  const circle = GW.layout(p.n, 300, 200, 150);
+  const force = GW.layout(p.n, 300, 200, 150, p.edges);
   assert.ok(countCrossings(p.edges, force) <= countCrossings(p.edges, circle));
 });
 

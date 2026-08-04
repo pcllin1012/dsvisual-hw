@@ -56,55 +56,123 @@
     return { ok: true, n: n, adj: adj, edges: edges, labels: labels };
   }
 
+  var GW_FR_SEEDS = 8;                                   // deterministic seed count for multi-start FR
+
+  // Module-internal crossing counter (not exported): counts pairwise segment
+  // intersections among `edges` at `pos`, skipping pairs that share an endpoint.
+  function gwCrossingCount(edges, pos) {
+    function seg(e) { return [pos[e.u], pos[e.v]]; }
+    function ccw(a, b, c) { return (c.y - a.y) * (b.x - a.x) > (b.y - a.y) * (c.x - a.x); }
+    function inter(a, b, c, d) { return ccw(a, c, d) !== ccw(b, c, d) && ccw(a, b, c) !== ccw(a, b, d); }
+    var x = 0, i, j;
+    for (i = 0; i < edges.length; i++) for (j = i + 1; j < edges.length; j++) {
+      var e = edges[i], f = edges[j];
+      if (e.u === f.u || e.u === f.v || e.v === f.u || e.v === f.v) continue; // shared endpoint
+      var s1 = seg(e), s2 = seg(f);
+      if (inter(s1[0], s1[1], s2[0], s2[1])) x++;
+    }
+    return x;
+  }
+
+  function gwTotalEdgeLength(edges, pos) {
+    var s = 0;
+    for (var i = 0; i < edges.length; i++) { var e = edges[i], dx = pos[e.u].x - pos[e.v].x, dy = pos[e.u].y - pos[e.v].y; s += Math.sqrt(dx * dx + dy * dy); }
+    return s;
+  }
+
   function layout(n, cx, cy, r, edges) {
     cx = cx == null ? 300 : cx; cy = cy == null ? 200 : cy; r = r == null ? 150 : r;
-    var i, j;
+    var i;
     if (!edges || n <= 1) {                              // circle fallback (unchanged behavior)
       var pc = [];
       for (i = 0; i < n; i++) { var a0 = -Math.PI / 2 + i * 2 * Math.PI / n; pc.push({ x: cx + r * Math.cos(a0), y: cy + r * Math.sin(a0) }); }
       return pc;
     }
     var W = 600, H = 400, k = Math.sqrt((W * H) / n) * 0.8;
-    var pos = [];
-    for (i = 0; i < n; i++) {                            // deterministic circle seed + index jitter (no RNG)
-      var a = -Math.PI / 2 + i * 2 * Math.PI / n;
-      var jx = (((i * 2654435761) % 1000) / 1000 - 0.5) * 2;
-      var jy = (((i * 40503) % 1000) / 1000 - 0.5) * 2;
-      pos.push({ x: W / 2 + (H / 3) * Math.cos(a) + jx, y: H / 2 + (H / 3) * Math.sin(a) + jy });
+
+    function fitToBox(pos) {                             // fit to (cx±r, cy±r), uniform scale+center
+      var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity, ii;
+      for (ii = 0; ii < n; ii++) { if (pos[ii].x < minX) minX = pos[ii].x; if (pos[ii].y < minY) minY = pos[ii].y; if (pos[ii].x > maxX) maxX = pos[ii].x; if (pos[ii].y > maxY) maxY = pos[ii].y; }
+      var bw = (maxX - minX) || 1, bh = (maxY - minY) || 1;
+      var scale = Math.min((2 * r) / bw, (2 * r) / bh);
+      var out = [];
+      for (ii = 0; ii < n; ii++) out.push({ x: cx + (pos[ii].x - (minX + maxX) / 2) * scale, y: cy + (pos[ii].y - (minY + maxY) / 2) * scale });
+      return out;
     }
-    var t = W / 8, ITER = 300, cool = t / (ITER + 1);
-    for (var it = 0; it < ITER; it++) {
-      var disp = [];
-      for (i = 0; i < n; i++) disp.push({ x: 0, y: 0 });
-      for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {   // repulsion
-        var dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y;
-        var d = Math.sqrt(dx * dx + dy * dy) || 0.01;
-        var f = (k * k) / d, ux = dx / d, uy = dy / d;
-        disp[i].x += ux * f; disp[i].y += uy * f;
-        disp[j].x -= ux * f; disp[j].y -= uy * f;
+
+    // fr(seed): one deterministic FR run + local crossing-repair, returns a fitted pos[].
+    // `seed` varies the initial layout (rotation + index/seed jitter, no RNG).
+    function fr(seed) {
+      var pos = [], ii, jj;
+      var rot = seed * (2 * Math.PI / GW_FR_SEEDS);
+      for (ii = 0; ii < n; ii++) {                        // deterministic circle seed + index/seed jitter (no RNG)
+        var a = -Math.PI / 2 + ii * 2 * Math.PI / n + rot;
+        var jx = ((((ii + 1) * 2654435761 + seed * 812503) % 1000) / 1000 - 0.5) * 2;
+        var jy = ((((ii + 1) * 40503 + seed * 2971) % 1000) / 1000 - 0.5) * 2;
+        pos.push({ x: W / 2 + (H / 3) * Math.cos(a) + jx, y: H / 2 + (H / 3) * Math.sin(a) + jy });
       }
-      for (var m = 0; m < edges.length; m++) {               // attraction along edges
-        var e = edges[m], pu = pos[e.u], pv = pos[e.v];
-        var ex = pu.x - pv.x, ey = pu.y - pv.y;
-        var ed = Math.sqrt(ex * ex + ey * ey) || 0.01;
-        var af = (ed * ed) / k, aux = ex / ed, auy = ey / ed;
-        disp[e.u].x -= aux * af; disp[e.u].y -= auy * af;
-        disp[e.v].x += aux * af; disp[e.v].y += auy * af;
+      var t = W / 8, ITER = 300, cool = t / (ITER + 1);
+      for (var it = 0; it < ITER; it++) {
+        var disp = [];
+        for (ii = 0; ii < n; ii++) disp.push({ x: 0, y: 0 });
+        for (ii = 0; ii < n; ii++) for (jj = ii + 1; jj < n; jj++) {   // repulsion
+          var dx = pos[ii].x - pos[jj].x, dy = pos[ii].y - pos[jj].y;
+          var d = Math.sqrt(dx * dx + dy * dy) || 0.01;
+          var f = (k * k) / d, ux = dx / d, uy = dy / d;
+          disp[ii].x += ux * f; disp[ii].y += uy * f;
+          disp[jj].x -= ux * f; disp[jj].y -= uy * f;
+        }
+        for (var m = 0; m < edges.length; m++) {               // attraction along edges
+          var e = edges[m], pu = pos[e.u], pv = pos[e.v];
+          var ex = pu.x - pv.x, ey = pu.y - pv.y;
+          var ed = Math.sqrt(ex * ex + ey * ey) || 0.01;
+          var af = (ed * ed) / k, aux = ex / ed, auy = ey / ed;
+          disp[e.u].x -= aux * af; disp[e.u].y -= auy * af;
+          disp[e.v].x += aux * af; disp[e.v].y += auy * af;
+        }
+        for (ii = 0; ii < n; ii++) {                            // limit step by temperature
+          var dl = Math.sqrt(disp[ii].x * disp[ii].x + disp[ii].y * disp[ii].y) || 0.01;
+          var lim = Math.min(dl, t);
+          pos[ii].x += (disp[ii].x / dl) * lim; pos[ii].y += (disp[ii].y / dl) * lim;
+        }
+        t -= cool; if (t < 1) t = 1;
       }
-      for (i = 0; i < n; i++) {                              // limit step by temperature
-        var dl = Math.sqrt(disp[i].x * disp[i].x + disp[i].y * disp[i].y) || 0.01;
-        var lim = Math.min(dl, t);
-        pos[i].x += (disp[i].x / dl) * lim; pos[i].y += (disp[i].y / dl) * lim;
+      // Deterministic local crossing-repair: a fully-symmetric spring/repulsion force field
+      // (as above) settles highly symmetric graphs — e.g. K4 — into a convex arrangement whose
+      // crossing count no amount of seed variation alone can improve (it's the unique force
+      // equilibrium). This pass relocates one node at a time to the centroid of the rest, in
+      // index order, keeping the move only when it strictly cuts crossings without violating
+      // separation. Deterministic, no RNG, bounded passes.
+      var minSep = k * 0.25, passes = 3;
+      for (var p = 0; p < passes; p++) {
+        var improved = false;
+        for (ii = 0; ii < n; ii++) {
+          var cur = gwCrossingCount(edges, pos);
+          if (cur === 0) break;
+          var sx = 0, sy = 0;
+          for (jj = 0; jj < n; jj++) if (jj !== ii) { sx += pos[jj].x; sy += pos[jj].y; }
+          var cand = { x: sx / (n - 1), y: sy / (n - 1) };
+          var old = pos[ii];
+          pos[ii] = cand;
+          var nc = gwCrossingCount(edges, pos);
+          var minD = Infinity;
+          for (jj = 0; jj < n; jj++) if (jj !== ii) { var ddx = pos[ii].x - pos[jj].x, ddy = pos[ii].y - pos[jj].y; var dd = Math.sqrt(ddx * ddx + ddy * ddy); if (dd < minD) minD = dd; }
+          if (nc < cur && minD >= minSep) improved = true;
+          else pos[ii] = old;
+        }
+        if (!improved) break;
       }
-      t -= cool; if (t < 1) t = 1;
+      return fitToBox(pos);
     }
-    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;   // fit to (cx±r, cy±r), uniform scale
-    for (i = 0; i < n; i++) { if (pos[i].x < minX) minX = pos[i].x; if (pos[i].y < minY) minY = pos[i].y; if (pos[i].x > maxX) maxX = pos[i].x; if (pos[i].y > maxY) maxY = pos[i].y; }
-    var bw = (maxX - minX) || 1, bh = (maxY - minY) || 1;
-    var scale = Math.min((2 * r) / bw, (2 * r) / bh);
-    var out = [];
-    for (i = 0; i < n; i++) out.push({ x: cx + (pos[i].x - (minX + maxX) / 2) * scale, y: cy + (pos[i].y - (minY + maxY) / 2) * scale });
-    return out;
+
+    var best = null;                                      // pick fewest crossings; tie→shortest total edge length; tie→lowest seed
+    for (var s = 0; s < GW_FR_SEEDS; s++) {
+      var fitted = fr(s);
+      var cross = gwCrossingCount(edges, fitted);
+      var len = gwTotalEdgeLength(edges, fitted);
+      if (!best || cross < best.cross || (cross === best.cross && len < best.len)) best = { cross: cross, len: len, pos: fitted };
+    }
+    return best.pos;
   }
 
   // Defaults = the graph category's original demo graph: a 5-node pentagon
