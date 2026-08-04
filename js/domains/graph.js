@@ -90,9 +90,28 @@
     'graph-kruskal':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.kruskalFrames(p.edges, p.n) },
     'graph-prim':     { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.primFrames(p.adj, s) },
     'graph-topo':         { weighted: false, directed: true, usesSource: false, gen: (p, s) => GraphWorkbench.topoFrames(p.adj, p.n) },
-    'graph-bellman-ford': { weighted: true,  directed: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s) },
+    'graph-bellman-ford': { weighted: true,  directed: true, allowNegative: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s) },
   };
   let _gwState = {};
+
+  const GW_DIRECTED_TOGGLE = new Set(['graph', 'graph-adjlist', 'graph-traversal', 'graph-bfs', 'graph-dfs', 'graph-dijkstra']);
+  function gwEffectiveDirected(methodId, st, meta) {
+    return GW_DIRECTED_TOGGLE.has(methodId) ? !!(st && st.directed) : !!(meta && meta.directed);
+  }
+  function gwDirToggleHtml(methodId, st, langOf) {
+    if (!GW_DIRECTED_TOGGLE.has(methodId)) return '';
+    return '<button type="button" class="gw-dir-toggle" data-testid="gw-directed-toggle">' +
+      langOf(st.directed ? { zh: '有向 ⇄', en: 'Directed ⇄' } : { zh: '無向 ⇄', en: 'Undirected ⇄' }) + '</button>';
+  }
+  function gwWireDirToggle(host, st, langOf, rebuild) {
+    const b = host.querySelector('.gw-dir-toggle');
+    if (!b) return;
+    b.addEventListener('click', () => {
+      st.directed = !st.directed;
+      b.textContent = langOf(st.directed ? { zh: '有向 ⇄', en: 'Directed ⇄' } : { zh: '無向 ⇄', en: 'Undirected ⇄' });
+      rebuild();
+    });
+  }
 
   function drawUndirectedGraph(parsed, pos, frame) {
     const has = (arr, x) => !!arr && arr.indexOf(x) !== -1;
@@ -132,6 +151,7 @@
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
             gwBuildExamplesSelect(methodId, DEF) +
             sourceCtl +
+            gwDirToggleHtml(methodId, st, langOf) +
           '</div>' +
           '<div class="gw-err" data-testid="gw-err" style="display:none"></div>' +
         '</div>' +
@@ -152,7 +172,8 @@
     }
 
     function rebuild() {
-      const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted, meta.directed);
+      const dir = gwEffectiveDirected(methodId, st, meta);
+      const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted, dir, meta.allowNegative);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
       if (srcSel) rebuildSource(parsed.n);
@@ -169,9 +190,9 @@
         const has = (arr, x) => arr.indexOf(x) !== -1;
         const treeKeys = new Set((f.treeEdges || []).map((e) => e.u + '-' + e.v));
         const R = 20;
-        const dirSet = meta.directed ? new Set(parsed.edges.map((e) => e.u + '-' + e.v)) : null;
+        const dirSet = dir ? new Set(parsed.edges.map((e) => e.u + '-' + e.v)) : null;
         let s = '';
-        if (meta.directed) {
+        if (dir) {
           s += '<defs>' +
             '<marker id="gw-arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker>' +
             '<marker id="gw-arrow-active" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#60a5fa"/></marker>' +
@@ -182,7 +203,7 @@
           const ecls = 'graph-edge' + (active ? ' active' : (treeKeys.has(e.u + '-' + e.v) ? ' tree' : ''));
           const A = pos[e.u], B = pos[e.v];
           let x1 = A.x, y1 = A.y, x2 = B.x, y2 = B.y, mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
-          if (meta.directed) {
+          if (dir) {
             const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy) || 1, ux = dx / len, uy = dy / len;
             const px = -uy, py = ux;                         // perpendicular unit
             const off = dirSet.has(e.v + '-' + e.u) ? 9 : 0; // anti-parallel → offset both sides apart
@@ -212,7 +233,7 @@
 
     function applyText(text) {
       st.text = text; input.value = text;
-      const parsed = GraphWorkbench.parseEdges(text, meta.weighted, meta.directed);
+      const parsed = GraphWorkbench.parseEdges(text, meta.weighted, gwEffectiveDirected(methodId, st, meta), meta.allowNegative);
       if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshExamplesSelect(); }
       rebuild();
     }
@@ -237,6 +258,7 @@
     if (srcSel) srcSel.addEventListener('change', () => { st.source = +srcSel.value; rebuild(); });
     const exSel = host.querySelector('.ex-select');
     if (exSel) exSel.addEventListener('change', (ev) => { const v = ev.target.value; if (v) applyText(v); });
+    gwWireDirToggle(host, st, langOf, rebuild);
 
     rebuild();
   }
