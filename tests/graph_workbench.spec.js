@@ -166,4 +166,40 @@ test.describe('graph workbench (edge-list + VCR)', () => {
       await expect(sec.locator('.gw-svg .graph-node').first()).toBeVisible();
     }
   });
+
+  test('directed toggle present on the 6 undirected viz, absent on MST/directed ones', async ({ page }) => {
+    for (const id of ['graph', 'graph-adjlist', 'graph-traversal', 'graph-bfs', 'graph-dfs', 'graph-dijkstra']) {
+      await loadMethod(page, id);
+      await expect(page.locator('[data-method-section="' + id + '"] [data-testid="gw-directed-toggle"]')).toHaveCount(1);
+    }
+    for (const id of ['graph-kruskal', 'graph-prim', 'graph-topo', 'graph-bellman-ford']) {
+      await loadMethod(page, id);
+      await expect(page.locator('[data-method-section="' + id + '"] [data-testid="gw-directed-toggle"]')).toHaveCount(0);
+    }
+  });
+
+  test('graph-bfs: toggling to directed adds arrowheads', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const sec = page.locator('[data-method-section="graph-bfs"]');
+    await expect(sec.locator('.gw-svg line[marker-end]')).toHaveCount(0); // undirected default
+    await sec.locator('[data-testid="gw-directed-toggle"]').click();
+    await expect(sec.locator('.gw-svg line[marker-end]').first()).toBeAttached(); // directed → arrows
+  });
+
+  test('graph-traversal: toggling to directed adds arrowheads in both panes', async ({ page }) => {
+    await loadMethod(page, 'graph-traversal');
+    const sec = page.locator('[data-method-section="graph-traversal"]');
+    await sec.locator('[data-testid="gw-directed-toggle"]').click();
+    await expect(sec.locator('.gw-svg-bfs line[marker-end]').first()).toBeAttached();
+    await expect(sec.locator('.gw-svg-dfs line[marker-end]').first()).toBeAttached();
+  });
+
+  test('graph-dijkstra: rejects negative weights even when directed', async ({ page }) => {
+    await loadMethod(page, 'graph-dijkstra');
+    const sec = page.locator('[data-method-section="graph-dijkstra"]');
+    await sec.locator('[data-testid="gw-directed-toggle"]').click();  // directed
+    await sec.locator('[data-testid="gw-input"]').fill('0-1:-4');
+    await sec.locator('[data-testid="gw-build"]').click();
+    await expect(sec.locator('[data-testid="gw-err"]')).toBeVisible();
+  });
 });
