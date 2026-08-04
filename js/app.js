@@ -105,6 +105,7 @@ const METHOD_GROUPS = [
         methods: [
             { id: 'graph', title: 'Undirected Graph', file: 'graph.cpp', visualizer: 'graph', controls: 'graph' },
             { id: 'graph-adjlist', title: 'Adjacency List', file: 'graph_adjlist.cpp', visualizer: 'graph', controls: 'graph' },
+            { id: 'graph-multilist', title: 'Adjacency Multilist', file: 'graph_multilist.cpp', visualizer: 'graph', controls: 'graph' },
             { id: 'graph-traversal', title: 'BFS vs DFS (Dual-Pane)', file: 'graph_traversal.cpp', visualizer: 'graph-dual', controls: 'graph-traversal' },
             { id: 'graph-bfs', title: 'Breadth-First Search', file: 'graph_bfs.cpp', visualizer: 'graph', controls: 'graph' },
             { id: 'graph-dfs', title: 'Depth-First Search', file: 'graph_dfs.cpp', visualizer: 'graph', controls: 'graph' },
@@ -315,6 +316,7 @@ function getCodeForMethod(methodId) {
         'sort-polyphase': codeSortPolyphase,
         graph: codeGraph,
         'graph-adjlist': codeGraphAdjlist,
+        'graph-multilist': codeGraphMultilist,
         'graph-traversal': codeGraphTraversal,
         'graph-bfs': codeGraphBFS,
         'graph-dfs': codeGraphDFS,
@@ -1670,6 +1672,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // #graph-edges container stay hidden (removed with the old editor in #185).
         else if (currentMode === 'graph') { codeTitle.textContent = 'graph.cpp'; codeDisplay.textContent = codeGraph; }
         else if (currentMode === 'graph-adjlist') { codeTitle.textContent = 'graph_adjlist.cpp'; codeDisplay.textContent = codeGraphAdjlist; }
+        else if (currentMode === 'graph-multilist') { codeTitle.textContent = 'graph_multilist.cpp'; codeDisplay.textContent = codeGraphMultilist; }
         else if (currentMode === 'graph-traversal') { codeTitle.textContent = 'graph_traversal.cpp'; codeDisplay.textContent = codeGraphTraversal; }
         else if (currentMode === 'graph-bfs') { codeTitle.textContent = 'graph_bfs.cpp'; codeDisplay.textContent = codeGraphBFS; }
         else if (currentMode === 'graph-dfs') { codeTitle.textContent = 'graph_dfs.cpp'; codeDisplay.textContent = codeGraphDFS; }

@@ -3446,3 +3446,9 @@ body.viz-focus .method-section-card.active .gw-svg { max-height: 100%; }
 /* Dual-pane traversal: give each pane's stage a width so the viewBox-only SVG
    doesn't collapse to 0 (single-pane gets width from .gw-struct-grid .gw-stage). */
 .graph-dual-pane .gw-stage { width: 100%; }
+
+/* Adjacency Multilist (graph-multilist): shared edge-node legend + per-vertex chains. */
+.gml-note { font-size: 0.8rem; color: #94a3b8; margin: 0.25rem 0 0.5rem; }
+.gml-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 0.6rem; }
+.gml-edge-node { border: 1px solid var(--border, #334155); border-radius: 6px; padding: 2px 8px; font-family: ui-monospace, monospace; font-size: 0.8rem; }
+.gml-eref { font-family: ui-monospace, monospace; font-weight: 600; }

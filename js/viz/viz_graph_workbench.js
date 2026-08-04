@@ -83,7 +83,8 @@
     'graph-bellman-ford': '0-1:6,0-2:7,1-2:8,1-3:5,1-4:-4,2-3:-3,2-4:9,3-1:-2,4-0:2,4-3:7',
     'graph': '0-1,1-2,2-3,3-4,4-0,0-2',
     'graph-adjlist': '0-1,1-2,2-3,3-4,4-0,0-2',
-    'graph-traversal': '0-1,1-2,2-3,3-4,4-0,0-2'
+    'graph-traversal': '0-1,1-2,2-3,3-4,4-0,0-2',
+    'graph-multilist': '0-1,1-2,2-3,3-4,4-0,0-2'
   };
 
   function bfsFrames(adj, source) {
@@ -287,7 +288,20 @@
     return m;
   }
 
-  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix };
+  function adjMultilist(edges, n) {
+    var nodes = [], chains = [], i;
+    for (i = 0; i < n; i++) chains.push([]);
+    for (i = 0; i < edges.length; i++) {
+      var e = edges[i];
+      nodes.push({ id: i, u: e.u, v: e.v });
+      chains[e.u].push({ id: i, other: e.v });
+      chains[e.v].push({ id: i, other: e.u });
+    }
+    for (i = 0; i < n; i++) chains[i].sort(function (a, b) { return a.other - b.other; });
+    return { nodes: nodes, chains: chains };
+  }
+
+  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix, adjMultilist: adjMultilist };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.GraphWorkbench = api;
 })(typeof window !== 'undefined' ? window : globalThis);

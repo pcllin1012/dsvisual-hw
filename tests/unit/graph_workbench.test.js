@@ -313,3 +313,21 @@ test('all 10 DEFAULTS parse ok in their weighted/directed mode with expected n',
     assert.ok(p.ok, id + ' parses'); assert.strictEqual(p.n, n, id + ' n');
   }
 });
+
+test('adjMultilist: one node per edge, each shared by two vertex chains', () => {
+  const p = GW.parseEdges('0-1,1-2,2-0', false, false);
+  const ml = GW.adjMultilist(p.edges, p.n);
+  assert.strictEqual(ml.nodes.length, 3);
+  assert.deepStrictEqual(ml.nodes[0], { id: 0, u: 0, v: 1 });
+  // every edge id appears in exactly two chains
+  const count = {};
+  ml.chains.forEach((ch) => ch.forEach((c) => { count[c.id] = (count[c.id] || 0) + 1; }));
+  assert.deepStrictEqual(count, { 0: 2, 1: 2, 2: 2 });
+  // vertex 1's chain references E0 (other 0) and E1 (other 2), sorted by other
+  assert.deepStrictEqual(ml.chains[1], [{ id: 0, other: 0 }, { id: 1, other: 2 }]);
+});
+
+test('DEFAULTS graph-multilist parses undirected n=5', () => {
+  const p = GW.parseEdges(GW.DEFAULTS['graph-multilist'], false, false);
+  assert.ok(p.ok); assert.strictEqual(p.n, 5);
+});
