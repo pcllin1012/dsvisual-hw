@@ -216,4 +216,13 @@ test.describe('graph workbench (edge-list + VCR)', () => {
     await sec.locator('[data-testid="gw-build"]').click();
     await expect(sec.locator('[data-testid="gw-err"]')).toBeVisible();
   });
+
+  test('force layout keeps all nodes within the viewBox', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const sec = page.locator('[data-method-section="graph-bfs"]');
+    const cs = await sec.locator('.gw-svg .graph-node').evaluateAll((els) =>
+      els.map((c) => ({ x: +c.getAttribute('cx'), y: +c.getAttribute('cy') })));
+    expect(cs.length).toBe(5);
+    for (const c of cs) { expect(c.x).toBeGreaterThanOrEqual(0); expect(c.x).toBeLessThanOrEqual(600); expect(c.y).toBeGreaterThanOrEqual(0); expect(c.y).toBeLessThanOrEqual(400); }
+  });
 });

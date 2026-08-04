@@ -196,7 +196,7 @@
       errEl.style.display = 'none';
       if (srcSel) rebuildSource(parsed);
       const frames = meta.gen(parsed, st.source);
-      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
+      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150, parsed.edges);
 
       body.innerHTML =
         '<div class="gw-stepdesc" data-testid="gw-stepdesc"></div>' +
@@ -315,7 +315,7 @@
       const parsed = GraphWorkbench.parseEdges(st.text, false, dir);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
-      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
+      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150, parsed.edges);
       let rep = '';
       if (view === 'matrix') {
         const m = GraphWorkbench.adjMatrix(parsed.adj, parsed.n);
@@ -423,7 +423,7 @@
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
       rebuildSource(parsed);
-      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
+      const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150, parsed.edges);
       const bfs = GraphWorkbench.bfsFrames(parsed.adj, st.source, parsed.labels);
       const dfs = GraphWorkbench.dfsFrames(parsed.adj, st.source, parsed.labels);
       const L = Math.max(bfs.length, dfs.length);
