@@ -24,6 +24,7 @@ const mappings = {
     'queue.cpp': 'codeQueue',
     'graph.cpp': 'codeGraph',
     'graph_adjlist.cpp':   'codeGraphAdjlist',
+    'graph_multilist.cpp': 'codeGraphMultilist',
     'graph_bfs.cpp':       'codeGraphBFS',
     'graph_dfs.cpp':       'codeGraphDFS',
     'graph_traversal.cpp': 'codeGraphTraversal',
