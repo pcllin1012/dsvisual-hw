@@ -220,6 +220,8 @@
     return { keys, m: 3 };
   }
 
+  var lbl = function (i) { return String.fromCharCode(65 + i); };
+
   function graphEdgeList(rng, difficulty, weighted) {
     var n, extra;
     if (difficulty === 'edge') { n = randInt(rng, 3, 4); extra = 0; }
@@ -231,7 +233,7 @@
       var a = Math.min(u, v), b = Math.max(u, v);
       if (a === b) return false;
       var k = a + '-' + b; if (seen[k]) return false; seen[k] = true;
-      lines.push(weighted ? (a + '-' + b + ':' + randInt(rng, 1, 9)) : (a + '-' + b));
+      lines.push(weighted ? (lbl(a) + '-' + lbl(b) + ':' + randInt(rng, 1, 9)) : (lbl(a) + '-' + lbl(b)));
       return true;
     }
     var i;
@@ -250,7 +252,7 @@
     var lines = [], seen = {};
     function add(u, v) {
       var k = u + '-' + v; if (seen[k] || u === v) return; seen[k] = true;
-      lines.push(weighted ? (u + '-' + v + ':' + randInt(rng, -5, 9)) : (u + '-' + v));
+      lines.push(weighted ? (lbl(u) + '-' + lbl(v) + ':' + randInt(rng, -5, 9)) : (lbl(u) + '-' + lbl(v)));
     }
     for (var j = 1; j < n; j++) add(randInt(rng, 0, j - 1), j); // spanning chain (i<j) → weakly connected DAG
     var extra = difficulty === 'large' ? n : Math.floor(n / 2);
