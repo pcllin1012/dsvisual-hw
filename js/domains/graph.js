@@ -90,17 +90,53 @@
     'graph-kruskal':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.kruskalFrames(p.edges, p.n) },
     'graph-prim':     { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.primFrames(p.adj, s) },
     'graph-topo':         { weighted: false, directed: true, usesSource: false, gen: (p, s) => GraphWorkbench.topoFrames(p.adj, p.n) },
-    'graph-bellman-ford': { weighted: true,  directed: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s) },
+    'graph-bellman-ford': { weighted: true,  directed: true, allowNegative: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s) },
   };
   let _gwState = {};
 
-  function drawUndirectedGraph(parsed, pos, frame) {
+  const GW_DIRECTED_TOGGLE = new Set(['graph', 'graph-adjlist', 'graph-traversal', 'graph-bfs', 'graph-dfs', 'graph-dijkstra']);
+  function gwEffectiveDirected(methodId, st, meta) {
+    return GW_DIRECTED_TOGGLE.has(methodId) ? !!(st && st.directed) : !!(meta && meta.directed);
+  }
+  function gwDirToggleHtml(methodId, st, langOf) {
+    if (!GW_DIRECTED_TOGGLE.has(methodId)) return '';
+    return '<button type="button" class="gw-dir-toggle" data-testid="gw-directed-toggle">' +
+      langOf(st.directed ? { zh: '有向 ⇄', en: 'Directed ⇄' } : { zh: '無向 ⇄', en: 'Undirected ⇄' }) + '</button>';
+  }
+  function gwWireDirToggle(host, st, langOf, rebuild) {
+    const b = host.querySelector('.gw-dir-toggle');
+    if (!b) return;
+    b.addEventListener('click', () => {
+      st.directed = !st.directed;
+      b.textContent = langOf(st.directed ? { zh: '有向 ⇄', en: 'Directed ⇄' } : { zh: '無向 ⇄', en: 'Undirected ⇄' });
+      rebuild();
+    });
+  }
+
+  function drawUndirectedGraph(parsed, pos, frame, directed) {
     const has = (arr, x) => !!arr && arr.indexOf(x) !== -1;
     const ae = frame && frame.activeEdge ? frame.activeEdge : null;
+    const R = 20;
+    const dirSet = directed ? new Set(parsed.edges.map((e) => e.u + '-' + e.v)) : null;
     let s = '';
+    if (directed) {
+      s += '<defs>' +
+        '<marker id="gw-arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker>' +
+        '<marker id="gw-arrow-active" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#60a5fa"/></marker>' +
+        '</defs>';
+    }
     for (const e of parsed.edges) {
       const isActive = ae && ae.u === e.u && ae.v === e.v;
-      s += '<line class="graph-edge' + (isActive ? ' active' : '') + '" x1="' + pos[e.u].x + '" y1="' + pos[e.u].y + '" x2="' + pos[e.v].x + '" y2="' + pos[e.v].y + '"></line>';
+      const ecls = 'graph-edge' + (isActive ? ' active' : '');
+      const A = pos[e.u], B = pos[e.v];
+      if (directed) {
+        const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy) || 1, ux = dx / len, uy = dy / len;
+        const px = -uy, py = ux, off = dirSet.has(e.v + '-' + e.u) ? 9 : 0;
+        const x1 = A.x + ux * R + px * off, y1 = A.y + uy * R + py * off, x2 = B.x - ux * R + px * off, y2 = B.y - uy * R + py * off;
+        s += '<line class="' + ecls + '" x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" marker-end="url(#' + (isActive ? 'gw-arrow-active' : 'gw-arrow') + ')"></line>';
+      } else {
+        s += '<line class="' + ecls + '" x1="' + A.x + '" y1="' + A.y + '" x2="' + B.x + '" y2="' + B.y + '"></line>';
+      }
     }
     for (let k = 0; k < parsed.n; k++) {
       let cls = 'graph-node';
@@ -132,6 +168,7 @@
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
             gwBuildExamplesSelect(methodId, DEF) +
             sourceCtl +
+            gwDirToggleHtml(methodId, st, langOf) +
           '</div>' +
           '<div class="gw-err" data-testid="gw-err" style="display:none"></div>' +
         '</div>' +
@@ -152,7 +189,8 @@
     }
 
     function rebuild() {
-      const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted, meta.directed);
+      const dir = gwEffectiveDirected(methodId, st, meta);
+      const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted, dir, meta.allowNegative);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
       if (srcSel) rebuildSource(parsed.n);
@@ -169,9 +207,9 @@
         const has = (arr, x) => arr.indexOf(x) !== -1;
         const treeKeys = new Set((f.treeEdges || []).map((e) => e.u + '-' + e.v));
         const R = 20;
-        const dirSet = meta.directed ? new Set(parsed.edges.map((e) => e.u + '-' + e.v)) : null;
+        const dirSet = dir ? new Set(parsed.edges.map((e) => e.u + '-' + e.v)) : null;
         let s = '';
-        if (meta.directed) {
+        if (dir) {
           s += '<defs>' +
             '<marker id="gw-arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8"/></marker>' +
             '<marker id="gw-arrow-active" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#60a5fa"/></marker>' +
@@ -182,7 +220,7 @@
           const ecls = 'graph-edge' + (active ? ' active' : (treeKeys.has(e.u + '-' + e.v) ? ' tree' : ''));
           const A = pos[e.u], B = pos[e.v];
           let x1 = A.x, y1 = A.y, x2 = B.x, y2 = B.y, mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
-          if (meta.directed) {
+          if (dir) {
             const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy) || 1, ux = dx / len, uy = dy / len;
             const px = -uy, py = ux;                         // perpendicular unit
             const off = dirSet.has(e.v + '-' + e.u) ? 9 : 0; // anti-parallel → offset both sides apart
@@ -212,7 +250,7 @@
 
     function applyText(text) {
       st.text = text; input.value = text;
-      const parsed = GraphWorkbench.parseEdges(text, meta.weighted, meta.directed);
+      const parsed = GraphWorkbench.parseEdges(text, meta.weighted, gwEffectiveDirected(methodId, st, meta), meta.allowNegative);
       if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshExamplesSelect(); }
       rebuild();
     }
@@ -237,6 +275,7 @@
     if (srcSel) srcSel.addEventListener('change', () => { st.source = +srcSel.value; rebuild(); });
     const exSel = host.querySelector('.ex-select');
     if (exSel) exSel.addEventListener('change', (ev) => { const v = ev.target.value; if (v) applyText(v); });
+    gwWireDirToggle(host, st, langOf, rebuild);
 
     rebuild();
   }
@@ -258,6 +297,7 @@
             '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
             gwBuildExamplesSelect(methodId, DEF) +
+            gwDirToggleHtml(methodId, st, langOf) +
           '</div>' +
           '<div class="gw-err" data-testid="gw-err" style="display:none"></div>' +
         '</div>' +
@@ -270,7 +310,8 @@
     input.value = st.text;
 
     function rebuild() {
-      const parsed = GraphWorkbench.parseEdges(st.text, false, false);
+      const dir = gwEffectiveDirected(methodId, st);
+      const parsed = GraphWorkbench.parseEdges(st.text, false, dir);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
       const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
@@ -297,7 +338,7 @@
       }
       body.innerHTML =
         '<div class="gw-struct-grid">' +
-          '<div class="gw-stage"><svg class="gw-svg" data-testid="gw-svg" viewBox="0 0 600 400">' + drawUndirectedGraph(parsed, pos, null) + '</svg></div>' +
+          '<div class="gw-stage"><svg class="gw-svg" data-testid="gw-svg" viewBox="0 0 600 400">' + drawUndirectedGraph(parsed, pos, null, dir) + '</svg></div>' +
           '<div class="gw-rep">' + rep + '</div>' +
         '</div>';
     }
@@ -305,7 +346,7 @@
     function refreshEx() { const ex = host.querySelector('.ex-select'); if (!ex) return; const c = ex.value; ex.innerHTML = gwExamplesOptionsHtml(methodId, DEF); ex.value = c; }
     function applyText(text) {
       st.text = text; input.value = text;
-      const parsed = GraphWorkbench.parseEdges(text, false, false);
+      const parsed = GraphWorkbench.parseEdges(text, false, gwEffectiveDirected(methodId, st));
       if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshEx(); }
       rebuild();
     }
@@ -317,6 +358,7 @@
     });
     const exSel = host.querySelector('.ex-select');
     if (exSel) exSel.addEventListener('change', (ev) => { const v = ev.target.value; if (v) applyText(v); });
+    gwWireDirToggle(host, st, langOf, rebuild);
 
     rebuild();
   }
@@ -339,6 +381,7 @@
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
             gwBuildExamplesSelect(methodId, DEF) +
             '<label class="gw-src-lbl">' + langOf({ zh: '起點', en: 'Source' }) + ' <select class="gw-source" data-testid="gw-source"></select></label>' +
+            gwDirToggleHtml(methodId, st, langOf) +
           '</div>' +
           '<div class="gw-err" data-testid="gw-err" style="display:none"></div>' +
         '</div>' +
@@ -359,7 +402,8 @@
     }
 
     function rebuild() {
-      const parsed = GraphWorkbench.parseEdges(st.text, false, false);
+      const dir = gwEffectiveDirected(methodId, st);
+      const parsed = GraphWorkbench.parseEdges(st.text, false, dir);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
       rebuildSource(parsed.n);
@@ -382,8 +426,8 @@
 
       function paint(_f, i) {
         const fb = bfs[Math.min(i, bfs.length - 1)], fd = dfs[Math.min(i, dfs.length - 1)];
-        svgBfs.innerHTML = drawUndirectedGraph(parsed, pos, fb);
-        svgDfs.innerHTML = drawUndirectedGraph(parsed, pos, fd);
+        svgBfs.innerHTML = drawUndirectedGraph(parsed, pos, fb, dir);
+        svgDfs.innerHTML = drawUndirectedGraph(parsed, pos, fd, dir);
         infoBfs.textContent = langOf({ zh: '佇列', en: 'Queue' }) + ': [' + fb.frontier.join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fb.order.join(', ') + ']';
         infoDfs.textContent = langOf({ zh: '堆疊', en: 'Stack' }) + ': [' + fd.frontier.join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fd.order.join(', ') + ']';
         descEl.textContent = 'BFS: ' + langOf(fb.message) + '   |   DFS: ' + langOf(fd.message);
@@ -394,7 +438,7 @@
     function refreshEx() { const ex = host.querySelector('.ex-select'); if (!ex) return; const c = ex.value; ex.innerHTML = gwExamplesOptionsHtml(methodId, DEF); ex.value = c; }
     function applyText(text) {
       st.text = text; input.value = text;
-      const parsed = GraphWorkbench.parseEdges(text, false, false);
+      const parsed = GraphWorkbench.parseEdges(text, false, gwEffectiveDirected(methodId, st));
       if (parsed.ok) { gwSaveExample(methodId, text, DEF); refreshEx(); }
       rebuild();
     }
@@ -407,6 +451,7 @@
     srcSel.addEventListener('change', () => { st.source = +srcSel.value; rebuild(); });
     const exSel = host.querySelector('.ex-select');
     if (exSel) exSel.addEventListener('change', (ev) => { const v = ev.target.value; if (v) applyText(v); });
+    gwWireDirToggle(host, st, langOf, rebuild);
 
     rebuild();
   }

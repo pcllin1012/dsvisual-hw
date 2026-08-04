@@ -172,9 +172,15 @@ test('parseEdges directed: single-direction adj, ordered dedupe, anti-parallel k
 });
 
 test('parseEdges directed weighted allows negative weights', () => {
-  const p = GW.parseEdges('0 1 -4\n1 2 -3', true, true);
+  const p = GW.parseEdges('0 1 -4\n1 2 -3', true, true, true);
   assert.ok(p.ok);
   assert.strictEqual(p.adj[0][0].w, -4);
+});
+
+test('parseEdges allowNegative decouples negatives from directed', () => {
+  assert.strictEqual(GW.parseEdges('0-1:-4', true, false, false).ok, false); // undirected weighted: w>=1
+  assert.strictEqual(GW.parseEdges('0-1:-4', true, true, false).ok, false);  // directed dijkstra-style: still w>=1
+  assert.ok(GW.parseEdges('0-1:-4', true, true, true).ok);                    // bellman-ford: negatives allowed
 });
 
 test('parseEdges undirected weighted still rejects w<1', () => {
@@ -201,13 +207,13 @@ test('topoFrames detects a cycle', () => {
 });
 
 test('bellmanFordFrames computes CLRS distances and detects negative cycle', () => {
-  const p = GW.parseEdges(GW.DEFAULTS['graph-bellman-ford'], true, true);
+  const p = GW.parseEdges(GW.DEFAULTS['graph-bellman-ford'], true, true, true);
   const frames = GW.bellmanFordFrames(p.adj, p.n, 0);
   const last = frames[frames.length - 1];
   assert.deepStrictEqual(last.dist, [0, 2, 7, 4, -2]);
   for (const f of frames) { assert.ok(Array.isArray(f.dist)); assert.ok(f.message.zh.length && f.message.en.length); }
   // negative cycle: 0->1 (1), 1->0 (-3)
-  const nc = GW.bellmanFordFrames(GW.parseEdges('0 1 1\n1 0 -3', true, true).adj, 2, 0);
+  const nc = GW.bellmanFordFrames(GW.parseEdges('0 1 1\n1 0 -3', true, true, true).adj, 2, 0);
   assert.ok(/負|negative/i.test(nc[nc.length - 1].message.zh + nc[nc.length - 1].message.en));
 });
 
@@ -217,7 +223,7 @@ test('random topo/bellman inputs are DAGs (parse ok, acyclic, n<=12)', () => {
     for (const d of ['edge', 'normal', 'large', 'special']) {
       let seed = 5;
       const rng = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
-      const p = GW.parseEdges(RI.randomInputFor(id, d, rng).text, weighted, true);
+      const p = GW.parseEdges(RI.randomInputFor(id, d, rng).text, weighted, true, weighted);
       assert.ok(p.ok, id + '/' + d + ' parses');
       assert.ok(p.n >= 3 && p.n <= 12, id + '/' + d + ' n range');
       // topoFrames orders all nodes → acyclic
@@ -268,7 +274,7 @@ test('parseEdges accepts compact comma form (unweighted, directed)', () => {
 test('parseEdges accepts compact weighted form u-v:w incl. negatives', () => {
   const p = GW.parseEdges('0-1:4,1-2:1', true, false);
   assert.ok(p.ok); assert.strictEqual(p.adj[0][0].w, 4);
-  const d = GW.parseEdges('0-1:-4,1-2:-3', true, true); // directed allows negatives
+  const d = GW.parseEdges('0-1:-4,1-2:-3', true, true, true); // bellman-ford style: allowNegative allows negatives
   assert.ok(d.ok); assert.strictEqual(d.adj[0][0].w, -4);
 });
 
@@ -277,7 +283,7 @@ test('parseEdges is backward compatible with legacy whitespace form', () => {
   const newU = GW.parseEdges('0-1,1-2', false, false);
   assert.deepStrictEqual(oldU.edges, newU.edges);
   // legacy negative weight (directed) keeps its sign (not eaten by the dash split)
-  const bf = GW.parseEdges('0 1 6\n1 4 -4', true, true);
+  const bf = GW.parseEdges('0 1 6\n1 4 -4', true, true, true);
   assert.ok(bf.ok);
   assert.ok(bf.edges.some((e) => e.u === 1 && e.v === 4 && e.w === -4));
 });
@@ -298,12 +304,12 @@ test('all 10 DEFAULTS parse ok in their weighted/directed mode with expected n',
   const spec = {
     'graph-bfs': [false, false, 5], 'graph-dfs': [false, false, 5], 'graph-dijkstra': [true, false, 5],
     'graph-kruskal': [true, false, 5], 'graph-prim': [true, false, 5],
-    'graph-topo': [false, true, 6], 'graph-bellman-ford': [true, true, 5],
+    'graph-topo': [false, true, 6], 'graph-bellman-ford': [true, true, 5, true],
     'graph': [false, false, 5], 'graph-adjlist': [false, false, 5], 'graph-traversal': [false, false, 5],
   };
   for (const id of Object.keys(spec)) {
-    const [w, d, n] = spec[id];
-    const p = GW.parseEdges(GW.DEFAULTS[id], w, d);
+    const [w, d, n, an] = spec[id];
+    const p = GW.parseEdges(GW.DEFAULTS[id], w, d, an);
     assert.ok(p.ok, id + ' parses'); assert.strictEqual(p.n, n, id + ' n');
   }
 });

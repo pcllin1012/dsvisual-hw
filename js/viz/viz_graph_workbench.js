@@ -2,7 +2,7 @@
   'use strict';
   var CAP = 12;
 
-  function parseEdges(text, weighted, directed) {
+  function parseEdges(text, weighted, directed, allowNegative) {
     var toks = String(text == null ? '' : text).split(/[,\n]/)
       .map(function (s) { return s.trim(); }).filter(function (s) { return s.length; });
     if (!toks.length) {
@@ -34,7 +34,7 @@
       }
       if (u < 0 || v < 0) return { ok: false, error: { zh: '節點索引需 ≥ 0', en: 'Node indices must be ≥ 0' } };
       if (weighted && (w === null || w === undefined)) return { ok: false, error: { zh: '加權圖每條邊需權重:u-v:w', en: 'Weighted graph needs a weight per edge: u-v:w' } };
-      if (weighted && !directed && w < 1) return { ok: false, error: { zh: '權重需 ≥ 1', en: 'Weight must be ≥ 1' } };
+      if (weighted && !allowNegative && w < 1) return { ok: false, error: { zh: '權重需 ≥ 1', en: 'Weight must be ≥ 1' } };
       maxIdx = Math.max(maxIdx, u, v);
       raw.push({ u: u, v: v, w: w });
     }
