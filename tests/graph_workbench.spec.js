@@ -62,6 +62,20 @@ test.describe('graph workbench (edge-list + VCR)', () => {
     await expect(sec.locator('[data-testid="gw-err"]')).toBeHidden();
   });
 
+  test('node set follows typed tokens — no phantom node', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const sec = page.locator('[data-method-section="graph-bfs"]');
+    await sec.locator('[data-testid="gw-input"]').fill('B-C,C-D'); // no "A"/"0"
+    await sec.locator('[data-testid="gw-build"]').click();
+    await expect(sec.locator('.gw-svg .graph-node')).toHaveCount(3); // exactly B,C,D — no phantom
+  });
+
+  test('graph-bfs: default-load node label is a letter, not a numeric index', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const sec = page.locator('[data-method-section="graph-bfs"]');
+    await expect(sec.locator('.gw-svg .graph-node-label').first()).toHaveText('A');
+  });
+
   test('language toggle updates workbench text', async ({ page }) => {
     await loadMethod(page, 'graph-bfs');
     const sec = page.locator('[data-method-section="graph-bfs"]');

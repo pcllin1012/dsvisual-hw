@@ -84,13 +84,13 @@
   }
 
   const GW_META = {
-    'graph-bfs':      { weighted: false, usesSource: true,  gen: (p, s) => GraphWorkbench.bfsFrames(p.adj, s) },
-    'graph-dfs':      { weighted: false, usesSource: true,  gen: (p, s) => GraphWorkbench.dfsFrames(p.adj, s) },
-    'graph-dijkstra': { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.dijkstraFrames(p.adj, s) },
-    'graph-kruskal':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.kruskalFrames(p.edges, p.n) },
-    'graph-prim':     { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.primFrames(p.adj, s) },
-    'graph-topo':         { weighted: false, directed: true, usesSource: false, gen: (p, s) => GraphWorkbench.topoFrames(p.adj, p.n) },
-    'graph-bellman-ford': { weighted: true,  directed: true, allowNegative: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s) },
+    'graph-bfs':      { weighted: false, usesSource: true,  gen: (p, s) => GraphWorkbench.bfsFrames(p.adj, s, p.labels) },
+    'graph-dfs':      { weighted: false, usesSource: true,  gen: (p, s) => GraphWorkbench.dfsFrames(p.adj, s, p.labels) },
+    'graph-dijkstra': { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.dijkstraFrames(p.adj, s, p.labels) },
+    'graph-kruskal':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.kruskalFrames(p.edges, p.n, p.labels) },
+    'graph-prim':     { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.primFrames(p.adj, s, p.labels) },
+    'graph-topo':         { weighted: false, directed: true, usesSource: false, gen: (p, s) => GraphWorkbench.topoFrames(p.adj, p.n, p.labels) },
+    'graph-bellman-ford': { weighted: true,  directed: true, allowNegative: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s, p.labels) },
   };
   let _gwState = {};
 
@@ -142,7 +142,7 @@
       let cls = 'graph-node';
       if (frame) { if (frame.active === k) cls += ' active'; else if (has(frame.visited, k)) cls += ' visited'; else if (has(frame.frontier, k)) cls += ' frontier'; }
       s += '<circle class="' + cls + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
-      s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + k + '</text>';
+      s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + parsed.labels[k] + '</text>';
     }
     return s;
   }
@@ -162,7 +162,7 @@
       '<div class="gw" data-testid="gw">' +
         '<div class="gw-toolbar">' +
           '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
-            langOf({ zh: '邊以逗號或換行分隔:' + (meta.weighted ? 'u-v:w(例 0-1:4)' : 'u-v(例 0-1,1-2)'), en: 'Edges by comma or newline: ' + (meta.weighted ? 'u-v:w (e.g. 0-1:4)' : 'u-v (e.g. 0-1,1-2)') }) + '"></textarea>' +
+            langOf({ zh: '邊以逗號或換行分隔:' + (meta.weighted ? 'u-v:w(例 A-B:4)' : 'u-v(例 A-B,B-C)'), en: 'Edges by comma or newline: ' + (meta.weighted ? 'u-v:w (e.g. A-B:4)' : 'u-v (e.g. A-B,B-C)') }) + '"></textarea>' +
           '<div class="gw-btns">' +
             '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
@@ -181,9 +181,10 @@
     const body = host.querySelector('.gw-body');
     input.value = st.text;
 
-    function rebuildSource(n) {
+    function rebuildSource(parsed) {
+      const n = parsed.n;
       srcSel.innerHTML = '';
-      for (let k = 0; k < n; k++) { const o = document.createElement('option'); o.value = k; o.textContent = k; srcSel.appendChild(o); }
+      for (let k = 0; k < n; k++) { const o = document.createElement('option'); o.value = k; o.textContent = parsed.labels[k]; srcSel.appendChild(o); }
       if (st.source >= n) st.source = 0;
       srcSel.value = st.source;
     }
@@ -193,7 +194,7 @@
       const parsed = GraphWorkbench.parseEdges(st.text, meta.weighted, dir, meta.allowNegative);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
-      if (srcSel) rebuildSource(parsed.n);
+      if (srcSel) rebuildSource(parsed);
       const frames = meta.gen(parsed, st.source);
       const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
 
@@ -238,7 +239,7 @@
           let cls = 'graph-node';
           if (f.active === k) cls += ' active'; else if (has(f.visited, k)) cls += ' visited'; else if (has(f.frontier, k)) cls += ' frontier';
           s += '<circle class="' + cls + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
-          s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + k + '</text>';
+          s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + parsed.labels[k] + '</text>';
           if (f.dist != null) { const d = f.dist[k]; s += '<text class="graph-distance" x="' + pos[k].x + '" y="' + (pos[k].y - 26) + '">' + (d === Infinity ? '∞' : d) + '</text>'; }
         }
         svg.innerHTML = s;
@@ -292,7 +293,7 @@
       '<div class="gw" data-testid="gw">' +
         '<div class="gw-toolbar">' +
           '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
-            langOf({ zh: '邊以逗號或換行分隔:u-v(例 0-1,1-2)', en: 'Edges by comma or newline: u-v (e.g. 0-1,1-2)' }) + '"></textarea>' +
+            langOf({ zh: '邊以逗號或換行分隔:u-v(例 A-B,B-C)', en: 'Edges by comma or newline: u-v (e.g. A-B,B-C)' }) + '"></textarea>' +
           '<div class="gw-btns">' +
             '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
@@ -319,10 +320,10 @@
       if (view === 'matrix') {
         const m = GraphWorkbench.adjMatrix(parsed.adj, parsed.n);
         rep = '<div class="gw-rep-title">' + langOf({ zh: '鄰接矩陣', en: 'Adjacency matrix' }) + '</div><table class="gw-matrix"><tr><th></th>';
-        for (let j = 0; j < parsed.n; j++) rep += '<th>' + j + '</th>';
+        for (let j = 0; j < parsed.n; j++) rep += '<th>' + parsed.labels[j] + '</th>';
         rep += '</tr>';
         for (let i = 0; i < parsed.n; i++) {
-          rep += '<tr><th>' + i + '</th>';
+          rep += '<tr><th>' + parsed.labels[i] + '</th>';
           for (let j = 0; j < parsed.n; j++) rep += '<td class="' + (m[i][j] ? 'on' : '') + '">' + m[i][j] + '</td>';
           rep += '</tr>';
         }
@@ -332,20 +333,20 @@
         rep = '<div class="gw-rep-title">' + langOf({ zh: '鄰接多重表', en: 'Adjacency Multilist' }) + '</div>';
         rep += '<div class="gml-note">' + langOf({ zh: '每條邊只有一個節點,被兩個端點共用(對比鄰接串列每邊存兩份)', en: 'Each edge is one node shared by both endpoints (adjacency list stores each edge twice)' }) + '</div>';
         rep += '<div class="gml-legend">';
-        for (const nd of ml.nodes) rep += '<span class="gml-edge-node" data-edge="' + nd.id + '"><b>E' + nd.id + '</b> [' + nd.u + '|' + nd.v + '|·|·]</span>';
+        for (const nd of ml.nodes) rep += '<span class="gml-edge-node" data-edge="' + nd.id + '"><b>E' + nd.id + '</b> [' + parsed.labels[nd.u] + '|' + parsed.labels[nd.v] + '|·|·]</span>';
         rep += '</div>';
         rep += '<div class="adjlist-container">';
         for (let i = 0; i < parsed.n; i++) {
-          rep += '<div class="adjlist-row gml-row"><span class="adjlist-vertex">[' + i + ']</span>';
-          for (const c of ml.chains[i]) rep += '<span class="adjlist-arrow">→</span><span class="gml-eref" data-edge="' + c.id + '">E' + c.id + '(' + c.other + ')</span>';
+          rep += '<div class="adjlist-row gml-row"><span class="adjlist-vertex">[' + parsed.labels[i] + ']</span>';
+          for (const c of ml.chains[i]) rep += '<span class="adjlist-arrow">→</span><span class="gml-eref" data-edge="' + c.id + '">E' + c.id + '(' + parsed.labels[c.other] + ')</span>';
           rep += '<span class="adjlist-arrow">→</span><span class="adjlist-null">∧</span></div>';
         }
         rep += '</div>';
       } else {
         rep = '<div class="gw-rep-title">' + langOf({ zh: '鄰接串列', en: 'Adjacency list' }) + '</div><div class="adjlist-container">';
         for (let i = 0; i < parsed.n; i++) {
-          rep += '<div class="adjlist-row"><span class="adjlist-vertex">[' + i + ']</span>';
-          for (const nb of parsed.adj[i]) rep += '<span class="adjlist-arrow">→</span><span class="adjlist-node">' + nb.to + '</span>';
+          rep += '<div class="adjlist-row"><span class="adjlist-vertex">[' + parsed.labels[i] + ']</span>';
+          for (const nb of parsed.adj[i]) rep += '<span class="adjlist-arrow">→</span><span class="adjlist-node">' + parsed.labels[nb.to] + '</span>';
           rep += '<span class="adjlist-arrow">→</span><span class="adjlist-null">null</span></div>';
         }
         rep += '</div>';
@@ -389,7 +390,7 @@
       '<div class="gw" data-testid="gw">' +
         '<div class="gw-toolbar">' +
           '<textarea class="gw-input" data-testid="gw-input" rows="3" spellcheck="false" placeholder="' +
-            langOf({ zh: '邊以逗號或換行分隔:u-v(例 0-1,1-2)', en: 'Edges by comma or newline: u-v (e.g. 0-1,1-2)' }) + '"></textarea>' +
+            langOf({ zh: '邊以逗號或換行分隔:u-v(例 A-B,B-C)', en: 'Edges by comma or newline: u-v (e.g. A-B,B-C)' }) + '"></textarea>' +
           '<div class="gw-btns">' +
             '<button type="button" class="btn primary gw-build" data-testid="gw-build">' + langOf({ zh: '建立', en: 'Build' }) + '</button>' +
             '<button type="button" class="rand-btn" title="' + langOf({ zh: '隨機', en: 'Random' }) + '">🎲</button>' +
@@ -408,9 +409,10 @@
     const body = host.querySelector('.gw-dual-body');
     input.value = st.text;
 
-    function rebuildSource(n) {
+    function rebuildSource(parsed) {
+      const n = parsed.n;
       srcSel.innerHTML = '';
-      for (let k = 0; k < n; k++) { const o = document.createElement('option'); o.value = k; o.textContent = k; srcSel.appendChild(o); }
+      for (let k = 0; k < n; k++) { const o = document.createElement('option'); o.value = k; o.textContent = parsed.labels[k]; srcSel.appendChild(o); }
       if (st.source >= n) st.source = 0;
       srcSel.value = st.source;
     }
@@ -420,10 +422,10 @@
       const parsed = GraphWorkbench.parseEdges(st.text, false, dir);
       if (!parsed.ok) { errEl.textContent = langOf(parsed.error); errEl.style.display = ''; body.innerHTML = ''; return; }
       errEl.style.display = 'none';
-      rebuildSource(parsed.n);
+      rebuildSource(parsed);
       const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150);
-      const bfs = GraphWorkbench.bfsFrames(parsed.adj, st.source);
-      const dfs = GraphWorkbench.dfsFrames(parsed.adj, st.source);
+      const bfs = GraphWorkbench.bfsFrames(parsed.adj, st.source, parsed.labels);
+      const dfs = GraphWorkbench.dfsFrames(parsed.adj, st.source, parsed.labels);
       const L = Math.max(bfs.length, dfs.length);
 
       body.innerHTML =
@@ -442,8 +444,8 @@
         const fb = bfs[Math.min(i, bfs.length - 1)], fd = dfs[Math.min(i, dfs.length - 1)];
         svgBfs.innerHTML = drawUndirectedGraph(parsed, pos, fb, dir);
         svgDfs.innerHTML = drawUndirectedGraph(parsed, pos, fd, dir);
-        infoBfs.textContent = langOf({ zh: '佇列', en: 'Queue' }) + ': [' + fb.frontier.join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fb.order.join(', ') + ']';
-        infoDfs.textContent = langOf({ zh: '堆疊', en: 'Stack' }) + ': [' + fd.frontier.join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fd.order.join(', ') + ']';
+        infoBfs.textContent = langOf({ zh: '佇列', en: 'Queue' }) + ': [' + fb.frontier.map((x) => parsed.labels[x]).join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fb.order.map((x) => parsed.labels[x]).join(', ') + ']';
+        infoDfs.textContent = langOf({ zh: '堆疊', en: 'Stack' }) + ': [' + fd.frontier.map((x) => parsed.labels[x]).join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fd.order.map((x) => parsed.labels[x]).join(', ') + ']';
         descEl.textContent = 'BFS: ' + langOf(fb.message) + '   |   DFS: ' + langOf(fd.message);
       }
       body.appendChild(K().buildFrameControls(Array.from({ length: L }), paint, { runIntervalMs: 700 }));

@@ -28,9 +28,28 @@ test('parseEdges: errors are bilingual', () => {
 });
 
 test('parseEdges: n cap 12', () => {
-  const r = GW.parseEdges('0 12', false); // n would be 13
+  const toks = Array.from({ length: 13 }, (_, i) => 't' + i); // 13 distinct tokens > cap
+  const many = toks.slice(0, -1).map((t, i) => t + '-' + toks[i + 1]).join(',');
+  const r = GW.parseEdges(many, false);
   assert.strictEqual(r.ok, false);
   assert.ok(/12/.test(r.error.en));
+});
+
+test('parseEdges: node set = distinct tokens, no phantom fill', () => {
+  const p = GW.parseEdges('1-2,2-3', false, false);   // no "0" typed
+  assert.ok(p.ok); assert.strictEqual(p.n, 3);
+  assert.deepStrictEqual(p.labels, ['1', '2', '3']);   // no phantom '0'
+});
+
+test('parseEdges: letter tokens', () => {
+  const p = GW.parseEdges('A-B:4,B-C:1', true, false);
+  assert.ok(p.ok); assert.deepStrictEqual(p.labels, ['A', 'B', 'C']);
+  assert.strictEqual(p.adj[0][0].w, 4);
+});
+
+test('parseEdges: n>12 rejected (13 distinct tokens)', () => {
+  const many = Array.from({ length: 13 }, (_, i) => 'n' + i + '-x').join(','); // 13 n-tokens + shared x = 14 > 12
+  assert.strictEqual(GW.parseEdges(many, false, false).ok, false);
 });
 
 test('layout: n points on a circle, node 0 at top, deterministic', () => {
@@ -73,6 +92,11 @@ test('dfsFrames: correct visit order', () => {
   assert.deepStrictEqual(last.order, [0, 1, 3, 2, 4]);
   assert.ok(fr.every(f => f.message && f.message.zh && f.message.en));
   assert.ok(fr.every(f => f.dist === null));
+});
+
+test('generators use token labels in messages when provided', () => {
+  const fr = GW.bfsFrames([[{to:1,w:1}],[{to:0,w:1}]], 0, ['X', 'Y']);
+  assert.ok(/X/.test(fr[0].message.zh + fr[0].message.en));
 });
 
 test('dijkstraFrames: textbook shortest distances', () => {
@@ -283,9 +307,12 @@ test('parseEdges is backward compatible with legacy whitespace form', () => {
   const newU = GW.parseEdges('0-1,1-2', false, false);
   assert.deepStrictEqual(oldU.edges, newU.edges);
   // legacy negative weight (directed) keeps its sign (not eaten by the dash split)
+  // note: tokens '0','1','4' are non-contiguous, so index 4 is NOT node '4' (no phantom fill) —
+  // assert via labels rather than assuming index === token value.
   const bf = GW.parseEdges('0 1 6\n1 4 -4', true, true, true);
   assert.ok(bf.ok);
-  assert.ok(bf.edges.some((e) => e.u === 1 && e.v === 4 && e.w === -4));
+  assert.deepStrictEqual(bf.labels, ['0', '1', '4']);
+  assert.ok(bf.edges.some((e) => bf.labels[e.u] === '1' && bf.labels[e.v] === '4' && e.w === -4));
 });
 
 test('parseEdges handles mixed comma+newline separators', () => {
@@ -296,7 +323,9 @@ test('parseEdges handles mixed comma+newline separators', () => {
 test('parseEdges errors: weighted method missing weight; undirected w<1; too many nodes', () => {
   assert.strictEqual(GW.parseEdges('0-1', true, false).ok, false);       // weight required
   assert.strictEqual(GW.parseEdges('0-1:-4', true, false).ok, false);    // undirected weighted rejects w<1
-  assert.strictEqual(GW.parseEdges('0-13', false, false).ok, false);     // n=14 > 12  (0-13 = edge 0->13)
+  const toks13 = Array.from({ length: 13 }, (_, i) => 't' + i);          // 13 distinct tokens > cap
+  const many = toks13.slice(0, -1).map((t, i) => t + '-' + toks13[i + 1]).join(',');
+  assert.strictEqual(GW.parseEdges(many, false, false).ok, false);       // n=13 > 12
   for (const bad of ['0-1', 'x-1', '']) { /* smoke: no throw */ GW.parseEdges(bad, false, false); }
 });
 
