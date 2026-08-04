@@ -1663,54 +1663,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if(currentMode === 'stack-array') { codeTitle.textContent = 'stack_array.cpp'; codeDisplay.textContent = codeArray; arrayContainer.classList.remove('hidden'); stdActions.classList.remove('hidden'); btnStdAdd.textContent = t('btn.push'); btnStdRemove.textContent = t('btn.pop'); }
         else if (currentMode === 'stack-list') { codeTitle.textContent = 'stack_linkedlist.cpp'; codeDisplay.textContent = codeLinkedList; linkedListContainer.classList.remove('hidden'); stdActions.classList.remove('hidden'); btnStdAdd.textContent = t('btn.push'); btnStdRemove.textContent = t('btn.pop'); }
         else if (currentMode === 'queue') { codeTitle.textContent = 'queue.cpp'; codeDisplay.textContent = codeQueue; queueContainer.classList.remove('hidden'); stdActions.classList.remove('hidden'); btnStdAdd.textContent = t('btn.enqueue'); btnStdRemove.textContent = t('btn.dequeue'); }
-        else if (currentMode === 'graph') {
-            codeTitle.textContent = 'graph.cpp'; codeDisplay.textContent = codeGraph; graphContainer.classList.remove('hidden'); graphActions.classList.remove('hidden');
-            graphW.classList.add('hidden'); btnGraphKruskal.classList.add('hidden'); btnGraphDijkstra.classList.add('hidden'); btnGraphTopo.classList.add('hidden');
-            graphSource.classList.add('hidden'); graphTarget.classList.add('hidden');
-            btnGraphClear.classList.remove('hidden'); btnGraphAdd.textContent = t('btn.add-edge');
-        }
-        else if (currentMode === 'graph-adjlist') {
-            codeTitle.textContent = 'graph_adjlist.cpp'; codeDisplay.textContent = codeGraphAdjlist; graphActions.classList.remove('hidden');
-            graphW.classList.add('hidden'); btnGraphKruskal.classList.add('hidden'); btnGraphDijkstra.classList.add('hidden'); btnGraphTopo.classList.add('hidden');
-            graphSource.classList.add('hidden'); graphTarget.classList.add('hidden');
-            btnGraphClear.classList.add('hidden'); btnGraphAdd.classList.add('hidden');
-        }
-        else if (currentMode === 'graph-traversal') {
-            codeTitle.textContent = 'graph_traversal.cpp'; codeDisplay.textContent = codeGraphTraversal; graphActions.classList.remove('hidden');
-            graphW.classList.add('hidden'); btnGraphKruskal.classList.add('hidden'); btnGraphDijkstra.classList.add('hidden'); btnGraphTopo.classList.add('hidden');
-            graphSource.classList.add('hidden'); graphTarget.classList.add('hidden');
-            btnGraphClear.classList.add('hidden'); btnGraphAdd.classList.add('hidden');
-        }
-        else if (currentMode === 'graph-bfs') {
-            codeTitle.textContent = 'graph_bfs.cpp'; codeDisplay.textContent = codeGraphBFS; graphActions.classList.remove('hidden');
-            graphW.classList.add('hidden'); btnGraphKruskal.classList.add('hidden'); btnGraphDijkstra.classList.add('hidden'); btnGraphTopo.classList.add('hidden');
-            graphSource.classList.add('hidden'); graphTarget.classList.add('hidden');
-            btnGraphClear.classList.add('hidden'); btnGraphAdd.classList.add('hidden');
-        }
-        else if (currentMode === 'graph-dfs') {
-            codeTitle.textContent = 'graph_dfs.cpp'; codeDisplay.textContent = codeGraphDFS; graphActions.classList.remove('hidden');
-            graphW.classList.add('hidden'); btnGraphKruskal.classList.add('hidden'); btnGraphDijkstra.classList.add('hidden'); btnGraphTopo.classList.add('hidden');
-            graphSource.classList.add('hidden'); graphTarget.classList.add('hidden');
-            btnGraphClear.classList.add('hidden'); btnGraphAdd.classList.add('hidden');
-        }
-        else if (currentMode === 'graph-kruskal') {
-            codeTitle.textContent = 'graph_kruskal.cpp'; codeDisplay.textContent = codeGraphKruskal; graphContainer.classList.remove('hidden'); graphActions.classList.remove('hidden');
-            graphW.classList.remove('hidden'); btnGraphKruskal.classList.remove('hidden'); btnGraphDijkstra.classList.add('hidden'); btnGraphTopo.classList.add('hidden');
-            graphSource.classList.add('hidden'); graphTarget.classList.add('hidden');
-            btnGraphClear.classList.remove('hidden'); btnGraphAdd.textContent = t('btn.add-weighted-edge');
-        }
-        else if (currentMode === 'graph-dijkstra') {
-            codeTitle.textContent = 'graph_dijkstra.cpp'; codeDisplay.textContent = codeGraphDijkstra; graphContainer.classList.remove('hidden'); graphActions.classList.remove('hidden');
-            graphW.classList.add('hidden'); btnGraphKruskal.classList.add('hidden'); btnGraphDijkstra.classList.remove('hidden'); btnGraphTopo.classList.add('hidden');
-            graphSource.classList.remove('hidden'); graphTarget.classList.add('hidden');
-            btnGraphClear.classList.remove('hidden'); btnGraphAdd.textContent = t('btn.add-edge');
-        }
-        else if (currentMode === 'graph-topo') {
-            codeTitle.textContent = 'graph_topo.cpp'; codeDisplay.textContent = codeGraphTopo; graphContainer.classList.remove('hidden'); graphActions.classList.remove('hidden');
-            graphW.classList.add('hidden'); btnGraphKruskal.classList.add('hidden'); btnGraphDijkstra.classList.add('hidden'); btnGraphTopo.classList.remove('hidden');
-            graphSource.classList.add('hidden'); graphTarget.classList.add('hidden');
-            btnGraphClear.classList.remove('hidden'); btnGraphAdd.textContent = t('btn.add-edge-directed');
-        }
+        // graph, graph-adjlist, graph-traversal, graph-bfs/dfs, graph-kruskal,
+        // graph-dijkstra, graph-topo all render via the workbench into the dynamic
+        // viz host (built-in toolbar). Like graph-prim/bellman-ford below, they only
+        // set the code panel here — the legacy #graph-actions editor bar and static
+        // #graph-edges container stay hidden (removed with the old editor in #185).
+        else if (currentMode === 'graph') { codeTitle.textContent = 'graph.cpp'; codeDisplay.textContent = codeGraph; }
+        else if (currentMode === 'graph-adjlist') { codeTitle.textContent = 'graph_adjlist.cpp'; codeDisplay.textContent = codeGraphAdjlist; }
+        else if (currentMode === 'graph-traversal') { codeTitle.textContent = 'graph_traversal.cpp'; codeDisplay.textContent = codeGraphTraversal; }
+        else if (currentMode === 'graph-bfs') { codeTitle.textContent = 'graph_bfs.cpp'; codeDisplay.textContent = codeGraphBFS; }
+        else if (currentMode === 'graph-dfs') { codeTitle.textContent = 'graph_dfs.cpp'; codeDisplay.textContent = codeGraphDFS; }
+        else if (currentMode === 'graph-kruskal') { codeTitle.textContent = 'graph_kruskal.cpp'; codeDisplay.textContent = codeGraphKruskal; }
+        else if (currentMode === 'graph-dijkstra') { codeTitle.textContent = 'graph_dijkstra.cpp'; codeDisplay.textContent = codeGraphDijkstra; }
+        else if (currentMode === 'graph-topo') { codeTitle.textContent = 'graph_topo.cpp'; codeDisplay.textContent = codeGraphTopo; }
         else if (currentMode === 'graph-prim') {
             codeTitle.textContent = 'graph_prim.cpp';
             codeDisplay.textContent = codeGraphPrim;
