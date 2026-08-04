@@ -141,10 +141,20 @@ test.describe('graph workbench (edge-list + VCR)', () => {
     await expect(sec.locator('[data-testid="gw-source"]')).toHaveCount(1);
     await expect(sec.locator('.gw-svg-bfs .graph-node')).toHaveCount(5);
     await expect(sec.locator('.gw-svg-dfs .graph-node')).toHaveCount(5);
+    // Panes must actually be rendered (a 0×0 collapsed SVG is not "visible").
+    await expect(sec.locator('.gw-svg-bfs')).toBeVisible();
+    await expect(sec.locator('.gw-svg-dfs')).toBeVisible();
     const cnt = sec.locator('.stepctl-count');
     const before = await cnt.textContent();
     await sec.locator('.stepctl [data-action="step"]').click();
     await expect(cnt).not.toHaveText(before);
+  });
+
+  test('workbench graph methods do not show the legacy #graph-actions editor bar', async ({ page }) => {
+    for (const id of ['graph', 'graph-adjlist', 'graph-traversal', 'graph-bfs', 'graph-dfs', 'graph-kruskal', 'graph-dijkstra', 'graph-topo']) {
+      await loadMethod(page, id);
+      await expect(page.locator('#graph-actions')).toBeHidden();
+    }
   });
 
   test('graph/adjlist/traversal: random fills input and rebuilds', async ({ page }) => {

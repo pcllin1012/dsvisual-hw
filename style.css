@@ -3441,3 +3441,6 @@ body.viz-focus .method-section-card.active .gw-svg { max-height: 100%; }
 
 /* Graph traversal workbench (graph-traversal): dual BFS|DFS panes, one shared VCR. */
 .gw-pane-info { font-size: 0.8rem; color: #94a3b8; font-family: ui-monospace, monospace; margin-top: 0.3rem; }
+/* Dual-pane traversal: give each pane's stage a width so the viewBox-only SVG
+   doesn't collapse to 0 (single-pane gets width from .gw-struct-grid .gw-stage). */
+.graph-dual-pane .gw-stage { width: 100%; }
