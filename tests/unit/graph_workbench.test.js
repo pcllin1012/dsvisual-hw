@@ -63,6 +63,43 @@ test('layout: n points on a circle, node 0 at top, deterministic', () => {
   assert.deepStrictEqual(p, GW.layout(4, 300, 200, 150));
 });
 
+function countCrossings(edges, pos) {
+  function seg(e) { return [pos[e.u], pos[e.v]]; }
+  function ccw(a, b, c) { return (c.y - a.y) * (b.x - a.x) > (b.y - a.y) * (c.x - a.x); }
+  function inter(a, b, c, d) { return ccw(a, c, d) !== ccw(b, c, d) && ccw(a, b, c) !== ccw(a, b, d); }
+  let x = 0;
+  for (let i = 0; i < edges.length; i++) for (let j = i + 1; j < edges.length; j++) {
+    const e = edges[i], f = edges[j];
+    if (e.u === f.u || e.u === f.v || e.v === f.u || e.v === f.v) continue; // shared endpoint
+    const [a, b] = seg(e), [c, d] = seg(f);
+    if (inter(a, b, c, d)) x++;
+  }
+  return x;
+}
+
+test('force layout: deterministic, bounded, non-overlapping', () => {
+  const p = GW.parseEdges('A-B,A-C,A-D,B-C,B-D,C-D', false, false); // K4
+  const L1 = GW.layout(p.n, 300, 200, 150, p.edges);
+  const L2 = GW.layout(p.n, 300, 200, 150, p.edges);
+  assert.deepStrictEqual(L1, L2);                       // deterministic
+  assert.strictEqual(L1.length, p.n);
+  for (const q of L1) {                                 // inside the box (small tolerance) + viewBox
+    assert.ok(q.x >= 150 - 1 && q.x <= 450 + 1 && q.y >= 50 - 1 && q.y <= 350 + 1);
+    assert.ok(q.x >= 0 && q.x <= 600 && q.y >= 0 && q.y <= 400);
+  }
+  for (let i = 0; i < L1.length; i++) for (let j = i + 1; j < L1.length; j++) {  // non-overlap
+    const dx = L1[i].x - L1[j].x, dy = L1[i].y - L1[j].y;
+    assert.ok(Math.sqrt(dx * dx + dy * dy) > 8, 'nodes ' + i + ',' + j + ' too close');
+  }
+});
+
+test('force layout reduces crossings vs circle (K4)', () => {
+  const p = GW.parseEdges('A-B,A-C,A-D,B-C,B-D,C-D', false, false); // planar; circle order has a crossing
+  const circle = GW.layout(p.n, 300, 200, 150);          // no edges → circle
+  const force = GW.layout(p.n, 300, 200, 150, p.edges);
+  assert.ok(countCrossings(p.edges, force) <= countCrossings(p.edges, circle));
+});
+
 test('DEFAULTS parse cleanly for each pilot method', () => {
   assert.ok(GW.parseEdges(GW.DEFAULTS['graph-bfs'], false).ok);
   assert.ok(GW.parseEdges(GW.DEFAULTS['graph-dfs'], false).ok);

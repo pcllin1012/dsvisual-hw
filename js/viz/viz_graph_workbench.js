@@ -56,14 +56,55 @@
     return { ok: true, n: n, adj: adj, edges: edges, labels: labels };
   }
 
-  function layout(n, cx, cy, r) {
+  function layout(n, cx, cy, r, edges) {
     cx = cx == null ? 300 : cx; cy = cy == null ? 200 : cy; r = r == null ? 150 : r;
-    var pos = [];
-    for (var i = 0; i < n; i++) {
-      var ang = -Math.PI / 2 + i * 2 * Math.PI / n;
-      pos.push({ x: cx + r * Math.cos(ang), y: cy + r * Math.sin(ang) });
+    var i, j;
+    if (!edges || n <= 1) {                              // circle fallback (unchanged behavior)
+      var pc = [];
+      for (i = 0; i < n; i++) { var a0 = -Math.PI / 2 + i * 2 * Math.PI / n; pc.push({ x: cx + r * Math.cos(a0), y: cy + r * Math.sin(a0) }); }
+      return pc;
     }
-    return pos;
+    var W = 600, H = 400, k = Math.sqrt((W * H) / n) * 0.8;
+    var pos = [];
+    for (i = 0; i < n; i++) {                            // deterministic circle seed + index jitter (no RNG)
+      var a = -Math.PI / 2 + i * 2 * Math.PI / n;
+      var jx = (((i * 2654435761) % 1000) / 1000 - 0.5) * 2;
+      var jy = (((i * 40503) % 1000) / 1000 - 0.5) * 2;
+      pos.push({ x: W / 2 + (H / 3) * Math.cos(a) + jx, y: H / 2 + (H / 3) * Math.sin(a) + jy });
+    }
+    var t = W / 8, ITER = 300, cool = t / (ITER + 1);
+    for (var it = 0; it < ITER; it++) {
+      var disp = [];
+      for (i = 0; i < n; i++) disp.push({ x: 0, y: 0 });
+      for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {   // repulsion
+        var dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y;
+        var d = Math.sqrt(dx * dx + dy * dy) || 0.01;
+        var f = (k * k) / d, ux = dx / d, uy = dy / d;
+        disp[i].x += ux * f; disp[i].y += uy * f;
+        disp[j].x -= ux * f; disp[j].y -= uy * f;
+      }
+      for (var m = 0; m < edges.length; m++) {               // attraction along edges
+        var e = edges[m], pu = pos[e.u], pv = pos[e.v];
+        var ex = pu.x - pv.x, ey = pu.y - pv.y;
+        var ed = Math.sqrt(ex * ex + ey * ey) || 0.01;
+        var af = (ed * ed) / k, aux = ex / ed, auy = ey / ed;
+        disp[e.u].x -= aux * af; disp[e.u].y -= auy * af;
+        disp[e.v].x += aux * af; disp[e.v].y += auy * af;
+      }
+      for (i = 0; i < n; i++) {                              // limit step by temperature
+        var dl = Math.sqrt(disp[i].x * disp[i].x + disp[i].y * disp[i].y) || 0.01;
+        var lim = Math.min(dl, t);
+        pos[i].x += (disp[i].x / dl) * lim; pos[i].y += (disp[i].y / dl) * lim;
+      }
+      t -= cool; if (t < 1) t = 1;
+    }
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;   // fit to (cx±r, cy±r), uniform scale
+    for (i = 0; i < n; i++) { if (pos[i].x < minX) minX = pos[i].x; if (pos[i].y < minY) minY = pos[i].y; if (pos[i].x > maxX) maxX = pos[i].x; if (pos[i].y > maxY) maxY = pos[i].y; }
+    var bw = (maxX - minX) || 1, bh = (maxY - minY) || 1;
+    var scale = Math.min((2 * r) / bw, (2 * r) / bh);
+    var out = [];
+    for (i = 0; i < n; i++) out.push({ x: cx + (pos[i].x - (minX + maxX) / 2) * scale, y: cy + (pos[i].y - (minY + maxY) / 2) * scale });
+    return out;
   }
 
   // Defaults = the graph category's original demo graph: a 5-node pentagon
