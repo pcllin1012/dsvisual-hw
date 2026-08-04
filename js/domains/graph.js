@@ -284,7 +284,7 @@
     const host = K().acquireDynamicVizHost();
     host.style.width = '100%';
     const langOf = K().langOf;
-    const view = methodId === 'graph' ? 'matrix' : 'list';
+    const view = methodId === 'graph' ? 'matrix' : methodId === 'graph-multilist' ? 'multilist' : 'list';
     const DEF = GraphWorkbench.DEFAULTS[methodId];
     const st = _gwState[methodId] || (_gwState[methodId] = { text: DEF });
 
@@ -327,6 +327,20 @@
           rep += '</tr>';
         }
         rep += '</table>';
+      } else if (view === 'multilist') {
+        const ml = GraphWorkbench.adjMultilist(parsed.edges, parsed.n);
+        rep = '<div class="gw-rep-title">' + langOf({ zh: '鄰接多重表', en: 'Adjacency Multilist' }) + '</div>';
+        rep += '<div class="gml-note">' + langOf({ zh: '每條邊只有一個節點,被兩個端點共用(對比鄰接串列每邊存兩份)', en: 'Each edge is one node shared by both endpoints (adjacency list stores each edge twice)' }) + '</div>';
+        rep += '<div class="gml-legend">';
+        for (const nd of ml.nodes) rep += '<span class="gml-edge-node" data-edge="' + nd.id + '"><b>E' + nd.id + '</b> [' + nd.u + '|' + nd.v + '|·|·]</span>';
+        rep += '</div>';
+        rep += '<div class="adjlist-container">';
+        for (let i = 0; i < parsed.n; i++) {
+          rep += '<div class="adjlist-row gml-row"><span class="adjlist-vertex">[' + i + ']</span>';
+          for (const c of ml.chains[i]) rep += '<span class="adjlist-arrow">→</span><span class="gml-eref" data-edge="' + c.id + '">E' + c.id + '(' + c.other + ')</span>';
+          rep += '<span class="adjlist-arrow">→</span><span class="adjlist-null">∧</span></div>';
+        }
+        rep += '</div>';
       } else {
         rep = '<div class="gw-rep-title">' + langOf({ zh: '鄰接串列', en: 'Adjacency list' }) + '</div><div class="adjlist-container">';
         for (let i = 0; i < parsed.n; i++) {
@@ -458,6 +472,7 @@
 
   R().attach('graph',         { render: () => renderGraphStruct('graph'),         code: () => codeGraph,        layout: { host: 'dynamic' } });
   R().attach('graph-adjlist', { render: () => renderGraphStruct('graph-adjlist'), code: () => codeGraphAdjlist, layout: { host: 'dynamic' } });
+  R().attach('graph-multilist', { render: () => renderGraphStruct('graph-multilist'), code: () => codeGraphMultilist, layout: { host: 'dynamic' } });
   R().attach('graph-traversal', { render: renderGraphTraversal, code: () => codeGraphTraversal, layout: { host: 'dynamic' } });
   R().attach('graph-bfs',      { render: () => renderGraphVcr('graph-bfs'),      code: () => codeGraphBFS,      layout: { host: 'dynamic' } });
   R().attach('graph-dfs',      { render: () => renderGraphVcr('graph-dfs'),      code: () => codeGraphDFS,      layout: { host: 'dynamic' } });

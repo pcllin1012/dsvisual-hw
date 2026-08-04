@@ -66,6 +66,7 @@
             // Methods — Graphs
             'method.graph':                 'Undirected Graph',
             'method.graph-adjlist':         'Adjacency List',
+            'method.graph-multilist':       'Adjacency Multilist',
             'method.graph-matrix':          'Adjacency Matrix',
             'method.graph-components':      'Connected Components',
             'method.graph-bipartite':       'Bipartite Check',
@@ -321,6 +322,7 @@
             // Methods — Graphs
             'method.graph':                 '無向圖',
             'method.graph-adjlist':         '鄰接串列',
+            'method.graph-multilist':       '鄰接多重表',
             'method.graph-matrix':          '鄰接矩陣',
             'method.graph-components':      '連通分量',
             'method.graph-bipartite':       '二分圖判定',
