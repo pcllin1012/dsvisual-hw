@@ -94,6 +94,11 @@ test('dfsFrames: correct visit order', () => {
   assert.ok(fr.every(f => f.dist === null));
 });
 
+test('generators use token labels in messages when provided', () => {
+  const fr = GW.bfsFrames([[{to:1,w:1}],[{to:0,w:1}]], 0, ['X', 'Y']);
+  assert.ok(/X/.test(fr[0].message.zh + fr[0].message.en));
+});
+
 test('dijkstraFrames: textbook shortest distances', () => {
   const fr = GW.dijkstraFrames(adjOf('0 1 4\n0 2 1\n2 1 2\n1 3 1\n2 3 5\n3 4 3', true), 0);
   const last = fr[fr.length - 1];

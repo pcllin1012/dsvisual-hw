@@ -83,55 +83,58 @@
     'graph-multilist': 'A-B,B-C,C-D,D-E,E-A,A-C'
   };
 
-  function bfsFrames(adj, source) {
+  function bfsFrames(adj, source, labels) {
+    function L(i) { return labels ? labels[i] : i; }
     var n = adj.length, frames = [], visited = [], order = [], queue = [source], i;
     for (i = 0; i < n; i++) visited.push(false);
     visited[source] = true;
     function snap(active, activeEdge, msg) {
       frames.push({ visited: order.slice(), frontier: queue.slice(), active: active, activeEdge: activeEdge, dist: null, order: order.slice(), message: msg });
     }
-    snap(null, null, { zh: '從節點 ' + source + ' 開始,放入佇列', en: 'Start from node ' + source + '; enqueue it' });
+    snap(null, null, { zh: '從節點 ' + L(source) + ' 開始,放入佇列', en: 'Start from node ' + L(source) + '; enqueue it' });
     while (queue.length) {
       var u = queue.shift(); order.push(u);
-      snap(u, null, { zh: '從佇列取出 ' + u + ',標記已訪', en: 'Dequeue ' + u + '; mark visited' });
+      snap(u, null, { zh: '從佇列取出 ' + L(u) + ',標記已訪', en: 'Dequeue ' + L(u) + '; mark visited' });
       for (i = 0; i < adj[u].length; i++) {
         var to = adj[u][i].to;
         if (!visited[to]) {
           visited[to] = true; queue.push(to);
-          snap(u, { u: Math.min(u, to), v: Math.max(u, to) }, { zh: '鄰居 ' + to + ' 未訪 → 入佇列', en: 'Neighbor ' + to + ' unvisited → enqueue' });
+          snap(u, { u: Math.min(u, to), v: Math.max(u, to) }, { zh: '鄰居 ' + L(to) + ' 未訪 → 入佇列', en: 'Neighbor ' + L(to) + ' unvisited → enqueue' });
         }
       }
     }
-    snap(null, null, { zh: 'BFS 完成,順序:' + order.join(' → '), en: 'BFS done. Order: ' + order.join(' → ') });
+    snap(null, null, { zh: 'BFS 完成,順序:' + order.map(L).join(' → '), en: 'BFS done. Order: ' + order.map(L).join(' → ') });
     return frames;
   }
 
-  function dfsFrames(adj, source) {
+  function dfsFrames(adj, source, labels) {
+    function L(i) { return labels ? labels[i] : i; }
     var n = adj.length, frames = [], visited = [], order = [], stack = [], i;
     for (i = 0; i < n; i++) visited.push(false);
     function snap(active, activeEdge, msg) {
       frames.push({ visited: order.slice(), frontier: stack.slice(), active: active, activeEdge: activeEdge, dist: null, order: order.slice(), message: msg });
     }
-    snap(null, null, { zh: '從節點 ' + source + ' 開始 DFS', en: 'Start DFS from node ' + source });
+    snap(null, null, { zh: '從節點 ' + L(source) + ' 開始 DFS', en: 'Start DFS from node ' + L(source) });
     function dfs(u, parent) {
       visited[u] = true; order.push(u); stack.push(u);
-      snap(u, parent == null ? null : { u: Math.min(u, parent), v: Math.max(u, parent) }, { zh: '進入 ' + u + ',標記已訪', en: 'Enter ' + u + '; mark visited' });
+      snap(u, parent == null ? null : { u: Math.min(u, parent), v: Math.max(u, parent) }, { zh: '進入 ' + L(u) + ',標記已訪', en: 'Enter ' + L(u) + '; mark visited' });
       for (var j = 0; j < adj[u].length; j++) {
         var to = adj[u][j].to;
         if (!visited[to]) {
-          snap(u, { u: Math.min(u, to), v: Math.max(u, to) }, { zh: '沿邊 ' + u + '–' + to + ' 深入', en: 'Descend edge ' + u + '–' + to });
+          snap(u, { u: Math.min(u, to), v: Math.max(u, to) }, { zh: '沿邊 ' + L(u) + '–' + L(to) + ' 深入', en: 'Descend edge ' + L(u) + '–' + L(to) });
           dfs(to, u);
         }
       }
       stack.pop();
-      snap(u, null, { zh: u + ' 的鄰居都訪過,回溯', en: 'All neighbors of ' + u + ' done; backtrack' });
+      snap(u, null, { zh: L(u) + ' 的鄰居都訪過,回溯', en: 'All neighbors of ' + L(u) + ' done; backtrack' });
     }
     dfs(source, null);
-    snap(null, null, { zh: 'DFS 完成,順序:' + order.join(' → '), en: 'DFS done. Order: ' + order.join(' → ') });
+    snap(null, null, { zh: 'DFS 完成,順序:' + order.map(L).join(' → '), en: 'DFS done. Order: ' + order.map(L).join(' → ') });
     return frames;
   }
 
-  function dijkstraFrames(adj, source) {
+  function dijkstraFrames(adj, source, labels) {
+    function L(i) { return labels ? labels[i] : i; }
     var n = adj.length, frames = [], dist = [], settled = [], order = [], i;
     for (i = 0; i < n; i++) { dist.push(Infinity); settled.push(false); }
     dist[source] = 0;
@@ -140,21 +143,21 @@
     function snap(active, activeEdge, msg) {
       frames.push({ visited: order.slice(), frontier: frontier(), active: active, activeEdge: activeEdge, dist: dist.slice(), order: order.slice(), message: msg });
     }
-    snap(null, null, { zh: '起點 ' + source + ' 距離設 0,其餘 ∞', en: 'Set source ' + source + ' distance to 0, others ∞' });
+    snap(null, null, { zh: '起點 ' + L(source) + ' 距離設 0,其餘 ∞', en: 'Set source ' + L(source) + ' distance to 0, others ∞' });
     for (var iter = 0; iter < n; iter++) {
       var u = -1, best = Infinity;
       for (i = 0; i < n; i++) if (!settled[i] && dist[i] < best) { best = dist[i]; u = i; }
       if (u === -1) break;
       settled[u] = true; order.push(u);
-      snap(u, null, { zh: '取最小距離未定案節點 ' + u + '(d=' + fmt(dist[u]) + '),定案', en: 'Settle min-distance unsettled node ' + u + ' (d=' + fmt(dist[u]) + ')' });
+      snap(u, null, { zh: '取最小距離未定案節點 ' + L(u) + '(d=' + fmt(dist[u]) + '),定案', en: 'Settle min-distance unsettled node ' + L(u) + ' (d=' + fmt(dist[u]) + ')' });
       for (i = 0; i < adj[u].length; i++) {
         var to = adj[u][i].to, w = adj[u][i].w, nd = dist[u] + w, ae = { u: Math.min(u, to), v: Math.max(u, to) };
         if (settled[to]) continue;
         if (nd < dist[to]) {
           dist[to] = nd;
-          snap(u, ae, { zh: '鬆弛 ' + u + '→' + to + ':d[' + to + '] 更新為 ' + nd, en: 'Relax ' + u + '→' + to + ': d[' + to + '] = ' + nd });
+          snap(u, ae, { zh: '鬆弛 ' + L(u) + '→' + L(to) + ':d[' + L(to) + '] 更新為 ' + nd, en: 'Relax ' + L(u) + '→' + L(to) + ': d[' + L(to) + '] = ' + nd });
         } else {
-          snap(u, ae, { zh: '檢查 ' + u + '→' + to + ':' + nd + ' ≥ d[' + to + ']=' + fmt(dist[to]) + ',不更新', en: 'Check ' + u + '→' + to + ': ' + nd + ' ≥ d[' + to + ']=' + fmt(dist[to]) + ', no update' });
+          snap(u, ae, { zh: '檢查 ' + L(u) + '→' + L(to) + ':' + nd + ' ≥ d[' + L(to) + ']=' + fmt(dist[to]) + ',不更新', en: 'Check ' + L(u) + '→' + L(to) + ': ' + nd + ' ≥ d[' + L(to) + ']=' + fmt(dist[to]) + ', no update' });
         }
       }
     }
@@ -162,7 +165,8 @@
     return frames;
   }
 
-  function kruskalFrames(edges, n) {
+  function kruskalFrames(edges, n, labels) {
+    function L(i) { return labels ? labels[i] : i; }
     var frames = [], tree = [], order = [], inTree = [], parent = [], rank = [], i;
     for (i = 0; i < n; i++) { inTree.push(false); parent.push(i); rank.push(0); }
     function find(x) { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }
@@ -183,16 +187,17 @@
         tree.push(ae); total += e.w;
         if (!inTree[e.u]) { inTree[e.u] = true; order.push(e.u); }
         if (!inTree[e.v]) { inTree[e.v] = true; order.push(e.v); }
-        snap(ae, { zh: '加入邊 ' + ae.u + '–' + ae.v + '(w=' + e.w + ')', en: 'Add edge ' + ae.u + '–' + ae.v + ' (w=' + e.w + ')' });
+        snap(ae, { zh: '加入邊 ' + L(ae.u) + '–' + L(ae.v) + '(w=' + e.w + ')', en: 'Add edge ' + L(ae.u) + '–' + L(ae.v) + ' (w=' + e.w + ')' });
       } else {
-        snap(ae, { zh: '捨棄 ' + ae.u + '–' + ae.v + ':會成環', en: 'Skip ' + ae.u + '–' + ae.v + ': would form a cycle' });
+        snap(ae, { zh: '捨棄 ' + L(ae.u) + '–' + L(ae.v) + ':會成環', en: 'Skip ' + L(ae.u) + '–' + L(ae.v) + ': would form a cycle' });
       }
     }
     snap(null, { zh: 'MST 完成,總權重 ' + total, en: 'MST done. Total weight ' + total });
     return frames;
   }
 
-  function primFrames(adj, source) {
+  function primFrames(adj, source, labels) {
+    function L(i) { return labels ? labels[i] : i; }
     var n = adj.length, frames = [], tree = [], order = [], inTree = [], i, j;
     for (i = 0; i < n; i++) inTree.push(false);
     function fringe() {
@@ -204,7 +209,7 @@
       frames.push({ visited: order.slice(), frontier: fringe(), active: null, activeEdge: activeEdge, dist: null, order: order.slice(), treeEdges: tree.slice(), message: msg });
     }
     inTree[source] = true; order.push(source);
-    snap(null, { zh: '從起點 ' + source + ' 開始長樹', en: 'Grow the tree from source ' + source });
+    snap(null, { zh: '從起點 ' + L(source) + ' 開始長樹', en: 'Grow the tree from source ' + L(source) });
     var total = 0;
     for (var cnt = 0; cnt < n - 1; cnt++) {
       var bu = -1, bv = -1, bw = Infinity;
@@ -212,13 +217,14 @@
       if (bv === -1) break; // disconnected: stop growing this component
       inTree[bv] = true; order.push(bv);
       var ae = { u: Math.min(bu, bv), v: Math.max(bu, bv) }; tree.push(ae); total += bw;
-      snap(ae, { zh: '加入 ' + ae.u + '–' + ae.v + '(w=' + bw + '),節點 ' + bv + ' 入樹', en: 'Add ' + ae.u + '–' + ae.v + ' (w=' + bw + '); node ' + bv + ' joins the tree' });
+      snap(ae, { zh: '加入 ' + L(ae.u) + '–' + L(ae.v) + '(w=' + bw + '),節點 ' + L(bv) + ' 入樹', en: 'Add ' + L(ae.u) + '–' + L(ae.v) + ' (w=' + bw + '); node ' + L(bv) + ' joins the tree' });
     }
     snap(null, { zh: 'MST 完成,總權重 ' + total, en: 'Prim done. Total weight ' + total });
     return frames;
   }
 
-  function topoFrames(adj, n) {
+  function topoFrames(adj, n, labels) {
+    function L(i) { return labels ? labels[i] : i; }
     var frames = [], order = [], indeg = [], queue = [], i, j;
     for (i = 0; i < n; i++) indeg.push(0);
     for (i = 0; i < n; i++) for (j = 0; j < adj[i].length; j++) indeg[adj[i][j].to]++;
@@ -226,28 +232,29 @@
       frames.push({ visited: order.slice(), frontier: queue.slice(), active: active, activeEdge: activeEdge, dist: indeg.slice(), order: order.slice(), message: msg });
     }
     for (i = 0; i < n; i++) if (indeg[i] === 0) queue.push(i);
-    snap(null, null, { zh: '計算入度,入度 0 的節點先入佇列:[' + queue.join(', ') + ']', en: 'Compute in-degrees; enqueue in-degree-0 nodes: [' + queue.join(', ') + ']' });
+    snap(null, null, { zh: '計算入度,入度 0 的節點先入佇列:[' + queue.map(L).join(', ') + ']', en: 'Compute in-degrees; enqueue in-degree-0 nodes: [' + queue.map(L).join(', ') + ']' });
     while (queue.length) {
       var u = queue.shift(); order.push(u);
-      snap(u, null, { zh: '移除入度 0 的節點 ' + u + ',加入拓撲序', en: 'Remove in-degree-0 node ' + u + '; append to the order' });
+      snap(u, null, { zh: '移除入度 0 的節點 ' + L(u) + ',加入拓撲序', en: 'Remove in-degree-0 node ' + L(u) + '; append to the order' });
       for (j = 0; j < adj[u].length; j++) {
         var to = adj[u][j].to; indeg[to]--; var enq = indeg[to] === 0;
         snap(u, { u: u, v: to }, enq
-          ? { zh: '邊 ' + u + '→' + to + ':入度降為 0 → 入佇列', en: 'Edge ' + u + '→' + to + ': in-degree 0 → enqueue' }
-          : { zh: '邊 ' + u + '→' + to + ':入度降為 ' + indeg[to], en: 'Edge ' + u + '→' + to + ': in-degree now ' + indeg[to] });
+          ? { zh: '邊 ' + L(u) + '→' + L(to) + ':入度降為 0 → 入佇列', en: 'Edge ' + L(u) + '→' + L(to) + ': in-degree 0 → enqueue' }
+          : { zh: '邊 ' + L(u) + '→' + L(to) + ':入度降為 ' + indeg[to], en: 'Edge ' + L(u) + '→' + L(to) + ': in-degree now ' + indeg[to] });
         if (enq) queue.push(to);
       }
     }
     if (order.length === n) {
-      snap(null, null, { zh: '拓撲排序完成:' + order.join(' → '), en: 'Topological sort done: ' + order.join(' → ') });
+      snap(null, null, { zh: '拓撲排序完成:' + order.map(L).join(' → '), en: 'Topological sort done: ' + order.map(L).join(' → ') });
     } else {
       var rem = []; for (i = 0; i < n; i++) if (order.indexOf(i) === -1) rem.push(i);
-      snap(null, null, { zh: '偵測到環:節點 [' + rem.join(', ') + '] 無法排序', en: 'Cycle detected: nodes [' + rem.join(', ') + '] cannot be ordered' });
+      snap(null, null, { zh: '偵測到環:節點 [' + rem.map(L).join(', ') + '] 無法排序', en: 'Cycle detected: nodes [' + rem.map(L).join(', ') + '] cannot be ordered' });
     }
     return frames;
   }
 
-  function bellmanFordFrames(adj, n, source) {
+  function bellmanFordFrames(adj, n, source, labels) {
+    function L(i) { return labels ? labels[i] : i; }
     var frames = [], dist = [], E = [], i, j;
     for (i = 0; i < n; i++) dist.push(Infinity);
     dist[source] = 0;
@@ -256,16 +263,16 @@
     function snap(active, activeEdge, msg) {
       frames.push({ visited: [], frontier: [], active: active, activeEdge: activeEdge, dist: dist.slice(), order: [], message: msg });
     }
-    snap(null, null, { zh: '起點 ' + source + ' 距離 0,其餘 ∞;最多 ' + (n - 1) + ' 輪鬆弛', en: 'Source ' + source + ' = 0, others ∞; up to ' + (n - 1) + ' relaxation passes' });
+    snap(null, null, { zh: '起點 ' + L(source) + ' 距離 0,其餘 ∞;最多 ' + (n - 1) + ' 輪鬆弛', en: 'Source ' + L(source) + ' = 0, others ∞; up to ' + (n - 1) + ' relaxation passes' });
     for (var pass = 1; pass <= n - 1; pass++) {
       var changed = false;
       for (i = 0; i < E.length; i++) {
         var e = E[i], ae = { u: e.u, v: e.v };
         if (dist[e.u] !== Infinity && dist[e.u] + e.w < dist[e.v]) {
           dist[e.v] = dist[e.u] + e.w; changed = true;
-          snap(e.v, ae, { zh: '第 ' + pass + ' 輪:鬆弛 ' + e.u + '→' + e.v + ',d[' + e.v + ']=' + dist[e.v], en: 'Pass ' + pass + ': relax ' + e.u + '→' + e.v + ', d[' + e.v + ']=' + dist[e.v] });
+          snap(e.v, ae, { zh: '第 ' + pass + ' 輪:鬆弛 ' + L(e.u) + '→' + L(e.v) + ',d[' + L(e.v) + ']=' + dist[e.v], en: 'Pass ' + pass + ': relax ' + L(e.u) + '→' + L(e.v) + ', d[' + L(e.v) + ']=' + dist[e.v] });
         } else {
-          snap(null, ae, { zh: '第 ' + pass + ' 輪:' + e.u + '→' + e.v + ' 不更新(' + fmt(dist[e.u]) + '+' + e.w + ' ≥ ' + fmt(dist[e.v]) + ')', en: 'Pass ' + pass + ': ' + e.u + '→' + e.v + ' no update' });
+          snap(null, ae, { zh: '第 ' + pass + ' 輪:' + L(e.u) + '→' + L(e.v) + ' 不更新(' + fmt(dist[e.u]) + '+' + e.w + ' ≥ ' + fmt(dist[e.v]) + ')', en: 'Pass ' + pass + ': ' + L(e.u) + '→' + L(e.v) + ' no update' });
         }
       }
       if (!changed) break;
