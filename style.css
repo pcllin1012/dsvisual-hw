@@ -3412,7 +3412,7 @@ body.viz-focus .method-section-card.active .gw-body { flex: 1 1 auto; min-height
 body.viz-focus .method-section-card.active .gw-stage { flex: 1 1 auto; min-height: 0; }
 body.viz-focus .method-section-card.active .gw-svg { max-height: 100%; }
 
-body.viz-focus .method-section-card.active .gw-workbench { flex: 1 1 auto; min-height: 0; }
+body.viz-focus .method-section-card.active .gw-workbench { flex: 1 1 auto; min-height: 0; align-items: stretch; }
 body.viz-focus .method-section-card.active .gw-stagecol { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 body.viz-focus .method-section-card.active .gw-stagecol .gw-stage { flex: 1 1 auto; min-height: 0; }
 body.viz-focus .method-section-card.active .gw-logcol { max-height: none; }

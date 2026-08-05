@@ -85,12 +85,21 @@ test.describe('Graph VCR: step-log column', () => {
   }
 
   test('graph-bfs: fullscreen keeps transport visible and log scrollable', async ({ page }) => {
+    await page.setViewportSize({ width: 1400, height: 900 });
     await loadMethod(page, 'graph-bfs');
     const card = page.locator('[data-method-section="graph-bfs"]');
     await card.locator('[data-testid="viz-focus-toggle"]').click();
     await expect(page.locator('body.viz-focus')).toHaveCount(1);
     await expect(card.locator('.stepctl')).toBeVisible();      // transport not pushed off-screen
     await expect(card.locator('[data-testid="gw-log"]')).toBeVisible();
+
+    // Transport must be within the viewport, not just have a non-zero box —
+    // toBeVisible() alone doesn't catch a grid item that overflows below the fold.
+    const box = await card.locator('.stepctl').boundingBox();
+    const vh = page.viewportSize().height;
+    expect(box).not.toBeNull();
+    expect(box.y + box.height).toBeLessThanOrEqual(vh + 1);
+
     // step still works in fullscreen
     const cnt = card.locator('.stepctl-count');
     const before = await cnt.textContent();
