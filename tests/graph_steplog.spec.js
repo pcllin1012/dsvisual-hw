@@ -130,4 +130,39 @@ test.describe('Graph VCR: step-log column', () => {
     await card.locator('.stepctl [data-action="step"]').click();
     await expect(cnt).not.toHaveText(before);
   });
+
+  // Regression: a step log LONGER than the screen must scroll inside its own
+  // column and keep the VCR transport within the viewport. graph-bellman-ford
+  // has the most frames (~30 rows); a short viewport forces overflow. Before the
+  // fix, the auto-sized grid row grew to the log's full content height, pushing
+  // the transport far below the fold (bottom ~1200 vs viewport 900).
+  test('graph-bellman-ford: fullscreen scrolls a long log, transport stays in-viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 1400, height: 700 });
+    await loadMethod(page, 'graph-bellman-ford');
+    const card = page.locator('[data-method-section="graph-bellman-ford"]');
+
+    // Enough rows that the log cannot fit the 700px viewport uncapped.
+    const rowCount = await card.locator('.gw-logrow').count();
+    expect(rowCount).toBeGreaterThan(15);
+
+    await card.locator('[data-testid="viz-focus-toggle"]').click();
+    await expect(page.locator('body.viz-focus')).toHaveCount(1);
+
+    const vh = page.viewportSize().height;
+
+    // Transport within the viewport (not pushed below the fold by the long log).
+    const tbox = await card.locator('.stepctl').boundingBox();
+    expect(tbox).not.toBeNull();
+    expect(tbox.y + tbox.height).toBeLessThanOrEqual(vh + 1);
+
+    // The log column itself is bounded within the viewport...
+    const lbox = await card.locator('.gw-logcol').boundingBox();
+    expect(lbox).not.toBeNull();
+    expect(lbox.y + lbox.height).toBeLessThanOrEqual(vh + 1);
+
+    // ...and the step log scrolls internally rather than expanding the column.
+    const scrollable = await card.locator('.gw-steplog').evaluate(
+      (el) => el.scrollHeight > el.clientHeight + 1);
+    expect(scrollable).toBe(true);
+  });
 });
