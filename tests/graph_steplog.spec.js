@@ -84,6 +84,30 @@ test.describe('Graph VCR: step-log column', () => {
     });
   }
 
+  test('graph-bfs: step log and banner re-render bilingually on language toggle', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const card = page.locator('[data-method-section="graph-bfs"]');
+    const rows = card.locator('.gw-logrow');
+    const banner = card.locator('[data-testid="gw-stepdesc"]');
+
+    const enRow0 = await rows.nth(0).locator('.gw-logmsg').textContent();
+    const enBanner = await banner.textContent();
+    expect(enRow0).toBeTruthy();
+    expect(enRow0).toBe(enBanner);
+
+    // Same mechanism the passing i18n tests in tests/visualizer.spec.js use.
+    await page.evaluate(() => window.I18N.setLanguage('zh'));
+
+    const zhRow0 = await rows.nth(0).locator('.gw-logmsg').textContent();
+    const zhBanner = await banner.textContent();
+    // Sync invariant still holds after the language switch re-render.
+    expect(zhRow0).toBeTruthy();
+    expect(zhRow0).toBe(zhBanner);
+    // graph-bfs frame 0's zh/en messages are known to differ (source text authored
+    // separately per language) — assert the log actually re-rendered, not stale.
+    expect(zhRow0).not.toBe(enRow0);
+  });
+
   test('graph-bfs: fullscreen keeps transport visible and log scrollable', async ({ page }) => {
     await page.setViewportSize({ width: 1400, height: 900 });
     await loadMethod(page, 'graph-bfs');

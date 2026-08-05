@@ -215,13 +215,18 @@
       const descEl = body.querySelector('.gw-stepdesc');
       const logEl = body.querySelector('.gw-steplog');
 
-      // One clickable row per frame; message rendered in the current language.
+      // One clickable row per frame. Structure via innerHTML, but the message text
+      // is assigned via textContent (like descEl below) so a frame message containing
+      // '<' or '&' can never diverge from the banner's escaped rendering.
       logEl.innerHTML = frames.map((f, i) =>
         '<button type="button" class="gw-logrow" data-i="' + i + '">' +
           '<span class="gw-logidx">' + i + '</span>' +
-          '<span class="gw-logmsg">' + langOf(f.message) + '</span>' +
+          '<span class="gw-logmsg"></span>' +
         '</button>'
       ).join('');
+      logEl.querySelectorAll('.gw-logrow').forEach((r, i) => {
+        r.querySelector('.gw-logmsg').textContent = langOf(frames[i].message);
+      });
 
       function draw(f) {
         const has = (arr, x) => arr.indexOf(x) !== -1;
