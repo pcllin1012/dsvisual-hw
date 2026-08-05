@@ -113,6 +113,7 @@ const METHOD_GROUPS = [
             { id: 'graph-dijkstra', title: 'Dijkstra (Shortest Path)', file: 'graph_dijkstra.cpp', visualizer: 'graph', controls: 'graph' },
             { id: 'graph-topo', title: 'Topological Sort', file: 'graph_topo.cpp', visualizer: 'graph', controls: 'graph' },
             { id: 'graph-prim', title: "Prim's MST", file: 'graph_prim.cpp', visualizer: 'graph-step', controls: 'graph-step' },
+            { id: 'graph-boruvka', title: 'Borůvka MST', file: 'graph_boruvka.cpp', visualizer: 'graph-step', controls: 'graph-step' },
             { id: 'graph-bellman-ford', title: 'Bellman-Ford', file: 'graph_bellman_ford.cpp', visualizer: 'graph-step', controls: 'graph-step' },
             { id: 'graph-floyd-warshall', title: 'Floyd-Warshall', file: 'graph_floyd_warshall.cpp', visualizer: 'matrix', controls: 'matrix' },
             { id: 'graph-aoe', title: 'AOE / Critical Path', file: 'graph_aoe.cpp', visualizer: 'aoe', controls: 'aoe' },
@@ -324,6 +325,7 @@ function getCodeForMethod(methodId) {
         'graph-dijkstra': codeGraphDijkstra,
         'graph-topo': codeGraphTopo,
         'graph-prim': codeGraphPrim,
+        'graph-boruvka': codeGraphBoruvka,
         'graph-bellman-ford': codeGraphBellmanFord,
         'graph-floyd-warshall': codeGraphFloydWarshall,
         'graph-aoe': codeGraphAoe,
@@ -1683,6 +1685,7 @@ document.addEventListener('DOMContentLoaded', () => {
             codeTitle.textContent = 'graph_prim.cpp';
             codeDisplay.textContent = codeGraphPrim;
         }
+        else if (currentMode === 'graph-boruvka') { codeTitle.textContent = 'graph_boruvka.cpp'; codeDisplay.textContent = codeGraphBoruvka; }
         else if (currentMode === 'graph-bellman-ford') {
             codeTitle.textContent = 'graph_bellman_ford.cpp';
             codeDisplay.textContent = codeGraphBellmanFord;

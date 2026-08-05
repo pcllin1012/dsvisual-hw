@@ -89,6 +89,7 @@
     'graph-dijkstra': { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.dijkstraFrames(p.adj, s, p.labels) },
     'graph-kruskal':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.kruskalFrames(p.edges, p.n, p.labels) },
     'graph-prim':     { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.primFrames(p.adj, s, p.labels) },
+    'graph-boruvka':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.boruvkaFrames(p.edges, p.n, p.labels) },
     'graph-topo':         { weighted: false, directed: true, usesSource: false, gen: (p, s) => GraphWorkbench.topoFrames(p.adj, p.n, p.labels) },
     'graph-bellman-ford': { weighted: true,  directed: true, allowNegative: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s, p.labels) },
   };
@@ -482,6 +483,7 @@
   R().attach('graph-dijkstra', { render: () => renderGraphVcr('graph-dijkstra'), code: () => codeGraphDijkstra, layout: { host: 'dynamic' } });
   R().attach('graph-topo',         { render: () => renderGraphVcr('graph-topo'),         code: () => codeGraphTopo,        layout: { host: 'dynamic' } });
   R().attach('graph-prim', { render: () => renderGraphVcr('graph-prim'), code: () => codeGraphPrim, layout: { host: 'dynamic' } });
+  R().attach('graph-boruvka', { render: () => renderGraphVcr('graph-boruvka'), code: () => codeGraphBoruvka, layout: { host: 'dynamic' } });
   R().attach('graph-bellman-ford', { render: () => renderGraphVcr('graph-bellman-ford'), code: () => codeGraphBellmanFord, layout: { host: 'dynamic' } });
   R().attach('graph-floyd-warshall', { render: renderFloydWarshall, code: () => codeGraphFloydWarshall, layout: { host: 'dynamic' } });
   C().registerDomain({ id: 'graph' });
