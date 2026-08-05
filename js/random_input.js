@@ -302,6 +302,7 @@
         return { text: graphEdgeList(rng, difficulty, true) };
       case 'graph-kruskal':
       case 'graph-prim':
+      case 'graph-boruvka':
         return { text: graphEdgeList(rng, difficulty, true) };
       case 'graph-topo': return { text: graphDagText(rng, difficulty, false) };
       case 'graph-bellman-ford': return { text: graphDagText(rng, difficulty, true) };

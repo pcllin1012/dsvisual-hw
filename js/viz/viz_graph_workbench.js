@@ -184,6 +184,7 @@
     'graph-dijkstra': 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5',
     'graph-kruskal': 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5',
     'graph-prim': 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5',
+    'graph-boruvka': 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5',
     'graph-topo': 'A-B,A-C,B-D,C-D,D-E,D-F',
     'graph-bellman-ford': 'A-B:6,A-C:7,B-C:8,B-D:5,B-E:-4,C-D:-3,C-E:9,D-B:-2,E-A:2,E-D:7',
     'graph': 'A-B,B-C,C-D,D-E,E-A,A-C',
@@ -305,6 +306,51 @@
     return frames;
   }
 
+  function boruvkaFrames(edges, n, labels) {
+    function L(i) { return labels ? labels[i] : i; }
+    var frames = [], tree = [], order = [], inTree = [], parent = [], rank = [], i;
+    for (i = 0; i < n; i++) { inTree.push(false); parent.push(i); rank.push(0); }
+    function find(x) { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }
+    function union(a, b) {
+      var ra = find(a), rb = find(b); if (ra === rb) return false;
+      if (rank[ra] < rank[rb]) { var t = ra; ra = rb; rb = t; }
+      parent[rb] = ra; if (rank[ra] === rank[rb]) rank[ra]++; return true;
+    }
+    function snap(activeEdge, msg) {
+      frames.push({ visited: order.slice(), frontier: [], active: null, activeEdge: activeEdge, dist: null, order: order.slice(), treeEdges: tree.slice(), message: msg });
+    }
+    var total = 0, round = 0;
+    snap(null, { zh: 'Borůvka:每輪各連通分量挑最小外連邊加入', en: 'Borůvka: each round every component adds its cheapest outgoing edge' });
+    while (tree.length < n - 1) {
+      round++;
+      var cheapest = {};
+      for (i = 0; i < edges.length; i++) {
+        var e = edges[i], ru = find(e.u), rv = find(e.v);
+        if (ru === rv) continue;
+        if (!cheapest[ru] || e.w < cheapest[ru].w) cheapest[ru] = e;
+        if (!cheapest[rv] || e.w < cheapest[rv].w) cheapest[rv] = e;
+      }
+      var roots = Object.keys(cheapest).map(Number).sort(function (a, b) { return a - b; });
+      if (!roots.length) break;
+      var added = 0;
+      for (var r = 0; r < roots.length; r++) {
+        var c = cheapest[roots[r]];
+        if (find(c.u) === find(c.v)) continue;               // already merged this round
+        var ae = { u: Math.min(c.u, c.v), v: Math.max(c.u, c.v) };
+        tree.push(ae); total += c.w; union(c.u, c.v);
+        if (!inTree[ae.u]) { inTree[ae.u] = true; order.push(ae.u); }
+        if (!inTree[ae.v]) { inTree[ae.v] = true; order.push(ae.v); }
+        added++;
+        snap(ae, { zh: '第 ' + round + ' 輪:分量最小外連邊 ' + L(ae.u) + '–' + L(ae.v) + '(w=' + c.w + '),合併', en: 'Round ' + round + ': component cheapest edge ' + L(ae.u) + '–' + L(ae.v) + ' (w=' + c.w + '), merge' });
+        if (tree.length === n - 1) break;
+      }
+      if (added === 0) break;
+    }
+    if (tree.length === n - 1) snap(null, { zh: 'Borůvka 完成,總權重 ' + total, en: 'Borůvka done. Total weight ' + total });
+    else snap(null, { zh: '圖不連通:生成森林,總權重 ' + total, en: 'Graph disconnected: spanning forest, total weight ' + total });
+    return frames;
+  }
+
   function primFrames(adj, source, labels) {
     function L(i) { return labels ? labels[i] : i; }
     var n = adj.length, frames = [], tree = [], order = [], inTree = [], i, j;
@@ -413,7 +459,7 @@
     return { nodes: nodes, chains: chains };
   }
 
-  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix, adjMultilist: adjMultilist };
+  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, boruvkaFrames: boruvkaFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix, adjMultilist: adjMultilist };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.GraphWorkbench = api;
 })(typeof window !== 'undefined' ? window : globalThis);

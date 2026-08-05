@@ -29,6 +29,7 @@ const mappings = {
     'graph_dfs.cpp':       'codeGraphDFS',
     'graph_traversal.cpp': 'codeGraphTraversal',
     'graph_kruskal.cpp': 'codeGraphKruskal',
+    'graph_boruvka.cpp': 'codeGraphBoruvka',
     'graph_dijkstra.cpp': 'codeGraphDijkstra',
     'graph_topo.cpp': 'codeGraphTopo',
     'graph_matrix.cpp': 'codeGraphMatrix',
