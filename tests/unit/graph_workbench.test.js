@@ -408,3 +408,25 @@ test('DEFAULTS graph-multilist parses undirected n=5', () => {
   const p = GW.parseEdges(GW.DEFAULTS['graph-multilist'], false, false);
   assert.ok(p.ok); assert.strictEqual(p.n, 5);
 });
+
+test('boruvkaFrames builds a valid MST equal in weight to Kruskal', () => {
+  const p = GW.parseEdges(GW.DEFAULTS['graph-boruvka'], true, false);
+  const bf = GW.boruvkaFrames(p.edges, p.n, p.labels);
+  const last = bf[bf.length - 1];
+  assert.strictEqual(last.treeEdges.length, p.n - 1);         // 4 edges
+  const wByKey = {}; for (const e of p.edges) wByKey[e.u + '-' + e.v] = e.w;
+  const total = last.treeEdges.reduce((s, e) => s + wByKey[e.u + '-' + e.v], 0);
+  assert.strictEqual(total, 10);                              // same MST weight as Kruskal/Prim
+  // matches kruskal's total on the same graph
+  const kf = GW.kruskalFrames(p.edges, p.n, p.labels);
+  const kLast = kf[kf.length - 1];
+  const kTotal = kLast.treeEdges.reduce((s, e) => s + wByKey[e.u + '-' + e.v], 0);
+  assert.strictEqual(total, kTotal);
+  assert.ok(bf.some((f) => /輪|Round/.test(f.message.zh + f.message.en))); // has round messages
+  for (const f of bf) { assert.strictEqual(f.dist, null); assert.ok(f.message.zh.length && f.message.en.length); }
+});
+
+test('DEFAULTS graph-boruvka parses weighted n=5', () => {
+  const p = GW.parseEdges(GW.DEFAULTS['graph-boruvka'], true, false);
+  assert.ok(p.ok); assert.strictEqual(p.n, 5);
+});
