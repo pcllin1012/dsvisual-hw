@@ -200,10 +200,28 @@
       const pos = GraphWorkbench.layout(parsed.n, 300, 200, 150, parsed.edges);
 
       body.innerHTML =
-        '<div class="gw-stepdesc" data-testid="gw-stepdesc"></div>' +
-        '<div class="gw-stage"><svg class="gw-svg" data-testid="gw-svg" viewBox="0 0 600 400"></svg></div>';
+        '<div class="gw-workbench">' +
+          '<div class="gw-stagecol">' +
+            '<div class="gw-stepdesc" data-testid="gw-stepdesc"></div>' +
+            '<div class="gw-stage"><svg class="gw-svg" data-testid="gw-svg" viewBox="0 0 600 400"></svg></div>' +
+          '</div>' +
+          '<aside class="gw-logcol">' +
+            '<h4>' + langOf({ zh: '步驟紀錄', en: 'Step Log' }) + '</h4>' +
+            '<div class="gw-steplog" data-testid="gw-log"></div>' +
+          '</aside>' +
+        '</div>';
+      const stagecol = body.querySelector('.gw-stagecol');
       const svg = body.querySelector('.gw-svg');
       const descEl = body.querySelector('.gw-stepdesc');
+      const logEl = body.querySelector('.gw-steplog');
+
+      // One clickable row per frame; message rendered in the current language.
+      logEl.innerHTML = frames.map((f, i) =>
+        '<button type="button" class="gw-logrow" data-i="' + i + '">' +
+          '<span class="gw-logidx">' + i + '</span>' +
+          '<span class="gw-logmsg">' + langOf(f.message) + '</span>' +
+        '</button>'
+      ).join('');
 
       function draw(f) {
         const has = (arr, x) => arr.indexOf(x) !== -1;
@@ -247,7 +265,21 @@
         descEl.textContent = langOf(f.message);
       }
 
-      body.appendChild(K().buildFrameControls(frames, draw, { runIntervalMs: 700 }));
+      function highlightLog(i) {
+        const rows = logEl.querySelectorAll('.gw-logrow');
+        rows.forEach((r, k) => r.classList.toggle('on', k === i));
+        if (rows[i]) rows[i].scrollIntoView({ block: 'nearest' });
+      }
+
+      stagecol.appendChild(K().buildFrameControls(frames, draw, { runIntervalMs: 700, onIndexChange: highlightLog }));
+
+      const scrub = stagecol.querySelector('.stepctl-scrubber');
+      logEl.querySelectorAll('.gw-logrow').forEach((r) => {
+        r.addEventListener('click', () => {
+          scrub.value = r.dataset.i;
+          scrub.dispatchEvent(new Event('input', { bubbles: true }));
+        });
+      });
     }
 
     function applyText(text) {

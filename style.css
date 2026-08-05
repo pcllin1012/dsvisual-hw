@@ -425,6 +425,21 @@ header p { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
 .gw-svg { max-width: 100%; height: auto; }
 .gw-stepdesc { color: #94a3b8; min-height: 1.4em; font-size: 0.9rem; }
 
+.gw-workbench { display: grid; grid-template-columns: 1fr 260px; gap: 12px; align-items: start; }
+.gw-stagecol { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+.gw-logcol { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--app-radius-md); box-shadow: var(--app-shadow-sm); padding: 12px; max-height: 480px; display: flex; flex-direction: column; min-width: 0; }
+.gw-logcol h4 { margin: 0 0 8px; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text-subtle); text-transform: uppercase; }
+.gw-steplog { overflow-y: auto; display: flex; flex-direction: column; gap: 2px; scrollbar-width: thin; }
+.gw-logrow { display: flex; gap: 8px; align-items: baseline; text-align: left; border: 0; background: transparent; color: var(--text-muted); font: inherit; font-size: 0.8rem; padding: 6px; border-radius: var(--app-radius-sm); cursor: pointer; line-height: 1.35; width: 100%; }
+.gw-logrow:hover { background: var(--surface-hover); }
+.gw-logrow.on { background: rgba(52, 152, 219, 0.14); color: var(--text-main); }
+.gw-logidx { flex: 0 0 auto; font-variant-numeric: tabular-nums; color: var(--text-subtle); min-width: 1.6em; text-align: right; }
+
+@media (max-width: 1020px) {
+  .gw-workbench { grid-template-columns: 1fr; }
+  .gw-logcol { max-height: 260px; }
+}
+
 .gw-svg .graph-node {
   width: auto; height: auto; position: static; transform: none; display: inline;
   background: none; box-shadow: none; z-index: auto;
@@ -3396,6 +3411,11 @@ body.viz-focus .method-section-card.active .gw,
 body.viz-focus .method-section-card.active .gw-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 body.viz-focus .method-section-card.active .gw-stage { flex: 1 1 auto; min-height: 0; }
 body.viz-focus .method-section-card.active .gw-svg { max-height: 100%; }
+
+body.viz-focus .method-section-card.active .gw-workbench { flex: 1 1 auto; min-height: 0; }
+body.viz-focus .method-section-card.active .gw-stagecol { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+body.viz-focus .method-section-card.active .gw-stagecol .gw-stage { flex: 1 1 auto; min-height: 0; }
+body.viz-focus .method-section-card.active .gw-logcol { max-height: none; }
 
 /* ---- Trie viz (tree-trie, VCR stepping) ----------------------------- */
 .trie-wrap { display: flex; flex-direction: column; gap: 10px; width: 100%; }
