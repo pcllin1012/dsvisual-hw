@@ -8083,6 +8083,239 @@ const SLIDES_DB = {
       }
     ]
   },
+  "graph-boruvka": {
+    "category": "Graphs",
+    "title": {
+      "zh": "Borůvka 最小生成樹",
+      "en": "Borůvka MST"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "Borůvka 最小生成樹",
+          "en": "Borůvka MST"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "Borůvka(又稱 Sollin)演算法以「輪」為單位建構最小生成樹(MST):每一輪,圖中每個連通分量同時各自挑出一條連到分量外的最便宜邊並加入 MST,整體在 $O(E \\log V)$ 時間內完成。",
+              "en": "Borůvka's algorithm (also called Sollin's) builds a Minimum Spanning Tree (MST) in rounds: in each round, every connected component simultaneously picks its own cheapest edge leaving the component and adds it to the MST, completing in $O(E \\log V)$ time overall."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "以 DSU(Disjoint Set Union)追蹤目前的連通分量。每一輪對每個分量各找出一條「跨出該分量」且權重最小的邊,同時加入這些邊並合併分量。因為每一輪每個分量至少與另一個分量合併,分量數至少減半,所以只需約 $\\log V$ 輪。",
+              "en": "A DSU (Disjoint Set Union) tracks the current components. Each round finds, for every component, the minimum-weight edge crossing out of it; all chosen edges are added simultaneously and their components merged. Since every component merges with at least one other each round, the number of components at least halves, so only about $\\log V$ rounds are needed."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "DSU `find(x)`:回傳 x 所在分量的根;`unite(a,b)`:合併兩分量,若已同分量則回傳 false。",
+                "en": "DSU `find(x)`: returns the root of x's component; `unite(a,b)`: merges two components, returning false if they are already the same."
+              },
+              {
+                "zh": "`cheap[r]`:分量根 r 目前找到的最便宜跨出邊之索引,每輪重新計算。",
+                "en": "`cheap[r]`: the index of the cheapest crossing edge found so far for component root r, recomputed every round."
+              },
+              {
+                "zh": "同一輪中,兩個分量可能都選到同一條邊(彼此互為對方的最便宜邊);第二次嘗試 `unite` 時因已同分量而被跳過,避免重複計入。",
+                "en": "Within one round, two components may both pick the same edge (each is the other's cheapest); the second `unite` attempt on it is skipped because they are already merged, avoiding double-counting."
+              },
+              {
+                "zh": "分量數每輪至少減半,故僅需約 $\\log V$ 輪即可收斂到 $V-1$ 條邊。",
+                "en": "The component count at least halves every round, so only about $\\log V$ rounds are needed to converge to $V-1$ edges."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "初始化 DSU:每個頂點各自為一個分量($V$ 個分量)。",
+                "en": "Initialise DSU: each vertex is its own component ($V$ components)."
+              },
+              {
+                "zh": "每一輪掃描所有邊一次:對每條邊 $(u,v,w)$,若 $u,v$ 的根不同,分別更新兩端根的 `cheap[]` 為目前所見最小權重的邊。",
+                "en": "Each round scans every edge once: for edge $(u,v,w)$, if u and v have different roots, update `cheap[]` for both roots to this edge whenever it is the smallest seen so far."
+              },
+              {
+                "zh": "掃描完後,對每個根 r(若 `cheap[r]` 存在)嘗試 `unite` 該邊的兩端;成功則將邊加入 MST 並累加權重,失敗(已同分量,代表本輪已被合併過)則跳過。",
+                "en": "After the scan, for every root r with a `cheap[r]`, attempt to `unite` that edge's endpoints; on success add the edge to the MST and accumulate its weight, on failure (already the same component — merged earlier this round) skip it."
+              },
+              {
+                "zh": "重複下一輪,直到 MST 累積 $V-1$ 條邊;若某輪完全沒有成功合併(圖不連通),則提前結束。",
+                "en": "Repeat for the next round until the MST has accumulated $V-1$ edges; if a round makes no successful merge at all (the graph is disconnected), stop early."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"Init DSU\\n(V components)\"] --> B[\"Scan all edges:\\nupdate cheap[root]\\nper component\"]\n  B --> C[\"For each root r\\nwith cheap[r] set\"]\n  C --> D{\"unite(u,v)\\nsucceeds?\"}\n  D -->|\"no (same\\ncomponent already)\"| C\n  D -->|yes| E[\"Add edge to MST\\ntotal += w, added++\"]\n  E --> F{\"added == V-1?\"}\n  F -->|yes| G[\"MST complete\"]\n  F -->|no| H{\"any merge\\nthis round?\"}\n  H -->|yes| B\n  H -->|no| I[\"disconnected: stop\"]"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "分量合併示意圖",
+          "en": "Component Merge Diagram"
+        },
+        "blocks": [
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  subgraph R1a [\"Round 1 result: {A,D,E}\"]\n    A((\"A\")) -- \"3\" --- E((\"E\"))\n    E -- \"2\" --- D((\"D\"))\n  end\n  subgraph R1b [\"Round 1 result: {B,C}\"]\n    B((\"B\")) -- \"1\" --- C((\"C\"))\n  end\n  A -. \"4 (Round 2)\" .- B"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "第 1 輪:每個分量各自選出最便宜的跨出邊,{A,D,E} 由 E-A(3) 與 D-E(2) 兩條邊連成,{B,C} 由 B-C(1) 連成。第 2 輪:兩個分量之間最便宜的邊是 A-B(4),加入後全圖合併為一棵樹。",
+              "en": "Round 1: every component picks its own cheapest crossing edge — {A,D,E} is joined by E-A(3) and D-E(2), and {B,C} by B-C(1). Round 2: the cheapest edge between the two remaining components is A-B(4); adding it merges everything into one tree."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入:5 個頂點 A–E,6 條加權邊 A-B:4、B-C:1、C-D:6、D-E:2、E-A:3、A-C:5。",
+              "en": "Input: 5 vertices A–E with 6 weighted edges A-B:4, B-C:1, C-D:6, D-E:2, E-A:3, A-C:5."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "初始化:每個頂點自成一個分量:{A}、{B}、{C}、{D}、{E}。",
+                "en": "Initialise: every vertex is its own component: {A}, {B}, {C}, {D}, {E}."
+              },
+              {
+                "zh": "第 1 輪掃描邊,得出每個分量目前最便宜的跨出邊:分量 A 選 E-A(3)(優於 A-B(4)、A-C(5));分量 B 與分量 C 都選 B-C(1);分量 D 與分量 E 都選 D-E(2)。",
+                "en": "Round 1 scans the edges and finds each component's cheapest crossing edge: component A picks E-A(3) (over A-B(4) and A-C(5)); components B and C both pick B-C(1); components D and E both pick D-E(2)."
+              },
+              {
+                "zh": "依序嘗試合併:unite(E,A) 成功 → 加入 E-A(3),合併為 {A,E};unite(B,C) 成功 → 加入 B-C(1),合併為 {B,C};第二次遇到 B-C 時 B、C 已同分量,跳過;unite(D,E) 成功 → 加入 D-E(2),{A,E} 併入 D 成為 {A,D,E};第二次遇到 D-E 時已同分量,跳過。第 1 輪結束,已加入 3 條邊,權重合計 3+1+2=6。",
+                "en": "Attempt merges in order: unite(E,A) succeeds → add E-A(3), forming {A,E}; unite(B,C) succeeds → add B-C(1), forming {B,C}; the second time B-C is seen, B and C are already merged, so it is skipped; unite(D,E) succeeds → add D-E(2), merging D into {A,E} to form {A,D,E}; the second time D-E is seen it is skipped (already merged). Round 1 ends with 3 edges added, weight so far 3+1+2=6."
+              },
+              {
+                "zh": "第 2 輪只剩兩個分量:{A,D,E} 與 {B,C}。重新掃描邊,只有跨分量的邊 A-B(4)、C-D(6)、A-C(5) 有效;兩個分量都以 A-B(4) 為最便宜的跨出邊。",
+                "en": "Round 2 has only two components left: {A,D,E} and {B,C}. Re-scanning the edges, only the crossing edges A-B(4), C-D(6), A-C(5) are relevant; both components find A-B(4) as their cheapest crossing edge."
+              },
+              {
+                "zh": "unite(A,B) 成功 → 加入 A-B(4),兩個分量合併為一個分量 {A,B,C,D,E}。此時已加入 4 條邊($=V-1$),迴圈結束。",
+                "en": "unite(A,B) succeeds → add A-B(4), merging the two components into one: {A,B,C,D,E}. Now 4 edges have been added ($=V-1$), so the loop stops."
+              },
+              {
+                "zh": "結果:MST = {B-C(1), D-E(2), E-A(3), A-B(4)},總權重 $1+2+3+4=10$,共 4 條邊。此結果與同一張圖上 Kruskal / Prim 演算法所得的 MST 相同。",
+                "en": "Result: MST = {B-C(1), D-E(2), E-A(3), A-B(4)}, total weight $1+2+3+4=10$, with 4 edges in total. This matches the MST that Kruskal's or Prim's algorithm would find on the same graph."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "每輪掃描所有邊",
+                  "en": "Scanning all edges per round"
+                },
+                {
+                  "zh": "$O(E)$",
+                  "en": "$O(E)$"
+                }
+              ],
+              [
+                {
+                  "zh": "輪數(分量數每輪至少減半)",
+                  "en": "Number of rounds (components at least halve each round)"
+                },
+                {
+                  "zh": "$O(\\log V)$",
+                  "en": "$O(\\log V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "總時間",
+                  "en": "Total time"
+                },
+                {
+                  "zh": "$O(E \\log V)$",
+                  "en": "$O(E \\log V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "空間(邊列表 + DSU)",
+                  "en": "Space (edge list + DSU)"
+                },
+                {
+                  "zh": "$O(V + E)$",
+                  "en": "$O(V + E)$"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph-boruvka.cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nstruct Edge { int u, v, w; };\n\nint parent[100], rnk[100];\nint find(int x) { while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }\nbool unite(int a, int b) {\n    int ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    if (rnk[ra] < rnk[rb]) swap(ra, rb);\n    parent[rb] = ra; if (rnk[ra] == rnk[rb]) rnk[ra]++;\n    return true;\n}\n\nint main() {\n    int V = 5;\n    vector<Edge> edges = {{0,1,4},{1,2,1},{2,3,6},{3,4,2},{4,0,3},{0,2,5}};\n    for (int i = 0; i < V; i++) { parent[i] = i; rnk[i] = 0; }\n    int total = 0, added = 0;\n    while (added < V - 1) {\n        vector<int> cheap(V, -1);              // cheapest edge index per component\n        for (int i = 0; i < (int)edges.size(); i++) {\n            int ru = find(edges[i].u), rv = find(edges[i].v);\n            if (ru == rv) continue;\n            if (cheap[ru] == -1 || edges[i].w < edges[cheap[ru]].w) cheap[ru] = i;\n            if (cheap[rv] == -1 || edges[i].w < edges[cheap[rv]].w) cheap[rv] = i;\n        }\n        bool progress = false;\n        for (int r = 0; r < V; r++) {\n            if (cheap[r] == -1) continue;\n            Edge e = edges[cheap[r]];\n            if (unite(e.u, e.v)) {\n                total += e.w; added++; progress = true;\n                cout << \"Add \" << e.u << \"-\" << e.v << \" (w=\" << e.w << \")\\n\";\n            }\n        }\n        if (!progress) break;                  // disconnected\n    }\n    cout << \"MST total weight: \" << total << \"\\n\";\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
   "heap-binary": {
     "category": "Heaps / Priority Queues",
     "title": {

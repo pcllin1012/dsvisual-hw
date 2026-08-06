@@ -29,6 +29,7 @@ function assertDeckServed(id) {
 
 const DECKS_TASK1 = ['graph-matrix', 'graph-multilist'];
 const DECKS_TASK2_REACHABILITY = ['graph-components', 'graph-bipartite', 'graph-closure', 'graph-scc'];
+const DECKS_TASK3_MST = ['graph-boruvka'];
 
 test.describe('Graph slides: structural decks', () => {
   test.beforeEach(async ({ page }) => {
@@ -48,6 +49,17 @@ test.describe('Graph slides: reachability decks', () => {
   });
 
   for (const id of DECKS_TASK2_REACHABILITY) {
+    assertDeckServed(id);
+  }
+});
+
+test.describe('Graph slides: MST decks (boruvka)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => { try { localStorage.setItem('dsvisual-lang', 'en'); } catch (e) {} });
+    await page.goto('file://' + path.resolve(__dirname, '../index.html'));
+  });
+
+  for (const id of DECKS_TASK3_MST) {
     assertDeckServed(id);
   }
 });
