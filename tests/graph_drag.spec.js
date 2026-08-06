@@ -2,16 +2,26 @@ const { test, expect } = require('@playwright/test');
 const path = require('path');
 const { loadMethod } = require('./helpers.js');
 
-// Method activation triggers an app-level smooth-scroll (scrollToCategory in
-// js/app.js) that keeps moving the card for a few hundred ms after loadMethod
-// resolves — unrelated to drag, but it races a boundingBox() taken right away.
-// Poll until the box stops moving so the computed cx/cy are accurate.
+// Poll a node's box until it stops moving, then return it. Two independent
+// churn sources make a plain boundingBox() unreliable:
+//   1. Method activation smooth-scrolls the card (scrollToCategory in js/app.js)
+//      for a few hundred ms after loadMethod resolves.
+//   2. After a drag, the re-settle sim replaces svg.innerHTML every rAF frame
+//      until it cools (~44 frames ≈ 730ms at 60fps, longer on slow CI). A read
+//      landing between swaps sees a detached element and returns null.
+// So: tolerate null (mid-swap) and require two consecutive stable non-null
+// reads — which only happens once scrolling AND the sim have settled.
 async function stableBox(locator) {
   let last = null;
-  for (let i = 0; i < 30; i++) {
-    const b = await locator.boundingBox();
-    if (last && Math.abs(b.x - last.x) < 0.5 && Math.abs(b.y - last.y) < 0.5) return b;
-    last = b;
+  for (let i = 0; i < 80; i++) {
+    let b = null;
+    try { b = await locator.boundingBox(); } catch (e) { b = null; }
+    if (b) {
+      if (last && Math.abs(b.x - last.x) < 0.5 && Math.abs(b.y - last.y) < 0.5) return b;
+      last = b;
+    } else {
+      last = null; // mid-repaint — wait for a stable pair
+    }
     await new Promise((r) => setTimeout(r, 50));
   }
   return last;
@@ -42,10 +52,10 @@ test.describe('Graph drag: VCR path', () => {
     await expect(card.locator('.gw-svg .graph-node[data-node="0"]')).toHaveCount(1);
 
     const { target } = await dragNode(page, card, 0, 140, -80);
-    await page.waitForTimeout(700); // let the re-settle cool
 
-    // Dragged node stays pinned near the drop point.
-    const nb = await card.locator('.gw-svg .graph-node[data-node="0"]').first().boundingBox();
+    // Dragged node stays pinned near the drop point. stableBox waits out the
+    // re-settle churn (svg.innerHTML swaps each frame until the sim cools).
+    const nb = await stableBox(card.locator('.gw-svg .graph-node[data-node="0"]').first());
     const nc = { x: nb.x + nb.width / 2, y: nb.y + nb.height / 2 };
     expect(Math.hypot(nc.x - target.x, nc.y - target.y)).toBeLessThan(25);
   });
@@ -100,8 +110,7 @@ test.describe('Graph drag: struct + traversal', () => {
     await page.mouse.down();
     await page.mouse.move(cx + 130, cy - 70, { steps: 8 });
     await page.mouse.up();
-    await page.waitForTimeout(700);
-    const nb = await node.boundingBox();
+    const nb = await stableBox(node); // waits out the re-settle churn
     expect(Math.hypot((nb.x + nb.width / 2) - (cx + 130), (nb.y + nb.height / 2) - (cy - 70))).toBeLessThan(25);
   });
 
