@@ -214,6 +214,7 @@
       const svg = body.querySelector('.gw-svg');
       const descEl = body.querySelector('.gw-stepdesc');
       const logEl = body.querySelector('.gw-steplog');
+      let lastFrame = frames[0];
 
       // One clickable row per frame. Structure via innerHTML, but the message text
       // is assigned via textContent (like descEl below) so a frame message containing
@@ -229,6 +230,7 @@
       });
 
       function draw(f) {
+        lastFrame = f;
         const has = (arr, x) => arr.indexOf(x) !== -1;
         const treeKeys = new Set((f.treeEdges || []).map((e) => e.u + '-' + e.v));
         const R = 20;
@@ -262,7 +264,7 @@
         for (let k = 0; k < parsed.n; k++) {
           let cls = 'graph-node';
           if (f.active === k) cls += ' active'; else if (has(f.visited, k)) cls += ' visited'; else if (has(f.frontier, k)) cls += ' frontier';
-          s += '<circle class="' + cls + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
+          s += '<circle class="' + cls + '" data-node="' + k + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
           s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + parsed.labels[k] + '</text>';
           if (f.dist != null) { const d = f.dist[k]; s += '<text class="graph-distance" x="' + pos[k].x + '" y="' + (pos[k].y - 26) + '">' + (d === Infinity ? '∞' : d) + '</text>'; }
         }
@@ -285,6 +287,8 @@
           scrub.dispatchEvent(new Event('input', { bubbles: true }));
         });
       });
+
+      NodeDrag.attach({ svgs: [svg], pos, edges: parsed.edges, n: parsed.n, redraw: () => draw(lastFrame) });
     }
 
     function applyText(text) {

@@ -423,6 +423,9 @@ header p { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
 .gw-err { color: #f87171; font-size: 0.85rem; }
 .gw-stage { display: flex; justify-content: center; overflow: auto; }
 .gw-svg { max-width: 100%; height: auto; }
+.gw-svg .graph-node { cursor: grab; }
+.gw-svg.gw-dragging .graph-node { cursor: grabbing; }
+.gw-svg .graph-node-label, .gw-svg .graph-weight, .gw-svg .graph-distance { pointer-events: none; }
 .gw-stepdesc { color: #94a3b8; min-height: 1.4em; font-size: 0.9rem; }
 
 .gw-workbench { display: grid; grid-template-columns: 1fr 260px; gap: 12px; align-items: start; }
