@@ -142,7 +142,7 @@
     for (let k = 0; k < parsed.n; k++) {
       let cls = 'graph-node';
       if (frame) { if (frame.active === k) cls += ' active'; else if (has(frame.visited, k)) cls += ' visited'; else if (has(frame.frontier, k)) cls += ' frontier'; }
-      s += '<circle class="' + cls + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
+      s += '<circle class="' + cls + '" data-node="' + k + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
       s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + parsed.labels[k] + '</text>';
     }
     return s;
@@ -214,6 +214,7 @@
       const svg = body.querySelector('.gw-svg');
       const descEl = body.querySelector('.gw-stepdesc');
       const logEl = body.querySelector('.gw-steplog');
+      let lastFrame = frames[0];
 
       // One clickable row per frame. Structure via innerHTML, but the message text
       // is assigned via textContent (like descEl below) so a frame message containing
@@ -229,6 +230,7 @@
       });
 
       function draw(f) {
+        lastFrame = f;
         const has = (arr, x) => arr.indexOf(x) !== -1;
         const treeKeys = new Set((f.treeEdges || []).map((e) => e.u + '-' + e.v));
         const R = 20;
@@ -262,7 +264,7 @@
         for (let k = 0; k < parsed.n; k++) {
           let cls = 'graph-node';
           if (f.active === k) cls += ' active'; else if (has(f.visited, k)) cls += ' visited'; else if (has(f.frontier, k)) cls += ' frontier';
-          s += '<circle class="' + cls + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
+          s += '<circle class="' + cls + '" data-node="' + k + '" cx="' + pos[k].x + '" cy="' + pos[k].y + '" r="18"></circle>';
           s += '<text class="graph-node-label" x="' + pos[k].x + '" y="' + pos[k].y + '">' + parsed.labels[k] + '</text>';
           if (f.dist != null) { const d = f.dist[k]; s += '<text class="graph-distance" x="' + pos[k].x + '" y="' + (pos[k].y - 26) + '">' + (d === Infinity ? '∞' : d) + '</text>'; }
         }
@@ -285,6 +287,8 @@
           scrub.dispatchEvent(new Event('input', { bubbles: true }));
         });
       });
+
+      NodeDrag.attach({ svgs: [svg], pos, edges: parsed.edges, n: parsed.n, redraw: () => draw(lastFrame) });
     }
 
     function applyText(text) {
@@ -394,6 +398,9 @@
           '<div class="gw-stage"><svg class="gw-svg" data-testid="gw-svg" viewBox="0 0 600 400">' + drawUndirectedGraph(parsed, pos, null, dir) + '</svg></div>' +
           '<div class="gw-rep">' + rep + '</div>' +
         '</div>';
+      const svg = body.querySelector('.gw-svg');
+      NodeDrag.attach({ svgs: [svg], pos, edges: parsed.edges, n: parsed.n,
+        redraw: () => { svg.innerHTML = drawUndirectedGraph(parsed, pos, null, dir); } });
     }
 
     function refreshEx() { const ex = host.querySelector('.ex-select'); if (!ex) return; const c = ex.value; ex.innerHTML = gwExamplesOptionsHtml(methodId, DEF); ex.value = c; }
@@ -477,8 +484,10 @@
       const svgBfs = body.querySelector('.gw-svg-bfs'), svgDfs = body.querySelector('.gw-svg-dfs');
       const infoBfs = body.querySelector('.gw-info-bfs'), infoDfs = body.querySelector('.gw-info-dfs');
       const descEl = body.querySelector('.gw-stepdesc');
+      let lastI = 0;
 
       function paint(_f, i) {
+        lastI = i;
         const fb = bfs[Math.min(i, bfs.length - 1)], fd = dfs[Math.min(i, dfs.length - 1)];
         svgBfs.innerHTML = drawUndirectedGraph(parsed, pos, fb, dir);
         svgDfs.innerHTML = drawUndirectedGraph(parsed, pos, fd, dir);
@@ -487,6 +496,8 @@
         descEl.textContent = 'BFS: ' + langOf(fb.message) + '   |   DFS: ' + langOf(fd.message);
       }
       body.appendChild(K().buildFrameControls(Array.from({ length: L }), paint, { runIntervalMs: 700 }));
+      NodeDrag.attach({ svgs: [svgBfs, svgDfs], pos, edges: parsed.edges, n: parsed.n,
+        redraw: () => paint(null, lastI) });
     }
 
     function refreshEx() { const ex = host.querySelector('.ex-select'); if (!ex) return; const c = ex.value; ex.innerHTML = gwExamplesOptionsHtml(methodId, DEF); ex.value = c; }

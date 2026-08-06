@@ -430,3 +430,37 @@ test('DEFAULTS graph-boruvka parses weighted n=5', () => {
   const p = GW.parseEdges(GW.DEFAULTS['graph-boruvka'], true, false);
   assert.ok(p.ok); assert.strictEqual(p.n, 5);
 });
+
+test('forceStep: fixed nodes never move', () => {
+  const pos = [{ x: 100, y: 100 }, { x: 300, y: 200 }, { x: 500, y: 300 }];
+  const edges = [{ u: 0, v: 1 }, { u: 1, v: 2 }];
+  for (let i = 0; i < 10; i++) GW.forceStep(pos, edges, 3, { fixed: new Set([0]) });
+  assert.strictEqual(pos[0].x, 100);
+  assert.strictEqual(pos[0].y, 100);
+});
+
+test('forceStep: keeps every node within padded bounds', () => {
+  const pos = [{ x: 5, y: 5 }, { x: 595, y: 395 }, { x: 300, y: 200 }, { x: 10, y: 390 }];
+  const edges = [{ u: 0, v: 1 }, { u: 2, v: 3 }];
+  for (let i = 0; i < 20; i++) GW.forceStep(pos, edges, 4, {});
+  for (const p of pos) {
+    assert.ok(p.x >= 20 && p.x <= 580, `x in bounds: ${p.x}`);
+    assert.ok(p.y >= 20 && p.y <= 380, `y in bounds: ${p.y}`);
+  }
+});
+
+test('forceStep: a free node off-equilibrium actually moves', () => {
+  const pos = [{ x: 300, y: 200 }, { x: 305, y: 200 }];  // two connected nodes far too close → repulsion
+  const edges = [{ u: 0, v: 1 }];
+  const before = { x: pos[1].x, y: pos[1].y };
+  GW.forceStep(pos, edges, 2, {});
+  assert.ok(Math.hypot(pos[1].x - before.x, pos[1].y - before.y) > 0, 'free node moved');
+});
+
+test('forceStep: deterministic (no RNG)', () => {
+  const mk = () => [{ x: 100, y: 100 }, { x: 400, y: 100 }, { x: 250, y: 350 }];
+  const edges = [{ u: 0, v: 1 }, { u: 1, v: 2 }, { u: 0, v: 2 }];
+  const a = mk(), b = mk();
+  for (let i = 0; i < 15; i++) { GW.forceStep(a, edges, 3, {}); GW.forceStep(b, edges, 3, {}); }
+  assert.deepStrictEqual(a, b);
+});
