@@ -22,8 +22,9 @@ function assertDeckServed(id) {
       return { zh: e.slides.zh.map((s) => s.body).join(''), en: e.slides.en.map((s) => s.body).join('') };
     }, id);
     expect(bodies.zh).not.toBe(bodies.en);
-    // The C++ slide embeds the real source filename.
-    expect(bodies.en).toContain(`${id}.cpp`);
+    // The C++ slide embeds the real (underscored) source filename, e.g.
+    // 'graph-matrix' -> 'graph_matrix.cpp' (matches the actual file in cpp/).
+    expect(bodies.en).toContain(`${id.replace(/-/g, '_')}.cpp`);
   });
 }
 

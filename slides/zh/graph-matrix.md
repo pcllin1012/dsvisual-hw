@@ -39,19 +39,19 @@ category: "Graphs"
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 220" width="220" height="220"><g font-family="monospace" font-size="13" text-anchor="middle"><text x="52" y="24" fill="#475569">0</text><text x="88" y="24" fill="#475569">1</text><text x="124" y="24" fill="#475569">2</text><text x="160" y="24" fill="#475569">3</text><text x="196" y="24" fill="#475569">4</text><text x="18" y="56" fill="#475569">0</text><rect x="34" y="34" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="52" y="56" fill="#cbd5e1">0</text><rect x="70" y="34" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="88" y="56" fill="#1d4ed8" font-weight="bold">4</text><rect x="106" y="34" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="124" y="56" fill="#cbd5e1">0</text><rect x="142" y="34" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="160" y="56" fill="#cbd5e1">0</text><rect x="178" y="34" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="196" y="56" fill="#1d4ed8" font-weight="bold">1</text><text x="18" y="92" fill="#475569">1</text><rect x="34" y="70" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="52" y="92" fill="#1d4ed8" font-weight="bold">4</text><rect x="70" y="70" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="88" y="92" fill="#cbd5e1">0</text><rect x="106" y="70" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="124" y="92" fill="#1d4ed8" font-weight="bold">3</text><rect x="142" y="70" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="160" y="92" fill="#1d4ed8" font-weight="bold">2</text><rect x="178" y="70" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="196" y="92" fill="#1d4ed8" font-weight="bold">5</text><text x="18" y="128" fill="#475569">2</text><rect x="34" y="106" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="52" y="128" fill="#cbd5e1">0</text><rect x="70" y="106" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="88" y="128" fill="#1d4ed8" font-weight="bold">3</text><rect x="106" y="106" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="124" y="128" fill="#cbd5e1">0</text><rect x="142" y="106" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="160" y="128" fill="#1d4ed8" font-weight="bold">6</text><rect x="178" y="106" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="196" y="128" fill="#cbd5e1">0</text><text x="18" y="164" fill="#475569">3</text><rect x="34" y="142" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="52" y="164" fill="#cbd5e1">0</text><rect x="70" y="142" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="88" y="164" fill="#1d4ed8" font-weight="bold">2</text><rect x="106" y="142" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="124" y="164" fill="#1d4ed8" font-weight="bold">6</text><rect x="142" y="142" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="160" y="164" fill="#cbd5e1">0</text><rect x="178" y="142" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="196" y="164" fill="#1d4ed8" font-weight="bold">7</text><text x="18" y="200" fill="#475569">4</text><rect x="34" y="178" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="52" y="200" fill="#1d4ed8" font-weight="bold">1</text><rect x="70" y="178" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="88" y="200" fill="#1d4ed8" font-weight="bold">5</text><rect x="106" y="178" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="124" y="200" fill="#cbd5e1">0</text><rect x="142" y="178" width="36" height="36" fill="#dbeafe" stroke="#2563eb"/><text x="160" y="200" fill="#1d4ed8" font-weight="bold">7</text><rect x="178" y="178" width="36" height="36" fill="#f8fafc" stroke="#cbd5e1"/><text x="196" y="200" fill="#cbd5e1">0</text></g></svg>
 
-> 5×5 矩陣中,藍色格為範例圖的邊(數字即權重);其餘為 0(無邊)。矩陣沿對角線對稱,因為圖是無向的。
+> 5×5 矩陣中，藍色格為範例圖的邊(數字即權重)；其餘為 0(無邊)。矩陣沿對角線對稱，因為圖是無向的。
 
 ---
 
 ## 逐步範例
 
-輸入:5 個頂點、無向圖,邊為 0-1、0-4、1-2、1-3、1-4、2-3、3-4(依序權重 4、1、3、2、5、6、7)。
+輸入：5 個頂點、無向圖，邊為 0-1、0-4、1-2、1-3、1-4、2-3、3-4(依序權重 4、1、3、2、5、6、7)。
 
 1. 初始化 5×5 全 0 矩陣。
 2. 加入邊 0-1(w=4):`adj[0][1] = adj[1][0] = 4`。
-3. 依序加入其餘邊 0-4(1)、1-2(3)、1-3(2)、1-4(5)、2-3(6)、3-4(7),每次同樣鏡射設值。
-4. 完成後第 1 列(頂點 1)為 [4, 0, 3, 2, 5] — 第 0、2、3、4 欄非 0,degree(1) = 4。
-5. `outDegree(1)` 掃描該列的非 0 個數,同樣得到 4,與矩陣觀察一致。
+3. 依序加入其餘邊 0-4(1)、1-2(3)、1-3(2)、1-4(5)、2-3(6)、3-4(7)，每次同樣鏡射設值。
+4. 完成後第 1 列(頂點 1)為 [4, 0, 3, 2, 5] — 第 0、2、3、4 欄非 0，degree(1) = 4。
+5. `outDegree(1)` 掃描該列的非 0 個數，同樣得到 4，與矩陣觀察一致。
 
 ---
 

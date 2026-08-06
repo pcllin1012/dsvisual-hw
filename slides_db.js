@@ -6695,7 +6695,7 @@ const SLIDES_DB = {
           {
             "type": "note",
             "text": {
-              "zh": "5×5 矩陣中,藍色格為範例圖的邊(數字即權重);其餘為 0(無邊)。矩陣沿對角線對稱,因為圖是無向的。",
+              "zh": "5×5 矩陣中，藍色格為範例圖的邊(數字即權重)；其餘為 0(無邊)。矩陣沿對角線對稱，因為圖是無向的。",
               "en": "Blue cells are the edges of the example graph (numbers are their weights); the rest are 0 (no edge). The matrix is symmetric across the diagonal because the graph is undirected."
             }
           }
@@ -6710,7 +6710,7 @@ const SLIDES_DB = {
           {
             "type": "paragraph",
             "text": {
-              "zh": "輸入:5 個頂點、無向圖,邊為 0-1、0-4、1-2、1-3、1-4、2-3、3-4(依序權重 4、1、3、2、5、6、7)。",
+              "zh": "輸入：5 個頂點、無向圖，邊為 0-1、0-4、1-2、1-3、1-4、2-3、3-4(依序權重 4、1、3、2、5、6、7)。",
               "en": "Input: 5 vertices, undirected graph with edges 0-1, 0-4, 1-2, 1-3, 1-4, 2-3, 3-4 (weights 4, 1, 3, 2, 5, 6, 7 respectively)."
             }
           },
@@ -6726,15 +6726,15 @@ const SLIDES_DB = {
                 "en": "Add edge 0-1 (w=4): `adj[0][1] = adj[1][0] = 4`."
               },
               {
-                "zh": "依序加入其餘邊 0-4(1)、1-2(3)、1-3(2)、1-4(5)、2-3(6)、3-4(7),每次同樣鏡射設值。",
+                "zh": "依序加入其餘邊 0-4(1)、1-2(3)、1-3(2)、1-4(5)、2-3(6)、3-4(7)，每次同樣鏡射設值。",
                 "en": "Add the remaining edges 0-4(1), 1-2(3), 1-3(2), 1-4(5), 2-3(6), 3-4(7) the same way, mirroring each value."
               },
               {
-                "zh": "完成後第 1 列(頂點 1)為 [4, 0, 3, 2, 5] — 第 0、2、3、4 欄非 0,degree(1) = 4。",
+                "zh": "完成後第 1 列(頂點 1)為 [4, 0, 3, 2, 5] — 第 0、2、3、4 欄非 0，degree(1) = 4。",
                 "en": "The finished row 1 (vertex 1) reads [4, 0, 3, 2, 5] — nonzero at columns 0, 2, 3, 4, so degree(1) = 4."
               },
               {
-                "zh": "`outDegree(1)` 掃描該列的非 0 個數,同樣得到 4,與矩陣觀察一致。",
+                "zh": "`outDegree(1)` 掃描該列的非 0 個數，同樣得到 4，與矩陣觀察一致。",
                 "en": "`outDegree(1)` scans that row for nonzero entries and also returns 4, matching the matrix directly."
               }
             ]
@@ -6813,7 +6813,7 @@ const SLIDES_DB = {
           {
             "type": "code",
             "lang": "cpp",
-            "file": "graph-matrix.cpp",
+            "file": "graph_matrix.cpp",
             "code": "#include <iostream>\nusing namespace std;\n\nconst int MAXN = 10;\n\nclass Graph {\n    int n;\n    int adj[MAXN][MAXN] = {};\n\npublic:\n    Graph(int v) : n(v) {}\n\n    // adj[u][v] = w always; for an undirected graph also mirror adj[v][u].\n    void addEdge(int u, int v, int w, bool directed) {\n        adj[u][v] = w;\n        if (!directed)\n            adj[v][u] = w;\n    }\n\n    // Out-degree: count of nonzero entries in row i.\n    int outDegree(int i) const {\n        int d = 0;\n        for (int j = 0; j < n; j++)\n            if (adj[i][j] != 0)\n                d++;\n        return d;\n    }\n\n    // In-degree: count of nonzero entries in column j.\n    int inDegree(int j) const {\n        int d = 0;\n        for (int i = 0; i < n; i++)\n            if (adj[i][j] != 0)\n                d++;\n        return d;\n    }\n\n    void print() const {\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++)\n                cout << adj[i][j] << \" \";\n            cout << \"\\n\";\n        }\n    }\n};\n\nint main() {\n    Graph g(5);\n    bool directed = false;\n    g.addEdge(0, 1, 4, directed);\n    g.addEdge(0, 4, 1, directed);\n    g.addEdge(1, 2, 3, directed);\n    g.addEdge(1, 3, 2, directed);\n    g.addEdge(1, 4, 5, directed);\n    g.addEdge(2, 3, 6, directed);\n    g.addEdge(3, 4, 7, directed);\n\n    g.print();\n    for (int i = 0; i < 5; i++)\n        cout << \"deg(\" << i << \") = \" << g.outDegree(i) << \"\\n\";\n    return 0;\n}"
           }
         ]
@@ -6836,7 +6836,7 @@ const SLIDES_DB = {
           {
             "type": "paragraph",
             "text": {
-              "zh": "鄰接多重表中,每一條邊只用一個節點(edge-node)表示,同時被兩個端點共享;相較於鄰接串列(每條無向邊要存兩次),空間為 $O(V+E)$。",
+              "zh": "鄰接多重表中，每一條邊只用一個節點(edge-node)表示，同時被兩個端點共享；相較於鄰接串列(每條無向邊要存兩次)，空間為 $O(V+E)$。",
               "en": "In an adjacency multilist, each edge is represented by a single edge-node shared by both of its endpoints — unlike an adjacency list, which stores every undirected edge twice. Space is $O(V+E)$."
             }
           }
@@ -6851,7 +6851,7 @@ const SLIDES_DB = {
           {
             "type": "paragraph",
             "text": {
-              "zh": "每個 edge-node 存兩個端點 `v1, v2`,以及兩條「下一條邊」指標 `link1, link2`(分別對應 v1、v2 這一側的鏈);每個頂點有一個 head 指標,起頭串起所有與它相連的 edge-node。",
+              "zh": "每個 edge-node 存兩個端點 `v1, v2`，以及兩條「下一條邊」指標 `link1, link2`(分別對應 v1、v2 這一側的鏈)；每個頂點有一個 head 指標，起頭串起所有與它相連的 edge-node。",
               "en": "Each edge-node stores its two endpoints `v1, v2` plus two \"next edge\" pointers `link1, link2` (one per endpoint’s chain); every vertex has a head pointer that threads together all edge-nodes incident to it."
             }
           },
@@ -6859,19 +6859,19 @@ const SLIDES_DB = {
             "type": "bullets",
             "items": [
               {
-                "zh": "`nextOf(e, vertex)` 依 vertex 是 e 的 v1 或 v2,回傳對應的 link1 / link2,取得該端點的下一條邊。",
+                "zh": "`nextOf(e, vertex)` 依 vertex 是 e 的 v1 或 v2，回傳對應的 link1 / link2，取得該端點的下一條邊。",
                 "en": "`nextOf(e, vertex)` returns link1 or link2 depending on whether vertex is e's v1 or v2 — the next edge on that endpoint's chain."
               },
               {
-                "zh": "新增邊時以「插入鏈頭」的方式,把新 edge-node 同時接到兩個端點的鏈上。",
+                "zh": "新增邊時以「插入鏈頭」的方式，把新 edge-node 同時接到兩個端點的鏈上。",
                 "en": "Adding an edge prepends the new edge-node onto both endpoints' chains (pushes it to the head)."
               },
               {
-                "zh": "每條邊只存一個節點,天然適合「每條邊只走訪/標記一次」的演算法(如找橋、Euler 迴路)。",
+                "zh": "每條邊只存一個節點，天然適合「每條邊只走訪/標記一次」的演算法(如找橋、Euler 迴路)。",
                 "en": "Because each edge is a single node, algorithms that must visit or mark each edge exactly once (bridges, Euler tours) fall out naturally."
               },
               {
-                "zh": "空間 $O(V+E)$:V 個 head 指標,加上 E 個 edge-node。",
+                "zh": "空間 $O(V+E)$：V 個 head 指標，加上 E 個 edge-node。",
                 "en": "Space $O(V+E)$: V head pointers plus E edge-nodes."
               }
             ]
@@ -6888,19 +6888,19 @@ const SLIDES_DB = {
             "type": "steps",
             "items": [
               {
-                "zh": "加入邊 $(u, v)$ 時,建立一個新的 edge-node `e(v1=u, v2=v)`。",
+                "zh": "加入邊 $(u, v)$ 時，建立一個新的 edge-node `e(v1=u, v2=v)`。",
                 "en": "To add edge $(u, v)$, create a new edge-node `e(v1=u, v2=v)`."
               },
               {
-                "zh": "把 e 接到 u 的鏈頭:先 `setNext(e, u, head[u])`,再讓 `head[u] = e`。",
+                "zh": "把 e 接到 u 的鏈頭：先 `setNext(e, u, head[u])`，再讓 `head[u] = e`。",
                 "en": "Splice e onto u's chain head: `setNext(e, u, head[u])`, then `head[u] = e`."
               },
               {
-                "zh": "同樣把 e 接到 v 的鏈頭:`setNext(e, v, head[v])`,再讓 `head[v] = e`。",
+                "zh": "同樣把 e 接到 v 的鏈頭：`setNext(e, v, head[v])`，再讓 `head[v] = e`。",
                 "en": "Do the same on v's side: `setNext(e, v, head[v])`, then `head[v] = e`."
               },
               {
-                "zh": "走訪頂點 $i$ 的所有邊時,從 `head[i]` 出發,反覆呼叫 `nextOf(e, i)` 直到 null。",
+                "zh": "走訪頂點 $i$ 的所有邊時，從 `head[i]` 出發，反覆呼叫 `nextOf(e, i)` 直到 null。",
                 "en": "To walk all edges at vertex $i$, start at `head[i]` and repeatedly call `nextOf(e, i)` until null."
               }
             ]
@@ -6924,7 +6924,7 @@ const SLIDES_DB = {
           {
             "type": "note",
             "text": {
-              "zh": "每個 edge-node(E0…E5)恰好代表一條邊。頂點 A 的鏈由 head[A] 出發,依插入順序的反序走訪:E5 → E4 → E0,正好是 A 的三條邊 A-C、E-A、A-B。",
+              "zh": "每個 edge-node(E0…E5)恰好代表一條邊。頂點 A 的鏈由 head[A] 出發，依插入順序的反序走訪：E5 → E4 → E0，正好是 A 的三條邊 A-C、E-A、A-B。",
               "en": "Each edge-node (E0…E5) represents exactly one edge. Vertex A’s chain starts at head[A] and visits edges in reverse insertion order: E5 → E4 → E0 — precisely A’s three incident edges A-C, E-A, A-B."
             }
           }
@@ -6939,7 +6939,7 @@ const SLIDES_DB = {
           {
             "type": "paragraph",
             "text": {
-              "zh": "輸入:5 個頂點 A–E,無向邊 A-B、B-C、C-D、D-E、E-A、A-C(依此順序呼叫 addEdge)。",
+              "zh": "輸入：5 個頂點 A–E，無向邊 A-B、B-C、C-D、D-E、E-A、A-C(依此順序呼叫 addEdge)。",
               "en": "Input: 5 vertices A–E, undirected edges A-B, B-C, C-D, D-E, E-A, A-C (added via addEdge in this order)."
             }
           },
@@ -6947,23 +6947,23 @@ const SLIDES_DB = {
             "type": "steps",
             "items": [
               {
-                "zh": "依序建立 6 個 edge-node:E0=(A,B)、E1=(B,C)、E2=(C,D)、E3=(D,E)、E4=(E,A)、E5=(A,C)。",
+                "zh": "依序建立 6 個 edge-node：E0=(A,B)、E1=(B,C)、E2=(C,D)、E3=(D,E)、E4=(E,A)、E5=(A,C)。",
                 "en": "Six edge-nodes are created in order: E0=(A,B), E1=(B,C), E2=(C,D), E3=(D,E), E4=(E,A), E5=(A,C)."
               },
               {
-                "zh": "E0=(A,B) 建立時同時插入 head[A] 與 head[B] 的鏈頭,此刻 head[A] = E0。",
+                "zh": "E0=(A,B) 建立時同時插入 head[A] 與 head[B] 的鏈頭，此刻 head[A] = E0。",
                 "en": "When E0=(A,B) is created, it is pushed onto both head[A] and head[B]; at this point head[A] = E0."
               },
               {
-                "zh": "E4=(E,A) 建立時插入 head[A] 鏈頭,head[A] 變為 E4,且 E4 在 A 這一側的 next 指向先前的 E0。",
+                "zh": "E4=(E,A) 建立時插入 head[A] 鏈頭，head[A] 變為 E4，且 E4 在 A 這一側的 next 指向先前的 E0。",
                 "en": "When E4=(E,A) is created, it is pushed onto head[A]; head[A] becomes E4, whose next-on-A pointer chains back to the earlier E0."
               },
               {
-                "zh": "最後 E5=(A,C) 建立時再插入 head[A] 鏈頭,head[A] 變為 E5,其 next-on-A 指向 E4。",
+                "zh": "最後 E5=(A,C) 建立時再插入 head[A] 鏈頭，head[A] 變為 E5，其 next-on-A 指向 E4。",
                 "en": "Finally E5=(A,C) is created and pushed onto head[A]; head[A] becomes E5, whose next-on-A pointer points to E4."
               },
               {
-                "zh": "結果:頂點 A 的鏈為 head[A] = E5 → E4 → E0 → null,恰好涵蓋 A 的三條邊 A-C、E-A、A-B。",
+                "zh": "結果：頂點 A 的鏈為 head[A] = E5 → E4 → E0 → null，恰好涵蓋 A 的三條邊 A-C、E-A、A-B。",
                 "en": "Result: vertex A's chain is head[A] = E5 → E4 → E0 → null, covering exactly A's three incident edges A-C, E-A, A-B."
               }
             ]
@@ -7042,7 +7042,7 @@ const SLIDES_DB = {
           {
             "type": "code",
             "lang": "cpp",
-            "file": "graph-multilist.cpp",
+            "file": "graph_multilist.cpp",
             "code": "#include <iostream>\nusing namespace std;\n\n// Adjacency multilist: ONE node per undirected edge, shared by both endpoints.\nstruct ENode {\n    int v1, v2;    // the two endpoints of this edge\n    ENode *link1;  // next edge incident to v1\n    ENode *link2;  // next edge incident to v2\n    ENode(int a, int b) : v1(a), v2(b), link1(nullptr), link2(nullptr) {}\n};\n\nconst int V = 5;\nENode *head[V] = {nullptr};\n\nENode *nextOf(ENode *e, int vertex) {\n    return (e->v1 == vertex) ? e->link1 : e->link2;\n}\nvoid setNext(ENode *e, int vertex, ENode *nx) {\n    if (e->v1 == vertex) e->link1 = nx; else e->link2 = nx;\n}\n\nvoid addEdge(int u, int v) {\n    ENode *e = new ENode(u, v);\n    setNext(e, u, head[u]); head[u] = e;   // push onto u's chain\n    setNext(e, v, head[v]); head[v] = e;   // same node also pushed onto v's chain\n}\n\nvoid print() {\n    for (int i = 0; i < V; i++) {\n        cout << \"[\" << i << \"] -> \";\n        for (ENode *e = head[i]; e; e = nextOf(e, i))\n            cout << \"(\" << e->v1 << \",\" << e->v2 << \") -> \";\n        cout << \"null\\n\";\n    }\n}\n\nint main() {\n    addEdge(0, 1); addEdge(1, 2); addEdge(2, 3);\n    addEdge(3, 4); addEdge(4, 0); addEdge(0, 2);\n    print();\n    return 0;\n}"
           }
         ]
@@ -7273,7 +7273,7 @@ const SLIDES_DB = {
           {
             "type": "code",
             "lang": "cpp",
-            "file": "graph-components.cpp",
+            "file": "graph_components.cpp",
             "code": "#include <iostream>\n#include <queue>\n#include <vector>\nusing namespace std;\n\nconst int MAXN = 10;\n\nclass Graph {\n    int n;\n    vector<int> adj[MAXN];\n\npublic:\n    Graph(int v) : n(v) {}\n\n    // Undirected edge.\n    void addEdge(int u, int v) {\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    // BFS flood-fill (COMP): from the lowest unlabelled vertex, label its whole\n    // connected component, then repeat. Fills comp[] and returns the count.\n    int connectedComponents(int comp[]) {\n        for (int i = 0; i < n; i++)\n            comp[i] = -1;\n        int k = 0;\n        for (int s = 0; s < n; s++) {\n            if (comp[s] != -1)\n                continue;\n            queue<int> q;\n            q.push(s);\n            comp[s] = k;\n            while (!q.empty()) {\n                int v = q.front();\n                q.pop();\n                for (int w : adj[v])\n                    if (comp[w] == -1) {\n                        comp[w] = k;\n                        q.push(w);\n                    }\n            }\n            k++;\n        }\n        return k;\n    }\n};\n\nint main() {\n    Graph g(5);          // G3: two edges, one isolated vertex -> 3 components\n    g.addEdge(0, 1);\n    g.addEdge(2, 3);\n\n    int comp[5];\n    int k = g.connectedComponents(comp);\n\n    cout << \"components = \" << k << \"\\n\";\n    for (int i = 0; i < 5; i++)\n        cout << \"comp[\" << i << \"] = \" << comp[i] << \"\\n\";\n    return 0;\n}"
           }
         ]
@@ -7511,7 +7511,7 @@ const SLIDES_DB = {
           {
             "type": "code",
             "lang": "cpp",
-            "file": "graph-bipartite.cpp",
+            "file": "graph_bipartite.cpp",
             "code": "#include <iostream>\n#include <queue>\n#include <vector>\nusing namespace std;\n\nconst int MAXN = 10;\n\nclass Graph {\n    int n;\n    vector<int> adj[MAXN];\n\npublic:\n    Graph(int v) : n(v) {}\n\n    void addEdge(int u, int v) {\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    // BFS 2-colouring. Fills color[] with 0/1; returns true iff the graph is\n    // bipartite (no edge joins two same-coloured vertices, i.e. no odd cycle).\n    bool isBipartite(int color[]) {\n        for (int i = 0; i < n; i++)\n            color[i] = -1;\n        for (int s = 0; s < n; s++) {\n            if (color[s] != -1)\n                continue;\n            queue<int> q;\n            q.push(s);\n            color[s] = 0;\n            while (!q.empty()) {\n                int v = q.front();\n                q.pop();\n                for (int w : adj[v]) {\n                    if (color[w] == -1) {\n                        color[w] = 1 - color[v];\n                        q.push(w);\n                    } else if (color[w] == color[v]) {\n                        return false; // odd cycle\n                    }\n                }\n            }\n        }\n        return true;\n    }\n};\n\nint main() {\n    Graph g(6);          // C6: an even cycle -> bipartite\n    g.addEdge(0, 1);\n    g.addEdge(1, 2);\n    g.addEdge(2, 3);\n    g.addEdge(3, 4);\n    g.addEdge(4, 5);\n    g.addEdge(5, 0);\n\n    int color[6];\n    bool ok = g.isBipartite(color);\n    cout << \"bipartite = \" << (ok ? \"true\" : \"false\") << \"\\n\";\n    if (ok)\n        for (int i = 0; i < 6; i++)\n            cout << \"color[\" << i << \"] = \" << color[i] << \"\\n\";\n    return 0;\n}"
           }
         ]
@@ -7849,7 +7849,7 @@ const SLIDES_DB = {
           {
             "type": "code",
             "lang": "cpp",
-            "file": "graph-closure.cpp",
+            "file": "graph_closure.cpp",
             "code": "#include <iostream>\nusing namespace std;\n\nconst int MAXN = 10;\n\n// Warshall's transitive closure: R[i][j] = 1 iff j is reachable from i via >= 1 edge.\n// R is initialized to the adjacency matrix; R[i][i] becomes 1 only if i lies on a cycle.\nvoid warshall(int R[MAXN][MAXN], int n) {\n    for (int k = 0; k < n; k++)\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j < n; j++)\n                if (R[i][k] && R[k][j])\n                    R[i][j] = 1;\n}\n\nint main() {\n    int n = 4;                    // SAMPLE: 0->1, 1->2, 2->3, 3->1 (chain + cycle 1-2-3)\n    int R[MAXN][MAXN] = {};\n    R[0][1] = R[1][2] = R[2][3] = R[3][1] = 1;\n\n    warshall(R, n);\n\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++)\n            cout << R[i][j] << (j + 1 < n ? \" \" : \"\");\n        cout << \"\\n\";\n    }\n    return 0;\n}"
           }
         ]
@@ -8076,7 +8076,7 @@ const SLIDES_DB = {
           {
             "type": "code",
             "lang": "cpp",
-            "file": "graph-scc.cpp",
+            "file": "graph_scc.cpp",
             "code": "#include <iostream>\n#include <vector>\n#include <stack>\nusing namespace std;\n\nconst int MAXN = 10;\n\n// Kosaraju's algorithm: DFS on G pushing vertices by finish time, then DFS on the\n// transpose G^T popping in reverse finish order — each tree is one SCC.\nint n;\nvector<int> adj[MAXN], radj[MAXN];\nbool visited[MAXN];\nint comp[MAXN];\n\nvoid dfs1(int u, stack<int>& order) {\n    visited[u] = true;\n    for (int w : adj[u])\n        if (!visited[w]) dfs1(w, order);\n    order.push(u);                 // finished\n}\n\nvoid dfs2(int u, int cid) {\n    comp[u] = cid;\n    for (int w : radj[u])\n        if (comp[w] == -1) dfs2(w, cid);\n}\n\nint main() {\n    n = 6;                         // SAMPLE: 0->1,1->2,2->0, 2->3, 3->4,4->3, 4->5\n    int E[][2] = {{0,1},{1,2},{2,0},{2,3},{3,4},{4,3},{4,5}};\n    for (auto& e : E) { adj[e[0]].push_back(e[1]); radj[e[1]].push_back(e[0]); }\n\n    stack<int> order;\n    for (int i = 0; i < n; i++) if (!visited[i]) dfs1(i, order);\n\n    for (int i = 0; i < n; i++) comp[i] = -1;\n    int scc = 0;\n    while (!order.empty()) {\n        int v = order.top(); order.pop();\n        if (comp[v] == -1) dfs2(v, scc++);\n    }\n\n    cout << scc << \" SCC(s)\\n\";\n    for (int c = 0; c < scc; c++) {\n        cout << \"SCC \" << c << \":\";\n        for (int i = 0; i < n; i++) if (comp[i] == c) cout << \" \" << i;\n        cout << \"\\n\";\n    }\n    return 0;\n}"
           }
         ]
@@ -8099,7 +8099,7 @@ const SLIDES_DB = {
           {
             "type": "paragraph",
             "text": {
-              "zh": "Borůvka(又稱 Sollin)演算法以「輪」為單位建構最小生成樹(MST):每一輪,圖中每個連通分量同時各自挑出一條連到分量外的最便宜邊並加入 MST,整體在 $O(E \\log V)$ 時間內完成。",
+              "zh": "Borůvka(又稱 Sollin)演算法以「輪」為單位建構最小生成樹(MST)：每一輪，圖中每個連通分量同時各自挑出一條連到分量外的最便宜邊並加入 MST，整體在 $O(E \\log V)$ 時間內完成。",
               "en": "Borůvka's algorithm (also called Sollin's) builds a Minimum Spanning Tree (MST) in rounds: in each round, every connected component simultaneously picks its own cheapest edge leaving the component and adds it to the MST, completing in $O(E \\log V)$ time overall."
             }
           }
@@ -8114,7 +8114,7 @@ const SLIDES_DB = {
           {
             "type": "paragraph",
             "text": {
-              "zh": "以 DSU(Disjoint Set Union)追蹤目前的連通分量。每一輪對每個分量各找出一條「跨出該分量」且權重最小的邊,同時加入這些邊並合併分量。因為每一輪每個分量至少與另一個分量合併,分量數至少減半,所以只需約 $\\log V$ 輪。",
+              "zh": "以 DSU(Disjoint Set Union)追蹤目前的連通分量。每一輪對每個分量各找出一條「跨出該分量」且權重最小的邊，同時加入這些邊並合併分量。因為每一輪每個分量至少與另一個分量合併，分量數至少減半，所以只需約 $\\log V$ 輪。",
               "en": "A DSU (Disjoint Set Union) tracks the current components. Each round finds, for every component, the minimum-weight edge crossing out of it; all chosen edges are added simultaneously and their components merged. Since every component merges with at least one other each round, the number of components at least halves, so only about $\\log V$ rounds are needed."
             }
           },
@@ -8122,19 +8122,19 @@ const SLIDES_DB = {
             "type": "bullets",
             "items": [
               {
-                "zh": "DSU `find(x)`:回傳 x 所在分量的根;`unite(a,b)`:合併兩分量,若已同分量則回傳 false。",
+                "zh": "DSU `find(x)`：回傳 x 所在分量的根；`unite(a,b)`：合併兩分量，若已同分量則回傳 false。",
                 "en": "DSU `find(x)`: returns the root of x's component; `unite(a,b)`: merges two components, returning false if they are already the same."
               },
               {
-                "zh": "`cheap[r]`:分量根 r 目前找到的最便宜跨出邊之索引,每輪重新計算。",
+                "zh": "`cheap[r]`：分量根 r 目前找到的最便宜跨出邊之索引，每輪重新計算。",
                 "en": "`cheap[r]`: the index of the cheapest crossing edge found so far for component root r, recomputed every round."
               },
               {
-                "zh": "同一輪中,兩個分量可能都選到同一條邊(彼此互為對方的最便宜邊);第二次嘗試 `unite` 時因已同分量而被跳過,避免重複計入。",
+                "zh": "同一輪中，兩個分量可能都選到同一條邊(彼此互為對方的最便宜邊)；第二次嘗試 `unite` 時因已同分量而被跳過，避免重複計入。",
                 "en": "Within one round, two components may both pick the same edge (each is the other's cheapest); the second `unite` attempt on it is skipped because they are already merged, avoiding double-counting."
               },
               {
-                "zh": "分量數每輪至少減半,故僅需約 $\\log V$ 輪即可收斂到 $V-1$ 條邊。",
+                "zh": "分量數每輪至少減半，故僅需約 $\\log V$ 輪即可收斂到 $V-1$ 條邊。",
                 "en": "The component count at least halves every round, so only about $\\log V$ rounds are needed to converge to $V-1$ edges."
               }
             ]
@@ -8151,19 +8151,19 @@ const SLIDES_DB = {
             "type": "steps",
             "items": [
               {
-                "zh": "初始化 DSU:每個頂點各自為一個分量($V$ 個分量)。",
+                "zh": "初始化 DSU：每個頂點各自為一個分量($V$ 個分量)。",
                 "en": "Initialise DSU: each vertex is its own component ($V$ components)."
               },
               {
-                "zh": "每一輪掃描所有邊一次:對每條邊 $(u,v,w)$,若 $u,v$ 的根不同,分別更新兩端根的 `cheap[]` 為目前所見最小權重的邊。",
+                "zh": "每一輪掃描所有邊一次：對每條邊 $(u,v,w)$，若 $u,v$ 的根不同，分別更新兩端根的 `cheap[]` 為目前所見最小權重的邊。",
                 "en": "Each round scans every edge once: for edge $(u,v,w)$, if u and v have different roots, update `cheap[]` for both roots to this edge whenever it is the smallest seen so far."
               },
               {
-                "zh": "掃描完後,對每個根 r(若 `cheap[r]` 存在)嘗試 `unite` 該邊的兩端;成功則將邊加入 MST 並累加權重,失敗(已同分量,代表本輪已被合併過)則跳過。",
+                "zh": "掃描完後，對每個根 r(若 `cheap[r]` 存在)嘗試 `unite` 該邊的兩端；成功則將邊加入 MST 並累加權重，失敗(已同分量，代表本輪已被合併過)則跳過。",
                 "en": "After the scan, for every root r with a `cheap[r]`, attempt to `unite` that edge's endpoints; on success add the edge to the MST and accumulate its weight, on failure (already the same component — merged earlier this round) skip it."
               },
               {
-                "zh": "重複下一輪,直到 MST 累積 $V-1$ 條邊;若某輪完全沒有成功合併(圖不連通),則提前結束。",
+                "zh": "重複下一輪，直到 MST 累積 $V-1$ 條邊；若某輪完全沒有成功合併(圖不連通)，則提前結束。",
                 "en": "Repeat for the next round until the MST has accumulated $V-1$ edges; if a round makes no successful merge at all (the graph is disconnected), stop early."
               }
             ]
@@ -8187,7 +8187,7 @@ const SLIDES_DB = {
           {
             "type": "note",
             "text": {
-              "zh": "第 1 輪:每個分量各自選出最便宜的跨出邊,{A,D,E} 由 E-A(3) 與 D-E(2) 兩條邊連成,{B,C} 由 B-C(1) 連成。第 2 輪:兩個分量之間最便宜的邊是 A-B(4),加入後全圖合併為一棵樹。",
+              "zh": "第 1 輪：每個分量各自選出最便宜的跨出邊，{A,D,E} 由 E-A(3) 與 D-E(2) 兩條邊連成，{B,C} 由 B-C(1) 連成。第 2 輪：兩個分量之間最便宜的邊是 A-B(4)，加入後全圖合併為一棵樹。",
               "en": "Round 1: every component picks its own cheapest crossing edge — {A,D,E} is joined by E-A(3) and D-E(2), and {B,C} by B-C(1). Round 2: the cheapest edge between the two remaining components is A-B(4); adding it merges everything into one tree."
             }
           }
@@ -8202,7 +8202,7 @@ const SLIDES_DB = {
           {
             "type": "paragraph",
             "text": {
-              "zh": "輸入:5 個頂點 A–E,6 條加權邊 A-B:4、B-C:1、C-D:6、D-E:2、E-A:3、A-C:5。",
+              "zh": "輸入：5 個頂點 A–E，6 條加權邊 A-B:4、B-C:1、C-D:6、D-E:2、E-A:3、A-C:5。",
               "en": "Input: 5 vertices A–E with 6 weighted edges A-B:4, B-C:1, C-D:6, D-E:2, E-A:3, A-C:5."
             }
           },
@@ -8210,27 +8210,27 @@ const SLIDES_DB = {
             "type": "steps",
             "items": [
               {
-                "zh": "初始化:每個頂點自成一個分量:{A}、{B}、{C}、{D}、{E}。",
+                "zh": "初始化：每個頂點自成一個分量：{A}、{B}、{C}、{D}、{E}。",
                 "en": "Initialise: every vertex is its own component: {A}, {B}, {C}, {D}, {E}."
               },
               {
-                "zh": "第 1 輪掃描邊,得出每個分量目前最便宜的跨出邊:分量 A 選 E-A(3)(優於 A-B(4)、A-C(5));分量 B 與分量 C 都選 B-C(1);分量 D 與分量 E 都選 D-E(2)。",
+                "zh": "第 1 輪掃描邊，得出每個分量目前最便宜的跨出邊：分量 A 選 E-A(3)(優於 A-B(4)、A-C(5))；分量 B 與分量 C 都選 B-C(1)；分量 D 與分量 E 都選 D-E(2)。",
                 "en": "Round 1 scans the edges and finds each component's cheapest crossing edge: component A picks E-A(3) (over A-B(4) and A-C(5)); components B and C both pick B-C(1); components D and E both pick D-E(2)."
               },
               {
-                "zh": "依序嘗試合併:unite(E,A) 成功 → 加入 E-A(3),合併為 {A,E};unite(B,C) 成功 → 加入 B-C(1),合併為 {B,C};第二次遇到 B-C 時 B、C 已同分量,跳過;unite(D,E) 成功 → 加入 D-E(2),{A,E} 併入 D 成為 {A,D,E};第二次遇到 D-E 時已同分量,跳過。第 1 輪結束,已加入 3 條邊,權重合計 3+1+2=6。",
+                "zh": "依序嘗試合併：unite(E,A) 成功 → 加入 E-A(3)，合併為 {A,E}；unite(B,C) 成功 → 加入 B-C(1)，合併為 {B,C}；第二次遇到 B-C 時 B、C 已同分量，跳過；unite(D,E) 成功 → 加入 D-E(2)，{A,E} 併入 D 成為 {A,D,E}；第二次遇到 D-E 時已同分量，跳過。第 1 輪結束，已加入 3 條邊，權重合計 3+1+2=6。",
                 "en": "Attempt merges in order: unite(E,A) succeeds → add E-A(3), forming {A,E}; unite(B,C) succeeds → add B-C(1), forming {B,C}; the second time B-C is seen, B and C are already merged, so it is skipped; unite(D,E) succeeds → add D-E(2), merging D into {A,E} to form {A,D,E}; the second time D-E is seen it is skipped (already merged). Round 1 ends with 3 edges added, weight so far 3+1+2=6."
               },
               {
-                "zh": "第 2 輪只剩兩個分量:{A,D,E} 與 {B,C}。重新掃描邊,只有跨分量的邊 A-B(4)、C-D(6)、A-C(5) 有效;兩個分量都以 A-B(4) 為最便宜的跨出邊。",
+                "zh": "第 2 輪只剩兩個分量：{A,D,E} 與 {B,C}。重新掃描邊，只有跨分量的邊 A-B(4)、C-D(6)、A-C(5) 有效；兩個分量都以 A-B(4) 為最便宜的跨出邊。",
                 "en": "Round 2 has only two components left: {A,D,E} and {B,C}. Re-scanning the edges, only the crossing edges A-B(4), C-D(6), A-C(5) are relevant; both components find A-B(4) as their cheapest crossing edge."
               },
               {
-                "zh": "unite(A,B) 成功 → 加入 A-B(4),兩個分量合併為一個分量 {A,B,C,D,E}。此時已加入 4 條邊($=V-1$),迴圈結束。",
+                "zh": "unite(A,B) 成功 → 加入 A-B(4)，兩個分量合併為一個分量 {A,B,C,D,E}。此時已加入 4 條邊($=V-1$)，迴圈結束。",
                 "en": "unite(A,B) succeeds → add A-B(4), merging the two components into one: {A,B,C,D,E}. Now 4 edges have been added ($=V-1$), so the loop stops."
               },
               {
-                "zh": "結果:MST = {B-C(1), D-E(2), E-A(3), A-B(4)},總權重 $1+2+3+4=10$,共 4 條邊。此結果與同一張圖上 Kruskal / Prim 演算法所得的 MST 相同。",
+                "zh": "結果：MST = {B-C(1), D-E(2), E-A(3), A-B(4)}，總權重 $1+2+3+4=10$，共 4 條邊。此結果與同一張圖上 Kruskal / Prim 演算法所得的 MST 相同。",
                 "en": "Result: MST = {B-C(1), D-E(2), E-A(3), A-B(4)}, total weight $1+2+3+4=10$, with 4 edges in total. This matches the MST that Kruskal's or Prim's algorithm would find on the same graph."
               }
             ]
@@ -8309,7 +8309,7 @@ const SLIDES_DB = {
           {
             "type": "code",
             "lang": "cpp",
-            "file": "graph-boruvka.cpp",
+            "file": "graph_boruvka.cpp",
             "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nstruct Edge { int u, v, w; };\n\nint parent[100], rnk[100];\nint find(int x) { while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }\nbool unite(int a, int b) {\n    int ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    if (rnk[ra] < rnk[rb]) swap(ra, rb);\n    parent[rb] = ra; if (rnk[ra] == rnk[rb]) rnk[ra]++;\n    return true;\n}\n\nint main() {\n    int V = 5;\n    vector<Edge> edges = {{0,1,4},{1,2,1},{2,3,6},{3,4,2},{4,0,3},{0,2,5}};\n    for (int i = 0; i < V; i++) { parent[i] = i; rnk[i] = 0; }\n    int total = 0, added = 0;\n    while (added < V - 1) {\n        vector<int> cheap(V, -1);              // cheapest edge index per component\n        for (int i = 0; i < (int)edges.size(); i++) {\n            int ru = find(edges[i].u), rv = find(edges[i].v);\n            if (ru == rv) continue;\n            if (cheap[ru] == -1 || edges[i].w < edges[cheap[ru]].w) cheap[ru] = i;\n            if (cheap[rv] == -1 || edges[i].w < edges[cheap[rv]].w) cheap[rv] = i;\n        }\n        bool progress = false;\n        for (int r = 0; r < V; r++) {\n            if (cheap[r] == -1) continue;\n            Edge e = edges[cheap[r]];\n            if (unite(e.u, e.v)) {\n                total += e.w; added++; progress = true;\n                cout << \"Add \" << e.u << \"-\" << e.v << \" (w=\" << e.w << \")\\n\";\n            }\n        }\n        if (!progress) break;                  // disconnected\n    }\n    cout << \"MST total weight: \" << total << \"\\n\";\n    return 0;\n}"
           }
         ]
