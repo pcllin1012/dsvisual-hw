@@ -6591,6 +6591,464 @@ const SLIDES_DB = {
       }
     ]
   },
+  "graph-matrix": {
+    "category": "Graphs",
+    "title": {
+      "zh": "鄰接矩陣",
+      "en": "Adjacency Matrix"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "鄰接矩陣",
+          "en": "Adjacency Matrix"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "鄰接矩陣以一個 $V\\times V$ 的矩陣 $M$ 表示圖：若頂點 $i$ 與 $j$ 之間有邊，$M[i][j]$ 就記錄這條邊（或其權重）。空間為 $O(V^2)$，邊查詢僅需 $O(1)$。",
+              "en": "An adjacency matrix represents a graph as a $V\\times V$ matrix $M$: if there is an edge between vertices $i$ and $j$, $M[i][j]$ records it (or its weight). Space is $O(V^2)$, and an edge lookup is $O(1)$."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "矩陣的第 $i$ 列描述頂點 $i$ 的所有邊；在無向圖中 $M[i][j] = M[j][i]$，因此矩陣沿主對角線對稱。",
+              "en": "Row $i$ of the matrix describes every edge touching vertex $i$; for an undirected graph $M[i][j] = M[j][i]$, so the matrix is symmetric across its main diagonal."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "無向圖 ⇒ 對稱矩陣（對角線恆為 0，代表沒有自環）。",
+                "en": "Undirected ⇒ a symmetric matrix (the diagonal stays 0 — no self-loops here)."
+              },
+              {
+                "zh": "有權重的圖：格內存權重 $w$ 而非單純的 1；0 仍代表「無邊」。",
+                "en": "Weighted graph: each cell stores the weight $w$ instead of a plain 1; 0 still means \"no edge\"."
+              },
+              {
+                "zh": "列舉頂點 $i$ 的所有鄰居須掃過整列，花費 $O(V)$。",
+                "en": "Enumerating vertex $i$'s neighbours means scanning its whole row, costing $O(V)$."
+              },
+              {
+                "zh": "適合稠密圖；圖越稀疏，矩陣中的 0 越多，空間浪費越明顯。",
+                "en": "A good fit for dense graphs; the sparser the graph, the more wasted zero cells."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "建立 $V\\times V$ 的矩陣，所有格子初始化為 0。",
+                "en": "Allocate a $V\\times V$ matrix with every cell initialised to 0."
+              },
+              {
+                "zh": "加入邊 $(u, v, w)$ 時，設定 `adj[u][v] = w`。",
+                "en": "To add edge $(u, v, w)$, set `adj[u][v] = w`."
+              },
+              {
+                "zh": "若圖為無向，額外鏡射設定 `adj[v][u] = w`，維持矩陣對稱。",
+                "en": "If the graph is undirected, also mirror it with `adj[v][u] = w` to keep the matrix symmetric."
+              },
+              {
+                "zh": "邊查詢 $(i, j)$ 直接讀取 `adj[i][j]`；非 0 即代表有邊（值即為權重）。",
+                "en": "An edge query for $(i, j)$ is a direct read of `adj[i][j]`; nonzero means an edge exists (the value is its weight)."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"Init V×V\\nmatrix = 0\"] --> B[\"addEdge(u,v,w,\\ndirected)\"]\n  B --> C[\"adj[u][v] = w\"]\n  C --> D{\"directed?\"}\n  D -->|no| E[\"adj[v][u] = w\"]\n  D -->|yes| F[\"ready to query\"]\n  E --> F"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "矩陣示意圖",
+          "en": "Matrix Diagram"
+        },
+        "blocks": [
+          {
+            "type": "svg",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 220 220\" width=\"220\" height=\"220\"><g font-family=\"monospace\" font-size=\"13\" text-anchor=\"middle\"><text x=\"52\" y=\"24\" fill=\"#475569\">0</text><text x=\"88\" y=\"24\" fill=\"#475569\">1</text><text x=\"124\" y=\"24\" fill=\"#475569\">2</text><text x=\"160\" y=\"24\" fill=\"#475569\">3</text><text x=\"196\" y=\"24\" fill=\"#475569\">4</text><text x=\"18\" y=\"56\" fill=\"#475569\">0</text><rect x=\"34\" y=\"34\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"52\" y=\"56\" fill=\"#cbd5e1\">0</text><rect x=\"70\" y=\"34\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"88\" y=\"56\" fill=\"#1d4ed8\" font-weight=\"bold\">4</text><rect x=\"106\" y=\"34\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"124\" y=\"56\" fill=\"#cbd5e1\">0</text><rect x=\"142\" y=\"34\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"160\" y=\"56\" fill=\"#cbd5e1\">0</text><rect x=\"178\" y=\"34\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"196\" y=\"56\" fill=\"#1d4ed8\" font-weight=\"bold\">1</text><text x=\"18\" y=\"92\" fill=\"#475569\">1</text><rect x=\"34\" y=\"70\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"52\" y=\"92\" fill=\"#1d4ed8\" font-weight=\"bold\">4</text><rect x=\"70\" y=\"70\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"88\" y=\"92\" fill=\"#cbd5e1\">0</text><rect x=\"106\" y=\"70\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"124\" y=\"92\" fill=\"#1d4ed8\" font-weight=\"bold\">3</text><rect x=\"142\" y=\"70\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"160\" y=\"92\" fill=\"#1d4ed8\" font-weight=\"bold\">2</text><rect x=\"178\" y=\"70\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"196\" y=\"92\" fill=\"#1d4ed8\" font-weight=\"bold\">5</text><text x=\"18\" y=\"128\" fill=\"#475569\">2</text><rect x=\"34\" y=\"106\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"52\" y=\"128\" fill=\"#cbd5e1\">0</text><rect x=\"70\" y=\"106\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"88\" y=\"128\" fill=\"#1d4ed8\" font-weight=\"bold\">3</text><rect x=\"106\" y=\"106\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"124\" y=\"128\" fill=\"#cbd5e1\">0</text><rect x=\"142\" y=\"106\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"160\" y=\"128\" fill=\"#1d4ed8\" font-weight=\"bold\">6</text><rect x=\"178\" y=\"106\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"196\" y=\"128\" fill=\"#cbd5e1\">0</text><text x=\"18\" y=\"164\" fill=\"#475569\">3</text><rect x=\"34\" y=\"142\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"52\" y=\"164\" fill=\"#cbd5e1\">0</text><rect x=\"70\" y=\"142\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"88\" y=\"164\" fill=\"#1d4ed8\" font-weight=\"bold\">2</text><rect x=\"106\" y=\"142\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"124\" y=\"164\" fill=\"#1d4ed8\" font-weight=\"bold\">6</text><rect x=\"142\" y=\"142\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"160\" y=\"164\" fill=\"#cbd5e1\">0</text><rect x=\"178\" y=\"142\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"196\" y=\"164\" fill=\"#1d4ed8\" font-weight=\"bold\">7</text><text x=\"18\" y=\"200\" fill=\"#475569\">4</text><rect x=\"34\" y=\"178\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"52\" y=\"200\" fill=\"#1d4ed8\" font-weight=\"bold\">1</text><rect x=\"70\" y=\"178\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"88\" y=\"200\" fill=\"#1d4ed8\" font-weight=\"bold\">5</text><rect x=\"106\" y=\"178\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"124\" y=\"200\" fill=\"#cbd5e1\">0</text><rect x=\"142\" y=\"178\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"160\" y=\"200\" fill=\"#1d4ed8\" font-weight=\"bold\">7</text><rect x=\"178\" y=\"178\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"196\" y=\"200\" fill=\"#cbd5e1\">0</text></g></svg>"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "5×5 矩陣中,藍色格為範例圖的邊(數字即權重);其餘為 0(無邊)。矩陣沿對角線對稱,因為圖是無向的。",
+              "en": "Blue cells are the edges of the example graph (numbers are their weights); the rest are 0 (no edge). The matrix is symmetric across the diagonal because the graph is undirected."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入:5 個頂點、無向圖,邊為 0-1、0-4、1-2、1-3、1-4、2-3、3-4(依序權重 4、1、3、2、5、6、7)。",
+              "en": "Input: 5 vertices, undirected graph with edges 0-1, 0-4, 1-2, 1-3, 1-4, 2-3, 3-4 (weights 4, 1, 3, 2, 5, 6, 7 respectively)."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "初始化 5×5 全 0 矩陣。",
+                "en": "Initialise a 5×5 matrix of all zeros."
+              },
+              {
+                "zh": "加入邊 0-1(w=4):`adj[0][1] = adj[1][0] = 4`。",
+                "en": "Add edge 0-1 (w=4): `adj[0][1] = adj[1][0] = 4`."
+              },
+              {
+                "zh": "依序加入其餘邊 0-4(1)、1-2(3)、1-3(2)、1-4(5)、2-3(6)、3-4(7),每次同樣鏡射設值。",
+                "en": "Add the remaining edges 0-4(1), 1-2(3), 1-3(2), 1-4(5), 2-3(6), 3-4(7) the same way, mirroring each value."
+              },
+              {
+                "zh": "完成後第 1 列(頂點 1)為 [4, 0, 3, 2, 5] — 第 0、2、3、4 欄非 0,degree(1) = 4。",
+                "en": "The finished row 1 (vertex 1) reads [4, 0, 3, 2, 5] — nonzero at columns 0, 2, 3, 4, so degree(1) = 4."
+              },
+              {
+                "zh": "`outDegree(1)` 掃描該列的非 0 個數,同樣得到 4,與矩陣觀察一致。",
+                "en": "`outDegree(1)` scans that row for nonzero entries and also returns 4, matching the matrix directly."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "空間",
+                  "en": "Space"
+                },
+                {
+                  "zh": "$O(V^2)$",
+                  "en": "$O(V^2)$"
+                }
+              ],
+              [
+                {
+                  "zh": "邊查詢",
+                  "en": "Edge query"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                }
+              ],
+              [
+                {
+                  "zh": "列舉鄰居",
+                  "en": "Enumerate neighbours"
+                },
+                {
+                  "zh": "$O(V)$",
+                  "en": "$O(V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "加入邊",
+                  "en": "Add edge"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph-matrix.cpp",
+            "code": "#include <iostream>\nusing namespace std;\n\nconst int MAXN = 10;\n\nclass Graph {\n    int n;\n    int adj[MAXN][MAXN] = {};\n\npublic:\n    Graph(int v) : n(v) {}\n\n    // adj[u][v] = w always; for an undirected graph also mirror adj[v][u].\n    void addEdge(int u, int v, int w, bool directed) {\n        adj[u][v] = w;\n        if (!directed)\n            adj[v][u] = w;\n    }\n\n    // Out-degree: count of nonzero entries in row i.\n    int outDegree(int i) const {\n        int d = 0;\n        for (int j = 0; j < n; j++)\n            if (adj[i][j] != 0)\n                d++;\n        return d;\n    }\n\n    // In-degree: count of nonzero entries in column j.\n    int inDegree(int j) const {\n        int d = 0;\n        for (int i = 0; i < n; i++)\n            if (adj[i][j] != 0)\n                d++;\n        return d;\n    }\n\n    void print() const {\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++)\n                cout << adj[i][j] << \" \";\n            cout << \"\\n\";\n        }\n    }\n};\n\nint main() {\n    Graph g(5);\n    bool directed = false;\n    g.addEdge(0, 1, 4, directed);\n    g.addEdge(0, 4, 1, directed);\n    g.addEdge(1, 2, 3, directed);\n    g.addEdge(1, 3, 2, directed);\n    g.addEdge(1, 4, 5, directed);\n    g.addEdge(2, 3, 6, directed);\n    g.addEdge(3, 4, 7, directed);\n\n    g.print();\n    for (int i = 0; i < 5; i++)\n        cout << \"deg(\" << i << \") = \" << g.outDegree(i) << \"\\n\";\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
+  "graph-multilist": {
+    "category": "Graphs",
+    "title": {
+      "zh": "鄰接多重表",
+      "en": "Adjacency Multilist"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "鄰接多重表",
+          "en": "Adjacency Multilist"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "鄰接多重表中,每一條邊只用一個節點(edge-node)表示,同時被兩個端點共享;相較於鄰接串列(每條無向邊要存兩次),空間為 $O(V+E)$。",
+              "en": "In an adjacency multilist, each edge is represented by a single edge-node shared by both of its endpoints — unlike an adjacency list, which stores every undirected edge twice. Space is $O(V+E)$."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "每個 edge-node 存兩個端點 `v1, v2`,以及兩條「下一條邊」指標 `link1, link2`(分別對應 v1、v2 這一側的鏈);每個頂點有一個 head 指標,起頭串起所有與它相連的 edge-node。",
+              "en": "Each edge-node stores its two endpoints `v1, v2` plus two \"next edge\" pointers `link1, link2` (one per endpoint’s chain); every vertex has a head pointer that threads together all edge-nodes incident to it."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "`nextOf(e, vertex)` 依 vertex 是 e 的 v1 或 v2,回傳對應的 link1 / link2,取得該端點的下一條邊。",
+                "en": "`nextOf(e, vertex)` returns link1 or link2 depending on whether vertex is e's v1 or v2 — the next edge on that endpoint's chain."
+              },
+              {
+                "zh": "新增邊時以「插入鏈頭」的方式,把新 edge-node 同時接到兩個端點的鏈上。",
+                "en": "Adding an edge prepends the new edge-node onto both endpoints' chains (pushes it to the head)."
+              },
+              {
+                "zh": "每條邊只存一個節點,天然適合「每條邊只走訪/標記一次」的演算法(如找橋、Euler 迴路)。",
+                "en": "Because each edge is a single node, algorithms that must visit or mark each edge exactly once (bridges, Euler tours) fall out naturally."
+              },
+              {
+                "zh": "空間 $O(V+E)$:V 個 head 指標,加上 E 個 edge-node。",
+                "en": "Space $O(V+E)$: V head pointers plus E edge-nodes."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "加入邊 $(u, v)$ 時,建立一個新的 edge-node `e(v1=u, v2=v)`。",
+                "en": "To add edge $(u, v)$, create a new edge-node `e(v1=u, v2=v)`."
+              },
+              {
+                "zh": "把 e 接到 u 的鏈頭:先 `setNext(e, u, head[u])`,再讓 `head[u] = e`。",
+                "en": "Splice e onto u's chain head: `setNext(e, u, head[u])`, then `head[u] = e`."
+              },
+              {
+                "zh": "同樣把 e 接到 v 的鏈頭:`setNext(e, v, head[v])`,再讓 `head[v] = e`。",
+                "en": "Do the same on v's side: `setNext(e, v, head[v])`, then `head[v] = e`."
+              },
+              {
+                "zh": "走訪頂點 $i$ 的所有邊時,從 `head[i]` 出發,反覆呼叫 `nextOf(e, i)` 直到 null。",
+                "en": "To walk all edges at vertex $i$, start at `head[i]` and repeatedly call `nextOf(e, i)` until null."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"addEdge(u,v)\"] --> B[\"new ENode\\ne(u,v)\"]\n  B --> C[\"splice e onto\\nhead[u] chain\"]\n  C --> D[\"splice e onto\\nhead[v] chain\"]\n  D --> E[\"ready to\\ntraverse\"]"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "結構示意圖",
+          "en": "Structure Diagram"
+        },
+        "blocks": [
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  headA[\"head[A]\"] --> E5[\"E5 (A,C)\"] --> E4[\"E4 (E,A)\"] --> E0[\"E0 (A,B)\"] --> nullA[\"null\"]\n  E1[\"E1 (B,C)\"]\n  E2[\"E2 (C,D)\"]\n  E3[\"E3 (D,E)\"]"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "每個 edge-node(E0…E5)恰好代表一條邊。頂點 A 的鏈由 head[A] 出發,依插入順序的反序走訪:E5 → E4 → E0,正好是 A 的三條邊 A-C、E-A、A-B。",
+              "en": "Each edge-node (E0…E5) represents exactly one edge. Vertex A’s chain starts at head[A] and visits edges in reverse insertion order: E5 → E4 → E0 — precisely A’s three incident edges A-C, E-A, A-B."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入:5 個頂點 A–E,無向邊 A-B、B-C、C-D、D-E、E-A、A-C(依此順序呼叫 addEdge)。",
+              "en": "Input: 5 vertices A–E, undirected edges A-B, B-C, C-D, D-E, E-A, A-C (added via addEdge in this order)."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "依序建立 6 個 edge-node:E0=(A,B)、E1=(B,C)、E2=(C,D)、E3=(D,E)、E4=(E,A)、E5=(A,C)。",
+                "en": "Six edge-nodes are created in order: E0=(A,B), E1=(B,C), E2=(C,D), E3=(D,E), E4=(E,A), E5=(A,C)."
+              },
+              {
+                "zh": "E0=(A,B) 建立時同時插入 head[A] 與 head[B] 的鏈頭,此刻 head[A] = E0。",
+                "en": "When E0=(A,B) is created, it is pushed onto both head[A] and head[B]; at this point head[A] = E0."
+              },
+              {
+                "zh": "E4=(E,A) 建立時插入 head[A] 鏈頭,head[A] 變為 E4,且 E4 在 A 這一側的 next 指向先前的 E0。",
+                "en": "When E4=(E,A) is created, it is pushed onto head[A]; head[A] becomes E4, whose next-on-A pointer chains back to the earlier E0."
+              },
+              {
+                "zh": "最後 E5=(A,C) 建立時再插入 head[A] 鏈頭,head[A] 變為 E5,其 next-on-A 指向 E4。",
+                "en": "Finally E5=(A,C) is created and pushed onto head[A]; head[A] becomes E5, whose next-on-A pointer points to E4."
+              },
+              {
+                "zh": "結果:頂點 A 的鏈為 head[A] = E5 → E4 → E0 → null,恰好涵蓋 A 的三條邊 A-C、E-A、A-B。",
+                "en": "Result: vertex A's chain is head[A] = E5 → E4 → E0 → null, covering exactly A's three incident edges A-C, E-A, A-B."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "空間",
+                  "en": "Space"
+                },
+                {
+                  "zh": "$O(V+E)$",
+                  "en": "$O(V+E)$"
+                }
+              ],
+              [
+                {
+                  "zh": "每條邊的儲存次數",
+                  "en": "Storage per edge"
+                },
+                {
+                  "zh": "恰 1 次(鄰接串列需 2 次)",
+                  "en": "exactly once (an adjacency list needs twice)"
+                }
+              ],
+              [
+                {
+                  "zh": "列舉頂點的相鄰邊",
+                  "en": "Enumerate a vertex's incident edges"
+                },
+                {
+                  "zh": "$O(\\deg(v))$",
+                  "en": "$O(\\deg(v))$"
+                }
+              ],
+              [
+                {
+                  "zh": "加入一條邊",
+                  "en": "Add edge"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph-multilist.cpp",
+            "code": "#include <iostream>\nusing namespace std;\n\n// Adjacency multilist: ONE node per undirected edge, shared by both endpoints.\nstruct ENode {\n    int v1, v2;    // the two endpoints of this edge\n    ENode *link1;  // next edge incident to v1\n    ENode *link2;  // next edge incident to v2\n    ENode(int a, int b) : v1(a), v2(b), link1(nullptr), link2(nullptr) {}\n};\n\nconst int V = 5;\nENode *head[V] = {nullptr};\n\nENode *nextOf(ENode *e, int vertex) {\n    return (e->v1 == vertex) ? e->link1 : e->link2;\n}\nvoid setNext(ENode *e, int vertex, ENode *nx) {\n    if (e->v1 == vertex) e->link1 = nx; else e->link2 = nx;\n}\n\nvoid addEdge(int u, int v) {\n    ENode *e = new ENode(u, v);\n    setNext(e, u, head[u]); head[u] = e;   // push onto u's chain\n    setNext(e, v, head[v]); head[v] = e;   // same node also pushed onto v's chain\n}\n\nvoid print() {\n    for (int i = 0; i < V; i++) {\n        cout << \"[\" << i << \"] -> \";\n        for (ENode *e = head[i]; e; e = nextOf(e, i))\n            cout << \"(\" << e->v1 << \",\" << e->v2 << \") -> \";\n        cout << \"null\\n\";\n    }\n}\n\nint main() {\n    addEdge(0, 1); addEdge(1, 2); addEdge(2, 3);\n    addEdge(3, 4); addEdge(4, 0); addEdge(0, 2);\n    print();\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
   "heap-binary": {
     "category": "Heaps / Priority Queues",
     "title": {
