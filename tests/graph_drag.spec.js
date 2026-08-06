@@ -94,7 +94,7 @@ test.describe('Graph drag: struct + traversal', () => {
     const card = page.locator('[data-method-section="graph"]');
     await expect(card.locator('.gw-svg .graph-node[data-node="0"]')).toHaveCount(1);
     const node = card.locator('.gw-svg .graph-node[data-node="0"]').first();
-    const b = await node.boundingBox();
+    const b = await stableBox(node);
     const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
     await page.mouse.move(cx, cy);
     await page.mouse.down();
@@ -113,7 +113,7 @@ test.describe('Graph drag: struct + traversal', () => {
     await expect(bfsNode).toHaveCount(1);
     await expect(dfsNode).toHaveCount(1);
 
-    const b = await bfsNode.boundingBox();
+    const b = await stableBox(bfsNode);
     const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
     await page.mouse.move(cx, cy);
     await page.mouse.down();
