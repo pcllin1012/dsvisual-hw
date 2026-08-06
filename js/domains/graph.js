@@ -270,6 +270,7 @@
         }
         svg.innerHTML = s;
         descEl.textContent = langOf(f.message);
+        NodeDrag.fitCanvas(svg, pos, parsed.n);
       }
 
       function highlightLog(i) {

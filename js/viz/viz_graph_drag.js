@@ -1,13 +1,30 @@
 (function (global) {
   'use strict';
 
-  // Map a screen (client) point into the SVG's 0..600 x 0..400 viewBox using the
-  // rendered box ratio — robust to any ancestor CSS zoom transform. .gw-svg keeps
-  // the 600:400 aspect (no letterbox), so the mapping is exact.
+  // Map a screen (client) point into the SVG's CURRENT viewBox using the rendered
+  // box ratio — robust to ancestor CSS zoom and to a viewBox grown/shifted by
+  // fitCanvas. getBoundingClientRect already reflects scroll position.
   function screenToViewBox(svg, cx, cy) {
     var r = svg.getBoundingClientRect();
     var w = r.width || 1, h = r.height || 1;
-    return { x: (cx - r.left) / w * 600, y: (cy - r.top) / h * 400 };
+    var vb = (svg.viewBox && svg.viewBox.baseVal) ? svg.viewBox.baseVal : { x: 0, y: 0, width: 600, height: 400 };
+    return { x: vb.x + (cx - r.left) / w * vb.width, y: vb.y + (cy - r.top) / h * vb.height };
+  }
+
+  // Grow the SVG viewBox to bound all nodes (∪ the base 600x400, padding P) and
+  // set width as a percentage of 600 so the stage fits at base (100%) and
+  // overflows+scrolls when content extends — at a constant on-screen scale.
+  function fitCanvas(svg, pos, n) {
+    var P = 30, minX = 0, minY = 0, maxX = 600, maxY = 400, i;
+    for (i = 0; i < n; i++) {
+      if (pos[i].x - P < minX) minX = pos[i].x - P;
+      if (pos[i].y - P < minY) minY = pos[i].y - P;
+      if (pos[i].x + P > maxX) maxX = pos[i].x + P;
+      if (pos[i].y + P > maxY) maxY = pos[i].y + P;
+    }
+    var vbW = maxX - minX, vbH = maxY - minY;
+    svg.setAttribute('viewBox', minX + ' ' + minY + ' ' + vbW + ' ' + vbH);
+    svg.style.width = (vbW / 600 * 100) + '%';
   }
 
   // attach({ svgs, pos, edges, n, redraw }) → { destroy }
@@ -81,10 +98,12 @@
       }
     }
 
+    for (var f = 0; f < svgs.length; f++) fitCanvas(svgs[f], pos, n);
+
     return { destroy: destroy };
   }
 
-  var api = { attach: attach };
+  var api = { attach: attach, fitCanvas: fitCanvas };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.NodeDrag = api;
 })(typeof window !== 'undefined' ? window : globalThis);

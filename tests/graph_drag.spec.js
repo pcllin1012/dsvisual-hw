@@ -136,3 +136,75 @@ test.describe('Graph drag: struct + traversal', () => {
     expect(dx).toBeCloseTo(bx, 1);
   });
 });
+
+test.describe('Graph drag: scrollable canvas', () => {
+  test.beforeEach(async ({ page }) => {
+    // Height bumped 900 -> 1000 vs. the brief's literal snippet: node 0's default
+    // graph-bfs screen position (~y=645) plus this suite's largest drag (dy=260)
+    // lands the drop point at clientY≈905 — a few px below a 900-tall viewport.
+    // A drop point outside the viewport can never be hit-tested by a later,
+    // independent pointerdown (no pointer capture is active yet), which is not a
+    // fitCanvas/mapping defect — it reproduces before fitCanvas even runs, from
+    // screen-pixel arithmetic alone. Verified with the unmodified 900px viewport:
+    // the drag DOES land the node exactly at the intended drop pixel (proving
+    // drag-follows-cursor works correctly); it's just off-screen for a fresh click.
+    await page.setViewportSize({ width: 1400, height: 1000 });
+    await page.addInitScript(() => { try { localStorage.setItem('dsvisual-lang', 'en'); } catch (e) {} });
+    await page.goto('file://' + path.resolve(__dirname, '../index.html'));
+  });
+
+  test('graph-bfs: base state has viewBox 600x400 and width 100%, no overflow', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const card = page.locator('[data-method-section="graph-bfs"]');
+    const svg = card.locator('.gw-svg');
+    await expect(svg).toHaveAttribute('viewBox', '0 0 600 400');
+    expect(await svg.evaluate((el) => el.style.width)).toBe('100%');
+    const noHOverflow = await card.locator('.gw-stage').evaluate((el) => el.scrollWidth <= el.clientWidth + 1);
+    expect(noHOverflow).toBe(true);
+  });
+
+  test('graph-bfs: dragging a node far out grows the viewBox and makes the stage scrollable', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const card = page.locator('[data-method-section="graph-bfs"]');
+    const svg = card.locator('.gw-svg');
+
+    // Drag node 0 far to the right+down, well past the stage edge.
+    await dragNode(page, card, 0, 520, 300);
+    // Wait until the sim cools and fitCanvas has grown the canvas.
+    await expect.poll(async () => {
+      const vb = await svg.getAttribute('viewBox');
+      return parseFloat(vb.split(' ')[2]); // vbW
+    }, { timeout: 4000 }).toBeGreaterThan(600);
+
+    // width% > 100 and the stage now scrolls horizontally.
+    const widthPct = await svg.evaluate((el) => parseFloat(el.style.width));
+    expect(widthPct).toBeGreaterThan(100);
+    const scrollable = await card.locator('.gw-stage').evaluate((el) => el.scrollWidth > el.clientWidth + 1);
+    expect(scrollable).toBe(true);
+
+    // The dragged node is still in the DOM and reachable (not clipped away).
+    await expect(card.locator('.gw-svg .graph-node[data-node="0"]')).toHaveCount(1);
+  });
+
+  test('graph-bfs: mapping stays correct after growth (a second drag still hits the node)', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const card = page.locator('[data-method-section="graph-bfs"]');
+    await dragNode(page, card, 0, 500, 260);           // grow the canvas
+    const cxAfterFirst = parseFloat(await card.locator('.gw-svg .graph-node[data-node="0"]').first().getAttribute('cx'));
+    await dragNode(page, card, 0, -120, -80);          // grab node 0 again, move it back a bit
+    await expect.poll(async () =>
+      Math.abs(parseFloat(await card.locator('.gw-svg .graph-node[data-node="0"]').first().getAttribute('cx')) - cxAfterFirst),
+      { timeout: 3000 }).toBeGreaterThan(1); // the second grab actually moved node 0 → hit-test + live mapping work
+  });
+
+  test('graph-bfs: dragging the node back in shrinks the canvas (self-correcting)', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const card = page.locator('[data-method-section="graph-bfs"]');
+    const svg = card.locator('.gw-svg');
+    await dragNode(page, card, 0, 520, 300);
+    await expect.poll(async () => parseFloat((await svg.getAttribute('viewBox')).split(' ')[2]), { timeout: 4000 }).toBeGreaterThan(600);
+    // Grab node 0 (now off to the lower-right) and drag it back toward the center.
+    await dragNode(page, card, 0, -480, -280);
+    await expect.poll(async () => parseFloat((await svg.getAttribute('viewBox')).split(' ')[2]), { timeout: 4000 }).toBeLessThan(650);
+  });
+});
