@@ -270,6 +270,7 @@
         }
         svg.innerHTML = s;
         descEl.textContent = langOf(f.message);
+        NodeDrag.fitCanvas(svg, pos, parsed.n);
       }
 
       function highlightLog(i) {
@@ -400,7 +401,7 @@
         '</div>';
       const svg = body.querySelector('.gw-svg');
       NodeDrag.attach({ svgs: [svg], pos, edges: parsed.edges, n: parsed.n,
-        redraw: () => { svg.innerHTML = drawUndirectedGraph(parsed, pos, null, dir); } });
+        redraw: () => { svg.innerHTML = drawUndirectedGraph(parsed, pos, null, dir); NodeDrag.fitCanvas(svg, pos, parsed.n); } });
     }
 
     function refreshEx() { const ex = host.querySelector('.ex-select'); if (!ex) return; const c = ex.value; ex.innerHTML = gwExamplesOptionsHtml(methodId, DEF); ex.value = c; }
@@ -491,6 +492,8 @@
         const fb = bfs[Math.min(i, bfs.length - 1)], fd = dfs[Math.min(i, dfs.length - 1)];
         svgBfs.innerHTML = drawUndirectedGraph(parsed, pos, fb, dir);
         svgDfs.innerHTML = drawUndirectedGraph(parsed, pos, fd, dir);
+        NodeDrag.fitCanvas(svgBfs, pos, parsed.n);
+        NodeDrag.fitCanvas(svgDfs, pos, parsed.n);
         infoBfs.textContent = langOf({ zh: '佇列', en: 'Queue' }) + ': [' + fb.frontier.map((x) => parsed.labels[x]).join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fb.order.map((x) => parsed.labels[x]).join(', ') + ']';
         infoDfs.textContent = langOf({ zh: '堆疊', en: 'Stack' }) + ': [' + fd.frontier.map((x) => parsed.labels[x]).join(', ') + ']  ' + langOf({ zh: '已訪', en: 'Visited' }) + ': [' + fd.order.map((x) => parsed.labels[x]).join(', ') + ']';
         descEl.textContent = 'BFS: ' + langOf(fb.message) + '   |   DFS: ' + langOf(fd.message);

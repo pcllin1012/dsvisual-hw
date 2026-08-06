@@ -422,7 +422,7 @@ header p { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
 .gw-dir-toggle:hover { border-color: #60a5fa; }
 .gw-err { color: #f87171; font-size: 0.85rem; }
 .gw-stage { display: flex; justify-content: center; overflow: auto; }
-.gw-svg { max-width: 100%; height: auto; }
+.gw-svg { max-width: none; height: auto; flex-shrink: 0; }
 .gw-svg .graph-node { cursor: grab; }
 .gw-svg.gw-dragging .graph-node { cursor: grabbing; }
 .gw-svg .graph-node-label, .gw-svg .graph-weight, .gw-svg .graph-distance { pointer-events: none; }
@@ -3413,7 +3413,7 @@ body.viz-focus .method-section-card.active .method-section-visual:has(.gw) #dyna
 body.viz-focus .method-section-card.active .gw,
 body.viz-focus .method-section-card.active .gw-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 body.viz-focus .method-section-card.active .gw-stage { flex: 1 1 auto; min-height: 0; }
-body.viz-focus .method-section-card.active .gw-svg { max-height: 100%; }
+body.viz-focus .method-section-card.active .gw-svg { max-height: none; }
 
 body.viz-focus .method-section-card.active .gw-workbench { flex: 1 1 auto; min-height: 0; align-items: stretch; grid-template-rows: minmax(0, 1fr); }
 body.viz-focus .method-section-card.active .gw-stagecol { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
