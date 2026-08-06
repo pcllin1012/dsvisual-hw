@@ -175,6 +175,47 @@
     return best.pos;
   }
 
+  // One iteration of the same FR force model layout() uses (repulsion k^2/d,
+  // attraction d^2/k, temperature-limited step), factored out for the live
+  // drag re-settle. Skips opts.fixed nodes and clamps to the padded viewBox.
+  // Pure: mutates + returns pos, no RNG, no DOM.
+  function forceStep(pos, edges, n, opts) {
+    opts = opts || {};
+    var b = opts.bounds || {};
+    var W = b.w == null ? 600 : b.w, H = b.h == null ? 400 : b.h, pad = b.pad == null ? 20 : b.pad;
+    var k = opts.k || Math.sqrt((W * H) / n) * 0.8;
+    var temp = opts.temp == null ? W / 12 : opts.temp;
+    var fixed = opts.fixed;
+    var isFixed = function (i) { return fixed ? (fixed.has ? fixed.has(i) : fixed.indexOf(i) !== -1) : false; };
+    var disp = [], ii, jj;
+    for (ii = 0; ii < n; ii++) disp.push({ x: 0, y: 0 });
+    for (ii = 0; ii < n; ii++) for (jj = ii + 1; jj < n; jj++) {          // repulsion
+      var dx = pos[ii].x - pos[jj].x, dy = pos[ii].y - pos[jj].y;
+      var d = Math.sqrt(dx * dx + dy * dy) || 0.01;
+      var f = (k * k) / d, ux = dx / d, uy = dy / d;
+      disp[ii].x += ux * f; disp[ii].y += uy * f;
+      disp[jj].x -= ux * f; disp[jj].y -= uy * f;
+    }
+    for (var m = 0; m < edges.length; m++) {                              // attraction along edges
+      var e = edges[m], pu = pos[e.u], pv = pos[e.v];
+      var ex = pu.x - pv.x, ey = pu.y - pv.y;
+      var ed = Math.sqrt(ex * ex + ey * ey) || 0.01;
+      var af = (ed * ed) / k, aux = ex / ed, auy = ey / ed;
+      disp[e.u].x -= aux * af; disp[e.u].y -= auy * af;
+      disp[e.v].x += aux * af; disp[e.v].y += auy * af;
+    }
+    for (ii = 0; ii < n; ii++) {
+      if (isFixed(ii)) continue;
+      var dl = Math.sqrt(disp[ii].x * disp[ii].x + disp[ii].y * disp[ii].y) || 0.01;
+      var lim = Math.min(dl, temp);
+      pos[ii].x += (disp[ii].x / dl) * lim;
+      pos[ii].y += (disp[ii].y / dl) * lim;
+      if (pos[ii].x < pad) pos[ii].x = pad; else if (pos[ii].x > W - pad) pos[ii].x = W - pad;
+      if (pos[ii].y < pad) pos[ii].y = pad; else if (pos[ii].y > H - pad) pos[ii].y = H - pad;
+    }
+    return pos;
+  }
+
   // Defaults = the graph category's original demo graph: a 5-node pentagon
   // (0-1-2-3-4-0) plus the 0-2 diagonal — connected, has cycles, good for
   // BFS/DFS/shortest-path demos. Weights mirror the original DEFAULT_WEIGHTED_EDGES.
@@ -459,7 +500,7 @@
     return { nodes: nodes, chains: chains };
   }
 
-  var api = { parseEdges: parseEdges, layout: layout, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, boruvkaFrames: boruvkaFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix, adjMultilist: adjMultilist };
+  var api = { parseEdges: parseEdges, layout: layout, forceStep: forceStep, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, boruvkaFrames: boruvkaFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix, adjMultilist: adjMultilist };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.GraphWorkbench = api;
 })(typeof window !== 'undefined' ? window : globalThis);
