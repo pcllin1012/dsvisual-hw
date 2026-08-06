@@ -3413,7 +3413,7 @@ body.viz-focus .method-section-card.active .method-section-visual:has(.gw) #dyna
 body.viz-focus .method-section-card.active .gw,
 body.viz-focus .method-section-card.active .gw-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 body.viz-focus .method-section-card.active .gw-stage { flex: 1 1 auto; min-height: 0; }
-body.viz-focus .method-section-card.active .gw-svg { max-height: 100%; }
+body.viz-focus .method-section-card.active .gw-svg { max-height: none; }
 
 body.viz-focus .method-section-card.active .gw-workbench { flex: 1 1 auto; min-height: 0; align-items: stretch; grid-template-rows: minmax(0, 1fr); }
 body.viz-focus .method-section-card.active .gw-stagecol { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }

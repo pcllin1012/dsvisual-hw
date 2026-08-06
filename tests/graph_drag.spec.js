@@ -207,4 +207,45 @@ test.describe('Graph drag: scrollable canvas', () => {
     await dragNode(page, card, 0, -480, -280);
     await expect.poll(async () => parseFloat((await svg.getAttribute('viewBox')).split(' ')[2]), { timeout: 4000 }).toBeLessThan(650);
   });
+
+  test('graph (structural): dragging out grows the viewBox and scrolls', async ({ page }) => {
+    await loadMethod(page, 'graph');
+    const card = page.locator('[data-method-section="graph"]');
+    const svg = card.locator('.gw-svg');
+    await dragNode(page, card, 0, 500, 280);
+    await expect.poll(async () => parseFloat((await svg.getAttribute('viewBox')).split(' ')[2]), { timeout: 4000 }).toBeGreaterThan(600);
+    const scrollable = await card.locator('.gw-stage').evaluate((el) => el.scrollWidth > el.clientWidth + 1);
+    expect(scrollable).toBe(true);
+  });
+
+  test('graph-traversal: dragging out grows BOTH panes consistently', async ({ page }) => {
+    await loadMethod(page, 'graph-traversal');
+    const card = page.locator('[data-method-section="graph-traversal"]');
+    const bfsNode = card.locator('.gw-svg-bfs .graph-node[data-node="0"]').first();
+    const b = await stableBox(bfsNode);
+    const cx = b.x + b.width / 2, cy = b.y + b.height / 2;
+    await page.mouse.move(cx, cy);
+    await page.mouse.down();
+    await page.mouse.move(cx + 300, cy + 200, { steps: 8 });
+    await page.mouse.up();
+    // Both panes' viewBoxes grow to the same width (shared pos).
+    await expect.poll(async () => parseFloat((await card.locator('.gw-svg-bfs').getAttribute('viewBox')).split(' ')[2]), { timeout: 4000 }).toBeGreaterThan(600);
+    const wBfs = parseFloat((await card.locator('.gw-svg-bfs').getAttribute('viewBox')).split(' ')[2]);
+    const wDfs = parseFloat((await card.locator('.gw-svg-dfs').getAttribute('viewBox')).split(' ')[2]);
+    expect(wDfs).toBeCloseTo(wBfs, 0);
+  });
+
+  test('graph-bfs: fullscreen — dragging out scrolls, transport stays in viewport', async ({ page }) => {
+    await loadMethod(page, 'graph-bfs');
+    const card = page.locator('[data-method-section="graph-bfs"]');
+    await card.locator('[data-testid="viz-focus-toggle"]').click();
+    await expect(page.locator('body.viz-focus')).toHaveCount(1);
+    await dragNode(page, card, 0, 400, 220);
+    await expect.poll(async () => parseFloat((await card.locator('.gw-svg').getAttribute('viewBox')).split(' ')[2]), { timeout: 4000 }).toBeGreaterThan(600);
+    // Transport still within the viewport (it lives outside the scrolling .gw-stage).
+    const tbox = await card.locator('.stepctl').boundingBox();
+    const vh = page.viewportSize().height;
+    expect(tbox).not.toBeNull();
+    expect(tbox.y + tbox.height).toBeLessThanOrEqual(vh + 1);
+  });
 });
