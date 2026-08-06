@@ -6591,6 +6591,1731 @@ const SLIDES_DB = {
       }
     ]
   },
+  "graph-matrix": {
+    "category": "Graphs",
+    "title": {
+      "zh": "鄰接矩陣",
+      "en": "Adjacency Matrix"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "鄰接矩陣",
+          "en": "Adjacency Matrix"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "鄰接矩陣以一個 $V\\times V$ 的矩陣 $M$ 表示圖：若頂點 $i$ 與 $j$ 之間有邊，$M[i][j]$ 就記錄這條邊（或其權重）。空間為 $O(V^2)$，邊查詢僅需 $O(1)$。",
+              "en": "An adjacency matrix represents a graph as a $V\\times V$ matrix $M$: if there is an edge between vertices $i$ and $j$, $M[i][j]$ records it (or its weight). Space is $O(V^2)$, and an edge lookup is $O(1)$."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "矩陣的第 $i$ 列描述頂點 $i$ 的所有邊；在無向圖中 $M[i][j] = M[j][i]$，因此矩陣沿主對角線對稱。",
+              "en": "Row $i$ of the matrix describes every edge touching vertex $i$; for an undirected graph $M[i][j] = M[j][i]$, so the matrix is symmetric across its main diagonal."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "無向圖 ⇒ 對稱矩陣（對角線恆為 0，代表沒有自環）。",
+                "en": "Undirected ⇒ a symmetric matrix (the diagonal stays 0 — no self-loops here)."
+              },
+              {
+                "zh": "有權重的圖：格內存權重 $w$ 而非單純的 1；0 仍代表「無邊」。",
+                "en": "Weighted graph: each cell stores the weight $w$ instead of a plain 1; 0 still means \"no edge\"."
+              },
+              {
+                "zh": "列舉頂點 $i$ 的所有鄰居須掃過整列，花費 $O(V)$。",
+                "en": "Enumerating vertex $i$'s neighbours means scanning its whole row, costing $O(V)$."
+              },
+              {
+                "zh": "適合稠密圖；圖越稀疏，矩陣中的 0 越多，空間浪費越明顯。",
+                "en": "A good fit for dense graphs; the sparser the graph, the more wasted zero cells."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "建立 $V\\times V$ 的矩陣，所有格子初始化為 0。",
+                "en": "Allocate a $V\\times V$ matrix with every cell initialised to 0."
+              },
+              {
+                "zh": "加入邊 $(u, v, w)$ 時，設定 `adj[u][v] = w`。",
+                "en": "To add edge $(u, v, w)$, set `adj[u][v] = w`."
+              },
+              {
+                "zh": "若圖為無向，額外鏡射設定 `adj[v][u] = w`，維持矩陣對稱。",
+                "en": "If the graph is undirected, also mirror it with `adj[v][u] = w` to keep the matrix symmetric."
+              },
+              {
+                "zh": "邊查詢 $(i, j)$ 直接讀取 `adj[i][j]`；非 0 即代表有邊（值即為權重）。",
+                "en": "An edge query for $(i, j)$ is a direct read of `adj[i][j]`; nonzero means an edge exists (the value is its weight)."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"Init V×V\\nmatrix = 0\"] --> B[\"addEdge(u,v,w,\\ndirected)\"]\n  B --> C[\"adj[u][v] = w\"]\n  C --> D{\"directed?\"}\n  D -->|no| E[\"adj[v][u] = w\"]\n  D -->|yes| F[\"ready to query\"]\n  E --> F"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "矩陣示意圖",
+          "en": "Matrix Diagram"
+        },
+        "blocks": [
+          {
+            "type": "svg",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 220 220\" width=\"220\" height=\"220\"><g font-family=\"monospace\" font-size=\"13\" text-anchor=\"middle\"><text x=\"52\" y=\"24\" fill=\"#475569\">0</text><text x=\"88\" y=\"24\" fill=\"#475569\">1</text><text x=\"124\" y=\"24\" fill=\"#475569\">2</text><text x=\"160\" y=\"24\" fill=\"#475569\">3</text><text x=\"196\" y=\"24\" fill=\"#475569\">4</text><text x=\"18\" y=\"56\" fill=\"#475569\">0</text><rect x=\"34\" y=\"34\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"52\" y=\"56\" fill=\"#cbd5e1\">0</text><rect x=\"70\" y=\"34\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"88\" y=\"56\" fill=\"#1d4ed8\" font-weight=\"bold\">4</text><rect x=\"106\" y=\"34\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"124\" y=\"56\" fill=\"#cbd5e1\">0</text><rect x=\"142\" y=\"34\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"160\" y=\"56\" fill=\"#cbd5e1\">0</text><rect x=\"178\" y=\"34\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"196\" y=\"56\" fill=\"#1d4ed8\" font-weight=\"bold\">1</text><text x=\"18\" y=\"92\" fill=\"#475569\">1</text><rect x=\"34\" y=\"70\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"52\" y=\"92\" fill=\"#1d4ed8\" font-weight=\"bold\">4</text><rect x=\"70\" y=\"70\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"88\" y=\"92\" fill=\"#cbd5e1\">0</text><rect x=\"106\" y=\"70\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"124\" y=\"92\" fill=\"#1d4ed8\" font-weight=\"bold\">3</text><rect x=\"142\" y=\"70\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"160\" y=\"92\" fill=\"#1d4ed8\" font-weight=\"bold\">2</text><rect x=\"178\" y=\"70\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"196\" y=\"92\" fill=\"#1d4ed8\" font-weight=\"bold\">5</text><text x=\"18\" y=\"128\" fill=\"#475569\">2</text><rect x=\"34\" y=\"106\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"52\" y=\"128\" fill=\"#cbd5e1\">0</text><rect x=\"70\" y=\"106\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"88\" y=\"128\" fill=\"#1d4ed8\" font-weight=\"bold\">3</text><rect x=\"106\" y=\"106\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"124\" y=\"128\" fill=\"#cbd5e1\">0</text><rect x=\"142\" y=\"106\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"160\" y=\"128\" fill=\"#1d4ed8\" font-weight=\"bold\">6</text><rect x=\"178\" y=\"106\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"196\" y=\"128\" fill=\"#cbd5e1\">0</text><text x=\"18\" y=\"164\" fill=\"#475569\">3</text><rect x=\"34\" y=\"142\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"52\" y=\"164\" fill=\"#cbd5e1\">0</text><rect x=\"70\" y=\"142\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"88\" y=\"164\" fill=\"#1d4ed8\" font-weight=\"bold\">2</text><rect x=\"106\" y=\"142\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"124\" y=\"164\" fill=\"#1d4ed8\" font-weight=\"bold\">6</text><rect x=\"142\" y=\"142\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"160\" y=\"164\" fill=\"#cbd5e1\">0</text><rect x=\"178\" y=\"142\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"196\" y=\"164\" fill=\"#1d4ed8\" font-weight=\"bold\">7</text><text x=\"18\" y=\"200\" fill=\"#475569\">4</text><rect x=\"34\" y=\"178\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"52\" y=\"200\" fill=\"#1d4ed8\" font-weight=\"bold\">1</text><rect x=\"70\" y=\"178\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"88\" y=\"200\" fill=\"#1d4ed8\" font-weight=\"bold\">5</text><rect x=\"106\" y=\"178\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"124\" y=\"200\" fill=\"#cbd5e1\">0</text><rect x=\"142\" y=\"178\" width=\"36\" height=\"36\" fill=\"#dbeafe\" stroke=\"#2563eb\"/><text x=\"160\" y=\"200\" fill=\"#1d4ed8\" font-weight=\"bold\">7</text><rect x=\"178\" y=\"178\" width=\"36\" height=\"36\" fill=\"#f8fafc\" stroke=\"#cbd5e1\"/><text x=\"196\" y=\"200\" fill=\"#cbd5e1\">0</text></g></svg>"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "5×5 矩陣中，藍色格為範例圖的邊(數字即權重)；其餘為 0(無邊)。矩陣沿對角線對稱，因為圖是無向的。",
+              "en": "Blue cells are the edges of the example graph (numbers are their weights); the rest are 0 (no edge). The matrix is symmetric across the diagonal because the graph is undirected."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入：5 個頂點、無向圖，邊為 0-1、0-4、1-2、1-3、1-4、2-3、3-4(依序權重 4、1、3、2、5、6、7)。",
+              "en": "Input: 5 vertices, undirected graph with edges 0-1, 0-4, 1-2, 1-3, 1-4, 2-3, 3-4 (weights 4, 1, 3, 2, 5, 6, 7 respectively)."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "初始化 5×5 全 0 矩陣。",
+                "en": "Initialise a 5×5 matrix of all zeros."
+              },
+              {
+                "zh": "加入邊 0-1(w=4):`adj[0][1] = adj[1][0] = 4`。",
+                "en": "Add edge 0-1 (w=4): `adj[0][1] = adj[1][0] = 4`."
+              },
+              {
+                "zh": "依序加入其餘邊 0-4(1)、1-2(3)、1-3(2)、1-4(5)、2-3(6)、3-4(7)，每次同樣鏡射設值。",
+                "en": "Add the remaining edges 0-4(1), 1-2(3), 1-3(2), 1-4(5), 2-3(6), 3-4(7) the same way, mirroring each value."
+              },
+              {
+                "zh": "完成後第 1 列(頂點 1)為 [4, 0, 3, 2, 5] — 第 0、2、3、4 欄非 0，degree(1) = 4。",
+                "en": "The finished row 1 (vertex 1) reads [4, 0, 3, 2, 5] — nonzero at columns 0, 2, 3, 4, so degree(1) = 4."
+              },
+              {
+                "zh": "`outDegree(1)` 掃描該列的非 0 個數，同樣得到 4，與矩陣觀察一致。",
+                "en": "`outDegree(1)` scans that row for nonzero entries and also returns 4, matching the matrix directly."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "空間",
+                  "en": "Space"
+                },
+                {
+                  "zh": "$O(V^2)$",
+                  "en": "$O(V^2)$"
+                }
+              ],
+              [
+                {
+                  "zh": "邊查詢",
+                  "en": "Edge query"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                }
+              ],
+              [
+                {
+                  "zh": "列舉鄰居",
+                  "en": "Enumerate neighbours"
+                },
+                {
+                  "zh": "$O(V)$",
+                  "en": "$O(V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "加入邊",
+                  "en": "Add edge"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph_matrix.cpp",
+            "code": "#include <iostream>\nusing namespace std;\n\nconst int MAXN = 10;\n\nclass Graph {\n    int n;\n    int adj[MAXN][MAXN] = {};\n\npublic:\n    Graph(int v) : n(v) {}\n\n    // adj[u][v] = w always; for an undirected graph also mirror adj[v][u].\n    void addEdge(int u, int v, int w, bool directed) {\n        adj[u][v] = w;\n        if (!directed)\n            adj[v][u] = w;\n    }\n\n    // Out-degree: count of nonzero entries in row i.\n    int outDegree(int i) const {\n        int d = 0;\n        for (int j = 0; j < n; j++)\n            if (adj[i][j] != 0)\n                d++;\n        return d;\n    }\n\n    // In-degree: count of nonzero entries in column j.\n    int inDegree(int j) const {\n        int d = 0;\n        for (int i = 0; i < n; i++)\n            if (adj[i][j] != 0)\n                d++;\n        return d;\n    }\n\n    void print() const {\n        for (int i = 0; i < n; i++) {\n            for (int j = 0; j < n; j++)\n                cout << adj[i][j] << \" \";\n            cout << \"\\n\";\n        }\n    }\n};\n\nint main() {\n    Graph g(5);\n    bool directed = false;\n    g.addEdge(0, 1, 4, directed);\n    g.addEdge(0, 4, 1, directed);\n    g.addEdge(1, 2, 3, directed);\n    g.addEdge(1, 3, 2, directed);\n    g.addEdge(1, 4, 5, directed);\n    g.addEdge(2, 3, 6, directed);\n    g.addEdge(3, 4, 7, directed);\n\n    g.print();\n    for (int i = 0; i < 5; i++)\n        cout << \"deg(\" << i << \") = \" << g.outDegree(i) << \"\\n\";\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
+  "graph-multilist": {
+    "category": "Graphs",
+    "title": {
+      "zh": "鄰接多重表",
+      "en": "Adjacency Multilist"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "鄰接多重表",
+          "en": "Adjacency Multilist"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "鄰接多重表中，每一條邊只用一個節點(edge-node)表示，同時被兩個端點共享；相較於鄰接串列(每條無向邊要存兩次)，空間為 $O(V+E)$。",
+              "en": "In an adjacency multilist, each edge is represented by a single edge-node shared by both of its endpoints — unlike an adjacency list, which stores every undirected edge twice. Space is $O(V+E)$."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "每個 edge-node 存兩個端點 `v1, v2`，以及兩條「下一條邊」指標 `link1, link2`(分別對應 v1、v2 這一側的鏈)；每個頂點有一個 head 指標，起頭串起所有與它相連的 edge-node。",
+              "en": "Each edge-node stores its two endpoints `v1, v2` plus two \"next edge\" pointers `link1, link2` (one per endpoint’s chain); every vertex has a head pointer that threads together all edge-nodes incident to it."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "`nextOf(e, vertex)` 依 vertex 是 e 的 v1 或 v2，回傳對應的 link1 / link2，取得該端點的下一條邊。",
+                "en": "`nextOf(e, vertex)` returns link1 or link2 depending on whether vertex is e's v1 or v2 — the next edge on that endpoint's chain."
+              },
+              {
+                "zh": "新增邊時以「插入鏈頭」的方式，把新 edge-node 同時接到兩個端點的鏈上。",
+                "en": "Adding an edge prepends the new edge-node onto both endpoints' chains (pushes it to the head)."
+              },
+              {
+                "zh": "每條邊只存一個節點，天然適合「每條邊只走訪/標記一次」的演算法(如找橋、Euler 迴路)。",
+                "en": "Because each edge is a single node, algorithms that must visit or mark each edge exactly once (bridges, Euler tours) fall out naturally."
+              },
+              {
+                "zh": "空間 $O(V+E)$：V 個 head 指標，加上 E 個 edge-node。",
+                "en": "Space $O(V+E)$: V head pointers plus E edge-nodes."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "加入邊 $(u, v)$ 時，建立一個新的 edge-node `e(v1=u, v2=v)`。",
+                "en": "To add edge $(u, v)$, create a new edge-node `e(v1=u, v2=v)`."
+              },
+              {
+                "zh": "把 e 接到 u 的鏈頭：先 `setNext(e, u, head[u])`，再讓 `head[u] = e`。",
+                "en": "Splice e onto u's chain head: `setNext(e, u, head[u])`, then `head[u] = e`."
+              },
+              {
+                "zh": "同樣把 e 接到 v 的鏈頭：`setNext(e, v, head[v])`，再讓 `head[v] = e`。",
+                "en": "Do the same on v's side: `setNext(e, v, head[v])`, then `head[v] = e`."
+              },
+              {
+                "zh": "走訪頂點 $i$ 的所有邊時，從 `head[i]` 出發，反覆呼叫 `nextOf(e, i)` 直到 null。",
+                "en": "To walk all edges at vertex $i$, start at `head[i]` and repeatedly call `nextOf(e, i)` until null."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"addEdge(u,v)\"] --> B[\"new ENode\\ne(u,v)\"]\n  B --> C[\"splice e onto\\nhead[u] chain\"]\n  C --> D[\"splice e onto\\nhead[v] chain\"]\n  D --> E[\"ready to\\ntraverse\"]"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "結構示意圖",
+          "en": "Structure Diagram"
+        },
+        "blocks": [
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  headA[\"head[A]\"] --> E5[\"E5 (A,C)\"] --> E4[\"E4 (E,A)\"] --> E0[\"E0 (A,B)\"] --> nullA[\"null\"]\n  E1[\"E1 (B,C)\"]\n  E2[\"E2 (C,D)\"]\n  E3[\"E3 (D,E)\"]"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "每個 edge-node(E0…E5)恰好代表一條邊。頂點 A 的鏈由 head[A] 出發，依插入順序的反序走訪：E5 → E4 → E0，正好是 A 的三條邊 A-C、E-A、A-B。",
+              "en": "Each edge-node (E0…E5) represents exactly one edge. Vertex A’s chain starts at head[A] and visits edges in reverse insertion order: E5 → E4 → E0 — precisely A’s three incident edges A-C, E-A, A-B."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入：5 個頂點 A–E，無向邊 A-B、B-C、C-D、D-E、E-A、A-C(依此順序呼叫 addEdge)。",
+              "en": "Input: 5 vertices A–E, undirected edges A-B, B-C, C-D, D-E, E-A, A-C (added via addEdge in this order)."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "依序建立 6 個 edge-node：E0=(A,B)、E1=(B,C)、E2=(C,D)、E3=(D,E)、E4=(E,A)、E5=(A,C)。",
+                "en": "Six edge-nodes are created in order: E0=(A,B), E1=(B,C), E2=(C,D), E3=(D,E), E4=(E,A), E5=(A,C)."
+              },
+              {
+                "zh": "E0=(A,B) 建立時同時插入 head[A] 與 head[B] 的鏈頭，此刻 head[A] = E0。",
+                "en": "When E0=(A,B) is created, it is pushed onto both head[A] and head[B]; at this point head[A] = E0."
+              },
+              {
+                "zh": "E4=(E,A) 建立時插入 head[A] 鏈頭，head[A] 變為 E4，且 E4 在 A 這一側的 next 指向先前的 E0。",
+                "en": "When E4=(E,A) is created, it is pushed onto head[A]; head[A] becomes E4, whose next-on-A pointer chains back to the earlier E0."
+              },
+              {
+                "zh": "最後 E5=(A,C) 建立時再插入 head[A] 鏈頭，head[A] 變為 E5，其 next-on-A 指向 E4。",
+                "en": "Finally E5=(A,C) is created and pushed onto head[A]; head[A] becomes E5, whose next-on-A pointer points to E4."
+              },
+              {
+                "zh": "結果：頂點 A 的鏈為 head[A] = E5 → E4 → E0 → null，恰好涵蓋 A 的三條邊 A-C、E-A、A-B。",
+                "en": "Result: vertex A's chain is head[A] = E5 → E4 → E0 → null, covering exactly A's three incident edges A-C, E-A, A-B."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "空間",
+                  "en": "Space"
+                },
+                {
+                  "zh": "$O(V+E)$",
+                  "en": "$O(V+E)$"
+                }
+              ],
+              [
+                {
+                  "zh": "每條邊的儲存次數",
+                  "en": "Storage per edge"
+                },
+                {
+                  "zh": "恰 1 次(鄰接串列需 2 次)",
+                  "en": "exactly once (an adjacency list needs twice)"
+                }
+              ],
+              [
+                {
+                  "zh": "列舉頂點的相鄰邊",
+                  "en": "Enumerate a vertex's incident edges"
+                },
+                {
+                  "zh": "$O(\\deg(v))$",
+                  "en": "$O(\\deg(v))$"
+                }
+              ],
+              [
+                {
+                  "zh": "加入一條邊",
+                  "en": "Add edge"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph_multilist.cpp",
+            "code": "#include <iostream>\nusing namespace std;\n\n// Adjacency multilist: ONE node per undirected edge, shared by both endpoints.\nstruct ENode {\n    int v1, v2;    // the two endpoints of this edge\n    ENode *link1;  // next edge incident to v1\n    ENode *link2;  // next edge incident to v2\n    ENode(int a, int b) : v1(a), v2(b), link1(nullptr), link2(nullptr) {}\n};\n\nconst int V = 5;\nENode *head[V] = {nullptr};\n\nENode *nextOf(ENode *e, int vertex) {\n    return (e->v1 == vertex) ? e->link1 : e->link2;\n}\nvoid setNext(ENode *e, int vertex, ENode *nx) {\n    if (e->v1 == vertex) e->link1 = nx; else e->link2 = nx;\n}\n\nvoid addEdge(int u, int v) {\n    ENode *e = new ENode(u, v);\n    setNext(e, u, head[u]); head[u] = e;   // push onto u's chain\n    setNext(e, v, head[v]); head[v] = e;   // same node also pushed onto v's chain\n}\n\nvoid print() {\n    for (int i = 0; i < V; i++) {\n        cout << \"[\" << i << \"] -> \";\n        for (ENode *e = head[i]; e; e = nextOf(e, i))\n            cout << \"(\" << e->v1 << \",\" << e->v2 << \") -> \";\n        cout << \"null\\n\";\n    }\n}\n\nint main() {\n    addEdge(0, 1); addEdge(1, 2); addEdge(2, 3);\n    addEdge(3, 4); addEdge(4, 0); addEdge(0, 2);\n    print();\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
+  "graph-components": {
+    "category": "Graphs",
+    "title": {
+      "zh": "連通分量",
+      "en": "Connected Components"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "連通分量",
+          "en": "Connected Components"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "在無向圖中，連通分量是彼此可以互相到達的最大頂點集合：分量內任兩點之間都存在路徑，分量之間則沒有邊相連。以廣度優先搜尋（BFS）從每個尚未拜訪的頂點出發，即可在 $O(V+E)$ 時間內找出圖中所有連通分量。",
+              "en": "In an undirected graph, a connected component is a maximal set of vertices that can all reach one another: any two vertices inside a component are joined by a path, and no edge crosses between components. Launching a breadth-first search (BFS) from every unvisited vertex finds all connected components in $O(V+E)$ time."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "演算法用一個 comp[] 陣列同時記錄「是否已拜訪」與「所屬分量編號」：初始值為 -1 代表尚未拜訪；一旦被某次 BFS 走訪到，就寫入當前的分量編號 k。",
+              "en": "The algorithm uses a single comp[] array to record both \"has this vertex been visited\" and \"which component does it belong to\": it starts at -1 (unvisited), and is set to the current component id k the moment a BFS reaches it."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "comp[] 陣列同時扮演「已拜訪」標記與「分量編號」兩種角色。",
+                "en": "The comp[] array doubles as both the visited flag and the component id."
+              },
+              {
+                "zh": "以佇列（queue）實作 BFS，逐層向外擴散，直到佇列為空為止。",
+                "en": "BFS is implemented with a queue, expanding outward layer by layer until the queue is empty."
+              },
+              {
+                "zh": "每次啟動 BFS 恰好發現一個完整的連通分量，啟動次數即為分量總數。",
+                "en": "Each BFS launch discovers exactly one whole component; the number of launches equals the component count."
+              },
+              {
+                "zh": "孤立頂點（沒有任何邊）會在其自身的迴圈中被觸發，自成一個大小為 1 的分量。",
+                "en": "An isolated vertex (with no edges) is picked up by its own loop iteration and becomes a size-1 component on its own."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "將 comp[] 全部初始化為 -1，分量計數器 k 設為 0。",
+                "en": "Initialise comp[] entirely to -1 and the component counter k to 0."
+              },
+              {
+                "zh": "依序檢查頂點 s = 0, 1, …, n-1；若 comp[s] 已標記（非 -1）則跳過。",
+                "en": "Scan vertices s = 0, 1, …, n-1 in order; skip s if comp[s] is already labelled (not -1)."
+              },
+              {
+                "zh": "否則以 s 為起點做 BFS：把 s 標記為 comp[s] = k 並推入佇列；接著反覆取出佇列前端頂點 v，把 v 所有 comp[]==-1 的鄰居標成 k 並推入佇列，直到佇列清空。",
+                "en": "Otherwise start a BFS from s: label comp[s] = k, push s onto the queue; then repeatedly pop the front vertex v and label every neighbour of v with comp[]==-1 as k, pushing it onto the queue, until the queue empties."
+              },
+              {
+                "zh": "這一輪 BFS 結束後，k 遞增為下一個分量準備；回到步驟 2 繼續尋找下一個尚未拜訪的頂點。",
+                "en": "Once that BFS finishes, increment k for the next component and go back to step 2 to look for the next unvisited vertex."
+              },
+              {
+                "zh": "所有頂點都被標記後，回傳 k 作為連通分量的總數。",
+                "en": "After every vertex is labelled, return k as the total number of connected components."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"Init comp[] = -1, k = 0\"] --> B[\"Pick next s\\n(comp[s] == -1)\"]\n  B --> C[\"BFS from s:\\nlabel reached vertices k\"]\n  C --> D[\"k++\"]\n  D --> E{\"more unvisited\\nvertices?\"}\n  E -->|yes| B\n  E -->|no| F[\"return k\"]"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "分量示意圖",
+          "en": "Components Diagram"
+        },
+        "blocks": [
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  subgraph S0 [\"Component 0: {0,1}\"]\n    N0((\"0\")) --- N1((\"1\"))\n  end\n  subgraph S1 [\"Component 1: {2,3}\"]\n    N2((\"2\")) --- N3((\"3\"))\n  end\n  subgraph S2 [\"Component 2: {4}\"]\n    N4((\"4\"))\n  end"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "三個子圖各自獨立（沒有任何邊跨越），對應三個連通分量：{0,1}、{2,3}、{4}。",
+              "en": "The three subgraphs are mutually disconnected (no edge crosses between them), corresponding to the three connected components: {0,1}, {2,3}, {4}."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入：n=5 的無向圖，邊為 0-1、2-3（頂點 4 沒有任何邊）。",
+              "en": "Input: an undirected graph with n=5, edges 0-1 and 2-3 (vertex 4 has no edges)."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "comp[] 初始化為 [-1,-1,-1,-1,-1]，k=0。",
+                "en": "Initialise comp[] = [-1,-1,-1,-1,-1], k=0."
+              },
+              {
+                "zh": "s=0：comp[0]==-1，啟動 BFS。標記 comp[0]=0，推入佇列；取出 0，鄰居只有 1，標記 comp[1]=0 並推入；取出 1，鄰居 0 已標記；佇列清空。分量 0 = {0,1}，k 遞增為 1。",
+                "en": "s=0: comp[0]==-1, launch a BFS. Label comp[0]=0, push 0; pop 0, its only neighbour is 1, label comp[1]=0 and push it; pop 1, its neighbour 0 is already labelled; the queue empties. Component 0 = {0,1}; k becomes 1."
+              },
+              {
+                "zh": "s=1：comp[1]=0 已標記，跳過。",
+                "en": "s=1: comp[1]=0 is already labelled, skip."
+              },
+              {
+                "zh": "s=2：comp[2]==-1，啟動新的 BFS。標記 comp[2]=1，推入佇列；取出 2，鄰居只有 3，標記 comp[3]=1 並推入；取出 3，鄰居 2 已標記；佇列清空。分量 1 = {2,3}，k 遞增為 2。",
+                "en": "s=2: comp[2]==-1, launch a new BFS. Label comp[2]=1, push 2; pop 2, its only neighbour is 3, label comp[3]=1 and push it; pop 3, its neighbour 2 is already labelled; the queue empties. Component 1 = {2,3}; k becomes 2."
+              },
+              {
+                "zh": "s=3：comp[3]=1 已標記，跳過。",
+                "en": "s=3: comp[3]=1 is already labelled, skip."
+              },
+              {
+                "zh": "s=4：comp[4]==-1（4 沒有任何邊），啟動 BFS。標記 comp[4]=2，推入佇列；取出 4，沒有鄰居；佇列清空。分量 2 = {4}，k 遞增為 3。",
+                "en": "s=4: comp[4]==-1 (4 has no edges at all). Launch a BFS: label comp[4]=2, push 4; pop 4, it has no neighbours; the queue empties. Component 2 = {4}; k becomes 3."
+              },
+              {
+                "zh": "所有頂點掃描完畢，回傳 k=3：共有 3 個連通分量 — {0,1}、{2,3}、{4}。",
+                "en": "All vertices have been scanned; return k=3: there are 3 connected components — {0,1}, {2,3}, {4}."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "時間（所有 BFS 總和）",
+                  "en": "Time (all BFS launches combined)"
+                },
+                {
+                  "zh": "$O(V+E)$",
+                  "en": "$O(V+E)$"
+                }
+              ],
+              [
+                {
+                  "zh": "空間（comp[] + 佇列）",
+                  "en": "Space (comp[] array + BFS queue)"
+                },
+                {
+                  "zh": "$O(V)$",
+                  "en": "$O(V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "BFS 啟動次數",
+                  "en": "Number of BFS launches"
+                },
+                {
+                  "zh": "= 連通分量數（$\\le V$）",
+                  "en": "= number of components ($\\le V$)"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph_components.cpp",
+            "code": "#include <iostream>\n#include <queue>\n#include <vector>\nusing namespace std;\n\nconst int MAXN = 10;\n\nclass Graph {\n    int n;\n    vector<int> adj[MAXN];\n\npublic:\n    Graph(int v) : n(v) {}\n\n    // Undirected edge.\n    void addEdge(int u, int v) {\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    // BFS flood-fill (COMP): from the lowest unlabelled vertex, label its whole\n    // connected component, then repeat. Fills comp[] and returns the count.\n    int connectedComponents(int comp[]) {\n        for (int i = 0; i < n; i++)\n            comp[i] = -1;\n        int k = 0;\n        for (int s = 0; s < n; s++) {\n            if (comp[s] != -1)\n                continue;\n            queue<int> q;\n            q.push(s);\n            comp[s] = k;\n            while (!q.empty()) {\n                int v = q.front();\n                q.pop();\n                for (int w : adj[v])\n                    if (comp[w] == -1) {\n                        comp[w] = k;\n                        q.push(w);\n                    }\n            }\n            k++;\n        }\n        return k;\n    }\n};\n\nint main() {\n    Graph g(5);          // G3: two edges, one isolated vertex -> 3 components\n    g.addEdge(0, 1);\n    g.addEdge(2, 3);\n\n    int comp[5];\n    int k = g.connectedComponents(comp);\n\n    cout << \"components = \" << k << \"\\n\";\n    for (int i = 0; i < 5; i++)\n        cout << \"comp[\" << i << \"] = \" << comp[i] << \"\\n\";\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
+  "graph-bipartite": {
+    "category": "Graphs",
+    "title": {
+      "zh": "二分圖判定",
+      "en": "Bipartite Check"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "二分圖判定",
+          "en": "Bipartite Check"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "圖是二分圖（Bipartite），若且唯若能把所有頂點分成兩組，使每條邊都連接不同組的頂點；這又等價於圖中不存在任何奇數長度的環。以 BFS 進行二著色即可在 $O(V+E)$ 時間內完成判定。",
+              "en": "A graph is bipartite if and only if its vertices can be split into two groups so that every edge joins vertices from different groups — equivalently, the graph has no odd-length cycle. BFS two-colouring checks this in $O(V+E)$ time."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "演算法用 color[] 陣列（初始為 -1）記錄每個頂點的顏色。從任一未著色的頂點出發做 BFS，把每個鄰居塗上與目前頂點相反的顏色（`1 - color[v]`）；若某個鄰居已經著色且顏色與目前頂點相同，就表示碰到了一個奇數環，圖並非二分圖。",
+              "en": "The algorithm uses a color[] array (initialised to -1) to record each vertex's colour. Starting a BFS from any uncoloured vertex, every neighbour is painted the opposite colour of the current vertex (`1 - color[v]`); if a neighbour is already coloured and matches the current vertex's colour, an odd cycle has been found and the graph is not bipartite."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "顏色只有兩種（0、1），分別代表二分圖的兩個獨立集合。",
+                "en": "There are only two colours (0 and 1), representing the two independent sets of the bipartition."
+              },
+              {
+                "zh": "BFS 走到邊 (v,w) 時：w 未著色就塗上 `1-color[v]`；w 已著色且與 v 同色就立刻回報「非二分圖」。",
+                "en": "When BFS crosses an edge (v,w): if w is uncoloured, paint it `1-color[v]`; if w is already coloured and matches v's colour, immediately report \"not bipartite\"."
+              },
+              {
+                "zh": "外層對每個未著色的頂點都啟動一次 BFS，因此即使圖不連通也能正確處理每個分量。",
+                "en": "The outer loop launches a BFS from every still-uncoloured vertex, so disconnected graphs are handled correctly component by component."
+              },
+              {
+                "zh": "二分圖判定與「沒有奇數環」判定完全等價：這正是 BFS 著色沒有衝突所保證的性質。",
+                "en": "Being bipartite is exactly equivalent to having no odd cycle — that is precisely the property a conflict-free BFS colouring guarantees."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "color[] 全部初始化為 -1（尚未著色）。",
+                "en": "Initialise color[] entirely to -1 (uncoloured)."
+              },
+              {
+                "zh": "依序檢查頂點 s=0..n-1；若 color[s] 已著色則跳過。",
+                "en": "Scan vertices s=0..n-1 in order; skip s if color[s] is already set."
+              },
+              {
+                "zh": "否則以 s 為起點做 BFS：設 color[s]=0 並推入佇列。",
+                "en": "Otherwise start a BFS from s: set color[s]=0 and push s."
+              },
+              {
+                "zh": "重複取出佇列前端頂點 v，檢查其每個鄰居 w：若 color[w]==-1，設 color[w]=1-color[v] 並推入佇列；若 color[w]==color[v]，立即回傳 false（發現奇數環）。",
+                "en": "Repeatedly pop the front vertex v and examine each neighbour w: if color[w]==-1, set color[w]=1-color[v] and push w; if color[w]==color[v], return false immediately (an odd cycle has been found)."
+              },
+              {
+                "zh": "若所有頂點都能順利著色而沒有衝突，回傳 true：圖是二分圖。",
+                "en": "If every vertex is coloured with no conflict, return true: the graph is bipartite."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"Init color[] = -1\"] --> B[\"Pick next s\\n(color[s] == -1)\"]\n  B --> C[\"BFS from s\\ncolor[s] = 0\"]\n  C --> D{\"neighbour w\\ncolor[w] == -1?\"}\n  D -->|yes| E[\"color[w] = 1-color[v]\\npush w\"]\n  D -->|no| F{\"color[w] == color[v]?\"}\n  F -->|yes| G[\"return false\\n(odd cycle)\"]\n  F -->|no| H[\"continue BFS\"]\n  E --> H\n  H --> I{\"more unvisited\\nvertices?\"}\n  I -->|yes| B\n  I -->|no| J[\"return true\\n(bipartite)\"]"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "二分著色示意圖",
+          "en": "Bipartite Coloring Diagram"
+        },
+        "blocks": [
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  N0((\"0 (A)\")):::colorA --- N1((\"1 (B)\")):::colorB\n  N1 --- N2((\"2 (A)\")):::colorA\n  N2 --- N3((\"3 (B)\")):::colorB\n  N3 --- N4((\"4 (A)\")):::colorA\n  N4 --- N5((\"5 (B)\")):::colorB\n  N5 --- N0\n  classDef colorA fill:#dbeafe,stroke:#2563eb;\n  classDef colorB fill:#fef3c7,stroke:#d97706;"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "六個頂點沿環交替著色為 A、B；因為環長是偶數（6），最後一條邊 5-0 恰好連接 B 與 A，沒有任何一條邊連接同色頂點。",
+              "en": "The six vertices alternate colours A and B around the cycle; because the cycle length is even (6), the closing edge 5-0 lands on B–A, and no edge ever joins two same-coloured vertices."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入：n=6 的無向圖，邊為 0-1、1-2、2-3、3-4、4-5、5-0（一個長度為 6 的偶數環）。",
+              "en": "Input: an undirected graph with n=6, edges 0-1, 1-2, 2-3, 3-4, 4-5, 5-0 (a 6-cycle, an even-length cycle)."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "color[] 初始化為全 -1。s=0：color[0]==-1，設 color[0]=0（記為 A），推入佇列。",
+                "en": "Initialise color[] to all -1. s=0: color[0]==-1, set color[0]=0 (call it A) and push 0."
+              },
+              {
+                "zh": "取出 0，鄰居 1 與 5 皆未著色：color[1]=1-color[0]=1（B），color[5]=1（B）；兩者皆推入佇列。",
+                "en": "Pop 0; its neighbours 1 and 5 are both uncoloured: color[1]=1-color[0]=1 (B) and color[5]=1 (B); both are pushed."
+              },
+              {
+                "zh": "取出 1，鄰居 0 已著色且與 1 不同色（0=A、1=B，沒有衝突）；鄰居 2 未著色，設 color[2]=1-color[1]=0（A）並推入。",
+                "en": "Pop 1; neighbour 0 is already coloured and differs from 1 (0=A vs 1=B, no conflict); neighbour 2 is uncoloured, so set color[2]=1-color[1]=0 (A) and push it."
+              },
+              {
+                "zh": "取出 5，鄰居 0 已著色且不同色，沒有衝突；鄰居 4 未著色，設 color[4]=1-color[5]=0（A）並推入。",
+                "en": "Pop 5; neighbour 0 is already coloured and differs, no conflict; neighbour 4 is uncoloured, so set color[4]=1-color[5]=0 (A) and push it."
+              },
+              {
+                "zh": "取出 2，鄰居 1 已著色且不同色；鄰居 3 未著色，設 color[3]=1-color[2]=1（B）並推入。",
+                "en": "Pop 2; neighbour 1 differs in colour already; neighbour 3 is uncoloured, so set color[3]=1-color[2]=1 (B) and push it."
+              },
+              {
+                "zh": "取出 4，鄰居 5、3 皆已著色，且都與 4 不同色，沒有衝突；佇列清空。",
+                "en": "Pop 4; neighbours 5 and 3 are already coloured, and both differ from 4's colour — no conflict; the queue empties."
+              },
+              {
+                "zh": "最終著色 0=A、1=B、2=A、3=B、4=A、5=B；六條邊（含 5-0）都連接 A 與 B，全程沒有衝突，因此圖是二分圖。",
+                "en": "Final colouring: 0=A, 1=B, 2=A, 3=B, 4=A, 5=B; all six edges (including 5-0) join an A vertex to a B vertex, and no conflict ever occurred — so the graph is bipartite."
+              }
+            ]
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "若把邊改成奇數環，例如 5 個頂點的環 0-1-2-3-4-0，BFS 著色到最後一條邊 4-0 時，4 與 0 會被塗上相同顏色，形成衝突，回報「非二分圖」。",
+              "en": "If the cycle had odd length instead — e.g. the 5-vertex cycle 0-1-2-3-4-0 — BFS colouring would reach the closing edge 4-0 and find both endpoints coloured the same, a conflict, so it would report \"not bipartite\"."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "時間",
+                  "en": "Time"
+                },
+                {
+                  "zh": "$O(V+E)$",
+                  "en": "$O(V+E)$"
+                }
+              ],
+              [
+                {
+                  "zh": "空間（color[] + 佇列）",
+                  "en": "Space (color[] array + BFS queue)"
+                },
+                {
+                  "zh": "$O(V)$",
+                  "en": "$O(V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "衝突檢查",
+                  "en": "Conflict check per edge"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph_bipartite.cpp",
+            "code": "#include <iostream>\n#include <queue>\n#include <vector>\nusing namespace std;\n\nconst int MAXN = 10;\n\nclass Graph {\n    int n;\n    vector<int> adj[MAXN];\n\npublic:\n    Graph(int v) : n(v) {}\n\n    void addEdge(int u, int v) {\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    // BFS 2-colouring. Fills color[] with 0/1; returns true iff the graph is\n    // bipartite (no edge joins two same-coloured vertices, i.e. no odd cycle).\n    bool isBipartite(int color[]) {\n        for (int i = 0; i < n; i++)\n            color[i] = -1;\n        for (int s = 0; s < n; s++) {\n            if (color[s] != -1)\n                continue;\n            queue<int> q;\n            q.push(s);\n            color[s] = 0;\n            while (!q.empty()) {\n                int v = q.front();\n                q.pop();\n                for (int w : adj[v]) {\n                    if (color[w] == -1) {\n                        color[w] = 1 - color[v];\n                        q.push(w);\n                    } else if (color[w] == color[v]) {\n                        return false; // odd cycle\n                    }\n                }\n            }\n        }\n        return true;\n    }\n};\n\nint main() {\n    Graph g(6);          // C6: an even cycle -> bipartite\n    g.addEdge(0, 1);\n    g.addEdge(1, 2);\n    g.addEdge(2, 3);\n    g.addEdge(3, 4);\n    g.addEdge(4, 5);\n    g.addEdge(5, 0);\n\n    int color[6];\n    bool ok = g.isBipartite(color);\n    cout << \"bipartite = \" << (ok ? \"true\" : \"false\") << \"\\n\";\n    if (ok)\n        for (int i = 0; i < 6; i++)\n            cout << \"color[\" << i << \"] = \" << color[i] << \"\\n\";\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
+  "graph-closure": {
+    "category": "Graphs",
+    "title": {
+      "zh": "遞移閉包",
+      "en": "Transitive Closure"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "遞移閉包",
+          "en": "Transitive Closure"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "遞移閉包（Transitive Closure）$R$ 滿足 $R[i][j]=1$，若且唯若從 $i$ 出發存在一條長度至少為 1 的有向路徑到達 $j$。Warshall 演算法以三層迴圈在 $O(V^3)$ 時間內把鄰接矩陣就地擴展成完整的遞移閉包。",
+              "en": "The transitive closure $R$ satisfies $R[i][j]=1$ if and only if there is a directed path of length at least 1 from $i$ to $j$. Warshall's algorithm expands the adjacency matrix in place into the full transitive closure with a triple loop in $O(V^3)$ time."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "$R$ 一開始就是鄰接矩陣本身。演算法逐一把每個頂點 $k$ 當作「允許經過的中繼點」：只要 $i$ 能到 $k$ 且 $k$ 能到 $j$，就把 $R[i][j]$ 補為 1。做完 $k=0,\\dots,V-1$ 之後，$R$ 就是完整的遞移閉包。",
+              "en": "R starts as the adjacency matrix itself. The algorithm treats each vertex $k$ in turn as an \"allowed intermediate stop\": whenever $i$ can reach $k$ and $k$ can reach $j$, $R[i][j]$ is set to 1. After $k=0,\\dots,V-1$ have all been processed, R is the complete transitive closure."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "三層迴圈順序固定為 $k,i,j$：$k$ 是最外層，代表逐一「開放」每個中繼點。",
+                "en": "The triple loop order is fixed as $k, i, j$: $k$ is the outermost loop, opening up one intermediate vertex at a time."
+              },
+              {
+                "zh": "核心更新規則：`if (R[i][k] && R[k][j]) R[i][j] = 1;`——一旦成立就不會再變回 0。",
+                "en": "The core update rule is `if (R[i][k] && R[k][j]) R[i][j] = 1;` — once set to 1, an entry never reverts to 0."
+              },
+              {
+                "zh": "若某頂點 $v$ 位於一個環上，`warshall` 會讓 $R[v][v]$ 變成 1（自己繞一圈可以回到自己）。",
+                "en": "If a vertex $v$ lies on a cycle, `warshall` will set $R[v][v]$ to 1 (v can walk a full loop back to itself)."
+              },
+              {
+                "zh": "矩陣就地（in place）更新，不需要額外配置第二份矩陣。",
+                "en": "The matrix is updated in place — no second matrix needs to be allocated."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "把 $R$ 初始化為鄰接矩陣（有邊 $i\\to j$ 就設 $R[i][j]=1$，其餘為 0）。",
+                "en": "Initialise R as the adjacency matrix (set $R[i][j]=1$ wherever there is an edge $i\\to j$, else 0)."
+              },
+              {
+                "zh": "外層迴圈 $k=0,\\dots,V-1$：把 $k$ 當作本輪允許經過的中繼點。",
+                "en": "Outer loop $k=0,\\dots,V-1$: treat k as the intermediate vertex allowed in this round."
+              },
+              {
+                "zh": "中層迴圈 $i=0,\\dots,V-1$、內層迴圈 $j=0,\\dots,V-1$：檢查 $R[i][k]$ 與 $R[k][j]$ 是否同時成立。",
+                "en": "Middle loop $i=0,\\dots,V-1$ and inner loop $j=0,\\dots,V-1$: check whether both $R[i][k]$ and $R[k][j]$ hold."
+              },
+              {
+                "zh": "若兩者皆為 1，代表「$i$ 可到 $k$，$k$ 可到 $j$」，因此設 $R[i][j]=1$。",
+                "en": "If both are 1 — meaning \"i can reach k, and k can reach j\" — set $R[i][j]=1$."
+              },
+              {
+                "zh": "三層迴圈跑完全部 $k,i,j$ 組合後，$R$ 即為完整的遞移閉包矩陣。",
+                "en": "Once the triple loop has covered every $(k,i,j)$ combination, R is the complete transitive-closure matrix."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"Init R = adjacency\"] --> B[\"for k = 0..V-1\"]\n  B --> C[\"for i = 0..V-1\"]\n  C --> D[\"for j = 0..V-1\"]\n  D --> E{\"R[i][k] &&\\nR[k][j]?\"}\n  E -->|yes| F[\"R[i][j] = 1\"]\n  E -->|no| G[\"unchanged\"]\n  F --> D\n  G --> D"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "可及性示意圖",
+          "en": "Reachability Diagram"
+        },
+        "blocks": [
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  N0((\"0\")) --> N1((\"1\"))\n  N1 --> N2((\"2\"))\n  N2 --> N3((\"3\"))\n  N3 --> N1"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "0 只有一條進入 1-2-3 這個環的單向入口，因此閉包中只多出「0→1、0→2、0→3」；而 1、2、3 三者位於同一個環上，彼此互相可達，形成閉包中最密的一塊。",
+              "en": "Vertex 0 has only a one-way entrance into the 1-2-3 cycle, so the closure adds just 0→1, 0→2, 0→3; meanwhile 1, 2, 3 all sit on the same cycle and can reach one another, forming the densest block of the closure."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入：n=4 的有向圖，邊為 0→1、1→2、2→3、3→1（0 是單向入口，1-2-3 構成一個環）。R 初始化為此鄰接矩陣。",
+              "en": "Input: a directed graph with n=4, edges 0→1, 1→2, 2→3, 3→1 (0 is a one-way entry point; 1-2-3 form a cycle). R starts as this adjacency matrix."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "k=0（以頂點 0 為中介）：檢查所有 i,j 是否 R[i][0] 且 R[0][j]；沒有任何頂點能到達 0（R 的第 0 欄全為 0），故 R 不變。",
+                "en": "k=0 (vertex 0 as the intermediate): check every i,j for R[i][0] and R[0][j]; no vertex can reach 0 (column 0 of R is all zero), so R is unchanged."
+              },
+              {
+                "zh": "k=1（以頂點 1 為中介）：能到達 1 的有 0 與 3（R[0][1]=R[3][1]=1），而 1 能到達 2（R[1][2]=1）。因此新增 R[0][2]=1 與 R[3][2]=1（經由 1 到 2）。",
+                "en": "k=1 (vertex 1 as the intermediate): vertices that can reach 1 are 0 and 3 (R[0][1]=R[3][1]=1), and 1 can reach 2 (R[1][2]=1). So R[0][2]=1 and R[3][2]=1 are newly added (via 1 then to 2)."
+              },
+              {
+                "zh": "k=2（以頂點 2 為中介）：能到達 2 的有 0、1、3，而 2 能到達 3（R[2][3]=1）。因此新增 R[0][3]=1、R[1][3]=1、R[3][3]=1（經由 2 到 3）。",
+                "en": "k=2 (vertex 2 as the intermediate): vertices that can reach 2 are 0, 1, and 3, and 2 can reach 3 (R[2][3]=1). So R[0][3]=1, R[1][3]=1, and R[3][3]=1 are newly added (via 2 then to 3)."
+              },
+              {
+                "zh": "k=3（以頂點 3 為中介）：0、1、2、3 此時都能到達 3，而 3 能到達 1（R[3][1]=1）。因此把「經由 3 到 1」的可及性補上：R[1][1]=1、R[2][1]=1、R[2][2]=1 皆被補為 1——1、2、3 三者從此互相可達。",
+                "en": "k=3 (vertex 3 as the intermediate): 0, 1, 2, and 3 can now all reach 3, and 3 can reach 1 (R[3][1]=1). So the \"via 3 then to 1\" reachability is filled in: R[1][1]=1, R[2][1]=1, and R[2][2]=1 all become 1 — 1, 2, and 3 can now all reach one another."
+              },
+              {
+                "zh": "最終 R：第 0 列為 [0,1,1,1]（0 可達 1、2、3，但無法回到自己）；第 1、2、3 列皆為 [0,1,1,1]（1、2、3 互相可達，但都無法到達 0）。",
+                "en": "Final R: row 0 is [0,1,1,1] (0 reaches 1, 2, 3, but not itself); rows 1, 2, 3 are all [0,1,1,1] (1, 2, 3 all reach one another, and none of them can reach 0)."
+              }
+            ]
+          },
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "R",
+                "en": "R"
+              },
+              {
+                "zh": "j=0",
+                "en": "j=0"
+              },
+              {
+                "zh": "j=1",
+                "en": "j=1"
+              },
+              {
+                "zh": "j=2",
+                "en": "j=2"
+              },
+              {
+                "zh": "j=3",
+                "en": "j=3"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "i=0",
+                  "en": "i=0"
+                },
+                {
+                  "zh": "0",
+                  "en": "0"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                }
+              ],
+              [
+                {
+                  "zh": "i=1",
+                  "en": "i=1"
+                },
+                {
+                  "zh": "0",
+                  "en": "0"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                }
+              ],
+              [
+                {
+                  "zh": "i=2",
+                  "en": "i=2"
+                },
+                {
+                  "zh": "0",
+                  "en": "0"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                }
+              ],
+              [
+                {
+                  "zh": "i=3",
+                  "en": "i=3"
+                },
+                {
+                  "zh": "0",
+                  "en": "0"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                },
+                {
+                  "zh": "1",
+                  "en": "1"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "時間",
+                  "en": "Time"
+                },
+                {
+                  "zh": "$O(V^3)$",
+                  "en": "$O(V^3)$"
+                }
+              ],
+              [
+                {
+                  "zh": "空間（R 矩陣）",
+                  "en": "Space (R matrix)"
+                },
+                {
+                  "zh": "$O(V^2)$",
+                  "en": "$O(V^2)$"
+                }
+              ],
+              [
+                {
+                  "zh": "每個 (k,i,j) 組合",
+                  "en": "Per (k,i,j) triple"
+                },
+                {
+                  "zh": "$O(1)$ 檢查與寫入",
+                  "en": "$O(1)$ check and write"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph_closure.cpp",
+            "code": "#include <iostream>\nusing namespace std;\n\nconst int MAXN = 10;\n\n// Warshall's transitive closure: R[i][j] = 1 iff j is reachable from i via >= 1 edge.\n// R is initialized to the adjacency matrix; R[i][i] becomes 1 only if i lies on a cycle.\nvoid warshall(int R[MAXN][MAXN], int n) {\n    for (int k = 0; k < n; k++)\n        for (int i = 0; i < n; i++)\n            for (int j = 0; j < n; j++)\n                if (R[i][k] && R[k][j])\n                    R[i][j] = 1;\n}\n\nint main() {\n    int n = 4;                    // SAMPLE: 0->1, 1->2, 2->3, 3->1 (chain + cycle 1-2-3)\n    int R[MAXN][MAXN] = {};\n    R[0][1] = R[1][2] = R[2][3] = R[3][1] = 1;\n\n    warshall(R, n);\n\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < n; j++)\n            cout << R[i][j] << (j + 1 < n ? \" \" : \"\");\n        cout << \"\\n\";\n    }\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
+  "graph-scc": {
+    "category": "Graphs",
+    "title": {
+      "zh": "強連通分量",
+      "en": "Strongly Connected Components"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "強連通分量",
+          "en": "Strongly Connected Components"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "在有向圖中，強連通分量（Strongly Connected Component, SCC）是任兩頂點都能互相到達的最大集合。`cpp/graph_scc.cpp` 以 Kosaraju 演算法（兩次 DFS 加上一份轉置圖）在 $O(V+E)$ 時間內找出所有 SCC。",
+              "en": "In a directed graph, a strongly connected component (SCC) is a maximal set of vertices where every pair can reach each other. `cpp/graph_scc.cpp` finds all SCCs in $O(V+E)$ time using Kosaraju's algorithm (two DFS passes plus a transpose graph)."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "強連通分量（SCC）是有向圖中「任兩點皆可互相到達」的最大頂點集合。Kosaraju 演算法利用兩次 DFS：第一次在原圖上記錄完成順序，第二次在轉置圖上依完成順序的相反方向走訪，即可在 $O(V+E)$ 時間內切出所有 SCC。",
+              "en": "A strongly connected component (SCC) is a maximal set of vertices in a directed graph where every pair can reach each other. Kosaraju's algorithm runs two DFS passes — the first records a finish order on the original graph, and the second walks the transpose graph in reverse finish order — carving out all SCCs in $O(V+E)$ time."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "adj[] 為原圖的鄰接表；radj[] 為轉置圖（每條邊反向）的鄰接表。",
+                "en": "adj[] is the adjacency list of the original graph; radj[] is the adjacency list of its transpose (every edge reversed)."
+              },
+              {
+                "zh": "第一次 DFS（dfs1）只是為了取得「完成時間」的順序：遞迴返回時把頂點壓入堆疊。",
+                "en": "The first DFS (dfs1) exists only to record finish order — each call pushes its vertex onto a stack as it returns."
+              },
+              {
+                "zh": "第二次 DFS（dfs2）在 radj 上運作，依堆疊彈出的順序（即完成時間由晚到早）啟動；每次啟動走訪到的頂點都屬於同一個 SCC。",
+                "en": "The second DFS (dfs2) runs on radj, launched in the order the stack pops (i.e. latest finish first); every vertex reached by one launch belongs to the same SCC."
+              },
+              {
+                "zh": "為何要在轉置圖上走：若原圖中有一條從某 SCC 跨到另一個 SCC 的單向邊，轉置後這條邊反向，就不會讓 dfs2 把兩個不同 SCC 的頂點誤併成一次走訪。",
+                "en": "Why walk the transpose: if a one-way edge crosses from one SCC to another in the original graph, reversing it in the transpose prevents dfs2 from incorrectly merging two different SCCs into one walk."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "建立原圖 adj[] 與其轉置圖 radj[]（每條邊 u→v 在 radj 中反向記為 v→u）。",
+                "en": "Build the original graph adj[] and its transpose radj[] (every edge u→v is stored reversed as v→u in radj)."
+              },
+              {
+                "zh": "對每個未拜訪的頂點執行第一次 DFS（dfs1），在遞迴返回時把頂點壓入堆疊——堆疊記錄的是「完成時間」由早到晚的順序。",
+                "en": "Run a first DFS (dfs1) from every unvisited vertex; each call pushes its vertex onto a stack as it returns, recording finish order from earliest to latest."
+              },
+              {
+                "zh": "把所有頂點的 comp[] 重置為 -1（尚未分配 SCC 編號），準備第二輪走訪。",
+                "en": "Reset every vertex's comp[] to -1 (unassigned), ready for the second pass."
+              },
+              {
+                "zh": "重複彈出堆疊頂端頂點：若尚未分配 SCC 編號，就在 radj（轉置圖）上做第二次 DFS（dfs2），把這次走訪到的所有頂點標成同一個 SCC 編號，再把編號 +1。",
+                "en": "Repeatedly pop the top of the stack: if it has no SCC id yet, run a second DFS (dfs2) on radj (the transpose graph), labelling every vertex it reaches with the same SCC id, then increment the id."
+              },
+              {
+                "zh": "堆疊清空後，comp[] 中相同編號的頂點即構成一個強連通分量。",
+                "en": "Once the stack is empty, all vertices sharing the same id in comp[] form one strongly connected component."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"Build adj & radj\\n(transpose)\"] --> B[\"dfs1 from every\\nunvisited vertex\"]\n  B --> C[\"push v on finish\\n(order = stack)\"]\n  C --> D[\"reset comp[] = -1\"]\n  D --> E[\"pop stack top v\"]\n  E --> F{\"comp[v] == -1?\"}\n  F -->|yes| G[\"dfs2 on radj\\nlabel comp[] = cid\\ncid++\"]\n  F -->|no| E\n  G --> H{\"stack empty?\"}\n  H -->|no| E\n  H -->|yes| I[\"comp[] partitions\\ninto SCCs\"]"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "SCC 示意圖",
+          "en": "SCC Diagram"
+        },
+        "blocks": [
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  subgraph G1 [\"SCC {0,1,2}\"]\n    N0((\"0\")) --> N1((\"1\"))\n    N1 --> N2((\"2\"))\n    N2 --> N0\n  end\n  subgraph G2 [\"SCC {3,4}\"]\n    N3((\"3\")) --> N4((\"4\"))\n    N4 --> N3\n  end\n  subgraph G3 [\"SCC {5}\"]\n    N5((\"5\"))\n  end\n  N2 --> N3\n  N4 --> N5"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "三個外框各自是一個 SCC：{0,1,2} 內部形成一個環，可互相到達；{3,4} 互相指向對方；{5} 沒有出邊，自成一個大小為 1 的 SCC（sink）。橫跨外框的邊（2→3、4→5）只能單向離開，不會被併入同一個 SCC。",
+              "en": "Each box is one SCC: {0,1,2} forms an internal cycle and can reach each other; {3,4} point at each other; {5} has no outgoing edges and forms its own size-1 SCC (a sink). Edges crossing between boxes (2→3, 4→5) are strictly one-directional and never merge two boxes into the same SCC."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入：n=6 的有向圖，邊為 0→1、1→2、2→0、2→3、3→4、4→3、4→5。",
+              "en": "Input: a directed graph with n=6, edges 0→1, 1→2, 2→0, 2→3, 3→4, 4→3, 4→5."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "第一次 DFS（在原圖 G 上）：從頂點 0 出發，依序深入 0→1→2；2 的鄰居 0 已拜訪過，轉而遞迴到 2→3→4；從 4 出發，4→3 已拜訪跳過，改走 4→5；5 沒有鄰居，遞迴返回時把 5 壓入堆疊。",
+                "en": "First DFS (on the original graph G): starting at vertex 0, descend 0→1→2; 2's neighbour 0 is already visited, so recurse to 2→3→4; from 4, edge 4→3 is skipped (already visited) and 4→5 is taken; 5 has no neighbours, so when its call returns, 5 is pushed onto the finish-order stack."
+              },
+              {
+                "zh": "遞迴逐層返回時依序壓入：5、4、3、2、1、0（依「完成時間」由早到晚），堆疊由底到頂為 5,4,3,2,1,0，頂端是 0。",
+                "en": "As the recursion unwinds, vertices are pushed in finish order: 5, 4, 3, 2, 1, 0 (earliest finish first); the stack reads 5,4,3,2,1,0 from bottom to top, with 0 on top."
+              },
+              {
+                "zh": "建立轉置圖 $G^T$：把每條邊反向，例如 2→3 變成 3→2、4→5 變成 5→4。",
+                "en": "Build the transpose graph $G^T$ by reversing every edge — e.g. 2→3 becomes 3→2, and 4→5 becomes 5→4."
+              },
+              {
+                "zh": "第二次 DFS（在 $G^T$ 上，依堆疊由頂到底彈出）：彈出 0，在 $G^T$ 上走訪 0→2→1（因為原圖有 2→0 與 1→2）；這三個頂點標記為 SCC 0，即 {0,1,2}。",
+                "en": "Second DFS (on $G^T$, popping the stack from top to bottom): pop 0, and on $G^T$ it reaches 2 then 1 (because the original graph had 2→0 and 1→2); these three vertices are labelled SCC 0, i.e. {0,1,2}."
+              },
+              {
+                "zh": "彈出 1、2：兩者都已標記，跳過。彈出 3：在 $G^T$ 上走訪 3→4（原圖有 4→3）；{3,4} 標記為 SCC 1。彈出 4：已標記，跳過。",
+                "en": "Pop 1 and 2: both are already labelled, so skip them. Pop 3: on $G^T$ it reaches 4 (the original graph has 4→3); {3,4} is labelled SCC 1. Pop 4: already labelled, skip."
+              },
+              {
+                "zh": "彈出 5：在 $G^T$ 上沒有可達的未標記頂點（4 已標記）；{5} 自成 SCC 2。堆疊清空，共得到 3 個強連通分量：{0,1,2}、{3,4}、{5}。",
+                "en": "Pop 5: on $G^T$ there is no unlabelled vertex it can reach (4 is already labelled); {5} forms SCC 2 on its own. The stack is now empty, giving 3 strongly connected components in total: {0,1,2}, {3,4}, {5}."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "時間（兩次 DFS）",
+                  "en": "Time (two DFS passes)"
+                },
+                {
+                  "zh": "$O(V+E)$",
+                  "en": "$O(V+E)$"
+                }
+              ],
+              [
+                {
+                  "zh": "輔助空間（visited/comp[]/堆疊）",
+                  "en": "Auxiliary space (visited/comp[]/stack)"
+                },
+                {
+                  "zh": "$O(V)$",
+                  "en": "$O(V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "圖儲存（adj + radj）",
+                  "en": "Graph storage (adj + radj)"
+                },
+                {
+                  "zh": "$O(V+E)$",
+                  "en": "$O(V+E)$"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph_scc.cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <stack>\nusing namespace std;\n\nconst int MAXN = 10;\n\n// Kosaraju's algorithm: DFS on G pushing vertices by finish time, then DFS on the\n// transpose G^T popping in reverse finish order — each tree is one SCC.\nint n;\nvector<int> adj[MAXN], radj[MAXN];\nbool visited[MAXN];\nint comp[MAXN];\n\nvoid dfs1(int u, stack<int>& order) {\n    visited[u] = true;\n    for (int w : adj[u])\n        if (!visited[w]) dfs1(w, order);\n    order.push(u);                 // finished\n}\n\nvoid dfs2(int u, int cid) {\n    comp[u] = cid;\n    for (int w : radj[u])\n        if (comp[w] == -1) dfs2(w, cid);\n}\n\nint main() {\n    n = 6;                         // SAMPLE: 0->1,1->2,2->0, 2->3, 3->4,4->3, 4->5\n    int E[][2] = {{0,1},{1,2},{2,0},{2,3},{3,4},{4,3},{4,5}};\n    for (auto& e : E) { adj[e[0]].push_back(e[1]); radj[e[1]].push_back(e[0]); }\n\n    stack<int> order;\n    for (int i = 0; i < n; i++) if (!visited[i]) dfs1(i, order);\n\n    for (int i = 0; i < n; i++) comp[i] = -1;\n    int scc = 0;\n    while (!order.empty()) {\n        int v = order.top(); order.pop();\n        if (comp[v] == -1) dfs2(v, scc++);\n    }\n\n    cout << scc << \" SCC(s)\\n\";\n    for (int c = 0; c < scc; c++) {\n        cout << \"SCC \" << c << \":\";\n        for (int i = 0; i < n; i++) if (comp[i] == c) cout << \" \" << i;\n        cout << \"\\n\";\n    }\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
+  "graph-boruvka": {
+    "category": "Graphs",
+    "title": {
+      "zh": "Borůvka 最小生成樹",
+      "en": "Borůvka MST"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "Borůvka 最小生成樹",
+          "en": "Borůvka MST"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "Borůvka(又稱 Sollin)演算法以「輪」為單位建構最小生成樹(MST)：每一輪，圖中每個連通分量同時各自挑出一條連到分量外的最便宜邊並加入 MST，整體在 $O(E \\log V)$ 時間內完成。",
+              "en": "Borůvka's algorithm (also called Sollin's) builds a Minimum Spanning Tree (MST) in rounds: in each round, every connected component simultaneously picks its own cheapest edge leaving the component and adds it to the MST, completing in $O(E \\log V)$ time overall."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "以 DSU(Disjoint Set Union)追蹤目前的連通分量。每一輪對每個分量各找出一條「跨出該分量」且權重最小的邊，同時加入這些邊並合併分量。因為每一輪每個分量至少與另一個分量合併，分量數至少減半，所以只需約 $\\log V$ 輪。",
+              "en": "A DSU (Disjoint Set Union) tracks the current components. Each round finds, for every component, the minimum-weight edge crossing out of it; all chosen edges are added simultaneously and their components merged. Since every component merges with at least one other each round, the number of components at least halves, so only about $\\log V$ rounds are needed."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "DSU `find(x)`：回傳 x 所在分量的根；`unite(a,b)`：合併兩分量，若已同分量則回傳 false。",
+                "en": "DSU `find(x)`: returns the root of x's component; `unite(a,b)`: merges two components, returning false if they are already the same."
+              },
+              {
+                "zh": "`cheap[r]`：分量根 r 目前找到的最便宜跨出邊之索引，每輪重新計算。",
+                "en": "`cheap[r]`: the index of the cheapest crossing edge found so far for component root r, recomputed every round."
+              },
+              {
+                "zh": "同一輪中，兩個分量可能都選到同一條邊(彼此互為對方的最便宜邊)；第二次嘗試 `unite` 時因已同分量而被跳過，避免重複計入。",
+                "en": "Within one round, two components may both pick the same edge (each is the other's cheapest); the second `unite` attempt on it is skipped because they are already merged, avoiding double-counting."
+              },
+              {
+                "zh": "分量數每輪至少減半，故僅需約 $\\log V$ 輪即可收斂到 $V-1$ 條邊。",
+                "en": "The component count at least halves every round, so only about $\\log V$ rounds are needed to converge to $V-1$ edges."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "初始化 DSU：每個頂點各自為一個分量($V$ 個分量)。",
+                "en": "Initialise DSU: each vertex is its own component ($V$ components)."
+              },
+              {
+                "zh": "每一輪掃描所有邊一次：對每條邊 $(u,v,w)$，若 $u,v$ 的根不同，分別更新兩端根的 `cheap[]` 為目前所見最小權重的邊。",
+                "en": "Each round scans every edge once: for edge $(u,v,w)$, if u and v have different roots, update `cheap[]` for both roots to this edge whenever it is the smallest seen so far."
+              },
+              {
+                "zh": "掃描完後，對每個根 r(若 `cheap[r]` 存在)嘗試 `unite` 該邊的兩端；成功則將邊加入 MST 並累加權重，失敗(已同分量，代表本輪已被合併過)則跳過。",
+                "en": "After the scan, for every root r with a `cheap[r]`, attempt to `unite` that edge's endpoints; on success add the edge to the MST and accumulate its weight, on failure (already the same component — merged earlier this round) skip it."
+              },
+              {
+                "zh": "重複下一輪，直到 MST 累積 $V-1$ 條邊；若某輪完全沒有成功合併(圖不連通)，則提前結束。",
+                "en": "Repeat for the next round until the MST has accumulated $V-1$ edges; if a round makes no successful merge at all (the graph is disconnected), stop early."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"Init DSU\\n(V components)\"] --> B[\"Scan all edges:\\nupdate cheap[root]\\nper component\"]\n  B --> C[\"For each root r\\nwith cheap[r] set\"]\n  C --> D{\"unite(u,v)\\nsucceeds?\"}\n  D -->|\"no (same\\ncomponent already)\"| C\n  D -->|yes| E[\"Add edge to MST\\ntotal += w, added++\"]\n  E --> F{\"added == V-1?\"}\n  F -->|yes| G[\"MST complete\"]\n  F -->|no| H{\"any merge\\nthis round?\"}\n  H -->|yes| B\n  H -->|no| I[\"disconnected: stop\"]"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "分量合併示意圖",
+          "en": "Component Merge Diagram"
+        },
+        "blocks": [
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  subgraph R1a [\"Round 1 result: {A,D,E}\"]\n    A((\"A\")) -- \"3\" --- E((\"E\"))\n    E -- \"2\" --- D((\"D\"))\n  end\n  subgraph R1b [\"Round 1 result: {B,C}\"]\n    B((\"B\")) -- \"1\" --- C((\"C\"))\n  end\n  A -. \"4 (Round 2)\" .- B"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "第 1 輪：每個分量各自選出最便宜的跨出邊，{A,D,E} 由 E-A(3) 與 D-E(2) 兩條邊連成，{B,C} 由 B-C(1) 連成。第 2 輪：兩個分量之間最便宜的邊是 A-B(4)，加入後全圖合併為一棵樹。",
+              "en": "Round 1: every component picks its own cheapest crossing edge — {A,D,E} is joined by E-A(3) and D-E(2), and {B,C} by B-C(1). Round 2: the cheapest edge between the two remaining components is A-B(4); adding it merges everything into one tree."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入：5 個頂點 A–E，6 條加權邊 A-B:4、B-C:1、C-D:6、D-E:2、E-A:3、A-C:5。",
+              "en": "Input: 5 vertices A–E with 6 weighted edges A-B:4, B-C:1, C-D:6, D-E:2, E-A:3, A-C:5."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "初始化：每個頂點自成一個分量：{A}、{B}、{C}、{D}、{E}。",
+                "en": "Initialise: every vertex is its own component: {A}, {B}, {C}, {D}, {E}."
+              },
+              {
+                "zh": "第 1 輪掃描邊，得出每個分量目前最便宜的跨出邊：分量 A 選 E-A(3)(優於 A-B(4)、A-C(5))；分量 B 與分量 C 都選 B-C(1)；分量 D 與分量 E 都選 D-E(2)。",
+                "en": "Round 1 scans the edges and finds each component's cheapest crossing edge: component A picks E-A(3) (over A-B(4) and A-C(5)); components B and C both pick B-C(1); components D and E both pick D-E(2)."
+              },
+              {
+                "zh": "依序嘗試合併：unite(E,A) 成功 → 加入 E-A(3)，合併為 {A,E}；unite(B,C) 成功 → 加入 B-C(1)，合併為 {B,C}；第二次遇到 B-C 時 B、C 已同分量，跳過；unite(D,E) 成功 → 加入 D-E(2)，{A,E} 併入 D 成為 {A,D,E}；第二次遇到 D-E 時已同分量，跳過。第 1 輪結束，已加入 3 條邊，權重合計 3+1+2=6。",
+                "en": "Attempt merges in order: unite(E,A) succeeds → add E-A(3), forming {A,E}; unite(B,C) succeeds → add B-C(1), forming {B,C}; the second time B-C is seen, B and C are already merged, so it is skipped; unite(D,E) succeeds → add D-E(2), merging D into {A,E} to form {A,D,E}; the second time D-E is seen it is skipped (already merged). Round 1 ends with 3 edges added, weight so far 3+1+2=6."
+              },
+              {
+                "zh": "第 2 輪只剩兩個分量：{A,D,E} 與 {B,C}。重新掃描邊，只有跨分量的邊 A-B(4)、C-D(6)、A-C(5) 有效；兩個分量都以 A-B(4) 為最便宜的跨出邊。",
+                "en": "Round 2 has only two components left: {A,D,E} and {B,C}. Re-scanning the edges, only the crossing edges A-B(4), C-D(6), A-C(5) are relevant; both components find A-B(4) as their cheapest crossing edge."
+              },
+              {
+                "zh": "unite(A,B) 成功 → 加入 A-B(4)，兩個分量合併為一個分量 {A,B,C,D,E}。此時已加入 4 條邊($=V-1$)，迴圈結束。",
+                "en": "unite(A,B) succeeds → add A-B(4), merging the two components into one: {A,B,C,D,E}. Now 4 edges have been added ($=V-1$), so the loop stops."
+              },
+              {
+                "zh": "結果：MST = {B-C(1), D-E(2), E-A(3), A-B(4)}，總權重 $1+2+3+4=10$，共 4 條邊。此結果與同一張圖上 Kruskal / Prim 演算法所得的 MST 相同。",
+                "en": "Result: MST = {B-C(1), D-E(2), E-A(3), A-B(4)}, total weight $1+2+3+4=10$, with 4 edges in total. This matches the MST that Kruskal's or Prim's algorithm would find on the same graph."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "項目",
+                "en": "Aspect"
+              },
+              {
+                "zh": "成本",
+                "en": "Cost"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "每輪掃描所有邊",
+                  "en": "Scanning all edges per round"
+                },
+                {
+                  "zh": "$O(E)$",
+                  "en": "$O(E)$"
+                }
+              ],
+              [
+                {
+                  "zh": "輪數(分量數每輪至少減半)",
+                  "en": "Number of rounds (components at least halve each round)"
+                },
+                {
+                  "zh": "$O(\\log V)$",
+                  "en": "$O(\\log V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "總時間",
+                  "en": "Total time"
+                },
+                {
+                  "zh": "$O(E \\log V)$",
+                  "en": "$O(E \\log V)$"
+                }
+              ],
+              [
+                {
+                  "zh": "空間(邊列表 + DSU)",
+                  "en": "Space (edge list + DSU)"
+                },
+                {
+                  "zh": "$O(V + E)$",
+                  "en": "$O(V + E)$"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph_boruvka.cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nstruct Edge { int u, v, w; };\n\nint parent[100], rnk[100];\nint find(int x) { while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }\nbool unite(int a, int b) {\n    int ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    if (rnk[ra] < rnk[rb]) swap(ra, rb);\n    parent[rb] = ra; if (rnk[ra] == rnk[rb]) rnk[ra]++;\n    return true;\n}\n\nint main() {\n    int V = 5;\n    vector<Edge> edges = {{0,1,4},{1,2,1},{2,3,6},{3,4,2},{4,0,3},{0,2,5}};\n    for (int i = 0; i < V; i++) { parent[i] = i; rnk[i] = 0; }\n    int total = 0, added = 0;\n    while (added < V - 1) {\n        vector<int> cheap(V, -1);              // cheapest edge index per component\n        for (int i = 0; i < (int)edges.size(); i++) {\n            int ru = find(edges[i].u), rv = find(edges[i].v);\n            if (ru == rv) continue;\n            if (cheap[ru] == -1 || edges[i].w < edges[cheap[ru]].w) cheap[ru] = i;\n            if (cheap[rv] == -1 || edges[i].w < edges[cheap[rv]].w) cheap[rv] = i;\n        }\n        bool progress = false;\n        for (int r = 0; r < V; r++) {\n            if (cheap[r] == -1) continue;\n            Edge e = edges[cheap[r]];\n            if (unite(e.u, e.v)) {\n                total += e.w; added++; progress = true;\n                cout << \"Add \" << e.u << \"-\" << e.v << \" (w=\" << e.w << \")\\n\";\n            }\n        }\n        if (!progress) break;                  // disconnected\n    }\n    cout << \"MST total weight: \" << total << \"\\n\";\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
   "heap-binary": {
     "category": "Heaps / Priority Queues",
     "title": {
