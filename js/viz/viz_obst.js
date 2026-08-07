@@ -24,6 +24,7 @@
         const frames = res.frames;
 
         host.innerHTML =
+            '<div class="obst-wrap">' +
             '<div class="obst-controls">' +
               '<input type="text" class="obst-keys" value="' + st.keys.join(',') + '" placeholder="keys e.g. 10,20,30">' +
               '<input type="text" class="obst-freqs" value="' + st.freqs.join(',') + '" placeholder="freqs e.g. 4,2,6">' +
@@ -32,10 +33,12 @@
             '</div>' +
             '<div class="obst-grid"></div>' +
             '<div class="obst-tree-stage"><svg class="obst-edges"></svg><div class="obst-nodes"></div></div>' +
-            '<div class="obst-phase"></div>';
+            '<div class="obst-phase"></div>' +
+            '</div>';
+        const wrap = host.querySelector('.obst-wrap');
 
         function paint(fr) {
-            if (!host.querySelector('.obst-grid')) return;
+            if (!wrap.querySelector('.obst-grid')) return;
             let html = '<table class="obst-tbl"><tr><th>i\\j</th>';
             for (let j = 0; j < n; j++) html += '<th>' + st.keys[j] + '</th>';
             html += '</tr>';
@@ -50,9 +53,9 @@
                 html += '</tr>';
             }
             html += '</table>';
-            host.querySelector('.obst-grid').innerHTML = html;
-            const nodesEl = host.querySelector('.obst-nodes');
-            const edgesEl = host.querySelector('.obst-edges');
+            wrap.querySelector('.obst-grid').innerHTML = html;
+            const nodesEl = wrap.querySelector('.obst-nodes');
+            const edgesEl = wrap.querySelector('.obst-edges');
             if (fr.phase === 'tree') {
                 const meta = [];
                 computeTreeLayout(res.tree, 200, 30, 90, meta);
@@ -62,15 +65,18 @@
                 nodesEl.innerHTML = '';
                 meta.forEach((m) => { const d = document.createElement('div'); d.className = 'tree-node'; d.textContent = m.val; d.style.left = m.x + 'px'; d.style.top = m.y + 'px'; nodesEl.appendChild(d); });
             } else { nodesEl.innerHTML = ''; edgesEl.innerHTML = ''; }
-            host.querySelector('.obst-phase').textContent = langOf(fr.msg);
+            wrap.querySelector('.obst-phase').textContent = langOf(fr.msg);
         }
-        host.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 600 }));
-        host.querySelector('.obst-apply').onclick = () => {
-            const ks = host.querySelector('.obst-keys').value.split(',').map((s) => parseInt(s.trim(), 10)).filter(Number.isFinite);
-            const fs = host.querySelector('.obst-freqs').value.split(',').map((s) => parseInt(s.trim(), 10)).filter(Number.isFinite);
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 600,
+            getMessage: (f) => K().langOf(f.msg),
+        }));
+        wrap.querySelector('.obst-apply').onclick = () => {
+            const ks = wrap.querySelector('.obst-keys').value.split(',').map((s) => parseInt(s.trim(), 10)).filter(Number.isFinite);
+            const fs = wrap.querySelector('.obst-freqs').value.split(',').map((s) => parseInt(s.trim(), 10)).filter(Number.isFinite);
             if (ks.length && ks.length === fs.length) { ks.sort((a, b) => a - b); st.keys = ks; st.freqs = fs; renderTreeObst(); }
         };
-        host.querySelector('.rand-btn').onclick = () => {
+        wrap.querySelector('.rand-btn').onclick = () => {
             const inp = window.RandomInput && RandomInput.randomInputFor('tree-obst', K().getInputDifficulty());
             if (!inp) return;
             _obstState.keys = inp.keys;

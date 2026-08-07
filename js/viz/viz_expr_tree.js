@@ -60,6 +60,7 @@
             : 'postfix; operands + operators (+ - * /), space-separated';
 
         host.innerHTML =
+            '<div class="et-wrap">' +
             '<div class="et-mode">' +
               '<button type="button" class="et-mode-btn' + (!bool ? ' active' : '') + '" data-mode="arith">' + langOf({ zh: '算術', en: 'Arithmetic' }) + '</button>' +
               '<button type="button" class="et-mode-btn' + (bool ? ' active' : '') + '" data-mode="bool">' + langOf({ zh: '布林', en: 'Boolean' }) + '</button>' +
@@ -70,7 +71,9 @@
             '<div class="et-stage"><svg class="et-edges"></svg><div class="et-nodes"></div></div>' +
             (bool ? '<div class="et-asg"></div><div class="et-truth"></div>' : '') +
             '<div class="et-result"></div>' +
-            '<div class="et-phase"></div>';
+            '<div class="et-phase"></div>' +
+            '</div>';
+        const wrap = host.querySelector('.et-wrap');
 
         function subtreeLabel(n) {
             if (!n.left && !n.right) return disp(n.val);
@@ -80,7 +83,7 @@
         function tvMap(n, asg, m) { if (!n) return; m[n.id] = ExprTreeViz.evalBoolExprTree(n, asg); tvMap(n.left, asg, m); tvMap(n.right, asg, m); }
 
         function paintForest(roots, colorAsg) {
-            const stageEl = host.querySelector('.et-stage'); if (!stageEl) return;
+            const stageEl = wrap.querySelector('.et-stage'); if (!stageEl) return;
             const W = stageEl.clientWidth || 720;
             const slot = W / (roots.length + 1);
             const allNodes = []; let svg = ''; const tv = {};
@@ -92,18 +95,18 @@
                 (function walk(n) { if (!n) return; [n.left, n.right].forEach((c) => { if (!c) return; const a = byId[n.id], b = byId[c.id]; svg += '<line x1="' + a.x + '" y1="' + a.y + '" x2="' + b.x + '" y2="' + b.y + '" stroke="#94a3b8" stroke-width="2"/>'; walk(c); }); })(rt);
                 meta.forEach((m) => allNodes.push(m));
             });
-            host.querySelector('.et-edges').innerHTML = svg;
+            wrap.querySelector('.et-edges').innerHTML = svg;
             const opSet = bool ? BOOL_OPS : ARITH_OPS;
-            host.querySelector('.et-nodes').innerHTML = allNodes.map((m) => {
+            wrap.querySelector('.et-nodes').innerHTML = allNodes.map((m) => {
                 let cls = 'tree-node' + (opSet.includes(String(m.val)) ? ' et-op' : '');
                 if (bool && colorAsg && (m.id in tv)) cls += tv[m.id] ? ' et-true' : ' et-false';
                 return '<div class="' + cls + '" style="left:' + m.x + 'px;top:' + m.y + 'px">' + disp(m.val) + '</div>';
             }).join('');
-            host.querySelector('.et-stack-cells').innerHTML = roots.map((rt) => '<span class="et-scell">' + subtreeLabel(rt) + '</span>').join('');
+            wrap.querySelector('.et-stack-cells').innerHTML = roots.map((rt) => '<span class="et-scell">' + subtreeLabel(rt) + '</span>').join('');
         }
 
         function renderAsgRow() {
-            const el = host.querySelector('.et-asg'); if (!el) return;
+            const el = wrap.querySelector('.et-asg'); if (!el) return;
             if (!bool || !root) { el.innerHTML = ''; return; }
             let h = '';
             if (tooMany) h += '<span class="sm-hint">' + langOf({ zh: '變數超過 ' + K_CAP + ' 個,略過真值表', en: '>' + K_CAP + ' variables — truth table skipped' }) + '</span> ';
@@ -117,7 +120,7 @@
         function liveEval() {
             renderAsgRow();
             if (root) paintForest([root], st.asg);
-            host.querySelector('.et-result').textContent = root
+            wrap.querySelector('.et-result').textContent = root
                 ? langOf({ zh: '此指派求值 = ', en: 'value under this assignment = ' }) + ExprTreeViz.evalBoolExprTree(root, st.asg)
                 : '';
         }
@@ -132,35 +135,38 @@
         }
 
         function paint(fr) {
-            if (!host.querySelector('.et-stage')) return;
+            if (!wrap.querySelector('.et-stage')) return;
             if (fr.forest) {
                 paintForest(fr.forest, null);
-                if (bool) { const t = host.querySelector('.et-truth'); if (t) t.innerHTML = ''; renderAsgRow(); host.querySelector('.et-result').textContent = ''; }
-                else if (fr.action === 'done' && fr.forest.length === 1) { const v = ExprTreeViz.evalExprTree(fr.forest[0]); host.querySelector('.et-result').textContent = Number.isNaN(v) ? 'Result: (symbolic expression)' : ('Result = ' + v); }
-                else { host.querySelector('.et-result').textContent = ''; }
+                if (bool) { const t = wrap.querySelector('.et-truth'); if (t) t.innerHTML = ''; renderAsgRow(); wrap.querySelector('.et-result').textContent = ''; }
+                else if (fr.action === 'done' && fr.forest.length === 1) { const v = ExprTreeViz.evalExprTree(fr.forest[0]); wrap.querySelector('.et-result').textContent = Number.isNaN(v) ? 'Result: (symbolic expression)' : ('Result = ' + v); }
+                else { wrap.querySelector('.et-result').textContent = ''; }
             } else if (fr.action === 'ttrow') {
                 paintForest([root], fr.asg);
                 Object.assign(st.asg, fr.asg); renderAsgRow();
-                host.querySelector('.et-truth').innerHTML = truthTableHTML(fr.rowsSoFar, fr.rowsSoFar.length - 1, null, null);
-                host.querySelector('.et-result').textContent = '';
+                wrap.querySelector('.et-truth').innerHTML = truthTableHTML(fr.rowsSoFar, fr.rowsSoFar.length - 1, null, null);
+                wrap.querySelector('.et-result').textContent = '';
             } else if (fr.action === 'verdict') {
                 paintForest([root], st.asg);
-                host.querySelector('.et-truth').innerHTML = truthTableHTML(fr.rowsSoFar, -1, fr.verdict, fr.satisfiable);
-                host.querySelector('.et-result').textContent = '';
+                wrap.querySelector('.et-truth').innerHTML = truthTableHTML(fr.rowsSoFar, -1, fr.verdict, fr.satisfiable);
+                wrap.querySelector('.et-result').textContent = '';
             }
-            host.querySelector('.et-phase').textContent = (fr.token ? '[' + fr.token + '] ' : '') + langOf(fr.msg);
+            wrap.querySelector('.et-phase').textContent = (fr.token ? '[' + fr.token + '] ' : '') + langOf(fr.msg);
         }
-        host.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 700 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 700,
+            getMessage: (f) => (f.token ? '[' + f.token + '] ' : '') + K().langOf(f.msg),
+        }));
 
-        host.querySelectorAll('.et-mode-btn').forEach((b) => {
+        wrap.querySelectorAll('.et-mode-btn').forEach((b) => {
             b.onclick = () => { const m = b.getAttribute('data-mode'); if (m !== st.mode) { st.mode = m; renderTreeExpression(); } };
         });
-        host.querySelector('.et-apply').onclick = () => {
-            const v = host.querySelector('.et-input').value.trim(); if (!v) return;
+        wrap.querySelector('.et-apply').onclick = () => {
+            const v = wrap.querySelector('.et-input').value.trim(); if (!v) return;
             if (bool) st.boolText = v; else st.text = v;
             renderTreeExpression();
         };
-        host.querySelector('.rand-btn').onclick = () => {
+        wrap.querySelector('.rand-btn').onclick = () => {
             if (bool) { st.boolText = randomBoolPostfix(); st.asg = {}; renderTreeExpression(); return; }
             const inp = window.RandomInput && RandomInput.randomInputFor('tree-expression', K().getInputDifficulty());
             if (!inp) return;

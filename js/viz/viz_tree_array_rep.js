@@ -36,6 +36,7 @@
         const slots = res.slots;
 
         host.innerHTML =
+            '<div class="ar-wrap">' +
             '<div class="ar-controls">' +
               '<input type="text" class="ar-input" value="' + st.text.replace(/"/g, '&quot;') + '">' +
               '<button type="button" class="rand-btn" title="Random">🎲</button>' +
@@ -48,28 +49,30 @@
             '<div class="et-stage"><svg class="et-edges"></svg><div class="et-nodes"></div></div>' +
             '<div class="ar-array"></div>' +
             '<div class="ar-stats"></div>' +
-            '<div class="et-phase"></div>';
+            '<div class="et-phase"></div>' +
+            '</div>';
+        const wrap = host.querySelector('.ar-wrap');
 
         function highlightArithmetic(i) {
-            host.querySelectorAll('.ar-cell,.tree-node').forEach((c) => c.classList.remove('ar-hl-self', 'ar-hl-parent', 'ar-hl-child'));
+            wrap.querySelectorAll('.ar-cell,.tree-node').forEach((c) => c.classList.remove('ar-hl-self', 'ar-hl-parent', 'ar-hl-child'));
             if (!i) return;
-            const mark = (j, cls) => { const c = host.querySelector('.ar-cell[data-i="' + j + '"]'); if (c) c.classList.add(cls); const tn = host.querySelector('.tree-node[data-i="' + j + '"]'); if (tn) tn.classList.add(cls); };
+            const mark = (j, cls) => { const c = wrap.querySelector('.ar-cell[data-i="' + j + '"]'); if (c) c.classList.add(cls); const tn = wrap.querySelector('.tree-node[data-i="' + j + '"]'); if (tn) tn.classList.add(cls); };
             mark(i, 'ar-hl-self');
             if (i > 1) mark(Math.floor(i / 2), 'ar-hl-parent');
             mark(2 * i, 'ar-hl-child'); mark(2 * i + 1, 'ar-hl-child');
         }
 
         function paint(fr) {
-            if (!host.querySelector('.et-stage')) return;
-            const stageEl = host.querySelector('.et-stage'); const W = stageEl.clientWidth || 720;
+            if (!wrap.querySelector('.et-stage')) return;
+            const stageEl = wrap.querySelector('.et-stage'); const W = stageEl.clientWidth || 720;
             const meta = []; let svg = '';
             if (fr.tree) {
                 computeTreeLayout(fr.tree, W / 2, 30, Math.max(44, W / 6), meta);
                 const byId = {}; meta.forEach((mm) => { byId[mm.id] = mm; });
                 (function walk(n) { if (!n) return; [n.left, n.right].forEach((c) => { if (!c) return; const a = byId[n.id], b = byId[c.id]; svg += '<line x1="' + a.x + '" y1="' + a.y + '" x2="' + b.x + '" y2="' + b.y + '" stroke="#94a3b8" stroke-width="2"/>'; walk(c); }); })(fr.tree);
             }
-            host.querySelector('.et-edges').innerHTML = svg;
-            host.querySelector('.et-nodes').innerHTML = meta.map((mm) =>
+            wrap.querySelector('.et-edges').innerHTML = svg;
+            wrap.querySelector('.et-nodes').innerHTML = meta.map((mm) =>
                 '<div class="tree-node' + (fr.current === mm.idx ? ' ar-placing' : '') + '" data-i="' + mm.idx + '" style="left:' + mm.x + 'px;top:' + mm.y + 'px">' + mm.val + '</div>').join('');
 
             let cells = '';
@@ -85,23 +88,26 @@
                 if (revealed && (fr.left === i || fr.right === i)) cls += ' ar-childidx';
                 cells += '<div class="ar-cellwrap"><div class="ar-idx">' + i + '</div><div class="' + cls + '" data-i="' + i + '">' + (revealed ? (empty ? '·' : s.val) : '') + '</div></div>';
             }
-            host.querySelector('.ar-array').innerHTML = cells;
+            wrap.querySelector('.ar-array').innerHTML = cells;
 
-            const statsEl = host.querySelector('.ar-stats');
+            const statsEl = wrap.querySelector('.ar-stats');
             if (fr.action === 'done' && size > 0) { statsEl.className = 'ar-stats ar-ok'; statsEl.textContent = langOf(fr.msg) + ' — ' + langOf({ zh: '(偏斜樹最壞需 2^(h+1)−1 槽)', en: '(a skewed tree needs up to 2^(h+1)−1 slots)' }); }
             else if (fr.action === 'error') { statsEl.className = 'ar-stats ar-err'; statsEl.textContent = langOf(fr.msg); }
             else { statsEl.className = 'ar-stats'; statsEl.textContent = langOf({ zh: '目前浪費槽 = ', en: 'wasted so far = ' }) + fr.wastedSoFar; }
-            host.querySelector('.et-phase').textContent = langOf(fr.msg);
+            wrap.querySelector('.et-phase').textContent = langOf(fr.msg);
 
-            host.querySelectorAll('.ar-cell:not(.ar-hidden),.tree-node').forEach((el) => {
+            wrap.querySelectorAll('.ar-cell:not(.ar-hidden),.tree-node').forEach((el) => {
                 el.onclick = () => highlightArithmetic(parseInt(el.getAttribute('data-i'), 10));
             });
         }
-        host.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 700 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 700,
+            getMessage: (f) => K().langOf(f.msg),
+        }));
 
-        host.querySelector('.ar-apply').onclick = () => { const v = host.querySelector('.ar-input').value.trim(); if (v) { st.text = v; renderTreeArrayRep(); } };
-        host.querySelectorAll('.ar-preset').forEach((b) => { b.onclick = () => { st.text = PRESETS[b.getAttribute('data-p')]; renderTreeArrayRep(); }; });
-        host.querySelector('.rand-btn').onclick = () => { st.text = randomLevelArray(); renderTreeArrayRep(); };
+        wrap.querySelector('.ar-apply').onclick = () => { const v = wrap.querySelector('.ar-input').value.trim(); if (v) { st.text = v; renderTreeArrayRep(); } };
+        wrap.querySelectorAll('.ar-preset').forEach((b) => { b.onclick = () => { st.text = PRESETS[b.getAttribute('data-p')]; renderTreeArrayRep(); }; });
+        wrap.querySelector('.rand-btn').onclick = () => { st.text = randomLevelArray(); renderTreeArrayRep(); };
     }
 
     global.VizRegistry.attach('tree-array-rep', {
