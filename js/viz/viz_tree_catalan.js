@@ -47,20 +47,28 @@
         var wrap = host.querySelector('.cat-wrap');
 
         function paint(fr, i) {
-            if (!host.querySelector('.cat-groups')) return;
+            // Query via `wrap` (not `host`) here: buildStepWorkbench's first paint() fires
+            // while `wrap` is still mid-reparent (moved into the not-yet-attached stagecol,
+            // before the workbench is appended back to `host`), so `host` doesn't contain
+            // `wrap` at that instant. `wrap`'s own subtree is valid regardless of attachment
+            // (mirrors the fix already applied to viz_threaded.js / viz_dsu.js).
+            if (!wrap.querySelector('.cat-groups')) return;
             const shown = frames.slice(0, i + 1).filter((f) => f.action === 'group');
-            host.querySelector('.cat-groups').innerHTML = shown.map((g) =>
+            wrap.querySelector('.cat-groups').innerHTML = shown.map((g) =>
                 '<div class="cat-group"><div class="cat-ghead">' +
                     (g.n === 0 ? langOf({ zh: '空樹', en: 'empty tree' })
                         : ('C' + g.leftSize + '·C' + g.rightSize + ' = ' + g.ci + '·' + g.crest + ' = ' + g.product)) +
                 '</div><div class="cat-shapes">' + g.groupShapes.map(shapeSVG).join('') + '</div></div>').join('');
-            host.querySelector('.cat-total').textContent = langOf({ zh: '累計形狀數 = ', en: 'shapes so far = ' }) + fr.runningTotal;
-            const v = host.querySelector('.cat-verdict');
+            wrap.querySelector('.cat-total').textContent = langOf({ zh: '累計形狀數 = ', en: 'shapes so far = ' }) + fr.runningTotal;
+            const v = wrap.querySelector('.cat-verdict');
             if (fr.action === 'done') { v.className = 'cat-verdict cat-ok'; v.textContent = langOf(fr.msg); }
             else { v.className = 'cat-verdict'; v.textContent = ''; }
-            host.querySelector('.et-phase').textContent = langOf(fr.msg);
+            wrap.querySelector('.et-phase').textContent = langOf(fr.msg);
         }
-        wrap.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 800 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 800,
+            getMessage: (f) => K().langOf(f.msg),
+        }));
         K().markFocusFit(host);   // vizfit viz-fit path (bounded + fullscreen-expand + wrapper zoom); no {svg}
 
         host.querySelectorAll('.cat-nbtn').forEach((b) => { b.onclick = () => { const k = parseInt(b.getAttribute('data-n'), 10); if (k !== st.n) { st.n = k; renderTreeCatalan(); } }; });
