@@ -45,4 +45,23 @@ test.describe('Tree VCR step log (batch 2)', () => {
     // initial (detached) paint is skipped by a stale `host.querySelector` guard.
     await assertStepLog(page, 'tree-catalan', '.cat-wrap .cat-shape');
   });
+
+  test('game-tree: step log + initial SVG content', async ({ page }) => {
+    const card = await assertStepLog(page, 'game-tree', '.gt-wrap svg .gt-node');
+    // step-log rows carry the α-β/leaf/prune info text (non-empty)
+    const firstMsg = await card.locator('.viz-logrow .viz-logmsg').first().textContent();
+    expect(firstMsg.trim().length).toBeGreaterThan(0);
+  });
+
+  test('game-tree: fullscreen keeps transport in-viewport', async ({ page }) => {
+    await loadMethod(page, 'game-tree');
+    const card = page.locator('[data-method-section="game-tree"]');
+    await card.locator('[data-testid="viz-focus-toggle"]').click();
+    await expect(page.locator('body.viz-focus')).toHaveCount(1);
+    await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
+    const box = await card.locator('.stepctl').boundingBox();
+    const vh = page.viewportSize().height;
+    expect(box).not.toBeNull();
+    expect(box.y + box.height).toBeLessThanOrEqual(vh + 1);
+  });
 });

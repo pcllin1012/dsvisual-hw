@@ -65,15 +65,35 @@
         const minY = Math.min.apply(null, ys) - NH / 2 - 10, maxY = Math.max.apply(null, ys) + NH / 2 + 10;
         const natW = Math.max(maxX - minX, 120), natH = Math.max(maxY - minY, 120);
 
+        // Self-contained: looks up its own α-β context from `frames` (not from paint()'s
+        // per-call running state), so it gives correct text both when paint() calls it for
+        // the frame just rendered AND when buildStepWorkbench calls it up front for every
+        // step-log row (before any paint() has run — see getMessage below).
+        function infoFor(fr) {
+            if (!fr) return '';
+            if (fr.type === 'prune') return 'Prune at node ' + fr.id + ': α=' + fmt(fr.alpha) + ' ≥ β=' + fmt(fr.beta);
+            if (fr.type === 'leaf') return 'Leaf node ' + fr.id + ' = ' + fmt(fr.value);
+            if (fr.type === 'enter' || fr.type === 'update') {
+                return 'Node ' + fr.id + ': α=' + fmt(fr.alpha) + ', β=' + fmt(fr.beta) + (fr.type === 'update' ? ', best=' + fmt(fr.value) : '');
+            }
+            // 'return' (no α/β of its own) — walk back to the last enter/update for this node.
+            const idx = frames.indexOf(fr);
+            for (let s = idx - 1; s >= 0; s--) {
+                const f = frames[s];
+                if (f.id === fr.id && (f.type === 'enter' || f.type === 'update')) {
+                    return 'Node ' + fr.id + ': α=' + fmt(f.alpha) + ', β=' + fmt(f.beta) + (f.type === 'update' ? ', best=' + fmt(f.value) : '');
+                }
+            }
+            return '';
+        }
+
         function paint(fr, i) {
-            if (!svgEl.isConnected) return;
             const sz = K().fitFocusSize(scrollEl, natW, natH);
-            const pruned = new Set(); const returned = {}; const abText = {}; let current = null;
+            const pruned = new Set(); const returned = {}; let current = null;
             for (let s = 0; s <= i && s < frames.length; s++) {
                 const f = frames[s];
                 if (f.type === 'prune') (f.pruned || []).forEach((p) => pruned.add(p));
                 if (f.type === 'return' || f.type === 'leaf') returned[f.id] = f.value;
-                if (f.type === 'enter' || f.type === 'update') abText[f.id] = { alpha: f.alpha, beta: f.beta, value: f.type === 'update' ? f.value : undefined };
                 if (f.type === 'enter' || f.type === 'update' || f.type === 'leaf' || f.type === 'return') current = f.id;
             }
             let out = '';
@@ -93,15 +113,9 @@
             svgEl.setAttribute('height', sz.h);
             svgEl.innerHTML = out;
 
-            let info = '';
-            if (fr) {
-                const ab = abText[fr.id];
-                if (fr.type === 'prune') info = 'Prune at node ' + fr.id + ': α=' + fmt(fr.alpha) + ' ≥ β=' + fmt(fr.beta);
-                else if (fr.type === 'leaf') info = 'Leaf node ' + fr.id + ' = ' + fmt(fr.value);
-                else if (ab) info = 'Node ' + fr.id + ': α=' + fmt(ab.alpha) + ', β=' + fmt(ab.beta) + (ab.value !== undefined ? ', best=' + fmt(ab.value) : '');
-            }
+            let info = infoFor(fr);
             if (Object.prototype.hasOwnProperty.call(returned, root.id)) info += (info ? '  |  ' : '') + 'Root value = ' + fmt(returned[root.id]);
-            host.querySelector('.gt-info').textContent = info;
+            wrap.querySelector('.gt-info').textContent = info;
         }
 
         const exSelect = wrap.querySelector('.ex-select');
@@ -110,7 +124,10 @@
             opt.value = GT_PRUNE; opt.textContent = (lang === 'zh' ? '大量剪枝' : 'Heavy pruning');
             exSelect.insertBefore(opt, exSelect.options[2] || null);
         }
-        wrap.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 700 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 700,
+            getMessage: (f) => infoFor(f),
+        }));
         K().markFocusFit(host, { svg: true });   // viz-fit-svg: per-SVG drawing-only zoom
 
         host.querySelector('.gt-build').onclick = () => {
