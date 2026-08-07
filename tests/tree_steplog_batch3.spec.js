@@ -63,4 +63,36 @@ test.describe('Tree VCR step log (batch 3)', () => {
     const card = await assertStepLog(page, 'tree-array-rep', '.ar-array .ar-cell');
     await expect(card.locator('[data-testid="code-drawer"] .code-panel-filename')).toContainText('tree_array_rep.cpp');
   });
+
+  test('tree-expression: code drawer + step log + initial content', async ({ page }) => {
+    // Frame 0 is the "start" frame (empty subtree stack, no root yet), so paint draws no
+    // `.et-nodes .tree-node` elements at all on the initial call — like tree-mway, node markup
+    // can't be the proof that the detached initial paint reached the DOM. The real proof is
+    // `.et-phase` receiving its message text: the buggy `host.querySelector('.et-stage')` guard
+    // (host is detached from `wrap` during the synchronous initial paint inside
+    // buildStepWorkbench) would return early and skip that write entirely, leaving `.et-phase`
+    // empty.
+    await loadMethod(page, 'tree-expression');
+    const preCard = page.locator('[data-method-section="tree-expression"]');
+    await expect(preCard.locator('.et-phase')).not.toBeEmpty();
+
+    const card = await assertStepLog(page, 'tree-expression', '.et-stage .et-edges');
+    await expect(card.locator('[data-testid="code-drawer"] .code-panel-filename')).toContainText('tree_expression.cpp');
+    expect((await card.locator('.viz-logrow .viz-logmsg').first().textContent()).trim().length).toBeGreaterThan(0);
+    // by the last frame (assertStepLog jumped there) the expression tree is fully built;
+    // actual node markup paints correctly too.
+    await expect(card.locator('.et-nodes .tree-node').first()).toBeVisible();
+  });
+
+  test('tree-expression: fullscreen keeps transport in-viewport', async ({ page }) => {
+    await loadMethod(page, 'tree-expression');
+    const card = page.locator('[data-method-section="tree-expression"]');
+    await card.locator('[data-testid="viz-focus-toggle"]').click();
+    await expect(page.locator('body.viz-focus')).toHaveCount(1);
+    await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
+    const box = await card.locator('.stepctl').boundingBox();
+    const vh = page.viewportSize().height;
+    expect(box).not.toBeNull();
+    expect(box.y + box.height).toBeLessThanOrEqual(vh + 1);
+  });
 });
