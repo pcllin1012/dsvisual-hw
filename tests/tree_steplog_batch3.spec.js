@@ -53,4 +53,14 @@ test.describe('Tree VCR step log (batch 3)', () => {
     // markup paints correctly too.
     await expect(card.locator('.mw-nodes .mw-node').first()).toBeVisible();
   });
+
+  test('tree-obst: code drawer + step log + initial content', async ({ page }) => {
+    const card = await assertStepLog(page, 'tree-obst', '.obst-grid td');
+    await expect(card.locator('[data-testid="code-drawer"] .code-panel-filename')).toContainText('tree_obst.cpp');
+  });
+
+  test('tree-array-rep: code drawer + step log + initial content', async ({ page }) => {
+    const card = await assertStepLog(page, 'tree-array-rep', '.ar-array .ar-cell');
+    await expect(card.locator('[data-testid="code-drawer"] .code-panel-filename')).toContainText('tree_array_rep.cpp');
+  });
 });
