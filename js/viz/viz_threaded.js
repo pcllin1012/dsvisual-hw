@@ -66,7 +66,13 @@
         const natW = Math.max(maxX - minX, 120), natH = Math.max(maxY - minY, 120);
 
         function paint(fr) {
-            if (!svgEl.isConnected) return;
+            // NOTE: no `svgEl.isConnected` gate here (on purpose) — buildStepWorkbench's
+            // first paint() fires while `wrap`/`svgEl` are still mid-reparent (created,
+            // moved into the not-yet-attached stagecol) and only become connected once
+            // the returned workbench is appended to `host`. Bailing on a disconnected
+            // svgEl would leave the initial frame undrawn until an unrelated resize
+            // happened to repaint it. Query `.th-seq`/`.th-phase` via `wrap` (not `host`)
+            // below for the same reason — `host` doesn't contain `wrap` at that instant.
             const sz = K().fitFocusSize(scrollEl, natW, natH);
             let inner = '';
             (function walk(n) { if (!n) return; [n.left, n.right].forEach((c) => { if (!c) return; const a = byId[n.id], b = byId[c.id]; inner += '<line class="th-edge" x1="' + a.x + '" y1="' + a.y + '" x2="' + b.x + '" y2="' + b.y + '"/>'; walk(c); }); })(root);
@@ -76,8 +82,8 @@
             svgEl.setAttribute('width', sz.w);
             svgEl.setAttribute('height', sz.h);
             svgEl.innerHTML = inner;
-            host.querySelector('.th-seq').textContent = fr.visited.join(', ');
-            host.querySelector('.th-phase').textContent = langOf(fr.msg);
+            wrap.querySelector('.th-seq').textContent = fr.visited.join(', ');
+            wrap.querySelector('.th-phase').textContent = langOf(fr.msg);
         }
 
         const exSelect = wrap.querySelector('.ex-select');
@@ -86,7 +92,10 @@
             opt.value = TH_SKEW; opt.textContent = (lang === 'zh' ? '左斜樹' : 'Left-skewed');
             exSelect.insertBefore(opt, exSelect.options[2] || null);
         }
-        wrap.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 700 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 700,
+            getMessage: (f) => K().langOf(f.msg),
+        }));
         K().markFocusFit(host, { svg: true });   // viz-fit-svg: per-SVG drawing-only zoom
 
         host.querySelector('.th-build').onclick = () => {

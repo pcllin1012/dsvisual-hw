@@ -60,7 +60,10 @@
             else { v.className = 'cat-verdict'; v.textContent = ''; }
             host.querySelector('.et-phase').textContent = langOf(fr.msg);
         }
-        wrap.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 800 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 800,
+            getMessage: (f) => K().langOf(f.msg),
+        }));
         K().markFocusFit(host);   // vizfit viz-fit path (bounded + fullscreen-expand + wrapper zoom); no {svg}
 
         host.querySelectorAll('.cat-nbtn').forEach((b) => { b.onclick = () => { const k = parseInt(b.getAttribute('data-n'), 10); if (k !== st.n) { st.n = k; renderTreeCatalan(); } }; });

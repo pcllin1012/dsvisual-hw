@@ -1,0 +1,45 @@
+const { test, expect } = require('@playwright/test');
+const path = require('path');
+const { loadMethod } = require('./helpers.js');
+
+// Assert the shared step-log workbench is wired and the INITIAL frame's SVG is
+// non-empty (catches a paint() that early-returns on the detached initial paint).
+async function assertStepLog(page, id, svgContentSelector) {
+  await loadMethod(page, id);
+  const card = page.locator('[data-method-section="' + id + '"]');
+  await expect(card.locator('[data-testid="code-drawer"]')).toHaveCount(1);
+  await expect(card.locator('.viz-workbench')).toBeVisible();
+  const log = card.locator('[data-testid="viz-steplog"]');
+  await expect(log).toBeVisible();
+  const rows = card.locator('.viz-logrow');
+  const max = parseInt(await card.locator('.stepctl-scrubber').getAttribute('max'), 10);
+  await expect(rows).toHaveCount(max + 1);
+  // initial SVG content present WITHOUT any step interaction (carry-forward guard check)
+  await expect(card.locator(svgContentSelector).first()).toBeVisible();
+  // highlight follows the transport
+  await expect(rows.nth(0)).toHaveClass(/\bon\b/);
+  await card.locator('.stepctl [data-action="step"]').click();
+  await expect(rows.nth(1)).toHaveClass(/\bon\b/);
+  await expect(rows.nth(0)).not.toHaveClass(/\bon\b/);
+  // row-click jumps
+  await rows.nth(max).click();
+  await expect(rows.nth(max)).toHaveClass(/\bon\b/);
+  await expect(card.locator('.stepctl-count')).toContainText('/ ' + max);
+  return card;
+}
+
+test.describe('Tree VCR step log (batch 2)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1400, height: 900 });
+    await page.addInitScript(() => { try { localStorage.setItem('dsvisual-lang', 'en'); } catch (e) {} });
+    await page.goto('file://' + path.resolve(__dirname, '../index.html'));
+  });
+
+  test('tree-threaded: step log + initial SVG content', async ({ page }) => {
+    await assertStepLog(page, 'tree-threaded', '.th-wrap svg *');
+  });
+
+  test('tree-catalan: step log + initial content', async ({ page }) => {
+    await assertStepLog(page, 'tree-catalan', '.cat-wrap svg, .cat-wrap [class*="cat-"]');
+  });
+});
