@@ -11,6 +11,7 @@
         const frames = res.frames;
 
         host.innerHTML =
+            '<div class="mw-wrap">' +
             '<div class="mw-controls">' +
               '<input type="text" class="mw-keys" value="' + st.keys.join(',') + '">' +
               'm <input type="number" class="mw-m" min="3" max="6" value="' + st.m + '" style="width:54px">' +
@@ -18,10 +19,12 @@
               '<button type="button" class="mw-apply">Apply</button>' +
             '</div>' +
             '<div class="mw-stage"><svg class="mw-edges"></svg><div class="mw-nodes"></div></div>' +
-            '<div class="mw-phase"></div>';
+            '<div class="mw-phase"></div>' +
+            '</div>';
+        const wrap = host.querySelector('.mw-wrap');
 
         function layout(tree) {
-            const pos = {}; let leaf = 0; const W = host.querySelector('.mw-stage').clientWidth || 720;
+            const pos = {}; let leaf = 0; const W = wrap.querySelector('.mw-stage').clientWidth || 720;
             function place(node, depth) {
                 if (!node) return;
                 const kids = node.children.filter((c) => c);
@@ -37,11 +40,11 @@
         }
 
         function paint(fr) {
-            if (!host.querySelector('.mw-nodes')) return;
-            const nodesEl = host.querySelector('.mw-nodes');
-            const edgesEl = host.querySelector('.mw-edges');
+            if (!wrap.querySelector('.mw-nodes')) return;
+            const nodesEl = wrap.querySelector('.mw-nodes');
+            const edgesEl = wrap.querySelector('.mw-edges');
             nodesEl.innerHTML = ''; edgesEl.innerHTML = '';
-            if (!fr.tree) { host.querySelector('.mw-phase').textContent = langOf(fr.msg); return; }
+            if (!fr.tree) { wrap.querySelector('.mw-phase').textContent = langOf(fr.msg); return; }
             const { pos, xOf } = layout(fr.tree);
             const onPath = new Set(fr.descendPath || []);
             let svg = '';
@@ -56,15 +59,18 @@
                 const cells = p.node.keys.map((k) => '<span class="mw-key">' + k + '</span>').join('');
                 return '<div class="' + cls + '" style="left:' + xOf(p.col) + 'px;top:' + (p.depth * 78 + 8) + 'px">' + cells + '</div>';
             }).join('');
-            host.querySelector('.mw-phase').textContent = langOf(fr.msg);
+            wrap.querySelector('.mw-phase').textContent = langOf(fr.msg);
         }
-        host.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 700 }));
-        host.querySelector('.mw-apply').onclick = () => {
-            const keys = host.querySelector('.mw-keys').value.split(',').map((s) => parseInt(s.trim(), 10)).filter(Number.isFinite);
-            const m = parseInt(host.querySelector('.mw-m').value, 10);
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 700,
+            getMessage: (f) => K().langOf(f.msg),
+        }));
+        wrap.querySelector('.mw-apply').onclick = () => {
+            const keys = wrap.querySelector('.mw-keys').value.split(',').map((s) => parseInt(s.trim(), 10)).filter(Number.isFinite);
+            const m = parseInt(wrap.querySelector('.mw-m').value, 10);
             if (keys.length && m >= 3) { st.keys = keys; st.m = m; renderTreeMway(); }
         };
-        host.querySelector('.rand-btn').onclick = () => {
+        wrap.querySelector('.rand-btn').onclick = () => {
             const inp = window.RandomInput && RandomInput.randomInputFor('tree-mway', K().getInputDifficulty());
             if (!inp) return;
             _mwayState.keys = inp.keys;
