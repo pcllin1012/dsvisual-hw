@@ -40,6 +40,9 @@ test.describe('Tree VCR step log (batch 2)', () => {
   });
 
   test('tree-catalan: step log + initial content', async ({ page }) => {
-    await assertStepLog(page, 'tree-catalan', '.cat-wrap svg, .cat-wrap [class*="cat-"]');
+    // .cat-shape is only emitted by paint() (inside .cat-groups), never present in the
+    // static template — unlike `.cat-wrap [class*="cat-"]`, this genuinely fails if the
+    // initial (detached) paint is skipped by a stale `host.querySelector` guard.
+    await assertStepLog(page, 'tree-catalan', '.cat-wrap .cat-shape');
   });
 });
