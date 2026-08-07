@@ -64,4 +64,11 @@ test.describe('Tree VCR step log (batch 2)', () => {
     expect(box).not.toBeNull();
     expect(box.y + box.height).toBeLessThanOrEqual(vh + 1);
   });
+
+  test('tree-general-binary: step log with synthesized LCRS messages', async ({ page }) => {
+    const card = await assertStepLog(page, 'tree-general-binary', '.tgb-general-nodes .tree-node, .tgb-binary-nodes .tree-node');
+    // synthesized message present (en: "Node ..." or the empty-tree fallback)
+    const msgs = (await card.locator('.viz-logrow .viz-logmsg').allTextContents()).join(' ');
+    expect(/Node |No links/.test(msgs)).toBe(true);
+  });
 });

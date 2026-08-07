@@ -149,7 +149,7 @@
             binEdgesEl.innerHTML = b;
 
             // Node highlighting
-            host.querySelectorAll('.tgb-general .tree-node, .tgb-binary .tree-node').forEach((el) => el.classList.remove('active'));
+            wrap.querySelectorAll('.tgb-general .tree-node, .tgb-binary .tree-node').forEach((el) => el.classList.remove('active'));
             if (active) {
                 const ga = document.getElementById('tgb-g-' + active.to);
                 const ba = document.getElementById('tgb-b-' + active.to);
@@ -164,7 +164,16 @@
             opt.value = TGB_MISS; opt.textContent = (lang === 'zh' ? '深鏈' : 'Deep chain');
             exSelect.insertBefore(opt, exSelect.options[2] || null);
         }
-        wrap.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 700 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 700,
+            getMessage: (f) => {
+                const a = f.active;
+                if (!a) return K().langOf({ zh: '無鏈結(單節點或空樹)', en: 'No links (single node or empty tree)' });
+                return a.kind === 'left'
+                    ? K().langOf({ zh: '節點 ' + a.from + ':左子 → 第一個小孩 ' + a.to, en: 'Node ' + a.from + ': left-child → first child ' + a.to })
+                    : K().langOf({ zh: '節點 ' + a.from + ':右子 → 下一個兄弟 ' + a.to, en: 'Node ' + a.from + ': right-child → next sibling ' + a.to });
+            },
+        }));
         K().markFocusFit(host);   // viz-fit path (no {svg}) — bounded + fullscreen-expand + wrapper zoom
 
         host.querySelector('.tgb-build').onclick = () => {
