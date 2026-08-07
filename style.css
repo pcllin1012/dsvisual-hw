@@ -456,6 +456,15 @@ header p { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
 body.viz-focus .method-section-card.active .viz-workbench { flex: 1 1 auto; min-height: 0; align-items: stretch; grid-template-rows: minmax(0, 1fr); }
 body.viz-focus .method-section-card.active .viz-stagecol { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 body.viz-focus .method-section-card.active .viz-logcol { max-height: none; min-height: 0; }
+/* Narrow viewport in focus mode: .viz-workbench stacks to a single column (rule above),
+   producing TWO grid rows (stagecol, logcol) instead of one. The 1fr row-template meant
+   for the wide 2-column/1-row case would then only size the *first* explicit row, leaving
+   the implicit logcol row sized by content (auto) — which can starve the stagecol (and its
+   VCR/drawing) down to 0px. Give both rows a share and cap the log so the stage keeps room. */
+@media (max-width: 1020px) {
+  body.viz-focus .method-section-card.active .viz-workbench { grid-template-rows: minmax(0, 1fr) auto; }
+  body.viz-focus .method-section-card.active .viz-logcol { max-height: 40px; }
+}
 
 .gw-svg .graph-node {
   width: auto; height: auto; position: static; transform: none; display: inline;
