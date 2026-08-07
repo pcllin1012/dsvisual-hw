@@ -48,7 +48,13 @@
         wrap.querySelector('.dsu-input').value = _dsuState.opStr;
 
         function paint(fr) {
-            if (!svgEl.isConnected || !fr) return;
+            // NOTE: no `svgEl.isConnected` gate here (on purpose) — buildStepWorkbench's
+            // first paint() fires while `wrap`/`svgEl` are still mid-reparent (created,
+            // moved into the not-yet-attached stagecol) and only become connected once
+            // the returned workbench is appended to `host`. Bailing on a disconnected
+            // svgEl would leave the initial frame undrawn until an unrelated resize
+            // happened to repaint it.
+            if (!fr) return;
             const parent = fr.parent;
             // Build children + roots from this frame's parent[].
             const children = {}; const roots = [];
@@ -102,7 +108,10 @@
             opt.value = DSU_DEEP; opt.textContent = (lang === 'zh' ? '深鏈 Deep chain' : 'Deep chain');
             exSelect.insertBefore(opt, exSelect.options[2] || null);
         }
-        wrap.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 700 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: paint, runIntervalMs: 700,
+            getMessage: (f) => K().langOf(f.msg),
+        }));
         K().markFocusFit(host, { svg: true });   // viz-fit-svg: per-SVG drawing-only zoom
 
         wrap.querySelector('.dsu-build').onclick = () => {

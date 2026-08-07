@@ -48,7 +48,6 @@
             '<div class="fenwick-phase" data-testid="fenwick-phase"></div>' +
             '<div class="fenwick-row"></div>' +
             '<div class="fenwick-msg" data-testid="fenwick-msg">&nbsp;</div>';
-        host.appendChild(wrap);
         const rowEl = wrap.querySelector('.fenwick-row');
         const phaseEl = wrap.querySelector('.fenwick-phase');
         const msgEl = wrap.querySelector('.fenwick-msg');
@@ -67,7 +66,10 @@
             phaseEl.textContent = f.phase + (f.acc !== null ? '   running sum: ' + f.acc : '');
             msgEl.textContent = f.msg;
         }
-        wrap.appendChild(K().buildFrameControls(frames, draw, { runIntervalMs: 600 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: draw, runIntervalMs: 600,
+            getMessage: (f) => f.phase + (f.msg ? ' — ' + f.msg : ''),
+        }));
     }
 
     global.VizRegistry.attach('tree-fenwick', {

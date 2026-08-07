@@ -134,7 +134,10 @@
       else if (fr.verdict === 'prefix-only') color = '#f59e0b';
       K().showStatus(K().langOf(fr.msg), color);
     }
-    wrap.appendChild(K().buildFrameControls(frames, paint, { runIntervalMs: 650 }));
+    host.appendChild(K().buildStepWorkbench({
+        stage: wrap, frames: frames, paint: paint, runIntervalMs: 650,
+        getMessage: (f) => K().langOf(f.msg),
+    }));
 
     wrap.querySelector('.trie-apply').addEventListener('click', function () {
       _st.words = global.TrieViz.parseWords(wrap.querySelector('.trie-words').value);

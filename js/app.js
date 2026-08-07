@@ -82,8 +82,8 @@ const METHOD_GROUPS = [
             { id: 'tree-btree', title: 'B-Tree', file: 'tree_btree.cpp', visualizer: 'advanced-tree', controls: 'tree' },
             { id: 'tree-bplus', title: 'B+ Tree', file: 'tree_bplus.cpp', visualizer: 'advanced-tree', controls: 'tree' },
             { id: 'tree-dsu', title: 'Disjoint Set (Union-Find)', file: 'tree_dsu.cpp', visualizer: 'dsu', controls: 'dsu', codeDrawer: true },
-            { id: 'tree-segment', title: 'Segment Tree', file: 'tree_segment.cpp', visualizer: 'segtree', controls: 'segtree' },
-            { id: 'tree-fenwick', title: 'Fenwick Tree (BIT)', file: 'tree_fenwick.cpp', visualizer: 'fenwick', controls: 'fenwick' },
+            { id: 'tree-segment', title: 'Segment Tree', file: 'tree_segment.cpp', visualizer: 'segtree', controls: 'segtree', codeDrawer: true },
+            { id: 'tree-fenwick', title: 'Fenwick Tree (BIT)', file: 'tree_fenwick.cpp', visualizer: 'fenwick', controls: 'fenwick', codeDrawer: true },
             { id: 'tree-traversal', title: 'Tree Traversal', file: 'tree_traversal.cpp', visualizer: 'tree', controls: 'tree' },
             { id: 'huffman', title: 'Huffman Coding', file: 'huffman.cpp', visualizer: 'tree', controls: 'tree' },
             { id: 'tree-obst', title: 'Optimal BST', file: 'tree_obst.cpp', visualizer: 'obst', controls: 'obst' },
@@ -1463,6 +1463,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.VizKit = {
         acquireDynamicVizHost,
         buildFrameControls,
+        buildStepWorkbench,
         getInputDifficulty,
         langOf: (m) => (window.I18N && window.I18N.getCurrentLanguage() === 'zh') ? m.zh : m.en,
         t,
@@ -2111,6 +2112,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
         render();
         return strip;
+    }
+
+    // Wrap a viz's stage + VCR transport (left) beside a clickable step-log
+    // column (right) into a .viz-workbench. Reuses buildFrameControls (unchanged):
+    // its onIndexChange highlights the current row; a row click drives the scrubber.
+    // getMessage(frame, i) -> the row's text. Returns the .viz-workbench element.
+    function buildStepWorkbench(opts) {
+        opts = opts || {};
+        const L = (zh, en) => (window.I18N && window.I18N.getCurrentLanguage && window.I18N.getCurrentLanguage() === 'zh') ? zh : en;
+        const frames = opts.frames || [];
+        const getMessage = opts.getMessage || (() => '');
+        const wb = document.createElement('div');
+        wb.className = 'viz-workbench';
+        const stagecol = document.createElement('div');
+        stagecol.className = 'viz-stagecol';
+        const logcol = document.createElement('aside');
+        logcol.className = 'viz-logcol';
+        logcol.innerHTML = '<h4>' + L('步驟紀錄', 'Step Log') + '</h4><div class="viz-steplog" data-testid="viz-steplog"></div>';
+        const logEl = logcol.querySelector('.viz-steplog');
+        logEl.innerHTML = frames.map((f, i) =>
+            '<button type="button" class="viz-logrow" data-i="' + i + '">' +
+              '<span class="viz-logidx">' + i + '</span><span class="viz-logmsg"></span>' +
+            '</button>').join('');
+        const rows = logEl.querySelectorAll('.viz-logrow');
+        rows.forEach((r, i) => { r.querySelector('.viz-logmsg').textContent = getMessage(frames[i], i); });
+        function highlight(i) {
+            rows.forEach((r, k) => r.classList.toggle('on', k === i));
+            if (rows[i]) rows[i].scrollIntoView({ block: 'nearest' });
+        }
+        if (opts.stage) stagecol.appendChild(opts.stage);
+        stagecol.appendChild(buildFrameControls(frames, opts.paint, { runIntervalMs: opts.runIntervalMs, onIndexChange: highlight }));
+        const scrub = stagecol.querySelector('.stepctl-scrubber');
+        rows.forEach((r) => r.addEventListener('click', () => {
+            scrub.value = r.dataset.i;
+            scrub.dispatchEvent(new Event('input', { bubbles: true }));
+        }));
+        wb.appendChild(stagecol);
+        wb.appendChild(logcol);
+        return wb;
     }
 
     // --- vizfit: shared fullscreen fit/zoom + bounded-scroll mechanism (see docs vizfit spec) ---
