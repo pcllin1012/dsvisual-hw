@@ -84,7 +84,6 @@
             '<div class="segtree-phase" data-testid="segtree-phase"></div>' +
             '<div class="segtree-grid"></div>' +
             '<div class="segtree-msg" data-testid="segtree-msg">&nbsp;</div>';
-        host.appendChild(wrap);
         const gridEl = wrap.querySelector('.segtree-grid');
         const phaseEl = wrap.querySelector('.segtree-phase');
         const msgEl = wrap.querySelector('.segtree-msg');
@@ -118,7 +117,10 @@
             phaseEl.textContent = f.phase;
             msgEl.textContent = f.msg;
         }
-        wrap.appendChild(K().buildFrameControls(frames, draw, { runIntervalMs: 600 }));
+        host.appendChild(K().buildStepWorkbench({
+            stage: wrap, frames: frames, paint: draw, runIntervalMs: 600,
+            getMessage: (f) => f.phase + (f.msg ? ' — ' + f.msg : ''),
+        }));
     }
 
     global.VizRegistry.attach('tree-segment', {
