@@ -501,3 +501,66 @@ test("DEFAULTS['graph-redblue'] parses ok with n=5", () => {
   assert.ok(p.ok);
   assert.strictEqual(p.n, 5);
 });
+
+// --- MST cross-validation: Kruskal / Prim / Borůvka / redblue agree ---------
+// Tarjan's red/blue rules unify the three classic MST algorithms; all four
+// frame generators must yield the same MST weight (and, when edge weights are
+// all distinct so the MST is unique, the same edge set). Deterministic fixed
+// battery — guards against future drift in any one generator.
+(function () {
+  const wmapOf = (edges) => { const m = {}; for (const e of edges) m[Math.min(e.u, e.v) + '-' + Math.max(e.u, e.v)] = e.w; return m; };
+  const keyOf = (e) => Math.min(e.u, e.v) + '-' + Math.max(e.u, e.v);
+  const last = (frames) => frames[frames.length - 1];
+  const sumW = (tree, m) => tree.reduce((s, e) => s + m[keyOf(e)], 0);
+  const keyset = (tree) => tree.map(keyOf).sort();
+
+  function runAll(text) {
+    const p = GW.parseEdges(text, true, false);
+    assert.ok(p.ok, 'parseEdges ok: ' + text);
+    const m = wmapOf(p.edges);
+    const kr = last(GW.kruskalFrames(p.edges, p.n, p.labels)).treeEdges;
+    const pr = last(GW.primFrames(p.adj, 0, p.labels)).treeEdges;
+    const bo = last(GW.boruvkaFrames(p.edges, p.n, p.labels)).treeEdges;
+    const rb = last(GW.redBlueFrames(p.edges, p.n, p.labels)).blueEdges;
+    return {
+      n: p.n,
+      weights: { kruskal: sumW(kr, m), prim: sumW(pr, m), boruvka: sumW(bo, m), redblue: sumW(rb, m) },
+      counts: { kruskal: kr.length, prim: pr.length, boruvka: bo.length, redblue: rb.length },
+      sets: { kruskal: keyset(kr), prim: keyset(pr), boruvka: keyset(bo), redblue: keyset(rb) },
+    };
+  }
+
+  // distinct === true  ⇒ all edge weights distinct ⇒ MST unique ⇒ edge sets must match.
+  const CASES = [
+    { text: 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5', distinct: false },  // default pentagon+chord (MST weight 10)
+    { text: 'A-B:1,B-C:2,C-D:3,A-D:4,A-C:5',       distinct: true  },  // small, all-distinct
+    { text: 'A-B:1,B-C:1,C-A:1,C-D:1,D-A:1',       distinct: false },  // tie-heavy (weight-only)
+    { text: 'A-B:5,A-C:3,A-D:7,A-E:2',             distinct: true  },  // star (already a tree)
+    { text: 'A-B:2,B-C:2,C-D:2,D-E:2',             distinct: false },  // chain (already a tree)
+    { text: 'A-B:6,A-C:1,A-D:5,B-C:8,B-D:3,C-D:4', distinct: true  },  // dense 4-node, all-distinct (MST weight 8)
+    { text: 'A-B:7,A-D:5,B-C:8,B-D:9,B-E:7,C-E:5,D-E:15,D-F:6,E-F:8,E-G:9,F-G:11', distinct: false }, // larger, repeated weights
+  ];
+
+  for (const c of CASES) {
+    test('MST cross-validation (' + c.text + ')', () => {
+      const r = runAll(c.text);
+      const ws = Object.values(r.weights);
+      assert.strictEqual(new Set(ws).size, 1, 'all four MST weights equal: ' + JSON.stringify(r.weights));
+      for (const [name, cnt] of Object.entries(r.counts)) {
+        assert.strictEqual(cnt, r.n - 1, name + ' has n-1 edges (connected)');
+      }
+      if (c.distinct) {
+        const ref = r.sets.kruskal;
+        assert.deepStrictEqual(r.sets.prim, ref, 'prim edge set == kruskal (unique MST)');
+        assert.deepStrictEqual(r.sets.boruvka, ref, 'boruvka edge set == kruskal (unique MST)');
+        assert.deepStrictEqual(r.sets.redblue, ref, 'redblue edge set == kruskal (unique MST)');
+      }
+    });
+  }
+
+  test('MST cross-validation: default graph weight is 10 with 4 edges', () => {
+    const r = runAll('A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5');
+    assert.deepStrictEqual(r.weights, { kruskal: 10, prim: 10, boruvka: 10, redblue: 10 });
+    assert.deepStrictEqual(r.counts, { kruskal: 4, prim: 4, boruvka: 4, redblue: 4 });
+  });
+})();
