@@ -226,6 +226,7 @@
     'graph-kruskal': 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5',
     'graph-prim': 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5',
     'graph-boruvka': 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5',
+    'graph-redblue': 'A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5',
     'graph-topo': 'A-B,A-C,B-D,C-D,D-E,D-F',
     'graph-bellman-ford': 'A-B:6,A-C:7,B-C:8,B-D:5,B-E:-4,C-D:-3,C-E:9,D-B:-2,E-A:2,E-D:7',
     'graph': 'A-B,B-C,C-D,D-E,E-A,A-C',
@@ -344,6 +345,42 @@
       }
     }
     snap(null, { zh: 'MST 完成,總權重 ' + total, en: 'MST done. Total weight ' + total });
+    return frames;
+  }
+
+  // Tarjan red/blue rules via the Kruskal lens: ascending weight; accepting an
+  // edge applies the BLUE rule (it's the lightest edge across the cut between the
+  // two components it joins); rejecting applies the RED rule (it closes a cycle
+  // and — processed ascending — is that cycle's heaviest edge). Pure, no DOM/RNG.
+  function redBlueFrames(edges, n, labels) {
+    function L(i) { return labels ? labels[i] : i; }
+    var frames = [], blue = [], red = [], order = [], inTree = [], parent = [], rank = [], i;
+    for (i = 0; i < n; i++) { inTree.push(false); parent.push(i); rank.push(0); }
+    function find(x) { while (parent[x] !== x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }
+    function union(a, b) {
+      var ra = find(a), rb = find(b); if (ra === rb) return false;
+      if (rank[ra] < rank[rb]) { var t = ra; ra = rb; rb = t; }
+      parent[rb] = ra; if (rank[ra] === rank[rb]) rank[ra]++; return true;
+    }
+    function snap(activeEdge, msg) {
+      frames.push({ visited: order.slice(), frontier: [], active: null, activeEdge: activeEdge, dist: null, order: order.slice(), treeEdges: blue.slice(), blueEdges: blue.slice(), redEdges: red.slice(), message: msg });
+    }
+    var sorted = edges.slice().sort(function (a, b) { return a.w - b.w || a.u - b.u || a.v - b.v; });
+    var total = 0;
+    snap(null, { zh: '紅藍規則(Kruskal 視角):依權重由小到大考慮每條邊', en: 'Red-blue rules (Kruskal lens): consider edges in increasing weight' });
+    for (i = 0; i < sorted.length; i++) {
+      var e = sorted[i], ae = { u: Math.min(e.u, e.v), v: Math.max(e.u, e.v) };
+      if (union(e.u, e.v)) {
+        blue.push(ae); total += e.w;
+        if (!inTree[e.u]) { inTree[e.u] = true; order.push(e.u); }
+        if (!inTree[e.v]) { inTree[e.v] = true; order.push(e.v); }
+        snap(ae, { zh: '藍規則:邊 ' + L(ae.u) + '–' + L(ae.v) + '(w=' + e.w + ')是跨越切割的最小邊 → 加入 MST', en: 'Blue rule: edge ' + L(ae.u) + '–' + L(ae.v) + ' (w=' + e.w + ') is the lightest across the cut → add to MST' });
+      } else {
+        red.push(ae);
+        snap(ae, { zh: '紅規則:邊 ' + L(ae.u) + '–' + L(ae.v) + '(w=' + e.w + ')會成環,且為環上最大邊 → 排除', en: 'Red rule: edge ' + L(ae.u) + '–' + L(ae.v) + ' (w=' + e.w + ') closes a cycle as its heaviest edge → exclude' });
+      }
+    }
+    snap(null, { zh: '藍邊構成 MST,總權重 ' + total + ';紅邊皆被排除', en: 'Blue edges form the MST (weight ' + total + '); red edges are all excluded' });
     return frames;
   }
 
@@ -500,7 +537,7 @@
     return { nodes: nodes, chains: chains };
   }
 
-  var api = { parseEdges: parseEdges, layout: layout, forceStep: forceStep, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, boruvkaFrames: boruvkaFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix, adjMultilist: adjMultilist };
+  var api = { parseEdges: parseEdges, layout: layout, forceStep: forceStep, DEFAULTS: DEFAULTS, bfsFrames: bfsFrames, dfsFrames: dfsFrames, dijkstraFrames: dijkstraFrames, kruskalFrames: kruskalFrames, primFrames: primFrames, boruvkaFrames: boruvkaFrames, redBlueFrames: redBlueFrames, topoFrames: topoFrames, bellmanFordFrames: bellmanFordFrames, adjMatrix: adjMatrix, adjMultilist: adjMultilist };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.GraphWorkbench = api;
 })(typeof window !== 'undefined' ? window : globalThis);
