@@ -114,6 +114,7 @@ const METHOD_GROUPS = [
             { id: 'graph-topo', title: 'Topological Sort', file: 'graph_topo.cpp', visualizer: 'graph', controls: 'graph', codeDrawer: true },
             { id: 'graph-prim', title: "Prim's MST", file: 'graph_prim.cpp', visualizer: 'graph-step', controls: 'graph-step', codeDrawer: true },
             { id: 'graph-boruvka', title: 'Borůvka MST', file: 'graph_boruvka.cpp', visualizer: 'graph-step', controls: 'graph-step', codeDrawer: true },
+            { id: 'graph-redblue', title: 'Red-Blue Rules (MST)', file: 'graph_redblue.cpp', visualizer: 'graph-step', controls: 'graph-step', codeDrawer: true },
             { id: 'graph-bellman-ford', title: 'Bellman-Ford', file: 'graph_bellman_ford.cpp', visualizer: 'graph-step', controls: 'graph-step', codeDrawer: true },
             { id: 'graph-floyd-warshall', title: 'Floyd-Warshall', file: 'graph_floyd_warshall.cpp', visualizer: 'matrix', controls: 'matrix' },
             { id: 'graph-aoe', title: 'AOE / Critical Path', file: 'graph_aoe.cpp', visualizer: 'aoe', controls: 'aoe' },
@@ -326,6 +327,7 @@ function getCodeForMethod(methodId) {
         'graph-topo': codeGraphTopo,
         'graph-prim': codeGraphPrim,
         'graph-boruvka': codeGraphBoruvka,
+        'graph-redblue': codeGraphRedblue,
         'graph-bellman-ford': codeGraphBellmanFord,
         'graph-floyd-warshall': codeGraphFloydWarshall,
         'graph-aoe': codeGraphAoe,
@@ -1687,6 +1689,7 @@ document.addEventListener('DOMContentLoaded', () => {
             codeDisplay.textContent = codeGraphPrim;
         }
         else if (currentMode === 'graph-boruvka') { codeTitle.textContent = 'graph_boruvka.cpp'; codeDisplay.textContent = codeGraphBoruvka; }
+        else if (currentMode === 'graph-redblue') { codeTitle.textContent = 'graph_redblue.cpp'; codeDisplay.textContent = codeGraphRedblue; }
         else if (currentMode === 'graph-bellman-ford') {
             codeTitle.textContent = 'graph_bellman_ford.cpp';
             codeDisplay.textContent = codeGraphBellmanFord;

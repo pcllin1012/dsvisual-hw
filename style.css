@@ -479,6 +479,8 @@ body.viz-focus .method-section-card.active .viz-logcol { max-height: none; min-h
 .gw-svg .graph-edge { stroke: #94a3b8; stroke-width: 2; stroke-dasharray: none; animation: none; }
 .gw-svg .graph-edge.active { stroke: #60a5fa; stroke-width: 4; }
 .gw-svg .graph-edge.tree { stroke: #34d399; stroke-width: 4; }
+.gw-svg .graph-edge.blue { stroke: #3b82f6; stroke-width: 5; stroke-dasharray: none; }
+.gw-svg .graph-edge.red { stroke: #ef4444; stroke-width: 2; stroke-dasharray: 4; opacity: 0.55; }
 
 @media (prefers-color-scheme: dark) {
   .gw-svg .graph-node { stroke: #0f172a; }
