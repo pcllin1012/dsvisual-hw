@@ -32,4 +32,16 @@ test.describe('Graph Red-Blue Rules MST', () => {
     await rows.nth(max).click();
     await expect(rows.nth(max)).toHaveClass(/\bon\b/);
   });
+
+  test('graph-redblue: bilingual slide deck served', async ({ page }) => {
+    await loadMethod(page, 'graph-redblue');
+    const counts = await page.evaluate(() => {
+      const e = window.SLIDES_RENDERED && window.SLIDES_RENDERED['graph-redblue'];
+      return e ? { zh: e.slides.zh.length, en: e.slides.en.length, body: e.slides.en.map((s) => s.body).join('') } : null;
+    });
+    expect(counts).not.toBeNull();
+    expect(counts.en).toBeGreaterThan(1);
+    expect(counts.zh).toBeGreaterThan(1);
+    expect(counts.body).toContain('graph_redblue.cpp');
+  });
 });
