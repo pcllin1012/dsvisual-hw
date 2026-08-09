@@ -8316,6 +8316,243 @@ const SLIDES_DB = {
       }
     ]
   },
+  "graph-redblue": {
+    "category": "Graphs",
+    "title": {
+      "zh": "紅藍規則(MST)",
+      "en": "Red-Blue Rules (MST)"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "紅藍規則(MST)",
+          "en": "Red-Blue Rules (MST)"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "紅藍規則是 Tarjan 提出的統一 MST 框架：透過紅規則與藍規則為每條邊上色，最終所有藍色邊恰好構成一棵最小生成樹(MST)。本視覺化採用 Kruskal 觀點(依權重排序、以 DSU 判斷是否成環)來實作此框架，整體在 $O(E \\log E)$ 時間內完成。",
+              "en": "The red-blue rules are Tarjan's unifying framework for MST algorithms: every edge is colored blue or red by the blue rule and the red rule, and the blue edges end up forming exactly one Minimum Spanning Tree (MST). This visualization implements the framework through the Kruskal lens (sort by weight, use DSU to detect cycles), completing in $O(E \\log E)$ time overall."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "藍規則(切割性質)",
+          "en": "Blue Rule (Cut Property)"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "對圖中任意一個切割(將頂點分成兩個非空集合),若某條邊是跨越該切割權重最小的邊(唯一最小，或以固定規則打破平局),則這條邊必定屬於某一棵 MST——將它染成藍色。",
+              "en": "For any cut of the graph (a partition of the vertices into two non-empty sets), the lightest edge crossing that cut belongs to some MST — color it blue. Ties are broken by a fixed, arbitrary rule."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "直覺:若這條最輕邊不在 MST 中，用它替換 MST 中跨越同一切割的另一條邊，總權重只會變小或不變，矛盾。",
+                "en": "Intuition: if the lightest crossing edge were excluded, swapping it in for whichever edge of the MST crosses the same cut cannot increase the total weight — a contradiction of minimality."
+              },
+              {
+                "zh": "藍規則保證:安全加入這條邊，不會破壞「存在一棵包含它的 MST」這個事實。",
+                "en": "The blue rule guarantees it is safe to add this edge — it never breaks the fact that some MST contains it."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "紅規則(環性質)",
+          "en": "Red Rule (Cycle Property)"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "對圖中任意一個環，若某條邊是該環中權重最大的邊(唯一最大，或以相同的固定規則打破平局),則這條邊必定不屬於任何 MST——將它染成紅色。",
+              "en": "For any cycle in the graph, the heaviest edge on that cycle is not in any MST — color it red. Ties are broken by the same fixed rule as the blue rule."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "直覺:若這條最重邊被選入生成樹，移除它會讓樹分裂成兩塊；環上必定還有另一條邊能重新連接這兩塊，且權重不會更大——換掉它，總權重不會變差。",
+                "en": "Intuition: if this heaviest edge were kept in a spanning tree, removing it splits the tree into two pieces; the cycle guarantees another edge that reconnects them with no greater weight — so swapping it out never makes the tree worse."
+              },
+              {
+                "zh": "紅規則保證:安全排除這條邊，它不可能出現在任何 MST 中。",
+                "en": "The red rule guarantees it is safe to discard this edge — it cannot appear in any MST."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "為何成立:不變量",
+          "en": "Why It Works: The Invariant"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "維持一個不變量:目前所有藍色邊都包含在某一棵 MST 中，所有紅色邊都不包含在任何 MST 中。只要每一步上色都遵守藍規則或紅規則，這個不變量就會一直成立。",
+              "en": "Maintain an invariant: every blue edge so far is contained in some MST, and every red edge is contained in no MST. As long as each coloring step follows the blue rule or the red rule, the invariant keeps holding."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "初始時所有邊皆未上色，不變量顯然成立(空集合)。",
+                "en": "Initially no edge is colored, so the invariant holds vacuously (empty sets)."
+              },
+              {
+                "zh": "重複尋找一個滿足藍規則的切割，或一個滿足紅規則的環，為對應的邊上色。",
+                "en": "Repeatedly find a cut that satisfies the blue rule, or a cycle that satisfies the red rule, and color the corresponding edge."
+              },
+              {
+                "zh": "當所有邊都被上色後停止:此時藍色邊恰好有 $V-1$ 條且不成環，形成一棵生成樹；由不變量，它必定就是一棵 MST。",
+                "en": "Stop once every edge is colored: the blue edges then number exactly $V-1$ and form no cycle, so they form a spanning tree; by the invariant, that tree must be an MST."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "Kruskal 觀點(本視覺化)",
+          "en": "The Kruskal Lens (This Visualization)"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "本視覺化以 Kruskal 演算法的執行順序來套用紅藍規則:將所有邊依權重由小到大排序，依序檢視每一條邊，並以 DSU 判斷它的兩端是否已經連通。",
+              "en": "This visualization applies the red-blue rules in the order Kruskal's algorithm would visit them: sort all edges by ascending weight, then examine them one by one using DSU to test whether their endpoints are already connected."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "接受(染藍):若邊的兩端分屬不同分量，它就是目前這個切割(該分量與其餘頂點之間)中權重最小的邊——套用藍規則，加入 MST 並合併分量。",
+                "en": "Accept (blue): if the edge's endpoints are in different components, it is the lightest edge crossing the cut between that component and the rest — apply the blue rule, add it to the MST, and merge the components."
+              },
+              {
+                "zh": "拒絕(染紅):若邊的兩端已經連通，它就是目前這個環(加入該邊後所形成的環)中權重最大的邊——套用紅規則，直接排除。",
+                "en": "Reject (red): if the edge's endpoints are already connected, it is the heaviest edge on the cycle that adding it would close — apply the red rule and discard it outright."
+              },
+              {
+                "zh": "因為邊已依權重排序，這個環中「目前為止見過」的其他邊都不會比它更重，恰好滿足紅規則的條件。",
+                "en": "Because the edges are processed in ascending order, every other edge on that cycle seen so far is no heavier — exactly the condition the red rule requires."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "逐步範例",
+          "en": "Worked Example"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "輸入:5 個頂點 A–E，6 條加權邊 A-B:4、B-C:1、C-D:6、D-E:2、E-A:3、A-C:5。依權重升冪排序後依序檢視:B-C:1、D-E:2、E-A:3、A-B:4、A-C:5、C-D:6。",
+              "en": "Input: 5 vertices A–E with 6 weighted edges A-B:4, B-C:1, C-D:6, D-E:2, E-A:3, A-C:5. Sorted ascending by weight, they are examined in order: B-C:1, D-E:2, E-A:3, A-B:4, A-C:5, C-D:6."
+            }
+          },
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "B-C(1):B、C 尚未連通 → 藍色，加入 MST，合併為 {B,C}。",
+                "en": "B-C(1): B and C are not yet connected → blue, added to the MST, merging into {B,C}."
+              },
+              {
+                "zh": "D-E(2):D、E 尚未連通 → 藍色，加入 MST，合併為 {D,E}。",
+                "en": "D-E(2): D and E are not yet connected → blue, added to the MST, merging into {D,E}."
+              },
+              {
+                "zh": "E-A(3):E 所在分量 {D,E} 與 A 尚未連通 → 藍色，加入 MST，合併為 {A,D,E}。",
+                "en": "E-A(3): the component {D,E} containing E and vertex A are not yet connected → blue, added to the MST, merging into {A,D,E}."
+              },
+              {
+                "zh": "A-B(4):A 所在分量 {A,D,E} 與 B 所在分量 {B,C} 尚未連通 → 藍色，加入 MST，合併為 {A,B,C,D,E},MST 已有 4 條邊($=V-1$)。",
+                "en": "A-B(4): the component {A,D,E} containing A and the component {B,C} containing B are not yet connected → blue, added to the MST, merging into {A,B,C,D,E}; the MST now has 4 edges ($=V-1$)."
+              },
+              {
+                "zh": "A-C(5):A、C 已經連通(同一分量) → 紅色，這是目前所形成環路中權重最大的邊，捨棄。",
+                "en": "A-C(5): A and C are already connected (same component) → red — the heaviest edge on the resulting cycle so far — discarded."
+              },
+              {
+                "zh": "C-D(6):C、D 已經連通 → 紅色，同理捨棄。",
+                "en": "C-D(6): C and D are already connected → red, discarded for the same reason."
+              }
+            ]
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "結果:藍色邊(MST) = {B-C(1), D-E(2), E-A(3), A-B(4)},共 4 條，總權重 $1+2+3+4=10$;紅色邊(排除) = {A-C(5), C-D(6)},共 2 條。此結果與同一張圖上 Prim、Borůvka 演算法所得的 MST 相同。",
+              "en": "Result: blue edges (MST) = {B-C(1), D-E(2), E-A(3), A-B(4)}, 4 edges, total weight $1+2+3+4=10$; red edges (excluded) = {A-C(5), C-D(6)}, 2 edges. This matches the MST that Prim's and Borůvka's algorithms would find on the same graph."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "統一框架:Kruskal / Prim / Borůvka",
+          "en": "One Framework: Kruskal, Prim & Borůvka"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "Kruskal、Prim、Borůvka 三種經典 MST 演算法，其實都只是以不同順序套用同一組紅藍規則的具體實例:",
+              "en": "Kruskal's, Prim's, and Borůvka's — the three classic MST algorithms — are all just specific instances of applying the same red-blue rules in a different order:"
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "Kruskal:依權重升冪走訪所有邊，逐條套用藍規則(接受)或紅規則(拒絕),如本視覺化所示。",
+                "en": "Kruskal's: visits all edges in ascending weight order, applying the blue rule (accept) or red rule (reject) edge by edge — exactly what this visualization shows."
+              },
+              {
+                "zh": "Prim:每一步都對「目前生成樹 vs. 其餘頂點」這個切割套用藍規則，選出跨越它的最輕邊。",
+                "en": "Prim's: at every step applies the blue rule to the cut between the current tree and the remaining vertices, picking the lightest edge across it."
+              },
+              {
+                "zh": "Borůvka:每一輪同時對圖中每個連通分量套用藍規則，各自選出通往外部的最輕邊。",
+                "en": "Borůvka's: each round applies the blue rule simultaneously to every connected component, each picking its own lightest edge leaving the component."
+              },
+              {
+                "zh": "三者殊途同歸:因為每一步都嚴格遵守藍規則或紅規則，最終得到的藍色邊集合都是同一張圖上的(某一棵)MST。",
+                "en": "All three converge to the same place: because every step strictly follows the blue rule or the red rule, the resulting set of blue edges is always (an) MST of the same graph."
+              }
+            ]
+          },
+          {
+            "type": "code",
+            "lang": "cpp",
+            "file": "graph_redblue.cpp",
+            "code": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nstruct Edge { int u, v, w; };\n\nint parent[100], rnk[100];\nint find(int x) { while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; } return x; }\nbool unite(int a, int b) {\n    int ra = find(a), rb = find(b);\n    if (ra == rb) return false;\n    if (rnk[ra] < rnk[rb]) swap(ra, rb);\n    parent[rb] = ra; if (rnk[ra] == rnk[rb]) rnk[ra]++;\n    return true;\n}\n\nint main() {\n    int V = 5;\n    vector<Edge> edges = {{0,1,4},{1,2,1},{2,3,6},{3,4,2},{4,0,3},{0,2,5}};\n    for (int i = 0; i < V; i++) { parent[i] = i; rnk[i] = 0; }\n\n    // Kruskal-lens: sort ascending, then classify every edge as BLUE (joins two\n    // components -> lightest edge crossing that cut -> belongs in the MST) or\n    // RED (both ends already connected -> heaviest edge on the cycle it would\n    // close -> excluded). The blue edges form the MST.\n    sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b) { return a.w < b.w; });\n\n    vector<Edge> blue, red;\n    int total = 0;\n    for (const Edge& e : edges) {\n        if (unite(e.u, e.v)) {\n            // BLUE rule\n            blue.push_back(e);\n            total += e.w;\n            cout << \"BLUE \" << e.u << \"-\" << e.v << \" (w=\" << e.w << \")\\n\";\n        } else {\n            // RED rule\n            red.push_back(e);\n            cout << \"RED  \" << e.u << \"-\" << e.v << \" (w=\" << e.w << \")\\n\";\n        }\n    }\n\n    cout << \"MST total weight: \" << total << \"\\n\";\n    cout << \"Blue edges (MST): \" << blue.size() << \", Red edges (excluded): \" << red.size() << \"\\n\";\n    return 0;\n}"
+          }
+        ]
+      }
+    ]
+  },
   "heap-binary": {
     "category": "Heaps / Priority Queues",
     "title": {

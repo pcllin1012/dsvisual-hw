@@ -90,6 +90,7 @@
     'graph-kruskal':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.kruskalFrames(p.edges, p.n, p.labels) },
     'graph-prim':     { weighted: true,  usesSource: true,  gen: (p, s) => GraphWorkbench.primFrames(p.adj, s, p.labels) },
     'graph-boruvka':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.boruvkaFrames(p.edges, p.n, p.labels) },
+    'graph-redblue':  { weighted: true,  usesSource: false, gen: (p, s) => GraphWorkbench.redBlueFrames(p.edges, p.n, p.labels) },
     'graph-topo':         { weighted: false, directed: true, usesSource: false, gen: (p, s) => GraphWorkbench.topoFrames(p.adj, p.n, p.labels) },
     'graph-bellman-ford': { weighted: true,  directed: true, allowNegative: true, usesSource: true,  gen: (p, s) => GraphWorkbench.bellmanFordFrames(p.adj, p.n, s, p.labels) },
   };
@@ -233,6 +234,8 @@
         lastFrame = f;
         const has = (arr, x) => arr.indexOf(x) !== -1;
         const treeKeys = new Set((f.treeEdges || []).map((e) => e.u + '-' + e.v));
+        const blueKeys = new Set((f.blueEdges || []).map((e) => e.u + '-' + e.v));
+        const redKeys = new Set((f.redEdges || []).map((e) => e.u + '-' + e.v));
         const R = 20;
         const dirSet = dir ? new Set(parsed.edges.map((e) => e.u + '-' + e.v)) : null;
         let s = '';
@@ -244,7 +247,8 @@
         }
         for (const e of parsed.edges) {
           const active = f.activeEdge && f.activeEdge.u === e.u && f.activeEdge.v === e.v;
-          const ecls = 'graph-edge' + (active ? ' active' : (treeKeys.has(e.u + '-' + e.v) ? ' tree' : ''));
+          const ekey = e.u + '-' + e.v;
+          const ecls = 'graph-edge' + (active ? ' active' : (blueKeys.has(ekey) ? ' blue' : (treeKeys.has(ekey) ? ' tree' : (redKeys.has(ekey) ? ' red' : ''))));
           const A = pos[e.u], B = pos[e.v];
           let x1 = A.x, y1 = A.y, x2 = B.x, y2 = B.y, mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2;
           if (dir) {
@@ -535,6 +539,7 @@
   R().attach('graph-topo',         { render: () => renderGraphVcr('graph-topo'),         code: () => codeGraphTopo,        layout: { host: 'dynamic' } });
   R().attach('graph-prim', { render: () => renderGraphVcr('graph-prim'), code: () => codeGraphPrim, layout: { host: 'dynamic' } });
   R().attach('graph-boruvka', { render: () => renderGraphVcr('graph-boruvka'), code: () => codeGraphBoruvka, layout: { host: 'dynamic' } });
+  R().attach('graph-redblue', { render: () => renderGraphVcr('graph-redblue'), code: () => codeGraphRedblue, layout: { host: 'dynamic' } });
   R().attach('graph-bellman-ford', { render: () => renderGraphVcr('graph-bellman-ford'), code: () => codeGraphBellmanFord, layout: { host: 'dynamic' } });
   R().attach('graph-floyd-warshall', { render: renderFloydWarshall, code: () => codeGraphFloydWarshall, layout: { host: 'dynamic' } });
   C().registerDomain({ id: 'graph' });

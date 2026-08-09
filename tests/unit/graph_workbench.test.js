@@ -464,3 +464,40 @@ test('forceStep: deterministic (no RNG)', () => {
   for (let i = 0; i < 15; i++) { GW.forceStep(a, edges, 3, {}); GW.forceStep(b, edges, 3, {}); }
   assert.deepStrictEqual(a, b);
 });
+
+test('redBlueFrames: default graph → 4 blue (weight 10) + 2 red, every edge colored once', () => {
+  const p = GW.parseEdges('A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5', true, false);
+  assert.ok(p.ok);
+  const frames = GW.redBlueFrames(p.edges, p.n, p.labels);
+  const last = frames[frames.length - 1];
+  assert.strictEqual(last.blueEdges.length, 4);
+  assert.strictEqual(last.redEdges.length, 2);
+  // blue weight == Kruskal MST weight (10)
+  const wOf = (be) => { const e = p.edges.find((x) => (x.u === be.u && x.v === be.v) || (x.u === be.v && x.v === be.u)); return e.w; };
+  const blueW = last.blueEdges.reduce((s, be) => s + wOf(be), 0);
+  const kr = GW.kruskalFrames(p.edges, p.n, p.labels);
+  const krLast = kr[kr.length - 1];
+  const krW = krLast.treeEdges.reduce((s, be) => s + wOf(be), 0);
+  assert.strictEqual(blueW, 10);
+  assert.strictEqual(blueW, krW);
+  // blue ∪ red == all edges, blue ∩ red == ∅
+  const key = (e) => e.u + '-' + e.v;
+  const blue = new Set(last.blueEdges.map(key)), red = new Set(last.redEdges.map(key));
+  assert.strictEqual(blue.size + red.size, p.edges.length);
+  for (const k of blue) assert.ok(!red.has(k));
+  // every frame bilingual
+  for (const f of frames) { assert.ok(f.message.zh && f.message.en); }
+});
+
+test('redBlueFrames: labels appear in messages', () => {
+  const p = GW.parseEdges('A-B:4,B-C:1,C-D:6,D-E:2,E-A:3,A-C:5', true, false);
+  const frames = GW.redBlueFrames(p.edges, p.n, p.labels);
+  const joined = frames.map((f) => f.message.en).join(' ');
+  assert.ok(/A|B|C|D|E/.test(joined));
+});
+
+test("DEFAULTS['graph-redblue'] parses ok with n=5", () => {
+  const p = GW.parseEdges(GW.DEFAULTS['graph-redblue'], true, false);
+  assert.ok(p.ok);
+  assert.strictEqual(p.n, 5);
+});
