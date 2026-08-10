@@ -453,6 +453,15 @@ header p { color: rgba(255,255,255,0.72); font-size: 0.95rem; }
 .viz-logrow.on { background: rgba(52, 152, 219, 0.14); color: var(--text-main); }
 .viz-logidx { flex: 0 0 auto; font-variant-numeric: tabular-nums; color: var(--text-subtle); min-width: 1.6em; text-align: right; }
 @media (max-width: 1020px) { .viz-workbench { grid-template-columns: 1fr; } .viz-logcol { max-height: 260px; } }
+/* Dynamic-host viz (tree/sort) put .viz-workbench directly in #dynamic-viz-host
+   (no .gw/.gw-body wrapper). In focus mode, bound the ancestor chain to a flex
+   column so .viz-workbench fills a bounded height and its step log scrolls
+   internally — otherwise a long log grows the workbench past the viewport and
+   pushes the VCR transport out of reach. Mirrors the :has(.gw) rules further down. */
+body.viz-focus .method-section-card.active .method-section-visual:has(.viz-workbench) { display: flex; flex-direction: column; overflow: hidden; }
+body.viz-focus .method-section-card.active .method-section-visual:has(.viz-workbench) .viz-body-scaled,
+body.viz-focus .method-section-card.active .method-section-visual:has(.viz-workbench) .stack-container-wrapper,
+body.viz-focus .method-section-card.active .method-section-visual:has(.viz-workbench) #dynamic-viz-host { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 body.viz-focus .method-section-card.active .viz-workbench { flex: 1 1 auto; min-height: 0; align-items: stretch; grid-template-rows: minmax(0, 1fr); }
 body.viz-focus .method-section-card.active .viz-stagecol { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 body.viz-focus .method-section-card.active .viz-logcol { max-height: none; min-height: 0; }
@@ -462,8 +471,8 @@ body.viz-focus .method-section-card.active .viz-logcol { max-height: none; min-h
    the implicit logcol row sized by content (auto) — which can starve the stagecol (and its
    VCR/drawing) down to 0px. Give both rows a share and cap the log so the stage keeps room. */
 @media (max-width: 1020px) {
-  body.viz-focus .method-section-card.active .viz-workbench { grid-template-rows: minmax(0, 1fr) auto; }
-  body.viz-focus .method-section-card.active .viz-logcol { max-height: 40px; }
+  body.viz-focus .method-section-card.active .viz-workbench { grid-template-rows: minmax(0, 1fr) minmax(0, 15%); }
+  body.viz-focus .method-section-card.active .viz-logcol { max-height: none; }
 }
 
 .gw-svg .graph-node {
