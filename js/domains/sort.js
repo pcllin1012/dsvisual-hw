@@ -3,6 +3,71 @@
   const C = () => global.VizCore;
   const R = () => global.VizRegistry;
 
+  const DEFAULT_TEXT = (global.SortFrames ? global.SortFrames.SORT_DEFAULT : [5,2,8,1,9,3,7,4,6]).join(',');
+  const FRAMES = {
+    'sort-bubble': (a) => global.SortFrames.bubbleFrames(a),
+    'sort-select': (a) => global.SortFrames.selectionFrames(a),
+    'sort-insert': (a) => global.SortFrames.insertionFrames(a),
+  };
+  const _sortText = {}; // per-method last input
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function loadEx(id) { try { return ExamplesStore.load(localStorage, id); } catch (e) { return []; } }
+  function saveEx(id, text) { try { ExamplesStore.save(localStorage, id, text, DEFAULT_TEXT); } catch (e) {} }
+  function exSelectHtml(id) {
+    const lang = (global.I18N && I18N.getCurrentLanguage && I18N.getCurrentLanguage() === 'zh') ? 'zh' : 'en';
+    let h = '<select class="ex-select"><option value="">' + (lang === 'zh' ? '範例…' : 'Examples…') + '</option>';
+    h += '<option value="' + esc(DEFAULT_TEXT) + '">' + (lang === 'zh' ? '預設' : 'Default') + '</option>';
+    for (const t of loadEx(id)) h += '<option value="' + esc(t) + '">' + esc(t) + '</option>';
+    return h + '</select>';
+  }
+  function parseArr(text) {
+    let a = String(text).split(/[\s,]+/).map((s) => parseInt(s, 10)).filter(Number.isFinite);
+    a = a.filter((v) => v >= 1 && v <= 99).slice(0, 20);
+    return a.length >= 2 ? a : (global.SortFrames ? global.SortFrames.SORT_DEFAULT.slice() : [5,2,8,1,9,3,7,4,6]);
+  }
+
+  function renderSort(methodId) {
+    const K1 = K();
+    const host = K1.acquireDynamicVizHost();
+    const lang = (global.I18N && I18N.getCurrentLanguage && I18N.getCurrentLanguage() === 'zh') ? 'zh' : 'en';
+    if (!_sortText[methodId]) _sortText[methodId] = DEFAULT_TEXT;
+
+    function rebuild() {
+      host.innerHTML = '';
+      const controls = document.createElement('div');
+      controls.className = 'sortviz-controls';
+      controls.innerHTML =
+        '<input type="text" class="sortviz-input" data-testid="sortviz-input" value="' + esc(_sortText[methodId]) + '">' +
+        '<button type="button" class="sortviz-build btn primary">' + (lang === 'zh' ? '建立' : 'Build') + '</button>' +
+        '<button type="button" class="rand-btn" title="' + (lang === 'zh' ? '隨機' : 'Random') + '">🎲</button>' +
+        exSelectHtml(methodId);
+      host.appendChild(controls);
+
+      const arr = parseArr(_sortText[methodId]);
+      const frames = FRAMES[methodId](arr);
+      const maxV = Math.max.apply(null, arr) || 1;
+      const stage = document.createElement('div');
+      stage.className = 'sortviz-stage';
+      function paint(f) {
+        stage.innerHTML = f.array.map((v, i) =>
+          '<div class="sort-bar ' + (f.hi[i] || '') + '" style="height:' + Math.round((v / maxV) * 200 + 20) + 'px"><span>' + v + '</span></div>'
+        ).join('');
+      }
+      host.appendChild(K1.buildStepWorkbench({ stage: stage, frames: frames, paint: paint, getMessage: (f) => K1.langOf(f.message), runIntervalMs: 400 }));
+
+      function applyText(text) { _sortText[methodId] = text; saveEx(methodId, text); rebuild(); }
+      controls.querySelector('.sortviz-build').addEventListener('click', () => applyText(controls.querySelector('.sortviz-input').value));
+      controls.querySelector('.rand-btn').addEventListener('click', () => {
+        const r = window.RandomInput && RandomInput.randomInputFor('sort', K1.getInputDifficulty());
+        if (r && Array.isArray(r.data) && r.data.length) applyText(r.data.join(','));
+      });
+      const ex = controls.querySelector('.ex-select');
+      if (ex) ex.addEventListener('change', (e) => { if (e.target.value) applyText(e.target.value); });
+    }
+    rebuild();
+  }
+
   let sortArrData = [];
   let dom = null; // { sortContainer, btnSortStart, btnSortRandom }
 
@@ -280,9 +345,9 @@
     });
   }
 
-  R().attach('sort-bubble', { render: renderSortBars, code: () => codeSortBubble, layout: null });
-  R().attach('sort-select', { render: renderSortBars, code: () => codeSortSelect, layout: null });
-  R().attach('sort-insert', { render: renderSortBars, code: () => codeSortInsert, layout: null });
+  R().attach('sort-bubble', { render: () => renderSort('sort-bubble'), code: () => codeSortBubble, layout: { host: 'dynamic' } });
+  R().attach('sort-select', { render: () => renderSort('sort-select'), code: () => codeSortSelect, layout: { host: 'dynamic' } });
+  R().attach('sort-insert', { render: () => renderSort('sort-insert'), code: () => codeSortInsert, layout: { host: 'dynamic' } });
   R().attach('sort-quick', { render: renderSortBars, code: () => codeSortQuick, layout: null });
   R().attach('sort-merge', { render: renderSortBars, code: () => codeSortMerge, layout: null });
   R().attach('sort-shell', { render: renderSortBars, code: () => codeSortShell, layout: null });
