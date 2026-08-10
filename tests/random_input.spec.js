@@ -86,7 +86,9 @@ test('random button on old binary search updates target + array', async ({ page 
 
 test('Randomize on sort visualizer honors large difficulty (>15 bars)', async ({ page }) => {
   await page.goto(fileUri);
-  await loadMethod(page, 'sort-bubble');
+  // sort-quick stays on the legacy static #sort-container/#sort-actions bar
+  // (sort-bubble/select/insert were converted to the dynamic renderSort host).
+  await loadMethod(page, 'sort-quick');
 
   await openSettings(page);
   await page.locator('#input-difficulty').selectOption('large');

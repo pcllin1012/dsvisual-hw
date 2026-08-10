@@ -519,7 +519,11 @@ body.viz-focus .method-section-card.active .viz-logcol { max-height: none; min-h
 .sort-bar.comparing { background: #fbbf24; transform: scaleY(1.05); } 
 .sort-bar.swapping { background: #f87171; } 
 .sort-bar.sorted { background: #34d399; } 
-.sort-bar.pivot { background: #a78bfa; } 
+.sort-bar.pivot { background: #a78bfa; }
+
+.sortviz-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.sortviz-controls .sortviz-input { flex: 1 1 220px; min-width: 160px; }
+.sortviz-stage { width: 100%; min-height: 240px; display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding-bottom: 22px; overflow-x: auto; }
 
 /* Heap structures */
 .heap-container { width: 100%; height: 320px; position: relative; border: 2px dashed rgba(37, 99, 235, 0.35); border-radius: 12px; background: #eef6ff; overflow: hidden; }
