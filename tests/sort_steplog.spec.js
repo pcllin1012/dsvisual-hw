@@ -25,8 +25,8 @@ test.describe('Sort viz observatory (batch 1)', () => {
       await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
       await expect(card.locator('.stepctl')).toBeVisible();
       await expect(card.locator('[data-testid="code-drawer"] .code-panel-filename')).toContainText(file);
-      // legacy static bar not shown for converted sorts
-      await expect(card.locator('#sort-actions')).toBeHidden();
+      // legacy static container not shown for converted sorts (dynamic host is active instead)
+      await expect(page.locator('#sort-container')).toBeHidden();
 
       const bars = card.locator('.sortviz-stage .sort-bar');
       const barCount = await bars.count();
@@ -49,5 +49,16 @@ test.describe('Sort viz observatory (batch 1)', () => {
     await loadMethod(page, 'sort-quick');
     // unconverted → legacy static container still used
     await expect(page.locator('#sort-container')).toBeVisible();
+  });
+
+  test('sort-bubble: custom numeric input still builds bars correctly (escaping does not break normal use)', async ({ page }) => {
+    await loadMethod(page, 'sort-bubble');
+    const card = page.locator('[data-method-section="sort-bubble"]');
+    const input = card.locator('[data-testid="sortviz-input"]');
+    await input.fill('3,1,2');
+    await card.locator('.sortviz-build').click();
+    await expect(input).toHaveValue('3,1,2');
+    const bars = card.locator('.sortviz-stage .sort-bar');
+    await expect(bars).toHaveCount(3);
   });
 });

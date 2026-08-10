@@ -11,13 +11,14 @@
   };
   const _sortText = {}; // per-method last input
 
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
   function loadEx(id) { try { return ExamplesStore.load(localStorage, id); } catch (e) { return []; } }
   function saveEx(id, text) { try { ExamplesStore.save(localStorage, id, text, DEFAULT_TEXT); } catch (e) {} }
   function exSelectHtml(id) {
     const lang = (global.I18N && I18N.getCurrentLanguage && I18N.getCurrentLanguage() === 'zh') ? 'zh' : 'en';
     let h = '<select class="ex-select"><option value="">' + (lang === 'zh' ? '範例…' : 'Examples…') + '</option>';
-    h += '<option value="' + DEFAULT_TEXT + '">' + (lang === 'zh' ? '預設' : 'Default') + '</option>';
-    for (const t of loadEx(id)) h += '<option value="' + t + '">' + t + '</option>';
+    h += '<option value="' + esc(DEFAULT_TEXT) + '">' + (lang === 'zh' ? '預設' : 'Default') + '</option>';
+    for (const t of loadEx(id)) h += '<option value="' + esc(t) + '">' + esc(t) + '</option>';
     return h + '</select>';
   }
   function parseArr(text) {
@@ -37,7 +38,7 @@
       const controls = document.createElement('div');
       controls.className = 'sortviz-controls';
       controls.innerHTML =
-        '<input type="text" class="sortviz-input" data-testid="sortviz-input" value="' + _sortText[methodId] + '">' +
+        '<input type="text" class="sortviz-input" data-testid="sortviz-input" value="' + esc(_sortText[methodId]) + '">' +
         '<button type="button" class="sortviz-build btn primary">' + (lang === 'zh' ? '建立' : 'Build') + '</button>' +
         '<button type="button" class="rand-btn" title="' + (lang === 'zh' ? '隨機' : 'Random') + '">🎲</button>' +
         exSelectHtml(methodId);
