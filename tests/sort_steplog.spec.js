@@ -61,4 +61,25 @@ test.describe('Sort viz observatory (batch 1)', () => {
     const bars = card.locator('.sortviz-stage .sort-bar');
     await expect(bars).toHaveCount(3);
   });
+
+  test('sort-bubble: fullscreen keeps VCR transport in-viewport and step log scrollable', async ({ page }) => {
+    await loadMethod(page, 'sort-bubble');
+    const card = page.locator('[data-method-section="sort-bubble"]');
+    await card.locator('[data-testid="viz-focus-toggle"]').click();
+    await expect(page.locator('body.viz-focus')).toHaveCount(1);
+    const vh = page.viewportSize().height;
+    // workbench bounded within the viewport (long 50+-row log must not overflow it)
+    const wb = await card.locator('.viz-workbench').boundingBox();
+    expect(wb).not.toBeNull();
+    expect(wb.y + wb.height).toBeLessThanOrEqual(vh + 1);
+    // VCR transport stays operable (within the viewport)
+    const tp = await card.locator('.stepctl').boundingBox();
+    expect(tp).not.toBeNull();
+    expect(tp.y + tp.height).toBeLessThanOrEqual(vh + 1);
+    // step log scrolls internally (content taller than its box) and stays usable
+    const log = card.locator('[data-testid="viz-steplog"]');
+    const info = await log.evaluate((el) => ({ scrollable: el.scrollHeight > el.clientHeight + 1, clientH: el.clientHeight }));
+    expect(info.scrollable).toBe(true);
+    expect(info.clientH).toBeGreaterThan(40);
+  });
 });
