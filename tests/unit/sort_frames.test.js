@@ -21,6 +21,10 @@ const GENS = [
   ['merge', SF.mergeFrames, false],
   ['shell', SF.shellFrames, true],
   ['heap', SF.heapFrames, true],
+  ['bucket', SF.bucketFrames, true],
+  ['counting', SF.countingFrames, false],
+  ['radix', SF.radixFrames, false],
+  ['shaker', SF.shakerFrames, true],
 ];
 
 for (const [name, gen, perFrame] of GENS) {
