@@ -39,3 +39,15 @@ for (const [name, gen] of GENS) {
     });
   }
 }
+
+test('strcompare: 3 panes advance in lockstep and all terminate', () => {
+  const frames = SSF.strcompareFrames('ABABDABACDABABCABAB', 'ABABCABAB');
+  assert.ok(frames.length > 1, 'multiple frames');
+  const first = frames[0], last = frames[frames.length - 1];
+  for (const pane of ['kmp', 'bm', 'rk']) {
+    assert.ok(first.panes[pane], `pane ${pane} present`);
+    assert.strictEqual(last.panes[pane].done, true, `pane ${pane} finished`);
+    assert.ok(last.panes[pane].cmp > 0, `pane ${pane} did comparisons`);
+  }
+  assert.ok(last.message && last.message.zh && last.message.en, 'bilingual message');
+});

@@ -105,7 +105,28 @@
     return frames;
   }
 
-  var api = { buildAlignmentRow: buildAlignmentRow, kmpFrames: kmpFrames, bmFrames: bmFrames, rkFrames: rkFrames, zalgoFrames: zalgoFrames, STRSEARCH_DEFAULT_TEXT: STRSEARCH_DEFAULT_TEXT, STRSEARCH_DEFAULT_PATTERN: STRSEARCH_DEFAULT_PATTERN };
+  function strcompareFrames(text, pattern) {
+    var n = text.length, m = pattern.length;
+    var lps = new Array(m).fill(0);
+    for (var len = 0, k = 1; k < m;) { if (pattern[k] === pattern[len]) lps[k++] = ++len; else if (len !== 0) len = lps[len - 1]; else lps[k++] = 0; }
+    var kmp = { i: 0, j: 0, cmp: 0, done: m === 0 };
+    function kmpStep() { if (kmp.done || kmp.i >= n) { kmp.done = true; return; } kmp.cmp++; if (text[kmp.i] === pattern[kmp.j]) { kmp.i++; kmp.j++; if (kmp.j === m) kmp.j = lps[kmp.j - 1]; } else if (kmp.j !== 0) { kmp.j = lps[kmp.j - 1]; } else { kmp.i++; } if (kmp.i >= n) kmp.done = true; }
+    var bad = {}; for (var b = 0; b < m; b++) bad[pattern[b]] = b;
+    var bm = { s: 0, j: m - 1, cmp: 0, done: m === 0 || m > n };
+    function bmStep() { if (bm.done || bm.s > n - m) { bm.done = true; return; } bm.cmp++; if (pattern[bm.j] === text[bm.s + bm.j]) { if (bm.j === 0) { bm.s += 1; bm.j = m - 1; } else bm.j--; } else { var bcRaw = bad[text[bm.s + bm.j]]; bm.s += Math.max(1, bm.j - (bcRaw === undefined ? -1 : bcRaw)); bm.j = m - 1; } if (bm.s > n - m) bm.done = true; }
+    var BASE = 256, MOD = 101, rkH = 1; for (var a = 0; a < m - 1; a++) rkH = (rkH * BASE) % MOD;
+    var rkPat = 0; for (var c = 0; c < m; c++) rkPat = (BASE * rkPat + pattern.charCodeAt(c)) % MOD;
+    function rkWindow(start) { var wh = 0; for (var k = 0; k < m; k++) wh = (BASE * wh + text.charCodeAt(start + k)) % MOD; return wh; }
+    var rk = { s: 0, hash: (m > 0 && m <= n) ? rkWindow(0) : 0, cmp: 0, done: m === 0 || m > n };
+    function rkStep() { if (rk.done || rk.s > n - m) { rk.done = true; return; } rk.cmp++; if (rk.hash === rkPat) { var k = 0; while (k < m && text[rk.s + k] === pattern[k]) { rk.cmp++; k++; } } if (rk.s < n - m) { rk.hash = (BASE * (rk.hash - text.charCodeAt(rk.s) * rkH) + text.charCodeAt(rk.s + m)) % MOD; rk.hash = ((rk.hash % MOD) + MOD) % MOD; } rk.s++; if (rk.s > n - m) rk.done = true; }
+    function snap(msg) { return { text: text, pattern: pattern, panes: { kmp: { offset: kmp.i - kmp.j, hi: null, cmp: kmp.cmp, done: kmp.done }, bm: { offset: Math.min(bm.s, Math.max(0, n - m)), hi: null, cmp: bm.cmp, done: bm.done }, rk: { offset: Math.min(rk.s, Math.max(0, n - m)), hi: { kind: 'window', status: null }, cmp: rk.cmp, done: rk.done } }, message: msg }; }
+    var frames = [snap({ zh: '三演算法同步比較:每步各推進一次', en: 'Compare three algorithms in lockstep; each advances one step' })];
+    var guard = 0;
+    while (!(kmp.done && bm.done && rk.done) && guard++ < 100000) { kmpStep(); bmStep(); rkStep(); frames.push(snap({ zh: '步驟 ' + guard + ':KMP cmp=' + kmp.cmp + ', BM cmp=' + bm.cmp + ', RK cmp=' + rk.cmp, en: 'Step ' + guard + ': KMP cmp=' + kmp.cmp + ', BM cmp=' + bm.cmp + ', RK cmp=' + rk.cmp } )); }
+    return frames;
+  }
+
+  var api = { buildAlignmentRow: buildAlignmentRow, kmpFrames: kmpFrames, bmFrames: bmFrames, rkFrames: rkFrames, zalgoFrames: zalgoFrames, strcompareFrames: strcompareFrames, STRSEARCH_DEFAULT_TEXT: STRSEARCH_DEFAULT_TEXT, STRSEARCH_DEFAULT_PATTERN: STRSEARCH_DEFAULT_PATTERN };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.StrSearchFrames = api;
 })(typeof window !== 'undefined' ? window : globalThis);
