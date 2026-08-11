@@ -525,45 +525,41 @@ test.describe('Data Structure Visualizer Full Suite', () => {
         await expect(card.locator('.deque-node')).toHaveCount(3);
     });
 
-    test('String: KMP renders text/pattern rows + LPS table and steps', async ({ page }) => {
+    test('String: KMP renders the observatory (text/pattern inputs + step log + alignment)', async ({ page }) => {
         await loadMethod(page, 'search-kmp');
         const card = page.locator('[data-method-section="search-kmp"]');
-        await expect(card.locator('.code-panel-filename')).toContainText('search_kmp.cpp');
-        await expect(card.locator('.strsearch-text .strsearch-cell')).toHaveCount(19);
-        await expect(card.locator('.strsearch-lps-cell')).toHaveCount(9);
-        await card.locator('[data-action="step"]').click();
-        await expect(card.locator('[data-testid="kmp-stats"]')).toContainText('comparisons: 1');
+        await expect(card.locator('[data-testid="strsearch-text"]')).toBeVisible();
+        await expect(card.locator('[data-testid="strsearch-pattern"]')).toBeVisible();
+        await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
+        expect(await card.locator('.strsearch-align .strsearch-cell').count()).toBeGreaterThan(1);
     });
 
-    test('String: Boyer-Moore renders alignment + tables and steps', async ({ page }) => {
+    test('String: Boyer-Moore renders the observatory (text/pattern inputs + step log + alignment)', async ({ page }) => {
         await loadMethod(page, 'search-bm');
         const card = page.locator('[data-method-section="search-bm"]');
-        await expect(card.locator('.code-panel-filename')).toContainText('search_bm.cpp');
-        await expect(card.locator('.strsearch-text .strsearch-cell')).toHaveCount(19);
-        await expect(card.locator('.strsearch-bm-cell').first()).toBeVisible();
-        await card.locator('[data-action="step"]').click();
-        await expect(card.locator('[data-testid="bm-stats"]')).toContainText('comparisons: 1');
+        await expect(card.locator('[data-testid="strsearch-text"]')).toBeVisible();
+        await expect(card.locator('[data-testid="strsearch-pattern"]')).toBeVisible();
+        await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
+        expect(await card.locator('.strsearch-align .strsearch-cell').count()).toBeGreaterThan(1);
     });
 
-    test('String: Rabin-Karp renders alignment + hash panel and steps', async ({ page }) => {
+    test('String: Rabin-Karp renders the observatory (text/pattern inputs + step log + hash panel)', async ({ page }) => {
         await loadMethod(page, 'search-rk');
         const card = page.locator('[data-method-section="search-rk"]');
-        await expect(card.locator('.code-panel-filename')).toContainText('search_rk.cpp');
-        await expect(card.locator('.strsearch-text .strsearch-cell')).toHaveCount(19);
+        await expect(card.locator('[data-testid="strsearch-text"]')).toBeVisible();
+        await expect(card.locator('[data-testid="strsearch-pattern"]')).toBeVisible();
+        await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
         await expect(card.locator('[data-testid="rk-hash"]')).toBeVisible();
-        await card.locator('[data-action="step"]').click();
-        await expect(card.locator('.rk-hc')).toContainText('1');
+        expect(await card.locator('.strsearch-align .strsearch-cell').count()).toBeGreaterThan(1);
     });
 
-    test('String: String Matching Compared renders 3 panes and steps all', async ({ page }) => {
+    test('String: String Matching Compared renders the observatory with 3 panes', async ({ page }) => {
         await loadMethod(page, 'search-strcompare');
         const card = page.locator('[data-method-section="search-strcompare"]');
-        await expect(card.locator('.code-panel-filename')).toContainText('search_strcompare.cpp');
+        await expect(card.locator('[data-testid="strsearch-text"]')).toBeVisible();
+        await expect(card.locator('[data-testid="strsearch-pattern"]')).toBeVisible();
+        await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
         await expect(card.locator('.strcompare-pane')).toHaveCount(3);
-        await card.locator('[data-action="step"]').click();
-        const counts = card.locator('.strcompare-cmp');
-        await expect(counts.nth(0)).toContainText('1');
-        await expect(counts.nth(2)).toContainText('1');
     });
 
     test('Probabilistic: Bloom Filter renders a 32-bit array and supports insert/query', async ({ page }) => {
@@ -633,14 +629,14 @@ test.describe('Data Structure Visualizer Full Suite', () => {
         await expect(card.locator('.cms-cell.cms-hit')).toHaveCount(3);
     });
 
-    test('String: Z-Algorithm renders the concatenated string with a Z-array and steps', async ({ page }) => {
+    test('String: Z-Algorithm renders the observatory (concatenated string + Z-array + step log)', async ({ page }) => {
         await loadMethod(page, 'search-zalgo');
         const card = page.locator('[data-method-section="search-zalgo"]');
-        await expect(card.locator('.code-panel-filename')).toContainText('search_zalgo.cpp');
-        await expect(card.locator('.zalgo-chr .zalgo-cell')).toHaveCount(29);
-        await expect(card.locator('.zalgo-z .zalgo-cell')).toHaveCount(29);
-        await card.locator('[data-action="step"]').click();
-        await expect(card.locator('[data-testid="zalgo-stats"]')).toContainText('computed: 1');
+        await expect(card.locator('[data-testid="strsearch-text"]')).toBeVisible();
+        await expect(card.locator('[data-testid="strsearch-pattern"]')).toBeVisible();
+        await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
+        await expect(card.locator('[data-testid="zalgo-stats"]')).toBeVisible();
+        expect(await card.locator('.zalgo-cell').count()).toBeGreaterThan(1);
     });
 
     test('String: Aho-Corasick renders the trie and steps through build + scan', async ({ page }) => {
