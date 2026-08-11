@@ -100,17 +100,6 @@
                         <button id="btn-search-stop" class="btn exception" disabled data-i18n-key="btn.stop">Stop</button>
                     </div>
 
-                    <div class="actions hidden" id="sort-actions">
-                        <button id="btn-sort-random" class="btn secondary" data-i18n-key="btn.randomize">Randomize</button>
-                        <button id="btn-sort-start" class="btn primary" data-i18n-key="btn.start">Start()</button>
-                        <button id="btn-sort-pause" class="btn secondary" disabled data-i18n-key="btn.pause">Pause</button>
-                        <button id="btn-sort-stop" class="btn exception" disabled data-i18n-key="btn.stop">Stop</button>
-                        <div style="display: flex; align-items: center; gap: 10px; margin-left: 10px;">
-                            <span style="font-size: 0.8rem; color: #cbd5e1;" data-i18n-key="settings.delay">Delay</span>
-                            <input type="range" id="sort-speed" min="10" max="600" value="100" style="width: 100px;">
-                        </div>
-                    </div>
-
                     <div class="actions hidden" id="heap-actions">
                         <select id="heap-order" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.7rem; border-radius: 8px;">
                             <option value="min">Min-Heap</option>
@@ -203,8 +192,6 @@
                             <div id="search-array" class="search-array"></div>
                             <div id="search-pointers" class="search-pointers"></div>
                         </div>
-
-                        <div id="sort-container" class="sort-container hidden"></div>
 
                         <div id="heap-container" class="heap-container hidden">
                             <svg id="heap-edges"></svg>
