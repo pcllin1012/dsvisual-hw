@@ -92,14 +92,6 @@
                         <button id="btn-text-tree-add" class="btn primary" data-i18n-key="btn.insert-word">Insert Word()</button>
                     </div>
 
-                    <div class="actions hidden" id="search-actions">
-                        <input type="number" id="search-val" data-i18n-placeholder="ph.target" placeholder="Target" value="38">
-                        <button id="btn-search-random" class="btn secondary" title="Random">🎲</button>
-                        <button id="btn-search-go" class="btn primary" data-i18n-key="btn.find">Find()</button>
-                        <button id="btn-search-pause" class="btn secondary" disabled data-i18n-key="btn.pause">Pause</button>
-                        <button id="btn-search-stop" class="btn exception" disabled data-i18n-key="btn.stop">Stop</button>
-                    </div>
-
                     <div class="actions hidden" id="heap-actions">
                         <select id="heap-order" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.7rem; border-radius: 8px;">
                             <option value="min">Min-Heap</option>
@@ -187,11 +179,6 @@
 
                         <div id="list-arr-container" class="list-arr-container hidden"></div>
                         <div id="list-ll-container" class="list-ll-container hidden"></div>
-
-                        <div id="search-container" class="search-container hidden">
-                            <div id="search-array" class="search-array"></div>
-                            <div id="search-pointers" class="search-pointers"></div>
-                        </div>
 
                         <div id="heap-container" class="heap-container hidden">
                             <svg id="heap-edges"></svg>
@@ -412,6 +399,7 @@
     <script src="js/viz/viz_sort_frames.js" defer></script>
     <script src="js/domains/sort.js" defer></script>
     <script src="js/domains/linear.js" defer></script>
+    <script src="js/viz/viz_search_frames.js" defer></script>
     <script src="js/domains/search.js" defer></script>
     <script src="js/tree_traversal_viz.js" defer></script>
     <script src="js/viz/viz_tree_traversal.js" defer></script>
@@ -460,10 +448,6 @@
     <script src="js/viz/viz_nano_bpe_train.js" defer></script>
     <script src="js/nano_ngram_next_viz.js" defer></script>
     <script src="js/viz/viz_nano_ngram.js" defer></script>
-    <script src="js/search_fibonacci_viz.js" defer></script>
-    <script src="js/viz/viz_search_fib.js" defer></script>
-    <script src="js/search_interpolation_viz.js" defer></script>
-    <script src="js/viz/viz_search_interp.js" defer></script>
     <script src="js/tree_threaded_viz.js" defer></script>
     <script src="js/viz/viz_threaded.js" defer></script>
     <script src="js/tree_rb_viz.js" defer></script>

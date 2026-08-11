@@ -174,16 +174,16 @@ const METHOD_GROUPS = [
         id: 'searching',
         title: 'Searching & String Matching',
         methods: [
-            { id: 'search-linear', title: 'Linear Search', file: 'search_linear.cpp', visualizer: 'search', controls: 'search' },
-            { id: 'search-binary', title: 'Binary Search', file: 'search_binary.cpp', visualizer: 'search', controls: 'search' },
+            { id: 'search-linear', title: 'Linear Search', file: 'search_linear.cpp', visualizer: 'search', controls: 'search', codeDrawer: true },
+            { id: 'search-binary', title: 'Binary Search', file: 'search_binary.cpp', visualizer: 'search', controls: 'search', codeDrawer: true },
             { id: 'search-kmp', title: 'KMP (Knuth-Morris-Pratt)', file: 'search_kmp.cpp', visualizer: 'string-search', controls: 'string-search' },
             { id: 'search-bm', title: 'Boyer-Moore', file: 'search_bm.cpp', visualizer: 'string-search', controls: 'string-search' },
             { id: 'search-rk', title: 'Rabin-Karp', file: 'search_rk.cpp', visualizer: 'string-search', controls: 'string-search' },
             { id: 'search-strcompare', title: 'String Matching Compared', file: 'search_strcompare.cpp', visualizer: 'string-compare', controls: 'string-compare' },
             { id: 'search-zalgo', title: 'Z-Algorithm', file: 'search_zalgo.cpp', visualizer: 'string-search', controls: 'string-search' },
             { id: 'search-aho', title: 'Aho-Corasick', file: 'search_aho.cpp', visualizer: 'aho-corasick', controls: 'aho-corasick' },
-            { id: 'search-fibonacci', title: 'Fibonacci Search', file: 'search_fibonacci.cpp', visualizer: 'fibsearch', controls: 'fibsearch' },
-            { id: 'search-interpolation', title: 'Interpolation Search', file: 'search_interpolation.cpp', visualizer: 'interpsearch', controls: 'interpsearch' },
+            { id: 'search-fibonacci', title: 'Fibonacci Search', file: 'search_fibonacci.cpp', visualizer: 'fibsearch', controls: 'fibsearch', codeDrawer: true },
+            { id: 'search-interpolation', title: 'Interpolation Search', file: 'search_interpolation.cpp', visualizer: 'interpsearch', controls: 'interpsearch', codeDrawer: true },
         ],
     },
     {
@@ -1370,12 +1370,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Containers
     const arrayContainer = document.getElementById('array-container'); const linkedListContainer = document.getElementById('linkedlist-container');
     const queueContainer = document.getElementById('queue-container'); const graphContainer = document.getElementById('graph-container');
-    const treeContainer = document.getElementById('tree-container'); const searchContainer = document.getElementById('search-container');
+    const treeContainer = document.getElementById('tree-container');
     const listArrContainer = document.getElementById('list-arr-container'); const listLLContainer = document.getElementById('list-ll-container');
 
     // Action Bars
     const stdActions = document.getElementById('std-actions'); const graphActions = document.getElementById('graph-actions');
-    const treeActions = document.getElementById('tree-actions'); const searchActions = document.getElementById('search-actions');
+    const treeActions = document.getElementById('tree-actions');
     const listActions = document.getElementById('list-actions');
     const heapActions = document.getElementById('heap-actions');
 
@@ -1390,9 +1390,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const graphSource = document.getElementById('graph-source'); const graphTarget = document.getElementById('graph-target');
     const btnGraphDijkstra = document.getElementById('btn-graph-dijkstra'); const btnGraphTopo = document.getElementById('btn-graph-topo');
     const btnTreeSearch = document.getElementById('btn-tree-search');
-
-    const btnSearchGo = document.getElementById('btn-search-go'); const btnSearchPause = document.getElementById('btn-search-pause'); const btnSearchStop = document.getElementById('btn-search-stop'); const searchVal = document.getElementById('search-val');
-    const btnSearchRandom = document.getElementById('btn-search-random');
 
     const heapContainer = document.getElementById('heap-container');
     const heapEdges = document.getElementById('heap-edges');
@@ -1608,12 +1605,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------- LOGIC & RENDER OMITTED -----------
     // (Search, Sort layout bindings omitted for strictness matching original JS...)
     function handlePauseClick() { if (animState === 'playing') { animState = 'paused'; setAnimControls(true); showStatus('Paused', '#fbbf24'); } else if (animState === 'paused') { animState = 'playing'; setAnimControls(true); showStatus('Resumed', '#34d399'); } }
-    btnSearchPause.addEventListener('click', handlePauseClick);
-    function handleStopClick() { if(animState === 'playing' || animState === 'paused') { animState = 'stopped'; setTimeout(() => { animState = 'idle'; setAnimControls(false); if(currentMode.includes('sort')) { const b = window.VizRegistry && window.VizRegistry.behavior(currentMode); if (b && b.render) b.render(); } else if (currentMode.includes('search')) { const b = window.VizRegistry && window.VizRegistry.behavior(currentMode); if (b && b.render) b.render(); } else if (currentMode.includes('heap-')) { const b = window.VizRegistry && window.VizRegistry.behavior(currentMode); if (b && b.render) b.render(); } showStatus('Stopped & Reset.', '#f87171'); }, 100); } }
-    btnSearchStop.addEventListener('click', handleStopClick);
+    function handleStopClick() { if(animState === 'playing' || animState === 'paused') { animState = 'stopped'; setTimeout(() => { animState = 'idle'; setAnimControls(false); if(currentMode.includes('sort')) { const b = window.VizRegistry && window.VizRegistry.behavior(currentMode); if (b && b.render) b.render(); } else if (currentMode.includes('heap-')) { const b = window.VizRegistry && window.VizRegistry.behavior(currentMode); if (b && b.render) b.render(); } showStatus('Stopped & Reset.', '#f87171'); }, 100); } }
     function setAnimControls(isPlaying) {
-        if(currentMode.includes('search')) { btnSearchGo.disabled = isPlaying; btnSearchPause.disabled = !isPlaying; btnSearchStop.disabled = !isPlaying; btnSearchPause.textContent = animState === 'paused' ? t('btn.resume') : t('btn.pause'); }
-        else if (currentMode.includes('heap-')) {
+        if (currentMode.includes('heap-')) {
             btnHeapInsert.disabled = isPlaying;
             btnHeapPeek.disabled = isPlaying;
             btnHeapExtract.disabled = isPlaying;
@@ -1653,8 +1647,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function showStatus(msg, color) { statusMsg.textContent = msg; statusMsg.style.color = color; }
     function getDelay() { return 510; }
     function updateLayout() {
-        const containers = [arrayContainer, linkedListContainer, queueContainer, graphContainer, treeContainer, advTreeContainer, searchContainer, listArrContainer, listLLContainer, hashChContainer, hashOaContainer, hashBucketContainer, heapContainer, oopContainer, patternContainer];
-        const actions = [stdActions, graphActions, treeActions, textTreeActions, searchActions, listActions, hashActions, heapActions, oopActions, patternActions];
+        const containers = [arrayContainer, linkedListContainer, queueContainer, graphContainer, treeContainer, advTreeContainer, listArrContainer, listLLContainer, hashChContainer, hashOaContainer, hashBucketContainer, heapContainer, oopContainer, patternContainer];
+        const actions = [stdActions, graphActions, treeActions, textTreeActions, listActions, hashActions, heapActions, oopActions, patternActions];
         containers.forEach(c => c.classList.add('hidden')); actions.forEach(a => a.classList.add('hidden'));
         const dynHost = document.getElementById('dynamic-viz-host');
         if (dynHost) dynHost.classList.add('hidden');
@@ -1842,8 +1836,8 @@ document.addEventListener('DOMContentLoaded', () => {
             codeTitle.textContent = 'nano-ngram-next.cpp';
             codeDisplay.textContent = codeNanoNgramNext;
         }
-        else if (currentMode === 'search-linear') { codeTitle.textContent = 'search_linear.cpp'; codeDisplay.textContent = codeSearchLinear; searchContainer.classList.remove('hidden'); searchActions.classList.remove('hidden'); }
-        else if (currentMode === 'search-binary') { codeTitle.textContent = 'search_binary.cpp'; codeDisplay.textContent = codeSearchBinary; searchContainer.classList.remove('hidden'); searchActions.classList.remove('hidden'); }
+        else if (currentMode === 'search-linear') { codeTitle.textContent = 'search_linear.cpp'; codeDisplay.textContent = codeSearchLinear; }
+        else if (currentMode === 'search-binary') { codeTitle.textContent = 'search_binary.cpp'; codeDisplay.textContent = codeSearchBinary; }
         else if (currentMode === 'search-kmp') {
             codeTitle.textContent = 'search_kmp.cpp';
             codeDisplay.textContent = codeSearchKMP;
@@ -1868,14 +1862,8 @@ document.addEventListener('DOMContentLoaded', () => {
             codeTitle.textContent = 'search_aho.cpp';
             codeDisplay.textContent = codeSearchAho;
         }
-        else if (currentMode === 'search-fibonacci') {
-            codeTitle.textContent = 'search_fibonacci.cpp';
-            codeDisplay.textContent = codeSearchFibonacci;
-        }
-        else if (currentMode === 'search-interpolation') {
-            codeTitle.textContent = 'search_interpolation.cpp';
-            codeDisplay.textContent = codeSearchInterpolation;
-        }
+        else if (currentMode === 'search-fibonacci') { codeTitle.textContent = 'search_fibonacci.cpp'; codeDisplay.textContent = codeSearchFibonacci; }
+        else if (currentMode === 'search-interpolation') { codeTitle.textContent = 'search_interpolation.cpp'; codeDisplay.textContent = codeSearchInterpolation; }
         else if (currentMode === 'list-array') { codeTitle.textContent = 'list_array.cpp'; codeDisplay.textContent = codeListArray; listArrContainer.classList.remove('hidden'); listActions.classList.remove('hidden'); }
         else if (currentMode === 'list-linked') { codeTitle.textContent = 'list_linked.cpp'; codeDisplay.textContent = codeListLinked; listLLContainer.classList.remove('hidden'); listActions.classList.remove('hidden'); }
         else if (currentMode === 'deque') {

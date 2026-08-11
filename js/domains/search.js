@@ -3,70 +3,88 @@
   const C = () => global.VizCore;
   const R = () => global.VizRegistry;
 
-  // Search Vectors
-  const arrLinear = [23, 12, 56, 8, 38, 2, 72, 91, 16, 5];
-  const arrBinary = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
+  const SF = () => global.SearchFrames;
+  const DEFAULT_TEXT = () => SF().SEARCH_DEFAULT_ARR.join(',') + ' | ' + SF().SEARCH_DEFAULT_TARGET;
+  const FRAMES = {
+    'search-linear': (a, t) => SF().linearFrames(a, t),
+    'search-binary': (a, t) => SF().binaryFrames(a, t),
+    'search-fibonacci': (a, t) => SF().fibonacciFrames(a, t),
+    'search-interpolation': (a, t) => SF().interpolationFrames(a, t),
+  };
+  const CODE = {
+    'search-linear': () => codeSearchLinear, 'search-binary': () => codeSearchBinary,
+    'search-fibonacci': () => codeSearchFibonacci, 'search-interpolation': () => codeSearchInterpolation,
+  };
+  const _txt = {}; // per-method last input ("arr | target")
 
-  let dom = null; // { searchVal, btnSearchGo, btnSearchRandom }
-
-  function renderSearchArray(arr) {
-    const sa = document.getElementById('search-array'); const sp = document.getElementById('search-pointers'); sa.innerHTML = ''; sp.innerHTML = '';
-    arr.forEach((v, i) => { const slot = document.createElement('div'); slot.className = 's-slot'; slot.id = 'ss-' + i; slot.innerHTML = "<span>[" + i + "]</span>" + v; sa.appendChild(slot); });
-    ['ptr-l', 'ptr-r', 'ptr-m'].forEach(cls => { const p = document.createElement('div'); p.className = 's-ptr ' + cls; p.id = cls; if(cls === 'ptr-l') p.textContent = 'L'; else if(cls === 'ptr-r') p.textContent = 'R'; else p.textContent = 'M'; sp.appendChild(p); });
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function loadEx(id) { try { return ExamplesStore.load(localStorage, id); } catch (e) { return []; } }
+  function saveEx(id, text) { try { ExamplesStore.save(localStorage, id, text, DEFAULT_TEXT()); } catch (e) {} }
+  function exSelectHtml(id) {
+    const lang = (global.I18N && I18N.getCurrentLanguage && I18N.getCurrentLanguage() === 'zh') ? 'zh' : 'en';
+    let h = '<select class="ex-select"><option value="">' + (lang === 'zh' ? '範例…' : 'Examples…') + '</option>';
+    h += '<option value="' + esc(DEFAULT_TEXT()) + '">' + (lang === 'zh' ? '預設' : 'Default') + '</option>';
+    for (const e of loadEx(id)) h += '<option value="' + esc(e.text) + '">' + esc(e.text) + '</option>';
+    return h + '</select>';
+  }
+  function parseSearch(text) {
+    const parts = String(text).split('|');
+    let arr = (parts[0] || '').split(/[\s,]+/).map((s) => parseInt(s, 10)).filter(Number.isFinite).filter((v) => v >= 1 && v <= 99).slice(0, 20);
+    let target = parseInt((parts[1] || '').trim(), 10);
+    if (arr.length < 2) arr = SF().SEARCH_DEFAULT_ARR.slice();
+    if (!Number.isFinite(target)) target = SF().SEARCH_DEFAULT_TARGET;
+    return { arr, target };
   }
 
-  async function runLinearSearch(target) {
-    const showStatus = K().showStatus;
-    renderSearchArray(arrLinear); showStatus('Linear Search', '#60a5fa');
-    const lPtr = document.getElementById('ptr-l'); lPtr.classList.add('visible'); lPtr.textContent = 'i';
-    for (let i = 0; i < arrLinear.length; i++) {
-        const slot = document.getElementById('ss-' + i); lPtr.style.left = slot.offsetLeft + 'px'; slot.classList.add('active'); await sleep(800);
-        if (arrLinear[i] === target) { slot.classList.remove('active'); slot.classList.add('found'); return; } else { slot.classList.remove('active'); slot.classList.add('dim'); }
+  function renderSearch(methodId) {
+    const K1 = K();
+    const host = K1.acquireDynamicVizHost();
+    const lang = (global.I18N && I18N.getCurrentLanguage && I18N.getCurrentLanguage() === 'zh') ? 'zh' : 'en';
+    if (!_txt[methodId]) _txt[methodId] = DEFAULT_TEXT();
+
+    function rebuild() {
+      host.innerHTML = '';
+      const parsed = parseSearch(_txt[methodId]);
+      const arr = methodId === 'search-linear' ? parsed.arr : parsed.arr.slice().sort((a, b) => a - b);
+      const target = parsed.target;
+
+      const controls = document.createElement('div');
+      controls.className = 'searchviz-controls';
+      controls.innerHTML =
+        '<input type="text" class="searchviz-arr" data-testid="searchviz-arr" value="' + esc(arr.join(',')) + '">' +
+        '<label class="searchviz-tlabel">' + (lang === 'zh' ? '目標' : 'target') + ' <input type="number" class="searchviz-target" data-testid="searchviz-target" value="' + esc(target) + '"></label>' +
+        '<button type="button" class="searchviz-build btn primary">' + (lang === 'zh' ? '建立' : 'Build') + '</button>' +
+        '<button type="button" class="rand-btn" title="' + (lang === 'zh' ? '隨機' : 'Random') + '">🎲</button>' +
+        exSelectHtml(methodId);
+      host.appendChild(controls);
+
+      const frames = FRAMES[methodId](arr, target);
+      const stage = document.createElement('div');
+      stage.className = 'searchviz-stage';
+      function paint(f) {
+        stage.innerHTML = f.array.map((v, i) =>
+          '<div class="search-cell ' + (f.hi[i] || '') + '"><span class="val">' + v + '</span><i class="idx">' + i + '</i></div>'
+        ).join('');
+      }
+      host.appendChild(K1.buildStepWorkbench({ stage: stage, frames: frames, paint: paint, getMessage: (f) => K1.langOf(f.message), runIntervalMs: 500 }));
+
+      function applyText(text) { _txt[methodId] = text; saveEx(methodId, text); rebuild(); }
+      controls.querySelector('.searchviz-build').addEventListener('click', () => {
+        applyText(controls.querySelector('.searchviz-arr').value + ' | ' + controls.querySelector('.searchviz-target').value);
+      });
+      controls.querySelector('.rand-btn').addEventListener('click', () => {
+        const r = window.RandomInput && RandomInput.randomInputFor('search', K1.getInputDifficulty());
+        if (r && Array.isArray(r.data) && r.data.length) applyText(r.data.join(',') + ' | ' + r.target);
+      });
+      const ex = controls.querySelector('.ex-select');
+      if (ex) ex.addEventListener('change', (e) => { if (e.target.value) applyText(e.target.value); });
     }
-    lPtr.classList.remove('visible');
-  }
-  async function runBinarySearch(target) {
-    const showStatus = K().showStatus;
-    renderSearchArray(arrBinary); showStatus('Starting Binary Search...', '#60a5fa');
-    const lPtr = document.getElementById('ptr-l'); const rPtr = document.getElementById('ptr-r'); const mPtr = document.getElementById('ptr-m');
-    lPtr.classList.add('visible'); rPtr.classList.add('visible'); let left = 0; let right = arrBinary.length - 1;
-    while (left <= right) {
-        const slotL = document.getElementById('ss-' + left); const slotR = document.getElementById('ss-' + right);
-        lPtr.style.left = slotL.offsetLeft + 'px'; rPtr.style.left = slotR.offsetLeft + 'px';
-        for(let i=0; i<arrBinary.length; i++) { const s = document.getElementById('ss-' + i); if(i < left || i > right) s.classList.add('dim'); }
-        await sleep(1000); let mid = Math.floor(left + (right - left) / 2); showStatus("L=" + left + ", R=" + right + " => M=" + mid, '#fcd34d');
-        const slotM = document.getElementById('ss-' + mid); mPtr.style.left = slotM.offsetLeft + 'px'; mPtr.classList.add('visible'); slotM.classList.add('mid');
-        await sleep(1200);
-        if (arrBinary[mid] === target) { slotM.classList.remove('mid'); slotM.classList.add('found'); showStatus("Found " + target + " at index " + mid + "!", '#34d399'); return; }
-        if (arrBinary[mid] < target) { showStatus("arr[" + mid + "] < " + target + ". Ignore left half.", '#94a3b8'); left = mid + 1; }
-        else { showStatus("arr[" + mid + "] > " + target + ". Ignore right half.", '#94a3b8'); right = mid - 1; }
-        slotM.classList.remove('mid'); mPtr.classList.remove('visible'); await sleep(800);
-    }
-    showStatus(target + " not found in array.", '#f87171'); lPtr.classList.remove('visible'); rPtr.classList.remove('visible');
+    rebuild();
   }
 
-  function init() {
-    dom = {
-      searchVal: document.getElementById('search-val'),
-      btnSearchGo: document.getElementById('btn-search-go'),
-      btnSearchRandom: document.getElementById('btn-search-random'),
-    };
-
-    dom.btnSearchGo.addEventListener('click', () => { const showStatus = K().showStatus; const target = parseInt(dom.searchVal.value); if(isNaN(target)) return showStatus('Enter valid target.', '#f87171'); const currentMode = C().getMode(); if (currentMode === 'search-linear') K().executeAnimWrapper(async () => await runLinearSearch(target)); else if (currentMode === 'search-binary') K().executeAnimWrapper(async () => await runBinarySearch(target)); });
-    dom.btnSearchRandom.addEventListener('click', () => {
-        if (animState === 'playing' || animState === 'paused') return;
-        const currentMode = C().getMode();
-        const inp = window.RandomInput && RandomInput.randomInputFor(currentMode, K().getInputDifficulty());
-        if (!inp) return;
-        const arr = currentMode === 'search-binary' ? arrBinary : arrLinear;
-        arr.length = 0;
-        inp.arr.forEach((v) => arr.push(v));
-        dom.searchVal.value = inp.target;
-        renderSearchArray(arr);
-    });
-  }
-
-  R().attach('search-linear', { render: () => renderSearchArray(arrLinear), code: () => codeSearchLinear, layout: null });
-  R().attach('search-binary', { render: () => renderSearchArray(arrBinary), code: () => codeSearchBinary, layout: null });
-  C().registerDomain({ id: 'search', init: init });
+  R().attach('search-linear', { render: () => renderSearch('search-linear'), code: CODE['search-linear'], layout: { host: 'dynamic' } });
+  R().attach('search-binary', { render: () => renderSearch('search-binary'), code: CODE['search-binary'], layout: { host: 'dynamic' } });
+  R().attach('search-fibonacci', { render: () => renderSearch('search-fibonacci'), code: CODE['search-fibonacci'], layout: { host: 'dynamic' } });
+  R().attach('search-interpolation', { render: () => renderSearch('search-interpolation'), code: CODE['search-interpolation'], layout: { host: 'dynamic' } });
+  C().registerDomain({ id: 'search' });
 })(typeof window !== 'undefined' ? window : globalThis);
