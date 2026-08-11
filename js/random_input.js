@@ -280,6 +280,11 @@
         for (let k = 0; k < m; k++) { const a = randInt(rng, 0, n - 1), b = randInt(rng, 0, n - 1); if (a !== b) pairs.push([a, b]); }
         return { n: n, pairs: pairs };
       }
+      case 'search': {
+        const data = valSeq(rng, difficulty);
+        const target = rng() < 0.6 ? data[Math.floor(rng() * data.length)] : randInt(rng, 1, 99);
+        return { data, target };
+      }
       case 'sort': return { data: valSeq(rng, difficulty) };
       case 'sort-external': return { data: valSeq(rng, difficulty), M: 4 };
       case 'huffman': return { text: huffmanText(rng, difficulty) };

@@ -174,16 +174,16 @@ const METHOD_GROUPS = [
         id: 'searching',
         title: 'Searching & String Matching',
         methods: [
-            { id: 'search-linear', title: 'Linear Search', file: 'search_linear.cpp', visualizer: 'search', controls: 'search' },
-            { id: 'search-binary', title: 'Binary Search', file: 'search_binary.cpp', visualizer: 'search', controls: 'search' },
+            { id: 'search-linear', title: 'Linear Search', file: 'search_linear.cpp', visualizer: 'search', controls: 'search', codeDrawer: true },
+            { id: 'search-binary', title: 'Binary Search', file: 'search_binary.cpp', visualizer: 'search', controls: 'search', codeDrawer: true },
             { id: 'search-kmp', title: 'KMP (Knuth-Morris-Pratt)', file: 'search_kmp.cpp', visualizer: 'string-search', controls: 'string-search' },
             { id: 'search-bm', title: 'Boyer-Moore', file: 'search_bm.cpp', visualizer: 'string-search', controls: 'string-search' },
             { id: 'search-rk', title: 'Rabin-Karp', file: 'search_rk.cpp', visualizer: 'string-search', controls: 'string-search' },
             { id: 'search-strcompare', title: 'String Matching Compared', file: 'search_strcompare.cpp', visualizer: 'string-compare', controls: 'string-compare' },
             { id: 'search-zalgo', title: 'Z-Algorithm', file: 'search_zalgo.cpp', visualizer: 'string-search', controls: 'string-search' },
             { id: 'search-aho', title: 'Aho-Corasick', file: 'search_aho.cpp', visualizer: 'aho-corasick', controls: 'aho-corasick' },
-            { id: 'search-fibonacci', title: 'Fibonacci Search', file: 'search_fibonacci.cpp', visualizer: 'fibsearch', controls: 'fibsearch' },
-            { id: 'search-interpolation', title: 'Interpolation Search', file: 'search_interpolation.cpp', visualizer: 'interpsearch', controls: 'interpsearch' },
+            { id: 'search-fibonacci', title: 'Fibonacci Search', file: 'search_fibonacci.cpp', visualizer: 'fibsearch', controls: 'fibsearch', codeDrawer: true },
+            { id: 'search-interpolation', title: 'Interpolation Search', file: 'search_interpolation.cpp', visualizer: 'interpsearch', controls: 'interpsearch', codeDrawer: true },
         ],
     },
     {
@@ -1842,8 +1842,8 @@ document.addEventListener('DOMContentLoaded', () => {
             codeTitle.textContent = 'nano-ngram-next.cpp';
             codeDisplay.textContent = codeNanoNgramNext;
         }
-        else if (currentMode === 'search-linear') { codeTitle.textContent = 'search_linear.cpp'; codeDisplay.textContent = codeSearchLinear; searchContainer.classList.remove('hidden'); searchActions.classList.remove('hidden'); }
-        else if (currentMode === 'search-binary') { codeTitle.textContent = 'search_binary.cpp'; codeDisplay.textContent = codeSearchBinary; searchContainer.classList.remove('hidden'); searchActions.classList.remove('hidden'); }
+        else if (currentMode === 'search-linear') { codeTitle.textContent = 'search_linear.cpp'; codeDisplay.textContent = codeSearchLinear; }
+        else if (currentMode === 'search-binary') { codeTitle.textContent = 'search_binary.cpp'; codeDisplay.textContent = codeSearchBinary; }
         else if (currentMode === 'search-kmp') {
             codeTitle.textContent = 'search_kmp.cpp';
             codeDisplay.textContent = codeSearchKMP;
@@ -1868,14 +1868,8 @@ document.addEventListener('DOMContentLoaded', () => {
             codeTitle.textContent = 'search_aho.cpp';
             codeDisplay.textContent = codeSearchAho;
         }
-        else if (currentMode === 'search-fibonacci') {
-            codeTitle.textContent = 'search_fibonacci.cpp';
-            codeDisplay.textContent = codeSearchFibonacci;
-        }
-        else if (currentMode === 'search-interpolation') {
-            codeTitle.textContent = 'search_interpolation.cpp';
-            codeDisplay.textContent = codeSearchInterpolation;
-        }
+        else if (currentMode === 'search-fibonacci') { codeTitle.textContent = 'search_fibonacci.cpp'; codeDisplay.textContent = codeSearchFibonacci; }
+        else if (currentMode === 'search-interpolation') { codeTitle.textContent = 'search_interpolation.cpp'; codeDisplay.textContent = codeSearchInterpolation; }
         else if (currentMode === 'list-array') { codeTitle.textContent = 'list_array.cpp'; codeDisplay.textContent = codeListArray; listArrContainer.classList.remove('hidden'); listActions.classList.remove('hidden'); }
         else if (currentMode === 'list-linked') { codeTitle.textContent = 'list_linked.cpp'; codeDisplay.textContent = codeListLinked; listLLContainer.classList.remove('hidden'); listActions.classList.remove('hidden'); }
         else if (currentMode === 'deque') {
