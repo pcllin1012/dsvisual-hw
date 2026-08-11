@@ -285,6 +285,16 @@
         const target = rng() < 0.6 ? data[Math.floor(rng() * data.length)] : randInt(rng, 1, 99);
         return { data, target };
       }
+      case 'strsearch': {
+        const alpha = 'ABCD';
+        const L = difficulty === 'large' ? randInt(rng, 22, 28) : randInt(rng, 14, 20);
+        let text = '';
+        for (let i = 0; i < L; i++) text += alpha[Math.floor(rng() * alpha.length)];
+        let pattern;
+        if (rng() < 0.7 && L > 6) { const start = Math.floor(rng() * (L - 4)); pattern = text.substr(start, randInt(rng, 3, 5)); }
+        else { const pl = randInt(rng, 3, 5); pattern = ''; for (let i = 0; i < pl; i++) pattern += alpha[Math.floor(rng() * alpha.length)]; }
+        return { text, pattern };
+      }
       case 'sort': return { data: valSeq(rng, difficulty) };
       case 'sort-external': return { data: valSeq(rng, difficulty), M: 4 };
       case 'huffman': return { text: huffmanText(rng, difficulty) };
