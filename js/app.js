@@ -161,11 +161,11 @@ const METHOD_GROUPS = [
             { id: 'sort-quick', title: 'Quick Sort', file: 'sort_quick.cpp', visualizer: 'sort', controls: 'sort', codeDrawer: true },
             { id: 'sort-merge', title: 'Merge Sort', file: 'sort_merge.cpp', visualizer: 'sort', controls: 'sort', codeDrawer: true },
             { id: 'sort-shell', title: 'Shell Sort', file: 'sort_shell.cpp', visualizer: 'sort', controls: 'sort', codeDrawer: true },
-            { id: 'sort-bucket', title: 'Bucket Sort', file: 'sort_bucket.cpp', visualizer: 'sort', controls: 'sort' },
-            { id: 'sort-count', title: 'Counting Sort', file: 'sort_counting.cpp', visualizer: 'sort', controls: 'sort' },
-            { id: 'sort-radix', title: 'Radix Sort', file: 'sort_radix.cpp', visualizer: 'sort', controls: 'sort' },
+            { id: 'sort-bucket', title: 'Bucket Sort', file: 'sort_bucket.cpp', visualizer: 'sort', controls: 'sort', codeDrawer: true },
+            { id: 'sort-count', title: 'Counting Sort', file: 'sort_counting.cpp', visualizer: 'sort', controls: 'sort', codeDrawer: true },
+            { id: 'sort-radix', title: 'Radix Sort', file: 'sort_radix.cpp', visualizer: 'sort', controls: 'sort', codeDrawer: true },
             { id: 'sort-heap', title: 'Heap Sort', file: 'sort_heap.cpp', visualizer: 'sort', controls: 'sort', codeDrawer: true },
-            { id: 'sort-shaker', title: 'Shaker Sort', file: 'sort_shaker.cpp', visualizer: 'sort', controls: 'sort' },
+            { id: 'sort-shaker', title: 'Shaker Sort', file: 'sort_shaker.cpp', visualizer: 'sort', controls: 'sort', codeDrawer: true },
             { id: 'sort-external', title: 'External Merge Sort', file: 'sort_external.cpp', visualizer: 'extsort', controls: 'extsort' },
             { id: 'sort-polyphase', title: 'Polyphase Merge (Tapes)', file: 'sort_polyphase.cpp', visualizer: 'polyphase', controls: 'polyphase' },
         ],
@@ -1372,12 +1372,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const queueContainer = document.getElementById('queue-container'); const graphContainer = document.getElementById('graph-container');
     const treeContainer = document.getElementById('tree-container'); const searchContainer = document.getElementById('search-container');
     const listArrContainer = document.getElementById('list-arr-container'); const listLLContainer = document.getElementById('list-ll-container');
-    const sortContainer = document.getElementById('sort-container');
-    
+
     // Action Bars
     const stdActions = document.getElementById('std-actions'); const graphActions = document.getElementById('graph-actions');
     const treeActions = document.getElementById('tree-actions'); const searchActions = document.getElementById('search-actions');
-    const listActions = document.getElementById('list-actions'); const sortActions = document.getElementById('sort-actions');
+    const listActions = document.getElementById('list-actions');
     const heapActions = document.getElementById('heap-actions');
 
     const statusMsg = document.getElementById('status-message');
@@ -1394,10 +1393,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btnSearchGo = document.getElementById('btn-search-go'); const btnSearchPause = document.getElementById('btn-search-pause'); const btnSearchStop = document.getElementById('btn-search-stop'); const searchVal = document.getElementById('search-val');
     const btnSearchRandom = document.getElementById('btn-search-random');
-
-    const btnSortRandom = document.getElementById('btn-sort-random'); const btnSortStart = document.getElementById('btn-sort-start');
-    const btnSortPause = document.getElementById('btn-sort-pause'); const btnSortStop = document.getElementById('btn-sort-stop');
-    const sortSpeedInput = document.getElementById('sort-speed');
 
     const heapContainer = document.getElementById('heap-container');
     const heapEdges = document.getElementById('heap-edges');
@@ -1613,12 +1608,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------- LOGIC & RENDER OMITTED -----------
     // (Search, Sort layout bindings omitted for strictness matching original JS...)
     function handlePauseClick() { if (animState === 'playing') { animState = 'paused'; setAnimControls(true); showStatus('Paused', '#fbbf24'); } else if (animState === 'paused') { animState = 'playing'; setAnimControls(true); showStatus('Resumed', '#34d399'); } }
-    btnSearchPause.addEventListener('click', handlePauseClick); btnSortPause.addEventListener('click', handlePauseClick);
+    btnSearchPause.addEventListener('click', handlePauseClick);
     function handleStopClick() { if(animState === 'playing' || animState === 'paused') { animState = 'stopped'; setTimeout(() => { animState = 'idle'; setAnimControls(false); if(currentMode.includes('sort')) { const b = window.VizRegistry && window.VizRegistry.behavior(currentMode); if (b && b.render) b.render(); } else if (currentMode.includes('search')) { const b = window.VizRegistry && window.VizRegistry.behavior(currentMode); if (b && b.render) b.render(); } else if (currentMode.includes('heap-')) { const b = window.VizRegistry && window.VizRegistry.behavior(currentMode); if (b && b.render) b.render(); } showStatus('Stopped & Reset.', '#f87171'); }, 100); } }
-    btnSearchStop.addEventListener('click', handleStopClick); btnSortStop.addEventListener('click', handleStopClick);
+    btnSearchStop.addEventListener('click', handleStopClick);
     function setAnimControls(isPlaying) {
         if(currentMode.includes('search')) { btnSearchGo.disabled = isPlaying; btnSearchPause.disabled = !isPlaying; btnSearchStop.disabled = !isPlaying; btnSearchPause.textContent = animState === 'paused' ? t('btn.resume') : t('btn.pause'); }
-        else if (currentMode.includes('sort')) { btnSortStart.disabled = isPlaying; btnSortRandom.disabled = isPlaying; btnSortPause.disabled = !isPlaying; btnSortStop.disabled = !isPlaying; btnSortPause.textContent = animState === 'paused' ? t('btn.resume') : t('btn.pause'); }
         else if (currentMode.includes('heap-')) {
             btnHeapInsert.disabled = isPlaying;
             btnHeapPeek.disabled = isPlaying;
@@ -1657,10 +1651,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showStatus(msg, color) { statusMsg.textContent = msg; statusMsg.style.color = color; }
-    function getDelay() { return 610 - parseInt(sortSpeedInput.value); } 
+    function getDelay() { return 510; }
     function updateLayout() {
-        const containers = [arrayContainer, linkedListContainer, queueContainer, graphContainer, treeContainer, advTreeContainer, searchContainer, listArrContainer, listLLContainer, sortContainer, hashChContainer, hashOaContainer, hashBucketContainer, heapContainer, oopContainer, patternContainer];
-        const actions = [stdActions, graphActions, treeActions, textTreeActions, searchActions, listActions, sortActions, hashActions, heapActions, oopActions, patternActions];
+        const containers = [arrayContainer, linkedListContainer, queueContainer, graphContainer, treeContainer, advTreeContainer, searchContainer, listArrContainer, listLLContainer, hashChContainer, hashOaContainer, hashBucketContainer, heapContainer, oopContainer, patternContainer];
+        const actions = [stdActions, graphActions, treeActions, textTreeActions, searchActions, listActions, hashActions, heapActions, oopActions, patternActions];
         containers.forEach(c => c.classList.add('hidden')); actions.forEach(a => a.classList.add('hidden'));
         const dynHost = document.getElementById('dynamic-viz-host');
         if (dynHost) dynHost.classList.add('hidden');
@@ -1913,13 +1907,10 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (currentMode === 'sort-merge') { codeTitle.textContent = 'sort_merge.cpp'; codeDisplay.textContent = codeSortMerge; }
         else if (currentMode === 'sort-shell') { codeTitle.textContent = 'sort_shell.cpp'; codeDisplay.textContent = codeSortShell; }
         else if (currentMode === 'sort-heap') { codeTitle.textContent = 'sort_heap.cpp'; codeDisplay.textContent = codeSortHeap; }
-        else if (currentMode.includes('sort-')) {
-            sortContainer.classList.remove('hidden'); sortActions.classList.remove('hidden');
-            if(currentMode === 'sort-bucket') { codeTitle.textContent = 'sort_bucket.cpp'; codeDisplay.textContent = codeSortBucket; }
-            else if(currentMode === 'sort-count') { codeTitle.textContent = 'sort_counting.cpp'; codeDisplay.textContent = codeSortCounting; }
-            else if(currentMode === 'sort-radix') { codeTitle.textContent = 'sort_radix.cpp'; codeDisplay.textContent = codeSortRadix; }
-            else if(currentMode === 'sort-shaker') { codeTitle.textContent = 'sort_shaker.cpp'; codeDisplay.textContent = codeSortShaker; }
-        }
+        else if (currentMode === 'sort-bucket') { codeTitle.textContent = 'sort_bucket.cpp'; codeDisplay.textContent = codeSortBucket; }
+        else if (currentMode === 'sort-count') { codeTitle.textContent = 'sort_counting.cpp'; codeDisplay.textContent = codeSortCounting; }
+        else if (currentMode === 'sort-radix') { codeTitle.textContent = 'sort_radix.cpp'; codeDisplay.textContent = codeSortRadix; }
+        else if (currentMode === 'sort-shaker') { codeTitle.textContent = 'sort_shaker.cpp'; codeDisplay.textContent = codeSortShaker; }
         else if (currentMode.includes('heap-')) {
             heapContainer.classList.remove('hidden');
             heapActions.classList.remove('hidden');

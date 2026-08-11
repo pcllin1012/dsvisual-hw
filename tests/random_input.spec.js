@@ -84,19 +84,22 @@ test('random button on old binary search updates target + array', async ({ page 
   await expect(page.locator('#search-array .s-slot').first()).toBeVisible();
 });
 
-test('Randomize on sort visualizer honors large difficulty (>15 bars)', async ({ page }) => {
+test('Randomize (🎲) on sort observatory honors large difficulty (>15 bars)', async ({ page }) => {
   await page.goto(fileUri);
-  // sort-radix stays on the legacy static #sort-container/#sort-actions bar
-  // (sort-bubble/select/insert/quick/merge/shell/heap were converted to the dynamic renderSort host).
+  // All sorts now use the dynamic renderSort host: a .sortviz-stage of .sort-bar
+  // elements plus a 🎲 .rand-btn that pulls a fresh RandomInput array.
   await loadMethod(page, 'sort-radix');
 
   await openSettings(page);
   await page.locator('#input-difficulty').selectOption('large');
   await page.click('#settings-drawer .settings-drawer-close');
 
-  await page.click('#btn-sort-random');
-
-  const bars = page.locator('#sort-container .sort-bar');
+  const card = page.locator('[data-method-section="sort-radix"]');
+  const bars = card.locator('.sortviz-stage .sort-bar');
+  // Default input renders a small array; large difficulty randomizes to 18-24 values
+  // (parseArr caps at 20), so the 🎲 re-render must yield well over 15 bars.
+  await expect.poll(async () => await bars.count()).toBeGreaterThan(1);
+  await card.locator('.rand-btn').click();
   await expect.poll(async () => await bars.count()).toBeGreaterThan(15);
 });
 

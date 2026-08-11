@@ -10,6 +10,10 @@ const SORTS = [
   ['sort-merge', 'sort_merge.cpp'],
   ['sort-shell', 'sort_shell.cpp'],
   ['sort-heap', 'sort_heap.cpp'],
+  ['sort-bucket', 'sort_bucket.cpp'],
+  ['sort-count', 'sort_counting.cpp'],
+  ['sort-radix', 'sort_radix.cpp'],
+  ['sort-shaker', 'sort_shaker.cpp'],
 ];
 
 test.describe('Sort viz observatory (batch 1)', () => {
@@ -49,10 +53,16 @@ test.describe('Sort viz observatory (batch 1)', () => {
     });
   }
 
-  test('legacy sorts still work: sort-radix shows the legacy container', async ({ page }) => {
-    await loadMethod(page, 'sort-radix');
-    // unconverted → legacy static container still used
-    await expect(page.locator('#sort-container')).toBeVisible();
+  test('sort-bubble: bars enlarge in fullscreen', async ({ page }) => {
+    await loadMethod(page, 'sort-bubble');
+    const card = page.locator('[data-method-section="sort-bubble"]');
+    const tallest = () => card.locator('.sortviz-stage .sort-bar').evaluateAll((els) => Math.max(...els.map((e) => e.getBoundingClientRect().height)));
+    const before = await tallest();
+    await card.locator('[data-testid="viz-focus-toggle"]').click();
+    await expect(page.locator('body.viz-focus')).toHaveCount(1);
+    await page.waitForTimeout(150);
+    const after = await tallest();
+    expect(after).toBeGreaterThan(before * 1.3); // bars grew to fill the fullscreen stage
   });
 
   test('sort-bubble: custom numeric input still builds bars correctly (escaping does not break normal use)', async ({ page }) => {

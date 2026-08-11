@@ -182,7 +182,96 @@
     return frames;
   }
 
-  var api = { bubbleFrames: bubbleFrames, selectionFrames: selectionFrames, insertionFrames: insertionFrames, quickFrames: quickFrames, mergeFrames: mergeFrames, shellFrames: shellFrames, heapFrames: heapFrames, SORT_DEFAULT: SORT_DEFAULT };
+  function shakerFrames(input) {
+    var a = input.slice(), n = a.length, frames = [], sorted = {};
+    function snap(cur, msg) { frames.push({ array: a.slice(), hi: hiOf(sorted, cur), message: msg }); }
+    snap({}, { zh: '起始陣列', en: 'Initial array' });
+    var left = 0, right = n - 1;
+    while (left < right) {
+      var swapped = false;
+      for (var i = left; i < right; i++) {
+        var c = {}; c[i] = 'comparing'; c[i + 1] = 'comparing';
+        snap(c, { zh: '向右:比較 a[' + i + '] 與 a[' + (i + 1) + ']', en: 'Forward: compare a[' + i + '] and a[' + (i + 1) + ']' });
+        if (a[i] > a[i + 1]) { var t = a[i]; a[i] = a[i + 1]; a[i + 1] = t; var s = {}; s[i] = 'swapping'; s[i + 1] = 'swapping'; snap(s, { zh: '交換', en: 'Swap' }); swapped = true; }
+      }
+      sorted[right] = 'sorted'; right--;
+      if (!swapped) break;
+      swapped = false;
+      for (var j = right; j > left; j--) {
+        var c2 = {}; c2[j - 1] = 'comparing'; c2[j] = 'comparing';
+        snap(c2, { zh: '向左:比較 a[' + (j - 1) + '] 與 a[' + j + ']', en: 'Backward: compare a[' + (j - 1) + '] and a[' + j + ']' });
+        if (a[j - 1] > a[j]) { var t2 = a[j - 1]; a[j - 1] = a[j]; a[j] = t2; var s2 = {}; s2[j - 1] = 'swapping'; s2[j] = 'swapping'; snap(s2, { zh: '交換', en: 'Swap' }); swapped = true; }
+      }
+      sorted[left] = 'sorted'; left++;
+      if (!swapped) break;
+    }
+    for (var m = left; m <= right; m++) sorted[m] = 'sorted';
+    var all = {}; for (var k = 0; k < n; k++) all[k] = 'sorted';
+    frames.push({ array: a.slice(), hi: all, message: { zh: '排序完成', en: 'Sorted' } });
+    return frames;
+  }
+
+  function countingFrames(input) {
+    var a = input.slice(), n = a.length, frames = [], sorted = {};
+    function snap(cur, msg) { frames.push({ array: a.slice(), hi: hiOf(sorted, cur), message: msg }); }
+    snap({}, { zh: '起始陣列', en: 'Initial array' });
+    if (n === 0) return frames;
+    var min = Math.min.apply(null, a), max = Math.max.apply(null, a);
+    var count = new Array(max - min + 1).fill(0);
+    for (var i = 0; i < n; i++) { var c = {}; c[i] = 'active'; snap(c, { zh: '計數:count[' + a[i] + ']++', en: 'Count: count[' + a[i] + ']++' }); count[a[i] - min]++; }
+    snap({}, { zh: '累積前綴和(定位位址)', en: 'Accumulate prefix sums (addresses)' });
+    for (var p = 1; p < count.length; p++) count[p] += count[p - 1];
+    var output = new Array(n).fill(0);
+    for (var q = n - 1; q >= 0; q--) { output[count[a[q] - min] - 1] = a[q]; count[a[q] - min]--; }
+    for (var w = 0; w < n; w++) { a[w] = output[w]; sorted[w] = 'sorted'; snap({}, { zh: '放置 ' + a[w] + ' 到位置 ' + w, en: 'Place ' + a[w] + ' at position ' + w }); }
+    var all = {}; for (var k = 0; k < n; k++) all[k] = 'sorted';
+    frames.push({ array: a.slice(), hi: all, message: { zh: '排序完成', en: 'Sorted' } });
+    return frames;
+  }
+
+  function radixFrames(input) {
+    var a = input.slice(), n = a.length, frames = [];
+    function snap(cur, msg) { frames.push({ array: a.slice(), hi: cur || {}, message: msg }); }
+    snap({}, { zh: '起始陣列', en: 'Initial array' });
+    if (n === 0) return frames;
+    var max = Math.max.apply(null, a);
+    for (var exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+      snap({}, { zh: '位數 pass(exp=' + exp + '):依 (v/' + exp + ')%10 分配', en: 'Digit pass (exp=' + exp + '): distribute by (v/' + exp + ')%10' });
+      var output = new Array(n).fill(0), count = new Array(10).fill(0);
+      for (var i = 0; i < n; i++) count[Math.floor(a[i] / exp) % 10]++;
+      for (var d = 1; d < 10; d++) count[d] += count[d - 1];
+      for (var q = n - 1; q >= 0; q--) { var dg = Math.floor(a[q] / exp) % 10; output[count[dg] - 1] = a[q]; count[dg]--; }
+      for (var w = 0; w < n; w++) { a[w] = output[w]; var c = {}; c[w] = 'active'; snap(c, { zh: 'exp=' + exp + ':放置 ' + a[w] + ' 到位置 ' + w, en: 'exp=' + exp + ': place ' + a[w] + ' at ' + w }); }
+    }
+    var all = {}; for (var k = 0; k < n; k++) all[k] = 'sorted';
+    frames.push({ array: a.slice(), hi: all, message: { zh: '排序完成', en: 'Sorted' } });
+    return frames;
+  }
+
+  function bucketFrames(input) {
+    var a = input.slice(), n = a.length, frames = [], sorted = {};
+    function snap(cur, msg) { frames.push({ array: a.slice(), hi: hiOf(sorted, cur), message: msg }); }
+    snap({}, { zh: '起始陣列', en: 'Initial array' });
+    if (n === 0) return frames;
+    var max = Math.max.apply(null, a) || 1, NB = 5;
+    for (var i = 0; i < n; i++) { var b = Math.min(NB - 1, Math.floor((a[i] / max) * NB)); var c = {}; c[i] = 'active'; snap(c, { zh: '分配 a[' + i + ']=' + a[i] + ' → 桶 ' + b, en: 'Distribute a[' + i + ']=' + a[i] + ' → bucket ' + b }); }
+    for (var x = 1; x < n; x++) {
+      var j = x;
+      while (j > 0 && a[j - 1] > a[j]) {
+        var cc = {}; cc[j - 1] = 'comparing'; cc[j] = 'comparing';
+        snap(cc, { zh: '桶內排序:比較 a[' + (j - 1) + '] 與 a[' + j + ']', en: 'Sort within buckets: compare a[' + (j - 1) + '] and a[' + j + ']' });
+        var t = a[j]; a[j] = a[j - 1]; a[j - 1] = t;
+        var ss = {}; ss[j - 1] = 'swapping'; ss[j] = 'swapping';
+        snap(ss, { zh: '交換', en: 'Swap' });
+        j--;
+      }
+    }
+    var all = {}; for (var k = 0; k < n; k++) all[k] = 'sorted';
+    frames.push({ array: a.slice(), hi: all, message: { zh: '排序完成', en: 'Sorted' } });
+    return frames;
+  }
+
+  var api = { bubbleFrames: bubbleFrames, selectionFrames: selectionFrames, insertionFrames: insertionFrames, quickFrames: quickFrames, mergeFrames: mergeFrames, shellFrames: shellFrames, heapFrames: heapFrames, bucketFrames: bucketFrames, countingFrames: countingFrames, radixFrames: radixFrames, shakerFrames: shakerFrames, SORT_DEFAULT: SORT_DEFAULT };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.SortFrames = api;
 })(typeof window !== 'undefined' ? window : globalThis);
