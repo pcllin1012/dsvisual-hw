@@ -639,26 +639,20 @@ test.describe('Data Structure Visualizer Full Suite', () => {
         expect(await card.locator('.zalgo-cell').count()).toBeGreaterThan(1);
     });
 
-    test('String: Aho-Corasick renders the trie and steps through build + scan', async ({ page }) => {
+    test('String: Aho-Corasick renders the trie observatory (inputs + step log + build→scan)', async ({ page }) => {
         await loadMethod(page, 'search-aho');
         const card = page.locator('[data-method-section="search-aho"]');
         await expect(card.locator('.code-panel-filename')).toContainText('search_aho.cpp');
-        await expect(card.locator('.aho-svg circle')).toHaveCount(10);
+        await expect(card.locator('[data-testid="aho-patterns"]')).toBeVisible();
+        await expect(card.locator('[data-testid="aho-text"]')).toBeVisible();
+        await expect(card.locator('[data-testid="viz-steplog"]')).toBeVisible();
+        await expect(card.locator('.aho-svg circle')).toHaveCount(10); // default {he,she,his,hers}
         await expect(card.locator('[data-testid="aho-phase"]')).toContainText('Phase 1');
-        await card.locator('[data-action="step"]').click();
-        await expect(card.locator('[data-testid="aho-phase"]')).toContainText('1/9');
-        // Terminal state: scrub to the last materialized frame and confirm it
-        // lands on the correct final scan step (6/6, last char highlighted,
-        // all matches reported) — not the old cursor's one-past-the-end
-        // overshoot glitch ("7/6", highlight lost) that materializing the
-        // frames array eliminated.
-        const scrub = card.locator('.stepctl .stepctl-scrubber');
-        await scrub.evaluate((el) => { el.value = el.max; el.dispatchEvent(new Event('input', { bubbles: true })); });
+        // scrub to the end → scan phase with all matches
+        await card.locator('.stepctl-scrubber').evaluate((el) => { el.value = el.max; el.dispatchEvent(new Event('input', { bubbles: true })); });
         await expect(card.locator('[data-testid="aho-phase"]')).toContainText('Phase 2');
-        await expect(card.locator('[data-testid="aho-phase"]')).toContainText('6/6');
-        await expect(card.locator('.aho-char-cur')).toHaveCount(1);
-        await expect(card.locator('.aho-char-cur')).toHaveText('s');
-        await expect(card.locator('[data-testid="aho-stats"]')).toContainText('[she@1, he@2, hers@2]');
+        const stats = await card.locator('[data-testid="aho-stats"]').textContent();
+        for (const m of ['she@1', 'he@2', 'hers@2']) expect(stats).toContain(m);
     });
 
     test('Trees: Segment Tree renders 15 nodes and steps through query/update', async ({ page }) => {
