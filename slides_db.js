@@ -11713,6 +11713,250 @@ const SLIDES_DB = {
       }
     ]
   },
+  "cache-lru": {
+    "category": "Hash & Probabilistic",
+    "title": {
+      "zh": "LRU 快取",
+      "en": "LRU Cache"
+    },
+    "slides": [
+      {
+        "heading": {
+          "zh": "LRU 快取",
+          "en": "LRU Cache"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "LRU(Least Recently Used)快取在容量上限內保留最近使用的項目;以雜湊表搭配雙向連結串列,讓 get 與 put 都是 $O(1)$,並在滿載時淘汰最久未使用的項目。",
+              "en": "An LRU (Least Recently Used) cache keeps the most-recently-used items within a capacity limit; a hash map paired with a doubly linked list makes both get and put $O(1)$, evicting the least-recently-used entry when full."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "核心概念",
+          "en": "Core Concept"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "text": {
+              "zh": "雙向連結串列維護使用順序:表頭是最近使用(MRU),表尾是最久未使用(LRU);雜湊表把每個鍵直接對應到串列節點,免去線性搜尋。",
+              "en": "A doubly linked list keeps the usage order: the head is most-recently-used (MRU), the tail is least-recently-used (LRU); a hash map maps each key straight to its list node, avoiding any linear scan."
+            }
+          },
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "每次存取(命中或新增)都把該節點移到表頭。",
+                "en": "Every access (hit or insert) moves that node to the head."
+              },
+              {
+                "zh": "容量滿時淘汰表尾節點,並從雜湊表移除其鍵。",
+                "en": "When full, evict the tail node and remove its key from the map."
+              },
+              {
+                "zh": "雙向串列讓「移到表頭」與「移除任一節點」都是 $O(1)$。",
+                "en": "The doubly linked list makes 'move to head' and 'unlink any node' both $O(1)$."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "運作流程",
+          "en": "Operation Flow"
+        },
+        "blocks": [
+          {
+            "type": "steps",
+            "items": [
+              {
+                "zh": "get(key):命中則回傳值並把節點移到表頭;未命中回傳 -1。",
+                "en": "get(key): on a hit, return the value and move the node to the head; on a miss, return -1."
+              },
+              {
+                "zh": "put(key, val):鍵已存在則更新值並移到表頭。",
+                "en": "put(key, val): if the key exists, update the value and move it to the head."
+              },
+              {
+                "zh": "put 新鍵:若已滿先淘汰表尾,再把新節點插入表頭。",
+                "en": "put for a new key: if full, evict the tail first, then insert the new node at the head."
+              }
+            ]
+          },
+          {
+            "type": "mermaid",
+            "code": "flowchart LR\n  A[\"put(key, val)\"] --> B{\"key in map?\"}\n  B -->|yes| C[\"update value; move to front (MRU)\"]\n  B -->|no| D{\"size == capacity?\"}\n  D -->|yes| E[\"evict tail (LRU)\"]\n  D -->|no| F[\"insert at front (MRU)\"]\n  E --> F"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "示意圖",
+          "en": "Layout"
+        },
+        "blocks": [
+          {
+            "type": "svg",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 380 150\" width=\"380\"><g font-family=\"monospace\" font-size=\"11\"><text x=\"6\" y=\"26\">hash map</text><rect x=\"70\" y=\"14\" width=\"250\" height=\"20\" fill=\"#f1f5f9\" stroke=\"#94a3b8\"/><text x=\"80\" y=\"28\">key &#8594; node pointer</text><g fill=\"#dbeafe\" stroke=\"#3b82f6\"><rect x=\"70\" y=\"70\" width=\"66\" height=\"40\"/><rect x=\"162\" y=\"70\" width=\"66\" height=\"40\"/><rect x=\"254\" y=\"70\" width=\"66\" height=\"40\"/></g><g fill=\"#1e3a8a\" text-anchor=\"middle\" font-weight=\"700\"><text x=\"103\" y=\"95\">1</text><text x=\"195\" y=\"95\">2</text><text x=\"287\" y=\"95\">4</text></g><g stroke=\"#334155\"><line x1=\"136\" y1=\"90\" x2=\"162\" y2=\"90\"/><line x1=\"228\" y1=\"90\" x2=\"254\" y2=\"90\"/></g><text x=\"103\" y=\"132\" text-anchor=\"middle\">MRU (head)</text><text x=\"287\" y=\"132\" text-anchor=\"middle\">LRU (tail)</text></g></svg>"
+          },
+          {
+            "type": "note",
+            "text": {
+              "zh": "visualizer 以容量 3、存取序列 1,2,3,1,4,5,1 逐步呈現:命中節點反白,未命中則新增,滿載時 🗑 淘汰表尾,並顯示 hits · misses · cap。",
+              "en": "The visualizer steps through capacity 3 with access sequence 1,2,3,1,4,5,1: a hit highlights the node, a miss inserts, a full cache evicts the tail (🗑), and it shows hits · misses · cap."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "複雜度分析",
+          "en": "Complexity Analysis"
+        },
+        "blocks": [
+          {
+            "type": "table",
+            "headers": [
+              {
+                "zh": "操作",
+                "en": "Operation"
+              },
+              {
+                "zh": "時間",
+                "en": "Time"
+              },
+              {
+                "zh": "空間",
+                "en": "Space"
+              }
+            ],
+            "rows": [
+              [
+                {
+                  "zh": "get",
+                  "en": "get"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                },
+                {
+                  "zh": "$O(n)$",
+                  "en": "$O(n)$"
+                }
+              ],
+              [
+                {
+                  "zh": "put",
+                  "en": "put"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                },
+                {
+                  "zh": "$O(n)$",
+                  "en": "$O(n)$"
+                }
+              ],
+              [
+                {
+                  "zh": "淘汰",
+                  "en": "evict"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                },
+                {
+                  "zh": "$O(1)$",
+                  "en": "$O(1)$"
+                }
+              ]
+            ]
+          },
+          {
+            "type": "math",
+            "tex": "T_{get}(n) = T_{put}(n) = O(1)",
+            "caption": {
+              "zh": "雜湊表定位加上雙向串列的常數時間指標操作。",
+              "en": "A hash-map lookup plus constant-time pointer surgery on the doubly linked list."
+            }
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "程式碼",
+          "en": "Source Code"
+        },
+        "blocks": [
+          {
+            "type": "code",
+            "lang": "cpp",
+            "code": "int get(int key) {\n    auto it = index.find(key);\n    if (it == index.end()) return -1;\n    items.splice(items.begin(), items, it->second);  // move to MRU\n    return it->second->second;\n}\n\nvoid put(int key, int val) {\n    auto it = index.find(key);\n    if (it != index.end()) {                 // hit: update + promote\n        it->second->second = val;\n        items.splice(items.begin(), items, it->second);\n        return;\n    }\n    if (items.size() == cap) {               // full: evict LRU (tail)\n        index.erase(items.back().first);\n        items.pop_back();\n    }\n    items.push_front({key, val});            // insert as MRU (head)\n    index[key] = items.begin();\n}"
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "優缺點與使用時機",
+          "en": "Pros, Cons & When to Use"
+        },
+        "blocks": [
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "優點:get/put 皆 $O(1)$,實作直觀,淘汰策略貼合時間區域性。",
+                "en": "Pro: O(1) get/put, straightforward to implement, and eviction matches temporal locality."
+              },
+              {
+                "zh": "缺點:每項需雜湊表項 + 串列節點的額外記憶體;掃描型存取容易顛簸。",
+                "en": "Con: extra memory per item (map entry + list node); scan-heavy access patterns can thrash it."
+              },
+              {
+                "zh": "適用:資料庫/頁面快取、CPU 快取近似、需固定容量且偏好近期資料的場景。",
+                "en": "Use for DB/page caches, CPU-cache approximations, and fixed-capacity scenarios that favor recent data."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "heading": {
+          "zh": "小結",
+          "en": "Summary"
+        },
+        "blocks": [
+          {
+            "type": "bullets",
+            "items": [
+              {
+                "zh": "雜湊表 + 雙向連結串列 = $O(1)$ 的 get 與 put。",
+                "en": "Hash map + doubly linked list = O(1) get and put."
+              },
+              {
+                "zh": "表頭為 MRU、表尾為 LRU;每次存取都移到表頭。",
+                "en": "Head = MRU, tail = LRU; every access moves the node to the head."
+              },
+              {
+                "zh": "容量滿時淘汰表尾(最久未使用)。",
+                "en": "When full, evict the tail (least recently used)."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "skip-list": {
     "category": "Hash & Probabilistic",
     "title": {
