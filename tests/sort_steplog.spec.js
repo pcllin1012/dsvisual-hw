@@ -76,6 +76,28 @@ test.describe('Sort viz observatory (batch 1)', () => {
     await expect(bars).toHaveCount(3);
   });
 
+  test('sort-bubble: a saved example round-trips (no [object Object]) and restores on select', async ({ page }) => {
+    await loadMethod(page, 'sort-bubble');
+    const card = page.locator('[data-method-section="sort-bubble"]');
+    const input = card.locator('[data-testid="sortviz-input"]');
+    // Build a custom input — this saves it as an example and re-renders the dropdown.
+    await input.fill('8,6,7,5,3,0,9');
+    await card.locator('.sortviz-build').click();
+
+    const exSelect = card.locator('.ex-select');
+    // The saved example must appear as its real text, never "[object Object]".
+    await expect(exSelect.locator('option', { hasText: '[object Object]' })).toHaveCount(0);
+    const saved = exSelect.locator('option[value="8,6,7,5,3,0,9"]');
+    await expect(saved).toHaveCount(1);
+    await expect(saved).toHaveText('8,6,7,5,3,0,9');
+
+    // Change the input, then pick the saved example → it must restore the real value.
+    await input.fill('1,2,3');
+    await card.locator('.sortviz-build').click();
+    await card.locator('.ex-select').selectOption('8,6,7,5,3,0,9');
+    await expect(card.locator('[data-testid="sortviz-input"]')).toHaveValue('8,6,7,5,3,0,9');
+  });
+
   test('sort-bubble: fullscreen keeps VCR transport in-viewport and step log scrollable', async ({ page }) => {
     await loadMethod(page, 'sort-bubble');
     const card = page.locator('[data-method-section="sort-bubble"]');
