@@ -102,3 +102,61 @@ test.describe('tree-avl (English)', () => {
         await expect(sec.locator('[data-testid="avlviz-log"] .op-h').first()).toContainText('Insert');
     });
 });
+
+// Deep interactive coverage: verify the tree is structurally rebalanced (which
+// key ends up at the root), not merely that a rotation was logged, and that the
+// real ▶ play timer advances the transport to the end on its own.
+test.describe('tree-avl (interactive: rebalance + playback)', () => {
+    test.beforeEach(async ({ page }) => {
+        await page.addInitScript(() => { try { localStorage.setItem('dsvisual-lang', 'en'); } catch (e) {} });
+        await page.goto('file://' + path.resolve(__dirname, '../index.html'));
+        await loadMethod(page, 'tree-avl');
+    });
+
+    // read rendered nodes as {key, cy} — the root is the topmost (smallest cy).
+    async function nodes(sec) {
+        return await sec.locator('[data-testid="avlviz-stage"] .nd').evaluateAll((els) =>
+            els.map((e) => { const r = e.getBoundingClientRect(); return { key: e.dataset.key, cy: r.y + r.height / 2 }; }));
+    }
+
+    test('inserting 10,20,30 left-rotates so 20 becomes the root', async ({ page }) => {
+        const sec = page.locator('[data-method-section="tree-avl"]');
+        const input = sec.locator('[data-testid="avlviz-input"]');
+        const stageNodes = sec.locator('[data-testid="avlviz-stage"] .nd');
+        // insert one at a time, waiting for each op to register before the next
+        for (let i = 0; i < 3; i++) {
+            await input.fill(['10', '20', '30'][i]);
+            await sec.locator('[data-testid="avlviz-insert"]').click();
+            await expect(stageNodes).toHaveCount(i + 1, { timeout: 15000 });
+        }
+        const slider = sec.locator('[data-testid="avlviz-transport"] input[type=range]');
+        // Drive to the final frame and read the root; poll so we land on the
+        // settled post-rotation frame rather than a mid-rotation one (and so a
+        // still-updating slider max can't leave us parked before the rotation).
+        await expect.poll(async () => {
+            await slider.evaluate((el) => { el.value = el.max; el.dispatchEvent(new Event('input', { bubbles: true })); });
+            const ns = await nodes(sec);
+            if (ns.length !== 3) return null;
+            return ns.reduce((a, b) => (b.cy < a.cy ? b : a)).key;
+        }, { timeout: 15000 }).toBe('20'); // AVL rebalanced (RR case → single left rotation)
+
+        const ns = await nodes(sec);
+        expect(ns.map((n) => n.key).sort()).toEqual(['10', '20', '30']);
+        await expect(sec.locator('[data-testid="avlviz-log"] .dot.k-rotate').first()).toBeAttached();
+    });
+
+    test('pressing ▶ plays a scenario through to the final step', async ({ page }) => {
+        const sec = page.locator('[data-method-section="tree-avl"]');
+        await sec.locator('.avlviz-preset[data-preset="lr"]').click();
+        const slider = sec.locator('[data-testid="avlviz-transport"] input[type=range]');
+        const max = parseInt(await slider.getAttribute('max'), 10);
+        expect(max).toBeGreaterThan(0);
+        const play = sec.locator('[data-testid="avlviz-transport"] .tbtn.play');
+        await expect(play).toHaveText('▶');
+        await play.click(); // start the auto-advance timer
+        // the timer should carry the cursor all the way to the last step on its own
+        await expect.poll(async () => parseInt(await slider.inputValue(), 10), { timeout: 20000 }).toBe(max);
+        await expect(sec.locator('[data-testid="avlviz-stage"] .nd')).toHaveCount(3);
+        await expect(sec.locator('[data-testid="avlviz-log"] .dot.k-rotate').first()).toBeAttached();
+    });
+});
