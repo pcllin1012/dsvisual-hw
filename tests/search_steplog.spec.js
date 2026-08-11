@@ -54,4 +54,18 @@ test.describe('Search viz observatory (batch 1)', () => {
     const after = await tallest();
     expect(after).toBeGreaterThan(before * 1.2);
   });
+
+  test('search-binary: cells are theme-aware, not hard-coded dark (readable numbers)', async ({ page }) => {
+    // Regression: .search-cell used undefined --panel/--border vars, so it was
+    // always dark (#1e293b) with faint text — unreadable on the light theme.
+    await loadMethod(page, 'search-binary');
+    const cell = page.locator('[data-method-section="search-binary"] .search-cell').first();
+    const style = await cell.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return { bg: cs.backgroundColor, border: cs.borderColor };
+    });
+    // must not fall back to the old hard-coded dark navy panel/border
+    expect(style.bg).not.toBe('rgb(30, 41, 59)');   // #1e293b
+    expect(style.border).not.toBe('rgb(51, 65, 85)'); // #334155 (in light theme it should be the light card border)
+  });
 });
