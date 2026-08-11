@@ -290,7 +290,7 @@ test.describe('Search viz observatory (batch 1)', () => {
     const lang = (global.I18N && I18N.getCurrentLanguage && I18N.getCurrentLanguage() === 'zh') ? 'zh' : 'en';
     let h = '<select class="ex-select"><option value="">' + (lang === 'zh' ? '範例…' : 'Examples…') + '</option>';
     h += '<option value="' + esc(DEFAULT_TEXT()) + '">' + (lang === 'zh' ? '預設' : 'Default') + '</option>';
-    for (const t of loadEx(id)) h += '<option value="' + esc(t) + '">' + esc(t) + '</option>';
+    for (const e of loadEx(id)) h += '<option value="' + esc(e.text) + '">' + esc(e.text) + '</option>';
     return h + '</select>';
   }
   function parseSearch(text) {
