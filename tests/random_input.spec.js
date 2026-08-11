@@ -70,7 +70,7 @@ test('random button on list-doubly changes the input field', async ({ page }) =>
   await expectRandomizes(section.locator('.rand-btn'), input, before);
 });
 
-test('random button on old binary search updates target + array', async ({ page }) => {
+test('random button on binary search observatory honors difficulty', async ({ page }) => {
   await page.goto(fileUri);
   await loadMethod(page, 'search-binary');
 
@@ -78,10 +78,11 @@ test('random button on old binary search updates target + array', async ({ page 
   await page.locator('#input-difficulty').selectOption('edge');
   await page.click('#settings-drawer .settings-drawer-close');
 
-  const target = page.locator('#search-val');
-  const before = await target.inputValue();
-  await expectRandomizes(page.locator('#btn-search-random'), target, before);
-  await expect(page.locator('#search-array .s-slot').first()).toBeVisible();
+  const card = page.locator('[data-method-section="search-binary"]');
+  const input = card.locator('.searchviz-arr');
+  const before = await input.inputValue();
+  await expectRandomizes(card.locator('.rand-btn'), input, before);
+  await expect(card.locator('.searchviz-stage .search-cell').first()).toBeVisible();
 });
 
 test('Randomize (🎲) on sort observatory honors large difficulty (>15 bars)', async ({ page }) => {
@@ -108,7 +109,7 @@ test('random button on search-fibonacci changes the input field', async ({ page 
   await loadMethod(page, 'search-fibonacci');
 
   const section = page.locator('[data-method-section="search-fibonacci"]');
-  const input = section.locator('.ss-arr');
+  const input = section.locator('.searchviz-arr');
   const before = await input.inputValue();
   await expectRandomizes(section.locator('.rand-btn'), input, before);
 });

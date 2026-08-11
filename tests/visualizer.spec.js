@@ -739,14 +739,14 @@ test.describe('Data Structure Visualizer Full Suite', () => {
         await expect(page.locator('#queue-container')).toHaveCount(1);
         await loadMethod(page, 'search-kmp');
         await loadMethod(page, 'search-linear');
-        await expect(page.locator('#search-container')).toHaveCount(1);
+        await expect(page.locator('[data-method-section="search-linear"] .searchviz-stage .search-cell').first()).toBeVisible();
         await loadMethod(page, 'bloom-filter');
         await loadMethod(page, 'hash-chain');
         await expect(page.locator('#hash-ch-container')).toHaveCount(1);
         await loadMethod(page, 'search-zalgo');
         await loadMethod(page, 'search-aho');
         await loadMethod(page, 'search-linear');
-        await expect(page.locator('#search-container')).toHaveCount(1);
+        await expect(page.locator('[data-method-section="search-linear"] .searchviz-stage .search-cell').first()).toBeVisible();
         await loadMethod(page, 'tree-segment');
         await loadMethod(page, 'tree-bst');
         await expect(page.locator('#tree-nodes-container')).toHaveCount(1);

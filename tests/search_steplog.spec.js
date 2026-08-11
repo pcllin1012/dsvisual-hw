@@ -28,7 +28,7 @@ test.describe('Search viz observatory (batch 1)', () => {
       await expect(card.locator('.stepctl')).toBeVisible();
       await expect(card.locator('[data-testid="code-drawer"] .code-panel-filename')).toContainText(file);
       // legacy static container still present in Task 2 (removed in Task 3) but never shown for the observatory
-      await expect(page.locator('#search-container')).toBeHidden();
+      await expect(page.locator('#search-container')).toHaveCount(0);
 
       const cells = card.locator('.searchviz-stage .search-cell');
       const cellCount = await cells.count();
