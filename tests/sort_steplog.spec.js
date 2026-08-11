@@ -6,6 +6,10 @@ const SORTS = [
   ['sort-bubble', 'sort_bubble.cpp'],
   ['sort-select', 'sort_selection.cpp'],
   ['sort-insert', 'sort_insertion.cpp'],
+  ['sort-quick', 'sort_quick.cpp'],
+  ['sort-merge', 'sort_merge.cpp'],
+  ['sort-shell', 'sort_shell.cpp'],
+  ['sort-heap', 'sort_heap.cpp'],
 ];
 
 test.describe('Sort viz observatory (batch 1)', () => {
@@ -45,8 +49,8 @@ test.describe('Sort viz observatory (batch 1)', () => {
     });
   }
 
-  test('legacy sorts still work: sort-quick shows the legacy container', async ({ page }) => {
-    await loadMethod(page, 'sort-quick');
+  test('legacy sorts still work: sort-radix shows the legacy container', async ({ page }) => {
+    await loadMethod(page, 'sort-radix');
     // unconverted → legacy static container still used
     await expect(page.locator('#sort-container')).toBeVisible();
   });
