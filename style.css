@@ -529,6 +529,7 @@ body.viz-focus .method-section-card.active .viz-logcol { max-height: none; min-h
 .sort-bar.swapping { background: #f87171; } 
 .sort-bar.sorted { background: #34d399; } 
 .sort-bar.pivot { background: #a78bfa; }
+.sort-bar.active { background: #818cf8; }
 
 .sortviz-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
 .sortviz-controls .sortviz-input { flex: 1 1 220px; min-width: 160px; }

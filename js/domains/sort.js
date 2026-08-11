@@ -8,6 +8,10 @@
     'sort-bubble': (a) => global.SortFrames.bubbleFrames(a),
     'sort-select': (a) => global.SortFrames.selectionFrames(a),
     'sort-insert': (a) => global.SortFrames.insertionFrames(a),
+    'sort-quick': (a) => global.SortFrames.quickFrames(a),
+    'sort-merge': (a) => global.SortFrames.mergeFrames(a),
+    'sort-shell': (a) => global.SortFrames.shellFrames(a),
+    'sort-heap': (a) => global.SortFrames.heapFrames(a),
   };
   const _sortText = {}; // per-method last input
 
@@ -348,13 +352,13 @@
   R().attach('sort-bubble', { render: () => renderSort('sort-bubble'), code: () => codeSortBubble, layout: { host: 'dynamic' } });
   R().attach('sort-select', { render: () => renderSort('sort-select'), code: () => codeSortSelect, layout: { host: 'dynamic' } });
   R().attach('sort-insert', { render: () => renderSort('sort-insert'), code: () => codeSortInsert, layout: { host: 'dynamic' } });
-  R().attach('sort-quick', { render: renderSortBars, code: () => codeSortQuick, layout: null });
-  R().attach('sort-merge', { render: renderSortBars, code: () => codeSortMerge, layout: null });
-  R().attach('sort-shell', { render: renderSortBars, code: () => codeSortShell, layout: null });
+  R().attach('sort-quick', { render: () => renderSort('sort-quick'), code: () => codeSortQuick, layout: { host: 'dynamic' } });
+  R().attach('sort-merge', { render: () => renderSort('sort-merge'), code: () => codeSortMerge, layout: { host: 'dynamic' } });
+  R().attach('sort-shell', { render: () => renderSort('sort-shell'), code: () => codeSortShell, layout: { host: 'dynamic' } });
   R().attach('sort-bucket', { render: renderSortBars, code: () => codeSortBucket, layout: null });
   R().attach('sort-count', { render: renderSortBars, code: () => codeSortCounting, layout: null });
   R().attach('sort-radix', { render: renderSortBars, code: () => codeSortRadix, layout: null });
-  R().attach('sort-heap', { render: renderSortBars, code: () => codeSortHeap, layout: null });
+  R().attach('sort-heap', { render: () => renderSort('sort-heap'), code: () => codeSortHeap, layout: { host: 'dynamic' } });
   R().attach('sort-shaker', { render: renderSortBars, code: () => codeSortShaker, layout: null });
   C().registerDomain({ id: 'sort', init: init, onModeSwitch: onModeSwitch });
 })(typeof window !== 'undefined' ? window : globalThis);
