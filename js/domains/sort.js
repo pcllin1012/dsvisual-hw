@@ -12,6 +12,10 @@
     'sort-merge': (a) => global.SortFrames.mergeFrames(a),
     'sort-shell': (a) => global.SortFrames.shellFrames(a),
     'sort-heap': (a) => global.SortFrames.heapFrames(a),
+    'sort-bucket': (a) => global.SortFrames.bucketFrames(a),
+    'sort-count': (a) => global.SortFrames.countingFrames(a),
+    'sort-radix': (a) => global.SortFrames.radixFrames(a),
+    'sort-shaker': (a) => global.SortFrames.shakerFrames(a),
   };
   const _sortText = {}; // per-method last input
 
@@ -55,7 +59,7 @@
       stage.className = 'sortviz-stage';
       function paint(f) {
         stage.innerHTML = f.array.map((v, i) =>
-          '<div class="sort-bar ' + (f.hi[i] || '') + '" style="height:' + Math.round((v / maxV) * 200 + 20) + 'px"><span>' + v + '</span></div>'
+          '<div class="sort-bar ' + (f.hi[i] || '') + '" style="height:' + ((v / maxV) * 100).toFixed(2) + '%"><span>' + v + '</span></div>'
         ).join('');
       }
       host.appendChild(K1.buildStepWorkbench({ stage: stage, frames: frames, paint: paint, getMessage: (f) => K1.langOf(f.message), runIntervalMs: 400 }));
@@ -355,10 +359,10 @@
   R().attach('sort-quick', { render: () => renderSort('sort-quick'), code: () => codeSortQuick, layout: { host: 'dynamic' } });
   R().attach('sort-merge', { render: () => renderSort('sort-merge'), code: () => codeSortMerge, layout: { host: 'dynamic' } });
   R().attach('sort-shell', { render: () => renderSort('sort-shell'), code: () => codeSortShell, layout: { host: 'dynamic' } });
-  R().attach('sort-bucket', { render: renderSortBars, code: () => codeSortBucket, layout: null });
-  R().attach('sort-count', { render: renderSortBars, code: () => codeSortCounting, layout: null });
-  R().attach('sort-radix', { render: renderSortBars, code: () => codeSortRadix, layout: null });
+  R().attach('sort-bucket', { render: () => renderSort('sort-bucket'), code: () => codeSortBucket, layout: { host: 'dynamic' } });
+  R().attach('sort-count', { render: () => renderSort('sort-count'), code: () => codeSortCounting, layout: { host: 'dynamic' } });
+  R().attach('sort-radix', { render: () => renderSort('sort-radix'), code: () => codeSortRadix, layout: { host: 'dynamic' } });
   R().attach('sort-heap', { render: () => renderSort('sort-heap'), code: () => codeSortHeap, layout: { host: 'dynamic' } });
-  R().attach('sort-shaker', { render: renderSortBars, code: () => codeSortShaker, layout: null });
+  R().attach('sort-shaker', { render: () => renderSort('sort-shaker'), code: () => codeSortShaker, layout: { host: 'dynamic' } });
   C().registerDomain({ id: 'sort', init: init, onModeSwitch: onModeSwitch });
 })(typeof window !== 'undefined' ? window : globalThis);
