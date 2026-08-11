@@ -557,6 +557,13 @@ body.viz-focus .method-section-card.active .strsearch-stage { flex: 1 1 auto; mi
 body.viz-focus .method-section-card.active .strsearch-cell,
 body.viz-focus .method-section-card.active .zalgo-cell { min-width: 30px; min-height: 34px; font-size: 1.15rem; }
 
+.aho-controls-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+.aho-patterns { min-width: 160px; }
+.aho-text { min-width: 160px; }
+.aho-stage { width: 100%; min-height: 220px; display: flex; flex-direction: column; gap: 10px; overflow: auto; }
+body.viz-focus .method-section-card.active .aho-stage { flex: 1 1 auto; min-height: 0; }
+body.viz-focus .method-section-card.active .aho-svg { flex: 1 1 auto; min-height: 0; height: auto; max-height: none; }
+
 /* Heap structures */
 .heap-container { width: 100%; height: 320px; position: relative; border: 2px dashed rgba(37, 99, 235, 0.35); border-radius: 12px; background: #eef6ff; overflow: hidden; }
 .heap-container.tutorial-active {

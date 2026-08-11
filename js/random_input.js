@@ -295,6 +295,16 @@
         else { const pl = randInt(rng, 3, 5); pattern = ''; for (let i = 0; i < pl; i++) pattern += alpha[Math.floor(rng() * alpha.length)]; }
         return { text, pattern };
       }
+      case 'aho': {
+        const alpha = 'abcde';
+        const np = randInt(rng, 2, 4), patterns = [];
+        for (let i = 0; i < np; i++) { const pl = randInt(rng, 2, 3); let p = ''; for (let k = 0; k < pl; k++) p += alpha[Math.floor(rng() * alpha.length)]; patterns.push(p); }
+        const L = difficulty === 'large' ? randInt(rng, 14, 20) : randInt(rng, 8, 12);
+        let text = '';
+        for (let i = 0; i < L; i++) text += alpha[Math.floor(rng() * alpha.length)];
+        if (rng() < 0.7) { const at = Math.floor(rng() * (L - patterns[0].length + 1)); text = text.slice(0, at) + patterns[0] + text.slice(at + patterns[0].length); }
+        return { patterns, text };
+      }
       case 'sort': return { data: valSeq(rng, difficulty) };
       case 'sort-external': return { data: valSeq(rng, difficulty), M: 4 };
       case 'huffman': return { text: huffmanText(rng, difficulty) };
