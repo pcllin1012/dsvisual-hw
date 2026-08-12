@@ -768,6 +768,24 @@ pre { margin: 0; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-he
 }
 
 @media (max-width: 900px) {
+    /* Header: the centered title runs under the absolutely-positioned top-right
+       actions from ~640px up to ~820px (tablet portrait). Below the desktop
+       breakpoint, lay the header out as a flex column with the actions in normal
+       flow, right-aligned above the title, so they can never overlap it.
+       (Uses a higher-specificity selector than the base
+       `.app-header__actions { position:absolute }` defined later in the file.) */
+    .app-header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .app-header .app-header__actions {
+        position: static;
+        order: -1;
+        align-self: flex-end;
+        margin-bottom: 12px;
+    }
+
     body {
         padding: 1.25rem;
     }
@@ -819,23 +837,6 @@ pre { margin: 0; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-he
 }
 
 @media (max-width: 639px) {
-    /* Header: on phones the centered title ran under the absolutely-positioned
-       top-right actions. Put the actions back into normal flow, right-aligned
-       above the title, so they can never overlap it. */
-    .app-header {
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Higher specificity than the base `.app-header__actions { position:absolute }`
-       (which is defined later in the file) so this wins the cascade. */
-    .app-header .app-header__actions {
-        position: static;
-        order: -1;
-        align-self: flex-end;
-        margin-bottom: 12px;
-    }
-
     .app-category-nav {
         align-items: center;
         flex-wrap: wrap;
