@@ -38,7 +38,30 @@
     }
     push({ cursor: input.length, tokens: tokens.slice(), status: 'done',
            msg: { en: 'done: ' + tokens.length + ' tokens', zh: '完成：' + tokens.length + ' 個 token' } });
-    return { frames, vocab, input };
+    return { frames, vocab, input, trie: buildTrieLayout(root) };
+  }
+
+  // Flatten the trie into positioned nodes + edges for rendering. A node's id is
+  // its path string from the root ('' = root, 'a', 'ab', …) so a frame's matched
+  // segment (input[matchStart..matchEnd]) maps straight onto the active path.
+  function buildTrieLayout(root) {
+    const nodes = [], edges = [], children = {};
+    (function walk(n, path, parentPath) {
+      nodes.push({ id: path, char: path.length ? path[path.length - 1] : '', parent: parentPath, token: n.$ || null, depth: path.length });
+      children[path] = [];
+      if (parentPath !== null) { edges.push([parentPath, path]); children[parentPath].push(path); }
+      Object.keys(n).filter((k) => k !== '$').sort().forEach((ch) => walk(n[ch], path + ch, path));
+    })(root, '', null);
+    let leaf = 0; const gx = {};
+    (function assign(id) {
+      const kids = children[id] || [];
+      if (!kids.length) { gx[id] = leaf++; return; }
+      let s = 0; kids.forEach((k) => { assign(k); s += gx[k]; }); gx[id] = s / kids.length;
+    })('');
+    const SPX = 62, SPY = 60, MX = 26, MY = 24;
+    let maxX = 0, maxY = 0;
+    nodes.forEach((n) => { n.x = MX + gx[n.id] * SPX; n.y = MY + n.depth * SPY; maxX = Math.max(maxX, n.x); maxY = Math.max(maxY, n.y); });
+    return { nodes: nodes, edges: edges, viewBox: { w: maxX + MX, h: maxY + MY } };
   }
   const api = { buildFrames };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
