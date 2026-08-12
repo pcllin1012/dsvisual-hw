@@ -27,4 +27,17 @@ test.describe('nano-compute-graph', () => {
         await expect(nodesRow.locator('.cg-node')).toHaveCount(5);
         await expect(sec.locator('.cg-phase')).toContainText('complete');
     });
+
+    test('draws the DAG: nodes are positioned and edges are rendered', async ({ page }) => {
+        await loadMethod(page, 'nano-compute-graph');
+        const sec = page.locator('[data-method-section="nano-compute-graph"]');
+        // an actual graph must be drawn — an SVG with one edge per preset edge (4)
+        const svg = sec.locator('[data-testid="cg-nodes"] svg.cg-svg');
+        await expect(svg).toBeVisible();
+        await expect(svg.locator('.cg-edge')).toHaveCount(4); // a→m, b→m, m→s, c→s
+        await expect(svg.locator('.cg-node')).toHaveCount(5);
+        // nodes occupy distinct positions (not a flat row at the same x)
+        const xs = await svg.locator('.cg-node rect').evaluateAll((els) => [...new Set(els.map((e) => Math.round(+e.getAttribute('x'))))]);
+        expect(xs.length).toBeGreaterThan(1); // multiple layers → a real DAG layout
+    });
 });
