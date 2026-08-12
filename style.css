@@ -819,6 +819,23 @@ pre { margin: 0; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-he
 }
 
 @media (max-width: 639px) {
+    /* Header: on phones the centered title ran under the absolutely-positioned
+       top-right actions. Put the actions back into normal flow, right-aligned
+       above the title, so they can never overlap it. */
+    .app-header {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Higher specificity than the base `.app-header__actions { position:absolute }`
+       (which is defined later in the file) so this wins the cascade. */
+    .app-header .app-header__actions {
+        position: static;
+        order: -1;
+        align-self: flex-end;
+        margin-bottom: 12px;
+    }
+
     .app-category-nav {
         align-items: center;
         flex-wrap: wrap;
