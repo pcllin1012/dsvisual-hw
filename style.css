@@ -3025,7 +3025,9 @@ text.gm-edge-label.gm-edge-hover { fill: #db2777; font-weight: 700; }
 .be-phase { margin-top: 6px; color: #1e40af; font-style: italic; }
 
 /* -- compute-graph -- */
-.cg-nodes { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.cg-nodes { margin: 8px 0; }
+.cg-svg { width: 100%; max-height: 360px; }
+body.viz-focus .method-section-card.active .cg-svg { max-height: none; }
 .cg-node { display: inline-block; padding: 6px 12px; background: #e2e8f0; border: 2px solid #cbd5e1; border-radius: 6px; font-family: monospace; font-weight: 600; color: #475569; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; }
 .cg-node.done { background: #f0fdf4; border-color: #16a34a; color: #16a34a; }
 .cg-node.active { border-color: #f59e0b; box-shadow: 0 0 0 2px #fde68a; color: #1e293b; }
