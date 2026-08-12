@@ -29,4 +29,18 @@ test.describe('nano-bpe-encode', () => {
         await expect(tokens.locator('.be-token')).toHaveCount(4);
         await expect(sec.locator('.be-phase')).toContainText('done');
     });
+
+    test('draws the vocab trie (the "(trie)" the title promises)', async ({ page }) => {
+        await loadMethod(page, 'nano-bpe-encode');
+        const sec = page.locator('[data-method-section="nano-bpe-encode"]');
+        // default vocab a,b,ab,abc,c → trie: root + a,b,c,ab,abc = 6 nodes, 5 edges
+        const svg = sec.locator('[data-testid="be-trie"] svg.be-trie-svg');
+        await expect(svg).toBeVisible();
+        await expect(svg.locator('.be-node')).toHaveCount(6);
+        await expect(svg.locator('.be-edge')).toHaveCount(5);
+        // stepping highlights the matched path (an active edge appears mid-walk)
+        const step = sec.locator('.stepctl [data-action="step"]');
+        await step.click(); await step.click();
+        await expect(svg.locator('.be-node.active, .be-node.matched').first()).toBeVisible();
+    });
 });
