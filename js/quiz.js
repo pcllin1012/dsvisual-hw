@@ -9,6 +9,7 @@
   function has(id) { return deckFor(id, 'en').length > 0 || deckFor(id, 'zh').length > 0; }
   function modeLabel(m) { return m === 'test' ? t('quiz.test', 'Test') : t('quiz.practice', 'Practice'); }
   function fmtTime(ms) { try { var d = new Date(ms); return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } }
+  function isDone(a) { return a.status === 'completed' || (a.status == null && a.finishedAt); }
 
   function ensureRefs() {
     if (overlay) return;
@@ -33,18 +34,45 @@
     var lg = curLang(), qs = deckFor(methodId, lg);
     if (!qs.length) return;
     lastFocus = document.activeElement;
-    st = { methodId: methodId, lang: lg, mode: 'practice', questions: qs, idx: 0,
+    st = { methodId: methodId, id: null, status: null, lang: lg, mode: 'practice', questions: qs, idx: 0,
       given: new Array(qs.length).fill(null), checked: new Array(qs.length).fill(false),
-      startedAt: Date.now(), phase: 'start', result: null };
+      startedAt: Date.now(), phase: 'start', readonly: false, result: null };
     titleEl.textContent = t('btn.quiz', 'Self-Test');
     if (langToggle) langToggle.textContent = st.lang === 'zh' ? '中' : 'EN';
     overlay.hidden = false; document.body.style.overflow = 'hidden';
     rerender();
     overlay.querySelector('.quizviewer-panel').focus();
   }
-  function close() { if (!overlay) return; overlay.hidden = true; document.body.style.overflow = ''; st = null; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+  function close() {
+    if (!overlay) return;
+    if (st && st.phase === 'quiz' && st.status === 'in-progress') autosave();
+    overlay.hidden = true; document.body.style.overflow = ''; st = null;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function gradeAll() {
+    var correct = 0;
+    var per = st.questions.map(function (q, idx) { var r = global.QuizGrade.gradeQuestion(q, st.given[idx]); if (r.isCorrect) correct++; return { qIndex: idx, type: q.type, isCorrect: r.isCorrect }; });
+    return { correct: correct, per: per };
+  }
+  function autosave() {
+    if (!st || !st.id || !global.QuizAttempts) return;
+    var g = gradeAll();
+    QuizAttempts.upsert(localStorage, st.methodId, { id: st.id, methodId: st.methodId, mode: st.mode, lang: st.lang, status: 'in-progress', idx: st.idx, given: st.given, checked: st.checked, startedAt: st.startedAt, finishedAt: null, total: st.questions.length, correct: g.correct, perQuestion: g.per });
+  }
 
   function rerender() { if (!st) return; if (st.phase === 'start') renderStart(); else if (st.phase === 'summary') renderSummary(); else renderQuestion(); }
+
+  function recentRow(a) {
+    var done = isDone(a);
+    var stale = !done && (!a.given || a.given.length !== st.questions.length);
+    var meta = done ? (a.correct + '/' + a.total) : (t('quiz.question', 'Q') + ' ' + ((a.idx || 0) + 1) + '/' + a.total);
+    var badge = done ? t('quiz.review', 'Review') : (stale ? t('quiz.inprogress', 'In progress') : t('quiz.resume', 'Resume'));
+    var inner = '<span class="qr-mode">' + esc(modeLabel(a.mode)) + '</span> <span class="qr-score">' + esc(meta) + '</span> <span class="qr-time">' + esc(fmtTime(a.finishedAt || a.startedAt)) + '</span> <span class="qr-act">' + esc(badge) + '</span>';
+    if (done) return '<li><button type="button" class="quiz-recent-row" data-act="review" data-id="' + a.id + '" data-testid="quiz-recent-review">' + inner + '</button></li>';
+    if (stale) return '<li><span class="quiz-recent-row stale">' + inner + '</span></li>';
+    return '<li><button type="button" class="quiz-recent-row" data-act="resume" data-id="' + a.id + '" data-testid="quiz-recent-resume">' + inner + '</button></li>';
+  }
 
   function renderStart() {
     var recent = global.QuizAttempts ? QuizAttempts.recentFor(localStorage, st.methodId, 10) : [];
@@ -57,7 +85,7 @@
         '</div>' +
         '<button type="button" class="btn primary" data-act="begin" data-testid="quiz-begin">' + t('quiz.begin', 'Begin') + '</button>' +
         '<div class="quiz-recent" data-testid="quiz-recent"><h4>' + t('quiz.recent', 'Recent attempts') + '</h4>' +
-          (recent.length ? '<ul>' + recent.map(function (a) { return '<li><span class="qr-mode">' + esc(modeLabel(a.mode)) + '</span> <span class="qr-score">' + a.correct + '/' + a.total + '</span> <span class="qr-time">' + esc(fmtTime(a.finishedAt)) + '</span></li>'; }).join('') + '</ul>' : '<p class="quiz-recent-empty">' + t('quiz.recent.empty', 'No attempts yet') + '</p>') +
+          (recent.length ? '<ul>' + recent.map(recentRow).join('') + '</ul>' : '<p class="quiz-recent-empty">' + t('quiz.recent.empty', 'No attempts yet') + '</p>') +
         '</div>' +
       '</div>';
   }
@@ -111,11 +139,10 @@
   }
 
   function finish() {
-    var correct = 0;
-    var per = st.questions.map(function (q, idx) { var r = global.QuizGrade.gradeQuestion(q, st.given[idx]); if (r.isCorrect) correct++; return { qIndex: idx, type: q.type, isCorrect: r.isCorrect }; });
-    st.result = { total: st.questions.length, correct: correct };
+    var g = gradeAll();
+    st.result = { total: st.questions.length, correct: g.correct };
     st.phase = 'summary';
-    if (global.QuizAttempts) QuizAttempts.record(localStorage, st.methodId, { id: Date.now(), methodId: st.methodId, mode: st.mode, lang: st.lang, startedAt: st.startedAt, finishedAt: Date.now(), total: st.questions.length, correct: correct, perQuestion: per });
+    if (global.QuizAttempts) QuizAttempts.upsert(localStorage, st.methodId, { id: st.id || Date.now(), methodId: st.methodId, mode: st.mode, lang: st.lang, status: 'completed', idx: st.idx, given: st.given, checked: st.checked, startedAt: st.startedAt, finishedAt: Date.now(), total: st.questions.length, correct: g.correct, perQuestion: g.per });
     renderSummary();
   }
 
@@ -123,7 +150,7 @@
     var r = st.result;
     var html = '<div class="quiz-summary" data-testid="quiz-summary">' +
       '<h3>' + t('quiz.score', 'Score') + ': <span data-testid="quiz-score">' + r.correct + ' / ' + r.total + '</span></h3>';
-    if (st.mode === 'test') {
+    if (st.mode === 'test' && st.given.length === st.questions.length) {
       html += '<ol class="quiz-review">' + st.questions.map(function (q, idx) {
         var res = global.QuizGrade.gradeQuestion(q, st.given[idx]);
         return '<li class="' + (res.isCorrect ? 'ok' : 'bad') + '"><div class="quiz-q-text">' + q.text + '</div>' +
@@ -135,17 +162,44 @@
     body.innerHTML = html;
   }
 
+  function resume(a) {
+    var qs = deckFor(st.methodId, a.lang);
+    var given = a.given || [];
+    if (!qs.length || given.length !== qs.length) return; // stale — ignore
+    st = { methodId: st.methodId, id: a.id, status: 'in-progress', lang: a.lang, mode: a.mode, questions: qs,
+      idx: Math.min(a.idx || 0, qs.length - 1), given: given.slice(), checked: (a.checked || new Array(qs.length).fill(false)).slice(),
+      startedAt: a.startedAt || Date.now(), phase: 'quiz', readonly: false, result: null };
+    if (langToggle) langToggle.textContent = st.lang === 'zh' ? '中' : 'EN';
+    renderQuestion();
+  }
+  function review(a) {
+    var qs = deckFor(st.methodId, a.lang);
+    var given = a.given || [];
+    st = { methodId: st.methodId, id: a.id, status: 'completed', lang: a.lang, mode: a.mode, questions: qs,
+      idx: 0, given: given.slice(), checked: (a.checked || []).slice(), startedAt: a.startedAt, phase: 'summary', readonly: true,
+      result: { total: a.total, correct: a.correct } };
+    if (langToggle) langToggle.textContent = st.lang === 'zh' ? '中' : 'EN';
+    renderSummary();
+  }
+  function findAttempt(id) {
+    var list = global.QuizAttempts ? QuizAttempts.recentFor(localStorage, st.methodId, 10) : [];
+    for (var k = 0; k < list.length; k++) { if (String(list[k].id) === String(id)) return list[k]; }
+    return null;
+  }
+
   function onBodyClick(e) {
     var b = e.target.closest ? e.target.closest('[data-act]') : null;
     if (!b || !st) return;
     var act = b.getAttribute('data-act');
-    if (act === 'begin') { var m = body.querySelector('input[name="qmode"]:checked'); st.mode = m ? m.value : 'practice'; st.phase = 'quiz'; st.idx = 0; st.given = new Array(st.questions.length).fill(null); st.checked = new Array(st.questions.length).fill(false); st.startedAt = Date.now(); renderQuestion(); return; }
-    if (act === 'check') { collectAnswer(); st.checked[st.idx] = true; renderQuestion(); return; }
-    if (act === 'prev') { collectAnswer(); st.idx = Math.max(0, st.idx - 1); renderQuestion(); return; }
-    if (act === 'next') { collectAnswer(); if (st.idx < st.questions.length - 1) { st.idx++; renderQuestion(); } else { finish(); } return; }
+    if (act === 'resume') { var ra = findAttempt(b.getAttribute('data-id')); if (ra) resume(ra); return; }
+    if (act === 'review') { var va = findAttempt(b.getAttribute('data-id')); if (va) review(va); return; }
+    if (act === 'begin') { var m = body.querySelector('input[name="qmode"]:checked'); st.mode = m ? m.value : 'practice'; st.phase = 'quiz'; st.idx = 0; st.given = new Array(st.questions.length).fill(null); st.checked = new Array(st.questions.length).fill(false); st.startedAt = Date.now(); st.id = Date.now(); st.status = 'in-progress'; renderQuestion(); autosave(); return; }
+    if (act === 'check') { collectAnswer(); st.checked[st.idx] = true; renderQuestion(); autosave(); return; }
+    if (act === 'prev') { collectAnswer(); st.idx = Math.max(0, st.idx - 1); renderQuestion(); autosave(); return; }
+    if (act === 'next') { collectAnswer(); if (st.idx < st.questions.length - 1) { st.idx++; renderQuestion(); autosave(); } else { finish(); } return; }
     if (act === 'submit') { collectAnswer(); finish(); return; }
     if (act === 'retry') { open(st.methodId); return; }
-    if (act === 'home') { st.phase = 'start'; renderStart(); return; }
+    if (act === 'home') { open(st.methodId); return; }
   }
 
   var api = { open: open, close: close, has: has };
