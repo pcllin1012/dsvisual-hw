@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Binary Search</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>二分搜尋核心機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列何者最能描述二分搜尋的<strong>核心機制</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>將目標與中間元素比較,捨棄不可能含有目標的那一半,反覆將區間對半縮小</text><feedback><text>正確 —— 每次比較都將剩餘搜尋空間減半。</text></feedback></answer>
+    <answer fraction="0"><text>從頭開始依序掃描每個元素</text><feedback><text>那是線性搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>依據目標的數值估算探測位置</text><feedback><text>那是內插搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>使用費氏數列分割區間</text><feedback><text>那是費氏搜尋。</text></feedback></answer>
+    <generalfeedback><text>二分搜尋反覆比較中間元素,並排除剩餘範圍的一半。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>二分搜尋最差情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對 n 個元素進行二分搜尋,其<strong>最差情況</strong>時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— 範圍對半縮小約需 log&#8322; n 步。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>那是線性搜尋;二分搜尋每步減半。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>只有最佳情況(目標位於中間)才是常數。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>太大了;單次搜尋為對數級。</text></feedback></answer>
+    <generalfeedback><text>每步捨棄一半元素,因此最多需要約 log&#8322; n 次比較。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>二分搜尋前提條件</text></name>
+    <questiontext format="html"><text><![CDATA[<p>為使二分搜尋正確,輸入陣列必須滿足哪個<strong>前提條件</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>必須已排序</text><feedback><text>正確 —— 二分搜尋仰賴順序來決定保留哪一半。</text></feedback></answer>
+    <answer fraction="0"><text>必須未排序</text><feedback><text>錯 —— 沒有順序,對半縮小的邏輯就會失效。</text></feedback></answer>
+    <answer fraction="0"><text>其數值必須均勻分布</text><feedback><text>均勻分布有助於內插搜尋,而非二分搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>必須只含相異數值</text><feedback><text>錯 —— 二分搜尋對含重複值的資料也適用。</text></feedback></answer>
+    <generalfeedback><text>二分搜尋需要已排序陣列(以及隨機存取),才能在每次比較時排除一半範圍。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>鏈結串列上的二分搜尋</text></name>
+    <questiontext format="html"><text><![CDATA[<p>為何二分搜尋不適合用於單向鏈結串列?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>鏈結串列缺乏 O(1) 隨機存取,因此走到中間元素本身就是 O(n)</text><feedback><text>正確 —— 跳到中點需 O(n),抵消了加速效果。</text></feedback></answer>
+    <answer fraction="0"><text>鏈結串列無法儲存已排序的資料</text><feedback><text>錯 —— 鏈結串列當然可以維持排序順序。</text></feedback></answer>
+    <answer fraction="0"><text>二分搜尋只能用於浮點數值</text><feedback><text>錯 —— 它適用於任何有序鍵值。</text></feedback></answer>
+    <answer fraction="0"><text>鏈結串列使用太多記憶體</text><feedback><text>不是原因;問題在於索引成本。</text></feedback></answer>
+    <generalfeedback><text>二分搜尋需要 O(1) 索引才能抵達中點;鏈結串列只提供循序存取。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>二分搜尋特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於二分搜尋,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它在最差情況下以 O(log n) 時間執行</text><feedback><text>正確 —— 範圍每步減半。</text></feedback></answer>
+    <answer fraction="50"><text>它需要陣列已排序</text><feedback><text>正確 —— 順序讓它能捨棄一半範圍。</text></feedback></answer>
+    <answer fraction="-50"><text>它在未排序陣列上也能正確運作</text><feedback><text>錯 —— 它需要已排序的輸入。</text></feedback></answer>
+    <answer fraction="-50"><text>它在最差情況下以 O(n) 時間執行</text><feedback><text>錯 —— 那是線性搜尋;二分搜尋為 O(log n)。</text></feedback></answer>
+    <generalfeedback><text>二分搜尋:最差情況 O(log n),需要已排序輸入與隨機存取。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>未排序資料上的二分搜尋</text></name>
+    <questiontext format="html"><text><![CDATA[<p>二分搜尋在未排序陣列上會回傳正確結果。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 沒有排序順序,被捨棄的一半可能含有目標。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 二分搜尋要求陣列已排序。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>二分搜尋空間</text></name>
+    <questiontext format="html"><text><![CDATA[<p>迭代式二分搜尋僅使用 O(1) 的額外(輔助)空間。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 只保存少數索引變數。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>迭代版本只需常數額外空間。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>二分搜尋複雜度名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>二分搜尋的最差情況時間為 O(____ n)。請填入空格中那個三字母的函數名稱(英文)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>log</text><feedback><text>正確 —— O(log n)。</text></feedback></answer>
+    <answer fraction="100"><text>log*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

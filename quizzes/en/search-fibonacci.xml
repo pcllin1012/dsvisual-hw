@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Fibonacci Search</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Fibonacci search core mechanism</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which best describes the <strong>core mechanism</strong> of Fibonacci search?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Narrow the sorted range using split points derived from Fibonacci numbers instead of always halving</text><feedback><text>Correct — successive Fibonacci numbers determine the probe positions.</text></feedback></answer>
+    <answer fraction="0"><text>Scan every element in order from the start</text><feedback><text>That is linear search.</text></feedback></answer>
+    <answer fraction="0"><text>Always compare the exact middle element to halve the interval</text><feedback><text>That is binary search; Fibonacci search splits by Fibonacci numbers, not exactly in half.</text></feedback></answer>
+    <answer fraction="0"><text>Estimate the probe position from the target's value</text><feedback><text>That is interpolation search.</text></feedback></answer>
+    <generalfeedback><text>Fibonacci search uses consecutive Fibonacci numbers to choose split points, examining elements toward the front of the range.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Fibonacci search complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How many comparisons (time complexity) does Fibonacci search need in the worst case over n elements?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>Correct — like binary search, it shrinks the range logarithmically.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>That is linear search; Fibonacci search is logarithmic.</text></feedback></answer>
+    <answer fraction="0"><text>O(log log n)</text><feedback><text>That is interpolation search's average on uniform data.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>Too large; Fibonacci search is O(log n).</text></feedback></answer>
+    <generalfeedback><text>Fibonacci search shrinks the interval by a constant factor each step, giving O(log n) comparisons.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Fibonacci search precondition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What <strong>precondition</strong> must the input satisfy for Fibonacci search to work correctly?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The array must be sorted</text><feedback><text>Correct — like binary search, it relies on order to discard part of the range.</text></feedback></answer>
+    <answer fraction="0"><text>The array must be unsorted</text><feedback><text>No — order is required.</text></feedback></answer>
+    <answer fraction="0"><text>The values must be uniformly distributed</text><feedback><text>That matters for interpolation search, not Fibonacci search.</text></feedback></answer>
+    <answer fraction="0"><text>The array length must itself be a Fibonacci number</text><feedback><text>No — the algorithm just uses the smallest Fibonacci number &ge; n; the length need not be Fibonacci.</text></feedback></answer>
+    <generalfeedback><text>Fibonacci search requires a sorted array; it then uses Fibonacci numbers only to pick split points.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Fibonacci search advantage</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is a distinctive advantage of Fibonacci search over binary search?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It computes split points using only addition and subtraction, avoiding division</text><feedback><text>Correct — historically useful when division or mid-index computation was costly.</text></feedback></answer>
+    <answer fraction="0"><text>It works on unsorted data</text><feedback><text>No — it still requires a sorted array.</text></feedback></answer>
+    <answer fraction="0"><text>It achieves O(1) worst-case time</text><feedback><text>No — it is O(log n), like binary search.</text></feedback></answer>
+    <answer fraction="0"><text>It needs no comparisons at all</text><feedback><text>No — it still compares elements to the target.</text></feedback></answer>
+    <generalfeedback><text>Fibonacci search advances its indices with additions/subtractions of Fibonacci numbers, so it needs no division to find a midpoint.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Fibonacci search properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Fibonacci search are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It requires a sorted array</text><feedback><text>Yes — order is needed to discard part of the range.</text></feedback></answer>
+    <answer fraction="50"><text>It uses only addition and subtraction, with no division, to find split points</text><feedback><text>Yes — that is its historical selling point.</text></feedback></answer>
+    <answer fraction="-50"><text>It runs in O(n log n) time</text><feedback><text>No — it makes O(log n) comparisons.</text></feedback></answer>
+    <answer fraction="-50"><text>It works on unsorted arrays</text><feedback><text>No — it requires sorted input.</text></feedback></answer>
+    <generalfeedback><text>Fibonacci search: O(log n) comparisons, sorted input, division-free split points via Fibonacci numbers, O(1) space.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Fibonacci search needs sorting</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Fibonacci search requires the input array to be sorted.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it relies on order to eliminate part of the range.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>No — like binary search, it needs sorted input.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Fibonacci search uses division</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Fibonacci search must perform a division to compute each split point.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — it advances indices using additions and subtractions of Fibonacci numbers, avoiding division.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — it needs only addition and subtraction, no division.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Fibonacci search number sequence</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The split points of this search are chosen using numbers from the ______ sequence. Name it (one word).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Fibonacci</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>Fib*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

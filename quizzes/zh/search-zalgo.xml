@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Z-Algorithm</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Z 陣列定義</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對於字串 S,Z 值 <strong>Z[i]</strong> 衡量的是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>從位置 i 開始、同時也是 S 前綴的最長子字串長度</text><feedback><text>正確 —— Z[i] 是把 S 從 i 處與自身比對。</text></feedback></answer>
+    <answer fraction="0"><text>以位置 i 結尾的最長 S 後綴長度</text><feedback><text>錯 —— Z 值是與前綴比對,不是後綴。</text></feedback></answer>
+    <answer fraction="0"><text>字元 S[i] 在 S 中出現的次數</text><feedback><text>錯 —— Z 與字元出現頻率無關。</text></feedback></answer>
+    <answer fraction="0"><text>S[i] 下一次出現的索引位置</text><feedback><text>錯 —— Z[i] 是長度,不是索引。</text></feedback></answer>
+    <generalfeedback><text>Z[i] 是 S 與「從位置 i 開始的後綴」之間最長共同前綴的長度。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Z 演算法時間複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>使用 Z 演算法進行字串比對(n = 文字長度,m = 樣式長度),總時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n + m)</text><feedback><text>正確 —— Z 陣列以單次線性掃描完成。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log m)</text><feedback><text>錯 —— 過程中沒有對數因子。</text></feedback></answer>
+    <answer fraction="0"><text>O(n * m)</text><feedback><text>那是樸素比對;Z 演算法避免重複掃描。</text></feedback></answer>
+    <answer fraction="0"><text>O(m^2)</text><feedback><text>錯 —— 此演算法是線性而非平方。</text></feedback></answer>
+    <generalfeedback><text>Z-box 將工作攤還,使每個位置只花 O(1),對整個串接字串為 O(n + m)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Z 演算法比對設置</text></name>
+    <questiontext format="html"><text><![CDATA[<p>要用 Z 演算法在文字 T 中找出樣式 P 的所有出現,你要在哪個字串上計算 Z 陣列?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>P + 分隔符 + T,其中分隔符是不屬於字母集的字元</text><feedback><text>正確 —— 分隔符可避免 Z 值超過 m。</text></feedback></answer>
+    <answer fraction="0"><text>T + P,不加分隔符</text><feedback><text>錯 —— 沒有分隔符時 Z 值可能跨越邊界。</text></feedback></answer>
+    <answer fraction="0"><text>將 T 反轉後與 P 串接</text><feedback><text>錯 —— 反轉不是 Z 演算法的一部分。</text></feedback></answer>
+    <answer fraction="0"><text>只用 P;完全不需要 T</text><feedback><text>錯 —— 你必須掃描 T 才能找到比對。</text></feedback></answer>
+    <generalfeedback><text>在 P$T 上,T 區域內任何 Z[i] = m 的位置 i 都標記 P 在 T 中的一次出現。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Z 演算法特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 Z 演算法,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它以線性 O(n + m) 時間執行</text><feedback><text>正確 —— 單次攤還掃描建立 Z 陣列。</text></feedback></answer>
+    <answer fraction="50"><text>它是單一樣式的精確比對方法</text><feedback><text>正確 —— 與 KMP 一樣,一次只搜尋一個樣式。</text></feedback></answer>
+    <answer fraction="-50"><text>它在最差情況需要 O(n * m) 時間</text><feedback><text>錯 —— 它是線性而非平方。</text></feedback></answer>
+    <answer fraction="-50"><text>它像 Aho-Corasick 一樣原生地同時搜尋多個樣式</text><feedback><text>錯 —— 那是 Aho-Corasick 的角色,不是 Z 演算法。</text></feedback></answer>
+    <generalfeedback><text>Z 演算法是簡單的線性單一樣式方法;多樣式搜尋屬於 Aho-Corasick 的領域。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Z 演算法空間複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Z 演算法在串接字串上儲存其 Z 陣列需要多少輔助空間(n = 文字長度,m = 樣式長度)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n + m)</text><feedback><text>正確 —— P$T 字串每個位置存一個 Z 值。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>錯 —— Z 陣列本身會隨輸入長度增長。</text></feedback></answer>
+    <answer fraction="0"><text>O(m^2)</text><feedback><text>錯 —— 空間是線性而非平方。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>錯 —— 每個位置都要存值,所以是線性。</text></feedback></answer>
+    <generalfeedback><text>Z 陣列對 P + 分隔符 + T 的每個字元存一項,故空間為 O(n + m)。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Z 比對條件</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在字串 P + 分隔符 + T 上,某位置 i 的 Z[i] 等於 m(樣式長度)代表樣式在此出現一次。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 完整長度的前綴比對表示 P 出現於此。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Z[i] = m 表示長度 m 的前綴(即樣式)在 i 處比對成功。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Z 與 KMP 的關係</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Z 演算法與 KMP 以不同的表述方式,在線性時間內解決相同的單一樣式比對問題。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 兩者都是 O(n + m) 的單一樣式方法,只是內部結構不同。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>它們確實是同一任務的兩種線性時間表述。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Z 陣列名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>此演算法所計算、其索引 i 的值為「從 i 開始的最長前綴比對長度」的陣列,稱為 ______ 陣列。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Z</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>Z*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

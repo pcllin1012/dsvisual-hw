@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Z-Algorithm</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Z-array definition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>For a string S, what does the Z-value <strong>Z[i]</strong> measure?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The length of the longest substring starting at position i that is also a prefix of S</text><feedback><text>Correct — Z[i] matches S against itself starting at i.</text></feedback></answer>
+    <answer fraction="0"><text>The length of the longest suffix of S ending at position i</text><feedback><text>No — Z-values compare against the prefix, not a suffix.</text></feedback></answer>
+    <answer fraction="0"><text>The number of times character S[i] appears in S</text><feedback><text>No — Z has nothing to do with character frequency.</text></feedback></answer>
+    <answer fraction="0"><text>The index of the next occurrence of S[i]</text><feedback><text>No — Z[i] is a length, not an index.</text></feedback></answer>
+    <generalfeedback><text>Z[i] is the length of the longest common prefix of S and the suffix of S starting at position i.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Z-algorithm time complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using the Z-algorithm for pattern matching (n = text length, m = pattern length), what is the total time complexity?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n + m)</text><feedback><text>Correct — the Z-array is computed in a single linear pass.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log m)</text><feedback><text>No — no logarithmic factor is involved.</text></feedback></answer>
+    <answer fraction="0"><text>O(n * m)</text><feedback><text>That is naive matching; the Z-algorithm avoids re-scanning.</text></feedback></answer>
+    <answer fraction="0"><text>O(m^2)</text><feedback><text>No — the algorithm is linear, not quadratic.</text></feedback></answer>
+    <generalfeedback><text>The Z-box amortizes work so each position is charged O(1), giving O(n + m) over the concatenation.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Z-algorithm pattern matching setup</text></name>
+    <questiontext format="html"><text><![CDATA[<p>To find all occurrences of pattern P in text T with the Z-algorithm, on what string do you compute the Z-array?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>P + separator + T, where the separator is a character not in the alphabet</text><feedback><text>Correct — the separator stops Z-values from exceeding m.</text></feedback></answer>
+    <answer fraction="0"><text>T + P with no separator</text><feedback><text>No — without a separator Z-values could bleed across the boundary.</text></feedback></answer>
+    <answer fraction="0"><text>T reversed, concatenated with P</text><feedback><text>No — reversal is not part of the Z-algorithm.</text></feedback></answer>
+    <answer fraction="0"><text>P alone; T is never needed</text><feedback><text>No — you must scan T to find matches.</text></feedback></answer>
+    <generalfeedback><text>On P$T, any position i (inside the T region) with Z[i] = m marks an occurrence of P in T.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Z-algorithm properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the Z-algorithm are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It runs in linear O(n + m) time</text><feedback><text>Yes — a single amortized pass builds the Z-array.</text></feedback></answer>
+    <answer fraction="50"><text>It is a single-pattern exact matching method</text><feedback><text>Yes — like KMP, it searches for one pattern at a time.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires O(n * m) time in the worst case</text><feedback><text>No — it is linear, not quadratic.</text></feedback></answer>
+    <answer fraction="-50"><text>It natively searches many patterns simultaneously like Aho-Corasick</text><feedback><text>No — that is Aho-Corasick's role, not the Z-algorithm's.</text></feedback></answer>
+    <generalfeedback><text>The Z-algorithm is a simple linear single-pattern method; multi-pattern search is Aho-Corasick's domain.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Z-algorithm space complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What auxiliary space does the Z-algorithm use to store its Z-array over the concatenation (n = text length, m = pattern length)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n + m)</text><feedback><text>Correct — one Z-value is stored per position of the P$T string.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>No — the Z-array itself grows with the input length.</text></feedback></answer>
+    <answer fraction="0"><text>O(m^2)</text><feedback><text>No — the space is linear, not quadratic.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>No — you store a value for every position, so it is linear.</text></feedback></answer>
+    <generalfeedback><text>The Z-array holds one entry per character of P + separator + T, giving O(n + m) space.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Z match condition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>On the string P + separator + T, a position i where Z[i] equals m (the pattern length) indicates an occurrence of the pattern.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — a full-length prefix match means P appears there.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Z[i] = m means the m-length prefix (the pattern) matches at i.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Z vs KMP relationship</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The Z-algorithm and KMP solve the same single-pattern matching problem in linear time, using different formulations.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — both are O(n + m) single-pattern methods with different internal structures.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>They are indeed two linear-time formulations of the same task.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Z-array term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The array computed by this algorithm, whose entry at index i is the longest prefix-match length starting at i, is called the ______ array.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Z</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>Z*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

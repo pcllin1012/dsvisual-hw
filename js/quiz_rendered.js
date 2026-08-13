@@ -1,4 +1,4084 @@
 window.QUIZ_RENDERED = {
+  "search-aho": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "What Aho-Corasick solves",
+        "text": "<p>What problem does the Aho-Corasick algorithm solve?</p>",
+        "answers": [
+          {
+            "text": "Finding all occurrences of a set of patterns in a text in one pass",
+            "fraction": 100,
+            "feedback": "Correct — it is a multi-pattern exact matching algorithm."
+          },
+          {
+            "text": "Sorting the patterns lexicographically",
+            "fraction": 0,
+            "feedback": "No — it matches, it does not sort."
+          },
+          {
+            "text": "Finding the longest common subsequence of two strings",
+            "fraction": 0,
+            "feedback": "No — that is a different dynamic-programming problem."
+          },
+          {
+            "text": "Matching a single pattern only, like KMP",
+            "fraction": 0,
+            "feedback": "No — Aho-Corasick handles many patterns at once."
+          }
+        ],
+        "generalFeedback": "Aho-Corasick locates every occurrence of any pattern from a dictionary during a single scan of the text.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Underlying data structure",
+        "text": "<p>Aho-Corasick first builds which data structure from all the patterns?</p>",
+        "answers": [
+          {
+            "text": "A trie of all the patterns",
+            "fraction": 100,
+            "feedback": "Correct — the patterns share prefixes in a trie."
+          },
+          {
+            "text": "A binary search tree keyed by pattern length",
+            "fraction": 0,
+            "feedback": "No — it uses a trie, not a BST."
+          },
+          {
+            "text": "A hash table of rolling hashes",
+            "fraction": 0,
+            "feedback": "No — that is Rabin-Karp's approach."
+          },
+          {
+            "text": "A min-heap of characters",
+            "fraction": 0,
+            "feedback": "No — no heap is involved."
+          }
+        ],
+        "generalFeedback": "All patterns are inserted into a trie; shared prefixes collapse onto shared paths.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Aho-Corasick complexity",
+        "text": "<p>With n = text length, m = total length of all patterns, and z = number of matches reported, what is Aho-Corasick's time complexity?</p>",
+        "answers": [
+          {
+            "text": "O(n + m + z)",
+            "fraction": 100,
+            "feedback": "Correct — build the automaton in O(m), scan in O(n), and report z matches."
+          },
+          {
+            "text": "O(n * m)",
+            "fraction": 0,
+            "feedback": "No — that would be re-scanning per pattern; Aho-Corasick avoids it."
+          },
+          {
+            "text": "O(n log m)",
+            "fraction": 0,
+            "feedback": "No — there is no logarithmic factor."
+          },
+          {
+            "text": "O(m^2 + n)",
+            "fraction": 0,
+            "feedback": "No — automaton construction is linear in m."
+          }
+        ],
+        "generalFeedback": "O(m) to build the trie plus failure links, O(n) for the single text pass, plus O(z) to output each match.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Failure links role",
+        "text": "<p>What is the role of the <strong>failure links</strong> added to the Aho-Corasick trie?</p>",
+        "answers": [
+          {
+            "text": "They generalize KMP's failure function to fall back to the longest proper suffix that is a trie prefix",
+            "fraction": 100,
+            "feedback": "Correct — they redirect the scan without re-reading text."
+          },
+          {
+            "text": "They sort the trie's children alphabetically",
+            "fraction": 0,
+            "feedback": "No — failure links do not sort anything."
+          },
+          {
+            "text": "They store the rolling hash of each node",
+            "fraction": 0,
+            "feedback": "No — Aho-Corasick does not use hashing."
+          },
+          {
+            "text": "They delete matched patterns from the trie",
+            "fraction": 0,
+            "feedback": "No — nodes are not removed during matching."
+          }
+        ],
+        "generalFeedback": "A failure link points from a node to the node representing the longest proper suffix that is also a prefix present in the trie — KMP's idea extended to many patterns.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Properties of Aho-Corasick",
+        "text": "<p>Which statements about Aho-Corasick are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It performs multi-pattern matching in a single pass over the text",
+            "fraction": 50,
+            "feedback": "Yes — all patterns are matched simultaneously."
+          },
+          {
+            "text": "It adds failure links (and output links) to a trie of the patterns",
+            "fraction": 50,
+            "feedback": "Yes — that is exactly how the automaton is built."
+          },
+          {
+            "text": "It can only search for a single pattern at a time",
+            "fraction": -50,
+            "feedback": "No — its whole point is handling a set of patterns."
+          },
+          {
+            "text": "It relies on a rolling hash like Rabin-Karp",
+            "fraction": -50,
+            "feedback": "No — it uses a trie automaton, not hashing."
+          }
+        ],
+        "generalFeedback": "Aho-Corasick = trie + failure links + output links, scanning the text once to find all patterns.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Aho-Corasick applications",
+        "text": "<p>Aho-Corasick is used by tools such as <code>grep -F</code>/<code>fgrep</code>, antivirus signature scanning, and intrusion-detection systems.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — these all screen text against a large set of fixed patterns."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "These are classic real-world uses of Aho-Corasick."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Failure vs KMP",
+        "text": "<p>Aho-Corasick's failure links generalize KMP's failure function from one pattern to a whole set of patterns.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it is the multi-pattern extension of the same fall-back idea."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Failure links are precisely the multi-pattern generalization of KMP's failure function."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Automaton skeleton term",
+        "text": "<p>Aho-Corasick builds its automaton on top of which prefix-tree data structure? (one word)</p>",
+        "answers": [
+          {
+            "text": "trie",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "trie*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Aho-Corasick 解決的問題",
+        "text": "<p>Aho-Corasick 演算法解決什麼問題?</p>",
+        "answers": [
+          {
+            "text": "在單次掃描中找出一組樣式在文字中的所有出現",
+            "fraction": 100,
+            "feedback": "正確 —— 它是多樣式精確比對演算法。"
+          },
+          {
+            "text": "將樣式依字典序排序",
+            "fraction": 0,
+            "feedback": "錯 —— 它做比對,不做排序。"
+          },
+          {
+            "text": "找兩個字串的最長共同子序列",
+            "fraction": 0,
+            "feedback": "錯 —— 那是另一個動態規劃問題。"
+          },
+          {
+            "text": "只比對單一樣式,如同 KMP",
+            "fraction": 0,
+            "feedback": "錯 —— Aho-Corasick 同時處理多個樣式。"
+          }
+        ],
+        "generalFeedback": "Aho-Corasick 在單次掃描文字時,找出字典中任一樣式的所有出現。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "底層資料結構",
+        "text": "<p>Aho-Corasick 首先從所有樣式建立哪種資料結構?</p>",
+        "answers": [
+          {
+            "text": "由所有樣式構成的字典樹(trie)",
+            "fraction": 100,
+            "feedback": "正確 —— 樣式在 trie 中共用前綴。"
+          },
+          {
+            "text": "以樣式長度為鍵的二元搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— 它使用 trie,不是 BST。"
+          },
+          {
+            "text": "滾動雜湊的雜湊表",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 Rabin-Karp 的做法。"
+          },
+          {
+            "text": "字元的最小堆積",
+            "fraction": 0,
+            "feedback": "錯 —— 完全不涉及堆積。"
+          }
+        ],
+        "generalFeedback": "所有樣式插入一棵 trie;共用前綴收合到共用路徑上。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Aho-Corasick 複雜度",
+        "text": "<p>設 n = 文字長度,m = 所有樣式的總長度,z = 回報的比對數量,Aho-Corasick 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(n + m + z)",
+            "fraction": 100,
+            "feedback": "正確 —— 以 O(m) 建自動機、O(n) 掃描、回報 z 個比對。"
+          },
+          {
+            "text": "O(n * m)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是逐樣式重掃;Aho-Corasick 避免了這點。"
+          },
+          {
+            "text": "O(n log m)",
+            "fraction": 0,
+            "feedback": "錯 —— 沒有對數因子。"
+          },
+          {
+            "text": "O(m^2 + n)",
+            "fraction": 0,
+            "feedback": "錯 —— 自動機建構對 m 是線性的。"
+          }
+        ],
+        "generalFeedback": "建 trie 加失敗連結為 O(m),單次文字掃描為 O(n),再加輸出每個比對的 O(z)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "失敗連結的作用",
+        "text": "<p>加到 Aho-Corasick trie 上的<strong>失敗連結</strong>作用為何?</p>",
+        "answers": [
+          {
+            "text": "將 KMP 的失敗函數推廣,回退到「同時是 trie 前綴的最長真後綴」",
+            "fraction": 100,
+            "feedback": "正確 —— 它讓掃描轉向而不重讀文字。"
+          },
+          {
+            "text": "將 trie 的子節點按字母排序",
+            "fraction": 0,
+            "feedback": "錯 —— 失敗連結不做任何排序。"
+          },
+          {
+            "text": "儲存每個節點的滾動雜湊",
+            "fraction": 0,
+            "feedback": "錯 —— Aho-Corasick 不使用雜湊。"
+          },
+          {
+            "text": "從 trie 中刪除已比對的樣式",
+            "fraction": 0,
+            "feedback": "錯 —— 比對過程中節點不會被移除。"
+          }
+        ],
+        "generalFeedback": "失敗連結從某節點指向「代表最長真後綴且該後綴亦為 trie 中前綴」的節點 —— 即 KMP 概念擴展到多樣式。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Aho-Corasick 的特性",
+        "text": "<p>關於 Aho-Corasick,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它以單次掃描文字執行多樣式比對",
+            "fraction": 50,
+            "feedback": "正確 —— 所有樣式同時被比對。"
+          },
+          {
+            "text": "它在樣式的 trie 上加入失敗連結(與輸出連結)",
+            "fraction": 50,
+            "feedback": "正確 —— 這正是自動機的建構方式。"
+          },
+          {
+            "text": "它一次只能搜尋單一樣式",
+            "fraction": -50,
+            "feedback": "錯 —— 它的重點正是處理一組樣式。"
+          },
+          {
+            "text": "它像 Rabin-Karp 一樣依賴滾動雜湊",
+            "fraction": -50,
+            "feedback": "錯 —— 它使用 trie 自動機,而非雜湊。"
+          }
+        ],
+        "generalFeedback": "Aho-Corasick = trie + 失敗連結 + 輸出連結,單次掃描文字即找出所有樣式。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Aho-Corasick 應用",
+        "text": "<p>Aho-Corasick 被 <code>grep -F</code>/<code>fgrep</code>、防毒特徵掃描與入侵偵測系統等工具所使用。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這些都是對大量固定樣式篩選文字。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "這些都是 Aho-Corasick 的經典實務應用。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "失敗連結與 KMP",
+        "text": "<p>Aho-Corasick 的失敗連結將 KMP 的失敗函數從單一樣式推廣到一整組樣式。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它正是相同回退概念的多樣式擴展。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "失敗連結正是 KMP 失敗函數的多樣式推廣。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "自動機骨架名詞",
+        "text": "<p>Aho-Corasick 在哪種前綴樹資料結構之上建立其自動機?(以英文單字作答)</p>",
+        "answers": [
+          {
+            "text": "trie",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "trie*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "search-binary": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Binary search core mechanism",
+        "text": "<p>Which best describes the <strong>core mechanism</strong> of binary search?</p>",
+        "answers": [
+          {
+            "text": "Compare the target with the middle element and discard the half that cannot contain it, repeatedly halving the interval",
+            "fraction": 100,
+            "feedback": "Correct — each comparison halves the remaining search space."
+          },
+          {
+            "text": "Scan every element in order from the start",
+            "fraction": 0,
+            "feedback": "That is linear search."
+          },
+          {
+            "text": "Estimate the probe position from the target's value",
+            "fraction": 0,
+            "feedback": "That is interpolation search."
+          },
+          {
+            "text": "Split the interval using Fibonacci numbers",
+            "fraction": 0,
+            "feedback": "That is Fibonacci search."
+          }
+        ],
+        "generalFeedback": "Binary search repeatedly compares the middle element and eliminates half of the remaining range.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Binary search worst case",
+        "text": "<p>What is the <strong>worst-case</strong> time complexity of binary search over n elements?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — halving the range gives about log&#8322; n steps."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "That is linear search; binary search halves each step."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "Only the best case (target at the middle) is constant."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "Too large; a single search is logarithmic."
+          }
+        ],
+        "generalFeedback": "Each step discards half the elements, so at most ~log&#8322; n comparisons are needed.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Binary search precondition",
+        "text": "<p>What <strong>precondition</strong> must the input array satisfy for binary search to be correct?</p>",
+        "answers": [
+          {
+            "text": "It must be sorted",
+            "fraction": 100,
+            "feedback": "Correct — binary search relies on order to decide which half to keep."
+          },
+          {
+            "text": "It must be unsorted",
+            "fraction": 0,
+            "feedback": "No — without order the halving logic breaks."
+          },
+          {
+            "text": "Its values must be uniformly distributed",
+            "fraction": 0,
+            "feedback": "Uniform distribution helps interpolation search, not binary search."
+          },
+          {
+            "text": "It must contain only distinct values",
+            "fraction": 0,
+            "feedback": "No — binary search works with duplicates too."
+          }
+        ],
+        "generalFeedback": "Binary search requires a sorted array (and random access) so it can rule out half the range at each comparison.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Binary search on linked lists",
+        "text": "<p>Why is binary search a poor fit for a singly linked list?</p>",
+        "answers": [
+          {
+            "text": "A linked list lacks O(1) random access, so reaching the middle element is itself O(n)",
+            "fraction": 100,
+            "feedback": "Correct — jumping to the midpoint costs O(n), defeating the speedup."
+          },
+          {
+            "text": "Linked lists cannot store sorted data",
+            "fraction": 0,
+            "feedback": "No — a linked list can certainly be kept in sorted order."
+          },
+          {
+            "text": "Binary search only works on floating-point values",
+            "fraction": 0,
+            "feedback": "No — it works on any ordered keys."
+          },
+          {
+            "text": "Linked lists use too much memory",
+            "fraction": 0,
+            "feedback": "Not the reason; the issue is indexing cost."
+          }
+        ],
+        "generalFeedback": "Binary search needs O(1) indexing to reach the midpoint; a linked list only offers sequential access.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Binary search properties",
+        "text": "<p>Which statements about binary search are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It runs in O(log n) time in the worst case",
+            "fraction": 50,
+            "feedback": "Yes — the range halves each step."
+          },
+          {
+            "text": "It requires the array to be sorted",
+            "fraction": 50,
+            "feedback": "Yes — order is what lets it discard half the range."
+          },
+          {
+            "text": "It works correctly on unsorted arrays",
+            "fraction": -50,
+            "feedback": "No — it requires sorted input."
+          },
+          {
+            "text": "It runs in O(n) time in the worst case",
+            "fraction": -50,
+            "feedback": "No — that is linear search; binary search is O(log n)."
+          }
+        ],
+        "generalFeedback": "Binary search: O(log n) worst case, requires sorted input and random access.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Binary search on unsorted data",
+        "text": "<p>Binary search returns correct results on an unsorted array.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — without a sorted order the discarded half may contain the target."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — binary search requires the array to be sorted."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Binary search space",
+        "text": "<p>Iterative binary search uses only O(1) extra (auxiliary) space.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it keeps just a few index variables."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The iterative version needs only constant extra space."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Binary search complexity term",
+        "text": "<p>Binary search's worst-case time is O(____ n). Fill in the three-letter function name that goes in the blank.</p>",
+        "answers": [
+          {
+            "text": "log",
+            "fraction": 100,
+            "feedback": "Correct — O(log n)."
+          },
+          {
+            "text": "log*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "二分搜尋核心機制",
+        "text": "<p>下列何者最能描述二分搜尋的<strong>核心機制</strong>?</p>",
+        "answers": [
+          {
+            "text": "將目標與中間元素比較,捨棄不可能含有目標的那一半,反覆將區間對半縮小",
+            "fraction": 100,
+            "feedback": "正確 —— 每次比較都將剩餘搜尋空間減半。"
+          },
+          {
+            "text": "從頭開始依序掃描每個元素",
+            "fraction": 0,
+            "feedback": "那是線性搜尋。"
+          },
+          {
+            "text": "依據目標的數值估算探測位置",
+            "fraction": 0,
+            "feedback": "那是內插搜尋。"
+          },
+          {
+            "text": "使用費氏數列分割區間",
+            "fraction": 0,
+            "feedback": "那是費氏搜尋。"
+          }
+        ],
+        "generalFeedback": "二分搜尋反覆比較中間元素,並排除剩餘範圍的一半。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "二分搜尋最差情況",
+        "text": "<p>對 n 個元素進行二分搜尋,其<strong>最差情況</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 範圍對半縮小約需 log&#8322; n 步。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "那是線性搜尋;二分搜尋每步減半。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "只有最佳情況(目標位於中間)才是常數。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "太大了;單次搜尋為對數級。"
+          }
+        ],
+        "generalFeedback": "每步捨棄一半元素,因此最多需要約 log&#8322; n 次比較。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "二分搜尋前提條件",
+        "text": "<p>為使二分搜尋正確,輸入陣列必須滿足哪個<strong>前提條件</strong>?</p>",
+        "answers": [
+          {
+            "text": "必須已排序",
+            "fraction": 100,
+            "feedback": "正確 —— 二分搜尋仰賴順序來決定保留哪一半。"
+          },
+          {
+            "text": "必須未排序",
+            "fraction": 0,
+            "feedback": "錯 —— 沒有順序,對半縮小的邏輯就會失效。"
+          },
+          {
+            "text": "其數值必須均勻分布",
+            "fraction": 0,
+            "feedback": "均勻分布有助於內插搜尋,而非二分搜尋。"
+          },
+          {
+            "text": "必須只含相異數值",
+            "fraction": 0,
+            "feedback": "錯 —— 二分搜尋對含重複值的資料也適用。"
+          }
+        ],
+        "generalFeedback": "二分搜尋需要已排序陣列(以及隨機存取),才能在每次比較時排除一半範圍。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結串列上的二分搜尋",
+        "text": "<p>為何二分搜尋不適合用於單向鏈結串列?</p>",
+        "answers": [
+          {
+            "text": "鏈結串列缺乏 O(1) 隨機存取,因此走到中間元素本身就是 O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 跳到中點需 O(n),抵消了加速效果。"
+          },
+          {
+            "text": "鏈結串列無法儲存已排序的資料",
+            "fraction": 0,
+            "feedback": "錯 —— 鏈結串列當然可以維持排序順序。"
+          },
+          {
+            "text": "二分搜尋只能用於浮點數值",
+            "fraction": 0,
+            "feedback": "錯 —— 它適用於任何有序鍵值。"
+          },
+          {
+            "text": "鏈結串列使用太多記憶體",
+            "fraction": 0,
+            "feedback": "不是原因;問題在於索引成本。"
+          }
+        ],
+        "generalFeedback": "二分搜尋需要 O(1) 索引才能抵達中點;鏈結串列只提供循序存取。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "二分搜尋特性",
+        "text": "<p>關於二分搜尋,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它在最差情況下以 O(log n) 時間執行",
+            "fraction": 50,
+            "feedback": "正確 —— 範圍每步減半。"
+          },
+          {
+            "text": "它需要陣列已排序",
+            "fraction": 50,
+            "feedback": "正確 —— 順序讓它能捨棄一半範圍。"
+          },
+          {
+            "text": "它在未排序陣列上也能正確運作",
+            "fraction": -50,
+            "feedback": "錯 —— 它需要已排序的輸入。"
+          },
+          {
+            "text": "它在最差情況下以 O(n) 時間執行",
+            "fraction": -50,
+            "feedback": "錯 —— 那是線性搜尋;二分搜尋為 O(log n)。"
+          }
+        ],
+        "generalFeedback": "二分搜尋:最差情況 O(log n),需要已排序輸入與隨機存取。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "未排序資料上的二分搜尋",
+        "text": "<p>二分搜尋在未排序陣列上會回傳正確結果。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 沒有排序順序,被捨棄的一半可能含有目標。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 二分搜尋要求陣列已排序。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "二分搜尋空間",
+        "text": "<p>迭代式二分搜尋僅使用 O(1) 的額外(輔助)空間。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 只保存少數索引變數。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "迭代版本只需常數額外空間。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "二分搜尋複雜度名詞",
+        "text": "<p>二分搜尋的最差情況時間為 O(____ n)。請填入空格中那個三字母的函數名稱(英文)。</p>",
+        "answers": [
+          {
+            "text": "log",
+            "fraction": 100,
+            "feedback": "正確 —— O(log n)。"
+          },
+          {
+            "text": "log*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "search-bm": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore scan direction",
+        "text": "<p>Within each alignment, in which direction does <strong>Boyer-Moore</strong> compare the pattern against the text?</p>",
+        "answers": [
+          {
+            "text": "Right to left (from the end of the pattern toward the front)",
+            "fraction": 100,
+            "feedback": "Correct — matching from the rightmost pattern character enables large skips."
+          },
+          {
+            "text": "Left to right",
+            "fraction": 0,
+            "feedback": "No — that is KMP; Boyer-Moore compares right to left."
+          },
+          {
+            "text": "From the middle outward",
+            "fraction": 0,
+            "feedback": "No — Boyer-Moore starts at the rightmost character."
+          },
+          {
+            "text": "In random order",
+            "fraction": 0,
+            "feedback": "No — comparison order is fixed: right to left."
+          }
+        ],
+        "generalFeedback": "Boyer-Moore aligns the pattern and compares from its last character backward, which is what makes its heuristics able to skip.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore heuristics",
+        "text": "<p>Which two heuristics does classic Boyer-Moore use to decide how far to shift the pattern?</p>",
+        "answers": [
+          {
+            "text": "Bad-character and good-suffix",
+            "fraction": 100,
+            "feedback": "Correct — these two rules determine the shift distance."
+          },
+          {
+            "text": "Failure function and rolling hash",
+            "fraction": 0,
+            "feedback": "No — those belong to KMP and Rabin-Karp respectively."
+          },
+          {
+            "text": "Bad-character and rolling hash",
+            "fraction": 0,
+            "feedback": "No — the rolling hash is Rabin-Karp, not Boyer-Moore."
+          },
+          {
+            "text": "Good-suffix and binary search",
+            "fraction": 0,
+            "feedback": "No — Boyer-Moore does not use binary search."
+          }
+        ],
+        "generalFeedback": "Boyer-Moore combines the bad-character heuristic and the good-suffix heuristic, taking the larger shift of the two.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore average performance",
+        "text": "<p>Why is Boyer-Moore often described as <strong>sublinear</strong> in practice?</p>",
+        "answers": [
+          {
+            "text": "Its heuristics let it skip many text characters without inspecting them, best case around O(n/m)",
+            "fraction": 100,
+            "feedback": "Correct — large skips mean it can examine far fewer than n characters."
+          },
+          {
+            "text": "It uses a hash to test all windows in O(1)",
+            "fraction": 0,
+            "feedback": "No — that is Rabin-Karp; Boyer-Moore skips via heuristics."
+          },
+          {
+            "text": "It sorts the text first to enable binary search",
+            "fraction": 0,
+            "feedback": "No — Boyer-Moore does not sort or binary-search."
+          },
+          {
+            "text": "It never needs to preprocess the pattern",
+            "fraction": 0,
+            "feedback": "No — it does preprocess to build its heuristic tables."
+          }
+        ],
+        "generalFeedback": "On large alphabets and long patterns, skips are large, so Boyer-Moore inspects far fewer than n characters — best case ~O(n/m). This is why grep uses it.",
+        "single": true
+      },
+      {
+        "type": "shortanswer",
+        "name": "Bad character heuristic term",
+        "text": "<p>The Boyer-Moore rule that shifts the pattern based on the mismatched text character is called the ______-character heuristic. Give the missing word.</p>",
+        "answers": [
+          {
+            "text": "bad",
+            "fraction": 100,
+            "feedback": "Correct — the bad-character heuristic."
+          },
+          {
+            "text": "bad*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore when to use",
+        "text": "<p>When does Boyer-Moore tend to shine most?</p>",
+        "answers": [
+          {
+            "text": "Searching a long pattern over a large alphabet, where average-case skipping is largest",
+            "fraction": 100,
+            "feedback": "Correct — big alphabets and long patterns produce the biggest skips."
+          },
+          {
+            "text": "When you need a strict worst-case linear guarantee out of the box",
+            "fraction": 0,
+            "feedback": "No — naive Boyer-Moore is O(nm); KMP gives the built-in linear guarantee."
+          },
+          {
+            "text": "When searching for many patterns at once",
+            "fraction": 0,
+            "feedback": "No — multi-pattern search favors Rabin-Karp."
+          },
+          {
+            "text": "When the pattern is a single character",
+            "fraction": 0,
+            "feedback": "No — with m = 1 there is little to skip; Boyer-Moore's advantage shrinks."
+          }
+        ],
+        "generalFeedback": "Boyer-Moore is fastest in practice for long patterns and large alphabets, which is why tools like grep use it.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Boyer-Moore worst case",
+        "text": "<p>The naive Boyer-Moore (bad-character only) can degrade to O(n &times; m) in the worst case, but adding the Galil rule restores O(n + m).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — worst case is O(nm) naively; the Galil rule gives a linear guarantee."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — the naive worst case really is O(nm), and the Galil rule really does bound it to O(n + m)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Boyer-Moore grep use",
+        "text": "<p>Boyer-Moore is a common choice for fast text search tools such as <code>grep</code>.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — its sublinear average behavior makes it a practical favorite."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — Boyer-Moore variants are indeed widely used in tools like grep."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore properties multi",
+        "text": "<p>Which statements about Boyer-Moore are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Longer patterns and larger alphabets tend to make it faster (bigger skips)",
+            "fraction": 50,
+            "feedback": "Yes — more distinctive characters allow larger shifts."
+          },
+          {
+            "text": "It compares characters from the right end of the pattern first",
+            "fraction": 50,
+            "feedback": "Yes — right-to-left comparison is central to the method."
+          },
+          {
+            "text": "It guarantees O(n + m) time without any extra rule",
+            "fraction": -50,
+            "feedback": "No — the naive version is O(nm); linearity needs the Galil rule."
+          },
+          {
+            "text": "It uses a rolling hash to compare windows",
+            "fraction": -50,
+            "feedback": "No — the rolling hash is Rabin-Karp, not Boyer-Moore."
+          }
+        ],
+        "generalFeedback": "Boyer-Moore: right-to-left comparison, faster with long patterns/large alphabets, but only linear with the Galil rule; rolling hashes belong to Rabin-Karp.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore 掃描方向",
+        "text": "<p>在每個對齊位置,<strong>Boyer-Moore</strong> 以何種方向將樣式與文字比對?</p>",
+        "answers": [
+          {
+            "text": "由右至左(從樣式尾端往前)",
+            "fraction": 100,
+            "feedback": "正確 —— 從樣式最右字元開始比對,才能大幅跳躍。"
+          },
+          {
+            "text": "由左至右",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 KMP;Boyer-Moore 是由右至左比對。"
+          },
+          {
+            "text": "從中間向外",
+            "fraction": 0,
+            "feedback": "錯 —— Boyer-Moore 從最右字元開始。"
+          },
+          {
+            "text": "以隨機順序",
+            "fraction": 0,
+            "feedback": "錯 —— 比對順序是固定的:由右至左。"
+          }
+        ],
+        "generalFeedback": "Boyer-Moore 對齊樣式後從最後一個字元往前比對,這正是其啟發式能跳躍的原因。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore 啟發式",
+        "text": "<p>經典 Boyer-Moore 使用哪兩種啟發式來決定樣式要位移多遠?</p>",
+        "answers": [
+          {
+            "text": "壞字元(bad-character)與好後綴(good-suffix)",
+            "fraction": 100,
+            "feedback": "正確 —— 這兩條規則決定位移距離。"
+          },
+          {
+            "text": "失敗函數與滾動雜湊",
+            "fraction": 0,
+            "feedback": "錯 —— 那分別屬於 KMP 與 Rabin-Karp。"
+          },
+          {
+            "text": "壞字元與滾動雜湊",
+            "fraction": 0,
+            "feedback": "錯 —— 滾動雜湊是 Rabin-Karp,不是 Boyer-Moore。"
+          },
+          {
+            "text": "好後綴與二分搜尋",
+            "fraction": 0,
+            "feedback": "錯 —— Boyer-Moore 不使用二分搜尋。"
+          }
+        ],
+        "generalFeedback": "Boyer-Moore 結合壞字元啟發式與好後綴啟發式,取兩者較大的位移。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore 平均效能",
+        "text": "<p>為什麼實務上常說 Boyer-Moore 是<strong>次線性</strong>的?</p>",
+        "answers": [
+          {
+            "text": "其啟發式讓它能跳過許多文字字元而不檢視,最佳情況約 O(n/m)",
+            "fraction": 100,
+            "feedback": "正確 —— 大幅跳躍意味著檢視的字元遠少於 n。"
+          },
+          {
+            "text": "它用雜湊以 O(1) 測試所有視窗",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 Rabin-Karp;Boyer-Moore 靠啟發式跳躍。"
+          },
+          {
+            "text": "它先將文字排序以便二分搜尋",
+            "fraction": 0,
+            "feedback": "錯 —— Boyer-Moore 不排序也不二分搜尋。"
+          },
+          {
+            "text": "它完全不需要對樣式做前處理",
+            "fraction": 0,
+            "feedback": "錯 —— 它確實會前處理以建立啟發式表。"
+          }
+        ],
+        "generalFeedback": "在大字母集與長樣式下,跳躍很大,因此 Boyer-Moore 檢視的字元遠少於 n —— 最佳情況約 O(n/m)。這也是 grep 使用它的原因。",
+        "single": true
+      },
+      {
+        "type": "shortanswer",
+        "name": "壞字元啟發式名詞",
+        "text": "<p>Boyer-Moore 中根據不匹配的文字字元來位移樣式的規則,稱為 ______-character 啟發式。請填入缺少的英文單字。</p>",
+        "answers": [
+          {
+            "text": "bad",
+            "fraction": 100,
+            "feedback": "正確 —— 壞字元(bad-character)啟發式。"
+          },
+          {
+            "text": "bad*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore 何時使用",
+        "text": "<p>Boyer-Moore 在什麼情況下最為出色?</p>",
+        "answers": [
+          {
+            "text": "在大字母集上搜尋長樣式,此時平均情況跳躍最大",
+            "fraction": 100,
+            "feedback": "正確 —— 大字母集與長樣式產生最大的跳躍。"
+          },
+          {
+            "text": "當你需要開箱即用的嚴格最差情況線性保證時",
+            "fraction": 0,
+            "feedback": "錯 —— 樸素 Boyer-Moore 為 O(nm);KMP 才有內建線性保證。"
+          },
+          {
+            "text": "當一次搜尋多個樣式時",
+            "fraction": 0,
+            "feedback": "錯 —— 多樣式搜尋有利於 Rabin-Karp。"
+          },
+          {
+            "text": "當樣式只有單一字元時",
+            "fraction": 0,
+            "feedback": "錯 —— m = 1 時幾乎無可跳躍,Boyer-Moore 的優勢縮小。"
+          }
+        ],
+        "generalFeedback": "Boyer-Moore 在長樣式與大字母集下實務上最快,這也是 grep 等工具使用它的原因。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Boyer-Moore 最差情況",
+        "text": "<p>樸素的 Boyer-Moore(僅壞字元)最差情況可能退化為 O(n &times; m),但加入 Galil 規則可恢復為 O(n + m)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 樸素版最差為 O(nm);Galil 規則給出線性保證。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 樸素版最差確實是 O(nm),而 Galil 規則確實能將其界定為 O(n + m)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Boyer-Moore 於 grep 的使用",
+        "text": "<p>Boyer-Moore 是 <code>grep</code> 等快速文字搜尋工具常見的選擇。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 其次線性的平均表現使它成為實務上的常用選擇。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— Boyer-Moore 變體確實廣泛用於 grep 等工具。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore 性質複選",
+        "text": "<p>關於 Boyer-Moore,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "較長的樣式與較大的字母集往往使它更快(跳躍更大)",
+            "fraction": 50,
+            "feedback": "正確 —— 更具區別性的字元允許更大的位移。"
+          },
+          {
+            "text": "它先從樣式的右端字元開始比對",
+            "fraction": 50,
+            "feedback": "正確 —— 由右至左比對是此方法的核心。"
+          },
+          {
+            "text": "它不需任何額外規則就保證 O(n + m) 時間",
+            "fraction": -50,
+            "feedback": "錯 —— 樸素版為 O(nm);線性需要 Galil 規則。"
+          },
+          {
+            "text": "它使用滾動雜湊來比較視窗",
+            "fraction": -50,
+            "feedback": "錯 —— 滾動雜湊是 Rabin-Karp,不是 Boyer-Moore。"
+          }
+        ],
+        "generalFeedback": "Boyer-Moore:由右至左比對,長樣式/大字母集時更快,但只有加上 Galil 規則才是線性;滾動雜湊屬於 Rabin-Karp。",
+        "single": false
+      }
+    ]
+  },
+  "search-fibonacci": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Fibonacci search core mechanism",
+        "text": "<p>Which best describes the <strong>core mechanism</strong> of Fibonacci search?</p>",
+        "answers": [
+          {
+            "text": "Narrow the sorted range using split points derived from Fibonacci numbers instead of always halving",
+            "fraction": 100,
+            "feedback": "Correct — successive Fibonacci numbers determine the probe positions."
+          },
+          {
+            "text": "Scan every element in order from the start",
+            "fraction": 0,
+            "feedback": "That is linear search."
+          },
+          {
+            "text": "Always compare the exact middle element to halve the interval",
+            "fraction": 0,
+            "feedback": "That is binary search; Fibonacci search splits by Fibonacci numbers, not exactly in half."
+          },
+          {
+            "text": "Estimate the probe position from the target's value",
+            "fraction": 0,
+            "feedback": "That is interpolation search."
+          }
+        ],
+        "generalFeedback": "Fibonacci search uses consecutive Fibonacci numbers to choose split points, examining elements toward the front of the range.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fibonacci search complexity",
+        "text": "<p>How many comparisons (time complexity) does Fibonacci search need in the worst case over n elements?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — like binary search, it shrinks the range logarithmically."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "That is linear search; Fibonacci search is logarithmic."
+          },
+          {
+            "text": "O(log log n)",
+            "fraction": 0,
+            "feedback": "That is interpolation search's average on uniform data."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "Too large; Fibonacci search is O(log n)."
+          }
+        ],
+        "generalFeedback": "Fibonacci search shrinks the interval by a constant factor each step, giving O(log n) comparisons.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fibonacci search precondition",
+        "text": "<p>What <strong>precondition</strong> must the input satisfy for Fibonacci search to work correctly?</p>",
+        "answers": [
+          {
+            "text": "The array must be sorted",
+            "fraction": 100,
+            "feedback": "Correct — like binary search, it relies on order to discard part of the range."
+          },
+          {
+            "text": "The array must be unsorted",
+            "fraction": 0,
+            "feedback": "No — order is required."
+          },
+          {
+            "text": "The values must be uniformly distributed",
+            "fraction": 0,
+            "feedback": "That matters for interpolation search, not Fibonacci search."
+          },
+          {
+            "text": "The array length must itself be a Fibonacci number",
+            "fraction": 0,
+            "feedback": "No — the algorithm just uses the smallest Fibonacci number &ge; n; the length need not be Fibonacci."
+          }
+        ],
+        "generalFeedback": "Fibonacci search requires a sorted array; it then uses Fibonacci numbers only to pick split points.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fibonacci search advantage",
+        "text": "<p>What is a distinctive advantage of Fibonacci search over binary search?</p>",
+        "answers": [
+          {
+            "text": "It computes split points using only addition and subtraction, avoiding division",
+            "fraction": 100,
+            "feedback": "Correct — historically useful when division or mid-index computation was costly."
+          },
+          {
+            "text": "It works on unsorted data",
+            "fraction": 0,
+            "feedback": "No — it still requires a sorted array."
+          },
+          {
+            "text": "It achieves O(1) worst-case time",
+            "fraction": 0,
+            "feedback": "No — it is O(log n), like binary search."
+          },
+          {
+            "text": "It needs no comparisons at all",
+            "fraction": 0,
+            "feedback": "No — it still compares elements to the target."
+          }
+        ],
+        "generalFeedback": "Fibonacci search advances its indices with additions/subtractions of Fibonacci numbers, so it needs no division to find a midpoint.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fibonacci search properties",
+        "text": "<p>Which statements about Fibonacci search are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It requires a sorted array",
+            "fraction": 50,
+            "feedback": "Yes — order is needed to discard part of the range."
+          },
+          {
+            "text": "It uses only addition and subtraction, with no division, to find split points",
+            "fraction": 50,
+            "feedback": "Yes — that is its historical selling point."
+          },
+          {
+            "text": "It runs in O(n log n) time",
+            "fraction": -50,
+            "feedback": "No — it makes O(log n) comparisons."
+          },
+          {
+            "text": "It works on unsorted arrays",
+            "fraction": -50,
+            "feedback": "No — it requires sorted input."
+          }
+        ],
+        "generalFeedback": "Fibonacci search: O(log n) comparisons, sorted input, division-free split points via Fibonacci numbers, O(1) space.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Fibonacci search needs sorting",
+        "text": "<p>Fibonacci search requires the input array to be sorted.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it relies on order to eliminate part of the range."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — like binary search, it needs sorted input."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Fibonacci search uses division",
+        "text": "<p>Fibonacci search must perform a division to compute each split point.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — it advances indices using additions and subtractions of Fibonacci numbers, avoiding division."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — it needs only addition and subtraction, no division."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Fibonacci search number sequence",
+        "text": "<p>The split points of this search are chosen using numbers from the ______ sequence. Name it (one word).</p>",
+        "answers": [
+          {
+            "text": "Fibonacci",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Fib*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "費氏搜尋核心機制",
+        "text": "<p>下列何者最能描述費氏搜尋的<strong>核心機制</strong>?</p>",
+        "answers": [
+          {
+            "text": "使用由費氏數列導出的分割點來縮小已排序範圍,而非總是對半縮小",
+            "fraction": 100,
+            "feedback": "正確 —— 連續的費氏數決定探測位置。"
+          },
+          {
+            "text": "從頭開始依序掃描每個元素",
+            "fraction": 0,
+            "feedback": "那是線性搜尋。"
+          },
+          {
+            "text": "總是比較正中間元素以將區間對半",
+            "fraction": 0,
+            "feedback": "那是二分搜尋;費氏搜尋以費氏數分割,並非剛好對半。"
+          },
+          {
+            "text": "依據目標的數值估算探測位置",
+            "fraction": 0,
+            "feedback": "那是內插搜尋。"
+          }
+        ],
+        "generalFeedback": "費氏搜尋使用連續費氏數來選擇分割點,並偏向檢查範圍前段的元素。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "費氏搜尋複雜度",
+        "text": "<p>對 n 個元素,費氏搜尋在最差情況下需要多少比較次數(時間複雜度)?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 與二分搜尋相同,以對數方式縮小範圍。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "那是線性搜尋;費氏搜尋為對數級。"
+          },
+          {
+            "text": "O(log log n)",
+            "fraction": 0,
+            "feedback": "那是內插搜尋在均勻分布資料上的平均情況。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "太大了;費氏搜尋為 O(log n)。"
+          }
+        ],
+        "generalFeedback": "費氏搜尋每步以固定比例縮小區間,因此需要 O(log n) 次比較。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "費氏搜尋前提條件",
+        "text": "<p>為使費氏搜尋正確運作,輸入必須滿足哪個<strong>前提條件</strong>?</p>",
+        "answers": [
+          {
+            "text": "陣列必須已排序",
+            "fraction": 100,
+            "feedback": "正確 —— 與二分搜尋相同,仰賴順序來捨棄部分範圍。"
+          },
+          {
+            "text": "陣列必須未排序",
+            "fraction": 0,
+            "feedback": "錯 —— 需要順序。"
+          },
+          {
+            "text": "數值必須均勻分布",
+            "fraction": 0,
+            "feedback": "那對內插搜尋才重要,而非費氏搜尋。"
+          },
+          {
+            "text": "陣列長度本身必須是費氏數",
+            "fraction": 0,
+            "feedback": "錯 —— 演算法只是取不小於 n 的最小費氏數;長度不必是費氏數。"
+          }
+        ],
+        "generalFeedback": "費氏搜尋需要已排序陣列;接著僅用費氏數來挑選分割點。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "費氏搜尋的優勢",
+        "text": "<p>相較於二分搜尋,費氏搜尋的獨特優勢為何?</p>",
+        "answers": [
+          {
+            "text": "它只用加法與減法計算分割點,避免使用除法",
+            "fraction": 100,
+            "feedback": "正確 —— 在除法或中點索引計算成本高昂的年代特別有用。"
+          },
+          {
+            "text": "它可在未排序資料上運作",
+            "fraction": 0,
+            "feedback": "錯 —— 它仍需要已排序陣列。"
+          },
+          {
+            "text": "它達到 O(1) 最差情況時間",
+            "fraction": 0,
+            "feedback": "錯 —— 它是 O(log n),與二分搜尋相同。"
+          },
+          {
+            "text": "它完全不需要任何比較",
+            "fraction": 0,
+            "feedback": "錯 —— 它仍需將元素與目標比較。"
+          }
+        ],
+        "generalFeedback": "費氏搜尋以費氏數的加減來推進索引,因此不需除法即可找到分割位置。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "費氏搜尋特性",
+        "text": "<p>關於費氏搜尋,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它需要已排序陣列",
+            "fraction": 50,
+            "feedback": "正確 —— 需要順序才能捨棄部分範圍。"
+          },
+          {
+            "text": "它只用加法與減法(不用除法)來找分割點",
+            "fraction": 50,
+            "feedback": "正確 —— 這是它的歷史賣點。"
+          },
+          {
+            "text": "它以 O(n log n) 時間執行",
+            "fraction": -50,
+            "feedback": "錯 —— 它做 O(log n) 次比較。"
+          },
+          {
+            "text": "它可在未排序陣列上運作",
+            "fraction": -50,
+            "feedback": "錯 —— 它需要已排序輸入。"
+          }
+        ],
+        "generalFeedback": "費氏搜尋:O(log n) 次比較、已排序輸入、以費氏數提供免除法的分割點、O(1) 空間。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "費氏搜尋是否需要排序",
+        "text": "<p>費氏搜尋需要輸入陣列已排序。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它仰賴順序來排除部分範圍。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 與二分搜尋相同,它需要已排序輸入。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "費氏搜尋是否使用除法",
+        "text": "<p>費氏搜尋必須執行除法來計算每個分割點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它以費氏數的加減來推進索引,避免除法。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 它只需加法與減法,不用除法。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "費氏搜尋所用的數列",
+        "text": "<p>此搜尋法的分割點是使用 ______ 數列中的數字來選擇。請以一個英文單字命名它。</p>",
+        "answers": [
+          {
+            "text": "Fibonacci",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Fib*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "search-interpolation": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Interpolation search core mechanism",
+        "text": "<p>Which best describes the <strong>core mechanism</strong> of interpolation search?</p>",
+        "answers": [
+          {
+            "text": "Estimate the probe position from the target's value relative to the range endpoints, like looking up a name in a phone book",
+            "fraction": 100,
+            "feedback": "Correct — it interpolates where the target likely lies rather than always probing the middle."
+          },
+          {
+            "text": "Always compare the exact middle element to halve the interval",
+            "fraction": 0,
+            "feedback": "That is binary search; interpolation search predicts a position from the value."
+          },
+          {
+            "text": "Scan every element in order from the start",
+            "fraction": 0,
+            "feedback": "That is linear search."
+          },
+          {
+            "text": "Split the range using Fibonacci numbers",
+            "fraction": 0,
+            "feedback": "That is Fibonacci search."
+          }
+        ],
+        "generalFeedback": "Interpolation search computes a probe index by interpolating the target value between the low and high key values — a dictionary/phone-book style lookup.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Interpolation search average case",
+        "text": "<p>On sorted, <strong>uniformly distributed</strong> numeric data, what is the <strong>average-case</strong> time complexity of interpolation search?</p>",
+        "answers": [
+          {
+            "text": "O(log log n)",
+            "fraction": 100,
+            "feedback": "Correct — on uniform data the estimate is very accurate, giving O(log log n)."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "That is binary search; interpolation does better on uniform data."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "That is the worst case on skewed data, not the uniform-data average."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "Too optimistic; the average is O(log log n)."
+          }
+        ],
+        "generalFeedback": "When keys are uniformly distributed the value-based estimate lands very close to the target, giving an average of O(log log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Interpolation search worst case",
+        "text": "<p>What is the <strong>worst-case</strong> time complexity of interpolation search on skewed / non-uniform data?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "Correct — a badly skewed distribution makes each estimate poor, degrading to a linear scan."
+          },
+          {
+            "text": "O(log log n)",
+            "fraction": 0,
+            "feedback": "That is only the average on uniformly distributed data."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No — unlike binary search, interpolation can degrade to O(n) on skewed data."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "Far too optimistic for the worst case."
+          }
+        ],
+        "generalFeedback": "If the data is highly non-uniform the interpolated probe is repeatedly off, so the worst case is O(n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Interpolation search preconditions",
+        "text": "<p>Under which conditions does interpolation search perform best?</p>",
+        "answers": [
+          {
+            "text": "The data is sorted and its values are roughly uniformly distributed",
+            "fraction": 100,
+            "feedback": "Correct — sorting is required, and uniform values make the estimate accurate."
+          },
+          {
+            "text": "The data is unsorted but uniformly distributed",
+            "fraction": 0,
+            "feedback": "No — like binary search it still requires sorted input."
+          },
+          {
+            "text": "The data is sorted but heavily skewed",
+            "fraction": 0,
+            "feedback": "Skew hurts it — that is the O(n) worst case."
+          },
+          {
+            "text": "Any unsorted array",
+            "fraction": 0,
+            "feedback": "No — it requires sorted input to interpolate a position."
+          }
+        ],
+        "generalFeedback": "Interpolation search requires sorted input and shines when values are uniformly distributed; skew degrades it toward O(n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Interpolation search properties",
+        "text": "<p>Which statements about interpolation search are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It requires the input to be sorted",
+            "fraction": 50,
+            "feedback": "Yes — it interpolates a position within an ordered range."
+          },
+          {
+            "text": "Its average is O(log log n) on uniform data but its worst case is O(n) on skewed data",
+            "fraction": 50,
+            "feedback": "Yes — performance depends heavily on the distribution."
+          },
+          {
+            "text": "It works correctly on unsorted arrays",
+            "fraction": -50,
+            "feedback": "No — it requires sorted input."
+          },
+          {
+            "text": "It guarantees O(log n) even on highly skewed data",
+            "fraction": -50,
+            "feedback": "No — on skewed data it can degrade to O(n)."
+          }
+        ],
+        "generalFeedback": "Interpolation search: sorted input, value-based probing, O(log log n) average on uniform data, O(n) worst case, O(1) space.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Interpolation search needs sorting",
+        "text": "<p>Interpolation search requires the input array to be sorted.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it interpolates a probe position within an ordered range."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — sorted input is required."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Interpolation vs binary on skewed data",
+        "text": "<p>Interpolation search is always faster than binary search, even on highly skewed data.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — on skewed / non-uniform data it can degrade to O(n), worse than binary search's O(log n)."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — its advantage holds only on uniformly distributed data."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Interpolation search estimation term",
+        "text": "<p>This search estimates the probe position by linear ______ of the target value between the range endpoints. Give the one-word term.</p>",
+        "answers": [
+          {
+            "text": "interpolation",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "interpol*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "內插搜尋核心機制",
+        "text": "<p>下列何者最能描述內插搜尋的<strong>核心機制</strong>?</p>",
+        "answers": [
+          {
+            "text": "依據目標值相對於範圍端點的位置來估算探測位置,就像在電話簿中查名字一樣",
+            "fraction": 100,
+            "feedback": "正確 —— 它內插目標可能所在之處,而非總是探測中間。"
+          },
+          {
+            "text": "總是比較正中間元素以將區間對半",
+            "fraction": 0,
+            "feedback": "那是二分搜尋;內插搜尋依數值預測位置。"
+          },
+          {
+            "text": "從頭開始依序掃描每個元素",
+            "fraction": 0,
+            "feedback": "那是線性搜尋。"
+          },
+          {
+            "text": "使用費氏數列分割範圍",
+            "fraction": 0,
+            "feedback": "那是費氏搜尋。"
+          }
+        ],
+        "generalFeedback": "內插搜尋以目標值在最低與最高鍵值之間的內插來計算探測索引 —— 一種字典/電話簿式的查找。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "內插搜尋平均情況",
+        "text": "<p>在已排序且<strong>均勻分布</strong>的數值資料上,內插搜尋的<strong>平均情況</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 在均勻資料上估算非常精準,得到 O(log log n)。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "那是二分搜尋;在均勻資料上內插搜尋更好。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "那是在偏斜資料上的最差情況,不是均勻資料的平均。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "太樂觀了;平均為 O(log log n)。"
+          }
+        ],
+        "generalFeedback": "當鍵值均勻分布時,依數值的估算會非常接近目標,平均為 O(log log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "內插搜尋最差情況",
+        "text": "<p>在偏斜/非均勻資料上,內插搜尋的<strong>最差情況</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 嚴重偏斜的分布使每次估算都很差,退化為線性掃描。"
+          },
+          {
+            "text": "O(log log n)",
+            "fraction": 0,
+            "feedback": "那只是均勻分布資料上的平均情況。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 與二分搜尋不同,內插搜尋在偏斜資料上可能退化為 O(n)。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "對最差情況而言太樂觀了。"
+          }
+        ],
+        "generalFeedback": "若資料高度非均勻,內插的探測會一再偏離,因此最差情況為 O(n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "內插搜尋前提條件",
+        "text": "<p>在哪種條件下內插搜尋表現最佳?</p>",
+        "answers": [
+          {
+            "text": "資料已排序,且其數值大致均勻分布",
+            "fraction": 100,
+            "feedback": "正確 —— 需要排序,而均勻的數值使估算精準。"
+          },
+          {
+            "text": "資料未排序但均勻分布",
+            "fraction": 0,
+            "feedback": "錯 —— 與二分搜尋相同,它仍需已排序輸入。"
+          },
+          {
+            "text": "資料已排序但嚴重偏斜",
+            "fraction": 0,
+            "feedback": "偏斜會傷害它 —— 那是 O(n) 最差情況。"
+          },
+          {
+            "text": "任何未排序陣列",
+            "fraction": 0,
+            "feedback": "錯 —— 它需要已排序輸入才能內插位置。"
+          }
+        ],
+        "generalFeedback": "內插搜尋需要已排序輸入,並在數值均勻分布時表現出色;偏斜會使它退化趨近 O(n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "內插搜尋特性",
+        "text": "<p>關於內插搜尋,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它需要輸入已排序",
+            "fraction": 50,
+            "feedback": "正確 —— 它在有序範圍內內插位置。"
+          },
+          {
+            "text": "在均勻資料上平均為 O(log log n),但在偏斜資料上最差為 O(n)",
+            "fraction": 50,
+            "feedback": "正確 —— 效能高度取決於分布。"
+          },
+          {
+            "text": "它在未排序陣列上也能正確運作",
+            "fraction": -50,
+            "feedback": "錯 —— 它需要已排序輸入。"
+          },
+          {
+            "text": "即使在高度偏斜資料上也保證 O(log n)",
+            "fraction": -50,
+            "feedback": "錯 —— 在偏斜資料上它可能退化為 O(n)。"
+          }
+        ],
+        "generalFeedback": "內插搜尋:已排序輸入、依數值探測、均勻資料平均 O(log log n)、最差 O(n)、O(1) 空間。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "內插搜尋是否需要排序",
+        "text": "<p>內插搜尋需要輸入陣列已排序。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它在有序範圍內內插探測位置。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 需要已排序輸入。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "偏斜資料上內插與二分之比較",
+        "text": "<p>內插搜尋永遠比二分搜尋快,即使在高度偏斜的資料上也是如此。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 在偏斜/非均勻資料上它可能退化為 O(n),比二分搜尋的 O(log n) 更差。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 它的優勢只在均勻分布資料上成立。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "內插搜尋估算名詞",
+        "text": "<p>此搜尋法透過將目標值在範圍端點之間做線性 ______ 來估算探測位置。請以一個英文單字作答。</p>",
+        "answers": [
+          {
+            "text": "interpolation",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "interpol*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "search-kmp": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "KMP purpose",
+        "text": "<p>What problem does the <strong>Knuth-Morris-Pratt (KMP)</strong> algorithm solve?</p>",
+        "answers": [
+          {
+            "text": "Finding all occurrences of a pattern string inside a text string",
+            "fraction": 100,
+            "feedback": "Correct — KMP is a single-pattern exact string-matching algorithm."
+          },
+          {
+            "text": "Sorting a text string into lexicographic order",
+            "fraction": 0,
+            "feedback": "No — KMP does not sort; it searches for a pattern."
+          },
+          {
+            "text": "Compressing a text string",
+            "fraction": 0,
+            "feedback": "No — that is data compression, unrelated to KMP."
+          },
+          {
+            "text": "Computing the edit distance between two strings",
+            "fraction": 0,
+            "feedback": "No — that is dynamic-programming alignment, not KMP."
+          }
+        ],
+        "generalFeedback": "KMP locates every occurrence of a pattern of length m within a text of length n using a precomputed failure function.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "KMP search time",
+        "text": "<p>What is the <strong>worst-case</strong> total time complexity of KMP (preprocessing plus search)?</p>",
+        "answers": [
+          {
+            "text": "O(n + m)",
+            "fraction": 100,
+            "feedback": "Correct — building the table is O(m) and the scan is O(n), giving guaranteed linear time."
+          },
+          {
+            "text": "O(n &times; m)",
+            "fraction": 0,
+            "feedback": "No — that is the naive brute-force worst case; KMP avoids it via the failure function."
+          },
+          {
+            "text": "O(n log m)",
+            "fraction": 0,
+            "feedback": "No — KMP has no logarithmic factor."
+          },
+          {
+            "text": "O(m^2)",
+            "fraction": 0,
+            "feedback": "No — even the table construction is linear O(m)."
+          }
+        ],
+        "generalFeedback": "KMP is optimal for single-pattern search: O(m) preprocessing plus O(n) scanning equals O(n + m) worst case.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "KMP space",
+        "text": "<p>How much extra space does KMP use for its prefix/failure table?</p>",
+        "answers": [
+          {
+            "text": "O(m)",
+            "fraction": 100,
+            "feedback": "Correct — the failure function stores one entry per pattern character."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — the table depends on the pattern length m, not the text length n."
+          },
+          {
+            "text": "O(n + m)",
+            "fraction": 0,
+            "feedback": "No — no per-text-character table is stored."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "No — the failure table needs m entries."
+          }
+        ],
+        "generalFeedback": "KMP precomputes an LPS/failure array of length m, so extra space is O(m).",
+        "single": true
+      },
+      {
+        "type": "shortanswer",
+        "name": "LPS acronym",
+        "text": "<p>KMP's failure function stores, for each prefix, the length of the longest proper prefix that is also a ______ of that prefix. Give the missing word.</p>",
+        "answers": [
+          {
+            "text": "suffix",
+            "fraction": 100,
+            "feedback": "Correct — LPS = Longest Proper Prefix which is also a Suffix."
+          },
+          {
+            "text": "suffix*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "KMP when to use",
+        "text": "<p>When is KMP the best fit?</p>",
+        "answers": [
+          {
+            "text": "When you need a guaranteed linear-time single-pattern search with no risk of quadratic blowup",
+            "fraction": 100,
+            "feedback": "Correct — KMP's worst-case O(n + m) guarantee is its main selling point."
+          },
+          {
+            "text": "When you must search for hundreds of patterns at once",
+            "fraction": 0,
+            "feedback": "No — that favors Rabin-Karp's multi-pattern hashing."
+          },
+          {
+            "text": "When the alphabet is huge and you want maximum average-case skipping",
+            "fraction": 0,
+            "feedback": "No — large-skip behavior is Boyer-Moore's niche."
+          },
+          {
+            "text": "When you need to sort the text",
+            "fraction": 0,
+            "feedback": "No — KMP does not sort."
+          }
+        ],
+        "generalFeedback": "Choose KMP when a hard worst-case linear guarantee for one pattern matters more than average-case skipping.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "KMP no text backtracking",
+        "text": "<p>During the search phase, KMP never moves the <em>text</em> pointer backward: on a mismatch it only shifts the pattern using the failure table.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the text index only advances; the failure function repositions the pattern instead."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — never backtracking the text is exactly what makes KMP linear."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "KMP right to left claim",
+        "text": "<p>KMP compares the pattern against the text from <em>right to left</em> within each alignment.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — that describes Boyer-Moore; KMP compares left to right."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — KMP scans left to right; right-to-left comparison is Boyer-Moore."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "multichoice",
+        "name": "KMP properties multi",
+        "text": "<p>Which statements about KMP are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It guarantees O(n + m) time even on adversarial inputs",
+            "fraction": 50,
+            "feedback": "Yes — KMP's linear bound is worst-case, not just average."
+          },
+          {
+            "text": "The failure table lets it reuse already-matched characters after a mismatch",
+            "fraction": 50,
+            "feedback": "Yes — that reuse is why the text pointer never backs up."
+          },
+          {
+            "text": "It requires O(n) extra space proportional to the text length",
+            "fraction": -50,
+            "feedback": "No — extra space is O(m), tied to the pattern length."
+          },
+          {
+            "text": "It skips ahead using a bad-character heuristic",
+            "fraction": -50,
+            "feedback": "No — the bad-character heuristic belongs to Boyer-Moore."
+          }
+        ],
+        "generalFeedback": "KMP: guaranteed O(n + m) time, O(m) space, reuses matched prefixes via the failure function; heuristic skipping is Boyer-Moore.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "KMP 用途",
+        "text": "<p><strong>Knuth-Morris-Pratt(KMP)</strong>演算法解決什麼問題?</p>",
+        "answers": [
+          {
+            "text": "在文字字串中找出樣式字串的所有出現位置",
+            "fraction": 100,
+            "feedback": "正確 —— KMP 是單一樣式的精確字串比對演算法。"
+          },
+          {
+            "text": "將文字字串依字典順序排序",
+            "fraction": 0,
+            "feedback": "錯 —— KMP 不排序,而是搜尋樣式。"
+          },
+          {
+            "text": "壓縮文字字串",
+            "fraction": 0,
+            "feedback": "錯 —— 那是資料壓縮,與 KMP 無關。"
+          },
+          {
+            "text": "計算兩個字串之間的編輯距離",
+            "fraction": 0,
+            "feedback": "錯 —— 那是動態規劃對齊,不是 KMP。"
+          }
+        ],
+        "generalFeedback": "KMP 使用預先計算的失敗函數,在長度 n 的文字中找出長度 m 樣式的每一次出現。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "KMP 搜尋時間",
+        "text": "<p>KMP 的<strong>最差情況</strong>總時間複雜度(前處理加搜尋)為何?</p>",
+        "answers": [
+          {
+            "text": "O(n + m)",
+            "fraction": 100,
+            "feedback": "正確 —— 建表為 O(m)、掃描為 O(n),保證線性時間。"
+          },
+          {
+            "text": "O(n &times; m)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是樸素暴力法的最差情況;KMP 透過失敗函數避免它。"
+          },
+          {
+            "text": "O(n log m)",
+            "fraction": 0,
+            "feedback": "錯 —— KMP 沒有對數因子。"
+          },
+          {
+            "text": "O(m^2)",
+            "fraction": 0,
+            "feedback": "錯 —— 連建表都是線性 O(m)。"
+          }
+        ],
+        "generalFeedback": "KMP 對單一樣式搜尋是最佳的:O(m) 前處理加 O(n) 掃描等於 O(n + m) 最差情況。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "KMP 空間",
+        "text": "<p>KMP 的前綴/失敗表使用多少額外空間?</p>",
+        "answers": [
+          {
+            "text": "O(m)",
+            "fraction": 100,
+            "feedback": "正確 —— 失敗函數為每個樣式字元存一個項目。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 該表取決於樣式長度 m,而非文字長度 n。"
+          },
+          {
+            "text": "O(n + m)",
+            "fraction": 0,
+            "feedback": "錯 —— 不會為每個文字字元儲存表。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "錯 —— 失敗表需要 m 個項目。"
+          }
+        ],
+        "generalFeedback": "KMP 預先計算長度 m 的 LPS/失敗陣列,因此額外空間為 O(m)。",
+        "single": true
+      },
+      {
+        "type": "shortanswer",
+        "name": "LPS 縮寫",
+        "text": "<p>KMP 的失敗函數為每個前綴儲存「最長的、既是真前綴又是該前綴之 ______」的長度。請填入缺少的英文單字。</p>",
+        "answers": [
+          {
+            "text": "suffix",
+            "fraction": 100,
+            "feedback": "正確 —— LPS = Longest Proper Prefix which is also a Suffix(最長相同真前綴後綴)。"
+          },
+          {
+            "text": "suffix*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "KMP 何時使用",
+        "text": "<p>KMP 在什麼情況下最適用?</p>",
+        "answers": [
+          {
+            "text": "當你需要單一樣式、保證線性時間且無退化為平方風險的搜尋",
+            "fraction": 100,
+            "feedback": "正確 —— KMP 的最差情況 O(n + m) 保證是其主要賣點。"
+          },
+          {
+            "text": "當你必須一次搜尋數百個樣式",
+            "fraction": 0,
+            "feedback": "錯 —— 那有利於 Rabin-Karp 的多樣式雜湊。"
+          },
+          {
+            "text": "當字母集很大且你想要最大的平均情況跳躍",
+            "fraction": 0,
+            "feedback": "錯 —— 大幅跳躍是 Boyer-Moore 的專長。"
+          },
+          {
+            "text": "當你需要將文字排序時",
+            "fraction": 0,
+            "feedback": "錯 —— KMP 不排序。"
+          }
+        ],
+        "generalFeedback": "當單一樣式的最差情況線性保證比平均情況跳躍更重要時,選擇 KMP。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "KMP 不回溯文字",
+        "text": "<p>在搜尋階段,KMP 從不將<em>文字</em>指標往回移動:遇到不匹配時,只用失敗表移動樣式。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 文字索引只前進;失敗函數改為重新定位樣式。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 從不回溯文字正是 KMP 達到線性時間的關鍵。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "KMP 由右至左的說法",
+        "text": "<p>在每個對齊位置,KMP 是由<em>右至左</em>將樣式與文字比對。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是 Boyer-Moore;KMP 是由左至右比對。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— KMP 由左至右掃描;由右至左比對是 Boyer-Moore。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "multichoice",
+        "name": "KMP 性質複選",
+        "text": "<p>關於 KMP,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "即使面對刻意設計的輸入,也保證 O(n + m) 時間",
+            "fraction": 50,
+            "feedback": "正確 —— KMP 的線性界是最差情況,不僅是平均。"
+          },
+          {
+            "text": "失敗表讓它在不匹配後能重用已比對過的字元",
+            "fraction": 50,
+            "feedback": "正確 —— 這種重用正是文字指標從不回退的原因。"
+          },
+          {
+            "text": "它需要與文字長度成正比的 O(n) 額外空間",
+            "fraction": -50,
+            "feedback": "錯 —— 額外空間為 O(m),與樣式長度相關。"
+          },
+          {
+            "text": "它使用壞字元啟發式來向前跳躍",
+            "fraction": -50,
+            "feedback": "錯 —— 壞字元啟發式屬於 Boyer-Moore。"
+          }
+        ],
+        "generalFeedback": "KMP:保證 O(n + m) 時間、O(m) 空間,透過失敗函數重用已比對前綴;啟發式跳躍是 Boyer-Moore。",
+        "single": false
+      }
+    ]
+  },
+  "search-linear": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Linear search core mechanism",
+        "text": "<p>Which best describes the <strong>core mechanism</strong> of linear search?</p>",
+        "answers": [
+          {
+            "text": "Scan elements one by one from the start, comparing each with the target until a match is found or the end is reached",
+            "fraction": 100,
+            "feedback": "Correct — a sequential scan of every element in order."
+          },
+          {
+            "text": "Repeatedly halve the search interval by comparing the middle element",
+            "fraction": 0,
+            "feedback": "That is binary search, which needs a sorted array."
+          },
+          {
+            "text": "Estimate the probe position from the target's value",
+            "fraction": 0,
+            "feedback": "That is interpolation search."
+          },
+          {
+            "text": "Split the range using Fibonacci numbers",
+            "fraction": 0,
+            "feedback": "That is Fibonacci search."
+          }
+        ],
+        "generalFeedback": "Linear (sequential) search simply walks through the collection comparing each element to the target.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linear search worst case",
+        "text": "<p>What is the <strong>worst-case</strong> time complexity of linear search over n elements?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "Correct — in the worst case every element must be examined."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "That requires a sorted array and halving (binary search)."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "That is the best case, when the target is the first element."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "Too large; a single scan is O(n)."
+          }
+        ],
+        "generalFeedback": "The target may be absent or last, forcing a full scan, so the worst case is O(n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linear search best case",
+        "text": "<p>What is the <strong>best-case</strong> time complexity of linear search?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — the target is found at the very first position."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "That is the worst case, not the best."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "Linear search does not halve the range."
+          },
+          {
+            "text": "O(log log n)",
+            "fraction": 0,
+            "feedback": "That is interpolation search's average on uniform data."
+          }
+        ],
+        "generalFeedback": "If the first element checked is the target, the search finishes in constant time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linear search preconditions",
+        "text": "<p>What ordering <strong>precondition</strong> does linear search require on its input?</p>",
+        "answers": [
+          {
+            "text": "None — it works on unsorted data",
+            "fraction": 100,
+            "feedback": "Correct — linear search makes no assumption about ordering."
+          },
+          {
+            "text": "The array must be sorted in ascending order",
+            "fraction": 0,
+            "feedback": "No — that is required by binary and Fibonacci search, not linear search."
+          },
+          {
+            "text": "The values must be uniformly distributed",
+            "fraction": 0,
+            "feedback": "No — that helps interpolation search, not linear search."
+          },
+          {
+            "text": "The array must support O(1) random access",
+            "fraction": 0,
+            "feedback": "No — linear search works even on linked lists with only sequential access."
+          }
+        ],
+        "generalFeedback": "Because it just walks through elements, linear search needs no sorting or random access — it is the only option for unsorted or linked data without extra structure.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linear search properties",
+        "text": "<p>Which statements about linear search are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It works on unsorted data with no ordering precondition",
+            "fraction": 50,
+            "feedback": "Yes — no sorting is needed."
+          },
+          {
+            "text": "It can search a singly linked list, which lacks O(1) random access",
+            "fraction": 50,
+            "feedback": "Yes — sequential access is enough."
+          },
+          {
+            "text": "It runs in O(log n) time in the worst case",
+            "fraction": -50,
+            "feedback": "No — its worst case is O(n)."
+          },
+          {
+            "text": "It requires the array to be sorted first",
+            "fraction": -50,
+            "feedback": "No — linear search has no sorting precondition."
+          }
+        ],
+        "generalFeedback": "Linear search: O(n) worst case, no ordering requirement, works on unsorted and linked data.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Linear search needs sorting",
+        "text": "<p>Linear search requires the array to be sorted before it can run.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — linear search works on unsorted data."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — no ordering precondition is needed."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Linear search space",
+        "text": "<p>Linear search uses only O(1) extra (auxiliary) space.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it needs only a constant number of variables."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Linear search keeps just an index, so its extra space is O(1)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Linear search complexity term",
+        "text": "<p>Because its running time grows in direct proportion to n, linear search is said to run in ______ time. Give the one-word adjective.</p>",
+        "answers": [
+          {
+            "text": "linear",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "linear*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "Correct — linear time is O(n)."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "線性搜尋核心機制",
+        "text": "<p>下列何者最能描述線性搜尋的<strong>核心機制</strong>?</p>",
+        "answers": [
+          {
+            "text": "從頭開始逐一掃描每個元素,將其與目標比較,直到找到相符者或掃描到結尾",
+            "fraction": 100,
+            "feedback": "正確 —— 依序掃描每個元素。"
+          },
+          {
+            "text": "反覆比較中間元素以將搜尋區間對半縮小",
+            "fraction": 0,
+            "feedback": "那是二分搜尋,需要已排序的陣列。"
+          },
+          {
+            "text": "依據目標的數值估算探測位置",
+            "fraction": 0,
+            "feedback": "那是內插搜尋。"
+          },
+          {
+            "text": "使用費氏數列分割範圍",
+            "fraction": 0,
+            "feedback": "那是費氏搜尋。"
+          }
+        ],
+        "generalFeedback": "線性(循序)搜尋就是逐一走訪集合中的每個元素,並與目標比較。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線性搜尋最差情況",
+        "text": "<p>對 n 個元素進行線性搜尋,其<strong>最差情況</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 最差情況必須檢查每個元素。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "那需要已排序陣列並採用對半縮小(二分搜尋)。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "那是最佳情況,當目標為第一個元素時。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "太大了;單次掃描為 O(n)。"
+          }
+        ],
+        "generalFeedback": "目標可能不存在或位於最後,迫使完整掃描,因此最差情況為 O(n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線性搜尋最佳情況",
+        "text": "<p>線性搜尋的<strong>最佳情況</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 目標剛好位於第一個位置。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "那是最差情況,不是最佳。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "線性搜尋不會對半縮小範圍。"
+          },
+          {
+            "text": "O(log log n)",
+            "fraction": 0,
+            "feedback": "那是內插搜尋在均勻分布資料上的平均情況。"
+          }
+        ],
+        "generalFeedback": "若第一個檢查的元素即為目標,搜尋在常數時間內完成。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線性搜尋前提條件",
+        "text": "<p>線性搜尋對其輸入需要哪種排序<strong>前提條件</strong>?</p>",
+        "answers": [
+          {
+            "text": "不需要 —— 它可在未排序的資料上運作",
+            "fraction": 100,
+            "feedback": "正確 —— 線性搜尋不對排序做任何假設。"
+          },
+          {
+            "text": "陣列必須以遞增順序排序",
+            "fraction": 0,
+            "feedback": "錯 —— 那是二分與費氏搜尋的要求,不是線性搜尋。"
+          },
+          {
+            "text": "數值必須均勻分布",
+            "fraction": 0,
+            "feedback": "錯 —— 那有助於內插搜尋,而非線性搜尋。"
+          },
+          {
+            "text": "陣列必須支援 O(1) 隨機存取",
+            "fraction": 0,
+            "feedback": "錯 —— 線性搜尋即使在僅有循序存取的鏈結串列上也能運作。"
+          }
+        ],
+        "generalFeedback": "由於只是逐一走訪元素,線性搜尋不需排序或隨機存取 —— 對於未排序或鏈結資料且無額外結構時,它是唯一選擇。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線性搜尋特性",
+        "text": "<p>關於線性搜尋,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它可在未排序資料上運作,沒有排序前提",
+            "fraction": 50,
+            "feedback": "正確 —— 不需要排序。"
+          },
+          {
+            "text": "它可搜尋不具 O(1) 隨機存取的單向鏈結串列",
+            "fraction": 50,
+            "feedback": "正確 —— 只要有循序存取即可。"
+          },
+          {
+            "text": "它在最差情況下以 O(log n) 時間執行",
+            "fraction": -50,
+            "feedback": "錯 —— 其最差情況為 O(n)。"
+          },
+          {
+            "text": "它需要先將陣列排序",
+            "fraction": -50,
+            "feedback": "錯 —— 線性搜尋沒有排序前提。"
+          }
+        ],
+        "generalFeedback": "線性搜尋:最差情況 O(n)、沒有排序需求、可用於未排序與鏈結資料。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "線性搜尋是否需要排序",
+        "text": "<p>線性搜尋在執行前需要先將陣列排序。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 線性搜尋可在未排序資料上運作。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 不需要任何排序前提。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "線性搜尋空間",
+        "text": "<p>線性搜尋僅使用 O(1) 的額外(輔助)空間。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 只需常數個變數。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "線性搜尋只保存一個索引,額外空間為 O(1)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "線性搜尋複雜度名詞",
+        "text": "<p>由於執行時間與 n 成正比增長,線性搜尋被稱為以 ______ 時間執行。請以一個英文形容詞作答。</p>",
+        "answers": [
+          {
+            "text": "linear",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "linear*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 線性時間即 O(n)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "search-rk": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp core idea",
+        "text": "<p>What is the central mechanism of the <strong>Rabin-Karp</strong> algorithm?</p>",
+        "answers": [
+          {
+            "text": "A rolling hash that compares each length-m window's hash against the pattern's hash",
+            "fraction": 100,
+            "feedback": "Correct — hashing turns each window comparison into an O(1) check."
+          },
+          {
+            "text": "A failure function that avoids text backtracking",
+            "fraction": 0,
+            "feedback": "No — that is KMP."
+          },
+          {
+            "text": "Right-to-left comparison with a bad-character rule",
+            "fraction": 0,
+            "feedback": "No — that is Boyer-Moore."
+          },
+          {
+            "text": "Sorting the text and binary searching",
+            "fraction": 0,
+            "feedback": "No — Rabin-Karp does not sort."
+          }
+        ],
+        "generalFeedback": "Rabin-Karp hashes the pattern once, then slides a rolling hash over the text so each window's hash updates in O(1).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp rolling hash cost",
+        "text": "<p>Thanks to the rolling hash, how much work does Rabin-Karp do to update the window hash when it slides by one position?</p>",
+        "answers": [
+          {
+            "text": "O(1) per step",
+            "fraction": 100,
+            "feedback": "Correct — the rolling hash removes the outgoing character and adds the incoming one in constant time."
+          },
+          {
+            "text": "O(m) per step",
+            "fraction": 0,
+            "feedback": "No — recomputing from scratch would be O(m); the rolling hash avoids that."
+          },
+          {
+            "text": "O(log m) per step",
+            "fraction": 0,
+            "feedback": "No — the update is constant time, not logarithmic."
+          },
+          {
+            "text": "O(n) per step",
+            "fraction": 0,
+            "feedback": "No — each slide is O(1), not O(n)."
+          }
+        ],
+        "generalFeedback": "The rolling hash updates in O(1) by subtracting the leaving character's contribution and adding the entering character's.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp complexity",
+        "text": "<p>What are Rabin-Karp's <strong>average</strong> and <strong>worst-case</strong> time complexities?</p>",
+        "answers": [
+          {
+            "text": "Average O(n + m), worst O(n &times; m)",
+            "fraction": 100,
+            "feedback": "Correct — worst case arises when hash collisions force verifying every window."
+          },
+          {
+            "text": "Average O(n + m), worst O(n + m)",
+            "fraction": 0,
+            "feedback": "No — that is KMP; Rabin-Karp's worst case is O(nm) due to collisions."
+          },
+          {
+            "text": "Average O(n/m), worst O(n &times; m)",
+            "fraction": 0,
+            "feedback": "No — sublinear average is Boyer-Moore, not Rabin-Karp."
+          },
+          {
+            "text": "Average O(log n), worst O(n)",
+            "fraction": 0,
+            "feedback": "No — Rabin-Karp is linear on average, not logarithmic."
+          }
+        ],
+        "generalFeedback": "Average O(n + m); worst O(nm) when many spurious hash hits force character-by-character verification.",
+        "single": true
+      },
+      {
+        "type": "shortanswer",
+        "name": "Rolling hash term",
+        "text": "<p>Rabin-Karp updates each window's fingerprint in O(1) using a ______ hash. Give the missing word.</p>",
+        "answers": [
+          {
+            "text": "rolling",
+            "fraction": 100,
+            "feedback": "Correct — the rolling hash."
+          },
+          {
+            "text": "rolling*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp when to use",
+        "text": "<p>For which scenario is Rabin-Karp the most natural choice?</p>",
+        "answers": [
+          {
+            "text": "Searching for many patterns of the same length at once (e.g. plagiarism/dedup detection)",
+            "fraction": 100,
+            "feedback": "Correct — one window hash can be tested against a whole set of pattern hashes."
+          },
+          {
+            "text": "When you need a guaranteed worst-case linear single-pattern search",
+            "fraction": 0,
+            "feedback": "No — Rabin-Karp's worst case is O(nm); KMP gives the linear guarantee."
+          },
+          {
+            "text": "When you want the largest average-case skips on a big alphabet",
+            "fraction": 0,
+            "feedback": "No — that is Boyer-Moore."
+          },
+          {
+            "text": "When you must sort the text lexicographically",
+            "fraction": 0,
+            "feedback": "No — Rabin-Karp does not sort."
+          }
+        ],
+        "generalFeedback": "Rabin-Karp's rolling hash makes checking a window against a set of pattern hashes cheap, so it excels at multi-pattern search.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Rabin-Karp verification",
+        "text": "<p>A hash match in Rabin-Karp must still be verified character-by-character, because two different strings can share the same hash (a spurious hit).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — equal hashes do not guarantee equal strings, so verification is required."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — hash collisions mean a match must be confirmed by direct comparison."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Rabin-Karp multi-pattern",
+        "text": "<p>Rabin-Karp is especially well suited to searching for <em>many</em> patterns at once by comparing each window hash against a set of pattern hashes.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — multi-pattern search is Rabin-Karp's standout strength."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — checking one window hash against a set of hashes is exactly why Rabin-Karp shines for multiple patterns."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp properties multi",
+        "text": "<p>Which statements about Rabin-Karp are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It excels at searching for multiple patterns simultaneously",
+            "fraction": 50,
+            "feedback": "Yes — compare each window hash against a set of pattern hashes."
+          },
+          {
+            "text": "Its worst case is O(n &times; m) when hash collisions force many verifications",
+            "fraction": 50,
+            "feedback": "Yes — frequent spurious hits push it toward the naive bound."
+          },
+          {
+            "text": "A hash match guarantees the strings are equal, so no verification is needed",
+            "fraction": -50,
+            "feedback": "No — collisions are possible, so matches must be verified."
+          },
+          {
+            "text": "It guarantees O(n + m) worst-case time like KMP",
+            "fraction": -50,
+            "feedback": "No — its worst case is O(nm); only the average is O(n + m)."
+          }
+        ],
+        "generalFeedback": "Rabin-Karp: great for multiple patterns, average O(n + m), worst O(nm) from collisions, and every hash hit needs verification.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp 核心概念",
+        "text": "<p><strong>Rabin-Karp</strong> 演算法的核心機制是什麼?</p>",
+        "answers": [
+          {
+            "text": "用滾動雜湊,將每個長度 m 視窗的雜湊值與樣式的雜湊值比較",
+            "fraction": 100,
+            "feedback": "正確 —— 雜湊把每次視窗比較變成 O(1) 檢查。"
+          },
+          {
+            "text": "用失敗函數避免文字回溯",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 KMP。"
+          },
+          {
+            "text": "由右至左比對搭配壞字元規則",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 Boyer-Moore。"
+          },
+          {
+            "text": "將文字排序後做二分搜尋",
+            "fraction": 0,
+            "feedback": "錯 —— Rabin-Karp 不排序。"
+          }
+        ],
+        "generalFeedback": "Rabin-Karp 先對樣式雜湊一次,再以滾動雜湊滑過文字,使每個視窗的雜湊值以 O(1) 更新。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp 滾動雜湊成本",
+        "text": "<p>由於滾動雜湊,Rabin-Karp 每滑動一個位置更新視窗雜湊值需要多少工作量?</p>",
+        "answers": [
+          {
+            "text": "每步 O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 滾動雜湊以常數時間移除離開的字元並加入進入的字元。"
+          },
+          {
+            "text": "每步 O(m)",
+            "fraction": 0,
+            "feedback": "錯 —— 從頭重算才是 O(m);滾動雜湊避免了這點。"
+          },
+          {
+            "text": "每步 O(log m)",
+            "fraction": 0,
+            "feedback": "錯 —— 更新是常數時間,不是對數。"
+          },
+          {
+            "text": "每步 O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 每次滑動是 O(1),不是 O(n)。"
+          }
+        ],
+        "generalFeedback": "滾動雜湊以 O(1) 更新:減去離開字元的貢獻,加上進入字元的貢獻。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp 複雜度",
+        "text": "<p>Rabin-Karp 的<strong>平均</strong>與<strong>最差</strong>時間複雜度分別為何?</p>",
+        "answers": [
+          {
+            "text": "平均 O(n + m),最差 O(n &times; m)",
+            "fraction": 100,
+            "feedback": "正確 —— 最差情況發生在雜湊碰撞迫使驗證每個視窗時。"
+          },
+          {
+            "text": "平均 O(n + m),最差 O(n + m)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 KMP;Rabin-Karp 因碰撞最差為 O(nm)。"
+          },
+          {
+            "text": "平均 O(n/m),最差 O(n &times; m)",
+            "fraction": 0,
+            "feedback": "錯 —— 次線性平均是 Boyer-Moore,不是 Rabin-Karp。"
+          },
+          {
+            "text": "平均 O(log n),最差 O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— Rabin-Karp 平均是線性,不是對數。"
+          }
+        ],
+        "generalFeedback": "平均 O(n + m);當許多假雜湊命中迫使逐字元驗證時,最差為 O(nm)。",
+        "single": true
+      },
+      {
+        "type": "shortanswer",
+        "name": "滾動雜湊名詞",
+        "text": "<p>Rabin-Karp 使用 ______ 雜湊,以 O(1) 更新每個視窗的指紋。請填入缺少的英文單字。</p>",
+        "answers": [
+          {
+            "text": "rolling",
+            "fraction": 100,
+            "feedback": "正確 —— 滾動(rolling)雜湊。"
+          },
+          {
+            "text": "rolling*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp 何時使用",
+        "text": "<p>Rabin-Karp 對哪種情境是最自然的選擇?</p>",
+        "answers": [
+          {
+            "text": "一次搜尋許多相同長度的樣式(例如抄襲偵測/去重)",
+            "fraction": 100,
+            "feedback": "正確 —— 一個視窗雜湊值可與一整組樣式雜湊值比對。"
+          },
+          {
+            "text": "當你需要保證最差情況線性的單一樣式搜尋時",
+            "fraction": 0,
+            "feedback": "錯 —— Rabin-Karp 最差為 O(nm);KMP 才給出線性保證。"
+          },
+          {
+            "text": "當你想在大字母集上取得最大的平均情況跳躍時",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 Boyer-Moore。"
+          },
+          {
+            "text": "當你必須將文字依字典順序排序時",
+            "fraction": 0,
+            "feedback": "錯 —— Rabin-Karp 不排序。"
+          }
+        ],
+        "generalFeedback": "Rabin-Karp 的滾動雜湊讓「將視窗與一組樣式雜湊值比對」變得便宜,因此擅長多樣式搜尋。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Rabin-Karp 驗證",
+        "text": "<p>Rabin-Karp 中的雜湊相符仍須逐字元驗證,因為兩個不同的字串可能有相同的雜湊值(假命中)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 雜湊相等不保證字串相等,因此需要驗證。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 雜湊碰撞意味著相符必須以直接比較確認。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Rabin-Karp 多樣式",
+        "text": "<p>Rabin-Karp 特別適合一次搜尋<em>多個</em>樣式,做法是將每個視窗雜湊值與一組樣式雜湊值比較。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 多樣式搜尋是 Rabin-Karp 最突出的強項。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 將一個視窗雜湊值與一組雜湊值比對,正是 Rabin-Karp 在多樣式時出色的原因。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "multichoice",
+        "name": "Rabin-Karp 性質複選",
+        "text": "<p>關於 Rabin-Karp,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它擅長同時搜尋多個樣式",
+            "fraction": 50,
+            "feedback": "正確 —— 將每個視窗雜湊值與一組樣式雜湊值比較。"
+          },
+          {
+            "text": "當雜湊碰撞迫使大量驗證時,其最差情況為 O(n &times; m)",
+            "fraction": 50,
+            "feedback": "正確 —— 頻繁的假命中會使它趨近樸素界。"
+          },
+          {
+            "text": "雜湊相符即保證字串相等,因此不需驗證",
+            "fraction": -50,
+            "feedback": "錯 —— 可能發生碰撞,因此相符必須驗證。"
+          },
+          {
+            "text": "它像 KMP 一樣保證 O(n + m) 最差時間",
+            "fraction": -50,
+            "feedback": "錯 —— 其最差為 O(nm);只有平均才是 O(n + m)。"
+          }
+        ],
+        "generalFeedback": "Rabin-Karp:擅長多樣式、平均 O(n + m)、因碰撞最差 O(nm),且每次雜湊命中都需驗證。",
+        "single": false
+      }
+    ]
+  },
+  "search-strcompare": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Right-to-left scan",
+        "text": "<p>Which classic algorithm compares the pattern against the text <strong>right-to-left</strong>, enabling large skips?</p>",
+        "answers": [
+          {
+            "text": "Boyer-Moore",
+            "fraction": 100,
+            "feedback": "Correct — its bad-character and good-suffix rules exploit right-to-left scanning."
+          },
+          {
+            "text": "KMP",
+            "fraction": 0,
+            "feedback": "No — KMP scans left-to-right using its failure function."
+          },
+          {
+            "text": "Rabin-Karp",
+            "fraction": 0,
+            "feedback": "No — Rabin-Karp compares hashes of left-to-right windows."
+          },
+          {
+            "text": "Naive matching",
+            "fraction": 0,
+            "feedback": "No — naive matching scans left-to-right with no skips."
+          }
+        ],
+        "generalFeedback": "Boyer-Moore matches from the pattern's end, letting mismatches shift the pattern far ahead.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Rolling hash owner",
+        "text": "<p>Which algorithm identifies candidate matches using a <strong>rolling hash</strong>?</p>",
+        "answers": [
+          {
+            "text": "Rabin-Karp",
+            "fraction": 100,
+            "feedback": "Correct — it slides a rolling hash over the text and compares hash values."
+          },
+          {
+            "text": "KMP",
+            "fraction": 0,
+            "feedback": "No — KMP uses a prefix/failure function, not hashing."
+          },
+          {
+            "text": "Boyer-Moore",
+            "fraction": 0,
+            "feedback": "No — Boyer-Moore uses skip tables, not hashing."
+          },
+          {
+            "text": "Z-algorithm",
+            "fraction": 0,
+            "feedback": "No — the Z-algorithm uses the Z-array, not hashing."
+          }
+        ],
+        "generalFeedback": "Rabin-Karp hashes each text window in O(1) amortized via a rolling hash, then verifies hits.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Failure function owner",
+        "text": "<p>Which algorithm precomputes a <strong>prefix/failure function (LPS)</strong> and never backtracks in the text?</p>",
+        "answers": [
+          {
+            "text": "KMP",
+            "fraction": 100,
+            "feedback": "Correct — the LPS table lets KMP advance the text pointer monotonically."
+          },
+          {
+            "text": "Boyer-Moore",
+            "fraction": 0,
+            "feedback": "No — Boyer-Moore uses bad-character and good-suffix rules."
+          },
+          {
+            "text": "Rabin-Karp",
+            "fraction": 0,
+            "feedback": "No — Rabin-Karp relies on hashing, not an LPS table."
+          },
+          {
+            "text": "Naive matching",
+            "fraction": 0,
+            "feedback": "No — naive matching does backtrack the text pointer."
+          }
+        ],
+        "generalFeedback": "KMP's longest-proper-prefix-suffix (LPS) array tells it how far to shift the pattern without re-reading text.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Properties of Boyer-Moore",
+        "text": "<p>Which statements about <strong>Boyer-Moore</strong> are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It scans the pattern right-to-left",
+            "fraction": 50,
+            "feedback": "Yes — matching starts from the pattern's last character."
+          },
+          {
+            "text": "It achieves sublinear average time with big skips on large alphabets",
+            "fraction": 50,
+            "feedback": "Yes — the bad-character rule shines when the alphabet is large."
+          },
+          {
+            "text": "It uses a rolling hash to find candidates",
+            "fraction": -50,
+            "feedback": "No — that is Rabin-Karp."
+          },
+          {
+            "text": "It is the best choice for searching many patterns at once",
+            "fraction": -50,
+            "feedback": "No — Rabin-Karp (or Aho-Corasick) handles multiple patterns better."
+          }
+        ],
+        "generalFeedback": "Boyer-Moore is a single-pattern method: right-to-left scan, skip heuristics, sublinear on average for large alphabets.",
+        "single": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Multiple patterns at once",
+        "text": "<p>Among these three, which is best suited to searching for <strong>multiple patterns at once</strong> by hashing each pattern?</p>",
+        "answers": [
+          {
+            "text": "Rabin-Karp",
+            "fraction": 100,
+            "feedback": "Correct — one text hash can be compared against a set of pattern hashes."
+          },
+          {
+            "text": "Boyer-Moore",
+            "fraction": 0,
+            "feedback": "No — its skip tables are geared to a single pattern."
+          },
+          {
+            "text": "KMP",
+            "fraction": 0,
+            "feedback": "No — KMP's failure function is built for one pattern."
+          }
+        ],
+        "generalFeedback": "By storing many pattern hashes in a set, Rabin-Karp screens for any of them in one pass.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "All find exact matches",
+        "text": "<p>KMP, Boyer-Moore, and Rabin-Karp all solve the <em>exact</em> string matching problem.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — all three report exact occurrences; they differ in strategy."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "All three do find exact matches."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "KMP linear time",
+        "text": "<p>KMP runs in O(n + m) worst-case time, and Rabin-Karp runs in O(n + m) on average.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — KMP is linear worst-case; Rabin-Karp is linear on average (worst case O(n*m))."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "KMP is O(n+m) worst-case and Rabin-Karp is O(n+m) average."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Rolling hash algorithm",
+        "text": "<p>Name the algorithm that finds candidate matches by comparing a rolling hash of each text window against the pattern's hash.</p>",
+        "answers": [
+          {
+            "text": "Rabin-Karp",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Rabin*Karp",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Rabin Karp",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "由右至左掃描",
+        "text": "<p>哪一個經典演算法將樣式對文字進行<strong>由右至左</strong>比對,以達成大幅跳躍?</p>",
+        "answers": [
+          {
+            "text": "Boyer-Moore",
+            "fraction": 100,
+            "feedback": "正確 —— 其壞字元與好後綴規則利用由右至左的掃描。"
+          },
+          {
+            "text": "KMP",
+            "fraction": 0,
+            "feedback": "錯 —— KMP 使用失敗函數由左至右掃描。"
+          },
+          {
+            "text": "Rabin-Karp",
+            "fraction": 0,
+            "feedback": "錯 —— Rabin-Karp 比對由左至右視窗的雜湊值。"
+          },
+          {
+            "text": "樸素比對",
+            "fraction": 0,
+            "feedback": "錯 —— 樸素比對由左至右且不跳躍。"
+          }
+        ],
+        "generalFeedback": "Boyer-Moore 從樣式末端開始比對,讓不匹配時能把樣式大幅前移。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "滾動雜湊的擁有者",
+        "text": "<p>哪一個演算法使用<strong>滾動雜湊</strong>來辨識候選比對?</p>",
+        "answers": [
+          {
+            "text": "Rabin-Karp",
+            "fraction": 100,
+            "feedback": "正確 —— 它在文字上滑動滾動雜湊並比較雜湊值。"
+          },
+          {
+            "text": "KMP",
+            "fraction": 0,
+            "feedback": "錯 —— KMP 使用前綴/失敗函數,而非雜湊。"
+          },
+          {
+            "text": "Boyer-Moore",
+            "fraction": 0,
+            "feedback": "錯 —— Boyer-Moore 使用跳躍表,而非雜湊。"
+          },
+          {
+            "text": "Z 演算法",
+            "fraction": 0,
+            "feedback": "錯 —— Z 演算法使用 Z 陣列,而非雜湊。"
+          }
+        ],
+        "generalFeedback": "Rabin-Karp 以滾動雜湊在攤還 O(1) 內雜湊每個文字視窗,再驗證命中。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "失敗函數的擁有者",
+        "text": "<p>哪一個演算法預先計算<strong>前綴/失敗函數(LPS)</strong>,且從不回溯文字?</p>",
+        "answers": [
+          {
+            "text": "KMP",
+            "fraction": 100,
+            "feedback": "正確 —— LPS 表讓 KMP 的文字指標單調前進。"
+          },
+          {
+            "text": "Boyer-Moore",
+            "fraction": 0,
+            "feedback": "錯 —— Boyer-Moore 使用壞字元與好後綴規則。"
+          },
+          {
+            "text": "Rabin-Karp",
+            "fraction": 0,
+            "feedback": "錯 —— Rabin-Karp 依賴雜湊,而非 LPS 表。"
+          },
+          {
+            "text": "樸素比對",
+            "fraction": 0,
+            "feedback": "錯 —— 樸素比對確實會回溯文字指標。"
+          }
+        ],
+        "generalFeedback": "KMP 的最長真前綴後綴(LPS)陣列告訴它如何移動樣式而不重讀文字。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Boyer-Moore 的特性",
+        "text": "<p>關於 <strong>Boyer-Moore</strong>,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它由右至左掃描樣式",
+            "fraction": 50,
+            "feedback": "正確 —— 比對從樣式的最後一個字元開始。"
+          },
+          {
+            "text": "在大字母集上以大幅跳躍達成次線性平均時間",
+            "fraction": 50,
+            "feedback": "正確 —— 字母集越大,壞字元規則越有效。"
+          },
+          {
+            "text": "它使用滾動雜湊來尋找候選",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 Rabin-Karp。"
+          },
+          {
+            "text": "它是同時搜尋多個樣式的最佳選擇",
+            "fraction": -50,
+            "feedback": "錯 —— Rabin-Karp(或 Aho-Corasick)更適合多樣式。"
+          }
+        ],
+        "generalFeedback": "Boyer-Moore 是單一樣式方法:由右至左掃描、跳躍啟發式、對大字母集平均次線性。",
+        "single": false
+      },
+      {
+        "type": "multichoice",
+        "name": "同時處理多個樣式",
+        "text": "<p>在這三者中,哪一個藉由雜湊每個樣式最適合<strong>同時搜尋多個樣式</strong>?</p>",
+        "answers": [
+          {
+            "text": "Rabin-Karp",
+            "fraction": 100,
+            "feedback": "正確 —— 一個文字雜湊可與一組樣式雜湊比較。"
+          },
+          {
+            "text": "Boyer-Moore",
+            "fraction": 0,
+            "feedback": "錯 —— 其跳躍表是為單一樣式設計的。"
+          },
+          {
+            "text": "KMP",
+            "fraction": 0,
+            "feedback": "錯 —— KMP 的失敗函數是為單一樣式建立的。"
+          }
+        ],
+        "generalFeedback": "將多個樣式雜湊存於集合中,Rabin-Karp 可在一次掃描中篩選其中任一者。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "三者都找精確比對",
+        "text": "<p>KMP、Boyer-Moore 與 Rabin-Karp 都解決<em>精確</em>字串比對問題。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 三者都回報精確出現,差別在策略。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "三者都確實找精確比對。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "KMP 線性時間",
+        "text": "<p>KMP 的最差情況時間為 O(n + m),而 Rabin-Karp 的平均時間為 O(n + m)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— KMP 最差線性;Rabin-Karp 平均線性(最差 O(n*m))。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "KMP 最差 O(n+m),Rabin-Karp 平均 O(n+m)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "滾動雜湊演算法",
+        "text": "<p>請說出「藉由比較每個文字視窗的滾動雜湊與樣式雜湊來尋找候選比對」的演算法名稱。</p>",
+        "answers": [
+          {
+            "text": "Rabin-Karp",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Rabin*Karp",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Rabin Karp",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "search-zalgo": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Z-array definition",
+        "text": "<p>For a string S, what does the Z-value <strong>Z[i]</strong> measure?</p>",
+        "answers": [
+          {
+            "text": "The length of the longest substring starting at position i that is also a prefix of S",
+            "fraction": 100,
+            "feedback": "Correct — Z[i] matches S against itself starting at i."
+          },
+          {
+            "text": "The length of the longest suffix of S ending at position i",
+            "fraction": 0,
+            "feedback": "No — Z-values compare against the prefix, not a suffix."
+          },
+          {
+            "text": "The number of times character S[i] appears in S",
+            "fraction": 0,
+            "feedback": "No — Z has nothing to do with character frequency."
+          },
+          {
+            "text": "The index of the next occurrence of S[i]",
+            "fraction": 0,
+            "feedback": "No — Z[i] is a length, not an index."
+          }
+        ],
+        "generalFeedback": "Z[i] is the length of the longest common prefix of S and the suffix of S starting at position i.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Z-algorithm time complexity",
+        "text": "<p>Using the Z-algorithm for pattern matching (n = text length, m = pattern length), what is the total time complexity?</p>",
+        "answers": [
+          {
+            "text": "O(n + m)",
+            "fraction": 100,
+            "feedback": "Correct — the Z-array is computed in a single linear pass."
+          },
+          {
+            "text": "O(n log m)",
+            "fraction": 0,
+            "feedback": "No — no logarithmic factor is involved."
+          },
+          {
+            "text": "O(n * m)",
+            "fraction": 0,
+            "feedback": "That is naive matching; the Z-algorithm avoids re-scanning."
+          },
+          {
+            "text": "O(m^2)",
+            "fraction": 0,
+            "feedback": "No — the algorithm is linear, not quadratic."
+          }
+        ],
+        "generalFeedback": "The Z-box amortizes work so each position is charged O(1), giving O(n + m) over the concatenation.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Z-algorithm pattern matching setup",
+        "text": "<p>To find all occurrences of pattern P in text T with the Z-algorithm, on what string do you compute the Z-array?</p>",
+        "answers": [
+          {
+            "text": "P + separator + T, where the separator is a character not in the alphabet",
+            "fraction": 100,
+            "feedback": "Correct — the separator stops Z-values from exceeding m."
+          },
+          {
+            "text": "T + P with no separator",
+            "fraction": 0,
+            "feedback": "No — without a separator Z-values could bleed across the boundary."
+          },
+          {
+            "text": "T reversed, concatenated with P",
+            "fraction": 0,
+            "feedback": "No — reversal is not part of the Z-algorithm."
+          },
+          {
+            "text": "P alone; T is never needed",
+            "fraction": 0,
+            "feedback": "No — you must scan T to find matches."
+          }
+        ],
+        "generalFeedback": "On P$T, any position i (inside the T region) with Z[i] = m marks an occurrence of P in T.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Z-algorithm properties",
+        "text": "<p>Which statements about the Z-algorithm are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It runs in linear O(n + m) time",
+            "fraction": 50,
+            "feedback": "Yes — a single amortized pass builds the Z-array."
+          },
+          {
+            "text": "It is a single-pattern exact matching method",
+            "fraction": 50,
+            "feedback": "Yes — like KMP, it searches for one pattern at a time."
+          },
+          {
+            "text": "It requires O(n * m) time in the worst case",
+            "fraction": -50,
+            "feedback": "No — it is linear, not quadratic."
+          },
+          {
+            "text": "It natively searches many patterns simultaneously like Aho-Corasick",
+            "fraction": -50,
+            "feedback": "No — that is Aho-Corasick's role, not the Z-algorithm's."
+          }
+        ],
+        "generalFeedback": "The Z-algorithm is a simple linear single-pattern method; multi-pattern search is Aho-Corasick's domain.",
+        "single": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Z-algorithm space complexity",
+        "text": "<p>What auxiliary space does the Z-algorithm use to store its Z-array over the concatenation (n = text length, m = pattern length)?</p>",
+        "answers": [
+          {
+            "text": "O(n + m)",
+            "fraction": 100,
+            "feedback": "Correct — one Z-value is stored per position of the P$T string."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "No — the Z-array itself grows with the input length."
+          },
+          {
+            "text": "O(m^2)",
+            "fraction": 0,
+            "feedback": "No — the space is linear, not quadratic."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No — you store a value for every position, so it is linear."
+          }
+        ],
+        "generalFeedback": "The Z-array holds one entry per character of P + separator + T, giving O(n + m) space.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Z match condition",
+        "text": "<p>On the string P + separator + T, a position i where Z[i] equals m (the pattern length) indicates an occurrence of the pattern.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a full-length prefix match means P appears there."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Z[i] = m means the m-length prefix (the pattern) matches at i."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Z vs KMP relationship",
+        "text": "<p>The Z-algorithm and KMP solve the same single-pattern matching problem in linear time, using different formulations.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — both are O(n + m) single-pattern methods with different internal structures."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "They are indeed two linear-time formulations of the same task."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Z-array term",
+        "text": "<p>The array computed by this algorithm, whose entry at index i is the longest prefix-match length starting at i, is called the ______ array.</p>",
+        "answers": [
+          {
+            "text": "Z",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Z*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Z 陣列定義",
+        "text": "<p>對於字串 S,Z 值 <strong>Z[i]</strong> 衡量的是什麼?</p>",
+        "answers": [
+          {
+            "text": "從位置 i 開始、同時也是 S 前綴的最長子字串長度",
+            "fraction": 100,
+            "feedback": "正確 —— Z[i] 是把 S 從 i 處與自身比對。"
+          },
+          {
+            "text": "以位置 i 結尾的最長 S 後綴長度",
+            "fraction": 0,
+            "feedback": "錯 —— Z 值是與前綴比對,不是後綴。"
+          },
+          {
+            "text": "字元 S[i] 在 S 中出現的次數",
+            "fraction": 0,
+            "feedback": "錯 —— Z 與字元出現頻率無關。"
+          },
+          {
+            "text": "S[i] 下一次出現的索引位置",
+            "fraction": 0,
+            "feedback": "錯 —— Z[i] 是長度,不是索引。"
+          }
+        ],
+        "generalFeedback": "Z[i] 是 S 與「從位置 i 開始的後綴」之間最長共同前綴的長度。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Z 演算法時間複雜度",
+        "text": "<p>使用 Z 演算法進行字串比對(n = 文字長度,m = 樣式長度),總時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(n + m)",
+            "fraction": 100,
+            "feedback": "正確 —— Z 陣列以單次線性掃描完成。"
+          },
+          {
+            "text": "O(n log m)",
+            "fraction": 0,
+            "feedback": "錯 —— 過程中沒有對數因子。"
+          },
+          {
+            "text": "O(n * m)",
+            "fraction": 0,
+            "feedback": "那是樸素比對;Z 演算法避免重複掃描。"
+          },
+          {
+            "text": "O(m^2)",
+            "fraction": 0,
+            "feedback": "錯 —— 此演算法是線性而非平方。"
+          }
+        ],
+        "generalFeedback": "Z-box 將工作攤還,使每個位置只花 O(1),對整個串接字串為 O(n + m)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Z 演算法比對設置",
+        "text": "<p>要用 Z 演算法在文字 T 中找出樣式 P 的所有出現,你要在哪個字串上計算 Z 陣列?</p>",
+        "answers": [
+          {
+            "text": "P + 分隔符 + T,其中分隔符是不屬於字母集的字元",
+            "fraction": 100,
+            "feedback": "正確 —— 分隔符可避免 Z 值超過 m。"
+          },
+          {
+            "text": "T + P,不加分隔符",
+            "fraction": 0,
+            "feedback": "錯 —— 沒有分隔符時 Z 值可能跨越邊界。"
+          },
+          {
+            "text": "將 T 反轉後與 P 串接",
+            "fraction": 0,
+            "feedback": "錯 —— 反轉不是 Z 演算法的一部分。"
+          },
+          {
+            "text": "只用 P;完全不需要 T",
+            "fraction": 0,
+            "feedback": "錯 —— 你必須掃描 T 才能找到比對。"
+          }
+        ],
+        "generalFeedback": "在 P$T 上,T 區域內任何 Z[i] = m 的位置 i 都標記 P 在 T 中的一次出現。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Z 演算法特性",
+        "text": "<p>關於 Z 演算法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它以線性 O(n + m) 時間執行",
+            "fraction": 50,
+            "feedback": "正確 —— 單次攤還掃描建立 Z 陣列。"
+          },
+          {
+            "text": "它是單一樣式的精確比對方法",
+            "fraction": 50,
+            "feedback": "正確 —— 與 KMP 一樣,一次只搜尋一個樣式。"
+          },
+          {
+            "text": "它在最差情況需要 O(n * m) 時間",
+            "fraction": -50,
+            "feedback": "錯 —— 它是線性而非平方。"
+          },
+          {
+            "text": "它像 Aho-Corasick 一樣原生地同時搜尋多個樣式",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 Aho-Corasick 的角色,不是 Z 演算法。"
+          }
+        ],
+        "generalFeedback": "Z 演算法是簡單的線性單一樣式方法;多樣式搜尋屬於 Aho-Corasick 的領域。",
+        "single": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Z 演算法空間複雜度",
+        "text": "<p>Z 演算法在串接字串上儲存其 Z 陣列需要多少輔助空間(n = 文字長度,m = 樣式長度)?</p>",
+        "answers": [
+          {
+            "text": "O(n + m)",
+            "fraction": 100,
+            "feedback": "正確 —— P$T 字串每個位置存一個 Z 值。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "錯 —— Z 陣列本身會隨輸入長度增長。"
+          },
+          {
+            "text": "O(m^2)",
+            "fraction": 0,
+            "feedback": "錯 —— 空間是線性而非平方。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 每個位置都要存值,所以是線性。"
+          }
+        ],
+        "generalFeedback": "Z 陣列對 P + 分隔符 + T 的每個字元存一項,故空間為 O(n + m)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Z 比對條件",
+        "text": "<p>在字串 P + 分隔符 + T 上,某位置 i 的 Z[i] 等於 m(樣式長度)代表樣式在此出現一次。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 完整長度的前綴比對表示 P 出現於此。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Z[i] = m 表示長度 m 的前綴(即樣式)在 i 處比對成功。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Z 與 KMP 的關係",
+        "text": "<p>Z 演算法與 KMP 以不同的表述方式,在線性時間內解決相同的單一樣式比對問題。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 兩者都是 O(n + m) 的單一樣式方法,只是內部結構不同。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "它們確實是同一任務的兩種線性時間表述。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Z 陣列名詞",
+        "text": "<p>此演算法所計算、其索引 i 的值為「從 i 開始的最長前綴比對長度」的陣列,稱為 ______ 陣列。</p>",
+        "answers": [
+          {
+            "text": "Z",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Z*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
   "sort-bubble": {
     "en": [
       {
