@@ -3592,6 +3592,11 @@ body.viz-focus .method-section-card.active .gw-logcol { max-height: none; min-he
 .quiz-recent ul { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-direction: column; gap: 4px; }
 .quiz-recent li { display: flex; gap: 10px; font-size: 0.9rem; }
 .quiz-recent .qr-score { font-weight: 700; }
+.quiz-recent-row { width: 100%; display: flex; align-items: center; gap: 10px; text-align: left; background: transparent; border: 1px solid var(--card-border); border-radius: 8px; padding: 8px 10px; color: var(--text-main); cursor: pointer; font: inherit; }
+.quiz-recent-row:hover:not(.stale) { border-color: #3b82f6; background: rgba(59, 130, 246, 0.06); }
+.quiz-recent-row.stale { cursor: default; opacity: 0.55; }
+.quiz-recent-row .qr-act { margin-left: auto; font-weight: 700; color: #3b82f6; }
+.quiz-recent-row.stale .qr-act { color: var(--text-main); }
 .quiz-review { display: flex; flex-direction: column; gap: 10px; }
 .quiz-review li.ok { border-left: 3px solid #16a34a; padding-left: 10px; }
 .quiz-review li.bad { border-left: 3px solid #dc2626; padding-left: 10px; }
