@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Selection Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Selection sort core mechanism</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does selection sort do on each iteration?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Finds the minimum of the unsorted part and swaps it to the boundary of the sorted part</text><feedback><text>Correct — it selects the smallest remaining element and places it next.</text></feedback></answer>
+    <answer fraction="0"><text>Compares and swaps adjacent elements repeatedly</text><feedback><text>That describes bubble sort.</text></feedback></answer>
+    <answer fraction="0"><text>Shifts larger sorted elements right to insert the next element</text><feedback><text>That describes insertion sort.</text></feedback></answer>
+    <answer fraction="0"><text>Partitions the array around a pivot</text><feedback><text>That describes quicksort.</text></feedback></answer>
+    <generalfeedback><text>Selection sort scans the unsorted region for its minimum, then swaps that minimum into the growing sorted prefix's boundary.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Selection sort comparison count</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How many <strong>comparisons</strong> does selection sort make across best, average, and worst cases?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Always &Theta;(n^2) — it is not adaptive</text><feedback><text>Correct — it scans the whole unsorted part every time regardless of input order.</text></feedback></answer>
+    <answer fraction="0"><text>O(n) in the best case, O(n^2) otherwise</text><feedback><text>No — unlike insertion or bubble sort, selection sort has no early-exit; it always does &Theta;(n^2) comparisons.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n) on average</text><feedback><text>No — selection sort does not divide the problem; it is quadratic.</text></feedback></answer>
+    <answer fraction="0"><text>O(n) always</text><feedback><text>No — finding each minimum requires scanning the remaining elements.</text></feedback></answer>
+    <generalfeedback><text>Selection sort always performs about n(n-1)/2 comparisons regardless of the input, so best = average = worst = &Theta;(n^2). It is not adaptive.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Selection sort swap count</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is notable about the number of <strong>swaps (writes)</strong> selection sort performs?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Only O(n) swaps — at most one per iteration</text><feedback><text>Correct — this makes it attractive when writes are expensive (e.g. flash memory).</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2) swaps, matching its comparison count</text><feedback><text>No — comparisons are O(n^2) but swaps are only O(n).</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n) swaps</text><feedback><text>No — selection sort does at most one swap per pass, so O(n) total.</text></feedback></answer>
+    <answer fraction="0"><text>Zero swaps; it uses an auxiliary array</text><feedback><text>No — it sorts in place with swaps.</text></feedback></answer>
+    <generalfeedback><text>Selection sort makes at most one swap per outer iteration, so only O(n) writes overall — useful when write cost dominates.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Selection sort stability</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The standard array-based selection sort is a <em>stable</em> sorting algorithm.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — swapping a distant minimum into place can jump one equal key past another, breaking relative order.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the standard array version is not stable.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Selection sort in place</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Selection sort is in-place, using only O(1) extra space.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it sorts by swapping within the array, needing only constant extra memory.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Selection sort needs no auxiliary array; swaps happen in place.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Selection sort selected term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>On each pass, selection sort searches the unsorted part for its ______ element (the smallest). Answer in one English word.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>minimum</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>minimum*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>min*</text><feedback><text>Correct — "minimum".</text></feedback></answer>
+    <answer fraction="100"><text>smallest</text><feedback><text>Correct — the minimum element.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Selection sort properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about selection sort are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It performs only O(n) swaps, useful when writes are costly</text><feedback><text>Yes — at most one swap per outer pass.</text></feedback></answer>
+    <answer fraction="50"><text>Its comparison count is &Theta;(n^2) regardless of the input</text><feedback><text>Yes — it is not adaptive.</text></feedback></answer>
+    <answer fraction="-50"><text>It runs in O(n) on an already-sorted array</text><feedback><text>No — it is not adaptive; it is always &Theta;(n^2) comparisons.</text></feedback></answer>
+    <answer fraction="-50"><text>The standard array version is stable</text><feedback><text>No — the standard array version is not stable.</text></feedback></answer>
+    <generalfeedback><text>Selection sort: always &Theta;(n^2) comparisons but only O(n) swaps; in-place; not adaptive; the standard array version is not stable.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>When to use selection sort</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When is selection sort a particularly reasonable choice?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>When the cost of writing/swapping elements dominates and you want to minimize the number of writes</text><feedback><text>Correct — it does at most O(n) swaps, which is its main practical appeal.</text></feedback></answer>
+    <answer fraction="0"><text>When the input is nearly sorted and you want O(n) behaviour</text><feedback><text>No — selection sort is not adaptive; insertion sort is the adaptive choice.</text></feedback></answer>
+    <answer fraction="0"><text>When you must sort millions of records quickly</text><feedback><text>No — O(n^2) comparisons make it too slow at scale.</text></feedback></answer>
+    <generalfeedback><text>Selection sort's edge is its O(n) writes; choose it when swaps/writes are the expensive operation, not for large or nearly-sorted inputs.</text></generalfeedback>
+  </question>
+</quiz>

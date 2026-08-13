@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Shell Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Shell sort core idea</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which best describes the <strong>core mechanism</strong> of shell sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Insertion-sort elements that are a fixed gap apart, then repeat with a smaller gap until the gap is 1</text><feedback><text>Correct — it h-sorts with a diminishing gap sequence.</text></feedback></answer>
+    <answer fraction="0"><text>Divide into halves, recursively sort, then merge</text><feedback><text>That is merge sort.</text></feedback></answer>
+    <answer fraction="0"><text>Partition around a pivot and recurse on each side</text><feedback><text>That is quicksort.</text></feedback></answer>
+    <answer fraction="0"><text>Build a heap and repeatedly extract the maximum</text><feedback><text>That is heap sort.</text></feedback></answer>
+    <generalfeedback><text>Shell sort generalizes insertion sort: by first sorting far-apart elements, it moves items closer to their final position quickly, then finishes with a gap-1 insertion sort.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Shell sort is a generalization of</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Shell sort is best understood as a generalization of which simpler sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Insertion sort</text><feedback><text>Correct — each gap pass is an insertion sort over gap-spaced subsequences.</text></feedback></answer>
+    <answer fraction="0"><text>Merge sort</text><feedback><text>No — shell sort does not merge sorted runs.</text></feedback></answer>
+    <answer fraction="0"><text>Heap sort</text><feedback><text>No — shell sort uses no heap.</text></feedback></answer>
+    <answer fraction="0"><text>Counting sort</text><feedback><text>No — shell sort is comparison-based, not key-distribution based.</text></feedback></answer>
+    <generalfeedback><text>With gap = 1, shell sort is exactly insertion sort; larger gaps let elements jump toward their final spot, reducing later work.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Shell sort time depends on</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The overall time complexity of shell sort depends primarily on what?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The chosen gap (increment) sequence</text><feedback><text>Correct — Shell's original gaps give O(n^2), while Hibbard/Sedgewick sequences give roughly O(n^1.5) or better.</text></feedback></answer>
+    <answer fraction="0"><text>The pivot-selection strategy</text><feedback><text>Shell sort has no pivot.</text></feedback></answer>
+    <answer fraction="0"><text>The size of the auxiliary merge buffer</text><feedback><text>Shell sort uses no merge buffer.</text></feedback></answer>
+    <answer fraction="0"><text>Nothing — it is always exactly O(n log n)</text><feedback><text>No — its complexity varies with the gap sequence.</text></feedback></answer>
+    <generalfeedback><text>Shell's original gaps → worst case O(n^2); better sequences (Hibbard ~O(n^1.5), Sedgewick ~O(n^(4/3))) improve it substantially.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Shell sort stability</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Shell sort is a <em>stable</em> sorting algorithm.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — comparing and moving elements across large gaps can reorder equal keys.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — shell sort is not stable.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Shell sort in place</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Shell sort is an in-place algorithm using only O(1) auxiliary space.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it rearranges within the array with a constant amount of extra memory.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Shell sort needs no auxiliary array; it sorts in place.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Shell sort gap term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The spacing between the elements compared in one pass of shell sort is called the ______ (also known as the increment).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>gap</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>gap*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Shell sort final gap</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What gap value does the final pass of shell sort always use? Answer with a single digit.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>1</text><feedback><text>Correct — the last pass is a plain insertion sort with gap 1.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Shell sort properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about shell sort are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It improves on insertion sort by first moving elements over long distances</text><feedback><text>Yes — large gaps quickly reduce disorder before the final gap-1 pass.</text></feedback></answer>
+    <answer fraction="50"><text>Its worst-case complexity depends on the gap sequence used</text><feedback><text>Yes — e.g. Shell's gaps give O(n^2), Hibbard's give ~O(n^1.5).</text></feedback></answer>
+    <answer fraction="-50"><text>It is stable and preserves the order of equal keys</text><feedback><text>No — shell sort is not stable.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires O(n) auxiliary space like merge sort</text><feedback><text>No — shell sort is in-place, O(1) extra space.</text></feedback></answer>
+    <generalfeedback><text>Shell sort: in-place, not stable, a gap-based generalization of insertion sort whose speed hinges on the increment sequence.</text></generalfeedback>
+  </question>
+</quiz>

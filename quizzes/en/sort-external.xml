@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/External Merge Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Why external sorting</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What problem does <strong>external merge sort</strong> primarily solve?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Sorting a dataset that is too large to fit entirely in main memory (RAM)</text><feedback><text>Correct — the data lives on disk and cannot be held in RAM all at once.</text></feedback></answer>
+    <answer fraction="0"><text>Sorting an array faster than O(n log n) comparisons</text><feedback><text>No — it does not beat the comparison lower bound; it manages data that exceeds RAM.</text></feedback></answer>
+    <answer fraction="0"><text>Removing duplicate keys from a small in-memory list</text><feedback><text>No — deduplication is not the point; the problem is scale beyond memory.</text></feedback></answer>
+    <answer fraction="0"><text>Sorting linked lists without extra pointers</text><feedback><text>No — that is unrelated to external sorting.</text></feedback></answer>
+    <generalfeedback><text>External sorting handles data too large for RAM by streaming it between memory and disk in sorted pieces.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Dominant cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What dominates the running time of external merge sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Disk I/O — the number of passes made over the data</text><feedback><text>Correct — moving data to and from disk is far slower than in-memory comparisons.</text></feedback></answer>
+    <answer fraction="0"><text>The number of key comparisons performed by the CPU</text><feedback><text>No — CPU comparisons are cheap relative to disk transfers here.</text></feedback></answer>
+    <answer fraction="0"><text>The recursion stack depth</text><feedback><text>No — stack depth is not the bottleneck for external sorting.</text></feedback></answer>
+    <answer fraction="0"><text>The number of pivot selections</text><feedback><text>No — pivots belong to quicksort, not external merge sort.</text></feedback></answer>
+    <generalfeedback><text>Because disk access is orders of magnitude slower than memory, the cost model counts passes / I/O, not comparisons.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Run creation phase</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which best describes the <strong>first phase</strong> (run creation) of external merge sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Read chunks that fit in memory, sort each internally, and write them back as sorted "runs"</text><feedback><text>Correct — each memory-sized chunk becomes one sorted run on disk.</text></feedback></answer>
+    <answer fraction="0"><text>Merge all runs at once into the final sorted output</text><feedback><text>No — that is the second (merge) phase.</text></feedback></answer>
+    <answer fraction="0"><text>Partition the data around a pivot chosen from disk</text><feedback><text>No — external merge sort does not partition around pivots.</text></feedback></answer>
+    <answer fraction="0"><text>Build a heap over the entire file in memory</text><feedback><text>No — the whole file does not fit in memory; only chunks do.</text></feedback></answer>
+    <generalfeedback><text>Phase 1 produces sorted runs; phase 2 repeatedly k-way-merges those runs until one remains.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Merge passes</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using a (B&minus;1)-way merge, how does increasing the merge order (fan-in <em>k</em>) affect the number of merge passes, roughly &lceil;log<sub>k</sub>(N/M)&rceil;?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Larger k means fewer passes, so less total disk I/O</text><feedback><text>Correct — a higher fan-in raises the logarithm base, shrinking the pass count.</text></feedback></answer>
+    <answer fraction="0"><text>Larger k means more passes and more I/O</text><feedback><text>No — a bigger merge order reduces the number of passes.</text></feedback></answer>
+    <answer fraction="0"><text>k has no effect on the number of passes</text><feedback><text>No — k is the logarithm base, so it directly changes the pass count.</text></feedback></answer>
+    <answer fraction="0"><text>Passes depend only on CPU speed, not k</text><feedback><text>No — passes depend on N, M, and the fan-in k, not CPU speed.</text></feedback></answer>
+    <generalfeedback><text>Number of merge passes &asymp; &lceil;log<sub>k</sub>(N/M)&rceil;; each pass moves &asymp; 2N records, so higher k lowers both passes and I/O.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>External merge stability</text></name>
+    <questiontext format="html"><text><![CDATA[<p>External merge sort, like ordinary merge sort, can be implemented as a <em>stable</em> sort.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — a careful merge preserves the relative order of equal keys.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>No — merging can keep equal keys in their original order, so it is stable.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>CPU vs IO</text></name>
+    <questiontext format="html"><text><![CDATA[<p>For a file far larger than RAM, the number of CPU key comparisons is the main bottleneck of external merge sort.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — disk I/O (passes over the data), not comparisons, dominates.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — disk passes dominate; comparisons are comparatively cheap.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Sorted chunk term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A sorted chunk written to disk during phase 1, later combined by merging, is called a ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>run</text><feedback><text>Correct — these sorted pieces are called runs.</text></feedback></answer>
+    <answer fraction="100"><text>run*</text><feedback><text>Correct — a sorted "run".</text></feedback></answer>
+    <answer fraction="100"><text>sorted run</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Reducing passes</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which changes <strong>reduce</strong> the number of passes (and thus disk I/O) in external merge sort? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Giving the sort more memory M so each initial run is longer</text><feedback><text>Yes — larger runs mean fewer runs to merge, so fewer passes.</text></feedback></answer>
+    <answer fraction="50"><text>Increasing the merge fan-in k (a higher-order merge)</text><feedback><text>Yes — a larger k raises the log base and cuts the pass count.</text></feedback></answer>
+    <answer fraction="-50"><text>Using a smaller memory buffer to save RAM</text><feedback><text>No — less memory yields shorter runs and more passes.</text></feedback></answer>
+    <answer fraction="-50"><text>Performing more CPU comparisons per record</text><feedback><text>No — extra comparisons do not reduce disk passes.</text></feedback></answer>
+    <generalfeedback><text>Fewer passes come from bigger memory (longer runs) and higher merge order; both attack the &lceil;log<sub>k</sub>(N/M)&rceil; pass count.</text></generalfeedback>
+  </question>
+</quiz>

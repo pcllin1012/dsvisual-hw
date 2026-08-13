@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Polyphase Merge Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>多相合併是什麼</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>多相合併排序(polyphase merge sort)</strong>是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一種外部(磁帶)合併排序策略,使用 P 條磁帶,但每次以 P&minus;1 個輸入合併到一個輸出,並輪替角色</text><feedback><text>正確 —— 保留一條輸出磁帶,從其餘 P&minus;1 條合併,然後輪替。</text></feedback></answer>
+    <answer fraction="0"><text>使用多個樞紐的記憶體內快速排序變體</text><feedback><text>錯 —— 多相是外部合併策略,與樞紐無關。</text></feedback></answer>
+    <answer fraction="0"><text>把鍵值分散到桶中的雜湊方法</text><feedback><text>錯 —— 它在磁帶間合併已排序段落,並非雜湊。</text></feedback></answer>
+    <answer fraction="0"><text>適用於小整數鍵的穩定計數排序</text><feedback><text>錯 —— 那描述的是計數排序,不是多相合併。</text></feedback></answer>
+    <generalfeedback><text>多相合併排序把段落分散到 P 條磁帶,反覆做 (P&minus;1) 路合併到一個輸出,並輪替哪一條磁帶當輸出。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>段落分配</text></name>
+    <questiontext format="html"><text><![CDATA[<p>初始段落如何分配到各磁帶,才能讓合併保持「完美」(沒有閒置的回合)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>依(廣義)費氏數列比例分配</text><feedback><text>正確 —— 以費氏數為段落數,可讓每個合併相位完美平衡。</text></feedback></answer>
+    <answer fraction="0"><text>在所有磁帶間完全均分</text><feedback><text>錯 —— 均分是平衡式合併而非多相;它會浪費倒帶回合。</text></feedback></answer>
+    <answer fraction="0"><text>把所有段落放在單一磁帶上</text><feedback><text>錯 —— 合併需要段落分散在 P&minus;1 條輸入磁帶上。</text></feedback></answer>
+    <answer fraction="0"><text>在兩條磁帶上以 2 的次方分配</text><feedback><text>錯 —— 其分配遵循類費氏數,而非單純的 2 的次方。</text></feedback></answer>
+    <generalfeedback><text>把段落數選為連續的(廣義)費氏數,可讓每個相位合併時不留下閒置磁帶。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>相較平衡合併的優勢</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相較於平衡式 k 路合併,多相合併的主要優勢是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>以更少的磁帶達到相當的效能,並避免整段倒帶/複製的回合</text><feedback><text>正確 —— 巧妙的分配取代了平衡法中閒置的倒帶/重新分配回合。</text></feedback></answer>
+    <answer fraction="0"><text>完全不需要比較鍵值</text><feedback><text>錯 —— 每次合併仍需比較鍵值。</text></feedback></answer>
+    <answer fraction="0"><text>讓排序以 O(n) 時間完成</text><feedback><text>錯 —— 它仍是 O(n log n) 工作量的合併排序;優勢在於更少的磁帶回合。</text></feedback></answer>
+    <answer fraction="0"><text>不需要建立初始段落的階段</text><feedback><text>錯 —— 它仍須先建立已排序段落。</text></feedback></answer>
+    <generalfeedback><text>平衡式合併需要均分並浪費倒帶/重新分配回合;多相以費氏分配換取更少的磁帶與更少的總回合。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>輪替的單一輸出</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在多相合併排序中,每個相位從 P&minus;1 條輸入磁帶合併到單一輸出磁帶,且各磁帶的角色會在相位之間輪替。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 一個輸出、P&minus;1 個輸入,且輸出角色每相位輪替。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>錯 —— 這種輪替單一輸出的機制正是多相的運作方式。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>是否需要均分</text></name>
+    <questiontext format="html"><text><![CDATA[<p>多相合併排序要求初始段落<em>均等</em>地分配到所有磁帶。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 它使用不均等的類費氏分配,而非均分。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 段落遵循(廣義)費氏分配,而非均等分配。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>分配所用數列</text></name>
+    <questiontext format="html"><text><![CDATA[<p>能給出多相合併理想初始段落數的數列,英文名稱為 ______ 數列。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Fibonacci</text><feedback><text>正確 —— (廣義)費氏數。</text></feedback></answer>
+    <answer fraction="100"><text>Fibonacci*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>*Fibonacci*</text><feedback><text>正確 —— 廣義費氏亦可接受。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>歷史用途</text></name>
+    <questiontext format="html"><text><![CDATA[<p>多相合併排序在歷史上對哪一種儲存技術特別重要?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>磁帶機,因為磁帶條數與倒帶次數很關鍵</text><feedback><text>正確 —— 在磁帶系統上,盡量減少磁帶與倒帶回合至為重要。</text></feedback></answer>
+    <answer fraction="0"><text>CPU 暫存器</text><feedback><text>錯 —— 這關乎外部、循序的儲存,而非暫存器。</text></feedback></answer>
+    <answer fraction="0"><text>內容定址記憶體</text><feedback><text>錯 —— 其動機是循序的磁帶存取,而非關聯式記憶體。</text></feedback></answer>
+    <answer fraction="0"><text>GPU 共享記憶體</text><feedback><text>錯 —— 多相早於 GPU 記憶體,且與之無關。</text></feedback></answer>
+    <generalfeedback><text>在磁帶機上,擁有少量磁帶並避免倒帶/複製回合至關重要,而這正是多相所最佳化的。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>多相特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於多相合併排序,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>使用 P 條磁帶,但每次只合併其中 P&minus;1 條到一個輸出</text><feedback><text>正確 —— 一條磁帶當輸出,其餘 P&minus;1 條作為輸入。</text></feedback></answer>
+    <answer fraction="50"><text>初始段落依(廣義)費氏數分配,以維持合併完美</text><feedback><text>正確 —— 費氏分配避免閒置回合。</text></feedback></answer>
+    <answer fraction="-50"><text>它像平衡式合併那樣把段落均分</text><feedback><text>錯 —— 均分是平衡式合併;多相刻意採不均等分配。</text></feedback></answer>
+    <answer fraction="-50"><text>它完全省去建立初始段落的階段</text><feedback><text>錯 —— 仍須先建立已排序段落。</text></feedback></answer>
+    <generalfeedback><text>多相 = P 條磁帶、(P&minus;1) 路輪替合併、費氏段落分配;它仍需建立段落,且非均分。</text></generalfeedback>
+  </question>
+</quiz>

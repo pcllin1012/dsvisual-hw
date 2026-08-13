@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Selection Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>選擇排序核心機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>選擇排序在每一輪迭代做什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>從未排序部分找出最小值,並交換到已排序部分的邊界</text><feedback><text>正確 —— 它選出剩餘最小的元素,放到下一個位置。</text></feedback></answer>
+    <answer fraction="0"><text>反覆比較並交換相鄰元素</text><feedback><text>那是氣泡排序。</text></feedback></answer>
+    <answer fraction="0"><text>將較大的已排序元素右移,以插入下一個元素</text><feedback><text>那是插入排序。</text></feedback></answer>
+    <answer fraction="0"><text>以樞紐對陣列進行分割</text><feedback><text>那是快速排序。</text></feedback></answer>
+    <generalfeedback><text>選擇排序在未排序區域掃描其最小值,然後把該最小值交換到逐漸成長的已排序前綴之邊界。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>選擇排序比較次數</text></name>
+    <questiontext format="html"><text><![CDATA[<p>選擇排序在最佳、平均與最差情況下做多少次<strong>比較</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>永遠是 &Theta;(n^2) —— 它不具適應性</text><feedback><text>正確 —— 不論輸入順序,它每次都掃描整個未排序部分。</text></feedback></answer>
+    <answer fraction="0"><text>最佳情況 O(n),其餘為 O(n^2)</text><feedback><text>錯 —— 與插入或氣泡排序不同,選擇排序沒有提早結束;它永遠做 &Theta;(n^2) 次比較。</text></feedback></answer>
+    <answer fraction="0"><text>平均為 O(n log n)</text><feedback><text>錯 —— 選擇排序不切分問題;它是平方級的。</text></feedback></answer>
+    <answer fraction="0"><text>永遠 O(n)</text><feedback><text>錯 —— 找出每個最小值都需掃描剩餘元素。</text></feedback></answer>
+    <generalfeedback><text>選擇排序不論輸入永遠做約 n(n-1)/2 次比較,因此最佳=平均=最差=&Theta;(n^2)。它不具適應性。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>選擇排序交換次數</text></name>
+    <questiontext format="html"><text><![CDATA[<p>選擇排序所做的<strong>交換(寫入)</strong>次數有何值得注意之處?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>只有 O(n) 次交換 —— 每輪迭代至多一次</text><feedback><text>正確 —— 當寫入昂貴時(例如快閃記憶體)這很有吸引力。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2) 次交換,與其比較次數相同</text><feedback><text>錯 —— 比較是 O(n^2),但交換只有 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n) 次交換</text><feedback><text>錯 —— 選擇排序每趟至多一次交換,總計 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>零次交換;它使用輔助陣列</text><feedback><text>錯 —— 它以交換原地排序。</text></feedback></answer>
+    <generalfeedback><text>選擇排序每輪外層迭代至多一次交換,因此總寫入只有 O(n) —— 當寫入成本佔主導時很有用。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>選擇排序穩定性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>標準以陣列實作的選擇排序是一種<em>穩定</em>的排序演算法。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 把相距很遠的最小值交換就位,可能讓一個相等鍵值跳過另一個,破壞相對順序。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 標準陣列版本並不穩定。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>原地選擇排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>選擇排序是原地(in-place)的,只使用 O(1) 的額外空間。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 它在陣列內交換排序,只需常數量的額外記憶體。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>選擇排序不需輔助陣列;交換就地進行。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>選擇排序所選名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>每一趟,選擇排序在未排序部分尋找它的 ______ 元素(最小的那個)。以一個英文單字作答。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>minimum</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>minimum*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>min*</text><feedback><text>正確 ——「minimum」。</text></feedback></answer>
+    <answer fraction="100"><text>smallest</text><feedback><text>正確 —— 最小元素。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>選擇排序性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於選擇排序,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它只做 O(n) 次交換,當寫入昂貴時很有用</text><feedback><text>正確 —— 每輪外層迭代至多一次交換。</text></feedback></answer>
+    <answer fraction="50"><text>不論輸入,它的比較次數都是 &Theta;(n^2)</text><feedback><text>正確 —— 它不具適應性。</text></feedback></answer>
+    <answer fraction="-50"><text>對已排序好的陣列它以 O(n) 執行</text><feedback><text>錯 —— 它不具適應性;比較永遠是 &Theta;(n^2)。</text></feedback></answer>
+    <answer fraction="-50"><text>標準陣列版本是穩定的</text><feedback><text>錯 —— 標準陣列版本並不穩定。</text></feedback></answer>
+    <generalfeedback><text>選擇排序:比較永遠 &Theta;(n^2),但交換只有 O(n);原地;不具適應性;標準陣列版本不穩定。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>何時使用選擇排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>選擇排序在什麼情況下特別合理?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>當寫入/交換元素的成本佔主導,且你想把寫入次數降到最低時</text><feedback><text>正確 —— 它至多做 O(n) 次交換,這是它主要的實務優勢。</text></feedback></answer>
+    <answer fraction="0"><text>當輸入近乎排序好、你想要 O(n) 的行為時</text><feedback><text>錯 —— 選擇排序不具適應性;插入排序才是具適應性的選擇。</text></feedback></answer>
+    <answer fraction="0"><text>當你必須快速排序數百萬筆記錄時</text><feedback><text>錯 —— O(n^2) 次比較在大規模下太慢。</text></feedback></answer>
+    <generalfeedback><text>選擇排序的優勢在於 O(n) 的寫入;當交換/寫入是昂貴操作時選它,而非用於大型或近乎排序好的輸入。</text></generalfeedback>
+  </question>
+</quiz>

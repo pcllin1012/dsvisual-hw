@@ -12,8 +12,11 @@ test.describe('self-test quiz', () => {
   test('quiz button shows on sort-quick, not on a quiz-less method', async ({ page }) => {
     await loadMethod(page, 'sort-quick');
     await expect(page.locator('[data-method-section="sort-quick"] .method-quiz-btn')).toBeVisible();
-    await loadMethod(page, 'sort-bubble');
-    await expect(page.locator('[data-method-section="sort-bubble"] .method-quiz-btn')).toHaveCount(0);
+    await loadMethod(page, 'stack-array');
+    await expect(page.locator('[data-method-section="stack-array"] .method-quiz-btn')).toHaveCount(0);
+    // every sorting method now has a deck
+    await loadMethod(page, 'sort-merge');
+    await expect(page.locator('[data-method-section="sort-merge"] .method-quiz-btn')).toBeVisible();
   });
 
   test('practice mode: immediate feedback, then score; attempt saved', async ({ page }) => {
