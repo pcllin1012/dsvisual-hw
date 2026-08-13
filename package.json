@@ -8,10 +8,11 @@
     "test:unit": "node --test tests/unit/*.test.js",
     "test:all": "npm run test:unit && npm test",
     "build:slides": "node build_slides.js",
+    "build:quiz": "node build_quiz.js",
     "slides:pdf": "marp --pdf --allow-local-files --input-dir slides/zh -o slides/pdf/zh && marp --pdf --allow-local-files --input-dir slides/en -o slides/pdf/en",
     "format:code": "node format_code.js",
     "inject-env": "node scripts/inject-env.mjs",
-    "pages:prepare": "npm run inject-env && npm run build:slides",
+    "pages:prepare": "npm run inject-env && npm run build:slides && npm run build:quiz",
     "pages:artifact": "npm run pages:prepare && node scripts/prepare-pages-artifact.mjs"
   },
   "repository": {
@@ -31,6 +32,7 @@
     "@mermaid-js/mermaid-cli": "^11.15.0",
     "@playwright/test": "^1.61.1",
     "clang-format": "^1.8.0",
+    "fast-xml-parser": "^4.5.7",
     "firebase": "^11.7.1",
     "katex": "^0.16.47",
     "prismjs": "^1.30.0"
