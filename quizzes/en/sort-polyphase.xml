@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Polyphase Merge Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>What polyphase is</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is <strong>polyphase merge sort</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>An external (tape) merge-sort strategy that uses P tapes but merges P&minus;1 inputs into one output, rotating roles</text><feedback><text>Correct — it keeps one output tape and merges from the other P&minus;1, then rotates.</text></feedback></answer>
+    <answer fraction="0"><text>An in-memory variant of quicksort using multiple pivots</text><feedback><text>No — polyphase is an external merge strategy, unrelated to pivots.</text></feedback></answer>
+    <answer fraction="0"><text>A hashing scheme for distributing keys across buckets</text><feedback><text>No — it merges sorted runs across tapes; it is not hashing.</text></feedback></answer>
+    <answer fraction="0"><text>A stable counting sort for small integer keys</text><feedback><text>No — that describes counting sort, not polyphase merge.</text></feedback></answer>
+    <generalfeedback><text>Polyphase merge sort distributes runs over P tapes and repeatedly does (P&minus;1)-way merges into one output, rotating which tape is the output.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Run distribution</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How are the initial runs distributed across the tapes so the merges stay "perfect" (no idle passes)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>In a (generalized) Fibonacci proportion</text><feedback><text>Correct — Fibonacci-numbered counts keep every merge phase perfectly balanced.</text></feedback></answer>
+    <answer fraction="0"><text>Split exactly evenly across all tapes</text><feedback><text>No — an even split is balanced merge, not polyphase; it wastes rewind passes.</text></feedback></answer>
+    <answer fraction="0"><text>All runs placed on a single tape</text><feedback><text>No — the merges need runs spread over P&minus;1 input tapes.</text></feedback></answer>
+    <answer fraction="0"><text>In powers of two on two tapes</text><feedback><text>No — the distribution follows Fibonacci-like numbers, not simple powers of two.</text></feedback></answer>
+    <generalfeedback><text>Choosing run counts as consecutive (generalized) Fibonacci numbers lets each phase merge without leaving a tape idle.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Advantage over balanced merge</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the main advantage of polyphase merge over balanced k-way merge?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It achieves comparable performance with fewer tapes and avoids full rewind/copy passes</text><feedback><text>Correct — clever distribution replaces the balanced method's idle rewind/redistribution passes.</text></feedback></answer>
+    <answer fraction="0"><text>It removes the need to compare keys at all</text><feedback><text>No — it still compares keys during each merge.</text></feedback></answer>
+    <answer fraction="0"><text>It makes the sort run in O(n) time</text><feedback><text>No — it is still an O(n log n)-work merge sort; the win is fewer tape passes.</text></feedback></answer>
+    <answer fraction="0"><text>It requires no initial run creation phase</text><feedback><text>No — it still starts by creating sorted runs.</text></feedback></answer>
+    <generalfeedback><text>Balanced merge needs an even split and wastes rewind/redistribution passes; polyphase trades a Fibonacci distribution for fewer tapes and fewer total passes.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Rotating single output</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In polyphase merge sort, each phase merges from P&minus;1 input tapes onto a single output tape, and the roles of the tapes rotate between phases.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — one output, P&minus;1 inputs, and the output role rotates each phase.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>No — this rotating single-output scheme is exactly how polyphase works.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Even distribution needed</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Polyphase merge sort requires the initial runs to be distributed <em>equally</em> across all the tapes.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — it uses an uneven, Fibonacci-like distribution, not an equal split.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the runs follow a (generalized) Fibonacci distribution, not an even one.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Distribution sequence</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The number sequence whose values give the ideal initial run counts for polyphase merge is the ______ sequence.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Fibonacci</text><feedback><text>Correct — (generalized) Fibonacci numbers.</text></feedback></answer>
+    <answer fraction="100"><text>Fibonacci*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>*Fibonacci*</text><feedback><text>Correct — generalized Fibonacci also accepted.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Historical use</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Polyphase merge sort was historically important for which storage technology?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Magnetic tape drives, where the number of tapes and rewinds mattered</text><feedback><text>Correct — minimizing tapes and rewind passes was crucial on tape systems.</text></feedback></answer>
+    <answer fraction="0"><text>CPU registers</text><feedback><text>No — it is about external, sequential storage, not registers.</text></feedback></answer>
+    <answer fraction="0"><text>Content-addressable memory</text><feedback><text>No — the motivation was sequential tape access, not associative memory.</text></feedback></answer>
+    <answer fraction="0"><text>GPU shared memory</text><feedback><text>No — polyphase predates and is unrelated to GPU memory.</text></feedback></answer>
+    <generalfeedback><text>On tape drives, having few tapes and avoiding rewind/copy passes was vital, which is exactly what polyphase optimizes.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Polyphase properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about polyphase merge sort are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It uses P tapes but merges only P&minus;1 of them at a time into one output</text><feedback><text>Yes — one tape is the output while P&minus;1 serve as inputs.</text></feedback></answer>
+    <answer fraction="50"><text>Initial runs are distributed in (generalized) Fibonacci counts to keep merges perfect</text><feedback><text>Yes — the Fibonacci distribution avoids idle passes.</text></feedback></answer>
+    <answer fraction="-50"><text>It splits the runs evenly like balanced merge</text><feedback><text>No — an even split is balanced merge; polyphase is deliberately uneven.</text></feedback></answer>
+    <answer fraction="-50"><text>It eliminates the initial run-creation phase entirely</text><feedback><text>No — sorted runs must still be created first.</text></feedback></answer>
+    <generalfeedback><text>Polyphase = P tapes, (P&minus;1)-way rotating merges, Fibonacci run distribution; it still needs run creation and is not an even split.</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Counting Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>計數排序機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列何者最能描述計數排序的<strong>核心機制</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>計算每個鍵值出現的次數,取前綴和求出位置,再把每個元素放入其輸出槽位</text><feedback><text>正確 —— 計數、前綴和、放置。</text></feedback></answer>
+    <answer fraction="0"><text>反覆選出剩餘元素中的最小值並附加</text><feedback><text>那是選擇排序,一種比較排序。</text></feedback></answer>
+    <answer fraction="0"><text>把陣列切成兩半,各自排序後合併</text><feedback><text>那是合併排序。</text></feedback></answer>
+    <answer fraction="0"><text>選取樞紐並遞迴地圍繞它分割陣列</text><feedback><text>那是快速排序。</text></feedback></answer>
+    <generalfeedback><text>計數排序統計鍵值頻率,透過前綴和把計數轉成起始位置,再把元素穩定地散入輸出陣列。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>計數排序複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>計數排序的時間複雜度為何?其中 k 是鍵值的<strong>範圍</strong>。</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n + k)</text><feedback><text>正確 —— 與元素數量加上鍵值範圍大小成線性。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>那是比較排序的界限;計數排序並非比較式。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>計數排序永遠不需要平方時間。</text></feedback></answer>
+    <answer fraction="0"><text>O(k log n)</text><feedback><text>沒有 log 因子;計數與放置兩趟都是線性。</text></feedback></answer>
+    <generalfeedback><text>一趟計數(O(n))、一趟在範圍上建前綴和(O(k))、一趟放置元素(O(n)),合計 O(n + k)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>計數排序何時有效率</text></name>
+    <questiontext format="html"><text><![CDATA[<p>計數排序只有在下列哪個條件成立時才有效率(近乎線性)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>鍵值範圍 k 為 O(n),即相對於元素數量而言是很小的整數範圍</text><feedback><text>正確 —— 當 k = O(n) 時,O(n + k) 收斂為 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>鍵值是任意的浮點數</text><feedback><text>計數排序以整數鍵值索引,無法直接對任意浮點數分桶。</text></feedback></answer>
+    <answer fraction="0"><text>陣列已經接近排序好</text><feedback><text>計數排序的成本不取決於初始順序。</text></feedback></answer>
+    <answer fraction="0"><text>範圍 k 遠大於 n</text><feedback><text>過大的範圍會使 O(n + k) 被 k 主導並浪費空間。</text></feedback></answer>
+    <generalfeedback><text>計數排序在鍵值範圍很小(k = O(n))時最出色;範圍遠大於 n 會使它變慢且耗記憶體。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>計數排序穩定性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>若使用前綴和位置、由右到左走訪輸入來放置元素,計數排序即為<em>穩定</em>。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 由右到左放置可保留相同鍵值的原始順序。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>計數排序是經典的穩定排序。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>計數排序是否為比較排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>計數排序是一種<em>比較式</em>演算法,受 &Omega;(n log n) 下界所限。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 它以鍵值索引、從不比較兩個元素,因此可達線性。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 計數排序並非比較式。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>前綴和名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>為了把各鍵值的計數轉成起始輸出位置,計數排序會計算計數陣列的 ______ 和(英文名詞,例如 "prefix")。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>prefix</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>prefix*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>cumulative</text><feedback><text>正確 —— 累積和(cumulative)有相同作用。</text></feedback></answer>
+    <answer fraction="100"><text>cumulative*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>計數排序的限制因素</text></name>
+    <questiontext format="html"><text><![CDATA[<p>當鍵值的 ______(可能鍵值的分布幅度)非常大時,計數排序會變得不切實際。填入英文單字。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>range</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>range*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>計數排序性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於計數排序,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它的輔助空間為 O(n + k)</text><feedback><text>正確 —— 大小為 k 的計數陣列加上大小為 n 的輸出陣列。</text></feedback></answer>
+    <answer fraction="50"><text>它很適合排序範圍不大的非負整數</text><feedback><text>正確 —— 這正是它的最佳適用場景。</text></feedback></answer>
+    <answer fraction="-50"><text>它可以不經轉換就直接排序任意浮點鍵值</text><feedback><text>錯 —— 它以整數鍵值索引,無法直接對原始浮點數分桶。</text></feedback></answer>
+    <answer fraction="-50"><text>它透過兩兩比較元素來運作</text><feedback><text>錯 —— 它從不比較元素,而是計數鍵值。</text></feedback></answer>
+    <generalfeedback><text>計數排序需要 O(n + k) 空間、在範圍不大的整數鍵值上出色、無法直接處理原始浮點數,且不做任何比較。</text></generalfeedback>
+  </question>
+</quiz>

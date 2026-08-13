@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Heap Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Heap sort core idea</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which best describes the <strong>core mechanism</strong> of heap sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Build a max-heap, then repeatedly swap the root to the end and sift the new root down over the shrinking heap</text><feedback><text>Correct — build once, then extract-max n times via sift-down.</text></feedback></answer>
+    <answer fraction="0"><text>Divide the array into halves, sort each, then merge</text><feedback><text>That is merge sort.</text></feedback></answer>
+    <answer fraction="0"><text>Partition around a pivot and recurse on each side</text><feedback><text>That is quicksort.</text></feedback></answer>
+    <answer fraction="0"><text>Insertion-sort elements at diminishing gaps</text><feedback><text>That is shell sort.</text></feedback></answer>
+    <generalfeedback><text>Heap sort turns the array into a binary max-heap, then repeatedly moves the maximum (the root) to the end and restores the heap with sift-down.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Heap sort worst case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the <strong>worst-case</strong> time complexity of heap sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n log n)</text><feedback><text>Correct — n extractions, each with an O(log n) sift-down.</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>No — unlike quicksort, heap sort never degrades to quadratic.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>Comparison sorts cannot beat O(n log n).</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>You must process every element.</text></feedback></answer>
+    <generalfeedback><text>Heap sort's best, average, and worst cases are all O(n log n) — a guaranteed bound that quicksort does not offer.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Heap sort space</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the auxiliary <strong>space complexity</strong> of heap sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(1)</text><feedback><text>Correct — the heap lives inside the input array; sorting is in-place.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>No — unlike merge sort, heap sort needs no auxiliary array.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>An iterative sift-down uses only constant extra space.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>That is a time bound, not space.</text></feedback></answer>
+    <generalfeedback><text>Heap sort sorts in place with O(1) extra memory — its key advantage over merge sort, while still guaranteeing O(n log n).</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Heap sort stability</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Heap sort is a <em>stable</em> sorting algorithm.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — sift-down swaps distant elements, so equal keys can be reordered.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — heap sort is not stable.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Heap sort guarantee</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Heap sort guarantees O(n log n) time while using only O(1) extra space.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — this combination of guaranteed time and in-place operation is heap sort's signature strength.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>It does — heap sort is both O(n log n) worst case and in-place.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Heap sift operation</text></name>
+    <questiontext format="html"><text><![CDATA[<p>After swapping the root to the end, the operation that restores the max-heap property by moving the new root downward is called sift-______ (also known as heapify or percolate-down).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>down</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>down*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Heap build cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Building a heap from an unsorted array with the bottom-up method takes how much time? Answer as O(_).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>O(n)</text><feedback><text>Correct — bottom-up build-heap is linear time.</text></feedback></answer>
+    <answer fraction="100"><text>n</text><feedback><text>Correct — bottom-up build-heap is O(n).</text></feedback></answer>
+    <answer fraction="100"><text>O(n)*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Heap sort properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about heap sort are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It runs in O(n log n) in the best, average, and worst cases</text><feedback><text>Yes — its time bound does not depend on input order.</text></feedback></answer>
+    <answer fraction="50"><text>It sorts in place with O(1) auxiliary space</text><feedback><text>Yes — the heap is maintained inside the array.</text></feedback></answer>
+    <answer fraction="-50"><text>It is a stable sort</text><feedback><text>No — heap sort is not stable.</text></feedback></answer>
+    <answer fraction="-50"><text>It is adaptive, running in O(n) on already-sorted input</text><feedback><text>No — heap sort is not adaptive; it is O(n log n) regardless.</text></feedback></answer>
+    <generalfeedback><text>Heap sort: guaranteed O(n log n), in-place O(1) space, but not stable and not adaptive.</text></generalfeedback>
+  </question>
+</quiz>

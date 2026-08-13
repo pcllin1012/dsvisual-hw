@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Insertion Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Insertion sort core mechanism</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How does insertion sort build up a sorted result?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>It grows a sorted prefix, taking each next element and shifting larger sorted elements right to insert it into place</text><feedback><text>Correct — like sorting a hand of cards.</text></feedback></answer>
+    <answer fraction="0"><text>It repeatedly selects the minimum of the unsorted part</text><feedback><text>That describes selection sort.</text></feedback></answer>
+    <answer fraction="0"><text>It compares and swaps only adjacent elements pass after pass</text><feedback><text>That describes bubble sort.</text></feedback></answer>
+    <answer fraction="0"><text>It recursively merges sorted halves</text><feedback><text>That describes merge sort.</text></feedback></answer>
+    <generalfeedback><text>Insertion sort keeps a sorted prefix on the left; each new element is inserted into its correct spot by shifting larger elements one position right.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Insertion sort best case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is insertion sort's <strong>best-case</strong> time complexity on an already-sorted array?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>Correct — each element only needs one comparison and no shifts, so it is adaptive.</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>That is the worst/average case; on sorted input insertion sort is O(n).</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>Insertion sort does not divide the problem logarithmically.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>You still must scan all n elements once.</text></feedback></answer>
+    <generalfeedback><text>On sorted or nearly-sorted input, each element is already at or near its place, so insertion sort runs in O(n) — it is adaptive.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Insertion sort worst case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is insertion sort's <strong>worst-case</strong> time complexity?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n^2)</text><feedback><text>Correct — a reverse-sorted array forces every new element to shift past all previous ones.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>That is the best case on sorted input, not the worst case.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>Shifting elements one at a time makes it quadratic in the worst case.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>You must at least touch every element.</text></feedback></answer>
+    <generalfeedback><text>In the worst case (reverse-sorted input) each of the n elements shifts past up to n prior elements, giving O(n^2).</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Insertion sort stability</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Insertion sort is a <em>stable</em> sorting algorithm.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it stops shifting on a strict "greater than", so equal keys keep their original order.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Insertion sort inserts after equal elements, preserving relative order, so it is stable.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Insertion sort online</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Insertion sort is an <em>online</em> algorithm: it can sort a list as elements arrive one at a time.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — each new element is inserted into the already-sorted prefix, so it handles streaming input.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Insertion sort maintains a sorted prefix and can absorb each new element as it arrives, so it is online.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Insertion sort adaptivity term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An algorithm that runs faster when the input is already partly sorted is called ______ (one English word). Insertion sort has this property.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>adaptive</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>adaptive*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>adaptivity</text><feedback><text>Correct — the property is "adaptive".</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Insertion sort properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about insertion sort are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It is adaptive, running in O(n) on nearly-sorted input</text><feedback><text>Yes — fewer shifts when data is nearly ordered.</text></feedback></answer>
+    <answer fraction="50"><text>It is stable and in-place (O(1) extra space)</text><feedback><text>Yes — equal keys keep order and it sorts within the array.</text></feedback></answer>
+    <answer fraction="-50"><text>Its worst-case time is O(n log n)</text><feedback><text>No — the worst case is O(n^2).</text></feedback></answer>
+    <answer fraction="-50"><text>It cannot process input arriving one element at a time</text><feedback><text>No — insertion sort is online and handles streaming input.</text></feedback></answer>
+    <generalfeedback><text>Insertion sort: adaptive (O(n) best case), stable, in-place, online; worst/average case O(n^2).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>When to use insertion sort</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When is insertion sort a particularly good choice?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>For small arrays or nearly-sorted data, and as the base case inside faster divide-and-conquer sorts</text><feedback><text>Correct — its low overhead and adaptivity shine on small or almost-sorted inputs.</text></feedback></answer>
+    <answer fraction="0"><text>For sorting very large random arrays where asymptotic speed matters most</text><feedback><text>No — O(n^2) is too slow there; use an O(n log n) sort.</text></feedback></answer>
+    <answer fraction="0"><text>When you specifically need to minimize the number of writes</text><feedback><text>No — that is selection sort's niche; insertion sort can do many shifts.</text></feedback></answer>
+    <generalfeedback><text>Insertion sort excels on small or nearly-sorted inputs and is often the cutoff base case in quicksort/merge sort implementations.</text></generalfeedback>
+  </question>
+</quiz>

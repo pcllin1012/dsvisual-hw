@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Shell Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>希爾排序核心概念</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列何者最能描述希爾排序的<strong>核心機制</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>對相距固定間隔的元素做插入排序,再以更小的間隔重複,直到間隔為 1</text><feedback><text>正確 —— 它以逐漸縮小的間隔序列進行 h-排序。</text></feedback></answer>
+    <answer fraction="0"><text>分成兩半,遞迴排序,再合併</text><feedback><text>那是合併排序。</text></feedback></answer>
+    <answer fraction="0"><text>以樞紐分割,並在兩側遞迴</text><feedback><text>那是快速排序。</text></feedback></answer>
+    <answer fraction="0"><text>建立堆積,反覆取出最大值</text><feedback><text>那是堆積排序。</text></feedback></answer>
+    <generalfeedback><text>希爾排序是插入排序的推廣:先排序相距較遠的元素,讓元素快速接近最終位置,最後再以間隔 1 的插入排序收尾。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>希爾排序是何者的推廣</text></name>
+    <questiontext format="html"><text><![CDATA[<p>希爾排序最適合理解為哪一種較簡單排序的推廣?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>插入排序</text><feedback><text>正確 —— 每一個間隔回合都是對間隔子序列做插入排序。</text></feedback></answer>
+    <answer fraction="0"><text>合併排序</text><feedback><text>錯 —— 希爾排序不合併已排序區段。</text></feedback></answer>
+    <answer fraction="0"><text>堆積排序</text><feedback><text>錯 —— 希爾排序不使用堆積。</text></feedback></answer>
+    <answer fraction="0"><text>計數排序</text><feedback><text>錯 —— 希爾排序是以比較為基礎,而非以鍵值分佈。</text></feedback></answer>
+    <generalfeedback><text>當間隔為 1 時,希爾排序就是插入排序;較大的間隔讓元素跳向最終位置,減少後續工作量。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>希爾排序時間取決於</text></name>
+    <questiontext format="html"><text><![CDATA[<p>希爾排序的整體時間複雜度主要取決於什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>所選用的間隔(增量)序列</text><feedback><text>正確 —— Shell 原始間隔為 O(n^2),而 Hibbard/Sedgewick 序列可達約 O(n^1.5) 或更佳。</text></feedback></answer>
+    <answer fraction="0"><text>樞紐選取策略</text><feedback><text>希爾排序沒有樞紐。</text></feedback></answer>
+    <answer fraction="0"><text>輔助合併緩衝區的大小</text><feedback><text>希爾排序不使用合併緩衝區。</text></feedback></answer>
+    <answer fraction="0"><text>沒有 —— 它永遠恰好是 O(n log n)</text><feedback><text>錯 —— 其複雜度隨間隔序列而變。</text></feedback></answer>
+    <generalfeedback><text>Shell 原始間隔 → 最差 O(n^2);較佳序列(Hibbard 約 O(n^1.5)、Sedgewick 約 O(n^(4/3)))可大幅改善。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>希爾排序穩定性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>希爾排序是一種<em>穩定</em>的排序演算法。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 跨越大間隔比較與移動元素可能會重新排列相同鍵值。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 希爾排序不穩定。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>希爾排序是否原地</text></name>
+    <questiontext format="html"><text><![CDATA[<p>希爾排序是原地演算法,只使用 O(1) 輔助空間。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 它在陣列內以常數額外記憶體重新排列。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>希爾排序不需輔助陣列;它是原地排序。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>希爾排序間隔名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>希爾排序在一個回合中所比較元素之間的間距,英文稱為 ______(也稱為增量 increment)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>gap</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>gap*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>希爾排序最終間隔</text></name>
+    <questiontext format="html"><text><![CDATA[<p>希爾排序的最後一個回合一定使用哪一個間隔值?請以單一數字作答。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>1</text><feedback><text>正確 —— 最後一回合就是間隔為 1 的普通插入排序。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>希爾排序特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於希爾排序,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它先讓元素做長距離移動,藉此改進插入排序</text><feedback><text>正確 —— 大間隔在最終間隔 1 回合之前快速降低亂序程度。</text></feedback></answer>
+    <answer fraction="50"><text>它的最差情況複雜度取決於所使用的間隔序列</text><feedback><text>正確 —— 例如 Shell 間隔為 O(n^2)、Hibbard 約 O(n^1.5)。</text></feedback></answer>
+    <answer fraction="-50"><text>它是穩定的,能保留相同鍵值的順序</text><feedback><text>錯 —— 希爾排序不穩定。</text></feedback></answer>
+    <answer fraction="-50"><text>它像合併排序一樣需要 O(n) 輔助空間</text><feedback><text>錯 —— 希爾排序是原地排序,額外空間 O(1)。</text></feedback></answer>
+    <generalfeedback><text>希爾排序:原地、不穩定,是插入排序以間隔為基礎的推廣,其速度取決於增量序列。</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/External Merge Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>為何需要外部排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>外部合併排序(external merge sort)</strong>主要解決什麼問題?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>排序一份大到無法完整放入主記憶體(RAM)的資料</text><feedback><text>正確 —— 資料存放於磁碟,無法一次全部載入 RAM。</text></feedback></answer>
+    <answer fraction="0"><text>以少於 O(n log n) 次比較完成排序</text><feedback><text>錯 —— 它不會突破比較下界;它處理的是超過記憶體容量的資料。</text></feedback></answer>
+    <answer fraction="0"><text>從一份小型記憶體清單移除重複鍵值</text><feedback><text>錯 —— 重點不是去重,而是資料規模超過記憶體。</text></feedback></answer>
+    <answer fraction="0"><text>在不使用額外指標的情況下排序鏈結串列</text><feedback><text>錯 —— 這與外部排序無關。</text></feedback></answer>
+    <generalfeedback><text>外部排序透過在記憶體與磁碟之間以已排序片段串流資料,處理大於 RAM 的資料。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>主要成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>外部合併排序的執行時間主要由什麼主導?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>磁碟 I/O —— 也就是掃過資料的回合(pass)數</text><feedback><text>正確 —— 資料進出磁碟遠比記憶體內的比較慢。</text></feedback></answer>
+    <answer fraction="0"><text>CPU 執行的鍵值比較次數</text><feedback><text>錯 —— 相較於磁碟傳輸,CPU 比較在此非常便宜。</text></feedback></answer>
+    <answer fraction="0"><text>遞迴堆疊的深度</text><feedback><text>錯 —— 堆疊深度並非外部排序的瓶頸。</text></feedback></answer>
+    <answer fraction="0"><text>樞紐選取的次數</text><feedback><text>錯 —— 樞紐屬於快速排序,而非外部合併排序。</text></feedback></answer>
+    <generalfeedback><text>由於磁碟存取比記憶體慢好幾個數量級,其成本模型計算的是回合數 / I/O,而非比較次數。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>建立初始段落階段</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列何者最能描述外部合併排序的<strong>第一階段</strong>(建立初始段落)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>讀入能放進記憶體的資料塊,各自於記憶體內排序,再寫回成為已排序的「段落(run)」</text><feedback><text>正確 —— 每個記憶體大小的資料塊成為磁碟上一個已排序段落。</text></feedback></answer>
+    <answer fraction="0"><text>一次把所有段落合併成最終排序輸出</text><feedback><text>錯 —— 那是第二階段(合併)。</text></feedback></answer>
+    <answer fraction="0"><text>以從磁碟選出的樞紐對資料進行分割</text><feedback><text>錯 —— 外部合併排序不會繞著樞紐分割。</text></feedback></answer>
+    <answer fraction="0"><text>在記憶體中對整個檔案建立堆積</text><feedback><text>錯 —— 整個檔案放不進記憶體,只有資料塊可以。</text></feedback></answer>
+    <generalfeedback><text>第一階段產生已排序段落;第二階段反覆對這些段落做 k 路合併,直到只剩一個。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>合併回合數</text></name>
+    <questiontext format="html"><text><![CDATA[<p>採用 (B&minus;1) 路合併時,增大合併路數(fan-in <em>k</em>)如何影響大約 &lceil;log<sub>k</sub>(N/M)&rceil; 的合併回合數?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>k 越大回合數越少,因此總磁碟 I/O 越少</text><feedback><text>正確 —— 較高的 fan-in 抬高對數底數,縮小回合數。</text></feedback></answer>
+    <answer fraction="0"><text>k 越大回合數越多、I/O 越多</text><feedback><text>錯 —— 較大的合併路數會減少回合數。</text></feedback></answer>
+    <answer fraction="0"><text>k 對回合數沒有影響</text><feedback><text>錯 —— k 是對數的底數,會直接改變回合數。</text></feedback></answer>
+    <answer fraction="0"><text>回合數只取決於 CPU 速度,與 k 無關</text><feedback><text>錯 —— 回合數取決於 N、M 與 fan-in k,而非 CPU 速度。</text></feedback></answer>
+    <generalfeedback><text>合併回合數 &asymp; &lceil;log<sub>k</sub>(N/M)&rceil;;每個回合搬動 &asymp; 2N 筆記錄,故 k 越大回合數與 I/O 都越少。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>外部合併排序穩定性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>外部合併排序如同一般合併排序,可以實作為<em>穩定</em>的排序。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 謹慎的合併可保留相同鍵值的相對次序。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>錯 —— 合併可讓相同鍵值維持原本次序,故為穩定。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>CPU 與 IO</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對於遠大於 RAM 的檔案,CPU 的鍵值比較次數是外部合併排序的主要瓶頸。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 主導的是磁碟 I/O(掃過資料的回合數),而非比較次數。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 磁碟回合主導成本;比較相對便宜。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>已排序段落名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>第一階段寫入磁碟、之後透過合併結合的已排序資料塊,英文稱為 ______。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>run</text><feedback><text>正確 —— 這些已排序片段稱為 run(段落)。</text></feedback></answer>
+    <answer fraction="100"><text>run*</text><feedback><text>正確 —— 已排序的「run」。</text></feedback></answer>
+    <answer fraction="100"><text>sorted run</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>減少回合數</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列哪些改變可<strong>減少</strong>外部合併排序的回合數(進而減少磁碟 I/O)?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>給排序更多記憶體 M,使每個初始段落更長</text><feedback><text>正確 —— 段落越長、待合併的段落越少,回合數越少。</text></feedback></answer>
+    <answer fraction="50"><text>增大合併 fan-in k(更高路數的合併)</text><feedback><text>正確 —— k 越大抬高對數底數,削減回合數。</text></feedback></answer>
+    <answer fraction="-50"><text>使用較小的記憶體緩衝以節省 RAM</text><feedback><text>錯 —— 記憶體越少段落越短,回合數越多。</text></feedback></answer>
+    <answer fraction="-50"><text>每筆記錄執行更多 CPU 比較</text><feedback><text>錯 —— 額外比較無法減少磁碟回合。</text></feedback></answer>
+    <generalfeedback><text>更少的回合來自更大的記憶體(更長段落)與更高的合併路數;兩者都針對 &lceil;log<sub>k</sub>(N/M)&rceil; 的回合數。</text></generalfeedback>
+  </question>
+</quiz>

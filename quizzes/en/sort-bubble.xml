@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Bubble Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Bubble sort core mechanism</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does bubble sort do on each pass through the array?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Repeatedly compares adjacent elements and swaps them if they are out of order</text><feedback><text>Correct — adjacent comparisons let the largest remaining element "bubble" to the end.</text></feedback></answer>
+    <answer fraction="0"><text>Selects the minimum of the unsorted part and swaps it to the front</text><feedback><text>That describes selection sort.</text></feedback></answer>
+    <answer fraction="0"><text>Partitions the array around a pivot element</text><feedback><text>That describes quicksort.</text></feedback></answer>
+    <answer fraction="0"><text>Merges two sorted halves into one sorted array</text><feedback><text>That describes merge sort.</text></feedback></answer>
+    <generalfeedback><text>Bubble sort walks the array comparing neighbours and swapping out-of-order pairs; each pass pushes the next largest element into place at the end.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Bubble sort worst case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the <strong>worst-case</strong> time complexity of bubble sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n^2)</text><feedback><text>Correct — a reverse-sorted array needs about n passes of n comparisons.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>Bubble sort only compares adjacent elements, so it cannot reach n log n.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>That is the best case with early-exit, not the worst case.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>You must at least touch every element.</text></feedback></answer>
+    <generalfeedback><text>In the worst case (e.g. a reverse-sorted array) bubble sort performs on the order of n^2 comparisons and swaps.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Bubble sort best case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>With the early-exit optimization, what is bubble sort's <strong>best-case</strong> time complexity on an already-sorted array?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>Correct — one clean pass with no swaps lets the algorithm stop early.</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>Without early-exit it would be O(n^2), but the optimization detects the sorted array in one pass.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>Bubble sort does not divide the problem logarithmically.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>You still need one full pass to confirm the array is sorted.</text></feedback></answer>
+    <generalfeedback><text>An early-exit flag lets bubble sort stop after a single swap-free pass, making it O(n) and adaptive on nearly-sorted input.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Bubble sort stability</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Bubble sort is a <em>stable</em> sorting algorithm.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it only swaps adjacent elements on a strict "greater than" comparison, so equal keys keep their relative order.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Bubble sort never swaps equal elements, so it preserves relative order and is stable.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Bubble sort in place</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Bubble sort is in-place, using only O(1) extra space.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it sorts by swapping within the original array, needing only a constant amount of extra memory.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Bubble sort needs no auxiliary array; swaps happen in place.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Bubble sort space term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Give the Big-O of bubble sort's extra (auxiliary) space. Write it like <code>O(1)</code>.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>O(1)</text><feedback><text>Correct — constant extra space.</text></feedback></answer>
+    <answer fraction="100"><text>O(1)*</text><feedback><text>Correct — constant extra space.</text></feedback></answer>
+    <answer fraction="100"><text>constant</text><feedback><text>Correct — constant extra space, i.e. O(1).</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Bubble sort properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about bubble sort are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Each pass moves the largest unsorted element to its final position at the end</text><feedback><text>Yes — that is why it is called "bubbling up".</text></feedback></answer>
+    <answer fraction="50"><text>With an early-exit flag it becomes adaptive on nearly-sorted data</text><feedback><text>Yes — it can finish in O(n) when few swaps are needed.</text></feedback></answer>
+    <answer fraction="-50"><text>It has average-case time complexity O(n log n)</text><feedback><text>No — the average case is O(n^2).</text></feedback></answer>
+    <answer fraction="-50"><text>It requires an auxiliary array proportional to n</text><feedback><text>No — bubble sort is in-place, O(1) extra space.</text></feedback></answer>
+    <generalfeedback><text>Bubble sort: bubbles the max to the end each pass, is stable and in-place, is adaptive with early-exit, but is O(n^2) on average.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>When to use bubble sort</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which is the most reasonable use of bubble sort?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Teaching sorting concepts, or sorting very small or nearly-sorted inputs where simplicity matters</text><feedback><text>Correct — its clarity and early-exit make it fine for tiny or almost-sorted data, but not for large arrays.</text></feedback></answer>
+    <answer fraction="0"><text>Sorting millions of records in a production database</text><feedback><text>No — O(n^2) is far too slow at that scale; use an O(n log n) sort.</text></feedback></answer>
+    <answer fraction="0"><text>When you must guarantee O(n log n) worst-case performance</text><feedback><text>No — bubble sort's worst case is O(n^2).</text></feedback></answer>
+    <generalfeedback><text>Bubble sort is mainly pedagogical; in practice it only suits tiny or nearly-sorted inputs where its simplicity and early-exit pay off.</text></generalfeedback>
+  </question>
+</quiz>

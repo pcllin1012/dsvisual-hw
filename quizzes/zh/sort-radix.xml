@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Radix Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>基數排序機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列何者最能描述 LSD 基數排序的<strong>核心機制</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>從最低位數到最高位數,一次處理一個位數,每一趟位數都使用穩定排序</text><feedback><text>正確 —— LSD 由最低位到最高位處理,每趟位數使用穩定排序。</text></feedback></answer>
+    <answer fraction="0"><text>反覆交換相鄰且順序顛倒的元素</text><feedback><text>那是氣泡排序。</text></feedback></answer>
+    <answer fraction="0"><text>遞迴選取樞紐並圍繞它分割</text><feedback><text>那是快速排序。</text></feedback></answer>
+    <answer fraction="0"><text>以平衡二元搜尋樹比較完整鍵值</text><feedback><text>那是比較式的樹狀排序,不是基數排序。</text></feedback></answer>
+    <generalfeedback><text>LSD 基數排序進行 d 趟,由最低位到最高位各一趟,每趟都是穩定排序,以保留前面各趟建立的順序。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>基數排序複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>基數排序的時間複雜度為何?其中 d = 位數個數,k = 基底(radix)。</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(d &middot; (n + k))</text><feedback><text>正確 —— 共 d 趟,每趟為一次成本 O(n + k) 的計數排序。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>那是比較排序的界限;基數排序並非比較式。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>基數排序不會退化為平方時間。</text></feedback></answer>
+    <answer fraction="0"><text>O(n + k)</text><feedback><text>那是單一趟計數排序;基數排序會執行 d 趟這樣的排序。</text></feedback></answer>
+    <generalfeedback><text>d 趟中的每一趟都是成本 O(n + k) 的穩定計數排序,故總計為 O(d(n + k))。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>基數排序的每位數子程序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 LSD 基數排序中,<strong>通常</strong>使用哪一種穩定排序來排序每個位數?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>計數排序</text><feedback><text>正確 —— 計數排序穩定且每位數為線性。</text></feedback></answer>
+    <answer fraction="0"><text>快速排序</text><feedback><text>快速排序不穩定,會破壞每位數的不變性。</text></feedback></answer>
+    <answer fraction="0"><text>堆積排序</text><feedback><text>堆積排序不穩定且為比較式。</text></feedback></answer>
+    <answer fraction="0"><text>二分搜尋</text><feedback><text>二分搜尋不是排序演算法。</text></feedback></answer>
+    <generalfeedback><text>計數排序是常用的每位數子程序,因為它穩定且每趟為 O(n + k)。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>基數排序穩定性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>LSD 基數排序要求每個位數所用的排序必須是<em>穩定</em>的,整體結果才會正確。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 穩定性能在後續各趟中保留低位數建立的順序。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>若每位數的排序不穩定,先前位數的順序就會遺失。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>基數排序是否為比較排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>基數排序是一種<em>比較式</em>演算法,受 &Omega;(n log n) 下界所限。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 它依位數值分配元素,而非比較整個鍵值。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 基數排序並非比較式。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>基數排序每位數所用排序名稱</text></name>
+    <questiontext format="html"><text><![CDATA[<p>寫出基數排序每一趟位數常用的穩定、線性時間排序名稱(兩個英文字,例如 "counting sort")。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>counting sort</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>counting*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>LSD 起始位數</text></name>
+    <questiontext format="html"><text><![CDATA[<p>LSD 基數排序從 ______ 位數開始處理(填入英文單字:least 或 most)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>least</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>least*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>基數排序性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於基數排序,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它的輔助空間為 O(n + k)</text><feedback><text>正確 —— 每趟計數排序需要大小 n 的輸出陣列與大小 k 的計數。</text></feedback></answer>
+    <answer fraction="50"><text>它很適合固定寬度的整數或字串</text><feedback><text>正確 —— 位數個數有上限可使 d 保持很小。</text></feedback></answer>
+    <answer fraction="-50"><text>它會把完整鍵值兩兩相互比較</text><feedback><text>錯 —— 它依個別位數分配,而非比較完整鍵值。</text></feedback></answer>
+    <answer fraction="-50"><text>使用不穩定的每位數排序也一樣可行</text><feedback><text>錯 —— LSD 基數排序需要穩定的每位數排序。</text></feedback></answer>
+    <generalfeedback><text>基數排序使用 O(n + k) 空間、適合固定寬度鍵值、從不比較完整鍵值,且依賴穩定的每位數排序。</text></generalfeedback>
+  </question>
+</quiz>

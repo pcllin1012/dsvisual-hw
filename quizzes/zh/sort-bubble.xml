@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Bubble Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>氣泡排序核心機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>氣泡排序在每一趟掃描陣列時做什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>反覆比較相鄰的元素,若順序不對就交換</text><feedback><text>正確 —— 相鄰比較讓剩餘最大的元素「浮」到末端。</text></feedback></answer>
+    <answer fraction="0"><text>從未排序部分選出最小值,交換到最前面</text><feedback><text>那是選擇排序。</text></feedback></answer>
+    <answer fraction="0"><text>以樞紐元素對陣列進行分割</text><feedback><text>那是快速排序。</text></feedback></answer>
+    <answer fraction="0"><text>將兩個已排序的一半合併成一個排序好的陣列</text><feedback><text>那是合併排序。</text></feedback></answer>
+    <generalfeedback><text>氣泡排序沿著陣列比較相鄰元素並交換順序不對的配對;每一趟把下一個最大的元素送到末端就位。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>氣泡排序最差情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>氣泡排序的<strong>最差情況</strong>時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n^2)</text><feedback><text>正確 —— 反向排序的陣列需要約 n 趟、每趟 n 次比較。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>氣泡排序只比較相鄰元素,無法達到 n log n。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>那是有提早結束時的最佳情況,不是最差情況。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>至少要碰過每個元素。</text></feedback></answer>
+    <generalfeedback><text>在最差情況(例如反向排序的陣列),氣泡排序需要約 n^2 次比較與交換。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>氣泡排序最佳情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在有提早結束(early-exit)最佳化的情況下,對一個已排序好的陣列,氣泡排序的<strong>最佳情況</strong>時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>正確 —— 一趟乾淨、沒有交換的掃描讓演算法提早停止。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>沒有提早結束時會是 O(n^2),但此最佳化能在一趟內偵測到已排序的陣列。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>氣泡排序不會把問題以對數方式切分。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>你仍需一趟完整掃描來確認陣列已排序。</text></feedback></answer>
+    <generalfeedback><text>提早結束旗標讓氣泡排序在一趟無交換掃描後停止,對近乎排序好的輸入為 O(n) 且具適應性。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>氣泡排序穩定性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>氣泡排序是一種<em>穩定</em>的排序演算法。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 它只在嚴格「大於」的比較下交換相鄰元素,因此相同鍵值維持原本相對順序。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>氣泡排序不會交換相等的元素,因此保留相對順序,是穩定的。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>原地氣泡排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>氣泡排序是原地(in-place)的,只使用 O(1) 的額外空間。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 它在原陣列內交換排序,只需常數量的額外記憶體。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>氣泡排序不需輔助陣列;交換就地進行。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>氣泡排序空間名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>寫出氣泡排序額外(輔助)空間的 Big-O。格式如 <code>O(1)</code>。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>O(1)</text><feedback><text>正確 —— 常數額外空間。</text></feedback></answer>
+    <answer fraction="100"><text>O(1)*</text><feedback><text>正確 —— 常數額外空間。</text></feedback></answer>
+    <answer fraction="100"><text>constant</text><feedback><text>正確 —— 常數額外空間,即 O(1)。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>氣泡排序性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於氣泡排序,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>每一趟把最大的未排序元素移到末端的最終位置</text><feedback><text>正確 —— 這就是所謂「浮起」的原因。</text></feedback></answer>
+    <answer fraction="50"><text>加上提早結束旗標後,對近乎排序好的資料具適應性</text><feedback><text>正確 —— 當需要的交換很少時可在 O(n) 完成。</text></feedback></answer>
+    <answer fraction="-50"><text>它的平均情況時間複雜度為 O(n log n)</text><feedback><text>錯 —— 平均情況為 O(n^2)。</text></feedback></answer>
+    <answer fraction="-50"><text>它需要與 n 成正比的輔助陣列</text><feedback><text>錯 —— 氣泡排序是原地的,額外空間 O(1)。</text></feedback></answer>
+    <generalfeedback><text>氣泡排序:每趟把最大值浮到末端,穩定且原地,加上提早結束時具適應性,但平均為 O(n^2)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>何時使用氣泡排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪一項是氣泡排序最合理的用途?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>教學排序概念,或排序非常小或近乎排序好、以簡單為重的輸入</text><feedback><text>正確 —— 它的清晰與提早結束適合極小或幾乎排序好的資料,但不適合大型陣列。</text></feedback></answer>
+    <answer fraction="0"><text>在正式的資料庫中排序數百萬筆記錄</text><feedback><text>錯 —— 在該規模下 O(n^2) 太慢;應使用 O(n log n) 的排序。</text></feedback></answer>
+    <answer fraction="0"><text>當你必須保證 O(n log n) 的最差情況效能時</text><feedback><text>錯 —— 氣泡排序的最差情況為 O(n^2)。</text></feedback></answer>
+    <generalfeedback><text>氣泡排序主要用於教學;實務上只適合極小或近乎排序好的輸入,此時其簡單性與提早結束才有價值。</text></generalfeedback>
+  </question>
+</quiz>
