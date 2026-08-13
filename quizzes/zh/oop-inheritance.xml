@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Class Inheritance</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>繼承所表達的關係</text></name>
+    <questiontext format="html"><text><![CDATA[<p>類別<strong>繼承</strong>主要用來表達哪一種關係?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>「is-a」關係(衍生類別是基底類別的一種)</text><feedback><text>正確 —— 繼承表達「is-a」:狗是一種動物。</text></feedback></answer>
+    <answer fraction="0"><text>「has-a」關係(一個類別內含另一個類別的實例)</text><feedback><text>那是組合(composition),不是繼承。</text></feedback></answer>
+    <answer fraction="0"><text>「uses-a」關係(一個函式呼叫另一個函式)</text><feedback><text>那描述的是相依性,不是繼承。</text></feedback></answer>
+    <answer fraction="0"><text>「friend-of」關係,用來授予存取私有成員的權限</text><feedback><text>那是 friend 機制,與繼承無關。</text></feedback></answer>
+    <generalfeedback><text>繼承表達「is-a」:衍生類別是基底類別的一種特化,並重用其成員。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>衍生類別取得什麼</text></name>
+    <questiontext format="html"><text><![CDATA[<p>當類別 <code>Derived</code> 以 public 方式繼承 <code>Base</code> 時,<code>Derived</code> 會取得什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Base 的 public 與 protected 成員,可重用並加以擴充</text><feedback><text>正確 —— 衍生類別會繼承可存取的基底成員。</text></feedback></answer>
+    <answer fraction="0"><text>只有 Base 的 private 成員</text><feedback><text>錯 —— private 基底成員無法在衍生類別中直接存取。</text></feedback></answer>
+    <answer fraction="0"><text>什麼都沒有;必須從頭重新宣告每個成員</text><feedback><text>錯 —— 繼承的重點正是重用。</text></feedback></answer>
+    <answer fraction="0"><text>只有建構子,絕不含方法</text><feedback><text>錯 —— 資料成員與方法同樣會被繼承。</text></feedback></answer>
+    <generalfeedback><text>衍生類別繼承基底的 public 與 protected 成員,達成程式碼重用與特化。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>繼承的存取修飾</text></name>
+    <questiontext format="html"><text><![CDATA[<p>C++ 支援由存取修飾詞控制的幾種繼承。哪一組是正確的?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>public、protected 與 private 繼承</text><feedback><text>正確 —— 這三種存取修飾詞控制 C++ 的繼承。</text></feedback></answer>
+    <answer fraction="0"><text>只有 static、dynamic 與 virtual 繼承</text><feedback><text>錯 —— 那些不是繼承的存取修飾詞。</text></feedback></answer>
+    <answer fraction="0"><text>open、closed 與 sealed 繼承</text><feedback><text>錯 —— C++ 沒有這些繼承關鍵字。</text></feedback></answer>
+    <answer fraction="0"><text>const、mutable 與 volatile 繼承</text><feedback><text>錯 —— 那些是 cv 修飾詞,不是繼承模式。</text></feedback></answer>
+    <generalfeedback><text>C++ 的繼承可以是 public、protected 或 private,用以調整被繼承成員向下暴露的方式。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>單一 vs 多重繼承</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 C++ 中,<em>多重</em>繼承與<em>單一</em>繼承的差別是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>一個類別同時繼承自多個基底類別</text><feedback><text>正確 —— 多重繼承列出多個基底類別。</text></feedback></answer>
+    <answer fraction="0"><text>一個類別在整個程式中只能被繼承一次</text><feedback><text>錯 —— 那不是多重繼承的意思。</text></feedback></answer>
+    <answer fraction="0"><text>繼承會在執行期自動重複發生</text><feedback><text>錯 —— 繼承是編譯期的關係。</text></feedback></answer>
+    <answer fraction="0"><text>基底類別會取得衍生類別的成員</text><feedback><text>錯 —— 成員由基底流向衍生,而非反向。</text></feedback></answer>
+    <generalfeedback><text>單一繼承只有一個基底;多重繼承讓一個類別同時擁有多個基底類別。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>繼承的敘述(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 C++ 繼承,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它讓衍生類別建立在基底類別之上,促進程式碼重用</text><feedback><text>正確 —— 重用是核心好處。</text></feedback></answer>
+    <answer fraction="50"><text>它支援特化:衍生類別可新增或覆寫行為</text><feedback><text>正確 —— 衍生類別特化基底。</text></feedback></answer>
+    <answer fraction="-50"><text>衍生類別可直接存取其基底類別的 private 成員</text><feedback><text>錯 —— private 基底成員對衍生類別是隱藏的。</text></feedback></answer>
+    <answer fraction="-50"><text>繼承表達的是「has-a」關係</text><feedback><text>錯 —— 那是組合;繼承表達「is-a」。</text></feedback></answer>
+    <generalfeedback><text>繼承提供重用與特化並表達「is-a」;private 基底成員對衍生類別仍不可存取。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>衍生是一種基底</text></name>
+    <questiontext format="html"><text><![CDATA[<p>以 public 繼承的衍生類別物件可被當作其基底類別的物件來使用(「is-a」)。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— public 繼承建立了 is-a 的可替換性。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>public 繼承確實允許衍生物件用於期待基底的地方。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>繼承對 private 成員的存取</text></name>
+    <questiontext format="html"><text><![CDATA[<p>衍生類別可以直接讀寫其基底類別中宣告的 <code>private</code> 成員。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— private 基底成員無法在衍生類別中直接存取。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— private 基底成員是隱藏的;應改用 protected 或 public 存取介面。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>父類別名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>被繼承的那個類別稱為 ______ 類別(英文一個詞)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>base</text><feedback><text>正確 —— 基底(父)類別。</text></feedback></answer>
+    <answer fraction="100"><text>parent</text><feedback><text>正確 —— 「parent」是 base 可接受的同義詞。</text></feedback></answer>
+    <answer fraction="100"><text>is-a</text><feedback><text>正確 —— 繼承表達 is-a 關係。</text></feedback></answer>
+    <answer fraction="100"><text>base*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

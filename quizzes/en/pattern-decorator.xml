@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Decorator Pattern</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Decorator intent</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How does the <strong>Decorator</strong> pattern add responsibilities to an object?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Dynamically, by wrapping the object in a decorator at runtime</text><feedback><text>Correct — Decorator attaches responsibilities dynamically by wrapping.</text></feedback></answer>
+    <answer fraction="0"><text>By ensuring only one shared instance exists</text><feedback><text>That describes Singleton, not Decorator.</text></feedback></answer>
+    <answer fraction="0"><text>By composing objects into a part-whole tree</text><feedback><text>That describes Composite, not Decorator.</text></feedback></answer>
+    <answer fraction="0"><text>By letting subclasses decide which product to create</text><feedback><text>That describes Factory Method, not Decorator.</text></feedback></answer>
+    <generalfeedback><text>Decorator attaches additional responsibilities to an object dynamically by wrapping it in a decorator that shares the same interface.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Decorator interface</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does a decorator share with the component it wraps?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The same interface</text><feedback><text>Correct — sharing the interface lets a decorator stand in for the component.</text></feedback></answer>
+    <answer fraction="0"><text>A single global instance</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <answer fraction="0"><text>A Director object</text><feedback><text>No — that is Builder.</text></feedback></answer>
+    <generalfeedback><text>A decorator implements the same interface as the wrapped component, so clients cannot tell them apart.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Decorator alternative</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Decorator is often described as a flexible alternative to what?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Subclassing to extend functionality</text><feedback><text>Correct — Decorator adds behavior without a subclass explosion.</text></feedback></answer>
+    <answer fraction="0"><text>Ensuring a single global instance</text><feedback><text>No — that is Singleton's concern.</text></feedback></answer>
+    <answer fraction="0"><text>Converting one interface into another</text><feedback><text>No — that is Adapter's concern.</text></feedback></answer>
+    <generalfeedback><text>Decorator provides a flexible alternative to subclassing for extending an object's behavior.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Decorator stacking</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Can decorators be combined?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Yes — multiple decorators can be stacked to combine behaviors</text><feedback><text>Correct — because each decorator wraps the same interface, they nest.</text></feedback></answer>
+    <answer fraction="0"><text>No — only one decorator may ever wrap a component</text><feedback><text>No — stacking multiple decorators is a key strength.</text></feedback></answer>
+    <answer fraction="0"><text>No — decorators must replace the component entirely</text><feedback><text>No — a decorator wraps rather than replaces the component.</text></feedback></answer>
+    <generalfeedback><text>Since decorators share the component interface, they can be nested/stacked to accumulate responsibilities.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Decorator characteristics</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Decorator are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It attaches additional responsibilities to an object at runtime</text><feedback><text>Yes — that is Decorator's defining feature.</text></feedback></answer>
+    <answer fraction="50"><text>A decorator implements the same interface as the component it wraps</text><feedback><text>Yes — this is what makes decorators transparent to clients.</text></feedback></answer>
+    <answer fraction="-50"><text>Its main purpose is to ensure a class has exactly one instance</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires a separate subclass for every combination of features</text><feedback><text>No — avoiding that subclass explosion is a reason to use Decorator.</text></feedback></answer>
+    <generalfeedback><text>Decorator dynamically wraps a component sharing its interface, giving a flexible, stackable alternative to subclassing.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Decorator stacking true</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Multiple decorators can be stacked to combine several added behaviors.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — decorators nest because they share the component interface.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Stacking decorators to combine behaviors is a defining strength of the pattern.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Decorator different interface</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A decorator must expose a different interface than the object it wraps.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — a decorator shares the same interface so it can transparently replace the component.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the decorator implements the same interface as the wrapped component.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Decorator term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The structural pattern that attaches responsibilities to an object dynamically by wrapping it in an object of the same interface is the ______ pattern.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>decorator</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>wrapper</text><feedback><text>Accepted — a decorator is a kind of wrapper.</text></feedback></answer>
+    <answer fraction="100"><text>decorator*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

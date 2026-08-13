@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Singly Linked List</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Linked list node</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does each node in a singly linked list contain?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The data plus a next pointer to the following node</text><feedback><text>Correct — a payload and one forward link.</text></feedback></answer>
+    <answer fraction="0"><text>The data plus a numeric array index</text><feedback><text>Linked nodes chain by pointer, not by index.</text></feedback></answer>
+    <answer fraction="0"><text>The data plus both a prev and a next pointer</text><feedback><text>That describes a doubly linked list node.</text></feedback></answer>
+    <answer fraction="0"><text>Only the data, with no link field</text><feedback><text>Without a link the nodes could not form a chain.</text></feedback></answer>
+    <generalfeedback><text>A singly linked node holds its data and exactly one next pointer.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Insert at known position</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Given a pointer to the node just before the target, what is the cost of inserting or deleting a node?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(1)</text><feedback><text>Correct — only a couple of pointers are rewired, with no shifting.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>No shifting is needed once you already have the position.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>There is no logarithmic work in relinking a node.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>That is unrelated to a local pointer update.</text></feedback></answer>
+    <generalfeedback><text>At a known position, insertion and deletion just relink pointers in constant time.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Search cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of searching for a value in a singly linked list?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>Correct — you must traverse node by node from the head.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>A linked list has no random access, so lookup is not constant time.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>Binary search needs random access, which a linked list lacks.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>A single linear scan is O(n), not O(n log n).</text></feedback></answer>
+    <generalfeedback><text>Because there is no random access, finding a value means a sequential O(n) scan.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Traversal method</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How do you traverse a singly linked list?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Start at the head and follow each next pointer in turn</text><feedback><text>Correct — sequential traversal from the head.</text></feedback></answer>
+    <answer fraction="0"><text>Compute each element's address from its index</text><feedback><text>That works for arrays, not linked lists.</text></feedback></answer>
+    <answer fraction="0"><text>Begin at the tail and follow prev pointers backward</text><feedback><text>A singly linked list has no prev pointers.</text></feedback></answer>
+    <answer fraction="0"><text>Use binary search to jump to the middle</text><feedback><text>Binary search needs random access, which is unavailable here.</text></feedback></answer>
+    <generalfeedback><text>You walk the chain from the head, following next until you reach the end.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Linked list properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about a singly linked list are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Insertion or deletion at a known node is O(1) with no shifting</text><feedback><text>Yes — just relink a few pointers.</text></feedback></answer>
+    <answer fraction="50"><text>It does not support O(1) random access</text><feedback><text>Yes — reaching an element requires traversal.</text></feedback></answer>
+    <answer fraction="-50"><text>You can jump to the k-th element in O(1)</text><feedback><text>No — reaching the k-th node takes O(k) traversal.</text></feedback></answer>
+    <answer fraction="-50"><text>Elements are stored contiguously in memory</text><feedback><text>No — nodes are scattered and linked by pointers.</text></feedback></answer>
+    <generalfeedback><text>Linked lists trade O(1) random access for O(1) local insert/delete and no shifting.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>O(1) insert at known position</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A singly linked list can insert at a known position in O(1) without shifting any elements.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — inserting only relinks pointers, with no shifting.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>It really is O(1) at a known position; no elements move.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Random access by index</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A singly linked list supports O(1) random access to any element by its index.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>Reaching an arbitrary element requires O(n) traversal from the head.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a linked list has no O(1) random access.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Node link term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Each node in a singly linked list refers to the following node through a ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>pointer</text><feedback><text>Correct — a pointer (the next field) links the nodes.</text></feedback></answer>
+    <answer fraction="100"><text>pointer*</text><feedback><text>Correct — a pointer (the next field) links the nodes.</text></feedback></answer>
+    <answer fraction="100"><text>next</text><feedback><text>Correct — the next pointer links to the following node.</text></feedback></answer>
+    <answer fraction="100"><text>next*</text><feedback><text>Correct — the next pointer links to the following node.</text></feedback></answer>
+  </question>
+</quiz>

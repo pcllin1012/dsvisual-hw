@@ -28,8 +28,8 @@
     <name><text>Information-theoretic bound</text></name>
     <questiontext format="html"><text><![CDATA[<p>To distinguish among <em>N</em> possible cases with a balance scale, the minimum number of weighings is at least which expression?</p>]]></text></questiontext>
     <single>true</single>
-    <answer fraction="100"><text>&lceil;log<sub>3</sub> N&rceil;</text><feedback><text>Correct — k weighings distinguish at most 3^k cases.</text></feedback></answer>
-    <answer fraction="0"><text>&lceil;log<sub>2</sub> N&rceil;</text><feedback><text>That base assumes two outcomes; a balance gives three.</text></feedback></answer>
+    <answer fraction="100"><text>&lceil;log3 N&rceil;</text><feedback><text>Correct — k weighings distinguish at most 3^k cases.</text></feedback></answer>
+    <answer fraction="0"><text>&lceil;log2 N&rceil;</text><feedback><text>That base assumes two outcomes; a balance gives three.</text></feedback></answer>
     <answer fraction="0"><text>N &minus; 1</text><feedback><text>That is far more than needed; the bound is logarithmic base 3.</text></feedback></answer>
     <answer fraction="0"><text>N / 3</text><feedback><text>The relationship is logarithmic, not linear.</text></feedback></answer>
     <generalfeedback><text>Each weighing multiplies the number of distinguishable cases by 3, so k weighings cover 3^k cases and the lower bound is ceil(log base 3 of N).</text></generalfeedback>

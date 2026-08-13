@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Deque</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Deque core operations</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which operations does a <strong>deque</strong> (double-ended queue) support in O(1)?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Insert and remove at both the front and the rear</text><feedback><text>Correct — a deque allows O(1) insertion and deletion at both ends.</text></feedback></answer>
+    <answer fraction="0"><text>Insert only at the rear and remove only at the front</text><feedback><text>That describes a plain FIFO queue, not a deque.</text></feedback></answer>
+    <answer fraction="0"><text>Insert and remove only at the front</text><feedback><text>A deque works at both ends, not just the front.</text></feedback></answer>
+    <answer fraction="0"><text>Random access to the middle element in O(1)</text><feedback><text>A deque operates at its ends; arbitrary indexed access is not its defining O(1) operation.</text></feedback></answer>
+    <generalfeedback><text>A deque supports O(1) insertion and removal at both the front and the rear.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Deque as stack or queue</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A deque can emulate which classic structures?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Both a stack and a queue</text><feedback><text>Correct — using one end gives a stack; using opposite ends gives a queue.</text></feedback></answer>
+    <answer fraction="0"><text>Only a queue</text><feedback><text>It can also behave as a stack by using a single end.</text></feedback></answer>
+    <answer fraction="0"><text>Only a stack</text><feedback><text>It can also behave as a queue by enqueuing at one end and dequeuing at the other.</text></feedback></answer>
+    <answer fraction="0"><text>Neither a stack nor a queue</text><feedback><text>A deque generalizes both.</text></feedback></answer>
+    <generalfeedback><text>Because it operates at both ends, a deque can behave as a stack (LIFO) or a queue (FIFO).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Deque implementation choice</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which implementation gives a deque O(1) access at both ends?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A circular array or a doubly linked list</text><feedback><text>Correct — both give O(1) work at the front and the rear.</text></feedback></answer>
+    <answer fraction="0"><text>A singly linked list with no tail pointer</text><feedback><text>Without a tail pointer, rear operations are not O(1).</text></feedback></answer>
+    <answer fraction="0"><text>A binary heap</text><feedback><text>A heap orders by priority, not by both ends.</text></feedback></answer>
+    <answer fraction="0"><text>A hash table</text><feedback><text>Hashing gives key lookup, not ordered end operations.</text></feedback></answer>
+    <generalfeedback><text>A circular array or a doubly linked list supports O(1) insertion and removal at both ends.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Deque used at one end</text></name>
+    <questiontext format="html"><text><![CDATA[<p>If you only ever push and pop at a single end of a deque, it behaves as a:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Stack (LIFO)</text><feedback><text>Correct — pushing and popping at one end is exactly a stack.</text></feedback></answer>
+    <answer fraction="0"><text>Min-priority queue</text><feedback><text>A deque does not order elements by priority.</text></feedback></answer>
+    <answer fraction="0"><text>Sorted list</text><feedback><text>A deque does not keep elements in sorted order.</text></feedback></answer>
+    <answer fraction="0"><text>Hash set</text><feedback><text>A deque is a sequence, not a set.</text></feedback></answer>
+    <generalfeedback><text>Using a single end for both push and pop makes a deque behave as a LIFO stack.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Deque implementation</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A deque can be implemented with a circular array or a doubly linked list.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — both a circular array and a doubly linked list give O(1) access to both ends.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Both a circular array and a doubly linked list are standard deque implementations.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Deque single-end restriction</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A deque only allows insertion and removal at a single end.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>A deque works at both ends, not just one.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a deque supports operations at both the front and the rear.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Deque ends term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A double-ended queue allows insertion and deletion at ______ ends.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>both</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>both ends</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>both*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Deque properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about a deque are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It supports O(1) insertion and removal at both ends</text><feedback><text>Yes — that is its defining property.</text></feedback></answer>
+    <answer fraction="50"><text>It can be implemented with a doubly linked list</text><feedback><text>Yes — a doubly linked list gives O(1) access to both ends.</text></feedback></answer>
+    <answer fraction="-50"><text>It provides O(1) indexed access to arbitrary positions</text><feedback><text>No — a deque operates at its ends, not at arbitrary indices.</text></feedback></answer>
+    <answer fraction="-50"><text>It only allows LIFO access</text><feedback><text>No — it generalizes both LIFO and FIFO access.</text></feedback></answer>
+    <generalfeedback><text>A deque: O(1) at both ends, implementable by circular array or doubly linked list, and can act as stack or queue.</text></generalfeedback>
+  </question>
+</quiz>

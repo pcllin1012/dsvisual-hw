@@ -8,7 +8,7 @@
     <questiontext format="html"><text><![CDATA[<p>左偏堆積(leftist heap)最具代表性的能力是什麼?</p>]]></text></questiontext>
     <single>true</single>
     <shuffleanswers>1</shuffleanswers>
-    <answer fraction="100"><text>能以 O(log n) 高效<strong>合併</strong>(meld)兩個堆積</text><feedback><text>正確 —— 左偏堆積是圍繞快速合併打造的可合併堆積。</text></feedback></answer>
+    <answer fraction="100"><text>能以 O(log n) 高效合併(meld)兩個堆積</text><feedback><text>正確 —— 左偏堆積是圍繞快速合併打造的可合併堆積。</text></feedback></answer>
     <answer fraction="0"><text>最差情況 O(1) 的取出最小值</text><feedback><text>錯 —— 取出最小值是 O(log n),建立在合併之上。</text></feedback></answer>
     <answer fraction="0"><text>不用指標而以扁平陣列儲存鍵值</text><feedback><text>錯 —— 左偏堆積是以指標連接的二元樹。</text></feedback></answer>
     <answer fraction="0"><text>將元素維持完全排序</text><feedback><text>錯 —— 它只維持堆積順序性質。</text></feedback></answer>

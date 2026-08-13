@@ -1313,12 +1313,12 @@ window.QUIZ_RENDERED = {
         "text": "<p>To distinguish among <em>N</em> possible cases with a balance scale, the minimum number of weighings is at least which expression?</p>",
         "answers": [
           {
-            "text": "&lceil;logN&rceil;",
+            "text": "&lceil;log3 N&rceil;",
             "fraction": 100,
             "feedback": "Correct — k weighings distinguish at most 3^k cases."
           },
           {
-            "text": "&lceil;logN&rceil;",
+            "text": "&lceil;log2 N&rceil;",
             "fraction": 0,
             "feedback": "That base assumes two outcomes; a balance gives three."
           },
@@ -1515,12 +1515,12 @@ window.QUIZ_RENDERED = {
         "text": "<p>要用天平區分 <em>N</em> 種可能情況,所需秤重次數至少為下列哪個式子?</p>",
         "answers": [
           {
-            "text": "&lceil;logN&rceil;",
+            "text": "&lceil;log3 N&rceil;",
             "fraction": 100,
             "feedback": "正確 —— k 次秤重最多可區分 3^k 種情況。"
           },
           {
-            "text": "&lceil;logN&rceil;",
+            "text": "&lceil;log2 N&rceil;",
             "fraction": 0,
             "feedback": "此底數假設兩種結果;天平給出三種。"
           },
@@ -1653,6 +1653,1660 @@ window.QUIZ_RENDERED = {
       }
     ]
   },
+  "deque": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Deque core operations",
+        "text": "<p>Which operations does a <strong>deque</strong> (double-ended queue) support in O(1)?</p>",
+        "answers": [
+          {
+            "text": "Insert and remove at both the front and the rear",
+            "fraction": 100,
+            "feedback": "Correct — a deque allows O(1) insertion and deletion at both ends."
+          },
+          {
+            "text": "Insert only at the rear and remove only at the front",
+            "fraction": 0,
+            "feedback": "That describes a plain FIFO queue, not a deque."
+          },
+          {
+            "text": "Insert and remove only at the front",
+            "fraction": 0,
+            "feedback": "A deque works at both ends, not just the front."
+          },
+          {
+            "text": "Random access to the middle element in O(1)",
+            "fraction": 0,
+            "feedback": "A deque operates at its ends; arbitrary indexed access is not its defining O(1) operation."
+          }
+        ],
+        "generalFeedback": "A deque supports O(1) insertion and removal at both the front and the rear.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Deque as stack or queue",
+        "text": "<p>A deque can emulate which classic structures?</p>",
+        "answers": [
+          {
+            "text": "Both a stack and a queue",
+            "fraction": 100,
+            "feedback": "Correct — using one end gives a stack; using opposite ends gives a queue."
+          },
+          {
+            "text": "Only a queue",
+            "fraction": 0,
+            "feedback": "It can also behave as a stack by using a single end."
+          },
+          {
+            "text": "Only a stack",
+            "fraction": 0,
+            "feedback": "It can also behave as a queue by enqueuing at one end and dequeuing at the other."
+          },
+          {
+            "text": "Neither a stack nor a queue",
+            "fraction": 0,
+            "feedback": "A deque generalizes both."
+          }
+        ],
+        "generalFeedback": "Because it operates at both ends, a deque can behave as a stack (LIFO) or a queue (FIFO).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Deque implementation choice",
+        "text": "<p>Which implementation gives a deque O(1) access at both ends?</p>",
+        "answers": [
+          {
+            "text": "A circular array or a doubly linked list",
+            "fraction": 100,
+            "feedback": "Correct — both give O(1) work at the front and the rear."
+          },
+          {
+            "text": "A singly linked list with no tail pointer",
+            "fraction": 0,
+            "feedback": "Without a tail pointer, rear operations are not O(1)."
+          },
+          {
+            "text": "A binary heap",
+            "fraction": 0,
+            "feedback": "A heap orders by priority, not by both ends."
+          },
+          {
+            "text": "A hash table",
+            "fraction": 0,
+            "feedback": "Hashing gives key lookup, not ordered end operations."
+          }
+        ],
+        "generalFeedback": "A circular array or a doubly linked list supports O(1) insertion and removal at both ends.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Deque used at one end",
+        "text": "<p>If you only ever push and pop at a single end of a deque, it behaves as a:</p>",
+        "answers": [
+          {
+            "text": "Stack (LIFO)",
+            "fraction": 100,
+            "feedback": "Correct — pushing and popping at one end is exactly a stack."
+          },
+          {
+            "text": "Min-priority queue",
+            "fraction": 0,
+            "feedback": "A deque does not order elements by priority."
+          },
+          {
+            "text": "Sorted list",
+            "fraction": 0,
+            "feedback": "A deque does not keep elements in sorted order."
+          },
+          {
+            "text": "Hash set",
+            "fraction": 0,
+            "feedback": "A deque is a sequence, not a set."
+          }
+        ],
+        "generalFeedback": "Using a single end for both push and pop makes a deque behave as a LIFO stack.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Deque implementation",
+        "text": "<p>A deque can be implemented with a circular array or a doubly linked list.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — both a circular array and a doubly linked list give O(1) access to both ends."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Both a circular array and a doubly linked list are standard deque implementations."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Deque single-end restriction",
+        "text": "<p>A deque only allows insertion and removal at a single end.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "A deque works at both ends, not just one."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a deque supports operations at both the front and the rear."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Deque ends term",
+        "text": "<p>A double-ended queue allows insertion and deletion at ______ ends.</p>",
+        "answers": [
+          {
+            "text": "both",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "both ends",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "both*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Deque properties",
+        "text": "<p>Which statements about a deque are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It supports O(1) insertion and removal at both ends",
+            "fraction": 50,
+            "feedback": "Yes — that is its defining property."
+          },
+          {
+            "text": "It can be implemented with a doubly linked list",
+            "fraction": 50,
+            "feedback": "Yes — a doubly linked list gives O(1) access to both ends."
+          },
+          {
+            "text": "It provides O(1) indexed access to arbitrary positions",
+            "fraction": -50,
+            "feedback": "No — a deque operates at its ends, not at arbitrary indices."
+          },
+          {
+            "text": "It only allows LIFO access",
+            "fraction": -50,
+            "feedback": "No — it generalizes both LIFO and FIFO access."
+          }
+        ],
+        "generalFeedback": "A deque: O(1) at both ends, implementable by circular array or doubly linked list, and can act as stack or queue.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "雙端佇列核心操作",
+        "text": "<p><strong>雙端佇列(deque)</strong>支援哪一項 O(1) 的操作?</p>",
+        "answers": [
+          {
+            "text": "在前端與後端兩端都能插入與刪除",
+            "fraction": 100,
+            "feedback": "正確 —— 雙端佇列在兩端皆可 O(1) 插入與刪除。"
+          },
+          {
+            "text": "只能在後端插入、只能在前端刪除",
+            "fraction": 0,
+            "feedback": "那是一般的 FIFO 佇列,不是雙端佇列。"
+          },
+          {
+            "text": "只能在前端插入與刪除",
+            "fraction": 0,
+            "feedback": "雙端佇列在兩端都能操作,不只前端。"
+          },
+          {
+            "text": "以 O(1) 隨機存取中間元素",
+            "fraction": 0,
+            "feedback": "雙端佇列在兩端操作;任意索引存取並非其定義性的 O(1) 操作。"
+          }
+        ],
+        "generalFeedback": "雙端佇列在前端與後端兩端皆支援 O(1) 的插入與刪除。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "雙端佇列可模擬堆疊或佇列",
+        "text": "<p>雙端佇列可以模擬哪些經典結構?</p>",
+        "answers": [
+          {
+            "text": "堆疊與佇列兩者",
+            "fraction": 100,
+            "feedback": "正確 —— 只用一端即為堆疊;兩端分工即為佇列。"
+          },
+          {
+            "text": "只有佇列",
+            "fraction": 0,
+            "feedback": "只用單一端也能表現為堆疊。"
+          },
+          {
+            "text": "只有堆疊",
+            "fraction": 0,
+            "feedback": "一端入、另一端出也能表現為佇列。"
+          },
+          {
+            "text": "既非堆疊也非佇列",
+            "fraction": 0,
+            "feedback": "雙端佇列是兩者的推廣。"
+          }
+        ],
+        "generalFeedback": "因為在兩端都能操作,雙端佇列可表現為堆疊(LIFO)或佇列(FIFO)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "雙端佇列的實作選擇",
+        "text": "<p>哪一種實作能讓雙端佇列在兩端皆為 O(1)?</p>",
+        "answers": [
+          {
+            "text": "循環陣列或雙向鏈結串列",
+            "fraction": 100,
+            "feedback": "正確 —— 兩者都能對前端與後端提供 O(1) 的操作。"
+          },
+          {
+            "text": "沒有尾指標的單向鏈結串列",
+            "fraction": 0,
+            "feedback": "沒有尾指標時,後端操作並非 O(1)。"
+          },
+          {
+            "text": "二元堆積",
+            "fraction": 0,
+            "feedback": "堆積依優先權排序,而非依兩端操作。"
+          },
+          {
+            "text": "雜湊表",
+            "fraction": 0,
+            "feedback": "雜湊提供鍵值查找,而非有序的端點操作。"
+          }
+        ],
+        "generalFeedback": "循環陣列或雙向鏈結串列可在兩端皆支援 O(1) 的插入與刪除。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "只用單一端的雙端佇列",
+        "text": "<p>若只在雙端佇列的單一端推入與彈出,它會表現為:</p>",
+        "answers": [
+          {
+            "text": "堆疊(LIFO)",
+            "fraction": 100,
+            "feedback": "正確 —— 在同一端推入與彈出正是堆疊。"
+          },
+          {
+            "text": "最小優先佇列",
+            "fraction": 0,
+            "feedback": "雙端佇列不依優先權排序元素。"
+          },
+          {
+            "text": "已排序串列",
+            "fraction": 0,
+            "feedback": "雙端佇列不會讓元素保持排序。"
+          },
+          {
+            "text": "雜湊集合",
+            "fraction": 0,
+            "feedback": "雙端佇列是序列,不是集合。"
+          }
+        ],
+        "generalFeedback": "在單一端同時推入與彈出,會讓雙端佇列表現為 LIFO 堆疊。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "雙端佇列的實作",
+        "text": "<p>雙端佇列可以用循環陣列或雙向鏈結串列來實作。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 循環陣列與雙向鏈結串列都能對兩端提供 O(1) 存取。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "循環陣列與雙向鏈結串列都是標準的雙端佇列實作方式。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "雙端佇列的單端限制",
+        "text": "<p>雙端佇列只允許在單一端進行插入與刪除。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "雙端佇列在兩端都能操作,不只一端。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 雙端佇列在前端與後端皆可操作。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "雙端佇列的兩端名詞",
+        "text": "<p>雙端佇列允許在 ______ 端(兩端)進行插入與刪除。(請以英文作答)</p>",
+        "answers": [
+          {
+            "text": "both",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "both ends",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "both*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "雙端佇列的性質",
+        "text": "<p>關於雙端佇列,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "在兩端皆支援 O(1) 的插入與刪除",
+            "fraction": 50,
+            "feedback": "正確 —— 這是它的定義性性質。"
+          },
+          {
+            "text": "可以用雙向鏈結串列實作",
+            "fraction": 50,
+            "feedback": "正確 —— 雙向鏈結串列對兩端提供 O(1) 存取。"
+          },
+          {
+            "text": "提供 O(1) 的任意位置索引存取",
+            "fraction": -50,
+            "feedback": "錯 —— 雙端佇列在兩端操作,而非任意索引。"
+          },
+          {
+            "text": "只允許 LIFO 存取",
+            "fraction": -50,
+            "feedback": "錯 —— 它同時涵蓋 LIFO 與 FIFO 存取。"
+          }
+        ],
+        "generalFeedback": "雙端佇列:兩端 O(1)、可用循環陣列或雙向鏈結串列實作、可作為堆疊或佇列。",
+        "single": false
+      }
+    ]
+  },
+  "expr-infix-postfix": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Shunting-yard structure",
+        "text": "<p>Which data structure does the shunting-yard algorithm use to hold operators during infix &rarr; postfix conversion?</p>",
+        "answers": [
+          {
+            "text": "A stack",
+            "fraction": 100,
+            "feedback": "Correct — operators are pushed and popped on a stack."
+          },
+          {
+            "text": "A queue",
+            "fraction": 0,
+            "feedback": "The output can be a queue, but operators are held on a stack."
+          },
+          {
+            "text": "A binary search tree",
+            "fraction": 0,
+            "feedback": "No tree is needed for the linear scan."
+          },
+          {
+            "text": "A hash table",
+            "fraction": 0,
+            "feedback": "Operator precedence ordering needs a stack, not a hash table."
+          }
+        ],
+        "generalFeedback": "The shunting-yard algorithm uses a stack to hold operators while scanning the infix expression.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Handling an operand",
+        "text": "<p>While scanning the infix expression left to right, what do you do when you read an <em>operand</em>?</p>",
+        "answers": [
+          {
+            "text": "Output it directly to the postfix expression",
+            "fraction": 100,
+            "feedback": "Correct — operands go straight to the output."
+          },
+          {
+            "text": "Push it onto the operator stack",
+            "fraction": 0,
+            "feedback": "Only operators and parentheses are pushed; operands are output."
+          },
+          {
+            "text": "Discard it",
+            "fraction": 0,
+            "feedback": "Operands must appear in the output."
+          },
+          {
+            "text": "Pop the stack until it is empty",
+            "fraction": 0,
+            "feedback": "That is not done for a plain operand."
+          }
+        ],
+        "generalFeedback": "Operands are appended directly to the output; the stack only manages operators and parentheses.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Left parenthesis handling",
+        "text": "<p>When you read a left parenthesis <code>(</code> during infix &rarr; postfix conversion, what do you do?</p>",
+        "answers": [
+          {
+            "text": "Push it onto the stack",
+            "fraction": 100,
+            "feedback": "Correct — the left parenthesis is pushed and acts as a barrier."
+          },
+          {
+            "text": "Output it immediately to the postfix expression",
+            "fraction": 0,
+            "feedback": "Parentheses never appear in the postfix output."
+          },
+          {
+            "text": "Pop the stack until it is empty",
+            "fraction": 0,
+            "feedback": "That is not done on a left parenthesis."
+          },
+          {
+            "text": "Discard it",
+            "fraction": 0,
+            "feedback": "You must push it so the matching right parenthesis can find it."
+          }
+        ],
+        "generalFeedback": "A left parenthesis is pushed onto the stack and later removed when its matching right parenthesis is processed.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Equal precedence, left-associative",
+        "text": "<p>For a <em>left-associative</em> operator whose precedence equals the stack-top operator, before pushing you should:</p>",
+        "answers": [
+          {
+            "text": "Pop the stack-top operator to the output first",
+            "fraction": 100,
+            "feedback": "Correct — equal precedence with left associativity means pop before push."
+          },
+          {
+            "text": "Push the new operator without popping",
+            "fraction": 0,
+            "feedback": "That would be right-associative behavior, not left."
+          },
+          {
+            "text": "Discard the new operator",
+            "fraction": 0,
+            "feedback": "Operators are never discarded."
+          },
+          {
+            "text": "Output the operator's operands a second time",
+            "fraction": 0,
+            "feedback": "Operands are output once, when scanned."
+          }
+        ],
+        "generalFeedback": "Left associativity: pop operators of higher OR equal precedence before pushing the current operator.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Right parenthesis handling",
+        "text": "<p>On encountering a right parenthesis <code>)</code>, you pop operators to the output until the matching <code>(</code> is removed.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — pop until the matching left parenthesis, which is discarded."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "That is exactly how parentheses are resolved during conversion."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Postfix parentheses",
+        "text": "<p>Postfix (Reverse Polish) expressions require parentheses to express operator precedence.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Postfix is unambiguous, so parentheses are never needed."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — RPN encodes precedence in operator order and needs no parentheses."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Operator holder term",
+        "text": "<p>The shunting-yard algorithm holds pending operators on a ______.</p>",
+        "answers": [
+          {
+            "text": "stack",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "stack*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Infix to postfix rules",
+        "text": "<p>Which statements about infix &rarr; postfix conversion are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Before pushing a left-associative operator, pop operators of higher or equal precedence",
+            "fraction": 50,
+            "feedback": "Yes — this preserves correct precedence and associativity."
+          },
+          {
+            "text": "Operands are appended directly to the output",
+            "fraction": 50,
+            "feedback": "Yes — operands go straight to the output."
+          },
+          {
+            "text": "A queue holds the operators awaiting output",
+            "fraction": -50,
+            "feedback": "No — operators are held on a stack."
+          },
+          {
+            "text": "The resulting postfix expression needs parentheses to disambiguate precedence",
+            "fraction": -50,
+            "feedback": "No — postfix is unambiguous and needs no parentheses."
+          }
+        ],
+        "generalFeedback": "Operators live on a stack, popped by precedence/associativity; operands stream to output; postfix needs no parentheses.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "調度場演算法使用的結構",
+        "text": "<p>調度場(shunting-yard)演算法在中序 &rarr; 後序轉換時,用哪一種資料結構暫存運算子?</p>",
+        "answers": [
+          {
+            "text": "堆疊(stack)",
+            "fraction": 100,
+            "feedback": "正確 —— 運算子在堆疊上被推入與彈出。"
+          },
+          {
+            "text": "佇列(queue)",
+            "fraction": 0,
+            "feedback": "輸出可以用佇列,但運算子是暫存在堆疊上。"
+          },
+          {
+            "text": "二元搜尋樹",
+            "fraction": 0,
+            "feedback": "線性掃描不需要用到樹。"
+          },
+          {
+            "text": "雜湊表",
+            "fraction": 0,
+            "feedback": "依運算子優先權排序需要堆疊,而非雜湊表。"
+          }
+        ],
+        "generalFeedback": "調度場演算法在掃描中序運算式時,使用堆疊暫存運算子。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "處理運算元",
+        "text": "<p>由左至右掃描中序運算式時,讀到<em>運算元</em>該怎麼做?</p>",
+        "answers": [
+          {
+            "text": "直接輸出到後序運算式",
+            "fraction": 100,
+            "feedback": "正確 —— 運算元直接進入輸出。"
+          },
+          {
+            "text": "推入運算子堆疊",
+            "fraction": 0,
+            "feedback": "只有運算子與括號才推入堆疊;運算元直接輸出。"
+          },
+          {
+            "text": "丟棄它",
+            "fraction": 0,
+            "feedback": "運算元必須出現在輸出中。"
+          },
+          {
+            "text": "將堆疊彈空",
+            "fraction": 0,
+            "feedback": "對單純的運算元不會這麼做。"
+          }
+        ],
+        "generalFeedback": "運算元直接附加到輸出;堆疊只管理運算子與括號。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "左括號的處理",
+        "text": "<p>在中序 &rarr; 後序轉換時,讀到左括號 <code>(</code> 該怎麼做?</p>",
+        "answers": [
+          {
+            "text": "將它推入堆疊",
+            "fraction": 100,
+            "feedback": "正確 —— 左括號被推入堆疊,作為一道屏障。"
+          },
+          {
+            "text": "立即輸出到後序運算式",
+            "fraction": 0,
+            "feedback": "括號永遠不會出現在後序輸出中。"
+          },
+          {
+            "text": "將堆疊彈空",
+            "fraction": 0,
+            "feedback": "讀到左括號時不會這麼做。"
+          },
+          {
+            "text": "丟棄它",
+            "fraction": 0,
+            "feedback": "必須推入,之後相對應的右括號才找得到它。"
+          }
+        ],
+        "generalFeedback": "左括號被推入堆疊,之後在處理相對應的右括號時才移除。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "相等優先權、左結合",
+        "text": "<p>對一個優先權與堆疊頂端運算子<em>相等</em>的<em>左結合</em>運算子,在推入之前應該:</p>",
+        "answers": [
+          {
+            "text": "先將堆疊頂端的運算子彈出到輸出",
+            "fraction": 100,
+            "feedback": "正確 —— 相等優先權加上左結合,表示先彈出再推入。"
+          },
+          {
+            "text": "不彈出直接推入新運算子",
+            "fraction": 0,
+            "feedback": "那是右結合的行為,不是左結合。"
+          },
+          {
+            "text": "丟棄新運算子",
+            "fraction": 0,
+            "feedback": "運算子永遠不會被丟棄。"
+          },
+          {
+            "text": "把該運算子的運算元再輸出一次",
+            "fraction": 0,
+            "feedback": "運算元在掃描到時只輸出一次。"
+          }
+        ],
+        "generalFeedback": "左結合:在推入目前運算子前,彈出優先權較高「或相等」的運算子。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "右括號的處理",
+        "text": "<p>遇到右括號 <code>)</code> 時,持續將運算子彈出到輸出,直到彈出相對應的 <code>(</code> 為止。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 彈出直到相對應的左括號,並將該左括號丟棄。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "這正是轉換過程中處理括號的方式。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "後序運算式與括號",
+        "text": "<p>後序(逆波蘭,RPN)運算式需要括號來表達運算子優先權。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "後序運算式沒有歧義,因此永遠不需要括號。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— RPN 以運算子的順序編碼優先權,不需要括號。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "暫存運算子的結構名詞",
+        "text": "<p>調度場演算法將尚待處理的運算子暫存在 ______ 上。(請以英文作答)</p>",
+        "answers": [
+          {
+            "text": "stack",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "stack*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "中序轉後序的規則",
+        "text": "<p>關於中序 &rarr; 後序的轉換,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "推入左結合運算子之前,先彈出優先權較高或相等的運算子",
+            "fraction": 50,
+            "feedback": "正確 —— 這能維持正確的優先權與結合律。"
+          },
+          {
+            "text": "運算元直接附加到輸出",
+            "fraction": 50,
+            "feedback": "正確 —— 運算元直接進入輸出。"
+          },
+          {
+            "text": "以佇列暫存待輸出的運算子",
+            "fraction": -50,
+            "feedback": "錯 —— 運算子是暫存在堆疊上。"
+          },
+          {
+            "text": "產生的後序運算式需要括號來消除優先權的歧義",
+            "fraction": -50,
+            "feedback": "錯 —— 後序運算式沒有歧義,不需要括號。"
+          }
+        ],
+        "generalFeedback": "運算子存於堆疊、依優先權/結合律彈出;運算元直接輸出;後序運算式不需括號。",
+        "single": false
+      }
+    ]
+  },
+  "file-inverted": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Inverted index mapping",
+        "text": "<p>What does an <strong>inverted index</strong> map?</p>",
+        "answers": [
+          {
+            "text": "Each term to a posting list of the documents that contain it",
+            "fraction": 100,
+            "feedback": "Correct — that term-to-documents mapping is the essence of an inverted index."
+          },
+          {
+            "text": "Each document to the full text it contains",
+            "fraction": 0,
+            "feedback": "That is a forward index; the inverted index goes the other way, term to documents."
+          },
+          {
+            "text": "Each key to a single value, like a hash table entry",
+            "fraction": 0,
+            "feedback": "An inverted index maps a term to a whole list of documents, not one value."
+          },
+          {
+            "text": "Each document to its file size on disk",
+            "fraction": 0,
+            "feedback": "The index maps terms to the documents containing them, not to file sizes."
+          }
+        ],
+        "generalFeedback": "An inverted index maps each term to a posting list of the documents (and positions) that contain that term.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Posting list contents",
+        "text": "<p>For a given term, what does its <em>posting list</em> record?</p>",
+        "answers": [
+          {
+            "text": "The documents (and often the positions) in which the term appears",
+            "fraction": 100,
+            "feedback": "Correct — a posting list enumerates the documents, and often positions, for the term."
+          },
+          {
+            "text": "The alphabetical successor of the term",
+            "fraction": 0,
+            "feedback": "The posting list is about occurrences, not alphabetical ordering."
+          },
+          {
+            "text": "The definition of the term from a dictionary",
+            "fraction": 0,
+            "feedback": "Posting lists store document occurrences, not definitions."
+          },
+          {
+            "text": "A compressed copy of the term's characters",
+            "fraction": 0,
+            "feedback": "It lists where the term occurs, not an encoding of the term itself."
+          }
+        ],
+        "generalFeedback": "Each term's posting list enumerates the documents (and often positions) where that term occurs.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Inverted index use",
+        "text": "<p>What is the inverted index primarily the backbone of?</p>",
+        "answers": [
+          {
+            "text": "Full-text search engines answering keyword and boolean queries",
+            "fraction": 100,
+            "feedback": "Correct — it is the core data structure of full-text search."
+          },
+          {
+            "text": "Sorting numeric arrays in linear time",
+            "fraction": 0,
+            "feedback": "That is unrelated; the inverted index serves text search."
+          },
+          {
+            "text": "Balancing binary search trees",
+            "fraction": 0,
+            "feedback": "Tree balancing is a different concern entirely."
+          },
+          {
+            "text": "Compressing images with wavelets",
+            "fraction": 0,
+            "feedback": "Inverted indexes are for text retrieval, not image compression."
+          }
+        ],
+        "generalFeedback": "The inverted index is the backbone of full-text search engines, enabling fast keyword and boolean queries.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Inverted index build",
+        "text": "<p>How is an inverted index typically built?</p>",
+        "answers": [
+          {
+            "text": "By scanning the documents once and appending each term's occurrences to its posting list",
+            "fraction": 100,
+            "feedback": "Correct — a single pass over the corpus populates the posting lists."
+          },
+          {
+            "text": "By repeatedly re-reading every document for every query",
+            "fraction": 0,
+            "feedback": "The point of the index is to avoid re-scanning documents at query time."
+          },
+          {
+            "text": "By sorting the documents by length",
+            "fraction": 0,
+            "feedback": "Length sorting does not build a term-to-documents mapping."
+          },
+          {
+            "text": "By hashing whole documents into buckets",
+            "fraction": 0,
+            "feedback": "The index is built from terms, not by hashing entire documents."
+          }
+        ],
+        "generalFeedback": "The index is built by scanning the documents once, adding each term's occurrences to its posting list so later queries are fast.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Inverted index properties",
+        "text": "<p>Which statements about the inverted index are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It enables fast keyword and boolean queries",
+            "fraction": 50,
+            "feedback": "Yes — that is its main purpose."
+          },
+          {
+            "text": "Each term maps to a posting list of documents containing it",
+            "fraction": 50,
+            "feedback": "Yes — term to posting list is the core mapping."
+          },
+          {
+            "text": "It maps documents to their full text (a forward index)",
+            "fraction": -50,
+            "feedback": "No — that is a forward index, the opposite direction."
+          },
+          {
+            "text": "It must re-scan every document on each query",
+            "fraction": -50,
+            "feedback": "No — the index is built once so queries avoid re-scanning documents."
+          }
+        ],
+        "generalFeedback": "An inverted index maps terms to posting lists, is built by scanning documents once, and powers fast keyword and boolean queries.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Inverted index search",
+        "text": "<p>The inverted index is the backbone of full-text search engines and enables fast keyword and boolean queries.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it is the core structure behind full-text search."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Full-text search engines rely on the inverted index for keyword and boolean queries."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Inverted vs forward",
+        "text": "<p>An inverted index maps each document to the full list of terms it contains (i.e. it is the same thing as a forward index).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "That describes a forward index; an inverted index maps terms to documents."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — an inverted index maps terms to documents, the opposite of a forward index."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Posting list term",
+        "text": "<p>In an inverted index, the list of documents (and positions) associated with a single term is called its ______ list.</p>",
+        "answers": [
+          {
+            "text": "posting",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "posting*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "term",
+            "fraction": 100,
+            "feedback": "Accepted — the index is keyed by term."
+          },
+          {
+            "text": "inverted",
+            "fraction": 100,
+            "feedback": "Accepted — this is the inverted index."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "反向索引的對應",
+        "text": "<p><strong>反向索引</strong>(inverted index)對應的是什麼?</p>",
+        "answers": [
+          {
+            "text": "每個詞彙對應到一份包含它的文件之貼文串列(posting list)",
+            "fraction": 100,
+            "feedback": "正確 —— 這種「詞彙對應到文件」的映射正是反向索引的核心。"
+          },
+          {
+            "text": "每份文件對應到它所包含的完整內文",
+            "fraction": 0,
+            "feedback": "那是正向索引;反向索引方向相反,是詞彙對應到文件。"
+          },
+          {
+            "text": "每個鍵對應到單一值,如雜湊表項目",
+            "fraction": 0,
+            "feedback": "反向索引把一個詞彙對應到一整串文件,而非單一值。"
+          },
+          {
+            "text": "每份文件對應到它在磁碟上的檔案大小",
+            "fraction": 0,
+            "feedback": "索引對應的是包含詞彙的文件,而非檔案大小。"
+          }
+        ],
+        "generalFeedback": "反向索引把每個詞彙對應到一份貼文串列,列出包含該詞彙的文件(及位置)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "貼文串列內容",
+        "text": "<p>對某個詞彙而言,它的<em>貼文串列(posting list)</em>記錄了什麼?</p>",
+        "answers": [
+          {
+            "text": "該詞彙出現的文件(通常還有位置)",
+            "fraction": 100,
+            "feedback": "正確 —— 貼文串列列出該詞彙所在的文件,通常還含位置。"
+          },
+          {
+            "text": "該詞彙在字母序上的後繼詞",
+            "fraction": 0,
+            "feedback": "貼文串列關注的是出現位置,而非字母排序。"
+          },
+          {
+            "text": "該詞彙在字典中的定義",
+            "fraction": 0,
+            "feedback": "貼文串列儲存的是文件出現情況,而非定義。"
+          },
+          {
+            "text": "該詞彙字元的壓縮副本",
+            "fraction": 0,
+            "feedback": "它列出詞彙出現的地方,而非詞彙本身的編碼。"
+          }
+        ],
+        "generalFeedback": "每個詞彙的貼文串列列出該詞彙出現的文件(通常還含位置)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "反向索引的用途",
+        "text": "<p>反向索引主要是什麼的基石?</p>",
+        "answers": [
+          {
+            "text": "回應關鍵字與布林查詢的全文搜尋引擎",
+            "fraction": 100,
+            "feedback": "正確 —— 它是全文搜尋的核心資料結構。"
+          },
+          {
+            "text": "以線性時間排序數值陣列",
+            "fraction": 0,
+            "feedback": "這無關;反向索引服務的是文字搜尋。"
+          },
+          {
+            "text": "平衡二元搜尋樹",
+            "fraction": 0,
+            "feedback": "樹的平衡是完全不同的議題。"
+          },
+          {
+            "text": "以小波壓縮影像",
+            "fraction": 0,
+            "feedback": "反向索引用於文字檢索,而非影像壓縮。"
+          }
+        ],
+        "generalFeedback": "反向索引是全文搜尋引擎的基石,讓關鍵字與布林查詢都很快。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "反向索引的建立",
+        "text": "<p>反向索引通常是如何建立的?</p>",
+        "answers": [
+          {
+            "text": "掃描文件一次,將每個詞彙的出現附加到它的貼文串列",
+            "fraction": 100,
+            "feedback": "正確 —— 對語料掃描一遍即可填好貼文串列。"
+          },
+          {
+            "text": "對每次查詢反覆重讀每份文件",
+            "fraction": 0,
+            "feedback": "索引的目的正是在查詢時避免重新掃描文件。"
+          },
+          {
+            "text": "依文件長度排序",
+            "fraction": 0,
+            "feedback": "依長度排序無法建立「詞彙對應到文件」的映射。"
+          },
+          {
+            "text": "把整份文件雜湊到桶中",
+            "fraction": 0,
+            "feedback": "索引是由詞彙建立的,而非把整份文件雜湊。"
+          }
+        ],
+        "generalFeedback": "索引透過掃描文件一次建立,把每個詞彙的出現加入其貼文串列,使日後查詢很快。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "反向索引特性",
+        "text": "<p>關於反向索引,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它讓關鍵字與布林查詢都很快",
+            "fraction": 50,
+            "feedback": "正確 —— 這是它的主要目的。"
+          },
+          {
+            "text": "每個詞彙對應到包含它的文件之貼文串列",
+            "fraction": 50,
+            "feedback": "正確 —— 詞彙對應到貼文串列是核心映射。"
+          },
+          {
+            "text": "它把文件對應到其完整內文(正向索引)",
+            "fraction": -50,
+            "feedback": "錯 —— 那是正向索引,方向相反。"
+          },
+          {
+            "text": "它每次查詢都必須重新掃描每份文件",
+            "fraction": -50,
+            "feedback": "錯 —— 索引只建立一次,查詢即可避免重新掃描文件。"
+          }
+        ],
+        "generalFeedback": "反向索引把詞彙對應到貼文串列,透過掃描文件一次建立,並支撐快速的關鍵字與布林查詢。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "反向索引與搜尋",
+        "text": "<p>反向索引是全文搜尋引擎的基石,讓關鍵字與布林查詢都很快。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它是全文搜尋背後的核心結構。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "全文搜尋引擎倚賴反向索引來處理關鍵字與布林查詢。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "反向 vs 正向",
+        "text": "<p>反向索引把每份文件對應到它所含詞彙的完整清單(亦即與正向索引是同一回事)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "那是正向索引的描述;反向索引是把詞彙對應到文件。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 反向索引把詞彙對應到文件,與正向索引相反。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "貼文串列名詞",
+        "text": "<p>在反向索引中,與單一詞彙相關聯的文件(及位置)清單稱為它的 ______ 串列。</p>",
+        "answers": [
+          {
+            "text": "posting",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "posting*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "term",
+            "fraction": 100,
+            "feedback": "接受 —— 索引以詞彙為鍵。"
+          },
+          {
+            "text": "inverted",
+            "fraction": 100,
+            "feedback": "接受 —— 這就是反向索引。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "file-isam": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "ISAM record layout",
+        "text": "<p>In an <strong>ISAM</strong> (Indexed Sequential Access Method) file, how are the data records physically stored?</p>",
+        "answers": [
+          {
+            "text": "Sequentially, sorted by key",
+            "fraction": 100,
+            "feedback": "Correct — records sit in key order, which is what makes sequential and range access efficient."
+          },
+          {
+            "text": "In random order, located only through a hash function",
+            "fraction": 0,
+            "feedback": "That describes a hash file, not ISAM."
+          },
+          {
+            "text": "As a linked list with no ordering",
+            "fraction": 0,
+            "feedback": "ISAM keeps records physically sorted by key, not in an unordered chain."
+          },
+          {
+            "text": "Scattered across overflow areas from the start",
+            "fraction": 0,
+            "feedback": "Overflow areas only hold later inserts; the primary records are stored sorted."
+          }
+        ],
+        "generalFeedback": "ISAM stores records sequentially in key order so that both sequential scans and range queries are cheap.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "ISAM index role",
+        "text": "<p>What is the job of the <em>static index</em> in ISAM?</p>",
+        "answers": [
+          {
+            "text": "It maps key ranges to the block that contains those keys",
+            "fraction": 100,
+            "feedback": "Correct — the index points each key range at a data block."
+          },
+          {
+            "text": "It stores every record twice for redundancy",
+            "fraction": 0,
+            "feedback": "The index holds key ranges and block pointers, not full duplicate records."
+          },
+          {
+            "text": "It rebalances itself on every insertion",
+            "fraction": 0,
+            "feedback": "The ISAM index is static; it does not rebalance per insert."
+          },
+          {
+            "text": "It hashes keys to random slots",
+            "fraction": 0,
+            "feedback": "ISAM uses an ordered index over key ranges, not hashing."
+          }
+        ],
+        "generalFeedback": "The static index maps key ranges to blocks, letting a lookup jump near the target before scanning.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "ISAM lookup procedure",
+        "text": "<p>How does a key lookup proceed in ISAM?</p>",
+        "answers": [
+          {
+            "text": "Consult the index to find the right block, then scan that block for the key",
+            "fraction": 100,
+            "feedback": "Correct — the index narrows the search to one block, which is then scanned."
+          },
+          {
+            "text": "Scan the whole file from the beginning every time",
+            "fraction": 0,
+            "feedback": "The index exists precisely to avoid a full scan."
+          },
+          {
+            "text": "Compute a hash of the key and jump straight to a bucket",
+            "fraction": 0,
+            "feedback": "That is hashing, not the ISAM index-then-scan approach."
+          },
+          {
+            "text": "Follow parent pointers up a self-balancing tree",
+            "fraction": 0,
+            "feedback": "ISAM uses a static index, not a dynamically balanced tree walk."
+          }
+        ],
+        "generalFeedback": "A lookup first consults the static index to locate the block, then scans within that block for the exact key.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "ISAM inserts",
+        "text": "<p>Where do new records go when they are inserted into an ISAM file after it has been built?</p>",
+        "answers": [
+          {
+            "text": "Into overflow areas, since the primary blocks are static",
+            "fraction": 100,
+            "feedback": "Correct — inserts land in overflow areas linked to the block."
+          },
+          {
+            "text": "The index is rebuilt from scratch on every insert",
+            "fraction": 0,
+            "feedback": "That would be far too costly; ISAM instead uses overflow areas."
+          },
+          {
+            "text": "Records are appended to the end of the file in arrival order",
+            "fraction": 0,
+            "feedback": "They go to overflow areas tied to the correct block, not simply the file end."
+          },
+          {
+            "text": "Inserts are rejected once the file is built",
+            "fraction": 0,
+            "feedback": "Inserts are allowed; they are routed to overflow areas."
+          }
+        ],
+        "generalFeedback": "Because the primary layout is static, inserts go to overflow areas, which is why performance degrades and reorganization is periodically required.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "ISAM properties",
+        "text": "<p>Which statements about ISAM are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is well suited to range queries and sequential reads",
+            "fraction": 50,
+            "feedback": "Yes — sorted storage makes ranges and scans efficient."
+          },
+          {
+            "text": "Heavy inserting degrades performance and calls for periodic reorganization",
+            "fraction": 50,
+            "feedback": "Yes — overflow chains grow, so the file is periodically reorganized."
+          },
+          {
+            "text": "Its index automatically rebalances on every insertion",
+            "fraction": -50,
+            "feedback": "No — the ISAM index is static."
+          },
+          {
+            "text": "Records are located purely by hashing with no ordering",
+            "fraction": -50,
+            "feedback": "No — ISAM keeps records sorted and uses an ordered index."
+          }
+        ],
+        "generalFeedback": "ISAM excels at range/sequential access with a static index, but inserts flow to overflow areas, degrading performance until reorganization.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "ISAM range queries",
+        "text": "<p>Because records are stored in sorted key order, ISAM is well suited to range queries and sequential reads.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — sorted storage makes ranges and sequential scans efficient."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Sorted-by-key storage is exactly what makes range and sequential access cheap."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "ISAM reorganization",
+        "text": "<p>ISAM never needs reorganization: no matter how many records are inserted, lookup performance stays constant.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Inserts pile into overflow areas, so performance degrades over time."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — overflow growth degrades performance, so periodic reorganization is needed."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "ISAM index term",
+        "text": "<p>In ISAM, the static structure that maps key ranges to data blocks so a lookup can avoid a full scan is called the ______.</p>",
+        "answers": [
+          {
+            "text": "index",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "index*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "ISAM 記錄排列",
+        "text": "<p>在 <strong>ISAM</strong>(索引循序存取法)檔案中,資料記錄在實體上是如何儲存的?</p>",
+        "answers": [
+          {
+            "text": "依鍵值排序,循序儲存",
+            "fraction": 100,
+            "feedback": "正確 —— 記錄依鍵值排列,這正是循序與範圍存取有效率的原因。"
+          },
+          {
+            "text": "隨機排列,只能透過雜湊函式定位",
+            "fraction": 0,
+            "feedback": "那是雜湊檔案的描述,不是 ISAM。"
+          },
+          {
+            "text": "以無排序的鏈結串列儲存",
+            "fraction": 0,
+            "feedback": "ISAM 依鍵值實體排序,而非無序鏈結。"
+          },
+          {
+            "text": "一開始就散落在溢位區中",
+            "fraction": 0,
+            "feedback": "溢位區只存放後續插入的記錄;主要記錄是排序儲存的。"
+          }
+        ],
+        "generalFeedback": "ISAM 依鍵值循序儲存記錄,使得循序掃描與範圍查詢都很便宜。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "ISAM 索引角色",
+        "text": "<p>ISAM 中<em>靜態索引</em>的功能為何?</p>",
+        "answers": [
+          {
+            "text": "將鍵值範圍對應到包含這些鍵的區塊",
+            "fraction": 100,
+            "feedback": "正確 —— 索引將每個鍵值範圍指向一個資料區塊。"
+          },
+          {
+            "text": "為了備援把每筆記錄儲存兩份",
+            "fraction": 0,
+            "feedback": "索引存放鍵值範圍與區塊指標,而非完整重複記錄。"
+          },
+          {
+            "text": "每次插入時都自我重新平衡",
+            "fraction": 0,
+            "feedback": "ISAM 的索引是靜態的,不會每次插入就重新平衡。"
+          },
+          {
+            "text": "把鍵值雜湊到隨機槽位",
+            "fraction": 0,
+            "feedback": "ISAM 使用依鍵值範圍的有序索引,而非雜湊。"
+          }
+        ],
+        "generalFeedback": "靜態索引把鍵值範圍對應到區塊,讓查詢能先跳到目標附近再掃描。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "ISAM 查詢流程",
+        "text": "<p>ISAM 中一次鍵值查詢如何進行?</p>",
+        "answers": [
+          {
+            "text": "先查索引找到正確區塊,再掃描該區塊尋找鍵值",
+            "fraction": 100,
+            "feedback": "正確 —— 索引把搜尋範圍縮小到一個區塊,再於區塊內掃描。"
+          },
+          {
+            "text": "每次都從檔案開頭掃描整個檔案",
+            "fraction": 0,
+            "feedback": "索引的存在正是為了避免整檔掃描。"
+          },
+          {
+            "text": "計算鍵值的雜湊值,直接跳到桶",
+            "fraction": 0,
+            "feedback": "那是雜湊,不是 ISAM 先查索引再掃描的做法。"
+          },
+          {
+            "text": "沿著自我平衡樹的父指標向上走",
+            "fraction": 0,
+            "feedback": "ISAM 使用靜態索引,而非動態平衡樹的走訪。"
+          }
+        ],
+        "generalFeedback": "查詢先查靜態索引定位區塊,再於該區塊內掃描以找到確切的鍵值。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "ISAM 插入",
+        "text": "<p>ISAM 檔案建立完成後,新記錄插入時會被放到哪裡?</p>",
+        "answers": [
+          {
+            "text": "放到溢位區,因為主要區塊是靜態的",
+            "fraction": 100,
+            "feedback": "正確 —— 插入的記錄會落到與區塊連結的溢位區。"
+          },
+          {
+            "text": "每次插入都從頭重建整個索引",
+            "fraction": 0,
+            "feedback": "那樣代價太高;ISAM 改用溢位區。"
+          },
+          {
+            "text": "依到達順序附加到檔案結尾",
+            "fraction": 0,
+            "feedback": "記錄會進入對應正確區塊的溢位區,而非單純接到檔尾。"
+          },
+          {
+            "text": "檔案建立後就拒絕任何插入",
+            "fraction": 0,
+            "feedback": "插入是允許的,只是會被導向溢位區。"
+          }
+        ],
+        "generalFeedback": "由於主要配置是靜態的,插入會進入溢位區,這正是效能會退化並需定期重整的原因。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "ISAM 特性",
+        "text": "<p>關於 ISAM,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它很適合範圍查詢與循序讀取",
+            "fraction": 50,
+            "feedback": "正確 —— 排序儲存讓範圍與掃描都有效率。"
+          },
+          {
+            "text": "大量插入會使效能退化,需要定期重整",
+            "fraction": 50,
+            "feedback": "正確 —— 溢位鏈會增長,因此檔案需定期重整。"
+          },
+          {
+            "text": "它的索引會在每次插入時自動重新平衡",
+            "fraction": -50,
+            "feedback": "錯 —— ISAM 的索引是靜態的。"
+          },
+          {
+            "text": "記錄純粹靠雜湊定位,沒有任何排序",
+            "fraction": -50,
+            "feedback": "錯 —— ISAM 讓記錄保持排序並使用有序索引。"
+          }
+        ],
+        "generalFeedback": "ISAM 擅長範圍/循序存取且索引為靜態,但插入會流入溢位區,使效能退化直到重整。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "ISAM 範圍查詢",
+        "text": "<p>由於記錄依鍵值排序儲存,ISAM 很適合範圍查詢與循序讀取。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 排序儲存讓範圍與循序掃描都有效率。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "依鍵值排序儲存正是讓範圍與循序存取便宜的原因。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "ISAM 重整",
+        "text": "<p>ISAM 永遠不需要重整:無論插入多少記錄,查詢效能都維持不變。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "插入會堆積到溢位區,因此效能會隨時間退化。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 溢位增長會使效能退化,所以需要定期重整。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "ISAM 索引名詞",
+        "text": "<p>在 ISAM 中,將鍵值範圍對應到資料區塊、讓查詢得以避免整檔掃描的靜態結構稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "index",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "index*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
   "game-tree": {
     "en": [
       {
@@ -1748,12 +3402,12 @@ window.QUIZ_RENDERED = {
         "text": "<p>With ideal move ordering, roughly how many nodes does alpha-beta explore, for branching factor <em>b</em> and depth <em>d</em>?</p>",
         "answers": [
           {
-            "text": "O(b)",
+            "text": "O(bd/2)",
             "fraction": 100,
             "feedback": "Correct — effectively doubling the searchable depth."
           },
           {
-            "text": "O(b)",
+            "text": "O(bd)",
             "fraction": 0,
             "feedback": "That is plain minimax; good ordering cuts the exponent roughly in half."
           },
@@ -1763,7 +3417,7 @@ window.QUIZ_RENDERED = {
             "feedback": "The cost is exponential, not linear."
           },
           {
-            "text": "O(d)",
+            "text": "O(db)",
             "fraction": 0,
             "feedback": "The exponent involves depth, roughly d/2, over base b."
           }
@@ -1955,12 +3609,12 @@ window.QUIZ_RENDERED = {
         "text": "<p>在理想的走法排序下,對分支度 <em>b</em> 與深度 <em>d</em>,alpha-beta 大約會探索多少節點?</p>",
         "answers": [
           {
-            "text": "O(b)",
+            "text": "O(bd/2)",
             "fraction": 100,
             "feedback": "正確 —— 實際上使可搜尋深度加倍。"
           },
           {
-            "text": "O(b)",
+            "text": "O(bd)",
             "fraction": 0,
             "feedback": "那是純 minimax;良好排序約可將指數減半。"
           },
@@ -1970,7 +3624,7 @@ window.QUIZ_RENDERED = {
             "feedback": "成本是指數的,而非線性。"
           },
           {
-            "text": "O(d)",
+            "text": "O(db)",
             "fraction": 0,
             "feedback": "指數涉及深度,約為 d/2,底數為 b。"
           }
@@ -2066,6 +3720,432 @@ window.QUIZ_RENDERED = {
         ],
         "generalFeedback": "alpha-beta 是精確的(與 minimax 同值),並受益於良好的走法排序,剪去不會影響根的分支 —— 因此它不會走訪每一個葉節點。",
         "single": false
+      }
+    ]
+  },
+  "gc-memory": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Free list role",
+        "text": "<p>In dynamic storage management, what does the <strong>free list</strong> track?</p>",
+        "answers": [
+          {
+            "text": "The blocks of memory that are currently available for allocation",
+            "fraction": 100,
+            "feedback": "Correct — the free list records which blocks are free to hand out."
+          },
+          {
+            "text": "The set of all currently reachable objects",
+            "fraction": 0,
+            "feedback": "Reachability is tracked during collection, not by the free list of available blocks."
+          },
+          {
+            "text": "The order in which functions were called",
+            "fraction": 0,
+            "feedback": "That is the call stack, not the free list."
+          },
+          {
+            "text": "The CPU registers in use",
+            "fraction": 0,
+            "feedback": "The free list is about heap blocks, not registers."
+          }
+        ],
+        "generalFeedback": "The free list tracks the available (free) blocks of memory so the allocator can satisfy requests.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Allocation strategies",
+        "text": "<p>Which pair are classic allocation strategies for choosing a free block?</p>",
+        "answers": [
+          {
+            "text": "First-fit and best-fit",
+            "fraction": 100,
+            "feedback": "Correct — first-fit takes the first big-enough block; best-fit takes the smallest big-enough block."
+          },
+          {
+            "text": "Depth-first and breadth-first",
+            "fraction": 0,
+            "feedback": "Those are graph traversals, not allocation strategies."
+          },
+          {
+            "text": "Merge-fit and quick-fit-sort",
+            "fraction": 0,
+            "feedback": "Those are not the standard allocation strategies discussed here."
+          },
+          {
+            "text": "Mark-fit and sweep-fit",
+            "fraction": 0,
+            "feedback": "Mark and sweep are garbage-collection phases, not block-selection strategies."
+          }
+        ],
+        "generalFeedback": "Common allocation strategies include first-fit (first block that fits) and best-fit (smallest block that fits).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "What GC reclaims",
+        "text": "<p>Automatic garbage collection reclaims which objects?</p>",
+        "answers": [
+          {
+            "text": "Objects that are no longer reachable from the program",
+            "fraction": 100,
+            "feedback": "Correct — unreachable objects can never be used again, so their memory is reclaimed."
+          },
+          {
+            "text": "Objects that are still reachable and in use",
+            "fraction": 0,
+            "feedback": "Reachable objects must be kept; only unreachable ones are reclaimed."
+          },
+          {
+            "text": "The largest objects, regardless of reachability",
+            "fraction": 0,
+            "feedback": "Size is not the criterion; reachability is."
+          },
+          {
+            "text": "Objects stored in CPU registers",
+            "fraction": 0,
+            "feedback": "GC reclaims unreachable heap objects, not register contents."
+          }
+        ],
+        "generalFeedback": "Garbage collection automatically reclaims unreachable objects using techniques like mark-and-sweep or reference counting.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Mark-and-sweep phases",
+        "text": "<p>In mark-and-sweep collection, what happens during the two phases?</p>",
+        "answers": [
+          {
+            "text": "The mark phase marks all reachable objects; the sweep phase reclaims the rest",
+            "fraction": 100,
+            "feedback": "Correct — mark identifies live objects, sweep frees the unmarked ones."
+          },
+          {
+            "text": "The mark phase frees memory; the sweep phase allocates new objects",
+            "fraction": 0,
+            "feedback": "Mark does not free, and sweep does not allocate; it reclaims unmarked memory."
+          },
+          {
+            "text": "Both phases increment reference counts",
+            "fraction": 0,
+            "feedback": "That describes reference counting, a different technique."
+          },
+          {
+            "text": "The sweep phase marks reachable objects and the mark phase compacts them",
+            "fraction": 0,
+            "feedback": "The roles are reversed: mark marks, sweep reclaims."
+          }
+        ],
+        "generalFeedback": "Mark-and-sweep: the mark phase marks every reachable object, then the sweep phase reclaims all objects that were not marked.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Storage management facts",
+        "text": "<p>Which statements about dynamic storage management and GC are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Reference counting is an alternative to mark-and-sweep for reclaiming objects",
+            "fraction": 50,
+            "feedback": "Yes — both are automatic reclamation techniques."
+          },
+          {
+            "text": "External fragmentation may require compaction to consolidate free space",
+            "fraction": 50,
+            "feedback": "Yes — compaction moves objects together to defragment the heap."
+          },
+          {
+            "text": "The sweep phase marks all reachable objects",
+            "fraction": -50,
+            "feedback": "No — marking is the mark phase; sweep reclaims the unmarked ones."
+          },
+          {
+            "text": "Best-fit always eliminates fragmentation entirely",
+            "fraction": -50,
+            "feedback": "No — best-fit reduces waste per allocation but does not eliminate fragmentation."
+          }
+        ],
+        "generalFeedback": "Free lists and first-/best-fit drive allocation; mark-and-sweep or reference counting reclaim unreachable objects; fragmentation may need compaction.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Compaction and fragmentation",
+        "text": "<p>External fragmentation can leave enough total free memory yet no single block big enough, which is one reason compaction may be needed.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — scattered free space can be consolidated by compaction."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Fragmentation really can scatter free space, motivating compaction."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Sweep phase misconception",
+        "text": "<p>In mark-and-sweep, it is the sweep phase that marks all reachable objects.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Marking reachable objects is the mark phase; the sweep phase reclaims the rest."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the mark phase marks reachable objects; the sweep phase reclaims the unmarked ones."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Live-marking phase term",
+        "text": "<p>The garbage-collection phase that visits and flags every reachable object is called the ______ phase.</p>",
+        "answers": [
+          {
+            "text": "mark",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "mark*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "mark-and-sweep",
+            "fraction": 100,
+            "feedback": "Accepted — this is the mark-and-sweep algorithm."
+          },
+          {
+            "text": "sweep",
+            "fraction": 100,
+            "feedback": "Accepted — the companion phase in mark-and-sweep."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "閒置串列的角色",
+        "text": "<p>在動態儲存管理中,<strong>閒置串列(free list)</strong>追蹤的是什麼?</p>",
+        "answers": [
+          {
+            "text": "目前可供配置的記憶體區塊",
+            "fraction": 100,
+            "feedback": "正確 —— 閒置串列記錄哪些區塊是空閒可分配的。"
+          },
+          {
+            "text": "目前所有可到達的物件集合",
+            "fraction": 0,
+            "feedback": "可到達性是在回收時追蹤的,並非由可用區塊的閒置串列負責。"
+          },
+          {
+            "text": "函式被呼叫的先後順序",
+            "fraction": 0,
+            "feedback": "那是呼叫堆疊,不是閒置串列。"
+          },
+          {
+            "text": "正在使用的 CPU 暫存器",
+            "fraction": 0,
+            "feedback": "閒置串列關注的是堆積區塊,而非暫存器。"
+          }
+        ],
+        "generalFeedback": "閒置串列追蹤可用(空閒)的記憶體區塊,讓配置器能滿足請求。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "配置策略",
+        "text": "<p>下列哪一組是選擇空閒區塊的經典配置策略?</p>",
+        "answers": [
+          {
+            "text": "最先適配(first-fit)與最佳適配(best-fit)",
+            "fraction": 100,
+            "feedback": "正確 —— first-fit 取第一個夠大的區塊;best-fit 取最小且夠大的區塊。"
+          },
+          {
+            "text": "深度優先與廣度優先",
+            "fraction": 0,
+            "feedback": "那是圖的走訪,不是配置策略。"
+          },
+          {
+            "text": "合併適配與快速適配排序",
+            "fraction": 0,
+            "feedback": "那些不是這裡討論的標準配置策略。"
+          },
+          {
+            "text": "標記適配與清除適配",
+            "fraction": 0,
+            "feedback": "標記與清除是垃圾回收的階段,不是區塊選擇策略。"
+          }
+        ],
+        "generalFeedback": "常見配置策略包含最先適配(第一個夠大的區塊)與最佳適配(最小且夠大的區塊)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "垃圾回收回收的對象",
+        "text": "<p>自動垃圾回收會回收哪些物件?</p>",
+        "answers": [
+          {
+            "text": "程式已無法再到達(unreachable)的物件",
+            "fraction": 100,
+            "feedback": "正確 —— 無法到達的物件再也不會被使用,因此其記憶體會被回收。"
+          },
+          {
+            "text": "仍可到達且正在使用的物件",
+            "fraction": 0,
+            "feedback": "可到達的物件必須保留;只有無法到達的才會被回收。"
+          },
+          {
+            "text": "最大的物件,不論是否可到達",
+            "fraction": 0,
+            "feedback": "判準不是大小,而是可到達性。"
+          },
+          {
+            "text": "儲存在 CPU 暫存器中的物件",
+            "fraction": 0,
+            "feedback": "垃圾回收回收的是無法到達的堆積物件,而非暫存器內容。"
+          }
+        ],
+        "generalFeedback": "垃圾回收使用標記清除或參考計數等技術,自動回收無法到達的物件。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "標記清除的階段",
+        "text": "<p>在標記清除(mark-and-sweep)回收中,兩個階段各自發生什麼?</p>",
+        "answers": [
+          {
+            "text": "標記階段標記所有可到達物件;清除階段回收其餘物件",
+            "fraction": 100,
+            "feedback": "正確 —— 標記找出存活物件,清除釋放未被標記的物件。"
+          },
+          {
+            "text": "標記階段釋放記憶體;清除階段配置新物件",
+            "fraction": 0,
+            "feedback": "標記不會釋放,清除也不配置;清除是回收未標記的記憶體。"
+          },
+          {
+            "text": "兩個階段都在增加參考計數",
+            "fraction": 0,
+            "feedback": "那是參考計數,是另一種技術。"
+          },
+          {
+            "text": "清除階段標記可到達物件,標記階段將其壓縮",
+            "fraction": 0,
+            "feedback": "角色顛倒了:標記負責標記,清除負責回收。"
+          }
+        ],
+        "generalFeedback": "標記清除:標記階段標記每個可到達物件,接著清除階段回收所有未被標記的物件。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "儲存管理事實",
+        "text": "<p>關於動態儲存管理與垃圾回收,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "參考計數是標記清除以外另一種回收物件的方式",
+            "fraction": 50,
+            "feedback": "正確 —— 兩者都是自動回收技術。"
+          },
+          {
+            "text": "外部碎裂可能需要壓縮(compaction)以整併空閒空間",
+            "fraction": 50,
+            "feedback": "正確 —— 壓縮把物件移到一起以整理堆積。"
+          },
+          {
+            "text": "清除階段會標記所有可到達物件",
+            "fraction": -50,
+            "feedback": "錯 —— 標記是標記階段的工作;清除回收未標記者。"
+          },
+          {
+            "text": "最佳適配一定能完全消除碎裂",
+            "fraction": -50,
+            "feedback": "錯 —— 最佳適配可減少每次配置的浪費,但無法消除碎裂。"
+          }
+        ],
+        "generalFeedback": "閒置串列與 first-/best-fit 驅動配置;標記清除或參考計數回收無法到達的物件;碎裂可能需要壓縮。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "壓縮與碎裂",
+        "text": "<p>外部碎裂可能使空閒記憶體總量足夠,卻沒有單一區塊夠大,這正是可能需要壓縮的原因之一。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 散落的空閒空間可透過壓縮整併。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "碎裂確實會使空閒空間散落,因而需要壓縮。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "清除階段的迷思",
+        "text": "<p>在標記清除中,是清除階段負責標記所有可到達物件。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "標記可到達物件是標記階段的工作;清除階段回收其餘物件。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 標記階段標記可到達物件;清除階段回收未標記者。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "標記存活的階段名詞",
+        "text": "<p>垃圾回收中,走訪並標記每個可到達物件的階段稱為 ______ 階段。</p>",
+        "answers": [
+          {
+            "text": "mark",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "mark*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "mark-and-sweep",
+            "fraction": 100,
+            "feedback": "接受 —— 這就是標記清除演算法。"
+          },
+          {
+            "text": "sweep",
+            "fraction": 100,
+            "feedback": "接受 —— 標記清除中的另一個配套階段。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
       }
     ]
   },
@@ -13159,7 +15239,7 @@ window.QUIZ_RENDERED = {
         "text": "<p>What is the defining capability of a leftist heap?</p>",
         "answers": [
           {
-            "text": "Efficiently(melding) two heaps in O(log n)",
+            "text": "Efficiently merging (melding) two heaps in O(log n)",
             "fraction": 100,
             "feedback": "Correct — leftist heaps are mergeable heaps built around a fast meld."
           },
@@ -13371,7 +15451,7 @@ window.QUIZ_RENDERED = {
         "text": "<p>左偏堆積(leftist heap)最具代表性的能力是什麼?</p>",
         "answers": [
           {
-            "text": "能以 O(log n) 高效(meld)兩個堆積",
+            "text": "能以 O(log n) 高效合併(meld)兩個堆積",
             "fraction": 100,
             "feedback": "正確 —— 左偏堆積是圍繞快速合併打造的可合併堆積。"
           },
@@ -14812,6 +16892,15930 @@ window.QUIZ_RENDERED = {
         ],
         "generalFeedback": "霍夫曼:以最小堆積驅動、貪婪合併兩個最小者、符號在葉節點、變長編碼、合併頻率為子節點之和。",
         "single": false
+      }
+    ]
+  },
+  "list-array": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Random access cost",
+        "text": "<p>What is the time complexity of accessing an element by its index in an array list?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — the address is computed directly from the base plus index."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No traversal is needed; the index gives the address directly."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "There is no binary search involved in indexing."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a sorting cost, unrelated to indexed access."
+          }
+        ],
+        "generalFeedback": "Contiguous storage lets an index map to a memory address in constant time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Middle insertion cost",
+        "text": "<p>What is the time complexity of inserting or deleting an element in the <em>middle</em> of an array list?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "Correct — the following elements must be shifted to close or open a gap."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "Only appending at the end can be O(1); middle edits shift elements."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "Shifting is linear, not logarithmic."
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "A single middle insertion shifts at most n elements, so O(n)."
+          }
+        ],
+        "generalFeedback": "Because storage is contiguous, a middle insert or delete must shift the trailing elements, costing O(n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Append cost",
+        "text": "<p>What is the time complexity of appending an element to the end of a dynamic array list?</p>",
+        "answers": [
+          {
+            "text": "Amortized O(1)",
+            "fraction": 100,
+            "feedback": "Correct — most appends are O(1), and occasional resizes average out."
+          },
+          {
+            "text": "O(n) for every append",
+            "fraction": 0,
+            "feedback": "Only the rare resizing append is O(n); most are O(1)."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "Appending does not involve a logarithmic search."
+          },
+          {
+            "text": "Strict O(1) worst case for every append",
+            "fraction": 0,
+            "feedback": "The occasional resize makes a single append O(n) in the worst case, hence amortized O(1)."
+          }
+        ],
+        "generalFeedback": "Appends are O(1) until the array fills; a resize costs O(n) but is infrequent, giving amortized O(1).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Growth strategy",
+        "text": "<p>When a dynamic array runs out of capacity, how does it typically grow?</p>",
+        "answers": [
+          {
+            "text": "It allocates a new array of double the capacity and copies the elements over",
+            "fraction": 100,
+            "feedback": "Correct — geometric (doubling) growth gives amortized O(1) appends."
+          },
+          {
+            "text": "It grows by exactly one slot each time an element is added",
+            "fraction": 0,
+            "feedback": "Growing by one makes every append O(n) overall; doubling is used instead."
+          },
+          {
+            "text": "It halves its capacity to save memory",
+            "fraction": 0,
+            "feedback": "Halving on a full array would lose data; capacity must grow."
+          },
+          {
+            "text": "It converts itself into a linked list of nodes",
+            "fraction": 0,
+            "feedback": "A dynamic array reallocates a larger array; it does not become a linked list."
+          }
+        ],
+        "generalFeedback": "Doubling the capacity on overflow spreads the O(n) copy cost across many O(1) appends.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Array list properties",
+        "text": "<p>Which statements about an array list are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Elements are stored contiguously in memory",
+            "fraction": 50,
+            "feedback": "Yes — that is what enables O(1) indexing."
+          },
+          {
+            "text": "Random access by index is O(1)",
+            "fraction": 50,
+            "feedback": "Yes — the address is computed directly."
+          },
+          {
+            "text": "Inserting in the middle is O(1)",
+            "fraction": -50,
+            "feedback": "No — it is O(n) because trailing elements shift."
+          },
+          {
+            "text": "It never needs to move elements when appending",
+            "fraction": -50,
+            "feedback": "No — a resize copies all elements to a larger array."
+          }
+        ],
+        "generalFeedback": "Array lists give O(1) indexed access via contiguous storage, but middle edits shift and resizes copy.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Constant-time indexing",
+        "text": "<p>An array list provides O(1) random access to any element by its index.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — contiguous storage maps an index to an address directly."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Indexed access is indeed O(1) for an array list."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Middle insertion is O(1)?",
+        "text": "<p>Inserting an element in the middle of an array list is an O(1) operation.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "The trailing elements must shift, making it O(n)."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a middle insert shifts elements and costs O(n)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Direct access term",
+        "text": "<p>In an array list you access an element directly by its numeric ______.</p>",
+        "answers": [
+          {
+            "text": "index",
+            "fraction": 100,
+            "feedback": "Correct — the index maps to a memory address in O(1)."
+          },
+          {
+            "text": "index*",
+            "fraction": 100,
+            "feedback": "Correct — the index maps to a memory address in O(1)."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "隨機存取的成本",
+        "text": "<p>在陣列串列(array list)中,以索引存取某個元素的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 位址可由基底加上索引直接算出。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "不需要走訪;索引可直接得到位址。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "索引存取不涉及二分搜尋。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是排序成本,與索引存取無關。"
+          }
+        ],
+        "generalFeedback": "連續儲存讓索引能以常數時間對應到記憶體位址。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "中間插入的成本",
+        "text": "<p>在陣列串列<em>中間</em>插入或刪除一個元素的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 後續元素必須搬移以填補或空出位置。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "只有在尾端附加可能是 O(1);中間修改會搬移元素。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "搬移是線性的,不是對數的。"
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "單次中間插入最多搬移 n 個元素,所以是 O(n)。"
+          }
+        ],
+        "generalFeedback": "因為儲存是連續的,中間插入或刪除必須搬移其後的元素,成本為 O(n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "附加的成本",
+        "text": "<p>在動態陣列串列尾端附加一個元素的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "攤銷 O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 大多數附加是 O(1),偶爾的重新配置平均分攤後可忽略。"
+          },
+          {
+            "text": "每次附加都是 O(n)",
+            "fraction": 0,
+            "feedback": "只有少見的重新配置附加是 O(n);多數是 O(1)。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "附加不涉及對數等級的搜尋。"
+          },
+          {
+            "text": "每次附加都是嚴格的最差情況 O(1)",
+            "fraction": 0,
+            "feedback": "偶爾的重新配置使單次附加在最差情況為 O(n),故為攤銷 O(1)。"
+          }
+        ],
+        "generalFeedback": "在陣列填滿前附加是 O(1);重新配置花 O(n) 但不常發生,平均得到攤銷 O(1)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "成長策略",
+        "text": "<p>當動態陣列的容量用盡時,通常如何成長?</p>",
+        "answers": [
+          {
+            "text": "配置一個容量加倍的新陣列,並把元素複製過去",
+            "fraction": 100,
+            "feedback": "正確 —— 幾何式(加倍)成長帶來攤銷 O(1) 的附加。"
+          },
+          {
+            "text": "每加入一個元素就只增加一個位置",
+            "fraction": 0,
+            "feedback": "每次只加一個會使整體附加變成 O(n);因此改採加倍。"
+          },
+          {
+            "text": "將容量減半以節省記憶體",
+            "fraction": 0,
+            "feedback": "對已滿的陣列減半會遺失資料;容量必須成長。"
+          },
+          {
+            "text": "把自己轉換成一串節點的鏈結串列",
+            "fraction": 0,
+            "feedback": "動態陣列會重新配置更大的陣列,不會變成鏈結串列。"
+          }
+        ],
+        "generalFeedback": "溢位時把容量加倍,將 O(n) 的複製成本分攤到許多 O(1) 的附加上。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "陣列串列的性質",
+        "text": "<p>關於陣列串列,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "元素在記憶體中連續儲存",
+            "fraction": 50,
+            "feedback": "正確 —— 這正是能 O(1) 索引的原因。"
+          },
+          {
+            "text": "以索引隨機存取是 O(1)",
+            "fraction": 50,
+            "feedback": "正確 —— 位址可直接算出。"
+          },
+          {
+            "text": "在中間插入是 O(1)",
+            "fraction": -50,
+            "feedback": "錯 —— 因為後續元素要搬移,所以是 O(n)。"
+          },
+          {
+            "text": "附加時從不需要移動元素",
+            "fraction": -50,
+            "feedback": "錯 —— 重新配置會把所有元素複製到更大的陣列。"
+          }
+        ],
+        "generalFeedback": "陣列串列以連續儲存提供 O(1) 索引存取,但中間修改會搬移、重新配置會複製。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "常數時間索引",
+        "text": "<p>陣列串列提供以索引 O(1) 隨機存取任一元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 連續儲存讓索引直接對應到位址。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "陣列串列的索引存取確實是 O(1)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "中間插入是 O(1) 嗎?",
+        "text": "<p>在陣列串列的中間插入一個元素是 O(1) 的操作。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "後續元素必須搬移,使其成為 O(n)。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 中間插入會搬移元素,成本為 O(n)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "直接存取的名詞",
+        "text": "<p>在陣列串列中,你以元素的數值 ______ 直接存取它。</p>",
+        "answers": [
+          {
+            "text": "index",
+            "fraction": 100,
+            "feedback": "正確 —— 索引以 O(1) 對應到記憶體位址。"
+          },
+          {
+            "text": "index*",
+            "fraction": 100,
+            "feedback": "正確 —— 索引以 O(1) 對應到記憶體位址。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "list-doubly": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Doubly linked node pointers",
+        "text": "<p>What pointers does each node of a <strong>doubly linked list</strong> hold?</p>",
+        "answers": [
+          {
+            "text": "Both a prev and a next pointer",
+            "fraction": 100,
+            "feedback": "Correct — that pair enables bidirectional traversal."
+          },
+          {
+            "text": "Only a next pointer",
+            "fraction": 0,
+            "feedback": "That describes a singly linked list."
+          },
+          {
+            "text": "Only a prev pointer",
+            "fraction": 0,
+            "feedback": "A doubly linked node needs next as well as prev."
+          },
+          {
+            "text": "A single pointer to the head",
+            "fraction": 0,
+            "feedback": "Nodes link to their neighbors, not all to the head."
+          }
+        ],
+        "generalFeedback": "Each node stores both a prev and a next pointer, allowing traversal in both directions.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "O(1) node deletion",
+        "text": "<p>Why can a doubly linked list delete a <em>given</em> node in O(1)?</p>",
+        "answers": [
+          {
+            "text": "Its prev pointer lets you relink the predecessor without a traversal",
+            "fraction": 100,
+            "feedback": "Correct — you reach the predecessor directly via prev."
+          },
+          {
+            "text": "Because nodes are stored contiguously in memory",
+            "fraction": 0,
+            "feedback": "Linked list nodes are not contiguous; that is arrays."
+          },
+          {
+            "text": "Because it keeps a sorted index of all nodes",
+            "fraction": 0,
+            "feedback": "No index is maintained; the prev pointer is what matters."
+          },
+          {
+            "text": "Because deletion always happens at the head",
+            "fraction": 0,
+            "feedback": "Deletion can be at any known node, thanks to prev."
+          }
+        ],
+        "generalFeedback": "Because the prev pointer gives O(1) access to the predecessor, you can splice out a known node without searching.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Head's prev in circular list",
+        "text": "<p>In a circular doubly linked list, what does the head node's <code>prev</code> pointer reference?</p>",
+        "answers": [
+          {
+            "text": "The tail (last) node",
+            "fraction": 100,
+            "feedback": "Correct — the ring closes with head.prev pointing to the tail."
+          },
+          {
+            "text": "Itself",
+            "fraction": 0,
+            "feedback": "That is only true for a one-node list, not in general."
+          },
+          {
+            "text": "null",
+            "fraction": 0,
+            "feedback": "In a circular list no pointer is null."
+          },
+          {
+            "text": "The second node",
+            "fraction": 0,
+            "feedback": "That is head.next, not head.prev."
+          }
+        ],
+        "generalFeedback": "In a circular doubly linked list, head.prev points to the tail and tail.next points to the head.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Difference from singly linked",
+        "text": "<p>Compared with a singly linked list, a doubly linked list mainly adds:</p>",
+        "answers": [
+          {
+            "text": "A prev pointer in each node for backward links",
+            "fraction": 100,
+            "feedback": "Correct — the extra prev pointer enables backward traversal."
+          },
+          {
+            "text": "Contiguous memory storage",
+            "fraction": 0,
+            "feedback": "Linked lists are not contiguous regardless of direction."
+          },
+          {
+            "text": "A built-in sorted order",
+            "fraction": 0,
+            "feedback": "Neither list type is sorted by construction."
+          },
+          {
+            "text": "O(1) random indexing by position",
+            "fraction": 0,
+            "feedback": "Linked lists still need traversal to reach an index."
+          }
+        ],
+        "generalFeedback": "The defining addition is a per-node prev pointer, giving backward links and O(1) known-node deletion.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Bidirectional traversal",
+        "text": "<p>A doubly linked list allows traversal in both directions.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — prev and next pointers permit forward and backward traversal."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The prev pointer makes backward traversal possible."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Circular list last node",
+        "text": "<p>In a circular doubly linked list, the last node's next pointer is always null.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "In the circular variant the last node's next points back to the head, not null."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the last node's next points back to the head (and head's prev to the tail)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Predecessor pointer term",
+        "text": "<p>The pointer that references the preceding node is called the ______ pointer.</p>",
+        "answers": [
+          {
+            "text": "prev",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "previous",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "prev*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Doubly and circular list properties",
+        "text": "<p>Which statements about doubly / circular linked lists are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each node stores both a prev and a next pointer",
+            "fraction": 50,
+            "feedback": "Yes — that is what makes it doubly linked."
+          },
+          {
+            "text": "In the circular variant the last node's next points back to the head",
+            "fraction": 50,
+            "feedback": "Yes — and the head's prev points to the tail."
+          },
+          {
+            "text": "Traversal is only possible from head to tail",
+            "fraction": -50,
+            "feedback": "No — the prev pointer allows backward traversal too."
+          },
+          {
+            "text": "Deleting a known node requires O(n) to find its predecessor",
+            "fraction": -50,
+            "feedback": "No — the prev pointer gives the predecessor in O(1)."
+          }
+        ],
+        "generalFeedback": "Doubly linked: prev + next per node, bidirectional traversal, O(1) known-node deletion; circular variant wraps last-next to head.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "雙向鏈結節點的指標",
+        "text": "<p><strong>雙向鏈結串列</strong>的每個節點持有哪些指標?</p>",
+        "answers": [
+          {
+            "text": "同時有 prev 與 next 兩個指標",
+            "fraction": 100,
+            "feedback": "正確 —— 這一對指標讓雙向走訪成為可能。"
+          },
+          {
+            "text": "只有 next 指標",
+            "fraction": 0,
+            "feedback": "那是單向鏈結串列。"
+          },
+          {
+            "text": "只有 prev 指標",
+            "fraction": 0,
+            "feedback": "雙向節點除了 prev 還需要 next。"
+          },
+          {
+            "text": "只有一個指向頭節點的指標",
+            "fraction": 0,
+            "feedback": "節點連向相鄰節點,而非全部指向頭節點。"
+          }
+        ],
+        "generalFeedback": "每個節點同時儲存 prev 與 next 指標,因此可雙向走訪。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "O(1) 刪除節點",
+        "text": "<p>為什麼雙向鏈結串列能以 O(1) 刪除一個<em>已知</em>節點?</p>",
+        "answers": [
+          {
+            "text": "它的 prev 指標讓你不必走訪即可重新連結前驅節點",
+            "fraction": 100,
+            "feedback": "正確 —— 透過 prev 可直接抵達前驅節點。"
+          },
+          {
+            "text": "因為節點在記憶體中連續存放",
+            "fraction": 0,
+            "feedback": "鏈結串列節點並不連續,那是陣列的特性。"
+          },
+          {
+            "text": "因為它維護所有節點的排序索引",
+            "fraction": 0,
+            "feedback": "並沒有維護索引;關鍵在於 prev 指標。"
+          },
+          {
+            "text": "因為刪除永遠發生在頭節點",
+            "fraction": 0,
+            "feedback": "藉由 prev,刪除可發生在任何已知節點。"
+          }
+        ],
+        "generalFeedback": "因為 prev 指標提供對前驅節點的 O(1) 存取,可在不搜尋的情況下把已知節點接出。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "循環串列中頭節點的 prev",
+        "text": "<p>在循環雙向鏈結串列中,頭節點的 <code>prev</code> 指標指向什麼?</p>",
+        "answers": [
+          {
+            "text": "尾(最後一個)節點",
+            "fraction": 100,
+            "feedback": "正確 —— 環的閉合使 head.prev 指向尾節點。"
+          },
+          {
+            "text": "它自己",
+            "fraction": 0,
+            "feedback": "那只在單一節點的串列成立,並非通例。"
+          },
+          {
+            "text": "null",
+            "fraction": 0,
+            "feedback": "在循環串列中沒有任何指標為 null。"
+          },
+          {
+            "text": "第二個節點",
+            "fraction": 0,
+            "feedback": "那是 head.next,不是 head.prev。"
+          }
+        ],
+        "generalFeedback": "在循環雙向鏈結串列中,head.prev 指向尾節點,tail.next 指向頭節點。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "與單向鏈結的差異",
+        "text": "<p>與單向鏈結串列相比,雙向鏈結串列主要增加了:</p>",
+        "answers": [
+          {
+            "text": "每個節點多一個 prev 指標以提供後向連結",
+            "fraction": 100,
+            "feedback": "正確 —— 多出的 prev 指標讓後向走訪成為可能。"
+          },
+          {
+            "text": "連續的記憶體儲存",
+            "fraction": 0,
+            "feedback": "無論方向為何,鏈結串列都不連續。"
+          },
+          {
+            "text": "內建的排序順序",
+            "fraction": 0,
+            "feedback": "兩種串列在建構上都不是排序的。"
+          },
+          {
+            "text": "依位置的 O(1) 隨機索引",
+            "fraction": 0,
+            "feedback": "鏈結串列仍需走訪才能到達某個索引。"
+          }
+        ],
+        "generalFeedback": "其定義性的增加是每節點的 prev 指標,提供後向連結與已知節點的 O(1) 刪除。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "雙向走訪",
+        "text": "<p>雙向鏈結串列允許雙向走訪。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— prev 與 next 指標讓前向與後向走訪皆可。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "prev 指標使後向走訪成為可能。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "循環串列的末節點",
+        "text": "<p>在循環雙向鏈結串列中,末節點的 next 指標永遠為 null。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "在循環版本中,末節點的 next 指回頭節點,而非 null。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 末節點的 next 指回頭節點(且頭節點的 prev 指向尾節點)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "前驅指標名詞",
+        "text": "<p>指向前一個節點的指標稱為 ______ 指標。(請以英文作答)</p>",
+        "answers": [
+          {
+            "text": "prev",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "previous",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "prev*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "雙向與循環串列的性質",
+        "text": "<p>關於雙向 / 循環鏈結串列,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每個節點同時儲存 prev 與 next 指標",
+            "fraction": 50,
+            "feedback": "正確 —— 這正是「雙向」的意義。"
+          },
+          {
+            "text": "在循環版本中,末節點的 next 指回頭節點",
+            "fraction": 50,
+            "feedback": "正確 —— 且頭節點的 prev 指向尾節點。"
+          },
+          {
+            "text": "只能從頭到尾單向走訪",
+            "fraction": -50,
+            "feedback": "錯 —— prev 指標也允許後向走訪。"
+          },
+          {
+            "text": "刪除已知節點需要 O(n) 才能找到其前驅",
+            "fraction": -50,
+            "feedback": "錯 —— prev 指標以 O(1) 取得前驅。"
+          }
+        ],
+        "generalFeedback": "雙向鏈結:每節點 prev + next、可雙向走訪、已知節點 O(1) 刪除;循環版本讓末節點 next 接回頭節點。",
+        "single": false
+      }
+    ]
+  },
+  "list-equivalence": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Equivalence relation properties",
+        "text": "<p>An <strong>equivalence relation</strong> must be:</p>",
+        "answers": [
+          {
+            "text": "Reflexive, symmetric, and transitive",
+            "fraction": 100,
+            "feedback": "Correct — those three properties define an equivalence relation."
+          },
+          {
+            "text": "Only reflexive",
+            "fraction": 0,
+            "feedback": "Reflexivity alone is not enough; symmetry and transitivity are also required."
+          },
+          {
+            "text": "Antisymmetric and transitive",
+            "fraction": 0,
+            "feedback": "That describes a partial order, not an equivalence relation."
+          },
+          {
+            "text": "Symmetric but not transitive",
+            "fraction": 0,
+            "feedback": "Transitivity is required for an equivalence relation."
+          }
+        ],
+        "generalFeedback": "An equivalence relation is reflexive, symmetric, and transitive; it partitions a set into equivalence classes.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Related data structure",
+        "text": "<p>Computing equivalence classes from related pairs is closely related to which data structure?</p>",
+        "answers": [
+          {
+            "text": "Disjoint-set (union-find)",
+            "fraction": 100,
+            "feedback": "Correct — merging related pairs is exactly union-find."
+          },
+          {
+            "text": "A max-heap",
+            "fraction": 0,
+            "feedback": "Heaps order by priority; they do not merge classes."
+          },
+          {
+            "text": "A red-black tree",
+            "fraction": 0,
+            "feedback": "Balanced BSTs order keys; they do not compute connected classes."
+          },
+          {
+            "text": "A hash table with chaining",
+            "fraction": 0,
+            "feedback": "Hashing locates keys; it does not by itself merge equivalence classes."
+          }
+        ],
+        "generalFeedback": "Merging elements of related pairs into classes is the disjoint-set (union-find) problem.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Classes partition the set",
+        "text": "<p>The equivalence classes of a relation form a ______ of the underlying set.</p>",
+        "answers": [
+          {
+            "text": "Partition (disjoint subsets that cover the set)",
+            "fraction": 100,
+            "feedback": "Correct — every element lies in exactly one class."
+          },
+          {
+            "text": "Total order",
+            "fraction": 0,
+            "feedback": "An equivalence relation groups elements; it does not order them."
+          },
+          {
+            "text": "Multiset with duplicates",
+            "fraction": 0,
+            "feedback": "Classes are disjoint sets, not multisets."
+          },
+          {
+            "text": "Single cycle",
+            "fraction": 0,
+            "feedback": "The classes are subsets, not a cyclic sequence."
+          }
+        ],
+        "generalFeedback": "Equivalence classes partition the set: the subsets are disjoint and together cover every element.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Union-find operations",
+        "text": "<p>Which pair of operations does a disjoint-set (union-find) structure provide to build equivalence classes?</p>",
+        "answers": [
+          {
+            "text": "Union (merge two classes) and Find (locate a representative)",
+            "fraction": 100,
+            "feedback": "Correct — Union merges, Find returns the class representative."
+          },
+          {
+            "text": "Push and Pop",
+            "fraction": 0,
+            "feedback": "Those are stack operations."
+          },
+          {
+            "text": "Enqueue and Dequeue",
+            "fraction": 0,
+            "feedback": "Those are queue operations."
+          },
+          {
+            "text": "Insert and Delete-min",
+            "fraction": 0,
+            "feedback": "Those belong to a priority queue."
+          }
+        ],
+        "generalFeedback": "Union-find offers Union (merge classes) and Find (representative), which build equivalence classes from related pairs.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Merging into classes",
+        "text": "<p>Merging related pairs groups elements into connected equivalence classes.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — transitively related elements end up in the same class."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Processing the pairs does merge elements into connected classes."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Transitivity requirement",
+        "text": "<p>An equivalence relation need not be transitive.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Transitivity is one of the three required properties."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — an equivalence relation must be reflexive, symmetric, AND transitive."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Relation term",
+        "text": "<p>A relation that is reflexive, symmetric, and transitive is an ______ relation.</p>",
+        "answers": [
+          {
+            "text": "equivalence",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "class",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "equivalence*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Equivalence class properties",
+        "text": "<p>Which statements about equivalence classes are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "The relation is reflexive, symmetric, and transitive",
+            "fraction": 50,
+            "feedback": "Yes — those three properties define it."
+          },
+          {
+            "text": "The problem can be solved with a disjoint-set (union-find) structure",
+            "fraction": 50,
+            "feedback": "Yes — union-find merges related elements efficiently."
+          },
+          {
+            "text": "Each element belongs to several distinct classes at once",
+            "fraction": -50,
+            "feedback": "No — the classes partition the set, so each element is in exactly one."
+          },
+          {
+            "text": "The relation is required to be antisymmetric",
+            "fraction": -50,
+            "feedback": "No — antisymmetry belongs to partial orders, not equivalence relations."
+          }
+        ],
+        "generalFeedback": "Equivalence classes: reflexive/symmetric/transitive relation, solvable by union-find, and they partition the set (one class per element).",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "等價關係的性質",
+        "text": "<p><strong>等價關係</strong>必須是:</p>",
+        "answers": [
+          {
+            "text": "反身、對稱且遞移",
+            "fraction": 100,
+            "feedback": "正確 —— 這三個性質定義了等價關係。"
+          },
+          {
+            "text": "只需反身",
+            "fraction": 0,
+            "feedback": "光有反身不夠;還需要對稱與遞移。"
+          },
+          {
+            "text": "反對稱且遞移",
+            "fraction": 0,
+            "feedback": "那是偏序關係,不是等價關係。"
+          },
+          {
+            "text": "對稱但不遞移",
+            "fraction": 0,
+            "feedback": "等價關係必須具備遞移性。"
+          }
+        ],
+        "generalFeedback": "等價關係具反身、對稱與遞移性;它把集合分割成等價類。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "相關的資料結構",
+        "text": "<p>由相關配對計算等價類,與哪一種資料結構關係最密切?</p>",
+        "answers": [
+          {
+            "text": "互斥集合(union-find)",
+            "fraction": 100,
+            "feedback": "正確 —— 合併相關配對正是 union-find。"
+          },
+          {
+            "text": "最大堆積",
+            "fraction": 0,
+            "feedback": "堆積依優先權排序,並不合併類別。"
+          },
+          {
+            "text": "紅黑樹",
+            "fraction": 0,
+            "feedback": "平衡 BST 依鍵值排序,並不計算連通類別。"
+          },
+          {
+            "text": "鏈結法的雜湊表",
+            "fraction": 0,
+            "feedback": "雜湊用於定位鍵值,本身並不合併等價類。"
+          }
+        ],
+        "generalFeedback": "把相關配對的元素合併成類別,就是互斥集合(union-find)問題。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "類別分割集合",
+        "text": "<p>一個關係的等價類會構成基礎集合的一個 ______。</p>",
+        "answers": [
+          {
+            "text": "分割(互斥且覆蓋整個集合的子集)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個元素恰好落在一個類別中。"
+          },
+          {
+            "text": "全序",
+            "fraction": 0,
+            "feedback": "等價關係將元素分組,而非排序。"
+          },
+          {
+            "text": "含重複的多重集合",
+            "fraction": 0,
+            "feedback": "類別是互斥集合,不是多重集合。"
+          },
+          {
+            "text": "單一環",
+            "fraction": 0,
+            "feedback": "類別是子集,不是環狀序列。"
+          }
+        ],
+        "generalFeedback": "等價類分割集合:這些子集互斥,且合起來涵蓋每一個元素。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "union-find 的操作",
+        "text": "<p>互斥集合(union-find)結構提供哪一對操作來建立等價類?</p>",
+        "answers": [
+          {
+            "text": "Union(合併兩個類別)與 Find(找到代表元)",
+            "fraction": 100,
+            "feedback": "正確 —— Union 合併、Find 回傳類別代表元。"
+          },
+          {
+            "text": "Push 與 Pop",
+            "fraction": 0,
+            "feedback": "那是堆疊的操作。"
+          },
+          {
+            "text": "Enqueue 與 Dequeue",
+            "fraction": 0,
+            "feedback": "那是佇列的操作。"
+          },
+          {
+            "text": "Insert 與 Delete-min",
+            "fraction": 0,
+            "feedback": "那屬於優先佇列。"
+          }
+        ],
+        "generalFeedback": "union-find 提供 Union(合併類別)與 Find(代表元),由相關配對建立等價類。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "合併成類別",
+        "text": "<p>合併相關的配對會將元素分組成連通的等價類。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 具遞移關聯的元素最終會落在同一類。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "處理這些配對確實會把元素合併成連通的類別。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "遞移性的要求",
+        "text": "<p>等價關係不一定要具備遞移性。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "遞移性是三個必要性質之一。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 等價關係必須同時具反身、對稱「與」遞移性。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "關係名詞",
+        "text": "<p>同時具反身、對稱與遞移性的關係稱為 ______ 關係。(請以英文作答)</p>",
+        "answers": [
+          {
+            "text": "equivalence",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "class",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "equivalence*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "等價類的性質",
+        "text": "<p>關於等價類,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "此關係具反身、對稱與遞移性",
+            "fraction": 50,
+            "feedback": "正確 —— 這三個性質定義了它。"
+          },
+          {
+            "text": "此問題可用互斥集合(union-find)結構求解",
+            "fraction": 50,
+            "feedback": "正確 —— union-find 能有效率地合併相關元素。"
+          },
+          {
+            "text": "每個元素會同時屬於多個相異類別",
+            "fraction": -50,
+            "feedback": "錯 —— 這些類別會分割集合,每個元素恰屬於一類。"
+          },
+          {
+            "text": "此關係必須具反對稱性",
+            "fraction": -50,
+            "feedback": "錯 —— 反對稱屬於偏序,而非等價關係。"
+          }
+        ],
+        "generalFeedback": "等價類:反身/對稱/遞移的關係、可用 union-find 求解,並將集合分割(每個元素一類)。",
+        "single": false
+      }
+    ]
+  },
+  "list-linked": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Linked list node",
+        "text": "<p>What does each node in a singly linked list contain?</p>",
+        "answers": [
+          {
+            "text": "The data plus a next pointer to the following node",
+            "fraction": 100,
+            "feedback": "Correct — a payload and one forward link."
+          },
+          {
+            "text": "The data plus a numeric array index",
+            "fraction": 0,
+            "feedback": "Linked nodes chain by pointer, not by index."
+          },
+          {
+            "text": "The data plus both a prev and a next pointer",
+            "fraction": 0,
+            "feedback": "That describes a doubly linked list node."
+          },
+          {
+            "text": "Only the data, with no link field",
+            "fraction": 0,
+            "feedback": "Without a link the nodes could not form a chain."
+          }
+        ],
+        "generalFeedback": "A singly linked node holds its data and exactly one next pointer.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Insert at known position",
+        "text": "<p>Given a pointer to the node just before the target, what is the cost of inserting or deleting a node?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — only a couple of pointers are rewired, with no shifting."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No shifting is needed once you already have the position."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "There is no logarithmic work in relinking a node."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is unrelated to a local pointer update."
+          }
+        ],
+        "generalFeedback": "At a known position, insertion and deletion just relink pointers in constant time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Search cost",
+        "text": "<p>What is the time complexity of searching for a value in a singly linked list?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "Correct — you must traverse node by node from the head."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "A linked list has no random access, so lookup is not constant time."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "Binary search needs random access, which a linked list lacks."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "A single linear scan is O(n), not O(n log n)."
+          }
+        ],
+        "generalFeedback": "Because there is no random access, finding a value means a sequential O(n) scan.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Traversal method",
+        "text": "<p>How do you traverse a singly linked list?</p>",
+        "answers": [
+          {
+            "text": "Start at the head and follow each next pointer in turn",
+            "fraction": 100,
+            "feedback": "Correct — sequential traversal from the head."
+          },
+          {
+            "text": "Compute each element's address from its index",
+            "fraction": 0,
+            "feedback": "That works for arrays, not linked lists."
+          },
+          {
+            "text": "Begin at the tail and follow prev pointers backward",
+            "fraction": 0,
+            "feedback": "A singly linked list has no prev pointers."
+          },
+          {
+            "text": "Use binary search to jump to the middle",
+            "fraction": 0,
+            "feedback": "Binary search needs random access, which is unavailable here."
+          }
+        ],
+        "generalFeedback": "You walk the chain from the head, following next until you reach the end.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linked list properties",
+        "text": "<p>Which statements about a singly linked list are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Insertion or deletion at a known node is O(1) with no shifting",
+            "fraction": 50,
+            "feedback": "Yes — just relink a few pointers."
+          },
+          {
+            "text": "It does not support O(1) random access",
+            "fraction": 50,
+            "feedback": "Yes — reaching an element requires traversal."
+          },
+          {
+            "text": "You can jump to the k-th element in O(1)",
+            "fraction": -50,
+            "feedback": "No — reaching the k-th node takes O(k) traversal."
+          },
+          {
+            "text": "Elements are stored contiguously in memory",
+            "fraction": -50,
+            "feedback": "No — nodes are scattered and linked by pointers."
+          }
+        ],
+        "generalFeedback": "Linked lists trade O(1) random access for O(1) local insert/delete and no shifting.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "O(1) insert at known position",
+        "text": "<p>A singly linked list can insert at a known position in O(1) without shifting any elements.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — inserting only relinks pointers, with no shifting."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It really is O(1) at a known position; no elements move."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Random access by index",
+        "text": "<p>A singly linked list supports O(1) random access to any element by its index.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Reaching an arbitrary element requires O(n) traversal from the head."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a linked list has no O(1) random access."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Node link term",
+        "text": "<p>Each node in a singly linked list refers to the following node through a ______.</p>",
+        "answers": [
+          {
+            "text": "pointer",
+            "fraction": 100,
+            "feedback": "Correct — a pointer (the next field) links the nodes."
+          },
+          {
+            "text": "pointer*",
+            "fraction": 100,
+            "feedback": "Correct — a pointer (the next field) links the nodes."
+          },
+          {
+            "text": "next",
+            "fraction": 100,
+            "feedback": "Correct — the next pointer links to the following node."
+          },
+          {
+            "text": "next*",
+            "fraction": 100,
+            "feedback": "Correct — the next pointer links to the following node."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "鏈結串列的節點",
+        "text": "<p>單向鏈結串列中的每個節點包含什麼?</p>",
+        "answers": [
+          {
+            "text": "資料加上指向下一個節點的 next 指標",
+            "fraction": 100,
+            "feedback": "正確 —— 資料與一個向前的連結。"
+          },
+          {
+            "text": "資料加上一個數值陣列索引",
+            "fraction": 0,
+            "feedback": "鏈結節點以指標串接,不是靠索引。"
+          },
+          {
+            "text": "資料加上 prev 與 next 兩個指標",
+            "fraction": 0,
+            "feedback": "那描述的是雙向鏈結串列的節點。"
+          },
+          {
+            "text": "只有資料,沒有連結欄位",
+            "fraction": 0,
+            "feedback": "沒有連結就無法形成串鏈。"
+          }
+        ],
+        "generalFeedback": "單向鏈結節點持有其資料與恰好一個 next 指標。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "在已知位置插入",
+        "text": "<p>已握有指向目標前一個節點的指標時,插入或刪除一個節點的成本為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 只需改接少數幾個指標,無須搬移。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "既然已握有位置,就不需要搬移。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "重接一個節點沒有對數等級的工作。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那與局部的指標更新無關。"
+          }
+        ],
+        "generalFeedback": "在已知位置,插入與刪除只是以常數時間重接指標。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "搜尋的成本",
+        "text": "<p>在單向鏈結串列中搜尋某個值的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 必須從頭端一個節點一個節點地走訪。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "鏈結串列沒有隨機存取,查找不是常數時間。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "二分搜尋需要隨機存取,而鏈結串列沒有。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "單次線性掃描是 O(n),不是 O(n log n)。"
+          }
+        ],
+        "generalFeedback": "由於沒有隨機存取,尋找某個值意謂著循序的 O(n) 掃描。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "走訪的方式",
+        "text": "<p>如何走訪一個單向鏈結串列?</p>",
+        "answers": [
+          {
+            "text": "從頭端開始,依序沿著每個 next 指標前進",
+            "fraction": 100,
+            "feedback": "正確 —— 從頭端循序走訪。"
+          },
+          {
+            "text": "由索引計算每個元素的位址",
+            "fraction": 0,
+            "feedback": "那適用於陣列,不適用於鏈結串列。"
+          },
+          {
+            "text": "從尾端開始,沿 prev 指標往回走",
+            "fraction": 0,
+            "feedback": "單向鏈結串列沒有 prev 指標。"
+          },
+          {
+            "text": "用二分搜尋跳到中間",
+            "fraction": 0,
+            "feedback": "二分搜尋需要隨機存取,這裡無法使用。"
+          }
+        ],
+        "generalFeedback": "從頭端沿著串鏈走,依 next 前進直到抵達末端。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結串列的性質",
+        "text": "<p>關於單向鏈結串列,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "在已知節點插入或刪除是 O(1),且無須搬移",
+            "fraction": 50,
+            "feedback": "正確 —— 只需重接幾個指標。"
+          },
+          {
+            "text": "它不支援 O(1) 的隨機存取",
+            "fraction": 50,
+            "feedback": "正確 —— 要到達某個元素需要走訪。"
+          },
+          {
+            "text": "你可以 O(1) 跳到第 k 個元素",
+            "fraction": -50,
+            "feedback": "錯 —— 到達第 k 個節點需要 O(k) 走訪。"
+          },
+          {
+            "text": "元素在記憶體中連續儲存",
+            "fraction": -50,
+            "feedback": "錯 —— 節點分散各處,以指標串接。"
+          }
+        ],
+        "generalFeedback": "鏈結串列以放棄 O(1) 隨機存取,換取 O(1) 的局部插入/刪除且無須搬移。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "已知位置的 O(1) 插入",
+        "text": "<p>單向鏈結串列可以在已知位置以 O(1) 插入,且不搬移任何元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 插入只重接指標,無須搬移。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "在已知位置確實是 O(1);沒有元素被移動。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "以索引隨機存取",
+        "text": "<p>單向鏈結串列支援以索引 O(1) 隨機存取任一元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "要到達任意元素需從頭端 O(n) 走訪。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 鏈結串列沒有 O(1) 隨機存取。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "節點連結的名詞",
+        "text": "<p>單向鏈結串列中的每個節點透過一個 ______ 指向下一個節點。</p>",
+        "answers": [
+          {
+            "text": "pointer",
+            "fraction": 100,
+            "feedback": "正確 —— 以指標(next 欄位)串接節點。"
+          },
+          {
+            "text": "pointer*",
+            "fraction": 100,
+            "feedback": "正確 —— 以指標(next 欄位)串接節點。"
+          },
+          {
+            "text": "next",
+            "fraction": 100,
+            "feedback": "正確 —— next 指標連向下一個節點。"
+          },
+          {
+            "text": "next*",
+            "fraction": 100,
+            "feedback": "正確 —— next 指標連向下一個節點。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "magic-formula": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "getValue cost",
+        "text": "<p>Using the closed-form formula, what is the time to compute the value at cell (i, j)?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — a fixed arithmetic expression, independent of n."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No loop over a row is needed; it is constant time."
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "That would mean building the whole grid; the formula avoids that."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No search is involved; it is plain arithmetic."
+          }
+        ],
+        "generalFeedback": "The formula plugs i and j into a fixed arithmetic expression, so each query is O(1).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "No grid needed",
+        "text": "<p>What does the closed-form approach let you avoid?</p>",
+        "answers": [
+          {
+            "text": "constructing and storing the whole n x n grid",
+            "fraction": 100,
+            "feedback": "Correct — values are computed on demand from indices."
+          },
+          {
+            "text": "using the indices i and j",
+            "fraction": 0,
+            "feedback": "The formula depends precisely on i and j."
+          },
+          {
+            "text": "knowing the order n",
+            "fraction": 0,
+            "feedback": "The formula still uses n as a parameter."
+          },
+          {
+            "text": "computing the magic constant",
+            "fraction": 0,
+            "feedback": "The magic constant is a separate fact, still computable."
+          }
+        ],
+        "generalFeedback": "A closed-form getValue(i, j) computes each entry directly, so no grid array must be built or stored.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Formula inputs",
+        "text": "<p>The O(1) formula computes the value directly from...</p>",
+        "answers": [
+          {
+            "text": "the indices i and j (and the order n)",
+            "fraction": 100,
+            "feedback": "Correct — arithmetic on the coordinates yields the value."
+          },
+          {
+            "text": "a lookup into a precomputed table",
+            "fraction": 0,
+            "feedback": "A table would be O(n^2) storage; the formula needs none."
+          },
+          {
+            "text": "the values of neighboring cells",
+            "fraction": 0,
+            "feedback": "Neighbors are not consulted; only the indices are."
+          },
+          {
+            "text": "a random seed",
+            "fraction": 0,
+            "feedback": "The result is deterministic, not random."
+          }
+        ],
+        "generalFeedback": "The value is a deterministic arithmetic function of i, j, and n.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Space benefit",
+        "text": "<p>Compared with building the grid, the closed-form getValue uses how much extra storage for the values?</p>",
+        "answers": [
+          {
+            "text": "O(1) — no value array is stored",
+            "fraction": 100,
+            "feedback": "Correct — values are recomputed on each call."
+          },
+          {
+            "text": "O(n) — one row is cached",
+            "fraction": 0,
+            "feedback": "No row needs caching for the formula."
+          },
+          {
+            "text": "O(n^2) — the full grid is stored",
+            "fraction": 0,
+            "feedback": "That is exactly what the formula avoids."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No auxiliary structure of that size is needed."
+          }
+        ],
+        "generalFeedback": "Computing values on demand means no grid array, so value storage is O(1).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Constant-time query",
+        "text": "<p>The closed-form getValue(i, j) returns its result in O(1) time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a fixed number of arithmetic operations."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It is constant time; no loop over the grid is needed."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Must build grid myth",
+        "text": "<p>To read one value with the closed-form method, you must first build the entire n x n grid.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "The formula computes a single value directly, without building the grid."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — no grid construction is required."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Direct-computation term",
+        "text": "<p>A closed-form arithmetic expression that computes the value at (i, j) directly from the indices is called a ______.</p>",
+        "answers": [
+          {
+            "text": "formula",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "formula*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Accepted — the formula runs in O(1) time."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Formula method properties",
+        "text": "<p>Which statements about the closed-form getValue are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It computes each entry in O(1) time",
+            "fraction": 50,
+            "feedback": "Yes — a fixed arithmetic expression."
+          },
+          {
+            "text": "It needs no stored n x n grid",
+            "fraction": 50,
+            "feedback": "Yes — values are computed on demand."
+          },
+          {
+            "text": "It must precompute and store all n^2 values first",
+            "fraction": -50,
+            "feedback": "No — that defeats the purpose of the formula."
+          },
+          {
+            "text": "It ignores the indices i and j",
+            "fraction": -50,
+            "feedback": "No — the value is a function of i and j."
+          }
+        ],
+        "generalFeedback": "The formula maps (i, j) to a value in O(1) with no stored grid.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "getValue 成本",
+        "text": "<p>使用封閉形式公式,計算格子 (i, j) 數值所需的時間為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 固定的算術式,與 n 無關。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "不需遍歷一整列;它是常數時間。"
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "那意味要建整個方格;公式避開了這點。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "不涉及搜尋;只是單純算術。"
+          }
+        ],
+        "generalFeedback": "公式把 i 與 j 代入固定算術式,所以每次查詢為 O(1)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "不需方格",
+        "text": "<p>封閉形式作法讓你得以避免什麼?</p>",
+        "answers": [
+          {
+            "text": "建構並儲存整個 n x n 方格",
+            "fraction": 100,
+            "feedback": "正確 —— 數值依需求由索引即時算出。"
+          },
+          {
+            "text": "使用索引 i 與 j",
+            "fraction": 0,
+            "feedback": "公式正是依 i 與 j 而定。"
+          },
+          {
+            "text": "知道階數 n",
+            "fraction": 0,
+            "feedback": "公式仍以 n 為參數。"
+          },
+          {
+            "text": "計算魔術常數",
+            "fraction": 0,
+            "feedback": "魔術常數是另一件事,仍可計算。"
+          }
+        ],
+        "generalFeedback": "封閉形式的 getValue(i, j) 直接算出每個元素,因此無需建構或儲存方格陣列。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "公式的輸入",
+        "text": "<p>O(1) 公式直接由什麼計算出數值?</p>",
+        "answers": [
+          {
+            "text": "索引 i 與 j(以及階數 n)",
+            "fraction": 100,
+            "feedback": "正確 —— 對座標做算術即得數值。"
+          },
+          {
+            "text": "對預先計算好的表格查詢",
+            "fraction": 0,
+            "feedback": "表格需 O(n^2) 儲存;公式無需。"
+          },
+          {
+            "text": "相鄰格子的數值",
+            "fraction": 0,
+            "feedback": "不參考鄰居;只用索引。"
+          },
+          {
+            "text": "一個隨機種子",
+            "fraction": 0,
+            "feedback": "結果是確定性的,不是隨機。"
+          }
+        ],
+        "generalFeedback": "數值是 i、j 與 n 的確定性算術函數。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "空間效益",
+        "text": "<p>相較於建構方格,封閉形式的 getValue 為儲存數值需要多少額外空間?</p>",
+        "answers": [
+          {
+            "text": "O(1) —— 不儲存數值陣列",
+            "fraction": 100,
+            "feedback": "正確 —— 每次呼叫重新計算數值。"
+          },
+          {
+            "text": "O(n) —— 快取一整列",
+            "fraction": 0,
+            "feedback": "公式不需快取任何列。"
+          },
+          {
+            "text": "O(n^2) —— 儲存整個方格",
+            "fraction": 0,
+            "feedback": "那正是公式所避免的。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "不需要那種大小的輔助結構。"
+          }
+        ],
+        "generalFeedback": "依需求計算數值代表不需方格陣列,故數值儲存為 O(1)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "常數時間查詢",
+        "text": "<p>封閉形式的 getValue(i, j) 以 O(1) 時間回傳其結果。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 固定數目的算術運算。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "它是常數時間;不需遍歷方格。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "必須建方格的迷思",
+        "text": "<p>用封閉形式法讀取一個數值,必須先建構整個 n x n 方格。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "公式直接算出單一數值,無需建構方格。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 不需要建構方格。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "直接計算名詞",
+        "text": "<p>能由索引直接算出 (i, j) 數值的封閉形式算術式,稱為一個 ______(英文)。</p>",
+        "answers": [
+          {
+            "text": "formula",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "formula*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "可接受 —— 公式以 O(1) 時間執行。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "公式法性質",
+        "text": "<p>關於封閉形式的 getValue,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它以 O(1) 時間計算每個元素",
+            "fraction": 50,
+            "feedback": "正確 —— 固定的算術式。"
+          },
+          {
+            "text": "它不需要儲存 n x n 方格",
+            "fraction": 50,
+            "feedback": "正確 —— 數值依需求計算。"
+          },
+          {
+            "text": "它必須先預先計算並儲存全部 n^2 個數值",
+            "fraction": -50,
+            "feedback": "錯 —— 那違背了公式的用意。"
+          },
+          {
+            "text": "它忽略索引 i 與 j",
+            "fraction": -50,
+            "feedback": "錯 —— 數值是 i 與 j 的函數。"
+          }
+        ],
+        "generalFeedback": "公式以 O(1) 將 (i, j) 對映到數值,不需儲存方格。",
+        "single": false
+      }
+    ]
+  },
+  "magic-latin": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Building blocks",
+        "text": "<p>In the Latin-square decomposition, a magic square is built from...</p>",
+        "answers": [
+          {
+            "text": "two orthogonal Latin squares",
+            "fraction": 100,
+            "feedback": "Correct — a Graeco-Latin (Euler) square is a pair of orthogonal Latin squares."
+          },
+          {
+            "text": "a single random permutation",
+            "fraction": 0,
+            "feedback": "One permutation cannot guarantee the magic property."
+          },
+          {
+            "text": "the prime factorization of n",
+            "fraction": 0,
+            "feedback": "Factorization is unrelated to this construction."
+          },
+          {
+            "text": "a sorted list of the values",
+            "fraction": 0,
+            "feedback": "Sorting does not produce a magic square."
+          }
+        ],
+        "generalFeedback": "Two orthogonal Latin squares combine into a Graeco-Latin square, from which the magic square is read off.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Value formula",
+        "text": "<p>If a and b are the symbols from the two Latin squares at a cell, the magic-square value there is...</p>",
+        "answers": [
+          {
+            "text": "a * n + b",
+            "fraction": 100,
+            "feedback": "Correct — the pair (a, b) becomes a base-n digit combination."
+          },
+          {
+            "text": "a + b",
+            "fraction": 0,
+            "feedback": "Simple addition loses the one-to-one mapping of pairs."
+          },
+          {
+            "text": "a * b",
+            "fraction": 0,
+            "feedback": "Multiplying the symbols does not give distinct values."
+          },
+          {
+            "text": "a - b",
+            "fraction": 0,
+            "feedback": "Subtraction does not yield the 0..n^2-1 range."
+          }
+        ],
+        "generalFeedback": "Reading (a, b) as a two-digit base-n number, value = a*n + b, gives every value once when the squares are orthogonal.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Latin square defining rule",
+        "text": "<p>What defines a Latin square of order n?</p>",
+        "answers": [
+          {
+            "text": "each symbol appears exactly once in every row and every column",
+            "fraction": 100,
+            "feedback": "Correct — that is the Latin-square condition."
+          },
+          {
+            "text": "each symbol appears once in the whole grid",
+            "fraction": 0,
+            "feedback": "Symbols repeat across the grid; the rule is per row and per column."
+          },
+          {
+            "text": "the diagonals contain only one symbol",
+            "fraction": 0,
+            "feedback": "Latin squares constrain rows and columns, not a single diagonal symbol."
+          },
+          {
+            "text": "all rows are identical",
+            "fraction": 0,
+            "feedback": "Identical rows would repeat symbols in columns."
+          }
+        ],
+        "generalFeedback": "A Latin square has each of its n symbols exactly once per row and once per column.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Orthogonality meaning",
+        "text": "<p>Two Latin squares are <strong>orthogonal</strong> when, superimposed...</p>",
+        "answers": [
+          {
+            "text": "every ordered pair (a, b) of symbols occurs exactly once",
+            "fraction": 100,
+            "feedback": "Correct — that is the definition of orthogonal Latin squares."
+          },
+          {
+            "text": "the two squares are identical",
+            "fraction": 0,
+            "feedback": "Identical squares are not orthogonal."
+          },
+          {
+            "text": "their rows are reversed copies",
+            "fraction": 0,
+            "feedback": "Reversal does not ensure all pairs appear once."
+          },
+          {
+            "text": "they share no common symbol set",
+            "fraction": 0,
+            "feedback": "They use the same symbol set; orthogonality is about pairings."
+          }
+        ],
+        "generalFeedback": "Superimposing orthogonal squares yields each of the n^2 ordered pairs exactly once — a Graeco-Latin square.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Symbol per line",
+        "text": "<p>In a Latin square, each symbol appears exactly once in every row and once in every column.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that is the defining property."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "This is precisely the Latin-square rule."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Single square myth",
+        "text": "<p>The Latin-square decomposition needs only one Latin square to form the magic square.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "It needs two orthogonal Latin squares combined via a*n + b."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a pair of orthogonal Latin squares is required."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Square-type term",
+        "text": "<p>A grid in which each symbol occurs exactly once per row and once per column is called a ______ square.</p>",
+        "answers": [
+          {
+            "text": "Latin",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Latin*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Latin decomposition properties",
+        "text": "<p>Which statements about the Latin-square decomposition are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "The value at a cell is a*n + b from the two squares",
+            "fraction": 50,
+            "feedback": "Yes — a base-n combination of the pair."
+          },
+          {
+            "text": "Each symbol appears once per row and once per column",
+            "fraction": 50,
+            "feedback": "Yes — the Latin-square condition."
+          },
+          {
+            "text": "Only one Latin square is required",
+            "fraction": -50,
+            "feedback": "No — two orthogonal Latin squares are needed."
+          },
+          {
+            "text": "The value at a cell is the product a*b",
+            "fraction": -50,
+            "feedback": "No — it is a*n + b, not a*b."
+          }
+        ],
+        "generalFeedback": "Two orthogonal Latin squares combine as a*n + b; each symbol appears once per row and column.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "建構元件",
+        "text": "<p>在拉丁方分解中,魔術方陣由什麼建構而成?</p>",
+        "answers": [
+          {
+            "text": "兩個正交的拉丁方",
+            "fraction": 100,
+            "feedback": "正確 —— 希臘拉丁方(歐拉方)是一對正交拉丁方。"
+          },
+          {
+            "text": "單一隨機排列",
+            "fraction": 0,
+            "feedback": "單一排列無法保證魔術性質。"
+          },
+          {
+            "text": "n 的質因數分解",
+            "fraction": 0,
+            "feedback": "因數分解與此建構無關。"
+          },
+          {
+            "text": "已排序的數值串列",
+            "fraction": 0,
+            "feedback": "排序不會產生魔術方陣。"
+          }
+        ],
+        "generalFeedback": "兩個正交拉丁方合成一個希臘拉丁方,再由其讀出魔術方陣。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "數值公式",
+        "text": "<p>若在某格上兩個拉丁方的符號分別為 a 與 b,則該處的魔術方陣數值為...</p>",
+        "answers": [
+          {
+            "text": "a * n + b",
+            "fraction": 100,
+            "feedback": "正確 —— 這對 (a, b) 成為一組 n 進位的位數組合。"
+          },
+          {
+            "text": "a + b",
+            "fraction": 0,
+            "feedback": "單純相加會失去成對的一對一對應。"
+          },
+          {
+            "text": "a * b",
+            "fraction": 0,
+            "feedback": "相乘符號無法得到相異數值。"
+          },
+          {
+            "text": "a - b",
+            "fraction": 0,
+            "feedback": "相減無法得到 0..n^2-1 的範圍。"
+          }
+        ],
+        "generalFeedback": "把 (a, b) 讀成一個兩位的 n 進位數,值 = a*n + b;當兩方正交時,每個值恰出現一次。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "拉丁方定義規則",
+        "text": "<p>什麼定義了 n 階的拉丁方?</p>",
+        "answers": [
+          {
+            "text": "每個符號在每一列與每一行恰好出現一次",
+            "fraction": 100,
+            "feedback": "正確 —— 那就是拉丁方條件。"
+          },
+          {
+            "text": "每個符號在整個方格中出現一次",
+            "fraction": 0,
+            "feedback": "符號會在方格中重複;規則是每列、每行各一次。"
+          },
+          {
+            "text": "對角線只包含一種符號",
+            "fraction": 0,
+            "feedback": "拉丁方約束的是列與行,而非單一對角線符號。"
+          },
+          {
+            "text": "所有列都相同",
+            "fraction": 0,
+            "feedback": "相同的列會在行中重複符號。"
+          }
+        ],
+        "generalFeedback": "拉丁方的 n 個符號各自在每列出現一次、每行出現一次。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "正交的意義",
+        "text": "<p>當兩個拉丁方疊合後,符合什麼條件才算<strong>正交</strong>?</p>",
+        "answers": [
+          {
+            "text": "每個有序對 (a, b) 恰好出現一次",
+            "fraction": 100,
+            "feedback": "正確 —— 那就是正交拉丁方的定義。"
+          },
+          {
+            "text": "兩個方相同",
+            "fraction": 0,
+            "feedback": "相同的方並不正交。"
+          },
+          {
+            "text": "它們的列互為反轉複本",
+            "fraction": 0,
+            "feedback": "反轉並不能確保所有對都出現一次。"
+          },
+          {
+            "text": "它們沒有共同的符號集",
+            "fraction": 0,
+            "feedback": "它們使用相同符號集;正交關乎配對。"
+          }
+        ],
+        "generalFeedback": "疊合正交方會使 n^2 個有序對各恰好出現一次 —— 即希臘拉丁方。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "每線一符號",
+        "text": "<p>在拉丁方中,每個符號在每一列恰出現一次、在每一行恰出現一次。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 那是其定義性質。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "這正是拉丁方規則。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "單一方的迷思",
+        "text": "<p>拉丁方分解只需要一個拉丁方即可構成魔術方陣。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "它需要兩個正交拉丁方,透過 a*n + b 結合。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 需要一對正交拉丁方。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "方陣類型名詞",
+        "text": "<p>每個符號在每列與每行各恰出現一次的方格,稱為 ______ 方(英文)。</p>",
+        "answers": [
+          {
+            "text": "Latin",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Latin*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "拉丁分解性質",
+        "text": "<p>關於拉丁方分解,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "某格的數值為兩方符號的 a*n + b",
+            "fraction": 50,
+            "feedback": "正確 —— 該對的 n 進位組合。"
+          },
+          {
+            "text": "每個符號在每列與每行各出現一次",
+            "fraction": 50,
+            "feedback": "正確 —— 拉丁方條件。"
+          },
+          {
+            "text": "只需要一個拉丁方",
+            "fraction": -50,
+            "feedback": "錯 —— 需要兩個正交拉丁方。"
+          },
+          {
+            "text": "某格的數值為乘積 a*b",
+            "fraction": -50,
+            "feedback": "錯 —— 是 a*n + b,不是 a*b。"
+          }
+        ],
+        "generalFeedback": "兩個正交拉丁方以 a*n + b 結合;每個符號在每列與每行各出現一次。",
+        "single": false
+      }
+    ]
+  },
+  "magic-square": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Magic constant formula",
+        "text": "<p>For an order-<em>n</em> magic square using 1..n<sup>2</sup>, the magic constant (each line's sum) equals...</p>",
+        "answers": [
+          {
+            "text": "n(n^2 + 1) / 2",
+            "fraction": 100,
+            "feedback": "Correct — total 1+...+n^2 divided by n rows."
+          },
+          {
+            "text": "n^2",
+            "fraction": 0,
+            "feedback": "That is the number of cells, not the line sum."
+          },
+          {
+            "text": "n(n + 1) / 2",
+            "fraction": 0,
+            "feedback": "That is the sum of 1..n, not the magic constant."
+          },
+          {
+            "text": "2n + 1",
+            "fraction": 0,
+            "feedback": "Too small; this ignores the n^2 terms."
+          }
+        ],
+        "generalFeedback": "The numbers 1..n^2 sum to n^2(n^2+1)/2; dividing among n rows gives n(n^2+1)/2 per line.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Which lines sum equally",
+        "text": "<p>In a magic square, which sets of cells all share the same sum?</p>",
+        "answers": [
+          {
+            "text": "every row, every column, and both main diagonals",
+            "fraction": 100,
+            "feedback": "Correct — all these lines equal the magic constant."
+          },
+          {
+            "text": "only the rows",
+            "fraction": 0,
+            "feedback": "Columns and diagonals also match."
+          },
+          {
+            "text": "only the two diagonals",
+            "fraction": 0,
+            "feedback": "Rows and columns match too."
+          },
+          {
+            "text": "only the four corner cells",
+            "fraction": 0,
+            "feedback": "Corners are not a defining line."
+          }
+        ],
+        "generalFeedback": "Rows, columns, and the two main diagonals all sum to n(n^2+1)/2.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Starting cell",
+        "text": "<p>In the Siamese (De la Loubere) method for odd order, where is the number 1 placed?</p>",
+        "answers": [
+          {
+            "text": "in the top-middle cell",
+            "fraction": 100,
+            "feedback": "Correct — the middle column of the top row."
+          },
+          {
+            "text": "in the top-left corner",
+            "fraction": 0,
+            "feedback": "The Siamese method starts at the top-middle, not the corner."
+          },
+          {
+            "text": "in the exact center",
+            "fraction": 0,
+            "feedback": "The center holds the middle value, not 1."
+          },
+          {
+            "text": "in the bottom-right corner",
+            "fraction": 0,
+            "feedback": "That is not the standard starting cell."
+          }
+        ],
+        "generalFeedback": "Place 1 at the top-middle, then repeatedly move up-and-right.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Blocked move rule",
+        "text": "<p>In the Siamese method, when the up-and-right cell is already filled, you instead...</p>",
+        "answers": [
+          {
+            "text": "drop down one cell from the current cell",
+            "fraction": 100,
+            "feedback": "Correct — when blocked, move down one instead."
+          },
+          {
+            "text": "move two cells to the right",
+            "fraction": 0,
+            "feedback": "The rule is to drop down one, not skip right."
+          },
+          {
+            "text": "restart at the center",
+            "fraction": 0,
+            "feedback": "You do not restart; you drop down one cell."
+          },
+          {
+            "text": "stop the construction",
+            "fraction": 0,
+            "feedback": "The construction continues after dropping down."
+          }
+        ],
+        "generalFeedback": "Default move is up-and-right (wrapping); if that cell is taken, place the next number directly below the current one.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Diagonals count",
+        "text": "<p>Both main diagonals of a magic square sum to the magic constant.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the two main diagonals also equal the constant."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Both main diagonals do sum to the magic constant."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Start at corner myth",
+        "text": "<p>The Siamese method starts by placing 1 in the top-left corner cell.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "It starts at the top-middle cell, not the top-left corner."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — 1 goes in the top-middle cell."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Common line sum term",
+        "text": "<p>The shared sum of every row, column, and diagonal, equal to n(n^2+1)/2, is called the magic ______.</p>",
+        "answers": [
+          {
+            "text": "constant",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "constant*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "diagonal",
+            "fraction": 100,
+            "feedback": "Accepted — the diagonals also sum to this constant."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Magic square properties",
+        "text": "<p>Which statements about odd-order magic squares (Siamese method) are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Every row, column, and main diagonal sums to n(n^2+1)/2",
+            "fraction": 50,
+            "feedback": "Yes — that is the magic constant."
+          },
+          {
+            "text": "Construction starts at the top-middle cell moving up-and-right",
+            "fraction": 50,
+            "feedback": "Yes — the Siamese default move."
+          },
+          {
+            "text": "When blocked, you move two cells to the right",
+            "fraction": -50,
+            "feedback": "No — you drop down one cell."
+          },
+          {
+            "text": "Only the rows need to sum to the constant",
+            "fraction": -50,
+            "feedback": "No — columns and both diagonals must too."
+          }
+        ],
+        "generalFeedback": "All lines sum to n(n^2+1)/2; start top-middle, move up-right, and drop down one when blocked.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "魔術常數公式",
+        "text": "<p>對於使用 1..n<sup>2</sup> 的 <em>n</em> 階魔術方陣,魔術常數(每條線的總和)等於...</p>",
+        "answers": [
+          {
+            "text": "n(n^2 + 1) / 2",
+            "fraction": 100,
+            "feedback": "正確 —— 總和 1+...+n^2 除以 n 列。"
+          },
+          {
+            "text": "n^2",
+            "fraction": 0,
+            "feedback": "那是格子數,不是每條線的總和。"
+          },
+          {
+            "text": "n(n + 1) / 2",
+            "fraction": 0,
+            "feedback": "那是 1..n 的總和,不是魔術常數。"
+          },
+          {
+            "text": "2n + 1",
+            "fraction": 0,
+            "feedback": "太小;忽略了 n^2 項。"
+          }
+        ],
+        "generalFeedback": "數字 1..n^2 的總和為 n^2(n^2+1)/2;分給 n 列後每條線為 n(n^2+1)/2。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "哪些線總和相等",
+        "text": "<p>在魔術方陣中,哪些格子集合共享相同的總和?</p>",
+        "answers": [
+          {
+            "text": "每一列、每一行,以及兩條主對角線",
+            "fraction": 100,
+            "feedback": "正確 —— 這些線都等於魔術常數。"
+          },
+          {
+            "text": "只有各列",
+            "fraction": 0,
+            "feedback": "各行與對角線也相等。"
+          },
+          {
+            "text": "只有兩條對角線",
+            "fraction": 0,
+            "feedback": "各列與各行也相等。"
+          },
+          {
+            "text": "只有四個角落格子",
+            "fraction": 0,
+            "feedback": "角落不是決定性的線。"
+          }
+        ],
+        "generalFeedback": "各列、各行與兩條主對角線都加總為 n(n^2+1)/2。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "起始格子",
+        "text": "<p>在奇數階的暹羅(De la Loubere)法中,數字 1 放在哪裡?</p>",
+        "answers": [
+          {
+            "text": "頂列中央格",
+            "fraction": 100,
+            "feedback": "正確 —— 頂列的中間行。"
+          },
+          {
+            "text": "左上角",
+            "fraction": 0,
+            "feedback": "暹羅法從頂列中央開始,不是角落。"
+          },
+          {
+            "text": "正中心",
+            "fraction": 0,
+            "feedback": "中心放的是中間值,不是 1。"
+          },
+          {
+            "text": "右下角",
+            "fraction": 0,
+            "feedback": "那不是標準起始格。"
+          }
+        ],
+        "generalFeedback": "將 1 放在頂列中央,再反覆往右上方移動。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "受阻時的移動規則",
+        "text": "<p>在暹羅法中,當右上方的格子已被填,你改為...</p>",
+        "answers": [
+          {
+            "text": "從目前格子往下移一格",
+            "fraction": 100,
+            "feedback": "正確 —— 受阻時改往下移一格。"
+          },
+          {
+            "text": "往右移兩格",
+            "fraction": 0,
+            "feedback": "規則是往下移一格,不是往右跳。"
+          },
+          {
+            "text": "從中心重新開始",
+            "fraction": 0,
+            "feedback": "不需重新開始;往下移一格即可。"
+          },
+          {
+            "text": "停止建構",
+            "fraction": 0,
+            "feedback": "往下移後建構繼續。"
+          }
+        ],
+        "generalFeedback": "預設移動是往右上(可繞回);若該格已被佔,將下一個數字放在目前格的正下方。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "對角線計入",
+        "text": "<p>魔術方陣的兩條主對角線都加總為魔術常數。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 兩條主對角線也等於常數。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "兩條主對角線確實加總為魔術常數。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "從角落開始的迷思",
+        "text": "<p>暹羅法一開始將 1 放在左上角格子。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "它從頂列中央格開始,不是左上角。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 1 放在頂列中央格。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "共同線和名詞",
+        "text": "<p>每一列、每一行與對角線共享的總和,等於 n(n^2+1)/2,稱為魔術 ______(英文)。</p>",
+        "answers": [
+          {
+            "text": "constant",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "constant*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "diagonal",
+            "fraction": 100,
+            "feedback": "可接受 —— 對角線也加總為此常數。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "魔術方陣性質",
+        "text": "<p>關於奇數階魔術方陣(暹羅法),以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每一列、行與主對角線都加總為 n(n^2+1)/2",
+            "fraction": 50,
+            "feedback": "正確 —— 那就是魔術常數。"
+          },
+          {
+            "text": "從頂列中央格開始,往右上方移動",
+            "fraction": 50,
+            "feedback": "正確 —— 暹羅法的預設移動。"
+          },
+          {
+            "text": "受阻時往右移兩格",
+            "fraction": -50,
+            "feedback": "錯 —— 應往下移一格。"
+          },
+          {
+            "text": "只有各列需要加總為常數",
+            "fraction": -50,
+            "feedback": "錯 —— 各行與兩條對角線也必須。"
+          }
+        ],
+        "generalFeedback": "所有線都加總為 n(n^2+1)/2;從頂列中央開始、往右上移動、受阻時往下移一格。",
+        "single": false
+      }
+    ]
+  },
+  "magic-symmetry": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Symmetry group order",
+        "text": "<p>The symmetry group of the square (D4) has how many elements?</p>",
+        "answers": [
+          {
+            "text": "8",
+            "fraction": 100,
+            "feedback": "Correct — 4 rotations and 4 reflections."
+          },
+          {
+            "text": "4",
+            "fraction": 0,
+            "feedback": "That counts only the rotations, missing the reflections."
+          },
+          {
+            "text": "2",
+            "fraction": 0,
+            "feedback": "Far too few; D4 has order 8."
+          },
+          {
+            "text": "16",
+            "fraction": 0,
+            "feedback": "Too many; D4 has exactly 8 elements."
+          }
+        ],
+        "generalFeedback": "The dihedral group D4 of the square has order 8: four rotations plus four reflections.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Rotation angles",
+        "text": "<p>Which set of rotations belongs to the square's symmetry group?</p>",
+        "answers": [
+          {
+            "text": "0, 90, 180, and 270 degrees",
+            "fraction": 100,
+            "feedback": "Correct — the four rotational symmetries of a square."
+          },
+          {
+            "text": "0 and 180 degrees only",
+            "fraction": 0,
+            "feedback": "90 and 270 are also symmetries of the square."
+          },
+          {
+            "text": "0, 60, 120, 180, 240, 300 degrees",
+            "fraction": 0,
+            "feedback": "Those are hexagon rotations, not square ones."
+          },
+          {
+            "text": "any real angle",
+            "fraction": 0,
+            "feedback": "Only multiples of 90 degrees map the square to itself."
+          }
+        ],
+        "generalFeedback": "A square is invariant under rotations by 0, 90, 180, and 270 degrees.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Symmetry preserves magic",
+        "text": "<p>Applying a D4 symmetry to a magic square produces...</p>",
+        "answers": [
+          {
+            "text": "another magic square",
+            "fraction": 100,
+            "feedback": "Correct — rotations and reflections preserve the magic property."
+          },
+          {
+            "text": "a square that is never magic",
+            "fraction": 0,
+            "feedback": "Symmetries map magic squares to magic squares."
+          },
+          {
+            "text": "a non-square grid",
+            "fraction": 0,
+            "feedback": "Symmetries keep the n x n shape."
+          },
+          {
+            "text": "a grid with different numbers",
+            "fraction": 0,
+            "feedback": "The same numbers are rearranged, and it stays magic."
+          }
+        ],
+        "generalFeedback": "Each of the 8 symmetries permutes cells so that all line sums are preserved, giving another magic square.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Reflections count",
+        "text": "<p>How many reflection symmetries does the square (D4) have?</p>",
+        "answers": [
+          {
+            "text": "4",
+            "fraction": 100,
+            "feedback": "Correct — two through edge midpoints and two through diagonals."
+          },
+          {
+            "text": "2",
+            "fraction": 0,
+            "feedback": "There are four reflection axes, not two."
+          },
+          {
+            "text": "8",
+            "fraction": 0,
+            "feedback": "8 is the total group order; reflections number 4."
+          },
+          {
+            "text": "0",
+            "fraction": 0,
+            "feedback": "The square does have reflection symmetries."
+          }
+        ],
+        "generalFeedback": "D4 has 4 reflection axes: two diagonal and two through opposite edge midpoints.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Order-8 group",
+        "text": "<p>The square's symmetry group D4 has order 8, made of 4 rotations and 4 reflections.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — 4 + 4 = 8 symmetries."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "D4 indeed has 8 elements: 4 rotations and 4 reflections."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Breaks magic myth",
+        "text": "<p>Rotating a magic square by 90 degrees always destroys its magic property.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "A 90-degree rotation is a symmetry; the result is still magic."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — rotation maps a magic square to another magic square."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Symmetry group term",
+        "text": "<p>The group of 8 rotations and reflections of the square is the ______ group D4.</p>",
+        "answers": [
+          {
+            "text": "dihedral",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "dihedral*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "D4",
+            "fraction": 100,
+            "feedback": "Accepted — D4 is the dihedral group of the square."
+          },
+          {
+            "text": "8",
+            "fraction": 100,
+            "feedback": "Accepted — the group has order 8."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "D4 symmetry properties",
+        "text": "<p>Which statements about the square's symmetry group D4 are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It has order 8: 4 rotations and 4 reflections",
+            "fraction": 50,
+            "feedback": "Yes — the dihedral group of the square."
+          },
+          {
+            "text": "Each symmetry maps a magic square to another magic square",
+            "fraction": 50,
+            "feedback": "Yes — line sums are preserved."
+          },
+          {
+            "text": "It contains rotations by any real angle",
+            "fraction": -50,
+            "feedback": "No — only 0, 90, 180, 270 degrees."
+          },
+          {
+            "text": "It has only 4 elements in total",
+            "fraction": -50,
+            "feedback": "No — 4 is just the rotations; total order is 8."
+          }
+        ],
+        "generalFeedback": "D4 has order 8 (4 rotations + 4 reflections), and every symmetry sends a magic square to another magic square.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "對稱群的階",
+        "text": "<p>正方形的對稱群(D4)有多少個元素?</p>",
+        "answers": [
+          {
+            "text": "8",
+            "fraction": 100,
+            "feedback": "正確 —— 4 個旋轉與 4 個鏡射。"
+          },
+          {
+            "text": "4",
+            "fraction": 0,
+            "feedback": "那只算了旋轉,漏掉了鏡射。"
+          },
+          {
+            "text": "2",
+            "fraction": 0,
+            "feedback": "太少;D4 的階為 8。"
+          },
+          {
+            "text": "16",
+            "fraction": 0,
+            "feedback": "太多;D4 恰好有 8 個元素。"
+          }
+        ],
+        "generalFeedback": "正方形的二面體群 D4 的階為 8:四個旋轉加四個鏡射。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "旋轉角度",
+        "text": "<p>哪一組旋轉屬於正方形的對稱群?</p>",
+        "answers": [
+          {
+            "text": "0、90、180、270 度",
+            "fraction": 100,
+            "feedback": "正確 —— 正方形的四個旋轉對稱。"
+          },
+          {
+            "text": "只有 0 與 180 度",
+            "fraction": 0,
+            "feedback": "90 與 270 度也是正方形的對稱。"
+          },
+          {
+            "text": "0、60、120、180、240、300 度",
+            "fraction": 0,
+            "feedback": "那是六邊形的旋轉,不是正方形。"
+          },
+          {
+            "text": "任意實數角度",
+            "fraction": 0,
+            "feedback": "只有 90 度的倍數能讓正方形映到自身。"
+          }
+        ],
+        "generalFeedback": "正方形在 0、90、180、270 度旋轉下不變。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "對稱保持魔術性",
+        "text": "<p>對魔術方陣套用一個 D4 對稱會產生...</p>",
+        "answers": [
+          {
+            "text": "另一個魔術方陣",
+            "fraction": 100,
+            "feedback": "正確 —— 旋轉與鏡射保持魔術性質。"
+          },
+          {
+            "text": "一個永遠不是魔術的方陣",
+            "fraction": 0,
+            "feedback": "對稱會把魔術方陣映到魔術方陣。"
+          },
+          {
+            "text": "一個非方形的格子",
+            "fraction": 0,
+            "feedback": "對稱維持 n x n 形狀。"
+          },
+          {
+            "text": "一個數字不同的格子",
+            "fraction": 0,
+            "feedback": "相同數字被重新排列,且仍保持魔術性。"
+          }
+        ],
+        "generalFeedback": "8 個對稱各自置換格子,使所有線的總和維持不變,得到另一個魔術方陣。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏡射數目",
+        "text": "<p>正方形(D4)有幾個鏡射對稱?</p>",
+        "answers": [
+          {
+            "text": "4",
+            "fraction": 100,
+            "feedback": "正確 —— 兩條過邊中點、兩條過對角線。"
+          },
+          {
+            "text": "2",
+            "fraction": 0,
+            "feedback": "有四條鏡射軸,不是兩條。"
+          },
+          {
+            "text": "8",
+            "fraction": 0,
+            "feedback": "8 是整個群的階;鏡射有 4 個。"
+          },
+          {
+            "text": "0",
+            "fraction": 0,
+            "feedback": "正方形確實有鏡射對稱。"
+          }
+        ],
+        "generalFeedback": "D4 有 4 條鏡射軸:兩條對角線與兩條過對邊中點。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "階為 8 的群",
+        "text": "<p>正方形的對稱群 D4 階為 8,由 4 個旋轉與 4 個鏡射組成。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 4 + 4 = 8 個對稱。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "D4 確實有 8 個元素:4 個旋轉與 4 個鏡射。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "破壞魔術性的迷思",
+        "text": "<p>將魔術方陣旋轉 90 度一定會破壞其魔術性質。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "90 度旋轉是一種對稱;結果仍是魔術方陣。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 旋轉把魔術方陣映到另一個魔術方陣。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "對稱群名詞",
+        "text": "<p>正方形的 8 個旋轉與鏡射所成的群,是 ______(英文)群 D4。</p>",
+        "answers": [
+          {
+            "text": "dihedral",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "dihedral*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "D4",
+            "fraction": 100,
+            "feedback": "可接受 —— D4 是正方形的二面體群。"
+          },
+          {
+            "text": "8",
+            "fraction": 100,
+            "feedback": "可接受 —— 該群的階為 8。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "D4 對稱性質",
+        "text": "<p>關於正方形的對稱群 D4,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它的階為 8:4 個旋轉與 4 個鏡射",
+            "fraction": 50,
+            "feedback": "正確 —— 正方形的二面體群。"
+          },
+          {
+            "text": "每個對稱把魔術方陣映到另一個魔術方陣",
+            "fraction": 50,
+            "feedback": "正確 —— 線的總和被保持。"
+          },
+          {
+            "text": "它包含任意實數角度的旋轉",
+            "fraction": -50,
+            "feedback": "錯 —— 只有 0、90、180、270 度。"
+          },
+          {
+            "text": "它總共只有 4 個元素",
+            "fraction": -50,
+            "feedback": "錯 —— 4 只是旋轉;總階為 8。"
+          }
+        ],
+        "generalFeedback": "D4 階為 8(4 旋轉 + 4 鏡射),且每個對稱把魔術方陣送到另一個魔術方陣。",
+        "single": false
+      }
+    ]
+  },
+  "magic-torus": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Wrap arithmetic",
+        "text": "<p>In the up-right construction, when a move leaves the grid, the position wraps around using...</p>",
+        "answers": [
+          {
+            "text": "arithmetic modulo n on the row and column",
+            "fraction": 100,
+            "feedback": "Correct — indices are taken mod n, as on a torus."
+          },
+          {
+            "text": "reflection off the border",
+            "fraction": 0,
+            "feedback": "The torus wraps, it does not reflect."
+          },
+          {
+            "text": "a jump to the center",
+            "fraction": 0,
+            "feedback": "Wrapping goes to the opposite edge, not the center."
+          },
+          {
+            "text": "stopping the walk",
+            "fraction": 0,
+            "feedback": "The walk continues after wrapping around."
+          }
+        ],
+        "generalFeedback": "Row and column indices are reduced modulo n, so leaving one edge re-enters at the opposite edge.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Topological shape",
+        "text": "<p>Treating the wrap-around as gluing opposite edges makes the grid topologically a...</p>",
+        "answers": [
+          {
+            "text": "torus",
+            "fraction": 100,
+            "feedback": "Correct — gluing both pairs of opposite edges yields a torus."
+          },
+          {
+            "text": "sphere",
+            "fraction": 0,
+            "feedback": "A sphere comes from a different gluing, not edge-to-opposite-edge."
+          },
+          {
+            "text": "flat disk",
+            "fraction": 0,
+            "feedback": "A disk has a boundary; the wrapped grid has none."
+          },
+          {
+            "text": "Mobius strip",
+            "fraction": 0,
+            "feedback": "A Mobius strip needs a twist; here edges join without a flip."
+          }
+        ],
+        "generalFeedback": "Gluing left-to-right and top-to-bottom edges of a square yields a torus.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Tiled-plane windows",
+        "text": "<p>If the magic square is used to tile the plane, which n x n windows are themselves magic?</p>",
+        "answers": [
+          {
+            "text": "every aligned n x n window of the tiling",
+            "fraction": 100,
+            "feedback": "Correct — the toroidal structure makes every aligned window magic."
+          },
+          {
+            "text": "only the original copy",
+            "fraction": 0,
+            "feedback": "Because of wrap symmetry, shifted aligned windows are magic too."
+          },
+          {
+            "text": "none of the shifted windows",
+            "fraction": 0,
+            "feedback": "Aligned shifted windows remain magic."
+          },
+          {
+            "text": "only windows centered on a corner",
+            "fraction": 0,
+            "feedback": "Position within the tiling does not matter for aligned windows."
+          }
+        ],
+        "generalFeedback": "Tiling with copies and sliding an aligned n x n window always frames a magic square, thanks to the modular wrap.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Why wrap works",
+        "text": "<p>Why does the modulo wrap keep the Siamese walk consistent?</p>",
+        "answers": [
+          {
+            "text": "leaving one edge re-enters at the opposite edge, keeping the up-right diagonal continuous",
+            "fraction": 100,
+            "feedback": "Correct — the diagonal path is unbroken on the torus."
+          },
+          {
+            "text": "it randomly relocates each number",
+            "fraction": 0,
+            "feedback": "The wrap is deterministic, not random."
+          },
+          {
+            "text": "it doubles the grid size",
+            "fraction": 0,
+            "feedback": "The grid stays n x n; only indexing wraps."
+          },
+          {
+            "text": "it stops when reaching an edge",
+            "fraction": 0,
+            "feedback": "The walk continues by wrapping, it does not stop."
+          }
+        ],
+        "generalFeedback": "Modular indexing continues the up-right diagonal across edges, as if walking on a seamless torus.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Torus wrap true",
+        "text": "<p>The up-right construction wraps around modulo n, behaving as if drawn on a torus.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — opposite edges are identified, forming a torus."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The modular wrap is exactly toroidal behavior."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Reflection myth",
+        "text": "<p>When a move leaves the grid, the toroidal method reflects the position back off the border.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "It wraps to the opposite edge (mod n); it does not reflect."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the position wraps around, not reflects."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Boundary behavior term",
+        "text": "<p>When a move runs off one edge of the grid, it re-enters at the opposite edge; this behavior is called ______ around.</p>",
+        "answers": [
+          {
+            "text": "wrap",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "wrap*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "torus",
+            "fraction": 100,
+            "feedback": "Accepted — the wrap turns the grid into a torus."
+          },
+          {
+            "text": "modulo",
+            "fraction": 100,
+            "feedback": "Accepted — wrapping is arithmetic modulo n."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Toroidal magic properties",
+        "text": "<p>Which statements about the toroidal magic square are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Indices wrap around modulo n at the edges",
+            "fraction": 50,
+            "feedback": "Yes — that is the toroidal rule."
+          },
+          {
+            "text": "Every aligned n x n window of the tiled plane is magic",
+            "fraction": 50,
+            "feedback": "Yes — a consequence of the wrap symmetry."
+          },
+          {
+            "text": "Leaving an edge reflects the position back inward",
+            "fraction": -50,
+            "feedback": "No — it wraps to the opposite edge."
+          },
+          {
+            "text": "Gluing opposite edges gives a sphere",
+            "fraction": -50,
+            "feedback": "No — it gives a torus."
+          }
+        ],
+        "generalFeedback": "Modular wrap makes the grid a torus; tiling the plane, every aligned n x n window is magic.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "繞回運算",
+        "text": "<p>在往右上的建構中,當移動超出方格時,位置如何繞回?</p>",
+        "answers": [
+          {
+            "text": "對列與行做模 n 運算",
+            "fraction": 100,
+            "feedback": "正確 —— 索引取 mod n,如同在環面上。"
+          },
+          {
+            "text": "從邊界反射",
+            "fraction": 0,
+            "feedback": "環面是繞回,不是反射。"
+          },
+          {
+            "text": "跳到中心",
+            "fraction": 0,
+            "feedback": "繞回會到對邊,不是中心。"
+          },
+          {
+            "text": "停止走訪",
+            "fraction": 0,
+            "feedback": "繞回之後走訪繼續。"
+          }
+        ],
+        "generalFeedback": "列與行索引取模 n,因此從一邊離開會從對邊進入。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "拓樸形狀",
+        "text": "<p>將繞回視為把對邊黏合,會使方格在拓樸上成為一個...</p>",
+        "answers": [
+          {
+            "text": "環面(torus)",
+            "fraction": 100,
+            "feedback": "正確 —— 黏合兩對對邊會得到環面。"
+          },
+          {
+            "text": "球面",
+            "fraction": 0,
+            "feedback": "球面來自不同的黏合方式,而非邊對對邊。"
+          },
+          {
+            "text": "平面圓盤",
+            "fraction": 0,
+            "feedback": "圓盤有邊界;繞回後的方格沒有邊界。"
+          },
+          {
+            "text": "莫比烏斯帶",
+            "fraction": 0,
+            "feedback": "莫比烏斯帶需要一個翻轉;此處邊直接相接不翻轉。"
+          }
+        ],
+        "generalFeedback": "把方形的左右邊、上下邊黏合會得到一個環面。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鋪磚後的視窗",
+        "text": "<p>若用此魔術方陣鋪滿平面,哪些 n x n 視窗本身也是魔術方陣?</p>",
+        "answers": [
+          {
+            "text": "鋪磚中每個對齊的 n x n 視窗",
+            "fraction": 100,
+            "feedback": "正確 —— 環面結構使每個對齊視窗都是魔術方陣。"
+          },
+          {
+            "text": "只有原始那一份",
+            "fraction": 0,
+            "feedback": "因繞回對稱,平移後的對齊視窗也是魔術方陣。"
+          },
+          {
+            "text": "沒有任何平移視窗",
+            "fraction": 0,
+            "feedback": "對齊的平移視窗仍是魔術方陣。"
+          },
+          {
+            "text": "只有以角落為中心的視窗",
+            "fraction": 0,
+            "feedback": "對齊視窗的位置並不影響其魔術性。"
+          }
+        ],
+        "generalFeedback": "以複本鋪磚並滑動對齊的 n x n 視窗,總能框出一個魔術方陣,這歸功於模運算繞回。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "繞回為何有效",
+        "text": "<p>為什麼模運算繞回能讓暹羅走訪保持一致?</p>",
+        "answers": [
+          {
+            "text": "從一邊離開會從對邊進入,使往右上的對角線保持連續",
+            "fraction": 100,
+            "feedback": "正確 —— 在環面上對角線路徑不間斷。"
+          },
+          {
+            "text": "它隨機重新配置每個數字",
+            "fraction": 0,
+            "feedback": "繞回是確定性的,不是隨機。"
+          },
+          {
+            "text": "它把方格尺寸加倍",
+            "fraction": 0,
+            "feedback": "方格維持 n x n;只有索引繞回。"
+          },
+          {
+            "text": "它到達邊界時停止",
+            "fraction": 0,
+            "feedback": "走訪藉繞回繼續,不會停止。"
+          }
+        ],
+        "generalFeedback": "模運算索引使往右上的對角線跨越邊界持續延伸,彷彿在無縫的環面上行走。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "環面繞回為真",
+        "text": "<p>往右上的建構以模 n 繞回,其行為就像畫在環面上。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 對邊被視為同一,形成環面。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "模運算繞回正是環面行為。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "反射迷思",
+        "text": "<p>當移動離開方格時,環面法會把位置從邊界反射回來。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "它繞回到對邊(mod n);並非反射。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 位置是繞回,而非反射。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "邊界行為名詞",
+        "text": "<p>當移動衝出方格的一邊時,會從對邊重新進入;這種行為稱為 ______ around(英文)。</p>",
+        "answers": [
+          {
+            "text": "wrap",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "wrap*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "torus",
+            "fraction": 100,
+            "feedback": "可接受 —— 繞回把方格變成環面。"
+          },
+          {
+            "text": "modulo",
+            "fraction": 100,
+            "feedback": "可接受 —— 繞回即模 n 運算。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "環面魔術性質",
+        "text": "<p>關於環面魔術方陣,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "索引在邊界處以模 n 繞回",
+            "fraction": 50,
+            "feedback": "正確 —— 那就是環面規則。"
+          },
+          {
+            "text": "鋪滿平面後每個對齊的 n x n 視窗都是魔術方陣",
+            "fraction": 50,
+            "feedback": "正確 —— 繞回對稱的結果。"
+          },
+          {
+            "text": "離開邊界會把位置反射回內部",
+            "fraction": -50,
+            "feedback": "錯 —— 它繞回到對邊。"
+          },
+          {
+            "text": "黏合對邊會得到球面",
+            "fraction": -50,
+            "feedback": "錯 —— 會得到環面。"
+          }
+        ],
+        "generalFeedback": "模運算繞回使方格成為環面;鋪滿平面後每個對齊的 n x n 視窗都是魔術方陣。",
+        "single": false
+      }
+    ]
+  },
+  "matrix-sparse-list": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Links per node",
+        "text": "<p>In an orthogonal (multi-linked) list sparse matrix, each nonzero node is linked into...</p>",
+        "answers": [
+          {
+            "text": "both its row list and its column list",
+            "fraction": 100,
+            "feedback": "Correct — two link fields, one per direction."
+          },
+          {
+            "text": "only its row list",
+            "fraction": 0,
+            "feedback": "Then you could not traverse a column."
+          },
+          {
+            "text": "only its column list",
+            "fraction": 0,
+            "feedback": "Then you could not traverse a row."
+          },
+          {
+            "text": "a single global list of all nonzeros",
+            "fraction": 0,
+            "feedback": "That is the flat triple list, not the orthogonal list."
+          }
+        ],
+        "generalFeedback": "Each node carries a right-link (row) and a down-link (column), threading it into two lists at once.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Node fields",
+        "text": "<p>What does a nonzero node store besides its two link pointers?</p>",
+        "answers": [
+          {
+            "text": "its row, column, and value",
+            "fraction": 100,
+            "feedback": "Correct — the coordinate and the value identify the entry."
+          },
+          {
+            "text": "just the value",
+            "fraction": 0,
+            "feedback": "Without row and column the node cannot be placed."
+          },
+          {
+            "text": "a copy of the whole row",
+            "fraction": 0,
+            "feedback": "Each node holds only one entry."
+          },
+          {
+            "text": "the matrix dimensions",
+            "fraction": 0,
+            "feedback": "Dimensions are header info, not per-node data."
+          }
+        ],
+        "generalFeedback": "A node holds (row, col, value) plus the right and down links into its row and column lists.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Traversing a column",
+        "text": "<p>To visit every nonzero in one column, you follow...</p>",
+        "answers": [
+          {
+            "text": "the column (down) links from that column's header",
+            "fraction": 100,
+            "feedback": "Correct — the down-links thread all nonzeros of a column."
+          },
+          {
+            "text": "the row (right) links",
+            "fraction": 0,
+            "feedback": "Those thread a row, not a column."
+          },
+          {
+            "text": "a binary search on values",
+            "fraction": 0,
+            "feedback": "The list is not ordered by value."
+          },
+          {
+            "text": "the dense array index arithmetic",
+            "fraction": 0,
+            "feedback": "There is no dense array here to index."
+          }
+        ],
+        "generalFeedback": "Row lists use right-links; column lists use down-links. Pick the link that matches the direction you traverse.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Best use case",
+        "text": "<p>The orthogonal linked-list matrix is especially good for...</p>",
+        "answers": [
+          {
+            "text": "very sparse matrices that change dynamically",
+            "fraction": 100,
+            "feedback": "Correct — nodes are cheap to insert and delete by relinking."
+          },
+          {
+            "text": "dense matrices needing O(1) random access",
+            "fraction": 0,
+            "feedback": "Linked lists give no O(1) random access; a dense array is better."
+          },
+          {
+            "text": "matrices that never change",
+            "fraction": 0,
+            "feedback": "For static data the simpler triple array suffices."
+          },
+          {
+            "text": "storing only the diagonal",
+            "fraction": 0,
+            "feedback": "That special case needs no cross-linking."
+          }
+        ],
+        "generalFeedback": "Dynamic insert/delete via relinking makes the orthogonal list ideal for changing, very sparse matrices.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Two lists per node",
+        "text": "<p>Each nonzero node belongs simultaneously to a row list and a column list.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that dual membership is the whole idea."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "A node is threaded into both its row and column lists."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Random access claim",
+        "text": "<p>The orthogonal linked-list matrix gives O(1) random access to an arbitrary cell (i, j).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "You must walk a row or column list, which is not O(1)."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — access requires traversing a list, unlike a dense array."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "List element term",
+        "text": "<p>Each nonzero entry in the orthogonal representation is stored in one linked-list ______, carrying both a row link and a column link.</p>",
+        "answers": [
+          {
+            "text": "node",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "node*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "list",
+            "fraction": 100,
+            "feedback": "Accepted — each node lives inside a row list and a column list."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Orthogonal list properties",
+        "text": "<p>Which statements about the orthogonal (multi-linked) sparse matrix are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A node is linked into both its row and its column list",
+            "fraction": 50,
+            "feedback": "Yes — two link fields per node."
+          },
+          {
+            "text": "It suits very sparse, dynamically changing matrices",
+            "fraction": 50,
+            "feedback": "Yes — insert and delete by relinking."
+          },
+          {
+            "text": "It provides O(1) random access to any cell",
+            "fraction": -50,
+            "feedback": "No — you must traverse a list."
+          },
+          {
+            "text": "Each node stores an entire row of the matrix",
+            "fraction": -50,
+            "feedback": "No — a node stores exactly one nonzero entry."
+          }
+        ],
+        "generalFeedback": "Each node holds one nonzero in both a row and column list; great for dynamic sparse data, but no O(1) random access.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "每個節點的鏈結",
+        "text": "<p>在正交(多重鏈結)串列稀疏矩陣中,每個非零節點被串接進...</p>",
+        "answers": [
+          {
+            "text": "它所在的列串列與行串列兩者",
+            "fraction": 100,
+            "feedback": "正確 —— 兩個鏈結欄位,各對應一個方向。"
+          },
+          {
+            "text": "只有它所在的列串列",
+            "fraction": 0,
+            "feedback": "那樣就無法走訪一整行。"
+          },
+          {
+            "text": "只有它所在的行串列",
+            "fraction": 0,
+            "feedback": "那樣就無法走訪一整列。"
+          },
+          {
+            "text": "一個包含所有非零的全域串列",
+            "fraction": 0,
+            "feedback": "那是扁平的三元組串列,不是正交串列。"
+          }
+        ],
+        "generalFeedback": "每個節點帶有向右鏈結(列)與向下鏈結(行),同時串進兩個串列。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "節點欄位",
+        "text": "<p>除了兩個鏈結指標之外,非零節點還儲存什麼?</p>",
+        "answers": [
+          {
+            "text": "它的列、行與值",
+            "fraction": 100,
+            "feedback": "正確 —— 座標與值可辨識該元素。"
+          },
+          {
+            "text": "只有值",
+            "fraction": 0,
+            "feedback": "沒有列與行就無法放置節點。"
+          },
+          {
+            "text": "整列的複本",
+            "fraction": 0,
+            "feedback": "每個節點只保有一個元素。"
+          },
+          {
+            "text": "矩陣的維度",
+            "fraction": 0,
+            "feedback": "維度是表頭資訊,不是每個節點的資料。"
+          }
+        ],
+        "generalFeedback": "節點保有 (列, 行, 值),加上串進其列與行串列的向右與向下鏈結。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "走訪一行",
+        "text": "<p>要拜訪某一行中的所有非零元素,你要沿著...</p>",
+        "answers": [
+          {
+            "text": "從該行表頭出發的行(向下)鏈結",
+            "fraction": 100,
+            "feedback": "正確 —— 向下鏈結串起該行所有非零。"
+          },
+          {
+            "text": "列(向右)鏈結",
+            "fraction": 0,
+            "feedback": "那些串起的是一列,不是一行。"
+          },
+          {
+            "text": "對值做二分搜尋",
+            "fraction": 0,
+            "feedback": "串列並非依值排序。"
+          },
+          {
+            "text": "稠密陣列索引運算",
+            "fraction": 0,
+            "feedback": "這裡沒有稠密陣列可供索引。"
+          }
+        ],
+        "generalFeedback": "列串列用向右鏈結;行串列用向下鏈結。挑選與走訪方向相符的鏈結。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "最佳使用情境",
+        "text": "<p>正交鏈結串列矩陣特別適合...</p>",
+        "answers": [
+          {
+            "text": "非常稀疏且會動態變動的矩陣",
+            "fraction": 100,
+            "feedback": "正確 —— 透過重接鏈結,插入與刪除節點很便宜。"
+          },
+          {
+            "text": "需要 O(1) 隨機存取的稠密矩陣",
+            "fraction": 0,
+            "feedback": "鏈結串列沒有 O(1) 隨機存取;稠密陣列更好。"
+          },
+          {
+            "text": "永不變動的矩陣",
+            "fraction": 0,
+            "feedback": "靜態資料用較簡單的三元組陣列即可。"
+          },
+          {
+            "text": "只儲存對角線",
+            "fraction": 0,
+            "feedback": "那個特例不需要交叉鏈結。"
+          }
+        ],
+        "generalFeedback": "以重接鏈結進行動態插入/刪除,使正交串列非常適合變動、非常稀疏的矩陣。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "每節點屬於兩串列",
+        "text": "<p>每個非零節點同時屬於一個列串列與一個行串列。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這種雙重歸屬正是核心概念。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "節點被串進其列串列與行串列兩者。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "隨機存取主張",
+        "text": "<p>正交鏈結串列矩陣能對任意格子 (i, j) 提供 O(1) 隨機存取。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "你必須走訪某列或某行串列,並非 O(1)。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 與稠密陣列不同,存取需要走訪串列。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "串列元素名詞",
+        "text": "<p>在正交表示法中,每個非零元素儲存於一個鏈結串列的 ______(英文),同時帶有列鏈結與行鏈結。</p>",
+        "answers": [
+          {
+            "text": "node",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "node*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "list",
+            "fraction": 100,
+            "feedback": "可接受 —— 每個節點存在於一個列串列與一個行串列中。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "正交串列性質",
+        "text": "<p>關於正交(多重鏈結)稀疏矩陣,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "節點同時串進其列串列與行串列",
+            "fraction": 50,
+            "feedback": "正確 —— 每個節點有兩個鏈結欄位。"
+          },
+          {
+            "text": "適合非常稀疏、會動態變動的矩陣",
+            "fraction": 50,
+            "feedback": "正確 —— 以重接鏈結進行插入與刪除。"
+          },
+          {
+            "text": "能對任意格子提供 O(1) 隨機存取",
+            "fraction": -50,
+            "feedback": "錯 —— 必須走訪串列。"
+          },
+          {
+            "text": "每個節點儲存矩陣的一整列",
+            "fraction": -50,
+            "feedback": "錯 —— 節點只儲存一個非零元素。"
+          }
+        ],
+        "generalFeedback": "每個節點在列與行串列中保有一個非零;非常適合動態稀疏資料,但沒有 O(1) 隨機存取。",
+        "single": false
+      }
+    ]
+  },
+  "matrix-sparse": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Triple form contents",
+        "text": "<p>In the <strong>triple</strong> (COO) representation of a sparse matrix, what does each stored record contain?</p>",
+        "answers": [
+          {
+            "text": "(row, col, value) for each nonzero entry",
+            "fraction": 100,
+            "feedback": "Correct — each nonzero is a (row, column, value) triple."
+          },
+          {
+            "text": "(row, col) for every entry, including zeros",
+            "fraction": 0,
+            "feedback": "Zeros are not stored, and the value is needed too."
+          },
+          {
+            "text": "Only the value of each nonzero entry",
+            "fraction": 0,
+            "feedback": "Without row and column you cannot locate the entry."
+          },
+          {
+            "text": "The full dense two-dimensional array",
+            "fraction": 0,
+            "feedback": "That is exactly what the sparse form avoids."
+          }
+        ],
+        "generalFeedback": "The coordinate (triple) form keeps one (row, col, value) record per nonzero and discards all zeros.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "When sparse storage helps",
+        "text": "<p>Sparse (triple) storage saves the most space when...</p>",
+        "answers": [
+          {
+            "text": "most of the matrix entries are zero",
+            "fraction": 100,
+            "feedback": "Correct — few nonzeros means few triples to store."
+          },
+          {
+            "text": "the matrix is completely full of nonzeros",
+            "fraction": 0,
+            "feedback": "Then triples cost more than a dense array."
+          },
+          {
+            "text": "the matrix is square",
+            "fraction": 0,
+            "feedback": "Shape does not decide sparsity."
+          },
+          {
+            "text": "all entries are equal to one",
+            "fraction": 0,
+            "feedback": "That is a dense matrix, not a sparse one."
+          }
+        ],
+        "generalFeedback": "The win comes from storing only nonzeros; a nearly full matrix wastes space in triple form.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Transpose effect",
+        "text": "<p>What does transposing a sparse matrix do to each stored triple?</p>",
+        "answers": [
+          {
+            "text": "swaps its row and column indices",
+            "fraction": 100,
+            "feedback": "Correct — entry (r, c, v) becomes (c, r, v)."
+          },
+          {
+            "text": "negates its value",
+            "fraction": 0,
+            "feedback": "Transpose does not change values."
+          },
+          {
+            "text": "removes it from storage",
+            "fraction": 0,
+            "feedback": "Nonzeros stay nonzero after transpose."
+          },
+          {
+            "text": "doubles its value",
+            "fraction": 0,
+            "feedback": "Values are unchanged."
+          }
+        ],
+        "generalFeedback": "Transpose reflects across the diagonal: (r, c, v) becomes (c, r, v), values untouched.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fast transpose cost",
+        "text": "<p>What is the time complexity of <strong>fast transpose</strong> on a sparse matrix with <em>t</em> nonzeros and <em>c</em> columns?</p>",
+        "answers": [
+          {
+            "text": "O(c + t)",
+            "fraction": 100,
+            "feedback": "Correct — count entries per column, then place each once."
+          },
+          {
+            "text": "O(t^2)",
+            "fraction": 0,
+            "feedback": "That is the naive scan-per-column transpose, not the fast one."
+          },
+          {
+            "text": "O(rows * cols)",
+            "fraction": 0,
+            "feedback": "That is dense transpose cost, ignoring sparsity."
+          },
+          {
+            "text": "O(log t)",
+            "fraction": 0,
+            "feedback": "Every nonzero must be touched at least once."
+          }
+        ],
+        "generalFeedback": "Fast transpose first counts nonzeros per column, computes starting positions, then relocates each triple once: O(c + t).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Sparse stores only nonzeros",
+        "text": "<p>The triple representation stores only the <em>nonzero</em> entries of the matrix.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — zeros are implied and never stored."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Only nonzeros are kept; zeros are omitted."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Naive vs fast transpose",
+        "text": "<p>Fast transpose is slower than repeatedly scanning the whole triple list once per column.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Fast transpose is faster: it counts per column instead of rescanning."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — fast transpose O(c + t) beats the naive O(c * t) scan."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Row-column swap operation",
+        "text": "<p>The operation that swaps the row and column index of every entry, turning (r, c, v) into (c, r, v), is called the matrix ______.</p>",
+        "answers": [
+          {
+            "text": "transpose",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "transpose*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "triple",
+            "fraction": 100,
+            "feedback": "Accepted — the triple form is where this swap is applied."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Sparse matrix properties",
+        "text": "<p>Which statements about the triple (COO) sparse representation are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It saves space when the matrix is mostly zeros",
+            "fraction": 50,
+            "feedback": "Yes — fewer nonzeros mean fewer triples."
+          },
+          {
+            "text": "Fast transpose runs in O(columns + nonzeros)",
+            "fraction": 50,
+            "feedback": "Yes — by counting entries per column first."
+          },
+          {
+            "text": "It must store an entry for every cell, including zeros",
+            "fraction": -50,
+            "feedback": "No — zeros are never stored."
+          },
+          {
+            "text": "Transpose changes the stored values",
+            "fraction": -50,
+            "feedback": "No — transpose only swaps row and column indices."
+          }
+        ],
+        "generalFeedback": "Triples store only nonzeros, transpose swaps indices (not values), and fast transpose is O(c + t).",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "三元組內容",
+        "text": "<p>在稀疏矩陣的<strong>三元組</strong>(COO)表示法中,每一筆儲存的紀錄包含什麼?</p>",
+        "answers": [
+          {
+            "text": "每個非零元素的 (列, 行, 值)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個非零元素是一組 (列, 行, 值) 三元組。"
+          },
+          {
+            "text": "每個元素的 (列, 行),包含零",
+            "fraction": 0,
+            "feedback": "零不會被儲存,而且還需要值。"
+          },
+          {
+            "text": "只有每個非零元素的值",
+            "fraction": 0,
+            "feedback": "沒有列與行就無法定位該元素。"
+          },
+          {
+            "text": "完整的稠密二維陣列",
+            "fraction": 0,
+            "feedback": "那正是稀疏表示法要避免的。"
+          }
+        ],
+        "generalFeedback": "座標(三元組)形式為每個非零元素保留一筆 (列, 行, 值),並捨棄所有零。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "稀疏儲存何時有利",
+        "text": "<p>稀疏(三元組)儲存在什麼情況下最省空間?</p>",
+        "answers": [
+          {
+            "text": "矩陣大多數元素為零時",
+            "fraction": 100,
+            "feedback": "正確 —— 非零很少,三元組就很少。"
+          },
+          {
+            "text": "矩陣完全填滿非零元素時",
+            "fraction": 0,
+            "feedback": "那時三元組比稠密陣列還花空間。"
+          },
+          {
+            "text": "矩陣是方陣時",
+            "fraction": 0,
+            "feedback": "形狀不決定稀疏程度。"
+          },
+          {
+            "text": "所有元素都等於一時",
+            "fraction": 0,
+            "feedback": "那是稠密矩陣,不是稀疏矩陣。"
+          }
+        ],
+        "generalFeedback": "優勢來自只儲存非零;幾乎填滿的矩陣以三元組形式反而浪費空間。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "轉置的效果",
+        "text": "<p>對稀疏矩陣做轉置,對每個儲存的三元組有什麼作用?</p>",
+        "answers": [
+          {
+            "text": "交換其列索引與行索引",
+            "fraction": 100,
+            "feedback": "正確 —— 元素 (r, c, v) 變成 (c, r, v)。"
+          },
+          {
+            "text": "將其值取負",
+            "fraction": 0,
+            "feedback": "轉置不會改變值。"
+          },
+          {
+            "text": "將其從儲存中移除",
+            "fraction": 0,
+            "feedback": "非零在轉置後仍是非零。"
+          },
+          {
+            "text": "將其值加倍",
+            "fraction": 0,
+            "feedback": "值維持不變。"
+          }
+        ],
+        "generalFeedback": "轉置沿對角線鏡射:(r, c, v) 變成 (c, r, v),值不變。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "快速轉置的成本",
+        "text": "<p>對於有 <em>t</em> 個非零元素、<em>c</em> 行的稀疏矩陣,<strong>快速轉置</strong>的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(c + t)",
+            "fraction": 100,
+            "feedback": "正確 —— 先計算每行的元素數,再各放置一次。"
+          },
+          {
+            "text": "O(t^2)",
+            "fraction": 0,
+            "feedback": "那是逐行掃描的樸素轉置,不是快速轉置。"
+          },
+          {
+            "text": "O(rows * cols)",
+            "fraction": 0,
+            "feedback": "那是稠密轉置成本,忽略了稀疏性。"
+          },
+          {
+            "text": "O(log t)",
+            "fraction": 0,
+            "feedback": "每個非零至少要碰一次。"
+          }
+        ],
+        "generalFeedback": "快速轉置先統計每行的非零數、算出起始位置,再將每個三元組搬移一次:O(c + t)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "稀疏只存非零",
+        "text": "<p>三元組表示法只儲存矩陣的<em>非零</em>元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 零是隱含的,永不儲存。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "只保留非零;零被省略。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "樸素轉置與快速轉置",
+        "text": "<p>快速轉置比每一行都重新掃描整個三元組串列一次還要慢。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "快速轉置更快:它按行計數,而不是反覆重掃。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 快速轉置 O(c + t) 勝過樸素的 O(c * t) 掃描。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "列行交換運算",
+        "text": "<p>將每個元素的列索引與行索引交換,使 (r, c, v) 變成 (c, r, v) 的運算,稱為矩陣的 ______(英文)。</p>",
+        "answers": [
+          {
+            "text": "transpose",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "transpose*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "triple",
+            "fraction": 100,
+            "feedback": "可接受 —— 這個交換是套用在三元組形式上。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "稀疏矩陣性質",
+        "text": "<p>關於三元組(COO)稀疏表示法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "當矩陣大多為零時可節省空間",
+            "fraction": 50,
+            "feedback": "正確 —— 非零越少,三元組越少。"
+          },
+          {
+            "text": "快速轉置以 O(行數 + 非零數) 執行",
+            "fraction": 50,
+            "feedback": "正確 —— 先計算每行的元素數。"
+          },
+          {
+            "text": "必須為每個格子儲存一筆,包含零",
+            "fraction": -50,
+            "feedback": "錯 —— 零永不儲存。"
+          },
+          {
+            "text": "轉置會改變儲存的值",
+            "fraction": -50,
+            "feedback": "錯 —— 轉置只交換列與行索引。"
+          }
+        ],
+        "generalFeedback": "三元組只存非零、轉置只交換索引(不改值)、快速轉置為 O(c + t)。",
+        "single": false
+      }
+    ]
+  },
+  "maze-stack": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Maze path structure",
+        "text": "<p>Iterative depth-first maze solving uses which structure to remember the current path?</p>",
+        "answers": [
+          {
+            "text": "A stack",
+            "fraction": 100,
+            "feedback": "Correct — the current cell/move is pushed onto a stack."
+          },
+          {
+            "text": "A queue",
+            "fraction": 0,
+            "feedback": "A queue gives breadth-first search, not iterative DFS backtracking."
+          },
+          {
+            "text": "A priority queue",
+            "fraction": 0,
+            "feedback": "No priorities are involved in plain DFS backtracking."
+          },
+          {
+            "text": "A hash map keyed by distance",
+            "fraction": 0,
+            "feedback": "Distance keying is not how the path is tracked here."
+          }
+        ],
+        "generalFeedback": "Iterative DFS pushes each visited cell/move onto a stack so it can backtrack later.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Dead-end behavior",
+        "text": "<p>What happens at a <em>dead end</em> during stack-based maze solving?</p>",
+        "answers": [
+          {
+            "text": "Pop the stack to backtrack to the previous cell",
+            "fraction": 100,
+            "feedback": "Correct — popping returns to the last cell with unexplored options."
+          },
+          {
+            "text": "Push a new random cell onto the stack",
+            "fraction": 0,
+            "feedback": "Backtracking pops; it does not jump to a random cell."
+          },
+          {
+            "text": "Clear the entire stack and restart",
+            "fraction": 0,
+            "feedback": "You only unwind one step at a time, not the whole path."
+          },
+          {
+            "text": "Terminate immediately with failure",
+            "fraction": 0,
+            "feedback": "A dead end only ends the current branch, not the whole search."
+          }
+        ],
+        "generalFeedback": "On a dead end you pop the stack, backtracking to the previous cell to try another direction.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "What is pushed",
+        "text": "<p>In stack-based maze solving, what is pushed onto the stack as you advance?</p>",
+        "answers": [
+          {
+            "text": "The current cell (or move) being explored",
+            "fraction": 100,
+            "feedback": "Correct — the path of cells/moves is stored on the stack."
+          },
+          {
+            "text": "The total number of dead ends found so far",
+            "fraction": 0,
+            "feedback": "A running count is not what drives backtracking."
+          },
+          {
+            "text": "The Manhattan distance to the exit",
+            "fraction": 0,
+            "feedback": "Plain DFS backtracking does not store distances."
+          },
+          {
+            "text": "A random neighbor's color",
+            "fraction": 0,
+            "feedback": "That is unrelated to path tracking."
+          }
+        ],
+        "generalFeedback": "Each current cell or move is pushed so the algorithm can pop and backtrack later.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Traversal it implements",
+        "text": "<p>Overall, stack-based maze solving is an iterative form of which traversal?</p>",
+        "answers": [
+          {
+            "text": "Depth-first search (DFS)",
+            "fraction": 100,
+            "feedback": "Correct — a stack yields depth-first exploration with backtracking."
+          },
+          {
+            "text": "Breadth-first search (BFS)",
+            "fraction": 0,
+            "feedback": "BFS uses a queue and explores level by level."
+          },
+          {
+            "text": "Dijkstra's shortest-path search",
+            "fraction": 0,
+            "feedback": "That needs a priority queue and edge weights."
+          },
+          {
+            "text": "Level-order traversal",
+            "fraction": 0,
+            "feedback": "Level-order is a queue-based BFS pattern, not stack-based DFS."
+          }
+        ],
+        "generalFeedback": "Using a stack to go deep and backtrack is exactly iterative depth-first search.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Marking visited cells",
+        "text": "<p>Cells are marked as visited to avoid revisiting them and getting stuck in cycles.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — marking visited cells prevents cycles and redundant work."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Without a visited mark the search could loop forever."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS versus BFS exploration",
+        "text": "<p>Stack-based maze solving explores all neighbors level by level, exactly like breadth-first search.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Level-by-level is BFS; a stack gives depth-first exploration."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a stack explores one path as deep as possible, then backtracks."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Backtracking term",
+        "text": "<p>Going as deep as possible and returning on a dead end is called ______.</p>",
+        "answers": [
+          {
+            "text": "backtracking",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "backtrack*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Stack-based maze properties",
+        "text": "<p>Which statements about stack-based maze solving are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "On a dead end it pops the stack to backtrack",
+            "fraction": 50,
+            "feedback": "Yes — popping unwinds to the previous decision point."
+          },
+          {
+            "text": "It explores one path as deep as possible before trying alternatives",
+            "fraction": 50,
+            "feedback": "Yes — that is depth-first behavior."
+          },
+          {
+            "text": "It guarantees the shortest path in an unweighted maze",
+            "fraction": -50,
+            "feedback": "No — that is BFS; DFS finds a path, not necessarily the shortest."
+          },
+          {
+            "text": "It requires a priority queue ordered by distance",
+            "fraction": -50,
+            "feedback": "No — a plain stack suffices; no priorities are needed."
+          }
+        ],
+        "generalFeedback": "Stack-based DFS: push moves, pop to backtrack on dead ends, go deep first; it does not guarantee shortest paths.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "迷宮路徑使用的結構",
+        "text": "<p>以迭代式深度優先解迷宮時,用哪一種結構來記住目前的路徑?</p>",
+        "answers": [
+          {
+            "text": "堆疊(stack)",
+            "fraction": 100,
+            "feedback": "正確 —— 目前的格子/移動會被推入堆疊。"
+          },
+          {
+            "text": "佇列(queue)",
+            "fraction": 0,
+            "feedback": "佇列會得到廣度優先搜尋,而非迭代式 DFS 回溯。"
+          },
+          {
+            "text": "優先佇列",
+            "fraction": 0,
+            "feedback": "單純的 DFS 回溯不涉及優先權。"
+          },
+          {
+            "text": "以距離為鍵的雜湊表",
+            "fraction": 0,
+            "feedback": "這裡並非以距離為鍵來追蹤路徑。"
+          }
+        ],
+        "generalFeedback": "迭代式 DFS 將每個走過的格子/移動推入堆疊,以便之後回溯。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "死路時的行為",
+        "text": "<p>以堆疊解迷宮時,走到<em>死路</em>會發生什麼?</p>",
+        "answers": [
+          {
+            "text": "彈出堆疊,回溯到上一個格子",
+            "fraction": 100,
+            "feedback": "正確 —— 彈出可回到最近一個仍有未探索選項的格子。"
+          },
+          {
+            "text": "將一個隨機格子推入堆疊",
+            "fraction": 0,
+            "feedback": "回溯是彈出,而非跳到隨機格子。"
+          },
+          {
+            "text": "清空整個堆疊並重新開始",
+            "fraction": 0,
+            "feedback": "每次只回退一步,而非整條路徑。"
+          },
+          {
+            "text": "立即以失敗結束",
+            "fraction": 0,
+            "feedback": "死路只結束當前分支,而非整個搜尋。"
+          }
+        ],
+        "generalFeedback": "走到死路時彈出堆疊,回溯到上一個格子以嘗試其他方向。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "推入的內容",
+        "text": "<p>以堆疊解迷宮時,前進的過程中會把什麼推入堆疊?</p>",
+        "answers": [
+          {
+            "text": "目前正在探索的格子(或移動)",
+            "fraction": 100,
+            "feedback": "正確 —— 格子/移動所構成的路徑存於堆疊。"
+          },
+          {
+            "text": "目前為止找到的死路總數",
+            "fraction": 0,
+            "feedback": "累計計數並非驅動回溯的依據。"
+          },
+          {
+            "text": "到出口的曼哈頓距離",
+            "fraction": 0,
+            "feedback": "單純的 DFS 回溯不儲存距離。"
+          },
+          {
+            "text": "某個隨機鄰居的顏色",
+            "fraction": 0,
+            "feedback": "那與路徑追蹤無關。"
+          }
+        ],
+        "generalFeedback": "每個目前的格子或移動都會被推入,好讓演算法之後能彈出並回溯。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "它所實作的走訪",
+        "text": "<p>整體而言,以堆疊解迷宮是哪一種走訪的迭代形式?</p>",
+        "answers": [
+          {
+            "text": "深度優先搜尋(DFS)",
+            "fraction": 100,
+            "feedback": "正確 —— 堆疊產生帶回溯的深度優先探索。"
+          },
+          {
+            "text": "廣度優先搜尋(BFS)",
+            "fraction": 0,
+            "feedback": "BFS 使用佇列並逐層探索。"
+          },
+          {
+            "text": "Dijkstra 最短路徑搜尋",
+            "fraction": 0,
+            "feedback": "那需要優先佇列與邊權重。"
+          },
+          {
+            "text": "層序走訪",
+            "fraction": 0,
+            "feedback": "層序是以佇列為基礎的 BFS 模式,不是以堆疊為基礎的 DFS。"
+          }
+        ],
+        "generalFeedback": "用堆疊往深處走並回溯,正是迭代式的深度優先搜尋。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "標記已訪格子",
+        "text": "<p>格子會被標記為已訪,以避免重複造訪並陷入循環。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 標記已訪可避免循環與重複工作。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "沒有已訪標記,搜尋可能永遠循環下去。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS 與 BFS 的探索方式",
+        "text": "<p>以堆疊解迷宮會像廣度優先搜尋那樣,逐層探索所有鄰居。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "逐層是 BFS;堆疊得到的是深度優先探索。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 堆疊會盡量沿一條路徑走到最深,再回溯。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "回溯名詞",
+        "text": "<p>盡量走到最深、遇到死路就返回的做法稱為 ______。(請以英文作答)</p>",
+        "answers": [
+          {
+            "text": "backtracking",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "backtrack*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "以堆疊解迷宮的性質",
+        "text": "<p>關於以堆疊解迷宮,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "走到死路時彈出堆疊以回溯",
+            "fraction": 50,
+            "feedback": "正確 —— 彈出可回退到上一個決策點。"
+          },
+          {
+            "text": "會盡量沿一條路徑走到最深,再嘗試其他選項",
+            "fraction": 50,
+            "feedback": "正確 —— 這就是深度優先的行為。"
+          },
+          {
+            "text": "在無權重迷宮中保證找到最短路徑",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 BFS;DFS 找到一條路徑,未必最短。"
+          },
+          {
+            "text": "需要以距離排序的優先佇列",
+            "fraction": -50,
+            "feedback": "錯 —— 單純的堆疊就足夠,不需要優先權。"
+          }
+        ],
+        "generalFeedback": "以堆疊的 DFS:推入移動、死路時彈出回溯、先走到最深;它不保證最短路徑。",
+        "single": false
+      }
+    ]
+  },
+  "nano-bpe-encode": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "What BPE encoding produces",
+        "text": "<p>At inference time, what does Byte-Pair Encoding split text into?</p>",
+        "answers": [
+          {
+            "text": "Subword tokens",
+            "fraction": 100,
+            "feedback": "Correct — BPE produces subword units between characters and whole words."
+          },
+          {
+            "text": "Fixed-length byte blocks",
+            "fraction": 0,
+            "feedback": "No — BPE tokens have variable length driven by learned merges."
+          },
+          {
+            "text": "Whole words only",
+            "fraction": 0,
+            "feedback": "No — rare words are broken into smaller subword pieces."
+          },
+          {
+            "text": "Individual sentences",
+            "fraction": 0,
+            "feedback": "No — BPE operates below the word level, not on sentences."
+          }
+        ],
+        "generalFeedback": "BPE tokenizes into subword units, balancing vocabulary size against sequence length.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "How encoding applies merges",
+        "text": "<p>How does BPE encoding turn a word into tokens?</p>",
+        "answers": [
+          {
+            "text": "It iteratively merges adjacent symbol pairs using learned merge rules in priority order",
+            "fraction": 100,
+            "feedback": "Yes — merges are applied greedily following the learned priority."
+          },
+          {
+            "text": "It looks each word up in a fixed dictionary and fails on a miss",
+            "fraction": 0,
+            "feedback": "No — that cannot handle unknown words; BPE falls back to subwords."
+          },
+          {
+            "text": "It randomly groups characters until a token limit is reached",
+            "fraction": 0,
+            "feedback": "No — the process is deterministic and rule-driven."
+          }
+        ],
+        "generalFeedback": "Encoding starts from symbols and repeatedly applies the highest-priority applicable merge rule.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Why a trie helps",
+        "text": "<p>Why can a <strong>trie</strong> back a BPE tokenizer?</p>",
+        "answers": [
+          {
+            "text": "It indexes the vocabulary/merges so shared prefixes are matched efficiently",
+            "fraction": 100,
+            "feedback": "Correct — a trie shares common prefixes for fast lookup."
+          },
+          {
+            "text": "It sorts the corpus alphabetically before training",
+            "fraction": 0,
+            "feedback": "No — that is unrelated to a trie's role here."
+          },
+          {
+            "text": "It guarantees every token is exactly one byte",
+            "fraction": 0,
+            "feedback": "No — tokens are variable-length subwords."
+          }
+        ],
+        "generalFeedback": "A trie indexes vocabulary entries by shared prefixes, enabling efficient longest-match lookup.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Handling unknown words",
+        "text": "<p>How does BPE handle a word it never saw during training?</p>",
+        "answers": [
+          {
+            "text": "It represents the word as a sequence of smaller known subword tokens",
+            "fraction": 100,
+            "feedback": "Yes — unknown words decompose into known subwords, down to single characters."
+          },
+          {
+            "text": "It discards the word entirely",
+            "fraction": 0,
+            "feedback": "No — BPE never drops text; it falls back to subwords."
+          },
+          {
+            "text": "It emits a single fixed UNK token and nothing else",
+            "fraction": 0,
+            "feedback": "No — subword fallback avoids a lossy single UNK."
+          }
+        ],
+        "generalFeedback": "Subword fallback lets BPE encode any string, since characters are always in the base vocabulary.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Properties of BPE encoding",
+        "text": "<p>Which statements about BPE encoding are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It applies learned merge rules in a fixed priority order",
+            "fraction": 50,
+            "feedback": "Yes — the learned order determines which pair merges first."
+          },
+          {
+            "text": "It balances vocabulary size against sequence length",
+            "fraction": 50,
+            "feedback": "Yes — larger vocabularies give shorter sequences and vice versa."
+          },
+          {
+            "text": "It requires every input word to appear in the training corpus",
+            "fraction": -50,
+            "feedback": "No — unknown words are handled via subwords."
+          },
+          {
+            "text": "It merges non-adjacent symbols across the whole word at once",
+            "fraction": -50,
+            "feedback": "No — merges apply to adjacent pairs, one at a time."
+          }
+        ],
+        "generalFeedback": "Encoding is ordered, adjacent-pair merging that trades vocabulary size for sequence length and never fails on unknown input.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Merges are ordered",
+        "text": "<p>During encoding, BPE applies merge rules in a learned priority order rather than arbitrarily.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the learned priority decides which adjacent pair merges first."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Merges follow the priority order learned during training."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "BPE token granularity",
+        "text": "<p>BPE always emits exactly one token per whole word.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — words can split into several subword tokens."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a word may become several subword tokens."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "BPE operation term",
+        "text": "<p>The core BPE operation that combines an adjacent symbol pair into a new token is called a ______.</p>",
+        "answers": [
+          {
+            "text": "merge",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "merge*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "subword",
+            "fraction": 100,
+            "feedback": "Accepted — the resulting unit is a subword."
+          },
+          {
+            "text": "BPE",
+            "fraction": 100,
+            "feedback": "Accepted."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "BPE 編碼產生什麼",
+        "text": "<p>在推論階段,位元組對編碼(BPE)會把文字切分成什麼?</p>",
+        "answers": [
+          {
+            "text": "子詞(subword)詞元",
+            "fraction": 100,
+            "feedback": "正確 —— BPE 產生介於字元與整字之間的子詞單位。"
+          },
+          {
+            "text": "固定長度的位元組區塊",
+            "fraction": 0,
+            "feedback": "錯 —— BPE 詞元長度可變,由學到的合併決定。"
+          },
+          {
+            "text": "只有完整單字",
+            "fraction": 0,
+            "feedback": "錯 —— 罕見字會被拆成更小的子詞片段。"
+          },
+          {
+            "text": "個別的句子",
+            "fraction": 0,
+            "feedback": "錯 —— BPE 在字詞層級以下運作,而非句子。"
+          }
+        ],
+        "generalFeedback": "BPE 切分成子詞單位,在詞彙表大小與序列長度之間取得平衡。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "編碼如何套用合併",
+        "text": "<p>BPE 編碼如何把一個單字轉成詞元?</p>",
+        "answers": [
+          {
+            "text": "依學到的合併規則,以優先順序反覆合併相鄰的符號對",
+            "fraction": 100,
+            "feedback": "正確 —— 依學到的優先順序貪婪地套用合併。"
+          },
+          {
+            "text": "在固定字典中查每個字,查不到就失敗",
+            "fraction": 0,
+            "feedback": "錯 —— 那無法處理未知字;BPE 會退回到子詞。"
+          },
+          {
+            "text": "隨機把字元分組直到達到詞元數上限",
+            "fraction": 0,
+            "feedback": "錯 —— 這個過程是確定性且依規則進行的。"
+          }
+        ],
+        "generalFeedback": "編碼從符號開始,反覆套用最高優先且可用的合併規則。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "字典樹為何有幫助",
+        "text": "<p>為什麼<strong>字典樹(trie)</strong>可以作為 BPE 分詞器的後端?</p>",
+        "answers": [
+          {
+            "text": "它索引詞彙表/合併規則,讓共用前綴能被有效率地比對",
+            "fraction": 100,
+            "feedback": "正確 —— 字典樹共用相同前綴以加速查找。"
+          },
+          {
+            "text": "它在訓練前將語料按字母排序",
+            "fraction": 0,
+            "feedback": "錯 —— 這與字典樹在此的作用無關。"
+          },
+          {
+            "text": "它保證每個詞元恰好是一個位元組",
+            "fraction": 0,
+            "feedback": "錯 —— 詞元是長度可變的子詞。"
+          }
+        ],
+        "generalFeedback": "字典樹以共用前綴索引詞彙表條目,可有效率地做最長比對查找。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "處理未知字",
+        "text": "<p>BPE 如何處理訓練時從未見過的單字?</p>",
+        "answers": [
+          {
+            "text": "把該字表示為一連串較小的已知子詞詞元",
+            "fraction": 100,
+            "feedback": "正確 —— 未知字會被拆解為已知子詞,最小可到單一字元。"
+          },
+          {
+            "text": "直接把該字整個丟棄",
+            "fraction": 0,
+            "feedback": "錯 —— BPE 從不丟棄文字,而是退回到子詞。"
+          },
+          {
+            "text": "只輸出單一固定的 UNK 詞元,別無其他",
+            "fraction": 0,
+            "feedback": "錯 —— 子詞退回可避免有損的單一 UNK。"
+          }
+        ],
+        "generalFeedback": "子詞退回讓 BPE 能編碼任何字串,因為字元一定在基礎詞彙表中。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BPE 編碼的性質",
+        "text": "<p>關於 BPE 編碼,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它以固定的優先順序套用學到的合併規則",
+            "fraction": 50,
+            "feedback": "正確 —— 學到的順序決定哪一對先合併。"
+          },
+          {
+            "text": "它在詞彙表大小與序列長度之間取得平衡",
+            "fraction": 50,
+            "feedback": "正確 —— 詞彙表越大序列越短,反之亦然。"
+          },
+          {
+            "text": "它要求每個輸入字都必須出現在訓練語料中",
+            "fraction": -50,
+            "feedback": "錯 —— 未知字可透過子詞處理。"
+          },
+          {
+            "text": "它一次跨整個單字合併不相鄰的符號",
+            "fraction": -50,
+            "feedback": "錯 —— 合併作用於相鄰的符號對,一次一個。"
+          }
+        ],
+        "generalFeedback": "編碼是有序、相鄰對的合併,以詞彙表大小換取序列長度,且對未知輸入不會失敗。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "合併是有序的",
+        "text": "<p>編碼期間,BPE 是依學到的優先順序套用合併規則,而非任意套用。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 學到的優先順序決定哪一對相鄰符號先合併。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "合併會遵循訓練時學到的優先順序。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "BPE 詞元粒度",
+        "text": "<p>BPE 一定為每個完整單字剛好輸出一個詞元。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 一個字可能被拆成數個子詞詞元。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 一個字可能變成數個子詞詞元。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "BPE 操作名詞",
+        "text": "<p>BPE 將相鄰符號對結合成新詞元的核心操作稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "merge",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "merge*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "subword",
+            "fraction": 100,
+            "feedback": "可接受 —— 產生的單位即為子詞。"
+          },
+          {
+            "text": "BPE",
+            "fraction": 100,
+            "feedback": "可接受。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "nano-bpe-train": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "What training learns",
+        "text": "<p>What does BPE <strong>training</strong> produce from a corpus?</p>",
+        "answers": [
+          {
+            "text": "The learned merge rules (and resulting vocabulary)",
+            "fraction": 100,
+            "feedback": "Correct — training discovers which pairs to merge."
+          },
+          {
+            "text": "The attention weights of the model",
+            "fraction": 0,
+            "feedback": "No — those are learned by the network, not the tokenizer."
+          },
+          {
+            "text": "The final sampled output tokens",
+            "fraction": 0,
+            "feedback": "No — sampling happens at inference, not tokenizer training."
+          },
+          {
+            "text": "A fixed one-token-per-word dictionary",
+            "fraction": 0,
+            "feedback": "No — BPE builds subword merges, not whole-word entries."
+          }
+        ],
+        "generalFeedback": "Training learns the merge rules from the corpus, which together define the vocabulary.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Which pair gets merged",
+        "text": "<p>At each training step, which adjacent symbol pair does BPE merge?</p>",
+        "answers": [
+          {
+            "text": "The most frequent adjacent pair in the corpus",
+            "fraction": 100,
+            "feedback": "Yes — the highest-count pair becomes the next new token."
+          },
+          {
+            "text": "The least frequent adjacent pair",
+            "fraction": 0,
+            "feedback": "No — BPE greedily merges the most common pair."
+          },
+          {
+            "text": "A randomly chosen pair",
+            "fraction": 0,
+            "feedback": "No — the choice is driven by frequency counts."
+          }
+        ],
+        "generalFeedback": "Each step counts adjacent pairs and merges the most frequent one into a new token.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "The training loop",
+        "text": "<p>Which best describes one iteration of the BPE training loop?</p>",
+        "answers": [
+          {
+            "text": "Count adjacent pair frequencies, merge the top pair into a new token, add it to the vocabulary",
+            "fraction": 100,
+            "feedback": "Yes — count, merge, add, repeat for a fixed number of merges."
+          },
+          {
+            "text": "Delete the rarest token from the vocabulary",
+            "fraction": 0,
+            "feedback": "No — training adds tokens, it does not prune this way."
+          },
+          {
+            "text": "Sort the corpus and split it into sentences",
+            "fraction": 0,
+            "feedback": "No — that is not part of the merge loop."
+          }
+        ],
+        "generalFeedback": "Repeat: count pairs, merge the most frequent, add the new token, for a fixed number of merges.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Data structures for training",
+        "text": "<p>Which data structures suit BPE training as described?</p>",
+        "answers": [
+          {
+            "text": "A max-heap to find the most frequent pair and a linked list for the token sequence",
+            "fraction": 100,
+            "feedback": "Yes — a priority structure surfaces the top pair; a list represents the sequence."
+          },
+          {
+            "text": "A stack for counting and a queue for merges",
+            "fraction": 0,
+            "feedback": "No — those do not efficiently surface the most frequent pair."
+          },
+          {
+            "text": "A binary search tree keyed by token length",
+            "fraction": 0,
+            "feedback": "No — length ordering does not help find the top-count pair."
+          }
+        ],
+        "generalFeedback": "A max-heap/priority structure finds the most frequent pair; a linked list holds the token sequence.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BPE training properties",
+        "text": "<p>Which statements about BPE training are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It merges the most frequent adjacent pair at each step",
+            "fraction": 50,
+            "feedback": "Yes — greedy by frequency."
+          },
+          {
+            "text": "It repeats for a fixed number of merges",
+            "fraction": 50,
+            "feedback": "Yes — the merge count is a hyperparameter set in advance."
+          },
+          {
+            "text": "It merges the least frequent pair to save space",
+            "fraction": -50,
+            "feedback": "No — the most frequent pair is chosen."
+          },
+          {
+            "text": "It never adds new tokens to the vocabulary",
+            "fraction": -50,
+            "feedback": "No — each merge adds a new token."
+          }
+        ],
+        "generalFeedback": "Training greedily merges the most frequent pair, adds a new token each time, and repeats for a fixed budget.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Merge count is fixed",
+        "text": "<p>BPE training repeats the merge step for a fixed, pre-set number of merges.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the number of merges is a hyperparameter."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The merge count is fixed in advance."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Least-frequent merge",
+        "text": "<p>BPE training merges the least frequent adjacent pair at each step.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — it merges the most frequent pair."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the most frequent pair is merged."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Training selection term",
+        "text": "<p>BPE picks the pair to merge based on its adjacency ______ in the corpus.</p>",
+        "answers": [
+          {
+            "text": "frequency",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "frequent*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "pair",
+            "fraction": 100,
+            "feedback": "Accepted — the most frequent pair is chosen."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "訓練學到什麼",
+        "text": "<p>BPE <strong>訓練</strong>會從語料中產生什麼?</p>",
+        "answers": [
+          {
+            "text": "學到的合併規則(以及由此產生的詞彙表)",
+            "fraction": 100,
+            "feedback": "正確 —— 訓練找出應合併哪些符號對。"
+          },
+          {
+            "text": "模型的注意力權重",
+            "fraction": 0,
+            "feedback": "錯 —— 那些由網路學習,而非分詞器。"
+          },
+          {
+            "text": "最終取樣出的輸出詞元",
+            "fraction": 0,
+            "feedback": "錯 —— 取樣發生在推論,而非分詞器訓練。"
+          },
+          {
+            "text": "固定的一字一詞元字典",
+            "fraction": 0,
+            "feedback": "錯 —— BPE 建立子詞合併,而非整字條目。"
+          }
+        ],
+        "generalFeedback": "訓練從語料學到合併規則,這些規則共同定義了詞彙表。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "哪一對會被合併",
+        "text": "<p>在每個訓練步驟中,BPE 會合併哪一個相鄰符號對?</p>",
+        "answers": [
+          {
+            "text": "語料中出現最頻繁的相鄰對",
+            "fraction": 100,
+            "feedback": "正確 —— 次數最高的對會成為下一個新詞元。"
+          },
+          {
+            "text": "出現最不頻繁的相鄰對",
+            "fraction": 0,
+            "feedback": "錯 —— BPE 貪婪地合併最常見的對。"
+          },
+          {
+            "text": "隨機選出的一對",
+            "fraction": 0,
+            "feedback": "錯 —— 選擇是由頻率計數決定的。"
+          }
+        ],
+        "generalFeedback": "每一步統計相鄰對,並把最頻繁的一對合併成新詞元。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "訓練迴圈",
+        "text": "<p>下列何者最能描述 BPE 訓練迴圈的一次迭代?</p>",
+        "answers": [
+          {
+            "text": "統計相鄰對頻率,把最高的對合併成新詞元,並加入詞彙表",
+            "fraction": 100,
+            "feedback": "正確 —— 統計、合併、加入,並重複固定的合併次數。"
+          },
+          {
+            "text": "從詞彙表刪除最罕見的詞元",
+            "fraction": 0,
+            "feedback": "錯 —— 訓練是加入詞元,而非以此方式修剪。"
+          },
+          {
+            "text": "將語料排序並切成句子",
+            "fraction": 0,
+            "feedback": "錯 —— 那不是合併迴圈的一部分。"
+          }
+        ],
+        "generalFeedback": "重複:統計相鄰對、合併最頻繁者、加入新詞元,共進行固定的合併次數。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "訓練所用的資料結構",
+        "text": "<p>依上述描述,哪些資料結構適合 BPE 訓練?</p>",
+        "answers": [
+          {
+            "text": "用最大堆找出最頻繁的對,並用鏈結串列表示詞元序列",
+            "fraction": 100,
+            "feedback": "正確 —— 優先佇列結構浮出最高頻對;串列表示序列。"
+          },
+          {
+            "text": "用堆疊來計數,用佇列來合併",
+            "fraction": 0,
+            "feedback": "錯 —— 這些無法有效率地浮出最頻繁的對。"
+          },
+          {
+            "text": "以詞元長度為鍵的二元搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— 依長度排序無助於找出次數最高的對。"
+          }
+        ],
+        "generalFeedback": "最大堆/優先佇列結構找出最頻繁的對;鏈結串列保存詞元序列。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BPE 訓練的性質",
+        "text": "<p>關於 BPE 訓練,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它在每一步合併出現最頻繁的相鄰對",
+            "fraction": 50,
+            "feedback": "正確 —— 依頻率貪婪選取。"
+          },
+          {
+            "text": "它重複進行固定的合併次數",
+            "fraction": 50,
+            "feedback": "正確 —— 合併次數是事先設定的超參數。"
+          },
+          {
+            "text": "它合併最不頻繁的對以節省空間",
+            "fraction": -50,
+            "feedback": "錯 —— 選的是最頻繁的對。"
+          },
+          {
+            "text": "它從不向詞彙表加入新詞元",
+            "fraction": -50,
+            "feedback": "錯 —— 每次合併都會加入一個新詞元。"
+          }
+        ],
+        "generalFeedback": "訓練貪婪地合併最頻繁的對,每次加入一個新詞元,並重複固定的次數預算。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "合併次數是固定的",
+        "text": "<p>BPE 訓練會重複合併步驟固定、事先設定的合併次數。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 合併次數是一個超參數。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "合併次數是事先固定的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "合併最不頻繁的對",
+        "text": "<p>BPE 訓練在每一步合併出現最不頻繁的相鄰對。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它合併的是最頻繁的對。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 合併的是最頻繁的對。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "訓練選取名詞",
+        "text": "<p>BPE 依相鄰對在語料中的出現 ______ 來挑選要合併的對。</p>",
+        "answers": [
+          {
+            "text": "frequency",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "frequent*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "pair",
+            "fraction": 100,
+            "feedback": "可接受 —— 選的是最頻繁的對。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "nano-compute-graph": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Shape of a compute graph",
+        "text": "<p>A neural network's forward computation is represented as which kind of graph?</p>",
+        "answers": [
+          {
+            "text": "A directed acyclic graph (DAG)",
+            "fraction": 100,
+            "feedback": "Correct — operations form a DAG with no cycles."
+          },
+          {
+            "text": "An undirected cyclic graph",
+            "fraction": 0,
+            "feedback": "No — data flows in one direction and there are no cycles."
+          },
+          {
+            "text": "A complete graph",
+            "fraction": 0,
+            "feedback": "No — only actual data dependencies create edges."
+          },
+          {
+            "text": "A doubly linked list",
+            "fraction": 0,
+            "feedback": "No — a general DAG can branch and merge, unlike a list."
+          }
+        ],
+        "generalFeedback": "The forward computation is a directed acyclic graph: nodes are operations, edges are tensors/values.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Nodes and edges",
+        "text": "<p>In a compute graph, what do the nodes and edges represent?</p>",
+        "answers": [
+          {
+            "text": "Nodes are operations; edges are the tensors/values flowing between them",
+            "fraction": 100,
+            "feedback": "Yes — each node computes an op on its incoming values."
+          },
+          {
+            "text": "Nodes are tensors; edges are neurons",
+            "fraction": 0,
+            "feedback": "No — nodes are operations, not the data itself."
+          },
+          {
+            "text": "Nodes are layers; edges are learning rates",
+            "fraction": 0,
+            "feedback": "No — edges carry values, not hyperparameters."
+          }
+        ],
+        "generalFeedback": "Nodes = operations, edges = tensors/values, matching how a DAG models data dependencies.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Forward evaluation order",
+        "text": "<p>In what order must the forward pass evaluate the nodes?</p>",
+        "answers": [
+          {
+            "text": "Topological order, so every input is ready before a node runs",
+            "fraction": 100,
+            "feedback": "Correct — a topological order respects all dependencies."
+          },
+          {
+            "text": "Random order",
+            "fraction": 0,
+            "feedback": "No — a node cannot run before its inputs are computed."
+          },
+          {
+            "text": "Alphabetical order by operation name",
+            "fraction": 0,
+            "feedback": "No — names have nothing to do with dependencies."
+          }
+        ],
+        "generalFeedback": "The forward pass evaluates nodes in topological order so each node's inputs are available.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Backpropagation direction",
+        "text": "<p>How does backpropagation traverse the compute graph?</p>",
+        "answers": [
+          {
+            "text": "In reverse topological order, accumulating gradients via the chain rule",
+            "fraction": 100,
+            "feedback": "Yes — reverse-mode autodiff walks the graph backward."
+          },
+          {
+            "text": "In the same forward order as the forward pass",
+            "fraction": 0,
+            "feedback": "No — gradients flow from outputs back toward inputs."
+          },
+          {
+            "text": "By re-running the forward pass twice",
+            "fraction": 0,
+            "feedback": "No — one reverse traversal suffices to get all gradients."
+          }
+        ],
+        "generalFeedback": "Backprop reverses the graph and accumulates gradients (reverse-mode autodiff via the chain rule).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Compute graph properties",
+        "text": "<p>Which statements about a forward compute graph are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is acyclic, so a valid topological ordering exists",
+            "fraction": 50,
+            "feedback": "Yes — a DAG always has a topological order."
+          },
+          {
+            "text": "Backpropagation traverses it in reverse to accumulate gradients",
+            "fraction": 50,
+            "feedback": "Yes — reverse-mode autodiff walks the graph backward."
+          },
+          {
+            "text": "It must contain a cycle to allow gradient flow",
+            "fraction": -50,
+            "feedback": "No — the forward graph is acyclic; gradients flow along reversed edges."
+          },
+          {
+            "text": "Nodes may be evaluated in any order during the forward pass",
+            "fraction": -50,
+            "feedback": "No — evaluation must respect topological order."
+          }
+        ],
+        "generalFeedback": "A forward compute graph is an acyclic DAG evaluated topologically forward and traversed in reverse for gradients.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Graph is acyclic",
+        "text": "<p>A forward compute graph contains no directed cycles.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it is a directed acyclic graph."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The forward computation is acyclic by construction."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Backprop reuses forward order",
+        "text": "<p>Backpropagation evaluates the nodes in the same order as the forward pass.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — backprop traverses the graph in reverse."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — gradients are accumulated in reverse topological order."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Compute graph term",
+        "text": "<p>A forward compute graph is a directed acyclic graph, abbreviated ______.</p>",
+        "answers": [
+          {
+            "text": "DAG",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "DAG*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "topological",
+            "fraction": 100,
+            "feedback": "Accepted — nodes are evaluated in topological order."
+          },
+          {
+            "text": "topological*",
+            "fraction": 100,
+            "feedback": "Accepted."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "計算圖的形狀",
+        "text": "<p>神經網路的前向計算被表示成哪一種圖?</p>",
+        "answers": [
+          {
+            "text": "有向無環圖(DAG)",
+            "fraction": 100,
+            "feedback": "正確 —— 各運算構成沒有環的 DAG。"
+          },
+          {
+            "text": "無向有環圖",
+            "fraction": 0,
+            "feedback": "錯 —— 資料單向流動且沒有環。"
+          },
+          {
+            "text": "完全圖",
+            "fraction": 0,
+            "feedback": "錯 —— 只有實際的資料相依關係才會產生邊。"
+          },
+          {
+            "text": "雙向鏈結串列",
+            "fraction": 0,
+            "feedback": "錯 —— 一般的 DAG 可分支與匯合,不像串列。"
+          }
+        ],
+        "generalFeedback": "前向計算是一個有向無環圖:節點是運算,邊是張量/數值。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "節點與邊",
+        "text": "<p>在計算圖中,節點與邊分別代表什麼?</p>",
+        "answers": [
+          {
+            "text": "節點是運算;邊是在它們之間流動的張量/數值",
+            "fraction": 100,
+            "feedback": "正確 —— 每個節點對其輸入值計算一個運算。"
+          },
+          {
+            "text": "節點是張量;邊是神經元",
+            "fraction": 0,
+            "feedback": "錯 —— 節點是運算,而非資料本身。"
+          },
+          {
+            "text": "節點是層;邊是學習率",
+            "fraction": 0,
+            "feedback": "錯 —— 邊承載數值,而非超參數。"
+          }
+        ],
+        "generalFeedback": "節點=運算,邊=張量/數值,正對應 DAG 建模資料相依的方式。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "前向求值順序",
+        "text": "<p>前向傳遞必須以什麼順序對節點求值?</p>",
+        "answers": [
+          {
+            "text": "拓撲順序,使每個輸入在節點執行前都已就緒",
+            "fraction": 100,
+            "feedback": "正確 —— 拓撲順序尊重所有相依關係。"
+          },
+          {
+            "text": "隨機順序",
+            "fraction": 0,
+            "feedback": "錯 —— 節點不能在其輸入被算出之前執行。"
+          },
+          {
+            "text": "依運算名稱的字母順序",
+            "fraction": 0,
+            "feedback": "錯 —— 名稱與相依關係無關。"
+          }
+        ],
+        "generalFeedback": "前向傳遞以拓撲順序對節點求值,使每個節點的輸入都可取得。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "反向傳播的方向",
+        "text": "<p>反向傳播如何遍歷計算圖?</p>",
+        "answers": [
+          {
+            "text": "以反向拓撲順序遍歷,透過連鎖律累積梯度",
+            "fraction": 100,
+            "feedback": "正確 —— 反向模式自動微分沿圖反向前進。"
+          },
+          {
+            "text": "以與前向傳遞相同的順序",
+            "fraction": 0,
+            "feedback": "錯 —— 梯度從輸出往輸入回流。"
+          },
+          {
+            "text": "把前向傳遞重跑兩次",
+            "fraction": 0,
+            "feedback": "錯 —— 一次反向遍歷即可得到所有梯度。"
+          }
+        ],
+        "generalFeedback": "反向傳播將圖反轉並累積梯度(透過連鎖律的反向模式自動微分)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "計算圖的性質",
+        "text": "<p>關於前向計算圖,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它是無環的,因此存在有效的拓撲排序",
+            "fraction": 50,
+            "feedback": "正確 —— DAG 一定有拓撲順序。"
+          },
+          {
+            "text": "反向傳播反向遍歷它以累積梯度",
+            "fraction": 50,
+            "feedback": "正確 —— 反向模式自動微分沿圖反向前進。"
+          },
+          {
+            "text": "它必須包含一個環才能讓梯度流動",
+            "fraction": -50,
+            "feedback": "錯 —— 前向圖是無環的;梯度沿反轉後的邊流動。"
+          },
+          {
+            "text": "前向傳遞時節點可以任意順序求值",
+            "fraction": -50,
+            "feedback": "錯 —— 求值必須尊重拓撲順序。"
+          }
+        ],
+        "generalFeedback": "前向計算圖是一個無環 DAG,以拓撲順序前向求值,並反向遍歷以計算梯度。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "圖是無環的",
+        "text": "<p>前向計算圖不含任何有向環。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它是有向無環圖。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "前向計算依其構造而言就是無環的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "反向傳播沿用前向順序",
+        "text": "<p>反向傳播以與前向傳遞相同的順序對節點求值。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 反向傳播以反向順序遍歷圖。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 梯度以反向拓撲順序累積。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "計算圖名詞",
+        "text": "<p>前向計算圖是一種有向無環圖,英文縮寫為 ______。</p>",
+        "answers": [
+          {
+            "text": "DAG",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "DAG*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "topological",
+            "fraction": 100,
+            "feedback": "可接受 —— 節點以拓撲順序求值。"
+          },
+          {
+            "text": "topological*",
+            "fraction": 100,
+            "feedback": "可接受。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "nano-ngram-next": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "What predicts the next token",
+        "text": "<p>In an n-gram model, the next token is predicted from what?</p>",
+        "answers": [
+          {
+            "text": "The previous n-1 tokens (the context)",
+            "fraction": 100,
+            "feedback": "Correct — the preceding n-1 tokens form the context."
+          },
+          {
+            "text": "The entire document from the start",
+            "fraction": 0,
+            "feedback": "No — an n-gram only looks back n-1 tokens."
+          },
+          {
+            "text": "A single fixed token, ignoring history",
+            "fraction": 0,
+            "feedback": "No — the context is the previous n-1 tokens, not one."
+          },
+          {
+            "text": "The token that comes after it",
+            "fraction": 0,
+            "feedback": "No — prediction uses preceding tokens, not future ones."
+          }
+        ],
+        "generalFeedback": "An n-gram model conditions on the previous n-1 tokens, called the context.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Storing the counts",
+        "text": "<p>What data structure stores the mapping from context to next-token counts?</p>",
+        "answers": [
+          {
+            "text": "A hash map keyed by the context",
+            "fraction": 100,
+            "feedback": "Yes — a hash map maps each context to its next-token counts."
+          },
+          {
+            "text": "A sorted array of all tokens",
+            "fraction": 0,
+            "feedback": "No — that does not directly map contexts to distributions."
+          },
+          {
+            "text": "A single global counter",
+            "fraction": 0,
+            "feedback": "No — counts are per-context, not one global number."
+          }
+        ],
+        "generalFeedback": "A hash map stores context to next-token counts for O(1) average lookup.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Choosing the next token",
+        "text": "<p>Given a context's counts, how is the next token chosen?</p>",
+        "answers": [
+          {
+            "text": "It is sampled from the distribution, e.g. proportional to counts",
+            "fraction": 100,
+            "feedback": "Yes — sampling (optionally with temperature) draws from the distribution."
+          },
+          {
+            "text": "Always take the alphabetically first candidate",
+            "fraction": 0,
+            "feedback": "No — that ignores the learned distribution."
+          },
+          {
+            "text": "Pick a token uniformly at random ignoring counts",
+            "fraction": 0,
+            "feedback": "No — sampling is weighted by the counts."
+          }
+        ],
+        "generalFeedback": "The next token is sampled from the context's distribution, e.g. proportional to counts, optionally with temperature.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Effect of larger n",
+        "text": "<p>What is the trade-off of using a larger n?</p>",
+        "answers": [
+          {
+            "text": "It captures more context but the counts become sparser",
+            "fraction": 100,
+            "feedback": "Yes — longer contexts are seen less often, so estimates get sparse."
+          },
+          {
+            "text": "It captures less context and uses more memory for no benefit",
+            "fraction": 0,
+            "feedback": "No — larger n captures more, not less, context."
+          },
+          {
+            "text": "It removes the need to store any counts",
+            "fraction": 0,
+            "feedback": "No — counts are still required regardless of n."
+          }
+        ],
+        "generalFeedback": "A higher n captures more context but is sparser, since long contexts recur rarely.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "n-gram model properties",
+        "text": "<p>Which statements about the n-gram next-token model are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "The context is the previous n-1 tokens",
+            "fraction": 50,
+            "feedback": "Yes — that preceding window is the context."
+          },
+          {
+            "text": "The next token is sampled from the context's count distribution",
+            "fraction": 50,
+            "feedback": "Yes — sampling is proportional to counts, optionally temperature-scaled."
+          },
+          {
+            "text": "A larger n always makes the counts denser",
+            "fraction": -50,
+            "feedback": "No — larger n makes the counts sparser."
+          },
+          {
+            "text": "It must scan the whole corpus for every prediction",
+            "fraction": -50,
+            "feedback": "No — a hash map gives fast lookup of the context."
+          }
+        ],
+        "generalFeedback": "The model conditions on the previous n-1 tokens, samples from hashed counts, and grows sparser as n increases.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Sampling not argmax",
+        "text": "<p>The next token can be sampled from the distribution rather than always taking the single most frequent one.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — sampling (optionally with temperature) introduces variety."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Sampling from the distribution is exactly how the next token is drawn."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Larger n denser",
+        "text": "<p>Increasing n makes the observed context counts denser and less sparse.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — larger n captures more context but is sparser."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a higher n is sparser because long contexts recur rarely."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Conditioning term",
+        "text": "<p>The previous n-1 tokens that the model conditions on are called the ______.</p>",
+        "answers": [
+          {
+            "text": "context",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "context*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "n-gram",
+            "fraction": 100,
+            "feedback": "Accepted."
+          },
+          {
+            "text": "hash",
+            "fraction": 100,
+            "feedback": "Accepted — a hash map stores the context counts."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "什麼用來預測下一個詞元",
+        "text": "<p>在 n-gram 模型中,下一個詞元是根據什麼來預測的?</p>",
+        "answers": [
+          {
+            "text": "前面的 n-1 個詞元(即上下文)",
+            "fraction": 100,
+            "feedback": "正確 —— 前面的 n-1 個詞元構成上下文。"
+          },
+          {
+            "text": "從開頭起的整份文件",
+            "fraction": 0,
+            "feedback": "錯 —— n-gram 只回看 n-1 個詞元。"
+          },
+          {
+            "text": "單一固定詞元,忽略歷史",
+            "fraction": 0,
+            "feedback": "錯 —— 上下文是前面的 n-1 個詞元,而非一個。"
+          },
+          {
+            "text": "它後面接的那個詞元",
+            "fraction": 0,
+            "feedback": "錯 —— 預測用的是前面的詞元,而非後面的。"
+          }
+        ],
+        "generalFeedback": "n-gram 模型以前面的 n-1 個詞元為條件,這些詞元稱為上下文。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "儲存計數",
+        "text": "<p>哪一種資料結構儲存「上下文 → 下一詞元計數」的對應?</p>",
+        "answers": [
+          {
+            "text": "以上下文為鍵的雜湊表",
+            "fraction": 100,
+            "feedback": "正確 —— 雜湊表把每個上下文對應到其下一詞元計數。"
+          },
+          {
+            "text": "所有詞元的已排序陣列",
+            "fraction": 0,
+            "feedback": "錯 —— 那無法直接把上下文對應到分佈。"
+          },
+          {
+            "text": "單一全域計數器",
+            "fraction": 0,
+            "feedback": "錯 —— 計數是各上下文各自的,而非一個全域數字。"
+          }
+        ],
+        "generalFeedback": "雜湊表儲存上下文到下一詞元計數,可達平均 O(1) 查找。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "選擇下一個詞元",
+        "text": "<p>給定某上下文的計數後,如何選擇下一個詞元?</p>",
+        "answers": [
+          {
+            "text": "從該分佈取樣,例如與計數成正比",
+            "fraction": 100,
+            "feedback": "正確 —— 取樣(可搭配溫度)自該分佈抽取。"
+          },
+          {
+            "text": "總是取字母順序最前的候選",
+            "fraction": 0,
+            "feedback": "錯 —— 那忽略了學到的分佈。"
+          },
+          {
+            "text": "忽略計數、均勻隨機挑一個詞元",
+            "fraction": 0,
+            "feedback": "錯 —— 取樣是以計數加權的。"
+          }
+        ],
+        "generalFeedback": "下一個詞元自該上下文的分佈取樣,例如與計數成正比,並可搭配溫度。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "較大 n 的影響",
+        "text": "<p>使用較大的 n 有什麼取捨?</p>",
+        "answers": [
+          {
+            "text": "能捕捉更多上下文,但計數會變得更稀疏",
+            "fraction": 100,
+            "feedback": "正確 —— 較長的上下文出現較少,估計因而變稀疏。"
+          },
+          {
+            "text": "捕捉較少上下文,又多耗記憶體且無好處",
+            "fraction": 0,
+            "feedback": "錯 —— 較大的 n 捕捉更多而非更少上下文。"
+          },
+          {
+            "text": "不再需要儲存任何計數",
+            "fraction": 0,
+            "feedback": "錯 —— 無論 n 為何都仍需計數。"
+          }
+        ],
+        "generalFeedback": "較高的 n 捕捉更多上下文但更稀疏,因為長上下文很少重複出現。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "n-gram 模型的性質",
+        "text": "<p>關於 n-gram 下一詞元模型,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "上下文是前面的 n-1 個詞元",
+            "fraction": 50,
+            "feedback": "正確 —— 前面的那個視窗就是上下文。"
+          },
+          {
+            "text": "下一個詞元自上下文的計數分佈取樣",
+            "fraction": 50,
+            "feedback": "正確 —— 取樣與計數成正比,並可用溫度縮放。"
+          },
+          {
+            "text": "較大的 n 一定讓計數更稠密",
+            "fraction": -50,
+            "feedback": "錯 —— 較大的 n 讓計數更稀疏。"
+          },
+          {
+            "text": "每次預測都必須掃描整份語料",
+            "fraction": -50,
+            "feedback": "錯 —— 雜湊表能快速查找上下文。"
+          }
+        ],
+        "generalFeedback": "此模型以前面的 n-1 個詞元為條件,自雜湊計數取樣,並隨 n 增大而更稀疏。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "取樣而非取最大",
+        "text": "<p>下一個詞元可以從分佈取樣,而不必總是取出現最頻繁的那一個。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 取樣(可搭配溫度)帶來多樣性。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "從分佈取樣正是抽取下一個詞元的方式。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "較大 n 更稠密",
+        "text": "<p>增大 n 會讓觀察到的上下文計數更稠密、較不稀疏。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 較大的 n 捕捉更多上下文但更稀疏。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 較高的 n 更稀疏,因為長上下文很少重複。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "條件名詞",
+        "text": "<p>模型所依據的前面 n-1 個詞元稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "context",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "context*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "n-gram",
+            "fraction": 100,
+            "feedback": "可接受。"
+          },
+          {
+            "text": "hash",
+            "fraction": 100,
+            "feedback": "可接受 —— 雜湊表儲存上下文計數。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "oop-abstraction": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "What makes a class abstract",
+        "text": "<p>In C++, what makes a class <strong>abstract</strong>?</p>",
+        "answers": [
+          {
+            "text": "It declares at least one pure virtual function (= 0)",
+            "fraction": 100,
+            "feedback": "Correct — one pure virtual function makes the class abstract."
+          },
+          {
+            "text": "It has only private data members",
+            "fraction": 0,
+            "feedback": "No — that concerns encapsulation, not abstractness."
+          },
+          {
+            "text": "It inherits from more than one base class",
+            "fraction": 0,
+            "feedback": "No — that is multiple inheritance, unrelated."
+          },
+          {
+            "text": "It is marked with the keyword abstract",
+            "fraction": 0,
+            "feedback": "No — C++ has no abstract keyword; use = 0."
+          }
+        ],
+        "generalFeedback": "A C++ class becomes abstract as soon as it declares one or more pure virtual functions (= 0).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Instantiating an abstract class",
+        "text": "<p>Can you create an object (instance) directly from an abstract class?</p>",
+        "answers": [
+          {
+            "text": "No — an abstract class cannot be instantiated",
+            "fraction": 100,
+            "feedback": "Correct — you must instantiate a concrete derived class."
+          },
+          {
+            "text": "Yes — abstract classes behave like any other class",
+            "fraction": 0,
+            "feedback": "No — an abstract class cannot be instantiated directly."
+          },
+          {
+            "text": "Yes, but only on the heap with new",
+            "fraction": 0,
+            "feedback": "No — neither stack nor heap allocation of an abstract class is allowed."
+          },
+          {
+            "text": "Only if it has a virtual destructor",
+            "fraction": 0,
+            "feedback": "No — a destructor does not make an abstract class instantiable."
+          }
+        ],
+        "generalFeedback": "An abstract class has unimplemented (pure virtual) behavior, so objects of it cannot be created; derive a concrete class.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pure virtual syntax",
+        "text": "<p>Which declaration correctly makes <code>area()</code> a pure virtual function?</p>",
+        "answers": [
+          {
+            "text": "virtual double area() const = 0;",
+            "fraction": 100,
+            "feedback": "Correct — the = 0 specifier makes it pure virtual."
+          },
+          {
+            "text": "static double area() const;",
+            "fraction": 0,
+            "feedback": "No — static functions cannot be virtual or pure virtual."
+          },
+          {
+            "text": "double area() = pure;",
+            "fraction": 0,
+            "feedback": "No — there is no pure specifier in C++."
+          },
+          {
+            "text": "virtual double area() final;",
+            "fraction": 0,
+            "feedback": "No — final forbids overriding; it is not a pure declaration."
+          }
+        ],
+        "generalFeedback": "Appending = 0 to a virtual function makes it pure virtual, requiring derived classes to implement it.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Role of an abstract base",
+        "text": "<p>What role does an abstract class typically play?</p>",
+        "answers": [
+          {
+            "text": "It defines an interface that derived classes must implement",
+            "fraction": 100,
+            "feedback": "Correct — it specifies required behavior, hiding the detail."
+          },
+          {
+            "text": "It stores the final, complete implementation of every method",
+            "fraction": 0,
+            "feedback": "No — at least one method is left unimplemented (pure virtual)."
+          },
+          {
+            "text": "It exists only to hold static constants",
+            "fraction": 0,
+            "feedback": "No — that is not the purpose of abstraction."
+          },
+          {
+            "text": "It prevents any class from deriving from it",
+            "fraction": 0,
+            "feedback": "No — abstract classes are meant to be derived from."
+          }
+        ],
+        "generalFeedback": "An abstract class models essential behavior as an interface; concrete derived classes supply the implementation detail.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Abstraction facts (select all)",
+        "text": "<p>Which statements about abstract classes in C++ are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A class with a pure virtual function cannot be instantiated",
+            "fraction": 50,
+            "feedback": "Yes — it is abstract."
+          },
+          {
+            "text": "It defines an interface that derived classes must implement",
+            "fraction": 50,
+            "feedback": "Yes — that is the point of an abstract base."
+          },
+          {
+            "text": "An abstract class may still be instantiated with new",
+            "fraction": -50,
+            "feedback": "No — abstract classes cannot be instantiated."
+          },
+          {
+            "text": "Pure virtual functions are declared with the abstract keyword",
+            "fraction": -50,
+            "feedback": "No — they are declared with = 0."
+          }
+        ],
+        "generalFeedback": "Abstract classes (pure virtual, = 0) define an interface and cannot be instantiated; there is no abstract keyword.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Abstract not instantiable",
+        "text": "<p>A class containing a pure virtual function cannot be instantiated directly.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — such a class is abstract and cannot be instantiated."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "A pure virtual function does make the class abstract and non-instantiable."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Derived must implement",
+        "text": "<p>A concrete class deriving from an abstract base can leave a pure virtual function unimplemented and still be instantiated.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — until every pure virtual is overridden, the derived class stays abstract."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a concrete class must implement all inherited pure virtual functions."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Abstract function term",
+        "text": "<p>A virtual function declared with <code>= 0</code> is called a ______ function (two words).</p>",
+        "answers": [
+          {
+            "text": "pure virtual",
+            "fraction": 100,
+            "feedback": "Correct — a pure virtual function."
+          },
+          {
+            "text": "abstract",
+            "fraction": 100,
+            "feedback": "Correct — such a function makes the class abstract."
+          },
+          {
+            "text": "abstract*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "什麼使類別成為抽象類別",
+        "text": "<p>在 C++ 中,什麼使一個類別成為<strong>抽象</strong>類別?</p>",
+        "answers": [
+          {
+            "text": "它宣告了至少一個純虛擬函式(= 0)",
+            "fraction": 100,
+            "feedback": "正確 —— 一個純虛擬函式即使類別成為抽象類別。"
+          },
+          {
+            "text": "它只有 private 資料成員",
+            "fraction": 0,
+            "feedback": "錯 —— 那關乎封裝,不是抽象性。"
+          },
+          {
+            "text": "它繼承自多個基底類別",
+            "fraction": 0,
+            "feedback": "錯 —— 那是多重繼承,無關。"
+          },
+          {
+            "text": "它以關鍵字 abstract 標記",
+            "fraction": 0,
+            "feedback": "錯 —— C++ 沒有 abstract 關鍵字;要用 = 0。"
+          }
+        ],
+        "generalFeedback": "只要 C++ 類別宣告一個以上的純虛擬函式(= 0),它就成為抽象類別。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "將抽象類別實例化",
+        "text": "<p>你能直接從抽象類別建立物件(實例)嗎?</p>",
+        "answers": [
+          {
+            "text": "不能 —— 抽象類別無法被實例化",
+            "fraction": 100,
+            "feedback": "正確 —— 必須實例化具體的衍生類別。"
+          },
+          {
+            "text": "可以 —— 抽象類別與其他類別行為相同",
+            "fraction": 0,
+            "feedback": "錯 —— 抽象類別無法被直接實例化。"
+          },
+          {
+            "text": "可以,但只能用 new 配置在堆積上",
+            "fraction": 0,
+            "feedback": "錯 —— 抽象類別無論在堆疊或堆積上都不允許配置。"
+          },
+          {
+            "text": "只有在它具有 virtual 解構子時才行",
+            "fraction": 0,
+            "feedback": "錯 —— 解構子不會讓抽象類別變得可實例化。"
+          }
+        ],
+        "generalFeedback": "抽象類別具有未實作(純虛擬)的行為,因此無法建立其物件;應衍生一個具體類別。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "純虛擬的語法",
+        "text": "<p>哪個宣告能正確地將 <code>area()</code> 設為純虛擬函式?</p>",
+        "answers": [
+          {
+            "text": "virtual double area() const = 0;",
+            "fraction": 100,
+            "feedback": "正確 —— = 0 修飾使其成為純虛擬。"
+          },
+          {
+            "text": "static double area() const;",
+            "fraction": 0,
+            "feedback": "錯 —— static 函式不能是 virtual 或純虛擬。"
+          },
+          {
+            "text": "double area() = pure;",
+            "fraction": 0,
+            "feedback": "錯 —— C++ 沒有 pure 修飾詞。"
+          },
+          {
+            "text": "virtual double area() final;",
+            "fraction": 0,
+            "feedback": "錯 —— final 禁止覆寫,不是純虛擬宣告。"
+          }
+        ],
+        "generalFeedback": "在 virtual 函式後加上 = 0 使其成為純虛擬,要求衍生類別加以實作。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "抽象基底的角色",
+        "text": "<p>抽象類別通常扮演什麼角色?</p>",
+        "answers": [
+          {
+            "text": "它定義一個介面,衍生類別必須加以實作",
+            "fraction": 100,
+            "feedback": "正確 —— 它指定所需行為,隱藏細節。"
+          },
+          {
+            "text": "它存放每個方法最終、完整的實作",
+            "fraction": 0,
+            "feedback": "錯 —— 至少有一個方法未被實作(純虛擬)。"
+          },
+          {
+            "text": "它只是用來存放 static 常數",
+            "fraction": 0,
+            "feedback": "錯 —— 那不是抽象化的目的。"
+          },
+          {
+            "text": "它阻止任何類別從它衍生",
+            "fraction": 0,
+            "feedback": "錯 —— 抽象類別正是為了被衍生。"
+          }
+        ],
+        "generalFeedback": "抽象類別把本質行為建模為介面;具體的衍生類別提供實作細節。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "抽象化的敘述(複選)",
+        "text": "<p>關於 C++ 的抽象類別,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "含有純虛擬函式的類別無法被實例化",
+            "fraction": 50,
+            "feedback": "正確 —— 它是抽象類別。"
+          },
+          {
+            "text": "它定義一個介面,衍生類別必須加以實作",
+            "fraction": 50,
+            "feedback": "正確 —— 那正是抽象基底的用意。"
+          },
+          {
+            "text": "抽象類別仍可用 new 實例化",
+            "fraction": -50,
+            "feedback": "錯 —— 抽象類別無法被實例化。"
+          },
+          {
+            "text": "純虛擬函式以 abstract 關鍵字宣告",
+            "fraction": -50,
+            "feedback": "錯 —— 它們以 = 0 宣告。"
+          }
+        ],
+        "generalFeedback": "抽象類別(純虛擬,= 0)定義介面且無法被實例化;C++ 沒有 abstract 關鍵字。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "抽象類別不可實例化",
+        "text": "<p>含有純虛擬函式的類別無法被直接實例化。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這樣的類別是抽象類別,無法被實例化。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "純虛擬函式確實使類別成為抽象且不可實例化。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "衍生類別必須實作",
+        "text": "<p>從抽象基底衍生的具體類別,可以不實作某個純虛擬函式,仍能被實例化。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 只要還有純虛擬未被覆寫,該衍生類別仍是抽象的。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 具體類別必須實作所有繼承來的純虛擬函式。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "抽象函式名詞",
+        "text": "<p>以 <code>= 0</code> 宣告的 virtual 函式稱為 ______ 函式(英文兩個詞)。</p>",
+        "answers": [
+          {
+            "text": "pure virtual",
+            "fraction": 100,
+            "feedback": "正確 —— 純虛擬(pure virtual)函式。"
+          },
+          {
+            "text": "abstract",
+            "fraction": 100,
+            "feedback": "正確 —— 這樣的函式使類別成為抽象。"
+          },
+          {
+            "text": "abstract*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "oop-adhoc": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "What ad-hoc polymorphism is",
+        "text": "<p>Which C++ feature is the classic example of <strong>ad-hoc</strong> polymorphism?</p>",
+        "answers": [
+          {
+            "text": "Function and operator overloading",
+            "fraction": 100,
+            "feedback": "Correct — overloading is ad-hoc polymorphism."
+          },
+          {
+            "text": "Virtual functions dispatched through a vtable",
+            "fraction": 0,
+            "feedback": "No — that is runtime (subtype) polymorphism."
+          },
+          {
+            "text": "Templates instantiated per type",
+            "fraction": 0,
+            "feedback": "No — that is parametric polymorphism."
+          },
+          {
+            "text": "Public inheritance forming an is-a hierarchy",
+            "fraction": 0,
+            "feedback": "No — inheritance is not ad-hoc polymorphism."
+          }
+        ],
+        "generalFeedback": "Ad-hoc polymorphism is overloading: the same name behaves differently depending on the argument types.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "How overloads differ",
+        "text": "<p>What must differ between two overloaded functions that share the same name?</p>",
+        "answers": [
+          {
+            "text": "Their parameter types and/or number of parameters",
+            "fraction": 100,
+            "feedback": "Correct — the parameter list distinguishes overloads."
+          },
+          {
+            "text": "Only their return type",
+            "fraction": 0,
+            "feedback": "No — return type alone cannot distinguish overloads."
+          },
+          {
+            "text": "Only the names of their parameters",
+            "fraction": 0,
+            "feedback": "No — parameter names are irrelevant to overload resolution."
+          },
+          {
+            "text": "Nothing; identical signatures are allowed",
+            "fraction": 0,
+            "feedback": "No — two identical signatures would be a redefinition error."
+          }
+        ],
+        "generalFeedback": "Overloads share a name but differ in the parameter list (types and/or count); return type alone is not enough.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "When overloads are resolved",
+        "text": "<p>When does the compiler decide which overloaded function to call?</p>",
+        "answers": [
+          {
+            "text": "At compile time, via overload resolution (static dispatch)",
+            "fraction": 100,
+            "feedback": "Correct — overloading is resolved statically."
+          },
+          {
+            "text": "At run time, via the vtable",
+            "fraction": 0,
+            "feedback": "No — that is dynamic dispatch for virtual functions."
+          },
+          {
+            "text": "At link time, by the linker matching symbols",
+            "fraction": 0,
+            "feedback": "No — overload resolution happens during compilation."
+          },
+          {
+            "text": "At install time, by the package manager",
+            "fraction": 0,
+            "feedback": "No — that has nothing to do with overload resolution."
+          }
+        ],
+        "generalFeedback": "Overload resolution is performed by the compiler at compile time (static dispatch), based on argument types.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Operator overloading",
+        "text": "<p>Defining <code>operator+</code> for your own class is an example of what?</p>",
+        "answers": [
+          {
+            "text": "Operator overloading — a form of ad-hoc polymorphism",
+            "fraction": 100,
+            "feedback": "Correct — the same operator symbol gains new meaning for your type."
+          },
+          {
+            "text": "Runtime polymorphism via virtual dispatch",
+            "fraction": 0,
+            "feedback": "No — operator overloading is resolved at compile time."
+          },
+          {
+            "text": "Template instantiation",
+            "fraction": 0,
+            "feedback": "No — no template parameter is involved here."
+          },
+          {
+            "text": "Private inheritance",
+            "fraction": 0,
+            "feedback": "No — that is unrelated to operators."
+          }
+        ],
+        "generalFeedback": "Operator overloading lets an operator symbol take on type-specific behavior, resolved at compile time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Ad-hoc polymorphism facts (select all)",
+        "text": "<p>Which statements about ad-hoc polymorphism (overloading) are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Overloads share a name but differ in parameter types or count",
+            "fraction": 50,
+            "feedback": "Yes — the parameter list distinguishes them."
+          },
+          {
+            "text": "It is resolved at compile time (static dispatch)",
+            "fraction": 50,
+            "feedback": "Yes — the compiler picks the overload."
+          },
+          {
+            "text": "It is resolved at run time through the vtable",
+            "fraction": -50,
+            "feedback": "No — that describes runtime polymorphism, not overloading."
+          },
+          {
+            "text": "Two functions can be overloaded solely by return type",
+            "fraction": -50,
+            "feedback": "No — differing only in return type is not a valid overload."
+          }
+        ],
+        "generalFeedback": "Overloading distinguishes functions by their parameter list and is resolved statically at compile time.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Overloading resolved at compile time",
+        "text": "<p>Overload resolution for function overloading happens at compile time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — overloading uses static (compile-time) dispatch."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Overloading is indeed resolved by the compiler at compile time."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Return type overloading",
+        "text": "<p>Two functions with the same name and parameters but different return types form a valid overload set.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — differing only in return type is not allowed."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — overloads must differ in their parameter list, not just the return type."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Ad-hoc polymorphism term",
+        "text": "<p>Giving several functions the same name with different parameter lists is called function ______.</p>",
+        "answers": [
+          {
+            "text": "overloading",
+            "fraction": 100,
+            "feedback": "Correct — function overloading."
+          },
+          {
+            "text": "overload*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "什麼是特設多型",
+        "text": "<p>哪個 C++ 特性是<strong>特設(ad-hoc)</strong>多型的經典例子?</p>",
+        "answers": [
+          {
+            "text": "函式與運算子多載(overloading)",
+            "fraction": 100,
+            "feedback": "正確 —— 多載就是特設多型。"
+          },
+          {
+            "text": "透過 vtable 分派的 virtual 函式",
+            "fraction": 0,
+            "feedback": "錯 —— 那是執行期(子型別)多型。"
+          },
+          {
+            "text": "依型別逐一實例化的樣板",
+            "fraction": 0,
+            "feedback": "錯 —— 那是參數式多型。"
+          },
+          {
+            "text": "形成 is-a 階層的 public 繼承",
+            "fraction": 0,
+            "feedback": "錯 —— 繼承不是特設多型。"
+          }
+        ],
+        "generalFeedback": "特設多型即多載:同一個名稱依引數型別而表現不同行為。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "多載之間必須不同之處",
+        "text": "<p>兩個同名的多載函式之間,必須有什麼不同?</p>",
+        "answers": [
+          {
+            "text": "參數型別及/或參數數量",
+            "fraction": 100,
+            "feedback": "正確 —— 參數列用以區分多載。"
+          },
+          {
+            "text": "只有回傳型別",
+            "fraction": 0,
+            "feedback": "錯 —— 僅回傳型別不同無法區分多載。"
+          },
+          {
+            "text": "只有參數的名稱",
+            "fraction": 0,
+            "feedback": "錯 —— 參數名稱與多載解析無關。"
+          },
+          {
+            "text": "無須不同;允許完全相同的簽章",
+            "fraction": 0,
+            "feedback": "錯 —— 兩個相同簽章會造成重複定義錯誤。"
+          }
+        ],
+        "generalFeedback": "多載共用名稱但參數列(型別及/或數量)不同;僅回傳型別不同並不足夠。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "多載於何時解析",
+        "text": "<p>編譯器在何時決定要呼叫哪個多載函式?</p>",
+        "answers": [
+          {
+            "text": "編譯期,透過多載解析(靜態分派)",
+            "fraction": 100,
+            "feedback": "正確 —— 多載於靜態階段解析。"
+          },
+          {
+            "text": "執行期,透過 vtable",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 virtual 函式的動態分派。"
+          },
+          {
+            "text": "連結期,由連結器比對符號",
+            "fraction": 0,
+            "feedback": "錯 —— 多載解析發生於編譯過程中。"
+          },
+          {
+            "text": "安裝期,由套件管理器決定",
+            "fraction": 0,
+            "feedback": "錯 —— 那與多載解析毫無關係。"
+          }
+        ],
+        "generalFeedback": "多載解析由編譯器於編譯期(靜態分派)依引數型別執行。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "運算子多載",
+        "text": "<p>為你自己的類別定義 <code>operator+</code> 是哪一種例子?</p>",
+        "answers": [
+          {
+            "text": "運算子多載 —— 特設多型的一種形式",
+            "fraction": 100,
+            "feedback": "正確 —— 同一個運算子符號對你的型別獲得新意義。"
+          },
+          {
+            "text": "透過 virtual 分派的執行期多型",
+            "fraction": 0,
+            "feedback": "錯 —— 運算子多載於編譯期解析。"
+          },
+          {
+            "text": "樣板實例化",
+            "fraction": 0,
+            "feedback": "錯 —— 這裡沒有牽涉樣板參數。"
+          },
+          {
+            "text": "private 繼承",
+            "fraction": 0,
+            "feedback": "錯 —— 那與運算子無關。"
+          }
+        ],
+        "generalFeedback": "運算子多載讓運算子符號帶有型別專屬行為,並於編譯期解析。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "特設多型的敘述(複選)",
+        "text": "<p>關於特設多型(多載),以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "多載共用名稱,但在參數型別或數量上不同",
+            "fraction": 50,
+            "feedback": "正確 —— 參數列用以區分它們。"
+          },
+          {
+            "text": "它於編譯期解析(靜態分派)",
+            "fraction": 50,
+            "feedback": "正確 —— 由編譯器挑選多載。"
+          },
+          {
+            "text": "它於執行期透過 vtable 解析",
+            "fraction": -50,
+            "feedback": "錯 —— 那描述的是執行期多型,不是多載。"
+          },
+          {
+            "text": "兩個函式可僅以回傳型別來構成多載",
+            "fraction": -50,
+            "feedback": "錯 —— 僅回傳型別不同不是有效的多載。"
+          }
+        ],
+        "generalFeedback": "多載以參數列區分函式,並於編譯期靜態解析。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "多載於編譯期解析",
+        "text": "<p>函式多載的多載解析發生於編譯期。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 多載採靜態(編譯期)分派。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "多載確實由編譯器於編譯期解析。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "以回傳型別多載",
+        "text": "<p>兩個同名、同參數但回傳型別不同的函式可構成有效的多載集合。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 僅回傳型別不同是不被允許的。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 多載必須在參數列上不同,而非僅回傳型別。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "特設多型名詞",
+        "text": "<p>讓多個函式共用同一名稱但參數列不同,稱為函式 ______(英文)。</p>",
+        "answers": [
+          {
+            "text": "overloading",
+            "fraction": 100,
+            "feedback": "正確 —— 函式多載(overloading)。"
+          },
+          {
+            "text": "overload*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "oop-encapsulation": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Definition of encapsulation",
+        "text": "<p>What does <strong>encapsulation</strong> mean in object-oriented programming?</p>",
+        "answers": [
+          {
+            "text": "Bundling data together with the methods that operate on it, and hiding internal state",
+            "fraction": 100,
+            "feedback": "Correct — encapsulation binds data and behavior and hides the internals."
+          },
+          {
+            "text": "Deriving a new class from an existing base class",
+            "fraction": 0,
+            "feedback": "No — that is inheritance."
+          },
+          {
+            "text": "Selecting an override at run time through a vtable",
+            "fraction": 0,
+            "feedback": "No — that is runtime polymorphism."
+          },
+          {
+            "text": "Writing one function that works for many types",
+            "fraction": 0,
+            "feedback": "No — that is closer to templates/generics."
+          }
+        ],
+        "generalFeedback": "Encapsulation bundles state with the operations on it and hides that state behind a controlled interface.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Access specifier for hidden state",
+        "text": "<p>Which access specifier is normally used to hide a class's internal data members?</p>",
+        "answers": [
+          {
+            "text": "private",
+            "fraction": 100,
+            "feedback": "Correct — private members are inaccessible outside the class."
+          },
+          {
+            "text": "public",
+            "fraction": 0,
+            "feedback": "No — public members are exposed to all callers."
+          },
+          {
+            "text": "extern",
+            "fraction": 0,
+            "feedback": "No — extern is about linkage, not access control."
+          },
+          {
+            "text": "virtual",
+            "fraction": 0,
+            "feedback": "No — virtual concerns dispatch, not data hiding."
+          }
+        ],
+        "generalFeedback": "Marking data members private hides internal state; access flows through the public interface.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Controlled access mechanism",
+        "text": "<p>How does a well-encapsulated class typically expose controlled access to its private data?</p>",
+        "answers": [
+          {
+            "text": "Through public getter/setter methods (a controlled interface)",
+            "fraction": 100,
+            "feedback": "Correct — accessors mediate reads and writes."
+          },
+          {
+            "text": "By making every data member public",
+            "fraction": 0,
+            "feedback": "No — that removes the control entirely."
+          },
+          {
+            "text": "By deleting all member functions",
+            "fraction": 0,
+            "feedback": "No — then there would be no interface at all."
+          },
+          {
+            "text": "By declaring the whole class static",
+            "fraction": 0,
+            "feedback": "No — static does not provide controlled access."
+          }
+        ],
+        "generalFeedback": "Public getters/setters give a controlled interface so the class can validate and protect its state.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Why encapsulate",
+        "text": "<p>What is a key benefit of hiding internal state behind a public interface?</p>",
+        "answers": [
+          {
+            "text": "It protects the class invariants and lets the implementation change freely",
+            "fraction": 100,
+            "feedback": "Correct — callers depend on the interface, not the internals."
+          },
+          {
+            "text": "It guarantees the program runs faster at run time",
+            "fraction": 0,
+            "feedback": "No — encapsulation is about maintainability, not raw speed."
+          },
+          {
+            "text": "It removes the need for any public methods",
+            "fraction": 0,
+            "feedback": "No — the public interface is what callers use."
+          },
+          {
+            "text": "It makes all members accessible from anywhere",
+            "fraction": 0,
+            "feedback": "No — that is the opposite of hiding state."
+          }
+        ],
+        "generalFeedback": "Hiding state protects invariants and decouples callers from the implementation, which can then evolve safely.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Encapsulation facts (select all)",
+        "text": "<p>Which statements about encapsulation are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It hides internal state behind private members",
+            "fraction": 50,
+            "feedback": "Yes — data hiding is central to encapsulation."
+          },
+          {
+            "text": "It exposes a controlled public interface, e.g. getters/setters",
+            "fraction": 50,
+            "feedback": "Yes — access is mediated through the public interface."
+          },
+          {
+            "text": "It requires every data member to be public",
+            "fraction": -50,
+            "feedback": "No — that defeats data hiding."
+          },
+          {
+            "text": "It is the same thing as multiple inheritance",
+            "fraction": -50,
+            "feedback": "No — those are unrelated concepts."
+          }
+        ],
+        "generalFeedback": "Encapsulation hides state behind private members and exposes a controlled interface; it is not about making members public.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Encapsulation protects invariants",
+        "text": "<p>By hiding data behind a controlled interface, encapsulation helps protect a class's invariants.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — controlled access lets the class enforce its invariants."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Encapsulation does help protect invariants by mediating access."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Public data is encapsulation?",
+        "text": "<p>Making all data members <code>public</code> is a proper way to achieve encapsulation.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — public data exposes internal state and breaks encapsulation."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — encapsulation hides state; public data does the opposite."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Hiding access specifier",
+        "text": "<p>The access specifier used to hide a class's internal data members is ______.</p>",
+        "answers": [
+          {
+            "text": "private",
+            "fraction": 100,
+            "feedback": "Correct — the private specifier."
+          },
+          {
+            "text": "hiding",
+            "fraction": 100,
+            "feedback": "Correct — data hiding is the underlying idea."
+          },
+          {
+            "text": "private*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "封裝的定義",
+        "text": "<p>在物件導向程式設計中,<strong>封裝</strong>是什麼意思?</p>",
+        "answers": [
+          {
+            "text": "把資料與操作該資料的方法綁在一起,並隱藏內部狀態",
+            "fraction": 100,
+            "feedback": "正確 —— 封裝將資料與行為結合並隱藏內部細節。"
+          },
+          {
+            "text": "從既有基底類別衍生出新類別",
+            "fraction": 0,
+            "feedback": "錯 —— 那是繼承。"
+          },
+          {
+            "text": "執行期透過 vtable 選擇覆寫版本",
+            "fraction": 0,
+            "feedback": "錯 —— 那是執行期多型。"
+          },
+          {
+            "text": "撰寫一個適用於多種型別的函式",
+            "fraction": 0,
+            "feedback": "錯 —— 那較接近樣板/泛型。"
+          }
+        ],
+        "generalFeedback": "封裝把狀態與其操作綁在一起,並將該狀態隱藏在受控介面之後。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "隱藏狀態的存取修飾詞",
+        "text": "<p>通常使用哪個存取修飾詞來隱藏類別的內部資料成員?</p>",
+        "answers": [
+          {
+            "text": "private",
+            "fraction": 100,
+            "feedback": "正確 —— private 成員在類別外不可存取。"
+          },
+          {
+            "text": "public",
+            "fraction": 0,
+            "feedback": "錯 —— public 成員對所有呼叫者公開。"
+          },
+          {
+            "text": "extern",
+            "fraction": 0,
+            "feedback": "錯 —— extern 關乎連結性,不是存取控制。"
+          },
+          {
+            "text": "virtual",
+            "fraction": 0,
+            "feedback": "錯 —— virtual 關乎分派,不是資料隱藏。"
+          }
+        ],
+        "generalFeedback": "將資料成員標為 private 可隱藏內部狀態;存取透過 public 介面進行。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "受控存取的機制",
+        "text": "<p>封裝良好的類別通常如何對其 private 資料提供受控存取?</p>",
+        "answers": [
+          {
+            "text": "透過 public 的 getter/setter 方法(受控介面)",
+            "fraction": 100,
+            "feedback": "正確 —— 存取器居中調節讀寫。"
+          },
+          {
+            "text": "把每個資料成員都設為 public",
+            "fraction": 0,
+            "feedback": "錯 —— 那會完全移除控制。"
+          },
+          {
+            "text": "刪除所有成員函式",
+            "fraction": 0,
+            "feedback": "錯 —— 那樣就完全沒有介面了。"
+          },
+          {
+            "text": "把整個類別宣告為 static",
+            "fraction": 0,
+            "feedback": "錯 —— static 不提供受控存取。"
+          }
+        ],
+        "generalFeedback": "public 的 getter/setter 提供受控介面,讓類別能驗證並保護其狀態。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "為何要封裝",
+        "text": "<p>把內部狀態隱藏在 public 介面之後,有什麼關鍵好處?</p>",
+        "answers": [
+          {
+            "text": "它保護類別的不變式,並讓實作可自由更動",
+            "fraction": 100,
+            "feedback": "正確 —— 呼叫者依賴介面而非內部細節。"
+          },
+          {
+            "text": "它保證程式在執行期跑得更快",
+            "fraction": 0,
+            "feedback": "錯 —— 封裝關乎可維護性,不是原始速度。"
+          },
+          {
+            "text": "它讓任何 public 方法都變得不必要",
+            "fraction": 0,
+            "feedback": "錯 —— public 介面正是呼叫者所使用的。"
+          },
+          {
+            "text": "它讓所有成員可從任何地方存取",
+            "fraction": 0,
+            "feedback": "錯 —— 那與隱藏狀態相反。"
+          }
+        ],
+        "generalFeedback": "隱藏狀態可保護不變式並讓呼叫者與實作解耦,使實作能安全演進。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "封裝的敘述(複選)",
+        "text": "<p>關於封裝,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它以 private 成員隱藏內部狀態",
+            "fraction": 50,
+            "feedback": "正確 —— 資料隱藏是封裝的核心。"
+          },
+          {
+            "text": "它暴露受控的 public 介面,例如 getter/setter",
+            "fraction": 50,
+            "feedback": "正確 —— 存取透過 public 介面居中調節。"
+          },
+          {
+            "text": "它要求每個資料成員都是 public",
+            "fraction": -50,
+            "feedback": "錯 —— 那會破壞資料隱藏。"
+          },
+          {
+            "text": "它與多重繼承是同一回事",
+            "fraction": -50,
+            "feedback": "錯 —— 兩者是無關的概念。"
+          }
+        ],
+        "generalFeedback": "封裝以 private 成員隱藏狀態並暴露受控介面;它並非把成員設為 public。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "封裝保護不變式",
+        "text": "<p>透過將資料隱藏在受控介面之後,封裝有助於保護類別的不變式。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 受控存取讓類別能維護其不變式。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "封裝確實透過居中調節存取來保護不變式。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "public 資料就是封裝?",
+        "text": "<p>把所有資料成員設為 <code>public</code> 是達成封裝的正當方式。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— public 資料暴露內部狀態,破壞封裝。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 封裝隱藏狀態;public 資料則相反。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "隱藏用的存取修飾詞",
+        "text": "<p>用來隱藏類別內部資料成員的存取修飾詞是 ______。</p>",
+        "answers": [
+          {
+            "text": "private",
+            "fraction": 100,
+            "feedback": "正確 —— private 修飾詞。"
+          },
+          {
+            "text": "hiding",
+            "fraction": 100,
+            "feedback": "正確 —— 資料隱藏(hiding)是其背後的概念。"
+          },
+          {
+            "text": "private*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "oop-inheritance": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Inheritance relationship",
+        "text": "<p>Which relationship does class <strong>inheritance</strong> primarily model?</p>",
+        "answers": [
+          {
+            "text": "An \"is-a\" relationship (a derived class is a kind of its base class)",
+            "fraction": 100,
+            "feedback": "Correct — inheritance models \"is-a\": a Dog is an Animal."
+          },
+          {
+            "text": "A \"has-a\" relationship (one class contains an instance of another)",
+            "fraction": 0,
+            "feedback": "That is composition, not inheritance."
+          },
+          {
+            "text": "A \"uses-a\" relationship (one function calls another)",
+            "fraction": 0,
+            "feedback": "That describes dependency, not inheritance."
+          },
+          {
+            "text": "A \"friend-of\" relationship granting access to privates",
+            "fraction": 0,
+            "feedback": "That is the friend mechanism, unrelated to inheritance."
+          }
+        ],
+        "generalFeedback": "Inheritance expresses \"is-a\": the derived class is a specialized kind of the base class and reuses its members.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "What a derived class gets",
+        "text": "<p>When class <code>Derived</code> publicly inherits from class <code>Base</code>, what does <code>Derived</code> gain?</p>",
+        "answers": [
+          {
+            "text": "The public and protected members of Base, which it can reuse and extend",
+            "fraction": 100,
+            "feedback": "Correct — derived classes inherit accessible base members."
+          },
+          {
+            "text": "Only the private members of Base",
+            "fraction": 0,
+            "feedback": "No — private base members are not directly accessible in the derived class."
+          },
+          {
+            "text": "Nothing; it must redeclare every member from scratch",
+            "fraction": 0,
+            "feedback": "No — the point of inheritance is reuse."
+          },
+          {
+            "text": "Only the constructors, never the methods",
+            "fraction": 0,
+            "feedback": "No — data members and methods are inherited too."
+          }
+        ],
+        "generalFeedback": "A derived class inherits the base's public and protected members, enabling code reuse and specialization.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Access specifiers on inheritance",
+        "text": "<p>C++ supports several kinds of inheritance controlled by an access specifier. Which set is valid?</p>",
+        "answers": [
+          {
+            "text": "public, protected, and private inheritance",
+            "fraction": 100,
+            "feedback": "Correct — these three access specifiers control inheritance in C++."
+          },
+          {
+            "text": "static, dynamic, and virtual inheritance only",
+            "fraction": 0,
+            "feedback": "No — those are not the access specifiers for inheritance."
+          },
+          {
+            "text": "open, closed, and sealed inheritance",
+            "fraction": 0,
+            "feedback": "No — C++ has no such keywords for inheritance."
+          },
+          {
+            "text": "const, mutable, and volatile inheritance",
+            "fraction": 0,
+            "feedback": "No — those are cv-qualifiers, not inheritance modes."
+          }
+        ],
+        "generalFeedback": "C++ inheritance may be public, protected, or private, which adjusts how inherited members are exposed further down.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Single vs multiple inheritance",
+        "text": "<p>What distinguishes <em>multiple</em> inheritance from <em>single</em> inheritance in C++?</p>",
+        "answers": [
+          {
+            "text": "A class derives from more than one base class at the same time",
+            "fraction": 100,
+            "feedback": "Correct — multiple inheritance lists several base classes."
+          },
+          {
+            "text": "A class may only be inherited from once in the whole program",
+            "fraction": 0,
+            "feedback": "No — that is not what multiple inheritance means."
+          },
+          {
+            "text": "Inheritance is repeated automatically at run time",
+            "fraction": 0,
+            "feedback": "No — inheritance is a compile-time relationship."
+          },
+          {
+            "text": "The base class gains members from the derived class",
+            "fraction": 0,
+            "feedback": "No — members flow from base to derived, not the reverse."
+          }
+        ],
+        "generalFeedback": "Single inheritance has one base; multiple inheritance lets a class have several base classes at once.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Inheritance facts (select all)",
+        "text": "<p>Which statements about C++ inheritance are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It promotes code reuse by letting a derived class build on a base class",
+            "fraction": 50,
+            "feedback": "Yes — reuse is a central benefit."
+          },
+          {
+            "text": "It enables specialization: the derived class can add or override behavior",
+            "fraction": 50,
+            "feedback": "Yes — the derived class specializes the base."
+          },
+          {
+            "text": "A derived class can directly access the private members of its base class",
+            "fraction": -50,
+            "feedback": "No — private base members are hidden from the derived class."
+          },
+          {
+            "text": "Inheritance models a \"has-a\" relationship",
+            "fraction": -50,
+            "feedback": "No — that is composition; inheritance models \"is-a\"."
+          }
+        ],
+        "generalFeedback": "Inheritance gives reuse and specialization and models \"is-a\"; private base members stay inaccessible to derived classes.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Derived is-a base",
+        "text": "<p>A publicly derived class object can be treated as an object of its base class (\"is-a\").</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — public inheritance establishes an is-a substitutability."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Public inheritance does allow a derived object to be used where a base is expected."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Private members inherited access",
+        "text": "<p>A derived class can directly read and write the <code>private</code> members declared in its base class.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — private base members are not directly accessible in the derived class."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — private base members are hidden; use protected or public accessors instead."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Parent class term",
+        "text": "<p>The class that is inherited from is called the ______ class (one word).</p>",
+        "answers": [
+          {
+            "text": "base",
+            "fraction": 100,
+            "feedback": "Correct — the base (parent) class."
+          },
+          {
+            "text": "parent",
+            "fraction": 100,
+            "feedback": "Correct — \"parent\" is an accepted synonym for base."
+          },
+          {
+            "text": "is-a",
+            "fraction": 100,
+            "feedback": "Correct — inheritance models the is-a relationship."
+          },
+          {
+            "text": "base*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "繼承所表達的關係",
+        "text": "<p>類別<strong>繼承</strong>主要用來表達哪一種關係?</p>",
+        "answers": [
+          {
+            "text": "「is-a」關係(衍生類別是基底類別的一種)",
+            "fraction": 100,
+            "feedback": "正確 —— 繼承表達「is-a」:狗是一種動物。"
+          },
+          {
+            "text": "「has-a」關係(一個類別內含另一個類別的實例)",
+            "fraction": 0,
+            "feedback": "那是組合(composition),不是繼承。"
+          },
+          {
+            "text": "「uses-a」關係(一個函式呼叫另一個函式)",
+            "fraction": 0,
+            "feedback": "那描述的是相依性,不是繼承。"
+          },
+          {
+            "text": "「friend-of」關係,用來授予存取私有成員的權限",
+            "fraction": 0,
+            "feedback": "那是 friend 機制,與繼承無關。"
+          }
+        ],
+        "generalFeedback": "繼承表達「is-a」:衍生類別是基底類別的一種特化,並重用其成員。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "衍生類別取得什麼",
+        "text": "<p>當類別 <code>Derived</code> 以 public 方式繼承 <code>Base</code> 時,<code>Derived</code> 會取得什麼?</p>",
+        "answers": [
+          {
+            "text": "Base 的 public 與 protected 成員,可重用並加以擴充",
+            "fraction": 100,
+            "feedback": "正確 —— 衍生類別會繼承可存取的基底成員。"
+          },
+          {
+            "text": "只有 Base 的 private 成員",
+            "fraction": 0,
+            "feedback": "錯 —— private 基底成員無法在衍生類別中直接存取。"
+          },
+          {
+            "text": "什麼都沒有;必須從頭重新宣告每個成員",
+            "fraction": 0,
+            "feedback": "錯 —— 繼承的重點正是重用。"
+          },
+          {
+            "text": "只有建構子,絕不含方法",
+            "fraction": 0,
+            "feedback": "錯 —— 資料成員與方法同樣會被繼承。"
+          }
+        ],
+        "generalFeedback": "衍生類別繼承基底的 public 與 protected 成員,達成程式碼重用與特化。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "繼承的存取修飾",
+        "text": "<p>C++ 支援由存取修飾詞控制的幾種繼承。哪一組是正確的?</p>",
+        "answers": [
+          {
+            "text": "public、protected 與 private 繼承",
+            "fraction": 100,
+            "feedback": "正確 —— 這三種存取修飾詞控制 C++ 的繼承。"
+          },
+          {
+            "text": "只有 static、dynamic 與 virtual 繼承",
+            "fraction": 0,
+            "feedback": "錯 —— 那些不是繼承的存取修飾詞。"
+          },
+          {
+            "text": "open、closed 與 sealed 繼承",
+            "fraction": 0,
+            "feedback": "錯 —— C++ 沒有這些繼承關鍵字。"
+          },
+          {
+            "text": "const、mutable 與 volatile 繼承",
+            "fraction": 0,
+            "feedback": "錯 —— 那些是 cv 修飾詞,不是繼承模式。"
+          }
+        ],
+        "generalFeedback": "C++ 的繼承可以是 public、protected 或 private,用以調整被繼承成員向下暴露的方式。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "單一 vs 多重繼承",
+        "text": "<p>在 C++ 中,<em>多重</em>繼承與<em>單一</em>繼承的差別是什麼?</p>",
+        "answers": [
+          {
+            "text": "一個類別同時繼承自多個基底類別",
+            "fraction": 100,
+            "feedback": "正確 —— 多重繼承列出多個基底類別。"
+          },
+          {
+            "text": "一個類別在整個程式中只能被繼承一次",
+            "fraction": 0,
+            "feedback": "錯 —— 那不是多重繼承的意思。"
+          },
+          {
+            "text": "繼承會在執行期自動重複發生",
+            "fraction": 0,
+            "feedback": "錯 —— 繼承是編譯期的關係。"
+          },
+          {
+            "text": "基底類別會取得衍生類別的成員",
+            "fraction": 0,
+            "feedback": "錯 —— 成員由基底流向衍生,而非反向。"
+          }
+        ],
+        "generalFeedback": "單一繼承只有一個基底;多重繼承讓一個類別同時擁有多個基底類別。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "繼承的敘述(複選)",
+        "text": "<p>關於 C++ 繼承,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它讓衍生類別建立在基底類別之上,促進程式碼重用",
+            "fraction": 50,
+            "feedback": "正確 —— 重用是核心好處。"
+          },
+          {
+            "text": "它支援特化:衍生類別可新增或覆寫行為",
+            "fraction": 50,
+            "feedback": "正確 —— 衍生類別特化基底。"
+          },
+          {
+            "text": "衍生類別可直接存取其基底類別的 private 成員",
+            "fraction": -50,
+            "feedback": "錯 —— private 基底成員對衍生類別是隱藏的。"
+          },
+          {
+            "text": "繼承表達的是「has-a」關係",
+            "fraction": -50,
+            "feedback": "錯 —— 那是組合;繼承表達「is-a」。"
+          }
+        ],
+        "generalFeedback": "繼承提供重用與特化並表達「is-a」;private 基底成員對衍生類別仍不可存取。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "衍生是一種基底",
+        "text": "<p>以 public 繼承的衍生類別物件可被當作其基底類別的物件來使用(「is-a」)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— public 繼承建立了 is-a 的可替換性。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "public 繼承確實允許衍生物件用於期待基底的地方。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "繼承對 private 成員的存取",
+        "text": "<p>衍生類別可以直接讀寫其基底類別中宣告的 <code>private</code> 成員。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— private 基底成員無法在衍生類別中直接存取。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— private 基底成員是隱藏的;應改用 protected 或 public 存取介面。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "父類別名詞",
+        "text": "<p>被繼承的那個類別稱為 ______ 類別(英文一個詞)。</p>",
+        "answers": [
+          {
+            "text": "base",
+            "fraction": 100,
+            "feedback": "正確 —— 基底(父)類別。"
+          },
+          {
+            "text": "parent",
+            "fraction": 100,
+            "feedback": "正確 —— 「parent」是 base 可接受的同義詞。"
+          },
+          {
+            "text": "is-a",
+            "fraction": 100,
+            "feedback": "正確 —— 繼承表達 is-a 關係。"
+          },
+          {
+            "text": "base*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "oop-polymorphism": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Keyword for runtime polymorphism",
+        "text": "<p>Which C++ keyword enables <strong>runtime (dynamic)</strong> polymorphism on a member function?</p>",
+        "answers": [
+          {
+            "text": "virtual",
+            "fraction": 100,
+            "feedback": "Correct — declaring a function virtual enables dynamic dispatch."
+          },
+          {
+            "text": "static",
+            "fraction": 0,
+            "feedback": "No — static binds at compile time, the opposite of dynamic dispatch."
+          },
+          {
+            "text": "inline",
+            "fraction": 0,
+            "feedback": "No — inline is only a hint about function expansion."
+          },
+          {
+            "text": "friend",
+            "fraction": 0,
+            "feedback": "No — friend grants access, it has nothing to do with dispatch."
+          }
+        ],
+        "generalFeedback": "Runtime polymorphism in C++ relies on virtual member functions resolved through the vtable.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Which override runs",
+        "text": "<p>A <code>Base*</code> pointer actually points to a <code>Derived</code> object and calls a virtual function. Which implementation runs?</p>",
+        "answers": [
+          {
+            "text": "The Derived class's override, selected at run time",
+            "fraction": 100,
+            "feedback": "Correct — dynamic dispatch picks the most-derived override."
+          },
+          {
+            "text": "The Base class's version, chosen from the pointer type",
+            "fraction": 0,
+            "feedback": "No — with virtual functions the dynamic type decides."
+          },
+          {
+            "text": "Neither; the call is ambiguous and fails to compile",
+            "fraction": 0,
+            "feedback": "No — this is exactly the case virtual functions handle."
+          },
+          {
+            "text": "Both are called in sequence",
+            "fraction": 0,
+            "feedback": "No — only the resolved override runs (unless it explicitly calls Base)."
+          }
+        ],
+        "generalFeedback": "Through a base pointer/reference, a virtual call dispatches to the override belonging to the object's dynamic type.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "When resolution happens",
+        "text": "<p>When is a virtual function call resolved to a concrete implementation?</p>",
+        "answers": [
+          {
+            "text": "At run time, via the object's vtable",
+            "fraction": 100,
+            "feedback": "Correct — that is dynamic dispatch."
+          },
+          {
+            "text": "At compile time, from the static pointer type",
+            "fraction": 0,
+            "feedback": "No — that would be static (early) binding."
+          },
+          {
+            "text": "At link time, by the linker",
+            "fraction": 0,
+            "feedback": "No — the linker does not choose virtual overrides per call."
+          },
+          {
+            "text": "Never; virtual calls are forbidden through pointers",
+            "fraction": 0,
+            "feedback": "No — pointers/references are exactly how they are used."
+          }
+        ],
+        "generalFeedback": "Virtual calls use late (dynamic) binding: the vtable is consulted at run time to find the correct override.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Slogan for polymorphism",
+        "text": "<p>Which slogan best captures runtime polymorphism?</p>",
+        "answers": [
+          {
+            "text": "\"One interface, many implementations\"",
+            "fraction": 100,
+            "feedback": "Correct — a common base interface, many derived behaviors."
+          },
+          {
+            "text": "\"One implementation, many names\"",
+            "fraction": 0,
+            "feedback": "No — that is closer to aliasing, not polymorphism."
+          },
+          {
+            "text": "\"No interfaces, only concrete types\"",
+            "fraction": 0,
+            "feedback": "No — polymorphism depends on a shared interface."
+          },
+          {
+            "text": "\"Everything decided at compile time\"",
+            "fraction": 0,
+            "feedback": "No — that describes static, not runtime, polymorphism."
+          }
+        ],
+        "generalFeedback": "Runtime polymorphism gives one interface (the base class) with many implementations (the overrides).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Runtime polymorphism facts (select all)",
+        "text": "<p>Which statements about C++ runtime polymorphism are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It requires functions declared virtual in the base class",
+            "fraction": 50,
+            "feedback": "Yes — virtual is the trigger for dynamic dispatch."
+          },
+          {
+            "text": "Dispatch is resolved at run time through the vtable",
+            "fraction": 50,
+            "feedback": "Yes — the object's dynamic type is consulted at run time."
+          },
+          {
+            "text": "It is resolved entirely at compile time by overload resolution",
+            "fraction": -50,
+            "feedback": "No — that describes ad-hoc (overloading) polymorphism."
+          },
+          {
+            "text": "It works through a base pointer only if the function is non-virtual",
+            "fraction": -50,
+            "feedback": "No — a non-virtual function binds to the static type, defeating dispatch."
+          }
+        ],
+        "generalFeedback": "Runtime polymorphism needs virtual functions and dispatches via the vtable at run time; non-virtual calls bind statically.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Base pointer dispatches to override",
+        "text": "<p>Calling a virtual function through a base-class pointer invokes the derived class's override.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the dynamic type of the object determines which override runs."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "With virtual functions the derived override is indeed selected."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Non-virtual is dynamic?",
+        "text": "<p>A non-<code>virtual</code> member function called through a base pointer is dispatched dynamically to the derived version.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — without virtual the call binds to the static (pointer) type."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — non-virtual calls use static binding, not dynamic dispatch."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Runtime polymorphism keyword",
+        "text": "<p>The C++ keyword that marks a member function for dynamic dispatch is ______.</p>",
+        "answers": [
+          {
+            "text": "virtual",
+            "fraction": 100,
+            "feedback": "Correct — the virtual keyword."
+          },
+          {
+            "text": "virtual*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "執行期多型的關鍵字",
+        "text": "<p>哪個 C++ 關鍵字可讓成員函式具備<strong>執行期(動態)</strong>多型?</p>",
+        "answers": [
+          {
+            "text": "virtual",
+            "fraction": 100,
+            "feedback": "正確 —— 將函式宣告為 virtual 即啟用動態分派。"
+          },
+          {
+            "text": "static",
+            "fraction": 0,
+            "feedback": "錯 —— static 於編譯期綁定,與動態分派相反。"
+          },
+          {
+            "text": "inline",
+            "fraction": 0,
+            "feedback": "錯 —— inline 只是函式展開的提示。"
+          },
+          {
+            "text": "friend",
+            "fraction": 0,
+            "feedback": "錯 —— friend 授予存取權,與分派無關。"
+          }
+        ],
+        "generalFeedback": "C++ 的執行期多型仰賴透過 vtable 解析的 virtual 成員函式。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "執行哪個覆寫版本",
+        "text": "<p>一個 <code>Base*</code> 指標實際指向 <code>Derived</code> 物件並呼叫一個 virtual 函式。會執行哪個實作?</p>",
+        "answers": [
+          {
+            "text": "Derived 類別的覆寫版本,於執行期選定",
+            "fraction": 100,
+            "feedback": "正確 —— 動態分派選出最衍生的覆寫版本。"
+          },
+          {
+            "text": "Base 類別的版本,依指標型別決定",
+            "fraction": 0,
+            "feedback": "錯 —— 有 virtual 時由動態型別決定。"
+          },
+          {
+            "text": "兩者皆非;此呼叫模稜兩可而無法編譯",
+            "fraction": 0,
+            "feedback": "錯 —— 這正是 virtual 函式所處理的情況。"
+          },
+          {
+            "text": "兩者會依序被呼叫",
+            "fraction": 0,
+            "feedback": "錯 —— 只有被解析到的覆寫版本會執行(除非它明確呼叫 Base)。"
+          }
+        ],
+        "generalFeedback": "透過基底指標/參考,virtual 呼叫會分派到物件動態型別所屬的覆寫版本。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "解析發生的時機",
+        "text": "<p>virtual 函式呼叫在何時被解析到具體實作?</p>",
+        "answers": [
+          {
+            "text": "執行期,透過物件的 vtable",
+            "fraction": 100,
+            "feedback": "正確 —— 這就是動態分派。"
+          },
+          {
+            "text": "編譯期,依靜態指標型別",
+            "fraction": 0,
+            "feedback": "錯 —— 那會是靜態(早期)綁定。"
+          },
+          {
+            "text": "連結期,由連結器決定",
+            "fraction": 0,
+            "feedback": "錯 —— 連結器不會逐次呼叫選擇 virtual 覆寫版本。"
+          },
+          {
+            "text": "從不;禁止透過指標做 virtual 呼叫",
+            "fraction": 0,
+            "feedback": "錯 —— 指標/參考正是其使用方式。"
+          }
+        ],
+        "generalFeedback": "virtual 呼叫採用晚期(動態)綁定:執行期查詢 vtable 以找到正確的覆寫版本。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "多型的標語",
+        "text": "<p>哪句標語最能概括執行期多型?</p>",
+        "answers": [
+          {
+            "text": "「一個介面,多種實作」",
+            "fraction": 100,
+            "feedback": "正確 —— 共同的基底介面,多種衍生行為。"
+          },
+          {
+            "text": "「一種實作,多個名稱」",
+            "fraction": 0,
+            "feedback": "錯 —— 那較接近別名,不是多型。"
+          },
+          {
+            "text": "「沒有介面,只有具體型別」",
+            "fraction": 0,
+            "feedback": "錯 —— 多型仰賴共享的介面。"
+          },
+          {
+            "text": "「一切在編譯期決定」",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是靜態多型,不是執行期多型。"
+          }
+        ],
+        "generalFeedback": "執行期多型提供一個介面(基底類別)與多種實作(覆寫版本)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "執行期多型的敘述(複選)",
+        "text": "<p>關於 C++ 執行期多型,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它需要在基底類別中將函式宣告為 virtual",
+            "fraction": 50,
+            "feedback": "正確 —— virtual 是動態分派的觸發條件。"
+          },
+          {
+            "text": "分派於執行期透過 vtable 解析",
+            "fraction": 50,
+            "feedback": "正確 —— 執行期查詢物件的動態型別。"
+          },
+          {
+            "text": "它完全在編譯期由多載解析決定",
+            "fraction": -50,
+            "feedback": "錯 —— 那描述的是特設(多載)多型。"
+          },
+          {
+            "text": "只有在函式為非 virtual 時,透過基底指標才有效",
+            "fraction": -50,
+            "feedback": "錯 —— 非 virtual 函式綁定到靜態型別,反而破壞分派。"
+          }
+        ],
+        "generalFeedback": "執行期多型需要 virtual 函式並於執行期透過 vtable 分派;非 virtual 呼叫採靜態綁定。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "基底指標分派到覆寫版本",
+        "text": "<p>透過基底類別指標呼叫 virtual 函式,會呼叫到衍生類別的覆寫版本。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 物件的動態型別決定執行哪個覆寫版本。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "有 virtual 時,確實會選到衍生的覆寫版本。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "非 virtual 也是動態嗎?",
+        "text": "<p>透過基底指標呼叫非 <code>virtual</code> 成員函式,會動態分派到衍生版本。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 沒有 virtual 時,呼叫綁定到靜態(指標)型別。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 非 virtual 呼叫採靜態綁定,不是動態分派。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "執行期多型關鍵字",
+        "text": "<p>用來標示成員函式進行動態分派的 C++ 關鍵字是 ______。</p>",
+        "answers": [
+          {
+            "text": "virtual",
+            "fraction": 100,
+            "feedback": "正確 —— virtual 關鍵字。"
+          },
+          {
+            "text": "virtual*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "oop-templates": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "C++ feature for parametric polymorphism",
+        "text": "<p>Which C++ feature provides <strong>parametric</strong> polymorphism?</p>",
+        "answers": [
+          {
+            "text": "Templates (template<class T>)",
+            "fraction": 100,
+            "feedback": "Correct — templates give parametric (type-parameterized) polymorphism."
+          },
+          {
+            "text": "Virtual functions",
+            "fraction": 0,
+            "feedback": "No — those provide runtime (subtype) polymorphism."
+          },
+          {
+            "text": "Function overloading",
+            "fraction": 0,
+            "feedback": "No — that is ad-hoc polymorphism."
+          },
+          {
+            "text": "Private inheritance",
+            "fraction": 0,
+            "feedback": "No — inheritance is not parametric polymorphism."
+          }
+        ],
+        "generalFeedback": "Templates let you parameterize code by type, which is exactly parametric polymorphism.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "What templates let you write",
+        "text": "<p>What do C++ templates let you write?</p>",
+        "answers": [
+          {
+            "text": "Type-independent code that works for many concrete types",
+            "fraction": 100,
+            "feedback": "Correct — one template serves many types."
+          },
+          {
+            "text": "Code that only ever works for int",
+            "fraction": 0,
+            "feedback": "No — that would defeat the purpose of a template."
+          },
+          {
+            "text": "Code whose types are chosen at run time",
+            "fraction": 0,
+            "feedback": "No — template types are fixed at compile time."
+          },
+          {
+            "text": "Machine code that skips the compiler entirely",
+            "fraction": 0,
+            "feedback": "No — templates are compiled like the rest of the program."
+          }
+        ],
+        "generalFeedback": "A template is a blueprint for type-independent code that the compiler specializes for each type used.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "When templates instantiate",
+        "text": "<p>When does the compiler create a concrete version of a template for a given type?</p>",
+        "answers": [
+          {
+            "text": "At compile time, instantiating one version per concrete type used",
+            "fraction": 100,
+            "feedback": "Correct — template instantiation happens at compile time."
+          },
+          {
+            "text": "At run time, based on the object's dynamic type",
+            "fraction": 0,
+            "feedback": "No — that describes virtual dispatch, not templates."
+          },
+          {
+            "text": "Never; templates run interpreted",
+            "fraction": 0,
+            "feedback": "No — templates are compiled to concrete code."
+          },
+          {
+            "text": "At link time, by merging duplicate symbols only",
+            "fraction": 0,
+            "feedback": "No — instantiation itself occurs during compilation."
+          }
+        ],
+        "generalFeedback": "The compiler instantiates a separate concrete version of the template for each concrete type it is used with, at compile time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Equivalent in other languages",
+        "text": "<p>C++ templates correspond most closely to which feature in other languages?</p>",
+        "answers": [
+          {
+            "text": "Generics (as in Java or C#)",
+            "fraction": 100,
+            "feedback": "Correct — generics are the equivalent of parametric polymorphism."
+          },
+          {
+            "text": "Preprocessor macros only",
+            "fraction": 0,
+            "feedback": "No — templates are type-checked, unlike raw macros."
+          },
+          {
+            "text": "Reflection",
+            "fraction": 0,
+            "feedback": "No — reflection is a runtime introspection feature, unrelated."
+          },
+          {
+            "text": "Garbage collection",
+            "fraction": 0,
+            "feedback": "No — that is unrelated to parametric polymorphism."
+          }
+        ],
+        "generalFeedback": "Templates are C++'s form of generics: the same parametric polymorphism found in Java/C# generics.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Template facts (select all)",
+        "text": "<p>Which statements about C++ templates are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "They let you write type-independent code parameterized by a type",
+            "fraction": 50,
+            "feedback": "Yes — that is parametric polymorphism."
+          },
+          {
+            "text": "The compiler instantiates a version per concrete type at compile time",
+            "fraction": 50,
+            "feedback": "Yes — instantiation is a compile-time step."
+          },
+          {
+            "text": "They are resolved at run time through the vtable",
+            "fraction": -50,
+            "feedback": "No — that describes runtime polymorphism, not templates."
+          },
+          {
+            "text": "A template can only ever be used with one fixed type",
+            "fraction": -50,
+            "feedback": "No — a template works across many types."
+          }
+        ],
+        "generalFeedback": "Templates parameterize code by type and are instantiated per concrete type at compile time; they are not vtable-based.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Templates instantiate at compile time",
+        "text": "<p>A C++ template is instantiated into concrete code at compile time for each type used.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — template instantiation is a compile-time process."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Templates are indeed instantiated at compile time, one version per type."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Templates need a vtable?",
+        "text": "<p>Template (parametric) polymorphism relies on a runtime vtable to select behavior.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — templates are resolved at compile time, without a vtable."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — templates use compile-time instantiation, not runtime vtable dispatch."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Parametric polymorphism keyword",
+        "text": "<p>The C++ keyword that begins a generic, type-parameterized definition is ______.</p>",
+        "answers": [
+          {
+            "text": "template",
+            "fraction": 100,
+            "feedback": "Correct — the template keyword."
+          },
+          {
+            "text": "generic",
+            "fraction": 100,
+            "feedback": "Correct — \"generic\" is the equivalent concept in other languages."
+          },
+          {
+            "text": "template*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "參數式多型的 C++ 特性",
+        "text": "<p>哪個 C++ 特性提供<strong>參數式(parametric)</strong>多型?</p>",
+        "answers": [
+          {
+            "text": "樣板(template<class T>)",
+            "fraction": 100,
+            "feedback": "正確 —— 樣板提供參數式(以型別參數化)多型。"
+          },
+          {
+            "text": "virtual 函式",
+            "fraction": 0,
+            "feedback": "錯 —— 那提供執行期(子型別)多型。"
+          },
+          {
+            "text": "函式多載",
+            "fraction": 0,
+            "feedback": "錯 —— 那是特設多型。"
+          },
+          {
+            "text": "private 繼承",
+            "fraction": 0,
+            "feedback": "錯 —— 繼承不是參數式多型。"
+          }
+        ],
+        "generalFeedback": "樣板讓你以型別將程式碼參數化,這正是參數式多型。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "樣板讓你寫出什麼",
+        "text": "<p>C++ 樣板讓你寫出什麼樣的程式碼?</p>",
+        "answers": [
+          {
+            "text": "與型別無關、適用於多種具體型別的程式碼",
+            "fraction": 100,
+            "feedback": "正確 —— 一個樣板服務多種型別。"
+          },
+          {
+            "text": "只對 int 有效的程式碼",
+            "fraction": 0,
+            "feedback": "錯 —— 那會違背樣板的目的。"
+          },
+          {
+            "text": "型別於執行期才選定的程式碼",
+            "fraction": 0,
+            "feedback": "錯 —— 樣板型別在編譯期即固定。"
+          },
+          {
+            "text": "完全跳過編譯器的機器碼",
+            "fraction": 0,
+            "feedback": "錯 —— 樣板與程式其餘部分一樣會被編譯。"
+          }
+        ],
+        "generalFeedback": "樣板是與型別無關程式碼的藍圖,編譯器會為每個使用到的型別加以特化。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "樣板何時實例化",
+        "text": "<p>編譯器在何時為某個型別產生樣板的具體版本?</p>",
+        "answers": [
+          {
+            "text": "編譯期,為每個使用到的具體型別各實例化一個版本",
+            "fraction": 100,
+            "feedback": "正確 —— 樣板實例化發生於編譯期。"
+          },
+          {
+            "text": "執行期,依物件的動態型別",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是 virtual 分派,不是樣板。"
+          },
+          {
+            "text": "從不;樣板以直譯方式執行",
+            "fraction": 0,
+            "feedback": "錯 —— 樣板會被編譯成具體程式碼。"
+          },
+          {
+            "text": "連結期,只做重複符號的合併",
+            "fraction": 0,
+            "feedback": "錯 —— 實例化本身發生於編譯過程中。"
+          }
+        ],
+        "generalFeedback": "編譯器於編譯期為每個使用到的具體型別各實例化一個獨立的具體版本。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "其他語言中的對應",
+        "text": "<p>C++ 樣板最接近其他語言中的哪個特性?</p>",
+        "answers": [
+          {
+            "text": "泛型(如 Java 或 C#)",
+            "fraction": 100,
+            "feedback": "正確 —— 泛型即參數式多型的對應物。"
+          },
+          {
+            "text": "僅是前置處理器巨集",
+            "fraction": 0,
+            "feedback": "錯 —— 樣板會做型別檢查,與純巨集不同。"
+          },
+          {
+            "text": "反射(reflection)",
+            "fraction": 0,
+            "feedback": "錯 —— 反射是執行期自省特性,無關。"
+          },
+          {
+            "text": "垃圾回收",
+            "fraction": 0,
+            "feedback": "錯 —— 那與參數式多型無關。"
+          }
+        ],
+        "generalFeedback": "樣板是 C++ 的泛型形式:與 Java/C# 泛型相同的參數式多型。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "樣板的敘述(複選)",
+        "text": "<p>關於 C++ 樣板,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它讓你寫出以型別參數化、與型別無關的程式碼",
+            "fraction": 50,
+            "feedback": "正確 —— 這就是參數式多型。"
+          },
+          {
+            "text": "編譯器於編譯期為每個具體型別實例化一個版本",
+            "fraction": 50,
+            "feedback": "正確 —— 實例化是編譯期步驟。"
+          },
+          {
+            "text": "它們於執行期透過 vtable 解析",
+            "fraction": -50,
+            "feedback": "錯 —— 那描述的是執行期多型,不是樣板。"
+          },
+          {
+            "text": "一個樣板只能搭配一個固定型別使用",
+            "fraction": -50,
+            "feedback": "錯 —— 樣板可跨多種型別運作。"
+          }
+        ],
+        "generalFeedback": "樣板以型別將程式碼參數化,並於編譯期為每個具體型別實例化;它不是以 vtable 為基礎。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "樣板於編譯期實例化",
+        "text": "<p>C++ 樣板會在編譯期為每個使用到的型別實例化成具體程式碼。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 樣板實例化是編譯期程序。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "樣板確實於編譯期實例化,每個型別各一個版本。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "樣板需要 vtable 嗎?",
+        "text": "<p>樣板(參數式)多型仰賴執行期的 vtable 來選擇行為。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 樣板於編譯期解析,不需 vtable。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 樣板採編譯期實例化,而非執行期 vtable 分派。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "參數式多型關鍵字",
+        "text": "<p>用來開啟泛型、以型別參數化定義的 C++ 關鍵字是 ______。</p>",
+        "answers": [
+          {
+            "text": "template",
+            "fraction": 100,
+            "feedback": "正確 —— template 關鍵字。"
+          },
+          {
+            "text": "generic",
+            "fraction": 100,
+            "feedback": "正確 —— 「generic(泛型)」是其他語言中的對應概念。"
+          },
+          {
+            "text": "template*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-adapter": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Adapter intent",
+        "text": "<p>What does the <strong>Adapter</strong> pattern do?</p>",
+        "answers": [
+          {
+            "text": "Converts one class's interface into another interface the client expects",
+            "fraction": 100,
+            "feedback": "Correct — Adapter translates between interfaces."
+          },
+          {
+            "text": "Ensures a class has exactly one instance",
+            "fraction": 0,
+            "feedback": "That describes Singleton, not Adapter."
+          },
+          {
+            "text": "Composes objects into part-whole tree hierarchies",
+            "fraction": 0,
+            "feedback": "That describes Composite, not Adapter."
+          },
+          {
+            "text": "Separates construction of a complex object from its representation",
+            "fraction": 0,
+            "feedback": "That describes Builder, not Adapter."
+          }
+        ],
+        "generalFeedback": "Adapter converts the interface of a class into another interface clients expect, letting otherwise incompatible classes work together.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Adapter alias",
+        "text": "<p>By what other name is the Adapter pattern commonly known?</p>",
+        "answers": [
+          {
+            "text": "Wrapper",
+            "fraction": 100,
+            "feedback": "Correct — Adapter is also called Wrapper because it wraps an existing class."
+          },
+          {
+            "text": "Director",
+            "fraction": 0,
+            "feedback": "No — Director is a Builder participant."
+          },
+          {
+            "text": "Prototype",
+            "fraction": 0,
+            "feedback": "No — Prototype is a separate creational pattern."
+          }
+        ],
+        "generalFeedback": "Adapter is also known as Wrapper: it wraps an existing (adaptee) class to expose a different interface.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Adapter category",
+        "text": "<p>Into which GoF category does Adapter fall?</p>",
+        "answers": [
+          {
+            "text": "Structural",
+            "fraction": 100,
+            "feedback": "Correct — Adapter is a structural pattern."
+          },
+          {
+            "text": "Creational",
+            "fraction": 0,
+            "feedback": "No — creational patterns concern object creation."
+          },
+          {
+            "text": "Behavioral",
+            "fraction": 0,
+            "feedback": "No — behavioral patterns concern communication and responsibility."
+          }
+        ],
+        "generalFeedback": "Adapter is a structural pattern, alongside Composite and Decorator.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Adapter when to use",
+        "text": "<p>When is Adapter the right choice?</p>",
+        "answers": [
+          {
+            "text": "You want to reuse an existing class whose interface does not match what the client needs",
+            "fraction": 100,
+            "feedback": "Correct — Adapter wraps the incompatible class to fit the expected interface."
+          },
+          {
+            "text": "You need to guarantee a single shared instance",
+            "fraction": 0,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "You need to build part-whole tree hierarchies",
+            "fraction": 0,
+            "feedback": "No — that is Composite."
+          }
+        ],
+        "generalFeedback": "Use Adapter to make an existing class usable through a different, expected interface without modifying it.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Adapter characteristics",
+        "text": "<p>Which statements about Adapter are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It converts an existing interface into the interface a client expects",
+            "fraction": 50,
+            "feedback": "Yes — that is Adapter's core intent."
+          },
+          {
+            "text": "It enables reuse of an existing class with an incompatible interface",
+            "fraction": 50,
+            "feedback": "Yes — that is a primary motivation."
+          },
+          {
+            "text": "Its main purpose is to add responsibilities dynamically by stacking wrappers",
+            "fraction": -50,
+            "feedback": "No — that is Decorator."
+          },
+          {
+            "text": "It ensures a class has exactly one instance",
+            "fraction": -50,
+            "feedback": "No — that is Singleton."
+          }
+        ],
+        "generalFeedback": "Adapter wraps an existing class to convert its interface into the one a client expects, enabling reuse of incompatible code.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Adapter incompatible interfaces",
+        "text": "<p>Adapter lets classes with incompatible interfaces work together.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that is exactly why Adapter exists."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Bridging incompatible interfaces is Adapter's defining purpose."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Adapter changes behavior",
+        "text": "<p>Adapter's job is to change the underlying behavior of the wrapped class, not just its interface.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — Adapter only converts the interface; it does not alter the wrapped class's core behavior."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — Adapter converts the interface while leaving the adaptee's behavior intact."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Adapter term",
+        "text": "<p>The structural pattern that converts one class's interface into another interface a client expects is the ______ pattern.</p>",
+        "answers": [
+          {
+            "text": "adapter",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "wrapper",
+            "fraction": 100,
+            "feedback": "Accepted — Adapter is also known as Wrapper."
+          },
+          {
+            "text": "adapter*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "配接器意圖",
+        "text": "<p><strong>配接器(Adapter)</strong>模式做什麼?</p>",
+        "answers": [
+          {
+            "text": "將某類別的介面轉換成用戶端期望的另一種介面",
+            "fraction": 100,
+            "feedback": "正確 —— 配接器在介面之間進行轉換。"
+          },
+          {
+            "text": "確保類別剛好只有一個實例",
+            "fraction": 0,
+            "feedback": "那是單例(Singleton),不是配接器。"
+          },
+          {
+            "text": "將物件組合成部分—整體的樹狀階層",
+            "fraction": 0,
+            "feedback": "那是組合(Composite),不是配接器。"
+          },
+          {
+            "text": "將複雜物件的建構過程與其表示形式分離",
+            "fraction": 0,
+            "feedback": "那是建造者(Builder),不是配接器。"
+          }
+        ],
+        "generalFeedback": "配接器將某類別的介面轉換成用戶端期望的另一種介面,使原本不相容的類別能協同運作。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "配接器別名",
+        "text": "<p>配接器模式常被稱作什麼別名?</p>",
+        "answers": [
+          {
+            "text": "包裝器(Wrapper)",
+            "fraction": 100,
+            "feedback": "正確 —— 配接器又稱包裝器,因為它包裝既有類別。"
+          },
+          {
+            "text": "指揮者(Director)",
+            "fraction": 0,
+            "feedback": "錯 —— 指揮者是建造者的參與者。"
+          },
+          {
+            "text": "原型(Prototype)",
+            "fraction": 0,
+            "feedback": "錯 —— 原型是另一個建立型模式。"
+          }
+        ],
+        "generalFeedback": "配接器又稱包裝器:它包裝既有的(被配接)類別,以對外暴露不同的介面。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "配接器分類",
+        "text": "<p>配接器屬於 GoF 的哪一類?</p>",
+        "answers": [
+          {
+            "text": "結構型(Structural)",
+            "fraction": 100,
+            "feedback": "正確 —— 配接器是結構型模式。"
+          },
+          {
+            "text": "建立型(Creational)",
+            "fraction": 0,
+            "feedback": "錯 —— 建立型模式關注物件建立。"
+          },
+          {
+            "text": "行為型(Behavioral)",
+            "fraction": 0,
+            "feedback": "錯 —— 行為型模式關注溝通與職責。"
+          }
+        ],
+        "generalFeedback": "配接器是結構型模式,與組合、裝飾者同類。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "配接器使用時機",
+        "text": "<p>什麼時候適合選用配接器?</p>",
+        "answers": [
+          {
+            "text": "你想重用一個既有類別,但它的介面與用戶端所需不符",
+            "fraction": 100,
+            "feedback": "正確 —— 配接器包裝該不相容類別以符合期望介面。"
+          },
+          {
+            "text": "你需要保證單一共用實例",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "你需要建立部分—整體的樹狀階層",
+            "fraction": 0,
+            "feedback": "錯 —— 那是組合。"
+          }
+        ],
+        "generalFeedback": "使用配接器可在不修改既有類別的情況下,讓它透過另一個期望的介面被使用。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "配接器特性",
+        "text": "<p>關於配接器,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它將既有介面轉換成用戶端期望的介面",
+            "fraction": 50,
+            "feedback": "正確 —— 這是配接器的核心意圖。"
+          },
+          {
+            "text": "它讓具有不相容介面的既有類別得以被重用",
+            "fraction": 50,
+            "feedback": "正確 —— 這是主要動機之一。"
+          },
+          {
+            "text": "它的主要目的是透過堆疊包裝器動態附加職責",
+            "fraction": -50,
+            "feedback": "錯 —— 那是裝飾者。"
+          },
+          {
+            "text": "它確保類別剛好只有一個實例",
+            "fraction": -50,
+            "feedback": "錯 —— 那是單例。"
+          }
+        ],
+        "generalFeedback": "配接器包裝既有類別,將其介面轉換成用戶端期望的介面,以重用不相容的程式碼。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "配接器不相容介面",
+        "text": "<p>配接器讓具有不相容介面的類別能協同運作。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這正是配接器存在的原因。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "橋接不相容的介面正是配接器的核心目的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "配接器改變行為",
+        "text": "<p>配接器的工作是改變被包裝類別的底層行為,而不只是它的介面。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 配接器只轉換介面;不會改變被包裝類別的核心行為。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 配接器轉換介面,同時保持被配接者的行為不變。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "配接器名詞",
+        "text": "<p>將某類別的介面轉換成用戶端期望的另一種介面的結構型模式,稱為 ______ 模式。(請以英文作答)</p>",
+        "answers": [
+          {
+            "text": "adapter",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "wrapper",
+            "fraction": 100,
+            "feedback": "接受 —— 配接器又稱包裝器(Wrapper)。"
+          },
+          {
+            "text": "adapter*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-builder": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Builder intent",
+        "text": "<p>What does the <strong>Builder</strong> pattern separate?</p>",
+        "answers": [
+          {
+            "text": "The construction of a complex object from its representation",
+            "fraction": 100,
+            "feedback": "Correct — the same build steps can yield different representations."
+          },
+          {
+            "text": "The single instance of a class from its global access point",
+            "fraction": 0,
+            "feedback": "That describes Singleton, not Builder."
+          },
+          {
+            "text": "One incompatible interface from the interface a client expects",
+            "fraction": 0,
+            "feedback": "That describes Adapter, not Builder."
+          },
+          {
+            "text": "A subclass's product choice from the creation interface",
+            "fraction": 0,
+            "feedback": "That describes Factory Method, not Builder."
+          }
+        ],
+        "generalFeedback": "Builder separates the construction of a complex object from its representation, so the same step-by-step process can build different representations.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Builder category",
+        "text": "<p>Into which GoF category does Builder fall?</p>",
+        "answers": [
+          {
+            "text": "Creational",
+            "fraction": 100,
+            "feedback": "Correct — Builder is a creational pattern about how objects are constructed."
+          },
+          {
+            "text": "Structural",
+            "fraction": 0,
+            "feedback": "No — structural patterns compose classes/objects; Builder governs construction."
+          },
+          {
+            "text": "Behavioral",
+            "fraction": 0,
+            "feedback": "No — behavioral patterns concern object communication and responsibility."
+          }
+        ],
+        "generalFeedback": "Builder is one of the creational patterns, alongside Singleton and Factory Method.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Builder director",
+        "text": "<p>Which participant orchestrates the build steps in the Builder pattern?</p>",
+        "answers": [
+          {
+            "text": "The Director",
+            "fraction": 100,
+            "feedback": "Correct — the Director drives the sequence of building steps."
+          },
+          {
+            "text": "The Adaptee",
+            "fraction": 0,
+            "feedback": "No — that is a participant of the Adapter pattern."
+          },
+          {
+            "text": "The Singleton",
+            "fraction": 0,
+            "feedback": "No — that is an unrelated creational pattern."
+          }
+        ],
+        "generalFeedback": "A Director object knows the sequence of construction steps and delegates the actual work to a Builder.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Builder benefit",
+        "text": "<p>What key benefit does Builder provide?</p>",
+        "answers": [
+          {
+            "text": "The same construction process can produce different representations",
+            "fraction": 100,
+            "feedback": "Correct — that is Builder's defining benefit."
+          },
+          {
+            "text": "It guarantees only one instance of the product exists",
+            "fraction": 0,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "It lets objects be treated as part-whole tree hierarchies",
+            "fraction": 0,
+            "feedback": "No — that is Composite."
+          }
+        ],
+        "generalFeedback": "Because construction is decoupled from representation, one build process can create several different final products.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Builder characteristics",
+        "text": "<p>Which statements about Builder are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It separates the construction of a complex object from its representation",
+            "fraction": 50,
+            "feedback": "Yes — this is Builder's core intent."
+          },
+          {
+            "text": "A fluent interface often returns the builder itself so calls can be chained",
+            "fraction": 50,
+            "feedback": "Yes — chained calls are a common Builder idiom."
+          },
+          {
+            "text": "Its main purpose is to ensure a class has exactly one instance",
+            "fraction": -50,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "It converts one class's interface into another interface a client expects",
+            "fraction": -50,
+            "feedback": "No — that is Adapter."
+          }
+        ],
+        "generalFeedback": "Builder decouples construction from representation and commonly uses a fluent, chainable interface plus an optional Director.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Builder different representations",
+        "text": "<p>The Builder pattern lets the same construction process create different representations of a product.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that is exactly Builder's intent."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Builder decouples construction from representation for exactly this reason."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Builder vs Singleton",
+        "text": "<p>The main intent of Builder is to ensure a class has only one instance.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — that is the Singleton pattern, not Builder."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — ensuring a single instance is Singleton; Builder separates construction from representation."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Builder term",
+        "text": "<p>The creational pattern that separates the step-by-step construction of a complex object from its representation is the ______ pattern.</p>",
+        "answers": [
+          {
+            "text": "builder",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "builder*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "建造者意圖",
+        "text": "<p><strong>建造者(Builder)</strong>模式將什麼分離?</p>",
+        "answers": [
+          {
+            "text": "複雜物件的建構過程與其表示形式",
+            "fraction": 100,
+            "feedback": "正確 —— 相同的建構步驟可產生不同的表示形式。"
+          },
+          {
+            "text": "類別的單一實例與其全域存取點",
+            "fraction": 0,
+            "feedback": "那是單例(Singleton),不是建造者。"
+          },
+          {
+            "text": "不相容的介面與用戶端期望的介面",
+            "fraction": 0,
+            "feedback": "那是配接器(Adapter),不是建造者。"
+          },
+          {
+            "text": "子類別的產品選擇與建立介面",
+            "fraction": 0,
+            "feedback": "那是工廠方法(Factory Method),不是建造者。"
+          }
+        ],
+        "generalFeedback": "建造者將複雜物件的建構過程與其表示形式分離,因此相同的逐步流程可建造出不同的表示形式。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "建造者分類",
+        "text": "<p>建造者屬於 GoF 的哪一類?</p>",
+        "answers": [
+          {
+            "text": "建立型(Creational)",
+            "fraction": 100,
+            "feedback": "正確 —— 建造者是關於物件如何被建構的建立型模式。"
+          },
+          {
+            "text": "結構型(Structural)",
+            "fraction": 0,
+            "feedback": "錯 —— 結構型模式組合類別/物件;建造者管理的是建構過程。"
+          },
+          {
+            "text": "行為型(Behavioral)",
+            "fraction": 0,
+            "feedback": "錯 —— 行為型模式關注物件的溝通與職責分配。"
+          }
+        ],
+        "generalFeedback": "建造者是建立型模式之一,與單例、工廠方法同屬一類。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "建造者指揮者",
+        "text": "<p>在建造者模式中,哪一個參與者負責編排建構步驟?</p>",
+        "answers": [
+          {
+            "text": "指揮者(Director)",
+            "fraction": 100,
+            "feedback": "正確 —— 指揮者驅動建構步驟的順序。"
+          },
+          {
+            "text": "被配接者(Adaptee)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是配接器模式的參與者。"
+          },
+          {
+            "text": "單例(Singleton)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是不相關的建立型模式。"
+          }
+        ],
+        "generalFeedback": "指揮者物件知道建構步驟的順序,並將實際工作委派給建造者。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "建造者的好處",
+        "text": "<p>建造者提供的關鍵好處是什麼?</p>",
+        "answers": [
+          {
+            "text": "相同的建構過程可以產生不同的表示形式",
+            "fraction": 100,
+            "feedback": "正確 —— 這正是建造者的核心好處。"
+          },
+          {
+            "text": "保證產品只存在一個實例",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "讓物件能以部分—整體的樹狀階層被處理",
+            "fraction": 0,
+            "feedback": "錯 —— 那是組合(Composite)。"
+          }
+        ],
+        "generalFeedback": "由於建構過程與表示形式解耦,同一個建構流程可以建立出多種不同的最終產品。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "建造者特性",
+        "text": "<p>關於建造者,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它將複雜物件的建構過程與其表示形式分離",
+            "fraction": 50,
+            "feedback": "正確 —— 這是建造者的核心意圖。"
+          },
+          {
+            "text": "流暢介面(fluent interface)常回傳建造者本身,使呼叫可以串接",
+            "fraction": 50,
+            "feedback": "正確 —— 串接呼叫是常見的建造者慣用法。"
+          },
+          {
+            "text": "它的主要目的是確保類別只有一個實例",
+            "fraction": -50,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "它將某類別的介面轉換成用戶端期望的另一種介面",
+            "fraction": -50,
+            "feedback": "錯 —— 那是配接器。"
+          }
+        ],
+        "generalFeedback": "建造者將建構過程與表示形式解耦,並常使用流暢、可串接的介面搭配可選的指揮者。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "建造者不同表示形式",
+        "text": "<p>建造者模式讓相同的建構過程能建立出產品的不同表示形式。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這正是建造者的意圖。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "建造者正是為此將建構過程與表示形式解耦。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "建造者與單例",
+        "text": "<p>建造者的主要意圖是確保類別只有一個實例。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例模式,不是建造者。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 確保單一實例是單例;建造者是將建構過程與表示形式分離。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "建造者名詞",
+        "text": "<p>將複雜物件逐步建構的過程與其表示形式分離的建立型模式,稱為 ______ 模式。</p>",
+        "answers": [
+          {
+            "text": "builder",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "builder*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-command": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Command core idea",
+        "text": "<p>What does the <strong>Command</strong> pattern primarily do?</p>",
+        "answers": [
+          {
+            "text": "Encapsulates a request as an object with an execute() method",
+            "fraction": 100,
+            "feedback": "Correct — the request becomes a first-class object."
+          },
+          {
+            "text": "Defines a family of interchangeable algorithms",
+            "fraction": 0,
+            "feedback": "That is the Strategy pattern."
+          },
+          {
+            "text": "Notifies many observers when a subject changes",
+            "fraction": 0,
+            "feedback": "That is the Observer pattern."
+          },
+          {
+            "text": "Creates objects without specifying their concrete class",
+            "fraction": 0,
+            "feedback": "That is a Factory pattern."
+          }
+        ],
+        "generalFeedback": "Command turns a request into a standalone object exposing execute(), which is what enables undo, queuing, and logging.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Command decoupling",
+        "text": "<p>Which two roles does Command decouple from each other?</p>",
+        "answers": [
+          {
+            "text": "The invoker from the receiver",
+            "fraction": 100,
+            "feedback": "Correct — the invoker triggers execute() without knowing the receiver."
+          },
+          {
+            "text": "The model from the view",
+            "fraction": 0,
+            "feedback": "That separation belongs to MVC."
+          },
+          {
+            "text": "The publisher from the broker",
+            "fraction": 0,
+            "feedback": "That belongs to Publish-Subscribe."
+          },
+          {
+            "text": "The filter from the pipe",
+            "fraction": 0,
+            "feedback": "That belongs to Pipes and Filters."
+          }
+        ],
+        "generalFeedback": "The invoker holds a Command and calls execute(); the concrete command forwards work to the receiver, so the two never reference each other directly.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Command capability",
+        "text": "<p>Because a command records the request, which feature is naturally supported?</p>",
+        "answers": [
+          {
+            "text": "Undo/redo of operations",
+            "fraction": 100,
+            "feedback": "Correct — storing commands lets you reverse or replay them."
+          },
+          {
+            "text": "Compile-time type inference",
+            "fraction": 0,
+            "feedback": "That is unrelated to the pattern."
+          },
+          {
+            "text": "Automatic garbage collection",
+            "fraction": 0,
+            "feedback": "That is a runtime feature, not from Command."
+          },
+          {
+            "text": "Hardware interrupt handling",
+            "fraction": 0,
+            "feedback": "Not what the pattern provides."
+          }
+        ],
+        "generalFeedback": "Keeping command objects in a history enables undo/redo; keeping them in a list enables queuing and logging.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Macro command",
+        "text": "<p>A command that groups several commands and executes them as one unit is called a ______.</p>",
+        "answers": [
+          {
+            "text": "Macro command (composite command)",
+            "fraction": 100,
+            "feedback": "Correct — it composes multiple commands."
+          },
+          {
+            "text": "Singleton command",
+            "fraction": 0,
+            "feedback": "Singleton is about a single instance, not grouping."
+          },
+          {
+            "text": "Null command",
+            "fraction": 0,
+            "feedback": "A null command does nothing; it does not group commands."
+          },
+          {
+            "text": "Proxy command",
+            "fraction": 0,
+            "feedback": "A proxy stands in for another object; it is not a group."
+          }
+        ],
+        "generalFeedback": "A macro (composite) command holds a list of commands and calls execute() on each, enabling batch operations.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Command benefits (select all)",
+        "text": "<p>Which statements about the Command pattern are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Requests can be queued, logged, and replayed",
+            "fraction": 50,
+            "feedback": "Yes — because each request is an object."
+          },
+          {
+            "text": "It supports undo/redo by storing command history",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "It requires the invoker to know the receiver's concrete class",
+            "fraction": -50,
+            "feedback": "No — that would defeat the decoupling."
+          },
+          {
+            "text": "It is a creational pattern for building object families",
+            "fraction": -50,
+            "feedback": "No — Command is behavioral."
+          }
+        ],
+        "generalFeedback": "Command is behavioral: it objectifies requests to enable queuing, logging, replay, and undo/redo while decoupling invoker and receiver.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Command enables undo",
+        "text": "<p>The Command pattern makes undo/redo and operation queuing straightforward.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — objectified requests can be stored and reversed."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Undo/redo and queuing are hallmark benefits of Command."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Command vs Strategy",
+        "text": "<p>The Command pattern is primarily about choosing between interchangeable algorithms at run time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "That describes Strategy, not Command."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — that is Strategy; Command objectifies requests."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Pattern name",
+        "text": "<p>The behavioral pattern that encapsulates a request as an object with an execute() method is the ______ pattern. (one word, English)</p>",
+        "answers": [
+          {
+            "text": "command",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "command*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "命令模式核心概念",
+        "text": "<p><strong>命令</strong>模式主要做什麼?</p>",
+        "answers": [
+          {
+            "text": "將一個請求封裝成帶有 execute() 方法的物件",
+            "fraction": 100,
+            "feedback": "正確 —— 請求成為第一級物件。"
+          },
+          {
+            "text": "定義一組可互換的演算法",
+            "fraction": 0,
+            "feedback": "那是策略模式。"
+          },
+          {
+            "text": "當主體改變時通知眾多觀察者",
+            "fraction": 0,
+            "feedback": "那是觀察者模式。"
+          },
+          {
+            "text": "在不指定具體類別的情況下建立物件",
+            "fraction": 0,
+            "feedback": "那是工廠模式。"
+          }
+        ],
+        "generalFeedback": "命令模式將請求變成獨立物件並提供 execute(),這正是能支援復原、排隊與記錄的原因。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "命令模式的解耦",
+        "text": "<p>命令模式將哪兩個角色彼此解耦?</p>",
+        "answers": [
+          {
+            "text": "呼叫者(invoker)與接收者(receiver)",
+            "fraction": 100,
+            "feedback": "正確 —— 呼叫者觸發 execute() 而不需知道接收者。"
+          },
+          {
+            "text": "模型與視圖",
+            "fraction": 0,
+            "feedback": "那是 MVC 的分離。"
+          },
+          {
+            "text": "發布者與代理",
+            "fraction": 0,
+            "feedback": "那屬於發布/訂閱。"
+          },
+          {
+            "text": "過濾器與管道",
+            "fraction": 0,
+            "feedback": "那屬於管道與過濾器。"
+          }
+        ],
+        "generalFeedback": "呼叫者持有 Command 並呼叫 execute();具體命令再把工作轉交給接收者,因此兩者不直接互相參考。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "命令模式的能力",
+        "text": "<p>由於命令記錄了請求,下列哪項功能自然而然得到支援?</p>",
+        "answers": [
+          {
+            "text": "操作的復原/重做",
+            "fraction": 100,
+            "feedback": "正確 —— 儲存命令即可反向或重播它們。"
+          },
+          {
+            "text": "編譯期型別推導",
+            "fraction": 0,
+            "feedback": "那與此模式無關。"
+          },
+          {
+            "text": "自動垃圾回收",
+            "fraction": 0,
+            "feedback": "那是執行環境功能,非來自命令模式。"
+          },
+          {
+            "text": "硬體中斷處理",
+            "fraction": 0,
+            "feedback": "這不是此模式所提供的。"
+          }
+        ],
+        "generalFeedback": "將命令物件保存在歷史紀錄中可支援復原/重做;放入清單則可支援排隊與記錄。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "巨集命令",
+        "text": "<p>把數個命令組合起來並當作單一單位執行的命令,稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "巨集命令(組合命令)",
+            "fraction": 100,
+            "feedback": "正確 —— 它組合了多個命令。"
+          },
+          {
+            "text": "單例命令",
+            "fraction": 0,
+            "feedback": "單例是關於單一實例,而非分組。"
+          },
+          {
+            "text": "空命令",
+            "fraction": 0,
+            "feedback": "空命令什麼都不做,並非組合命令。"
+          },
+          {
+            "text": "代理命令",
+            "fraction": 0,
+            "feedback": "代理是替另一物件站位,並非分組。"
+          }
+        ],
+        "generalFeedback": "巨集(組合)命令持有一份命令清單,並對每個呼叫 execute(),以支援批次操作。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "命令模式的好處(複選)",
+        "text": "<p>關於命令模式,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "請求可以被排隊、記錄與重播",
+            "fraction": 50,
+            "feedback": "正確 —— 因為每個請求都是物件。"
+          },
+          {
+            "text": "透過儲存命令歷史可支援復原/重做",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "它要求呼叫者知道接收者的具體類別",
+            "fraction": -50,
+            "feedback": "錯 —— 那會破壞解耦。"
+          },
+          {
+            "text": "它是一種用於建立物件家族的建立型模式",
+            "fraction": -50,
+            "feedback": "錯 —— 命令是行為型模式。"
+          }
+        ],
+        "generalFeedback": "命令是行為型模式:它將請求物件化以支援排隊、記錄、重播與復原/重做,同時解耦呼叫者與接收者。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "命令支援復原",
+        "text": "<p>命令模式讓復原/重做與操作排隊變得簡單直接。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 物件化的請求可被儲存與反向。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "復原/重做與排隊正是命令模式的招牌好處。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "命令 vs 策略",
+        "text": "<p>命令模式主要是關於在執行期於可互換的演算法之間做選擇。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "那描述的是策略模式,而非命令模式。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 那是策略;命令是將請求物件化。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "模式名稱",
+        "text": "<p>把請求封裝成帶有 execute() 方法之物件的行為型模式,稱為 ______ 模式。(英文單字)</p>",
+        "answers": [
+          {
+            "text": "command",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "command*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-composite": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Composite structure",
+        "text": "<p>What structure does the <strong>Composite</strong> pattern compose objects into?</p>",
+        "answers": [
+          {
+            "text": "A tree structure representing part-whole hierarchies",
+            "fraction": 100,
+            "feedback": "Correct — Composite builds part-whole trees."
+          },
+          {
+            "text": "A single global instance with a global access point",
+            "fraction": 0,
+            "feedback": "That describes Singleton, not Composite."
+          },
+          {
+            "text": "A chain of wrappers each adding responsibilities",
+            "fraction": 0,
+            "feedback": "That describes Decorator, not Composite."
+          },
+          {
+            "text": "An adapter converting one interface into another",
+            "fraction": 0,
+            "feedback": "That describes Adapter, not Composite."
+          }
+        ],
+        "generalFeedback": "Composite composes objects into tree structures to represent part-whole hierarchies.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Composite category",
+        "text": "<p>Into which GoF category does Composite fall?</p>",
+        "answers": [
+          {
+            "text": "Structural",
+            "fraction": 100,
+            "feedback": "Correct — Composite is a structural pattern about how objects are composed."
+          },
+          {
+            "text": "Creational",
+            "fraction": 0,
+            "feedback": "No — creational patterns concern object creation."
+          },
+          {
+            "text": "Behavioral",
+            "fraction": 0,
+            "feedback": "No — behavioral patterns concern communication and responsibility."
+          }
+        ],
+        "generalFeedback": "Composite is a structural pattern, alongside Adapter and Decorator.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Composite benefit",
+        "text": "<p>What key benefit does Composite provide to client code?</p>",
+        "answers": [
+          {
+            "text": "Clients can treat individual objects and compositions of objects uniformly",
+            "fraction": 100,
+            "feedback": "Correct — uniform treatment of leaves and composites is the point."
+          },
+          {
+            "text": "It guarantees a class has exactly one instance",
+            "fraction": 0,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "It converts an incompatible interface into an expected one",
+            "fraction": 0,
+            "feedback": "No — that is Adapter."
+          }
+        ],
+        "generalFeedback": "Because leaves and composites share one interface, clients can ignore the difference between a single object and a group.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Composite shared interface",
+        "text": "<p>What do leaf and composite nodes share in the Composite pattern?</p>",
+        "answers": [
+          {
+            "text": "A common component interface",
+            "fraction": 100,
+            "feedback": "Correct — both implement one common interface so clients treat them uniformly."
+          },
+          {
+            "text": "A single shared instance created by a static accessor",
+            "fraction": 0,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "A Director that sequences their construction",
+            "fraction": 0,
+            "feedback": "No — that is Builder."
+          }
+        ],
+        "generalFeedback": "Leaf and composite classes both implement a common component interface, enabling uniform treatment.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Composite characteristics",
+        "text": "<p>Which statements about Composite are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It represents part-whole hierarchies as tree structures",
+            "fraction": 50,
+            "feedback": "Yes — that is Composite's core structure."
+          },
+          {
+            "text": "Leaf and composite nodes implement one common component interface",
+            "fraction": 50,
+            "feedback": "Yes — that is what enables uniform treatment."
+          },
+          {
+            "text": "Its main intent is to ensure a class has exactly one instance",
+            "fraction": -50,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "It converts one class's interface into another interface a client expects",
+            "fraction": -50,
+            "feedback": "No — that is Adapter."
+          }
+        ],
+        "generalFeedback": "Composite forms part-whole trees where leaves and composites share a component interface for uniform client access.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Composite uniform treatment",
+        "text": "<p>Composite lets clients treat individual objects and compositions of objects uniformly.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — uniform treatment is Composite's defining benefit."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Sharing one component interface is exactly what enables uniform treatment."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Composite different interfaces",
+        "text": "<p>In Composite, leaf and composite nodes must implement different interfaces.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — they share one common component interface."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — leaf and composite nodes share a common interface so clients treat them uniformly."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Composite term",
+        "text": "<p>Composite composes part-whole hierarchies into a ______ structure. (English, one word)</p>",
+        "answers": [
+          {
+            "text": "tree",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "composite",
+            "fraction": 100,
+            "feedback": "Accepted — the pattern's own name."
+          },
+          {
+            "text": "part-whole",
+            "fraction": 100,
+            "feedback": "Accepted — it models part-whole hierarchies."
+          },
+          {
+            "text": "tree*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "組合結構",
+        "text": "<p><strong>組合(Composite)</strong>模式把物件組合成什麼結構?</p>",
+        "answers": [
+          {
+            "text": "表示部分—整體階層的樹狀結構",
+            "fraction": 100,
+            "feedback": "正確 —— 組合建立部分—整體的樹。"
+          },
+          {
+            "text": "具有全域存取點的單一全域實例",
+            "fraction": 0,
+            "feedback": "那是單例(Singleton),不是組合。"
+          },
+          {
+            "text": "一連串各自附加職責的包裝器",
+            "fraction": 0,
+            "feedback": "那是裝飾者(Decorator),不是組合。"
+          },
+          {
+            "text": "將某介面轉換成另一介面的配接器",
+            "fraction": 0,
+            "feedback": "那是配接器(Adapter),不是組合。"
+          }
+        ],
+        "generalFeedback": "組合把物件組合成樹狀結構,以表示部分—整體的階層關係。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "組合分類",
+        "text": "<p>組合屬於 GoF 的哪一類?</p>",
+        "answers": [
+          {
+            "text": "結構型(Structural)",
+            "fraction": 100,
+            "feedback": "正確 —— 組合是關於物件如何被組合的結構型模式。"
+          },
+          {
+            "text": "建立型(Creational)",
+            "fraction": 0,
+            "feedback": "錯 —— 建立型模式關注物件的建立。"
+          },
+          {
+            "text": "行為型(Behavioral)",
+            "fraction": 0,
+            "feedback": "錯 —— 行為型模式關注溝通與職責。"
+          }
+        ],
+        "generalFeedback": "組合是結構型模式,與配接器、裝飾者同類。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "組合的好處",
+        "text": "<p>組合對用戶端程式提供的關鍵好處是什麼?</p>",
+        "answers": [
+          {
+            "text": "用戶端能以一致的方式處理單一物件與物件的組合",
+            "fraction": 100,
+            "feedback": "正確 —— 一致地處理葉節點與組合節點正是重點。"
+          },
+          {
+            "text": "它保證類別剛好只有一個實例",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "它將不相容的介面轉換成期望的介面",
+            "fraction": 0,
+            "feedback": "錯 —— 那是配接器。"
+          }
+        ],
+        "generalFeedback": "由於葉節點與組合節點共用同一介面,用戶端可以忽略單一物件與群組之間的差異。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "組合共用介面",
+        "text": "<p>在組合模式中,葉節點與組合節點共用什麼?</p>",
+        "answers": [
+          {
+            "text": "一個共同的元件介面",
+            "fraction": 100,
+            "feedback": "正確 —— 兩者都實作同一介面,使用戶端能一致處理。"
+          },
+          {
+            "text": "由靜態存取方法建立的單一共用實例",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "編排其建構順序的指揮者",
+            "fraction": 0,
+            "feedback": "錯 —— 那是建造者。"
+          }
+        ],
+        "generalFeedback": "葉節點與組合節點類別都實作一個共同的元件介面,以達成一致處理。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "組合特性",
+        "text": "<p>關於組合,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它以樹狀結構表示部分—整體的階層",
+            "fraction": 50,
+            "feedback": "正確 —— 這是組合的核心結構。"
+          },
+          {
+            "text": "葉節點與組合節點實作同一個共同的元件介面",
+            "fraction": 50,
+            "feedback": "正確 —— 這正是達成一致處理的關鍵。"
+          },
+          {
+            "text": "它的主要意圖是確保類別剛好只有一個實例",
+            "fraction": -50,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "它將某類別的介面轉換成用戶端期望的另一種介面",
+            "fraction": -50,
+            "feedback": "錯 —— 那是配接器。"
+          }
+        ],
+        "generalFeedback": "組合形成部分—整體的樹,葉節點與組合節點共用元件介面,讓用戶端能一致存取。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "組合一致處理",
+        "text": "<p>組合讓用戶端能以一致的方式處理單一物件與物件的組合。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 一致處理是組合的核心好處。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "共用同一元件介面正是達成一致處理的原因。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "組合不同介面",
+        "text": "<p>在組合中,葉節點與組合節點必須實作不同的介面。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它們共用一個共同的元件介面。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 葉節點與組合節點共用共同介面,使用戶端能一致處理。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "組合名詞",
+        "text": "<p>組合把部分—整體的階層組合成一種 ______ 結構(樹)。(請以英文作答,一個字)</p>",
+        "answers": [
+          {
+            "text": "tree",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "composite",
+            "fraction": 100,
+            "feedback": "接受 —— 此為模式本身的名稱。"
+          },
+          {
+            "text": "part-whole",
+            "fraction": 100,
+            "feedback": "接受 —— 它建模部分—整體的階層。"
+          },
+          {
+            "text": "tree*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-decorator": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Decorator intent",
+        "text": "<p>How does the <strong>Decorator</strong> pattern add responsibilities to an object?</p>",
+        "answers": [
+          {
+            "text": "Dynamically, by wrapping the object in a decorator at runtime",
+            "fraction": 100,
+            "feedback": "Correct — Decorator attaches responsibilities dynamically by wrapping."
+          },
+          {
+            "text": "By ensuring only one shared instance exists",
+            "fraction": 0,
+            "feedback": "That describes Singleton, not Decorator."
+          },
+          {
+            "text": "By composing objects into a part-whole tree",
+            "fraction": 0,
+            "feedback": "That describes Composite, not Decorator."
+          },
+          {
+            "text": "By letting subclasses decide which product to create",
+            "fraction": 0,
+            "feedback": "That describes Factory Method, not Decorator."
+          }
+        ],
+        "generalFeedback": "Decorator attaches additional responsibilities to an object dynamically by wrapping it in a decorator that shares the same interface.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Decorator interface",
+        "text": "<p>What does a decorator share with the component it wraps?</p>",
+        "answers": [
+          {
+            "text": "The same interface",
+            "fraction": 100,
+            "feedback": "Correct — sharing the interface lets a decorator stand in for the component."
+          },
+          {
+            "text": "A single global instance",
+            "fraction": 0,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "A Director object",
+            "fraction": 0,
+            "feedback": "No — that is Builder."
+          }
+        ],
+        "generalFeedback": "A decorator implements the same interface as the wrapped component, so clients cannot tell them apart.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Decorator alternative",
+        "text": "<p>Decorator is often described as a flexible alternative to what?</p>",
+        "answers": [
+          {
+            "text": "Subclassing to extend functionality",
+            "fraction": 100,
+            "feedback": "Correct — Decorator adds behavior without a subclass explosion."
+          },
+          {
+            "text": "Ensuring a single global instance",
+            "fraction": 0,
+            "feedback": "No — that is Singleton's concern."
+          },
+          {
+            "text": "Converting one interface into another",
+            "fraction": 0,
+            "feedback": "No — that is Adapter's concern."
+          }
+        ],
+        "generalFeedback": "Decorator provides a flexible alternative to subclassing for extending an object's behavior.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Decorator stacking",
+        "text": "<p>Can decorators be combined?</p>",
+        "answers": [
+          {
+            "text": "Yes — multiple decorators can be stacked to combine behaviors",
+            "fraction": 100,
+            "feedback": "Correct — because each decorator wraps the same interface, they nest."
+          },
+          {
+            "text": "No — only one decorator may ever wrap a component",
+            "fraction": 0,
+            "feedback": "No — stacking multiple decorators is a key strength."
+          },
+          {
+            "text": "No — decorators must replace the component entirely",
+            "fraction": 0,
+            "feedback": "No — a decorator wraps rather than replaces the component."
+          }
+        ],
+        "generalFeedback": "Since decorators share the component interface, they can be nested/stacked to accumulate responsibilities.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Decorator characteristics",
+        "text": "<p>Which statements about Decorator are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It attaches additional responsibilities to an object at runtime",
+            "fraction": 50,
+            "feedback": "Yes — that is Decorator's defining feature."
+          },
+          {
+            "text": "A decorator implements the same interface as the component it wraps",
+            "fraction": 50,
+            "feedback": "Yes — this is what makes decorators transparent to clients."
+          },
+          {
+            "text": "Its main purpose is to ensure a class has exactly one instance",
+            "fraction": -50,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "It requires a separate subclass for every combination of features",
+            "fraction": -50,
+            "feedback": "No — avoiding that subclass explosion is a reason to use Decorator."
+          }
+        ],
+        "generalFeedback": "Decorator dynamically wraps a component sharing its interface, giving a flexible, stackable alternative to subclassing.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Decorator stacking true",
+        "text": "<p>Multiple decorators can be stacked to combine several added behaviors.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — decorators nest because they share the component interface."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Stacking decorators to combine behaviors is a defining strength of the pattern."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Decorator different interface",
+        "text": "<p>A decorator must expose a different interface than the object it wraps.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — a decorator shares the same interface so it can transparently replace the component."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the decorator implements the same interface as the wrapped component."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Decorator term",
+        "text": "<p>The structural pattern that attaches responsibilities to an object dynamically by wrapping it in an object of the same interface is the ______ pattern.</p>",
+        "answers": [
+          {
+            "text": "decorator",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "wrapper",
+            "fraction": 100,
+            "feedback": "Accepted — a decorator is a kind of wrapper."
+          },
+          {
+            "text": "decorator*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "裝飾者意圖",
+        "text": "<p><strong>裝飾者(Decorator)</strong>模式如何為物件附加職責?</p>",
+        "answers": [
+          {
+            "text": "動態地,在執行期以裝飾者包裝該物件",
+            "fraction": 100,
+            "feedback": "正確 —— 裝飾者透過包裝動態附加職責。"
+          },
+          {
+            "text": "透過確保只存在一個共用實例",
+            "fraction": 0,
+            "feedback": "那是單例(Singleton),不是裝飾者。"
+          },
+          {
+            "text": "透過將物件組合成部分—整體的樹",
+            "fraction": 0,
+            "feedback": "那是組合(Composite),不是裝飾者。"
+          },
+          {
+            "text": "透過讓子類別決定要建立哪一個產品",
+            "fraction": 0,
+            "feedback": "那是工廠方法(Factory Method),不是裝飾者。"
+          }
+        ],
+        "generalFeedback": "裝飾者透過將物件包裝在一個共用相同介面的裝飾者中,動態地為它附加額外職責。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "裝飾者介面",
+        "text": "<p>裝飾者與它所包裝的元件共用什麼?</p>",
+        "answers": [
+          {
+            "text": "相同的介面",
+            "fraction": 100,
+            "feedback": "正確 —— 共用介面讓裝飾者能取代該元件。"
+          },
+          {
+            "text": "單一全域實例",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "一個指揮者物件",
+            "fraction": 0,
+            "feedback": "錯 —— 那是建造者。"
+          }
+        ],
+        "generalFeedback": "裝飾者實作與被包裝元件相同的介面,因此用戶端無法分辨兩者。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "裝飾者替代方案",
+        "text": "<p>裝飾者常被描述為什麼的彈性替代方案?</p>",
+        "answers": [
+          {
+            "text": "以子類別化來擴充功能",
+            "fraction": 100,
+            "feedback": "正確 —— 裝飾者可在不造成子類別爆炸的情況下加入行為。"
+          },
+          {
+            "text": "確保單一全域實例",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例的關注點。"
+          },
+          {
+            "text": "將某介面轉換成另一介面",
+            "fraction": 0,
+            "feedback": "錯 —— 那是配接器的關注點。"
+          }
+        ],
+        "generalFeedback": "裝飾者提供一種比子類別化更有彈性的方式來擴充物件的行為。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "裝飾者堆疊",
+        "text": "<p>裝飾者可以組合使用嗎?</p>",
+        "answers": [
+          {
+            "text": "可以 —— 多個裝飾者可以堆疊以組合行為",
+            "fraction": 100,
+            "feedback": "正確 —— 由於每個裝飾者都包裝相同的介面,它們可以層層巢狀。"
+          },
+          {
+            "text": "不行 —— 一個元件永遠只能被一個裝飾者包裝",
+            "fraction": 0,
+            "feedback": "錯 —— 堆疊多個裝飾者是關鍵優勢。"
+          },
+          {
+            "text": "不行 —— 裝飾者必須完全取代該元件",
+            "fraction": 0,
+            "feedback": "錯 —— 裝飾者是包裝而非取代該元件。"
+          }
+        ],
+        "generalFeedback": "由於裝飾者共用元件介面,它們可以巢狀/堆疊以累加職責。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "裝飾者特性",
+        "text": "<p>關於裝飾者,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它在執行期為物件附加額外的職責",
+            "fraction": 50,
+            "feedback": "正確 —— 這是裝飾者的核心特徵。"
+          },
+          {
+            "text": "裝飾者實作與其包裝元件相同的介面",
+            "fraction": 50,
+            "feedback": "正確 —— 這使裝飾者對用戶端而言是透明的。"
+          },
+          {
+            "text": "它的主要目的是確保類別剛好只有一個實例",
+            "fraction": -50,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "它需要為每一種功能組合建立一個獨立的子類別",
+            "fraction": -50,
+            "feedback": "錯 —— 避免這種子類別爆炸正是採用裝飾者的原因。"
+          }
+        ],
+        "generalFeedback": "裝飾者動態包裝一個共用其介面的元件,提供比子類別化更彈性且可堆疊的替代方案。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "裝飾者堆疊為真",
+        "text": "<p>多個裝飾者可以堆疊以組合數種附加的行為。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 裝飾者因共用元件介面而能巢狀。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "堆疊裝飾者以組合行為正是此模式的核心優勢。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "裝飾者不同介面",
+        "text": "<p>裝飾者必須暴露與它所包裝物件不同的介面。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 裝飾者共用相同的介面,才能透明地取代該元件。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 裝飾者實作與被包裝元件相同的介面。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "裝飾者名詞",
+        "text": "<p>透過以相同介面的物件包裝來動態為物件附加職責的結構型模式,稱為 ______ 模式。(請以英文作答)</p>",
+        "answers": [
+          {
+            "text": "decorator",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "wrapper",
+            "fraction": 100,
+            "feedback": "接受 —— 裝飾者是一種包裝器(wrapper)。"
+          },
+          {
+            "text": "decorator*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-di": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "DI core idea",
+        "text": "<p>What does Dependency Injection do with a component's dependencies?</p>",
+        "answers": [
+          {
+            "text": "Provides (injects) them from the outside",
+            "fraction": 100,
+            "feedback": "Correct — dependencies are supplied, not self-constructed."
+          },
+          {
+            "text": "Constructs them internally with new",
+            "fraction": 0,
+            "feedback": "That is exactly what DI avoids."
+          },
+          {
+            "text": "Deletes them at run time",
+            "fraction": 0,
+            "feedback": "DI supplies dependencies; it does not delete them."
+          },
+          {
+            "text": "Hides them as global variables",
+            "fraction": 0,
+            "feedback": "DI passes dependencies explicitly, not via globals."
+          }
+        ],
+        "generalFeedback": "With DI, a component receives its dependencies from an external provider rather than creating them itself.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DI principle",
+        "text": "<p>Dependency Injection is a specific form of which broader principle?</p>",
+        "answers": [
+          {
+            "text": "Inversion of Control (IoC)",
+            "fraction": 100,
+            "feedback": "Correct — control over dependency creation is inverted."
+          },
+          {
+            "text": "Open/closed principle",
+            "fraction": 0,
+            "feedback": "Related to OO design but not what DI is a form of."
+          },
+          {
+            "text": "Single responsibility principle",
+            "fraction": 0,
+            "feedback": "A different principle."
+          },
+          {
+            "text": "Liskov substitution principle",
+            "fraction": 0,
+            "feedback": "A different principle."
+          }
+        ],
+        "generalFeedback": "DI implements Inversion of Control: instead of a component controlling how its dependencies are created, an external party provides them.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DI injection styles",
+        "text": "<p>Which set lists common styles of dependency injection?</p>",
+        "answers": [
+          {
+            "text": "Constructor, setter, and interface injection",
+            "fraction": 100,
+            "feedback": "Correct — these are the standard injection styles."
+          },
+          {
+            "text": "Publish, subscribe, and broker injection",
+            "fraction": 0,
+            "feedback": "Those are pub-sub terms, not DI styles."
+          },
+          {
+            "text": "Model, view, and controller injection",
+            "fraction": 0,
+            "feedback": "Those are MVC roles, not DI styles."
+          },
+          {
+            "text": "Encrypt, hash, and salt injection",
+            "fraction": 0,
+            "feedback": "Unrelated to DI."
+          }
+        ],
+        "generalFeedback": "Dependencies are commonly injected through a constructor, a setter method, or an interface the client implements.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DI benefit",
+        "text": "<p>Which benefit most directly follows from using Dependency Injection?</p>",
+        "answers": [
+          {
+            "text": "Improved testability (e.g., injecting mocks/stubs)",
+            "fraction": 100,
+            "feedback": "Correct — dependencies can be replaced with test doubles."
+          },
+          {
+            "text": "Guaranteed faster CPU clock speed",
+            "fraction": 0,
+            "feedback": "Unrelated to the pattern."
+          },
+          {
+            "text": "Automatic elimination of all bugs",
+            "fraction": 0,
+            "feedback": "No pattern guarantees that."
+          },
+          {
+            "text": "Removal of the need for interfaces",
+            "fraction": 0,
+            "feedback": "DI often relies on interfaces/abstractions."
+          }
+        ],
+        "generalFeedback": "By supplying dependencies externally, DI lets you substitute mocks or alternative implementations, improving testability and decoupling.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DI properties (select all)",
+        "text": "<p>Which statements about Dependency Injection are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is a form of Inversion of Control",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "It improves testability and decoupling",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "A component should construct its own dependencies with new",
+            "fraction": -50,
+            "feedback": "No — DI supplies them from outside."
+          },
+          {
+            "text": "It requires all dependencies to be global singletons",
+            "fraction": -50,
+            "feedback": "No — that is not a requirement of DI."
+          }
+        ],
+        "generalFeedback": "DI is an IoC technique: dependencies are injected via constructor/setter/interface from outside, improving testability and decoupling.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "DI external supply",
+        "text": "<p>With Dependency Injection, a component receives its dependencies from the outside rather than constructing them internally.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that external supply is the definition of DI."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Receiving dependencies from outside is exactly what DI means."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "DI internal construction",
+        "text": "<p>Dependency Injection means each component should build its own dependencies internally using new.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — that is the opposite of DI."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — DI supplies dependencies externally, not via internal new."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Action verb",
+        "text": "<p>In DI, dependencies are said to be ______ed into a component from the outside. (English verb stem, e.g. the word before \"-ion\")</p>",
+        "answers": [
+          {
+            "text": "inject",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "inject*",
+            "fraction": 100,
+            "feedback": "Correct — matches inject/injected/injection."
+          },
+          {
+            "text": "injection",
+            "fraction": 100,
+            "feedback": "Accepted."
+          },
+          {
+            "text": "IoC",
+            "fraction": 100,
+            "feedback": "Accepted — Inversion of Control."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "相依注入核心概念",
+        "text": "<p>相依注入如何處理一個元件的相依?</p>",
+        "answers": [
+          {
+            "text": "從外部提供(注入)它們",
+            "fraction": 100,
+            "feedback": "正確 —— 相依是被提供的,而非自行建立。"
+          },
+          {
+            "text": "在內部用 new 自行建立它們",
+            "fraction": 0,
+            "feedback": "那正是 DI 要避免的。"
+          },
+          {
+            "text": "在執行期刪除它們",
+            "fraction": 0,
+            "feedback": "DI 提供相依,而非刪除它們。"
+          },
+          {
+            "text": "把它們藏成全域變數",
+            "fraction": 0,
+            "feedback": "DI 明確傳入相依,而非透過全域變數。"
+          }
+        ],
+        "generalFeedback": "在 DI 中,元件從外部提供者接收其相依,而不是自行建立它們。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DI 原則",
+        "text": "<p>相依注入是下列哪個更廣泛原則的一種具體形式?</p>",
+        "answers": [
+          {
+            "text": "控制反轉(IoC)",
+            "fraction": 100,
+            "feedback": "正確 —— 建立相依的控制權被反轉了。"
+          },
+          {
+            "text": "開放/封閉原則",
+            "fraction": 0,
+            "feedback": "與物件導向設計相關,但 DI 並非它的一種形式。"
+          },
+          {
+            "text": "單一職責原則",
+            "fraction": 0,
+            "feedback": "這是不同的原則。"
+          },
+          {
+            "text": "里氏替換原則",
+            "fraction": 0,
+            "feedback": "這是不同的原則。"
+          }
+        ],
+        "generalFeedback": "DI 實現了控制反轉:不由元件掌控相依如何建立,而是由外部方提供它們。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DI 注入方式",
+        "text": "<p>下列哪一組列出了常見的相依注入方式?</p>",
+        "answers": [
+          {
+            "text": "建構子、setter 與介面注入",
+            "fraction": 100,
+            "feedback": "正確 —— 這些是標準的注入方式。"
+          },
+          {
+            "text": "發布、訂閱與代理注入",
+            "fraction": 0,
+            "feedback": "那些是發布訂閱術語,而非 DI 方式。"
+          },
+          {
+            "text": "模型、視圖與控制器注入",
+            "fraction": 0,
+            "feedback": "那些是 MVC 角色,而非 DI 方式。"
+          },
+          {
+            "text": "加密、雜湊與加鹽注入",
+            "fraction": 0,
+            "feedback": "與 DI 無關。"
+          }
+        ],
+        "generalFeedback": "相依常透過建構子、setter 方法,或由客戶端實作的介面來注入。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DI 好處",
+        "text": "<p>使用相依注入最直接帶來下列哪項好處?</p>",
+        "answers": [
+          {
+            "text": "提升可測試性(例如注入 mock/stub)",
+            "fraction": 100,
+            "feedback": "正確 —— 相依可被測試替身取代。"
+          },
+          {
+            "text": "保證更快的 CPU 時脈",
+            "fraction": 0,
+            "feedback": "與此模式無關。"
+          },
+          {
+            "text": "自動消除所有錯誤",
+            "fraction": 0,
+            "feedback": "沒有任何模式能保證這點。"
+          },
+          {
+            "text": "不再需要介面",
+            "fraction": 0,
+            "feedback": "DI 常仰賴介面/抽象。"
+          }
+        ],
+        "generalFeedback": "藉由從外部提供相依,DI 讓你可替換 mock 或其他實作,提升可測試性與解耦。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DI 特性(複選)",
+        "text": "<p>關於相依注入,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它是控制反轉的一種形式",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "它提升可測試性與解耦",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "元件應以 new 自行建立其相依",
+            "fraction": -50,
+            "feedback": "錯 —— DI 由外部提供它們。"
+          },
+          {
+            "text": "它要求所有相依都是全域單例",
+            "fraction": -50,
+            "feedback": "錯 —— 那不是 DI 的要求。"
+          }
+        ],
+        "generalFeedback": "DI 是一種 IoC 技術:相依透過建構子/setter/介面從外部注入,提升可測試性與解耦。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "DI 外部提供",
+        "text": "<p>使用相依注入時,元件從外部接收其相依,而不是在內部自行建立。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這種外部提供正是 DI 的定義。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "從外部接收相依正是 DI 的意涵。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "DI 內部建立",
+        "text": "<p>相依注入意指每個元件都應在內部用 new 自行建立其相依。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 那與 DI 相反。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— DI 從外部提供相依,而非在內部用 new 建立。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "動作動詞",
+        "text": "<p>在 DI 中,相依被說成是從外部 ______ 進元件裡。(英文動詞字根,例如 \"-ion\" 之前的字)</p>",
+        "answers": [
+          {
+            "text": "inject",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "inject*",
+            "fraction": 100,
+            "feedback": "正確 —— 可匹配 inject/injected/injection。"
+          },
+          {
+            "text": "injection",
+            "fraction": 100,
+            "feedback": "接受。"
+          },
+          {
+            "text": "IoC",
+            "fraction": 100,
+            "feedback": "接受 —— 控制反轉。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-factory": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Factory who decides",
+        "text": "<p>In the <strong>Factory Method</strong> pattern, who decides which concrete class to instantiate?</p>",
+        "answers": [
+          {
+            "text": "Subclasses that override the creation method",
+            "fraction": 100,
+            "feedback": "Correct — subclasses decide which concrete product to create."
+          },
+          {
+            "text": "A single global instance shared by all clients",
+            "fraction": 0,
+            "feedback": "That describes Singleton, not Factory Method."
+          },
+          {
+            "text": "A Director that sequences building steps",
+            "fraction": 0,
+            "feedback": "That describes Builder, not Factory Method."
+          },
+          {
+            "text": "A wrapper that converts one interface into another",
+            "fraction": 0,
+            "feedback": "That describes Adapter, not Factory Method."
+          }
+        ],
+        "generalFeedback": "Factory Method defines an interface for creating an object but lets subclasses decide which class to instantiate.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Factory category",
+        "text": "<p>Into which GoF category does Factory Method fall?</p>",
+        "answers": [
+          {
+            "text": "Creational",
+            "fraction": 100,
+            "feedback": "Correct — Factory Method is a creational pattern about object creation."
+          },
+          {
+            "text": "Structural",
+            "fraction": 0,
+            "feedback": "No — structural patterns compose classes/objects."
+          },
+          {
+            "text": "Behavioral",
+            "fraction": 0,
+            "feedback": "No — behavioral patterns concern communication and responsibility."
+          }
+        ],
+        "generalFeedback": "Factory Method is a creational pattern, like Builder and Singleton.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Factory benefit",
+        "text": "<p>What key benefit does Factory Method provide?</p>",
+        "answers": [
+          {
+            "text": "It decouples client code from the concrete product classes",
+            "fraction": 100,
+            "feedback": "Correct — clients depend only on the product interface."
+          },
+          {
+            "text": "It guarantees a class has exactly one instance",
+            "fraction": 0,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "It composes objects into part-whole tree hierarchies",
+            "fraction": 0,
+            "feedback": "No — that is Composite."
+          }
+        ],
+        "generalFeedback": "By creating products through an overridable method, the client is decoupled from concrete product classes.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Factory defines",
+        "text": "<p>What does Factory Method define?</p>",
+        "answers": [
+          {
+            "text": "An interface (method) for creating an object",
+            "fraction": 100,
+            "feedback": "Correct — it defines a creation interface whose concrete result is chosen by subclasses."
+          },
+          {
+            "text": "A single shared instance and a global access point",
+            "fraction": 0,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "A way to attach responsibilities dynamically by wrapping",
+            "fraction": 0,
+            "feedback": "No — that is Decorator."
+          }
+        ],
+        "generalFeedback": "Factory Method defines the interface for creating an object while deferring the concrete choice to subclasses.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Factory characteristics",
+        "text": "<p>Which statements about Factory Method are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Subclasses override the factory method to choose the concrete product",
+            "fraction": 50,
+            "feedback": "Yes — that is how the concrete class is selected."
+          },
+          {
+            "text": "It promotes loose coupling between client code and concrete products",
+            "fraction": 50,
+            "feedback": "Yes — clients depend on the product interface, not concrete classes."
+          },
+          {
+            "text": "It guarantees that only one instance of the product ever exists",
+            "fraction": -50,
+            "feedback": "No — that is Singleton."
+          },
+          {
+            "text": "It requires composing products into a part-whole tree",
+            "fraction": -50,
+            "feedback": "No — that is Composite."
+          }
+        ],
+        "generalFeedback": "Factory Method defers instantiation to subclasses and decouples clients from concrete product classes.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Factory subclasses",
+        "text": "<p>Factory Method lets subclasses alter the type of objects that will be created.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — subclasses decide which concrete product to instantiate."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Deferring the concrete choice to subclasses is exactly Factory Method's purpose."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Factory concrete coupling",
+        "text": "<p>Factory Method requires client code to reference the concrete product classes directly.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — it decouples the client from concrete product classes."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the client depends only on the product interface, not concrete classes."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Factory term",
+        "text": "<p>The creational pattern that defines a creation interface but lets subclasses decide which concrete class to instantiate is the ______ Method pattern.</p>",
+        "answers": [
+          {
+            "text": "factory",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "factory*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "工廠由誰決定",
+        "text": "<p>在<strong>工廠方法(Factory Method)</strong>模式中,由誰決定要實例化哪一個具體類別?</p>",
+        "answers": [
+          {
+            "text": "覆寫建立方法的子類別",
+            "fraction": 100,
+            "feedback": "正確 —— 子類別決定要建立哪一個具體產品。"
+          },
+          {
+            "text": "由所有用戶端共用的單一全域實例",
+            "fraction": 0,
+            "feedback": "那是單例(Singleton),不是工廠方法。"
+          },
+          {
+            "text": "編排建構步驟的指揮者(Director)",
+            "fraction": 0,
+            "feedback": "那是建造者(Builder),不是工廠方法。"
+          },
+          {
+            "text": "將某介面轉換成另一介面的包裝器",
+            "fraction": 0,
+            "feedback": "那是配接器(Adapter),不是工廠方法。"
+          }
+        ],
+        "generalFeedback": "工廠方法定義建立物件的介面,但讓子類別決定要實例化哪一個類別。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "工廠分類",
+        "text": "<p>工廠方法屬於 GoF 的哪一類?</p>",
+        "answers": [
+          {
+            "text": "建立型(Creational)",
+            "fraction": 100,
+            "feedback": "正確 —— 工廠方法是關於物件建立的建立型模式。"
+          },
+          {
+            "text": "結構型(Structural)",
+            "fraction": 0,
+            "feedback": "錯 —— 結構型模式組合類別/物件。"
+          },
+          {
+            "text": "行為型(Behavioral)",
+            "fraction": 0,
+            "feedback": "錯 —— 行為型模式關注溝通與職責。"
+          }
+        ],
+        "generalFeedback": "工廠方法是建立型模式,與建造者、單例同類。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "工廠的好處",
+        "text": "<p>工廠方法提供的關鍵好處是什麼?</p>",
+        "answers": [
+          {
+            "text": "它讓用戶端程式與具體產品類別解耦",
+            "fraction": 100,
+            "feedback": "正確 —— 用戶端只依賴產品介面。"
+          },
+          {
+            "text": "它保證類別剛好只有一個實例",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "它將物件組合成部分—整體的樹狀階層",
+            "fraction": 0,
+            "feedback": "錯 —— 那是組合(Composite)。"
+          }
+        ],
+        "generalFeedback": "透過可覆寫的方法來建立產品,用戶端便與具體產品類別解耦。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "工廠定義什麼",
+        "text": "<p>工廠方法定義了什麼?</p>",
+        "answers": [
+          {
+            "text": "一個用於建立物件的介面(方法)",
+            "fraction": 100,
+            "feedback": "正確 —— 它定義建立介面,具體結果由子類別選擇。"
+          },
+          {
+            "text": "單一共用實例與全域存取點",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "透過包裝動態附加職責的方式",
+            "fraction": 0,
+            "feedback": "錯 —— 那是裝飾者。"
+          }
+        ],
+        "generalFeedback": "工廠方法定義建立物件的介面,同時把具體選擇延遲給子類別。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "工廠特性",
+        "text": "<p>關於工廠方法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "子類別覆寫工廠方法以選擇具體產品",
+            "fraction": 50,
+            "feedback": "正確 —— 這就是選定具體類別的方式。"
+          },
+          {
+            "text": "它促進用戶端程式與具體產品之間的鬆散耦合",
+            "fraction": 50,
+            "feedback": "正確 —— 用戶端依賴產品介面而非具體類別。"
+          },
+          {
+            "text": "它保證產品永遠只存在一個實例",
+            "fraction": -50,
+            "feedback": "錯 —— 那是單例。"
+          },
+          {
+            "text": "它要求將產品組合成部分—整體的樹",
+            "fraction": -50,
+            "feedback": "錯 —— 那是組合。"
+          }
+        ],
+        "generalFeedback": "工廠方法把實例化延遲給子類別,並讓用戶端與具體產品類別解耦。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "工廠子類別",
+        "text": "<p>工廠方法讓子類別能改變將被建立的物件型別。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 子類別決定要實例化哪一個具體產品。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "將具體選擇延遲給子類別正是工廠方法的目的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "工廠具體耦合",
+        "text": "<p>工廠方法要求用戶端程式直接引用具體產品類別。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它讓用戶端與具體產品類別解耦。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 用戶端只依賴產品介面,而非具體類別。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "工廠名詞",
+        "text": "<p>定義建立介面、但讓子類別決定要實例化哪一個具體類別的建立型模式,稱為 ______ Method(工廠方法)模式。</p>",
+        "answers": [
+          {
+            "text": "factory",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "factory*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-layered": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Layered core rule",
+        "text": "<p>In a strict layered architecture, each layer may use which other layer?</p>",
+        "answers": [
+          {
+            "text": "Only the layer directly below it",
+            "fraction": 100,
+            "feedback": "Correct — dependencies point downward, one level."
+          },
+          {
+            "text": "Any layer above it",
+            "fraction": 0,
+            "feedback": "No — dependencies go downward, not upward."
+          },
+          {
+            "text": "Every other layer freely",
+            "fraction": 0,
+            "feedback": "That would break layering."
+          },
+          {
+            "text": "Only the bottom-most layer",
+            "fraction": 0,
+            "feedback": "A strict layer uses the one directly below, not always the bottom."
+          }
+        ],
+        "generalFeedback": "A strict layered architecture allows a layer to depend only on the layer immediately beneath it, keeping dependencies unidirectional.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Layered example ordering",
+        "text": "<p>Which ordering shows a typical top-to-bottom layering?</p>",
+        "answers": [
+          {
+            "text": "Presentation → Business → Data-access",
+            "fraction": 100,
+            "feedback": "Correct — UI on top, data access at the bottom."
+          },
+          {
+            "text": "Data-access → Presentation → Business",
+            "fraction": 0,
+            "feedback": "That ordering is not the conventional layering."
+          },
+          {
+            "text": "Business → Presentation → Data-access",
+            "fraction": 0,
+            "feedback": "Presentation is normally the top layer."
+          },
+          {
+            "text": "Data-access → Business → Presentation is used top-down",
+            "fraction": 0,
+            "feedback": "That is bottom-up; top-down is Presentation first."
+          }
+        ],
+        "generalFeedback": "A common three-tier stack is Presentation on top, Business logic in the middle, and Data-access at the bottom.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Layered goal",
+        "text": "<p>What is the main goal of organizing a system into layers?</p>",
+        "answers": [
+          {
+            "text": "Separation of concerns",
+            "fraction": 100,
+            "feedback": "Correct — each layer has a focused responsibility."
+          },
+          {
+            "text": "Maximizing global mutable state",
+            "fraction": 0,
+            "feedback": "Not a goal — that harms maintainability."
+          },
+          {
+            "text": "Eliminating all interfaces",
+            "fraction": 0,
+            "feedback": "Layers rely on interfaces between them."
+          },
+          {
+            "text": "Guaranteeing constant-time algorithms",
+            "fraction": 0,
+            "feedback": "Unrelated to layering."
+          }
+        ],
+        "generalFeedback": "Layering separates concerns so each layer can be developed, understood, and replaced independently.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Layered alias",
+        "text": "<p>A layered architecture is also commonly called ______.</p>",
+        "answers": [
+          {
+            "text": "An n-tier architecture",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "A peer-to-peer architecture",
+            "fraction": 0,
+            "feedback": "P2P is a different style with no fixed layers."
+          },
+          {
+            "text": "An event-driven architecture",
+            "fraction": 0,
+            "feedback": "Event-driven is a separate style."
+          },
+          {
+            "text": "A monolithic-only architecture",
+            "fraction": 0,
+            "feedback": "Layering is not defined by being monolithic."
+          }
+        ],
+        "generalFeedback": "Layered architectures are frequently described as n-tier (e.g., 3-tier: presentation, business, data).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Layered properties (select all)",
+        "text": "<p>Which statements about layered architecture are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It promotes separation of concerns",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "Higher layers depend on lower layers, not the reverse",
+            "fraction": 50,
+            "feedback": "Yes — dependencies flow downward."
+          },
+          {
+            "text": "A lower layer should call directly into the presentation layer",
+            "fraction": -50,
+            "feedback": "No — that reverses the dependency direction."
+          },
+          {
+            "text": "Every layer may freely depend on every other layer",
+            "fraction": -50,
+            "feedback": "No — strict layering restricts this."
+          }
+        ],
+        "generalFeedback": "Layered architecture separates concerns with downward, restricted dependencies (often described as n-tier).",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Layered downward dependency",
+        "text": "<p>In a strict layered architecture, dependencies flow downward: a layer uses the layer beneath it.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that unidirectional rule defines strict layering."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Downward, unidirectional dependency is the defining rule."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Layered free access",
+        "text": "<p>Strict layering allows the data-access layer to call directly into the presentation layer.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — that violates the downward dependency rule."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — lower layers do not call up into presentation."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Structure name",
+        "text": "<p>In this architectural style the system is divided into stacked ______s, each using only the one below it. (one word, English, singular)</p>",
+        "answers": [
+          {
+            "text": "layer",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "layer*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "tier",
+            "fraction": 100,
+            "feedback": "Accepted — n-tier is the common synonym."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "分層核心規則",
+        "text": "<p>在嚴格的分層架構中,每一層可以使用哪一層?</p>",
+        "answers": [
+          {
+            "text": "只有它正下方的那一層",
+            "fraction": 100,
+            "feedback": "正確 —— 相依向下、只跨一層。"
+          },
+          {
+            "text": "它上方的任何一層",
+            "fraction": 0,
+            "feedback": "錯 —— 相依是向下,而非向上。"
+          },
+          {
+            "text": "任意其他每一層",
+            "fraction": 0,
+            "feedback": "那會破壞分層。"
+          },
+          {
+            "text": "只有最底層",
+            "fraction": 0,
+            "feedback": "嚴格分層使用正下方那層,不一定是最底層。"
+          }
+        ],
+        "generalFeedback": "嚴格分層架構讓每一層只相依於其正下方的那一層,使相依保持單向。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "分層範例順序",
+        "text": "<p>下列哪個順序呈現典型的由上而下分層?</p>",
+        "answers": [
+          {
+            "text": "展示層 → 業務層 → 資料存取層",
+            "fraction": 100,
+            "feedback": "正確 —— UI 在上、資料存取在下。"
+          },
+          {
+            "text": "資料存取層 → 展示層 → 業務層",
+            "fraction": 0,
+            "feedback": "那不是慣用的分層順序。"
+          },
+          {
+            "text": "業務層 → 展示層 → 資料存取層",
+            "fraction": 0,
+            "feedback": "展示層通常是最上層。"
+          },
+          {
+            "text": "由上而下為 資料存取 → 業務 → 展示",
+            "fraction": 0,
+            "feedback": "那是由下而上;由上而下應以展示層為首。"
+          }
+        ],
+        "generalFeedback": "常見的三層堆疊為:展示層在上、業務邏輯在中、資料存取在下。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "分層目標",
+        "text": "<p>把系統組織成分層的主要目標是什麼?</p>",
+        "answers": [
+          {
+            "text": "關注點分離",
+            "fraction": 100,
+            "feedback": "正確 —— 每一層有其專注的職責。"
+          },
+          {
+            "text": "最大化全域可變狀態",
+            "fraction": 0,
+            "feedback": "不是目標 —— 那會損害可維護性。"
+          },
+          {
+            "text": "消除所有介面",
+            "fraction": 0,
+            "feedback": "各層之間仰賴介面。"
+          },
+          {
+            "text": "保證常數時間演算法",
+            "fraction": 0,
+            "feedback": "與分層無關。"
+          }
+        ],
+        "generalFeedback": "分層讓關注點分離,使每一層都能被獨立開發、理解與替換。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "分層別名",
+        "text": "<p>分層架構也常被稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "n 層(n-tier)架構",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "點對點(P2P)架構",
+            "fraction": 0,
+            "feedback": "P2P 是不同風格,沒有固定分層。"
+          },
+          {
+            "text": "事件驅動架構",
+            "fraction": 0,
+            "feedback": "事件驅動是另一種風格。"
+          },
+          {
+            "text": "僅限單體式架構",
+            "fraction": 0,
+            "feedback": "分層並非以單體式來定義。"
+          }
+        ],
+        "generalFeedback": "分層架構常被描述為 n 層(例如三層:展示、業務、資料)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "分層特性(複選)",
+        "text": "<p>關於分層架構,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它促進關注點分離",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "較高層相依於較低層,而非相反",
+            "fraction": 50,
+            "feedback": "正確 —— 相依向下流動。"
+          },
+          {
+            "text": "較低層應直接呼叫展示層",
+            "fraction": -50,
+            "feedback": "錯 —— 那會反轉相依方向。"
+          },
+          {
+            "text": "每一層都可自由相依於其他每一層",
+            "fraction": -50,
+            "feedback": "錯 —— 嚴格分層會限制這點。"
+          }
+        ],
+        "generalFeedback": "分層架構以受限、向下的相依來分離關注點(常被描述為 n 層)。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "分層向下相依",
+        "text": "<p>在嚴格的分層架構中,相依向下流動:一層使用其下方的那層。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這條單向規則定義了嚴格分層。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "向下且單向的相依正是其定義規則。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "分層自由存取",
+        "text": "<p>嚴格分層允許資料存取層直接呼叫展示層。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 那違反了向下相依規則。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 較低層不會向上呼叫展示層。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "結構名稱",
+        "text": "<p>在這種架構風格中,系統被分成堆疊的 ______,每一層只使用其下方那一層。(英文單字,單數)</p>",
+        "answers": [
+          {
+            "text": "layer",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "layer*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "tier",
+            "fraction": 100,
+            "feedback": "接受 —— n 層是常見同義詞。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-mvc": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "MVC three parts",
+        "text": "<p>MVC separates a system into which three responsibilities?</p>",
+        "answers": [
+          {
+            "text": "Model (data/state), View (presentation), Controller (input handling)",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Publisher, Broker, Subscriber",
+            "fraction": 0,
+            "feedback": "That is Publish-Subscribe."
+          },
+          {
+            "text": "Invoker, Command, Receiver",
+            "fraction": 0,
+            "feedback": "That is the Command pattern."
+          },
+          {
+            "text": "Source, Filter, Sink",
+            "fraction": 0,
+            "feedback": "That resembles Pipes and Filters."
+          }
+        ],
+        "generalFeedback": "MVC divides responsibilities into Model (data and business state), View (presentation), and Controller (handling user input).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MVC model role",
+        "text": "<p>Which component holds the application's data and business state?</p>",
+        "answers": [
+          {
+            "text": "The Model",
+            "fraction": 100,
+            "feedback": "Correct — the Model owns data and rules."
+          },
+          {
+            "text": "The View",
+            "fraction": 0,
+            "feedback": "The View only presents data."
+          },
+          {
+            "text": "The Controller",
+            "fraction": 0,
+            "feedback": "The Controller handles input, not core state."
+          },
+          {
+            "text": "The Router",
+            "fraction": 0,
+            "feedback": "Not one of the three core MVC roles."
+          }
+        ],
+        "generalFeedback": "The Model encapsulates data and business logic independent of how it is displayed.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MVC view-model link",
+        "text": "<p>How does the View typically stay in sync with the Model?</p>",
+        "answers": [
+          {
+            "text": "The View observes the Model and updates when it changes",
+            "fraction": 100,
+            "feedback": "Correct — MVC applies the Observer relationship."
+          },
+          {
+            "text": "The Model reaches into the View to redraw it",
+            "fraction": 0,
+            "feedback": "No — that would couple the Model to the View."
+          },
+          {
+            "text": "They share the same class",
+            "fraction": 0,
+            "feedback": "MVC keeps them separate."
+          },
+          {
+            "text": "They never communicate",
+            "fraction": 0,
+            "feedback": "The View must reflect Model state."
+          }
+        ],
+        "generalFeedback": "The View observes the Model (Observer pattern); when the Model changes state, the View refreshes its presentation.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MVC main benefit",
+        "text": "<p>What is the primary benefit of MVC?</p>",
+        "answers": [
+          {
+            "text": "It decouples the user interface from business logic",
+            "fraction": 100,
+            "feedback": "Correct — UI and logic evolve independently."
+          },
+          {
+            "text": "It guarantees O(1) database queries",
+            "fraction": 0,
+            "feedback": "Unrelated to the pattern."
+          },
+          {
+            "text": "It removes the need for any data storage",
+            "fraction": 0,
+            "feedback": "MVC does not eliminate storage."
+          },
+          {
+            "text": "It merges presentation and data into one class",
+            "fraction": 0,
+            "feedback": "MVC does the opposite — it separates them."
+          }
+        ],
+        "generalFeedback": "By separating Model, View, and Controller, MVC decouples UI presentation from business logic, improving maintainability and testability.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MVC properties (select all)",
+        "text": "<p>Which statements about MVC are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "The Controller translates user input into actions on the Model",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "The View is responsible for presentation",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "The View should contain the core business rules",
+            "fraction": -50,
+            "feedback": "No — business rules belong in the Model."
+          },
+          {
+            "text": "The Model must know the concrete View classes",
+            "fraction": -50,
+            "feedback": "No — the Model is independent of specific Views."
+          }
+        ],
+        "generalFeedback": "MVC assigns presentation to the View, input handling to the Controller, and data/business rules to the Model, keeping them decoupled.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "MVC decoupling",
+        "text": "<p>MVC decouples the user interface from the underlying business logic.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that separation is the point of MVC."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Decoupling UI from logic is exactly what MVC provides."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "MVC business rules location",
+        "text": "<p>In MVC, the core business logic belongs in the View.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — business logic belongs in the Model."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the Model owns business logic; the View only presents."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Component name",
+        "text": "<p>In MVC, the component that holds the application's data and business state is the ______. (one word, English)</p>",
+        "answers": [
+          {
+            "text": "model",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "model*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "MVC",
+            "fraction": 100,
+            "feedback": "Accepted — the architecture itself."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "MVC 三部分",
+        "text": "<p>MVC 把系統分成哪三種職責?</p>",
+        "answers": [
+          {
+            "text": "模型(資料/狀態)、視圖(呈現)、控制器(輸入處理)",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "發布者、代理、訂閱者",
+            "fraction": 0,
+            "feedback": "那是發布/訂閱。"
+          },
+          {
+            "text": "呼叫者、命令、接收者",
+            "fraction": 0,
+            "feedback": "那是命令模式。"
+          },
+          {
+            "text": "來源、過濾器、匯出",
+            "fraction": 0,
+            "feedback": "那類似管道與過濾器。"
+          }
+        ],
+        "generalFeedback": "MVC 把職責分為模型(資料與業務狀態)、視圖(呈現)、控制器(處理使用者輸入)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MVC 模型的角色",
+        "text": "<p>哪個元件持有應用程式的資料與業務狀態?</p>",
+        "answers": [
+          {
+            "text": "模型",
+            "fraction": 100,
+            "feedback": "正確 —— 模型擁有資料與規則。"
+          },
+          {
+            "text": "視圖",
+            "fraction": 0,
+            "feedback": "視圖只負責呈現資料。"
+          },
+          {
+            "text": "控制器",
+            "fraction": 0,
+            "feedback": "控制器處理輸入,而非核心狀態。"
+          },
+          {
+            "text": "路由器",
+            "fraction": 0,
+            "feedback": "那不是 MVC 三大核心角色之一。"
+          }
+        ],
+        "generalFeedback": "模型封裝資料與業務邏輯,與其如何顯示無關。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MVC 視圖與模型的連結",
+        "text": "<p>視圖通常如何與模型保持同步?</p>",
+        "answers": [
+          {
+            "text": "視圖觀察模型,並在其改變時更新",
+            "fraction": 100,
+            "feedback": "正確 —— MVC 運用了觀察者關係。"
+          },
+          {
+            "text": "模型直接伸入視圖去重繪它",
+            "fraction": 0,
+            "feedback": "錯 —— 那會讓模型耦合到視圖。"
+          },
+          {
+            "text": "它們共用同一個類別",
+            "fraction": 0,
+            "feedback": "MVC 讓它們保持分離。"
+          },
+          {
+            "text": "它們從不溝通",
+            "fraction": 0,
+            "feedback": "視圖必須反映模型狀態。"
+          }
+        ],
+        "generalFeedback": "視圖觀察模型(觀察者模式);當模型狀態改變時,視圖更新其呈現。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MVC 主要好處",
+        "text": "<p>MVC 的主要好處是什麼?</p>",
+        "answers": [
+          {
+            "text": "它讓使用者介面與業務邏輯解耦",
+            "fraction": 100,
+            "feedback": "正確 —— UI 與邏輯可獨立演進。"
+          },
+          {
+            "text": "它保證 O(1) 的資料庫查詢",
+            "fraction": 0,
+            "feedback": "與此模式無關。"
+          },
+          {
+            "text": "它讓資料儲存變得不必要",
+            "fraction": 0,
+            "feedback": "MVC 並不會消除儲存需求。"
+          },
+          {
+            "text": "它把呈現與資料合併成一個類別",
+            "fraction": 0,
+            "feedback": "MVC 恰恰相反 —— 它把它們分開。"
+          }
+        ],
+        "generalFeedback": "藉由分離模型、視圖與控制器,MVC 讓 UI 呈現與業務邏輯解耦,提升可維護性與可測試性。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MVC 特性(複選)",
+        "text": "<p>關於 MVC,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "控制器把使用者輸入轉換成對模型的操作",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "視圖負責呈現",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "視圖應包含核心業務規則",
+            "fraction": -50,
+            "feedback": "錯 —— 業務規則屬於模型。"
+          },
+          {
+            "text": "模型必須知道具體的視圖類別",
+            "fraction": -50,
+            "feedback": "錯 —— 模型獨立於特定視圖。"
+          }
+        ],
+        "generalFeedback": "MVC 把呈現交給視圖、輸入處理交給控制器、資料與業務規則交給模型,並讓它們保持解耦。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "MVC 解耦",
+        "text": "<p>MVC 讓使用者介面與底層的業務邏輯解耦。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 那個分離正是 MVC 的重點。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "UI 與邏輯解耦正是 MVC 所提供的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "MVC 業務規則的位置",
+        "text": "<p>在 MVC 中,核心業務邏輯應放在視圖裡。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 業務邏輯屬於模型。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 模型擁有業務邏輯;視圖只負責呈現。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "元件名稱",
+        "text": "<p>在 MVC 中,持有應用程式資料與業務狀態的元件稱為 ______。(英文單字)</p>",
+        "answers": [
+          {
+            "text": "model",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "model*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "MVC",
+            "fraction": 100,
+            "feedback": "接受 —— 指該架構本身。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-observer": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Observer dependency",
+        "text": "<p>The Observer pattern defines what kind of dependency between objects?</p>",
+        "answers": [
+          {
+            "text": "A one-to-many dependency",
+            "fraction": 100,
+            "feedback": "Correct — one subject, many observers."
+          },
+          {
+            "text": "A one-to-one delegation",
+            "fraction": 0,
+            "feedback": "Observer supports many dependents, not just one."
+          },
+          {
+            "text": "A layered top-down dependency",
+            "fraction": 0,
+            "feedback": "That describes Layered architecture."
+          },
+          {
+            "text": "A pipeline dependency",
+            "fraction": 0,
+            "feedback": "That describes Pipes and Filters."
+          }
+        ],
+        "generalFeedback": "Observer establishes a one-to-many relationship so that when one subject changes, all dependents are updated.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Observer notification",
+        "text": "<p>When the subject's state changes, what happens to its observers?</p>",
+        "answers": [
+          {
+            "text": "All registered observers are notified automatically",
+            "fraction": 100,
+            "feedback": "Correct — notification is automatic."
+          },
+          {
+            "text": "Observers must poll the subject on a timer",
+            "fraction": 0,
+            "feedback": "No — the subject pushes notifications; polling is not required."
+          },
+          {
+            "text": "Only the first observer is notified",
+            "fraction": 0,
+            "feedback": "All registered observers are notified."
+          },
+          {
+            "text": "The subject rebuilds itself",
+            "fraction": 0,
+            "feedback": "The subject notifies observers; it does not rebuild."
+          }
+        ],
+        "generalFeedback": "The subject keeps a list of observers and calls their update method whenever its state changes.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Observer registration",
+        "text": "<p>How do observers control whether they receive updates?</p>",
+        "answers": [
+          {
+            "text": "They subscribe and unsubscribe (register/deregister)",
+            "fraction": 100,
+            "feedback": "Correct — subscription is dynamic."
+          },
+          {
+            "text": "They inherit from the subject class",
+            "fraction": 0,
+            "feedback": "Observer favors composition over inheritance here."
+          },
+          {
+            "text": "They edit the subject's source code",
+            "fraction": 0,
+            "feedback": "No source edits are needed; they just subscribe."
+          },
+          {
+            "text": "They cannot; the set is fixed at compile time",
+            "fraction": 0,
+            "feedback": "Observers can be added or removed at run time."
+          }
+        ],
+        "generalFeedback": "Observers subscribe/unsubscribe at run time, giving loose coupling between the subject and its dependents.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Observer alias",
+        "text": "<p>At the object level, the Observer pattern is also known as ______.</p>",
+        "answers": [
+          {
+            "text": "Publish-subscribe (subject/observers)",
+            "fraction": 100,
+            "feedback": "Correct — the subject publishes and observers subscribe."
+          },
+          {
+            "text": "Model-view-controller",
+            "fraction": 0,
+            "feedback": "MVC uses Observer but is a different, larger pattern."
+          },
+          {
+            "text": "Dependency injection",
+            "fraction": 0,
+            "feedback": "Unrelated — DI is about supplying dependencies."
+          },
+          {
+            "text": "Pipes and filters",
+            "fraction": 0,
+            "feedback": "Unrelated pipeline pattern."
+          }
+        ],
+        "generalFeedback": "At the object level Observer is the publish-subscribe idea: the subject publishes state changes; observers subscribe to receive them.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Observer properties (select all)",
+        "text": "<p>Which statements about the Observer pattern are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It promotes loose coupling between subject and observers",
+            "fraction": 50,
+            "feedback": "Yes — the subject only knows an observer interface."
+          },
+          {
+            "text": "Observers can be added or removed at run time",
+            "fraction": 50,
+            "feedback": "Yes — subscription is dynamic."
+          },
+          {
+            "text": "The subject must know each observer's concrete class",
+            "fraction": -50,
+            "feedback": "No — it only depends on an abstract observer interface."
+          },
+          {
+            "text": "It is a creational pattern",
+            "fraction": -50,
+            "feedback": "No — Observer is behavioral."
+          }
+        ],
+        "generalFeedback": "Observer is behavioral: a subject notifies a dynamic set of loosely coupled observers through an abstract interface.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Observer auto-notify",
+        "text": "<p>In the Observer pattern, changing the subject's state automatically notifies all subscribed observers.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that is the defining behavior."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Automatic notification is exactly what Observer provides."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Observer coupling",
+        "text": "<p>The Observer pattern tightly couples the subject to each observer's concrete implementation.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — Observer aims for loose coupling via an interface."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — it is loosely coupled through an observer interface."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Pattern name",
+        "text": "<p>The behavioral pattern defining a one-to-many dependency where dependents are notified of state changes is the ______ pattern. (one word, English)</p>",
+        "answers": [
+          {
+            "text": "observer",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "observer*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "subject",
+            "fraction": 100,
+            "feedback": "Accepted — the subject is the notifying role."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "觀察者的相依關係",
+        "text": "<p>觀察者模式定義了物件之間何種相依關係?</p>",
+        "answers": [
+          {
+            "text": "一對多的相依關係",
+            "fraction": 100,
+            "feedback": "正確 —— 一個主體、多個觀察者。"
+          },
+          {
+            "text": "一對一的委派",
+            "fraction": 0,
+            "feedback": "觀察者支援多個相依者,不只一個。"
+          },
+          {
+            "text": "分層由上而下的相依",
+            "fraction": 0,
+            "feedback": "那描述的是分層架構。"
+          },
+          {
+            "text": "管線相依",
+            "fraction": 0,
+            "feedback": "那描述的是管道與過濾器。"
+          }
+        ],
+        "generalFeedback": "觀察者建立一對多關係,使得當一個主體改變時,所有相依者都會被更新。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "觀察者的通知",
+        "text": "<p>當主體的狀態改變時,它的觀察者會如何?</p>",
+        "answers": [
+          {
+            "text": "所有已註冊的觀察者都會被自動通知",
+            "fraction": 100,
+            "feedback": "正確 —— 通知是自動的。"
+          },
+          {
+            "text": "觀察者必須以計時器輪詢主體",
+            "fraction": 0,
+            "feedback": "錯 —— 由主體推送通知,不需輪詢。"
+          },
+          {
+            "text": "只有第一個觀察者會被通知",
+            "fraction": 0,
+            "feedback": "所有已註冊的觀察者都會被通知。"
+          },
+          {
+            "text": "主體會重建自己",
+            "fraction": 0,
+            "feedback": "主體通知觀察者,並非重建自己。"
+          }
+        ],
+        "generalFeedback": "主體保存一份觀察者清單,並在狀態改變時呼叫它們的 update 方法。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "觀察者的註冊",
+        "text": "<p>觀察者如何控制自己是否接收更新?</p>",
+        "answers": [
+          {
+            "text": "透過訂閱與取消訂閱(註冊/取消註冊)",
+            "fraction": 100,
+            "feedback": "正確 —— 訂閱是動態的。"
+          },
+          {
+            "text": "透過繼承主體類別",
+            "fraction": 0,
+            "feedback": "此處觀察者偏好組合而非繼承。"
+          },
+          {
+            "text": "透過修改主體的原始碼",
+            "fraction": 0,
+            "feedback": "不需修改原始碼,只要訂閱即可。"
+          },
+          {
+            "text": "無法控制;集合在編譯期固定",
+            "fraction": 0,
+            "feedback": "觀察者可在執行期新增或移除。"
+          }
+        ],
+        "generalFeedback": "觀察者在執行期訂閱/取消訂閱,使主體與相依者之間鬆散耦合。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "觀察者的別名",
+        "text": "<p>在物件層級,觀察者模式也被稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "發布-訂閱(主體/觀察者)",
+            "fraction": 100,
+            "feedback": "正確 —— 主體發布、觀察者訂閱。"
+          },
+          {
+            "text": "模型-視圖-控制器",
+            "fraction": 0,
+            "feedback": "MVC 使用觀察者,但它是不同且更大的模式。"
+          },
+          {
+            "text": "相依注入",
+            "fraction": 0,
+            "feedback": "無關 —— DI 是關於提供相依。"
+          },
+          {
+            "text": "管道與過濾器",
+            "fraction": 0,
+            "feedback": "無關的管線模式。"
+          }
+        ],
+        "generalFeedback": "在物件層級,觀察者就是發布-訂閱的概念:主體發布狀態改變,觀察者訂閱以接收。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "觀察者的特性(複選)",
+        "text": "<p>關於觀察者模式,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它促進主體與觀察者之間的鬆散耦合",
+            "fraction": 50,
+            "feedback": "正確 —— 主體只知道觀察者介面。"
+          },
+          {
+            "text": "觀察者可在執行期新增或移除",
+            "fraction": 50,
+            "feedback": "正確 —— 訂閱是動態的。"
+          },
+          {
+            "text": "主體必須知道每個觀察者的具體類別",
+            "fraction": -50,
+            "feedback": "錯 —— 它只相依於抽象的觀察者介面。"
+          },
+          {
+            "text": "它是一種建立型模式",
+            "fraction": -50,
+            "feedback": "錯 —— 觀察者是行為型模式。"
+          }
+        ],
+        "generalFeedback": "觀察者是行為型模式:主體透過抽象介面通知一組鬆散耦合、可動態變動的觀察者。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "觀察者自動通知",
+        "text": "<p>在觀察者模式中,改變主體的狀態會自動通知所有已訂閱的觀察者。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這正是其定義行為。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "自動通知正是觀察者所提供的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "觀察者的耦合",
+        "text": "<p>觀察者模式會將主體與每個觀察者的具體實作緊密耦合。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 觀察者藉由介面追求鬆散耦合。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 它透過觀察者介面達成鬆散耦合。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "模式名稱",
+        "text": "<p>定義一對多相依、使相依者在狀態改變時被通知的行為型模式,稱為 ______ 模式。(英文單字)</p>",
+        "answers": [
+          {
+            "text": "observer",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "observer*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "subject",
+            "fraction": 100,
+            "feedback": "接受 —— 主體是負責通知的角色。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-pipefilter": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Pipe-filter data flow",
+        "text": "<p>In Pipes and Filters, how does data move through the system?</p>",
+        "answers": [
+          {
+            "text": "Through a pipeline of filters connected by pipes",
+            "fraction": 100,
+            "feedback": "Correct — each filter transforms and passes the stream on."
+          },
+          {
+            "text": "By broadcasting to all components at once",
+            "fraction": 0,
+            "feedback": "That resembles pub-sub, not a pipeline."
+          },
+          {
+            "text": "Through a single monolithic function",
+            "fraction": 0,
+            "feedback": "Pipes and filters decompose processing into stages."
+          },
+          {
+            "text": "By storing everything in one shared variable",
+            "fraction": 0,
+            "feedback": "Not how the pattern works."
+          }
+        ],
+        "generalFeedback": "Data flows through a chain of filters; pipes connect them, and each filter transforms the stream and passes it to the next.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Filter responsibility",
+        "text": "<p>What does each filter do?</p>",
+        "answers": [
+          {
+            "text": "Transforms its input stream and passes the result on",
+            "fraction": 100,
+            "feedback": "Correct — a filter is an independent transformation stage."
+          },
+          {
+            "text": "Stores the entire dataset permanently",
+            "fraction": 0,
+            "feedback": "Filters transform streams; they are not the datastore."
+          },
+          {
+            "text": "Coordinates all other filters as a controller",
+            "fraction": 0,
+            "feedback": "Filters are independent; there is no central coordinator."
+          },
+          {
+            "text": "Notifies subscribers of state changes",
+            "fraction": 0,
+            "feedback": "That is Observer/pub-sub behavior."
+          }
+        ],
+        "generalFeedback": "A filter reads from its input pipe, transforms the data, and writes to its output pipe, independent of neighboring filters.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pipe-filter example",
+        "text": "<p>Which everyday system is a classic example of pipes and filters?</p>",
+        "answers": [
+          {
+            "text": "Unix shell pipelines (cmd1 | cmd2 | cmd3)",
+            "fraction": 100,
+            "feedback": "Correct — each command is a filter joined by pipes."
+          },
+          {
+            "text": "A relational database index",
+            "fraction": 0,
+            "feedback": "An index is a data structure, not a pipeline."
+          },
+          {
+            "text": "A GUI button click handler",
+            "fraction": 0,
+            "feedback": "That is event handling, not a filter chain."
+          },
+          {
+            "text": "A singleton logger",
+            "fraction": 0,
+            "feedback": "Unrelated to the pattern."
+          }
+        ],
+        "generalFeedback": "Unix pipelines are the archetypal pipes-and-filters system: each command transforms the stream and pipes it onward.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pipe-filter benefit",
+        "text": "<p>What advantage do independent filters provide?</p>",
+        "answers": [
+          {
+            "text": "They are composable and reusable in different pipelines",
+            "fraction": 100,
+            "feedback": "Correct — filters can be recombined freely."
+          },
+          {
+            "text": "They force all stages into one class",
+            "fraction": 0,
+            "feedback": "The opposite — filters are separate stages."
+          },
+          {
+            "text": "They require shared global state",
+            "fraction": 0,
+            "feedback": "Filters communicate via pipes, not shared globals."
+          },
+          {
+            "text": "They must all run before any data flows",
+            "fraction": 0,
+            "feedback": "Streaming lets data flow through incrementally."
+          }
+        ],
+        "generalFeedback": "Because filters are independent and share a stream interface, they can be composed and reused across pipelines.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pipe-filter properties (select all)",
+        "text": "<p>Which statements about pipes and filters are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Filters are independent and composable",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "Pipes connect the output of one filter to the input of the next",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "A central controller must orchestrate every filter",
+            "fraction": -50,
+            "feedback": "No — filters run independently along the pipeline."
+          },
+          {
+            "text": "Filters must share mutable global state to communicate",
+            "fraction": -50,
+            "feedback": "No — they communicate through pipes."
+          }
+        ],
+        "generalFeedback": "Pipes and filters compose independent transformation stages connected by pipes, with no central coordinator or shared global state.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Filter composability",
+        "text": "<p>In pipes and filters, each filter transforms the data stream and passes it on, and filters can be recombined.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — independence makes filters reusable and composable."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Transform-and-pass-on with composability is the essence of the pattern."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Filter central control",
+        "text": "<p>Pipes and filters require a central controller that directly manages the state of every filter.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — filters are independent stages with no central manager."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — filters run independently, connected only by pipes."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Component name",
+        "text": "<p>In this style, each independent stage that transforms the data stream is called a ______. (one word, English)</p>",
+        "answers": [
+          {
+            "text": "filter",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "filter*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "pipe",
+            "fraction": 100,
+            "feedback": "Accepted — pipes connect the filters."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "管道過濾器資料流",
+        "text": "<p>在管道與過濾器中,資料如何在系統中流動?</p>",
+        "answers": [
+          {
+            "text": "流經以管道連接的一連串過濾器",
+            "fraction": 100,
+            "feedback": "正確 —— 每個過濾器轉換並將串流傳遞下去。"
+          },
+          {
+            "text": "一次廣播給所有元件",
+            "fraction": 0,
+            "feedback": "那類似發布訂閱,而非管線。"
+          },
+          {
+            "text": "透過單一單體式函式",
+            "fraction": 0,
+            "feedback": "管道與過濾器把處理分解成多個階段。"
+          },
+          {
+            "text": "把所有東西存進一個共享變數",
+            "fraction": 0,
+            "feedback": "此模式並非如此運作。"
+          }
+        ],
+        "generalFeedback": "資料流經一連串過濾器;管道把它們連接起來,每個過濾器轉換串流並傳給下一個。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "過濾器的職責",
+        "text": "<p>每個過濾器做什麼?</p>",
+        "answers": [
+          {
+            "text": "轉換其輸入串流並把結果傳遞下去",
+            "fraction": 100,
+            "feedback": "正確 —— 過濾器是獨立的轉換階段。"
+          },
+          {
+            "text": "永久儲存整個資料集",
+            "fraction": 0,
+            "feedback": "過濾器轉換串流,而非資料儲存區。"
+          },
+          {
+            "text": "像控制器一樣協調所有其他過濾器",
+            "fraction": 0,
+            "feedback": "過濾器彼此獨立,沒有中央協調者。"
+          },
+          {
+            "text": "通知訂閱者狀態改變",
+            "fraction": 0,
+            "feedback": "那是觀察者/發布訂閱的行為。"
+          }
+        ],
+        "generalFeedback": "過濾器從輸入管道讀取、轉換資料,再寫入輸出管道,與相鄰過濾器互相獨立。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "管道過濾器範例",
+        "text": "<p>下列哪個日常系統是管道與過濾器的經典範例?</p>",
+        "answers": [
+          {
+            "text": "Unix shell 管線(cmd1 | cmd2 | cmd3)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個指令都是以管道相接的過濾器。"
+          },
+          {
+            "text": "關聯式資料庫索引",
+            "fraction": 0,
+            "feedback": "索引是資料結構,而非管線。"
+          },
+          {
+            "text": "GUI 按鈕點擊處理器",
+            "fraction": 0,
+            "feedback": "那是事件處理,而非過濾器鏈。"
+          },
+          {
+            "text": "單例記錄器",
+            "fraction": 0,
+            "feedback": "與此模式無關。"
+          }
+        ],
+        "generalFeedback": "Unix 管線是管道與過濾器的原型:每個指令轉換串流並以管道傳遞下去。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "管道過濾器好處",
+        "text": "<p>獨立的過濾器帶來什麼優勢?</p>",
+        "answers": [
+          {
+            "text": "它們可組合、可在不同管線中重複使用",
+            "fraction": 100,
+            "feedback": "正確 —— 過濾器可自由重新組合。"
+          },
+          {
+            "text": "它們把所有階段塞進一個類別",
+            "fraction": 0,
+            "feedback": "恰恰相反 —— 過濾器是分離的階段。"
+          },
+          {
+            "text": "它們需要共享的全域狀態",
+            "fraction": 0,
+            "feedback": "過濾器透過管道溝通,而非共享全域狀態。"
+          },
+          {
+            "text": "它們必須全部先運行完資料才會流動",
+            "fraction": 0,
+            "feedback": "串流讓資料逐步流過。"
+          }
+        ],
+        "generalFeedback": "由於過濾器彼此獨立且共用串流介面,它們可在各種管線中組合與重複使用。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "管道過濾器特性(複選)",
+        "text": "<p>關於管道與過濾器,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "過濾器彼此獨立且可組合",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "管道把一個過濾器的輸出接到下一個的輸入",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "必須有中央控制器來調度每個過濾器",
+            "fraction": -50,
+            "feedback": "錯 —— 過濾器沿管線獨立運作。"
+          },
+          {
+            "text": "過濾器必須共享可變全域狀態才能溝通",
+            "fraction": -50,
+            "feedback": "錯 —— 它們透過管道溝通。"
+          }
+        ],
+        "generalFeedback": "管道與過濾器把獨立的轉換階段以管道串接,沒有中央協調者,也不需共享全域狀態。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "過濾器可組合性",
+        "text": "<p>在管道與過濾器中,每個過濾器轉換資料串流並傳遞下去,且過濾器可重新組合。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 獨立性使過濾器可重用、可組合。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "轉換並傳遞、加上可組合性,正是此模式的本質。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "過濾器中央控制",
+        "text": "<p>管道與過濾器需要一個中央控制器來直接管理每個過濾器的狀態。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 過濾器是獨立階段,沒有中央管理者。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 過濾器獨立運作,僅由管道相連。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "元件名稱",
+        "text": "<p>在這種風格中,每個轉換資料串流的獨立階段稱為 ______。(英文單字)</p>",
+        "answers": [
+          {
+            "text": "filter",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "filter*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "pipe",
+            "fraction": 100,
+            "feedback": "接受 —— 管道連接各過濾器。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-pubsub": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Pub-sub intermediary",
+        "text": "<p>In Publish-Subscribe, publishers send messages to what intermediary?</p>",
+        "answers": [
+          {
+            "text": "A broker (topic/channel)",
+            "fraction": 100,
+            "feedback": "Correct — the broker routes messages by topic."
+          },
+          {
+            "text": "Each subscriber directly",
+            "fraction": 0,
+            "feedback": "No — pub-sub decouples them via a broker."
+          },
+          {
+            "text": "A single receiver object",
+            "fraction": 0,
+            "feedback": "That resembles Command's receiver, not pub-sub."
+          },
+          {
+            "text": "A controller",
+            "fraction": 0,
+            "feedback": "Controllers belong to MVC."
+          }
+        ],
+        "generalFeedback": "Publishers emit messages to a broker organized by topic/channel; the broker delivers them to matching subscribers.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pub-sub coupling",
+        "text": "<p>What is the relationship between publishers and subscribers?</p>",
+        "answers": [
+          {
+            "text": "They are decoupled and do not reference each other",
+            "fraction": 100,
+            "feedback": "Correct — the broker sits between them."
+          },
+          {
+            "text": "Each publisher holds a direct reference to every subscriber",
+            "fraction": 0,
+            "feedback": "No — that would couple them tightly."
+          },
+          {
+            "text": "They must run in the same thread",
+            "fraction": 0,
+            "feedback": "No — pub-sub is typically asynchronous."
+          },
+          {
+            "text": "Subscribers create the publishers",
+            "fraction": 0,
+            "feedback": "There is no such requirement."
+          }
+        ],
+        "generalFeedback": "Publishers and subscribers never reference each other; the broker mediates, so either side can change independently.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pub-sub cardinality",
+        "text": "<p>What message cardinality does pub-sub typically support?</p>",
+        "answers": [
+          {
+            "text": "Many-to-many",
+            "fraction": 100,
+            "feedback": "Correct — many publishers, many subscribers per topic."
+          },
+          {
+            "text": "Strictly one-to-one",
+            "fraction": 0,
+            "feedback": "Pub-sub is not limited to one-to-one."
+          },
+          {
+            "text": "Exactly one-to-zero",
+            "fraction": 0,
+            "feedback": "Topics may have any number of subscribers."
+          },
+          {
+            "text": "Always exactly two participants",
+            "fraction": 0,
+            "feedback": "There is no fixed participant count."
+          }
+        ],
+        "generalFeedback": "A topic may have many publishers and many subscribers, giving many-to-many, typically asynchronous communication.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pub-sub timing",
+        "text": "<p>Publish-subscribe communication is typically ______.</p>",
+        "answers": [
+          {
+            "text": "Asynchronous",
+            "fraction": 100,
+            "feedback": "Correct — publishers do not block waiting for subscribers."
+          },
+          {
+            "text": "Always synchronous and blocking",
+            "fraction": 0,
+            "feedback": "Pub-sub decouples timing; it is usually async."
+          },
+          {
+            "text": "Only possible on a single machine",
+            "fraction": 0,
+            "feedback": "Brokers commonly span machines/networks."
+          },
+          {
+            "text": "Restricted to one subscriber",
+            "fraction": 0,
+            "feedback": "Topics support many subscribers."
+          }
+        ],
+        "generalFeedback": "Because a broker buffers and routes messages, publishers and subscribers operate asynchronously and independently.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pub-sub properties (select all)",
+        "text": "<p>Which statements about Publish-Subscribe are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A broker routes messages by topic/channel",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "Publishers and subscribers are decoupled from each other",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "Every publisher must hold a direct reference to each subscriber",
+            "fraction": -50,
+            "feedback": "No — the broker removes that need."
+          },
+          {
+            "text": "It supports only one-to-one delivery",
+            "fraction": -50,
+            "feedback": "No — it is many-to-many."
+          }
+        ],
+        "generalFeedback": "Pub-sub routes messages through a broker by topic, keeping publishers and subscribers decoupled in a many-to-many, asynchronous fashion.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Pub-sub decoupling",
+        "text": "<p>In publish-subscribe, publishers and subscribers do not reference each other directly; a broker mediates.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the broker decouples the two sides."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The broker is precisely what removes direct references."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Pub-sub direct call",
+        "text": "<p>In publish-subscribe, a publisher must call each subscriber directly and synchronously.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — messages go through a broker, usually asynchronously."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — delivery goes via a broker, not direct calls."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Intermediary name",
+        "text": "<p>The intermediary that receives published messages and delivers them to subscribers is the ______. (one word, English)</p>",
+        "answers": [
+          {
+            "text": "broker",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "broker*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "topic",
+            "fraction": 100,
+            "feedback": "Accepted — messages are routed by topic."
+          },
+          {
+            "text": "channel",
+            "fraction": 100,
+            "feedback": "Accepted — a channel/topic carries the messages."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "發布訂閱的中介",
+        "text": "<p>在發布-訂閱中,發布者把訊息送往哪個中介?</p>",
+        "answers": [
+          {
+            "text": "一個代理(主題/通道)",
+            "fraction": 100,
+            "feedback": "正確 —— 代理依主題路由訊息。"
+          },
+          {
+            "text": "直接送給每個訂閱者",
+            "fraction": 0,
+            "feedback": "錯 —— 發布訂閱透過代理將兩者解耦。"
+          },
+          {
+            "text": "單一接收者物件",
+            "fraction": 0,
+            "feedback": "那類似命令的接收者,而非發布訂閱。"
+          },
+          {
+            "text": "一個控制器",
+            "fraction": 0,
+            "feedback": "控制器屬於 MVC。"
+          }
+        ],
+        "generalFeedback": "發布者把訊息發往依主題/通道組織的代理;代理再把訊息送給符合的訂閱者。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "發布訂閱的耦合",
+        "text": "<p>發布者與訂閱者之間的關係是什麼?</p>",
+        "answers": [
+          {
+            "text": "它們彼此解耦、互不參考",
+            "fraction": 100,
+            "feedback": "正確 —— 代理位於兩者之間。"
+          },
+          {
+            "text": "每個發布者都持有每個訂閱者的直接參考",
+            "fraction": 0,
+            "feedback": "錯 —— 那會讓它們緊密耦合。"
+          },
+          {
+            "text": "它們必須在同一執行緒中運行",
+            "fraction": 0,
+            "feedback": "錯 —— 發布訂閱通常是非同步的。"
+          },
+          {
+            "text": "訂閱者建立發布者",
+            "fraction": 0,
+            "feedback": "並無此要求。"
+          }
+        ],
+        "generalFeedback": "發布者與訂閱者從不互相參考;由代理居中協調,因此任一方都能獨立改變。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "發布訂閱的多重性",
+        "text": "<p>發布訂閱通常支援何種訊息多重性?</p>",
+        "answers": [
+          {
+            "text": "多對多",
+            "fraction": 100,
+            "feedback": "正確 —— 每個主題可有多個發布者與多個訂閱者。"
+          },
+          {
+            "text": "嚴格一對一",
+            "fraction": 0,
+            "feedback": "發布訂閱不限於一對一。"
+          },
+          {
+            "text": "恰好一對零",
+            "fraction": 0,
+            "feedback": "一個主題可有任意數量的訂閱者。"
+          },
+          {
+            "text": "永遠恰好兩個參與者",
+            "fraction": 0,
+            "feedback": "參與者數量並不固定。"
+          }
+        ],
+        "generalFeedback": "一個主題可有多個發布者與多個訂閱者,形成多對多、通常非同步的通訊。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "發布訂閱的時序",
+        "text": "<p>發布-訂閱的通訊通常是 ______。</p>",
+        "answers": [
+          {
+            "text": "非同步的",
+            "fraction": 100,
+            "feedback": "正確 —— 發布者不會阻塞等待訂閱者。"
+          },
+          {
+            "text": "總是同步且阻塞的",
+            "fraction": 0,
+            "feedback": "發布訂閱讓時序解耦,通常是非同步的。"
+          },
+          {
+            "text": "只可能在單一機器上",
+            "fraction": 0,
+            "feedback": "代理常橫跨多台機器/網路。"
+          },
+          {
+            "text": "限定一個訂閱者",
+            "fraction": 0,
+            "feedback": "主題支援多個訂閱者。"
+          }
+        ],
+        "generalFeedback": "由於代理會緩衝並路由訊息,發布者與訂閱者可非同步且獨立地運作。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "發布訂閱特性(複選)",
+        "text": "<p>關於發布-訂閱,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "代理依主題/通道路由訊息",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "發布者與訂閱者彼此解耦",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "每個發布者都必須持有每個訂閱者的直接參考",
+            "fraction": -50,
+            "feedback": "錯 —— 代理消除了這種需求。"
+          },
+          {
+            "text": "它只支援一對一的傳遞",
+            "fraction": -50,
+            "feedback": "錯 —— 它是多對多。"
+          }
+        ],
+        "generalFeedback": "發布訂閱透過代理依主題路由訊息,讓發布者與訂閱者以多對多、非同步的方式保持解耦。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "發布訂閱解耦",
+        "text": "<p>在發布-訂閱中,發布者與訂閱者不直接互相參考;由代理居中協調。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 代理讓兩端解耦。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "代理正是消除直接參考的關鍵。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "發布訂閱直接呼叫",
+        "text": "<p>在發布-訂閱中,發布者必須直接且同步地呼叫每個訂閱者。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 訊息經由代理傳遞,通常是非同步的。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 傳遞經由代理,而非直接呼叫。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "中介名稱",
+        "text": "<p>接收已發布訊息並將其傳遞給訂閱者的中介稱為 ______。(英文單字)</p>",
+        "answers": [
+          {
+            "text": "broker",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "broker*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "topic",
+            "fraction": 100,
+            "feedback": "接受 —— 訊息依主題路由。"
+          },
+          {
+            "text": "channel",
+            "fraction": 100,
+            "feedback": "接受 —— 通道/主題承載訊息。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-singleton": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Singleton intent",
+        "text": "<p>What is the intent of the <strong>Singleton</strong> pattern?</p>",
+        "answers": [
+          {
+            "text": "Ensure a class has exactly one instance and provide a global point of access to it",
+            "fraction": 100,
+            "feedback": "Correct — that is Singleton's defining intent."
+          },
+          {
+            "text": "Separate the construction of a complex object from its representation",
+            "fraction": 0,
+            "feedback": "That describes Builder, not Singleton."
+          },
+          {
+            "text": "Convert one class's interface into another interface a client expects",
+            "fraction": 0,
+            "feedback": "That describes Adapter, not Singleton."
+          },
+          {
+            "text": "Attach additional responsibilities to an object dynamically",
+            "fraction": 0,
+            "feedback": "That describes Decorator, not Singleton."
+          }
+        ],
+        "generalFeedback": "Singleton ensures a class has exactly one instance and provides a single global access point to it.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Singleton mechanism",
+        "text": "<p>Which mechanism is typically used to implement a Singleton?</p>",
+        "answers": [
+          {
+            "text": "A private constructor plus a static getInstance() accessor",
+            "fraction": 100,
+            "feedback": "Correct — the private constructor blocks external creation and getInstance() returns the sole instance."
+          },
+          {
+            "text": "A Director that sequences building steps",
+            "fraction": 0,
+            "feedback": "No — that belongs to the Builder pattern."
+          },
+          {
+            "text": "A common component interface shared by leaf and composite nodes",
+            "fraction": 0,
+            "feedback": "No — that belongs to the Composite pattern."
+          }
+        ],
+        "generalFeedback": "A private constructor prevents callers from using new, and a static getInstance() returns (and lazily creates) the single instance.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Singleton concern",
+        "text": "<p>What is a common concern when implementing a Singleton in a multithreaded program?</p>",
+        "answers": [
+          {
+            "text": "Thread-safety of the lazy initialization",
+            "fraction": 100,
+            "feedback": "Correct — concurrent first calls could otherwise create more than one instance."
+          },
+          {
+            "text": "Choosing the true median as a pivot",
+            "fraction": 0,
+            "feedback": "No — that is unrelated to Singleton."
+          },
+          {
+            "text": "Keeping leaf and composite nodes uniform",
+            "fraction": 0,
+            "feedback": "No — that is a Composite concern."
+          }
+        ],
+        "generalFeedback": "If two threads call getInstance() simultaneously during lazy init, they might each create an instance, so synchronization is needed.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Lazy vs eager",
+        "text": "<p>How does <em>lazy</em> initialization of a Singleton differ from <em>eager</em> initialization?</p>",
+        "answers": [
+          {
+            "text": "Lazy creates the instance on first use; eager creates it at load/startup time",
+            "fraction": 100,
+            "feedback": "Correct — that is the lazy vs eager distinction."
+          },
+          {
+            "text": "Lazy creates many instances; eager creates exactly one",
+            "fraction": 0,
+            "feedback": "No — both create exactly one instance."
+          },
+          {
+            "text": "Lazy uses a Director; eager uses an Adapter",
+            "fraction": 0,
+            "feedback": "No — neither pattern is involved."
+          }
+        ],
+        "generalFeedback": "Lazy initialization defers creation until the instance is first requested; eager initialization builds it up front.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Singleton characteristics",
+        "text": "<p>Which statements about Singleton are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A private constructor prevents external code from creating new instances",
+            "fraction": 50,
+            "feedback": "Yes — that is how uniqueness is enforced."
+          },
+          {
+            "text": "It provides a single global point of access to its one instance",
+            "fraction": 50,
+            "feedback": "Yes — that is part of Singleton's intent."
+          },
+          {
+            "text": "It is intended to create many independent instances on demand",
+            "fraction": -50,
+            "feedback": "No — Singleton allows exactly one instance."
+          },
+          {
+            "text": "It requires a Director to sequence construction steps",
+            "fraction": -50,
+            "feedback": "No — that is Builder, not Singleton."
+          }
+        ],
+        "generalFeedback": "Singleton uses a private constructor and a static accessor to guarantee one instance reachable through a global access point.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Singleton global access",
+        "text": "<p>Singleton provides a global point of access to its single instance.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a global access point is part of Singleton's intent."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Singleton explicitly provides a single global access point."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Singleton public constructor",
+        "text": "<p>A Singleton typically exposes a public constructor that any client may call with <code>new</code>.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — the constructor is made private so clients cannot create extra instances."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the constructor is private; access goes through the static accessor."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Singleton term",
+        "text": "<p>The creational pattern that ensures a class has exactly one instance with a global access point is the ______ pattern.</p>",
+        "answers": [
+          {
+            "text": "singleton",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "instance",
+            "fraction": 100,
+            "feedback": "Accepted — the single instance idea is the heart of the pattern."
+          },
+          {
+            "text": "singleton*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "單例意圖",
+        "text": "<p><strong>單例(Singleton)</strong>模式的意圖是什麼?</p>",
+        "answers": [
+          {
+            "text": "確保一個類別剛好只有一個實例,並提供對它的全域存取點",
+            "fraction": 100,
+            "feedback": "正確 —— 這正是單例的核心意圖。"
+          },
+          {
+            "text": "將複雜物件的建構過程與其表示形式分離",
+            "fraction": 0,
+            "feedback": "那是建造者(Builder),不是單例。"
+          },
+          {
+            "text": "將某類別的介面轉換成用戶端期望的另一種介面",
+            "fraction": 0,
+            "feedback": "那是配接器(Adapter),不是單例。"
+          },
+          {
+            "text": "動態地為物件附加額外的職責",
+            "fraction": 0,
+            "feedback": "那是裝飾者(Decorator),不是單例。"
+          }
+        ],
+        "generalFeedback": "單例確保一個類別剛好只有一個實例,並提供對它的單一全域存取點。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "單例機制",
+        "text": "<p>實作單例時通常使用哪一種機制?</p>",
+        "answers": [
+          {
+            "text": "私有建構子加上一個靜態的 getInstance() 存取方法",
+            "fraction": 100,
+            "feedback": "正確 —— 私有建構子阻止外部建立,getInstance() 回傳唯一實例。"
+          },
+          {
+            "text": "負責編排建構步驟的指揮者(Director)",
+            "fraction": 0,
+            "feedback": "錯 —— 那屬於建造者模式。"
+          },
+          {
+            "text": "由葉節點與組合節點共用的共同元件介面",
+            "fraction": 0,
+            "feedback": "錯 —— 那屬於組合模式。"
+          }
+        ],
+        "generalFeedback": "私有建構子讓呼叫端無法使用 new,靜態 getInstance() 回傳(並延遲建立)唯一實例。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "單例的疑慮",
+        "text": "<p>在多執行緒程式中實作單例時,常見的疑慮是什麼?</p>",
+        "answers": [
+          {
+            "text": "延遲初始化的執行緒安全性",
+            "fraction": 100,
+            "feedback": "正確 —— 否則同時的首次呼叫可能建立出多個實例。"
+          },
+          {
+            "text": "選擇真正的中位數作為樞紐",
+            "fraction": 0,
+            "feedback": "錯 —— 這與單例無關。"
+          },
+          {
+            "text": "維持葉節點與組合節點的一致處理",
+            "fraction": 0,
+            "feedback": "錯 —— 那是組合模式的疑慮。"
+          }
+        ],
+        "generalFeedback": "若兩個執行緒在延遲初始化期間同時呼叫 getInstance(),可能各自建立實例,因此需要同步。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "延遲與急切",
+        "text": "<p>單例的<em>延遲(lazy)</em>初始化與<em>急切(eager)</em>初始化有何不同?</p>",
+        "answers": [
+          {
+            "text": "延遲在首次使用時才建立實例;急切在載入/啟動時就建立",
+            "fraction": 100,
+            "feedback": "正確 —— 這就是延遲與急切的區別。"
+          },
+          {
+            "text": "延遲建立多個實例;急切剛好建立一個",
+            "fraction": 0,
+            "feedback": "錯 —— 兩者都只建立一個實例。"
+          },
+          {
+            "text": "延遲使用指揮者;急切使用配接器",
+            "fraction": 0,
+            "feedback": "錯 —— 兩種模式都不涉及。"
+          }
+        ],
+        "generalFeedback": "延遲初始化把建立延到實例首次被請求時;急切初始化則預先建好。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "單例特性",
+        "text": "<p>關於單例,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "私有建構子可防止外部程式建立新的實例",
+            "fraction": 50,
+            "feedback": "正確 —— 這就是強制唯一性的方式。"
+          },
+          {
+            "text": "它提供對其唯一實例的單一全域存取點",
+            "fraction": 50,
+            "feedback": "正確 —— 這是單例意圖的一部分。"
+          },
+          {
+            "text": "它的用意是依需求建立許多獨立的實例",
+            "fraction": -50,
+            "feedback": "錯 —— 單例只允許一個實例。"
+          },
+          {
+            "text": "它需要一個指揮者來編排建構步驟",
+            "fraction": -50,
+            "feedback": "錯 —— 那是建造者,不是單例。"
+          }
+        ],
+        "generalFeedback": "單例使用私有建構子與靜態存取方法,保證只有一個可透過全域存取點取得的實例。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "單例全域存取",
+        "text": "<p>單例提供對其唯一實例的全域存取點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 全域存取點是單例意圖的一部分。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "單例明確提供單一全域存取點。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "單例公開建構子",
+        "text": "<p>單例通常會公開一個公有建構子,讓任何用戶端都能以 <code>new</code> 呼叫。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 建構子被設為私有,使用戶端無法建立額外實例。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 建構子是私有的;存取須透過靜態存取方法。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "單例名詞",
+        "text": "<p>確保類別剛好只有一個實例並提供全域存取點的建立型模式,稱為 ______ 模式。</p>",
+        "answers": [
+          {
+            "text": "singleton",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "instance",
+            "fraction": 100,
+            "feedback": "接受 —— 唯一實例的概念正是此模式的核心。"
+          },
+          {
+            "text": "singleton*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "pattern-strategy": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Strategy core idea",
+        "text": "<p>What does the <strong>Strategy</strong> pattern define?</p>",
+        "answers": [
+          {
+            "text": "A family of interchangeable algorithms behind a common interface",
+            "fraction": 100,
+            "feedback": "Correct — each algorithm is encapsulated."
+          },
+          {
+            "text": "A one-to-many notification mechanism",
+            "fraction": 0,
+            "feedback": "That is Observer."
+          },
+          {
+            "text": "A request wrapped as an object",
+            "fraction": 0,
+            "feedback": "That is Command."
+          },
+          {
+            "text": "A layered separation of concerns",
+            "fraction": 0,
+            "feedback": "That is Layered architecture."
+          }
+        ],
+        "generalFeedback": "Strategy encapsulates each algorithm behind a shared interface so they become interchangeable.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Strategy selection time",
+        "text": "<p>When can the client switch between strategies?</p>",
+        "answers": [
+          {
+            "text": "At run time",
+            "fraction": 100,
+            "feedback": "Correct — strategies are swapped dynamically."
+          },
+          {
+            "text": "Only at compile time",
+            "fraction": 0,
+            "feedback": "Strategy allows run-time swapping."
+          },
+          {
+            "text": "Only at link time",
+            "fraction": 0,
+            "feedback": "No — selection happens at run time."
+          },
+          {
+            "text": "Never; it is fixed once set",
+            "fraction": 0,
+            "feedback": "The client can change the strategy at run time."
+          }
+        ],
+        "generalFeedback": "The client holds a reference to a strategy interface and can assign a different concrete strategy at run time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Strategy design principle",
+        "text": "<p>Which design principle does Strategy most clearly favor?</p>",
+        "answers": [
+          {
+            "text": "Composition over inheritance",
+            "fraction": 100,
+            "feedback": "Correct — behavior is composed via a strategy object."
+          },
+          {
+            "text": "Inheritance over composition",
+            "fraction": 0,
+            "feedback": "Strategy replaces subclassing behavior with composition."
+          },
+          {
+            "text": "Global mutable state",
+            "fraction": 0,
+            "feedback": "Not a goal of the pattern."
+          },
+          {
+            "text": "Tight coupling to concrete classes",
+            "fraction": 0,
+            "feedback": "Strategy decouples the client from concrete algorithms."
+          }
+        ],
+        "generalFeedback": "Rather than subclassing to vary behavior, Strategy composes a behavior object, favoring composition over inheritance.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Strategy interface",
+        "text": "<p>What do all concrete strategies in a family share?</p>",
+        "answers": [
+          {
+            "text": "A common interface so they are interchangeable",
+            "fraction": 100,
+            "feedback": "Correct — the shared interface is what makes swapping possible."
+          },
+          {
+            "text": "The same identical implementation",
+            "fraction": 0,
+            "feedback": "No — implementations differ; the interface is shared."
+          },
+          {
+            "text": "A single global instance",
+            "fraction": 0,
+            "feedback": "That is unrelated to Strategy."
+          },
+          {
+            "text": "A database connection",
+            "fraction": 0,
+            "feedback": "Irrelevant to the pattern."
+          }
+        ],
+        "generalFeedback": "Concrete strategies implement the same interface, so the client can treat them uniformly and swap them freely.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Strategy properties (select all)",
+        "text": "<p>Which statements about the Strategy pattern are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Algorithms can be selected or swapped at run time",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "Each algorithm is encapsulated behind a common interface",
+            "fraction": 50,
+            "feedback": "Yes."
+          },
+          {
+            "text": "It hardcodes a single algorithm into the client",
+            "fraction": -50,
+            "feedback": "No — that is what Strategy avoids."
+          },
+          {
+            "text": "It is a creational pattern",
+            "fraction": -50,
+            "feedback": "No — Strategy is behavioral."
+          }
+        ],
+        "generalFeedback": "Strategy is behavioral: interchangeable algorithms sit behind one interface and are chosen by the client at run time.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Strategy run-time swap",
+        "text": "<p>With the Strategy pattern, a client can switch algorithms at run time without changing its own code.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the client depends only on the strategy interface."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Run-time interchangeability is the core of Strategy."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Strategy vs Observer",
+        "text": "<p>The Strategy pattern is chiefly about notifying many dependents when one object changes state.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "That describes Observer, not Strategy."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — that is Observer; Strategy swaps algorithms."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Pattern name",
+        "text": "<p>The behavioral pattern defining a family of interchangeable, encapsulated algorithms is the ______ pattern. (one word, English)</p>",
+        "answers": [
+          {
+            "text": "strategy",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "strategy*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "algorithm",
+            "fraction": 100,
+            "feedback": "Accepted — Strategy encapsulates an algorithm."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "策略模式核心概念",
+        "text": "<p><strong>策略</strong>模式定義了什麼?</p>",
+        "answers": [
+          {
+            "text": "一組隱藏在共同介面後、可互換的演算法",
+            "fraction": 100,
+            "feedback": "正確 —— 每個演算法都被封裝。"
+          },
+          {
+            "text": "一對多的通知機制",
+            "fraction": 0,
+            "feedback": "那是觀察者模式。"
+          },
+          {
+            "text": "被包裝成物件的請求",
+            "fraction": 0,
+            "feedback": "那是命令模式。"
+          },
+          {
+            "text": "分層的關注點分離",
+            "fraction": 0,
+            "feedback": "那是分層架構。"
+          }
+        ],
+        "generalFeedback": "策略把每個演算法封裝在共享介面之後,使它們可以互換。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "策略的選擇時機",
+        "text": "<p>客戶端何時可以切換不同策略?</p>",
+        "answers": [
+          {
+            "text": "在執行期",
+            "fraction": 100,
+            "feedback": "正確 —— 策略可動態替換。"
+          },
+          {
+            "text": "只能在編譯期",
+            "fraction": 0,
+            "feedback": "策略允許執行期替換。"
+          },
+          {
+            "text": "只能在連結期",
+            "fraction": 0,
+            "feedback": "錯 —— 選擇發生於執行期。"
+          },
+          {
+            "text": "永不;一旦設定即固定",
+            "fraction": 0,
+            "feedback": "客戶端可在執行期更換策略。"
+          }
+        ],
+        "generalFeedback": "客戶端持有策略介面的參考,可在執行期指派不同的具體策略。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "策略的設計原則",
+        "text": "<p>策略模式最明顯地偏好哪一項設計原則?</p>",
+        "answers": [
+          {
+            "text": "組合優於繼承",
+            "fraction": 100,
+            "feedback": "正確 —— 行為是透過策略物件組合而成。"
+          },
+          {
+            "text": "繼承優於組合",
+            "fraction": 0,
+            "feedback": "策略以組合取代以子類別化來變化行為。"
+          },
+          {
+            "text": "全域可變狀態",
+            "fraction": 0,
+            "feedback": "這不是此模式的目標。"
+          },
+          {
+            "text": "與具體類別緊密耦合",
+            "fraction": 0,
+            "feedback": "策略讓客戶端與具體演算法解耦。"
+          }
+        ],
+        "generalFeedback": "策略不以子類別化來變化行為,而是組合一個行為物件,體現組合優於繼承。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "策略的介面",
+        "text": "<p>同一家族中所有具體策略共享什麼?</p>",
+        "answers": [
+          {
+            "text": "共同的介面,使它們可互換",
+            "fraction": 100,
+            "feedback": "正確 —— 共享介面正是可替換的關鍵。"
+          },
+          {
+            "text": "完全相同的實作",
+            "fraction": 0,
+            "feedback": "錯 —— 實作各異,共享的是介面。"
+          },
+          {
+            "text": "單一全域實例",
+            "fraction": 0,
+            "feedback": "那與策略無關。"
+          },
+          {
+            "text": "一個資料庫連線",
+            "fraction": 0,
+            "feedback": "與此模式無關。"
+          }
+        ],
+        "generalFeedback": "各具體策略實作同一介面,因此客戶端能一致地對待並自由替換它們。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "策略的特性(複選)",
+        "text": "<p>關於策略模式,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "演算法可在執行期選擇或替換",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "每個演算法都封裝在共同介面之後",
+            "fraction": 50,
+            "feedback": "正確。"
+          },
+          {
+            "text": "它把單一演算法寫死在客戶端中",
+            "fraction": -50,
+            "feedback": "錯 —— 那正是策略要避免的。"
+          },
+          {
+            "text": "它是一種建立型模式",
+            "fraction": -50,
+            "feedback": "錯 —— 策略是行為型模式。"
+          }
+        ],
+        "generalFeedback": "策略是行為型模式:可互換的演算法置於單一介面之後,由客戶端在執行期選擇。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "策略的執行期替換",
+        "text": "<p>使用策略模式,客戶端可在執行期切換演算法,而不需修改自身程式碼。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 客戶端只相依於策略介面。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "執行期可互換正是策略的核心。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "策略 vs 觀察者",
+        "text": "<p>策略模式主要是關於當一個物件改變狀態時通知眾多相依者。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "那描述的是觀察者,而非策略。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 那是觀察者;策略是替換演算法。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "模式名稱",
+        "text": "<p>定義一組可互換、封裝好之演算法的行為型模式,稱為 ______ 模式。(英文單字)</p>",
+        "answers": [
+          {
+            "text": "strategy",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "strategy*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "algorithm",
+            "fraction": 100,
+            "feedback": "接受 —— 策略封裝的是演算法。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "poly-padd": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Term node fields",
+        "text": "<p>When a polynomial is stored as a linked list of terms, what does each term node hold?</p>",
+        "answers": [
+          {
+            "text": "a coefficient and an exponent",
+            "fraction": 100,
+            "feedback": "Correct — one node per term, storing (coefficient, exponent)."
+          },
+          {
+            "text": "only a coefficient",
+            "fraction": 0,
+            "feedback": "Without the exponent you cannot tell which power the term is."
+          },
+          {
+            "text": "only an exponent",
+            "fraction": 0,
+            "feedback": "The coefficient is needed to know the term's magnitude."
+          },
+          {
+            "text": "the entire polynomial as a string",
+            "fraction": 0,
+            "feedback": "Each node holds a single term, not the whole polynomial."
+          }
+        ],
+        "generalFeedback": "A term node is (coefficient, exponent) plus a link to the next term.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Term ordering",
+        "text": "<p>In the standard representation, the term nodes are kept sorted by...</p>",
+        "answers": [
+          {
+            "text": "descending exponent",
+            "fraction": 100,
+            "feedback": "Correct — highest power first makes merging a single pass."
+          },
+          {
+            "text": "ascending coefficient",
+            "fraction": 0,
+            "feedback": "Coefficients do not define term order."
+          },
+          {
+            "text": "insertion order",
+            "fraction": 0,
+            "feedback": "Unordered terms would make addition harder."
+          },
+          {
+            "text": "alphabetical order of variable names",
+            "fraction": 0,
+            "feedback": "These are single-variable polynomials ordered by exponent."
+          }
+        ],
+        "generalFeedback": "Sorting by descending exponent lets addition merge the two lists in one linear pass.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Equal-exponent rule",
+        "text": "<p>During addition, when two terms have the <strong>equal</strong> exponent you...</p>",
+        "answers": [
+          {
+            "text": "sum their coefficients into one term",
+            "fraction": 100,
+            "feedback": "Correct — like powers combine."
+          },
+          {
+            "text": "add their exponents",
+            "fraction": 0,
+            "feedback": "Exponents are matched, not added."
+          },
+          {
+            "text": "keep both terms separately",
+            "fraction": 0,
+            "feedback": "Terms of the same power must be combined."
+          },
+          {
+            "text": "multiply their coefficients",
+            "fraction": 0,
+            "feedback": "Addition sums coefficients; it does not multiply them."
+          }
+        ],
+        "generalFeedback": "Terms with the same exponent are combined by adding coefficients; the exponent stays the same.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Zero coefficient result",
+        "text": "<p>If two combined terms have coefficients that sum to zero, the result term is...</p>",
+        "answers": [
+          {
+            "text": "dropped from the result list",
+            "fraction": 100,
+            "feedback": "Correct — a zero coefficient contributes nothing and is omitted."
+          },
+          {
+            "text": "kept with coefficient zero",
+            "fraction": 0,
+            "feedback": "Storing explicit zeros wastes space and is avoided."
+          },
+          {
+            "text": "replaced by a constant term",
+            "fraction": 0,
+            "feedback": "It simply vanishes; no constant is introduced."
+          },
+          {
+            "text": "given exponent zero",
+            "fraction": 0,
+            "feedback": "The term is removed, not re-exponented."
+          }
+        ],
+        "generalFeedback": "When coefficients cancel to zero, the term is dropped so the list holds only nonzero terms.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Single linear pass",
+        "text": "<p>Because both lists are sorted by exponent, addition can merge them in a single linear pass.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a merge like two sorted lists, comparing leading exponents."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Sorted order makes a single linear merge possible."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Add exponents myth",
+        "text": "<p>To add two polynomials, you add the exponents of matching terms.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "You sum coefficients of equal-exponent terms; exponents are unchanged."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — matching means equal exponents; you add coefficients."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Power term",
+        "text": "<p>The terms of the polynomial list are kept sorted by their ______, the power to which the variable is raised.</p>",
+        "answers": [
+          {
+            "text": "exponent",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "exponent*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Polynomial addition properties",
+        "text": "<p>Which statements about linked-list polynomial addition are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each node stores a coefficient and an exponent",
+            "fraction": 50,
+            "feedback": "Yes — one term per node."
+          },
+          {
+            "text": "Terms with equal exponents have their coefficients summed",
+            "fraction": 50,
+            "feedback": "Yes — like powers combine."
+          },
+          {
+            "text": "Terms are stored in ascending exponent order",
+            "fraction": -50,
+            "feedback": "No — they are kept in descending exponent order."
+          },
+          {
+            "text": "Terms whose coefficients sum to zero are kept in the result",
+            "fraction": -50,
+            "feedback": "No — zero terms are dropped."
+          }
+        ],
+        "generalFeedback": "Nodes are (coeff, exp) in descending exponent order; equal exponents merge by summing coefficients; zero results are dropped.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "項節點欄位",
+        "text": "<p>當多項式以「項」的鏈結串列儲存時,每個項節點保有什麼?</p>",
+        "answers": [
+          {
+            "text": "係數與指數",
+            "fraction": 100,
+            "feedback": "正確 —— 每個節點一項,儲存 (係數, 指數)。"
+          },
+          {
+            "text": "只有係數",
+            "fraction": 0,
+            "feedback": "沒有指數就無法判斷該項是哪次方。"
+          },
+          {
+            "text": "只有指數",
+            "fraction": 0,
+            "feedback": "需要係數才能知道該項的大小。"
+          },
+          {
+            "text": "整個多項式的字串",
+            "fraction": 0,
+            "feedback": "每個節點保有單一項,而非整個多項式。"
+          }
+        ],
+        "generalFeedback": "項節點為 (係數, 指數) 加上指向下一項的鏈結。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "項的排序",
+        "text": "<p>在標準表示法中,項節點依什麼排序?</p>",
+        "answers": [
+          {
+            "text": "指數遞減",
+            "fraction": 100,
+            "feedback": "正確 —— 最高次在前,使合併能一次掃描完成。"
+          },
+          {
+            "text": "係數遞增",
+            "fraction": 0,
+            "feedback": "係數不決定項的順序。"
+          },
+          {
+            "text": "插入順序",
+            "fraction": 0,
+            "feedback": "未排序的項會讓相加更困難。"
+          },
+          {
+            "text": "變數名稱的字母順序",
+            "fraction": 0,
+            "feedback": "這些是單變數多項式,依指數排序。"
+          }
+        ],
+        "generalFeedback": "依指數遞減排序,可讓相加以單一線性掃描合併兩個串列。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "指數相等規則",
+        "text": "<p>相加時,當兩項的指數<strong>相等</strong>,你要...</p>",
+        "answers": [
+          {
+            "text": "將它們的係數相加成一項",
+            "fraction": 100,
+            "feedback": "正確 —— 同次方合併。"
+          },
+          {
+            "text": "將它們的指數相加",
+            "fraction": 0,
+            "feedback": "指數是用來配對,不是相加。"
+          },
+          {
+            "text": "分別保留兩項",
+            "fraction": 0,
+            "feedback": "同次方的項必須合併。"
+          },
+          {
+            "text": "將它們的係數相乘",
+            "fraction": 0,
+            "feedback": "加法是把係數相加,而非相乘。"
+          }
+        ],
+        "generalFeedback": "指數相同的項藉由係數相加合併;指數維持不變。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "係數為零的結果",
+        "text": "<p>若兩項合併後係數總和為零,則結果項會...</p>",
+        "answers": [
+          {
+            "text": "從結果串列中被捨棄",
+            "fraction": 100,
+            "feedback": "正確 —— 係數為零不貢獻任何值,故省略。"
+          },
+          {
+            "text": "以係數零保留",
+            "fraction": 0,
+            "feedback": "顯式儲存零浪費空間,應避免。"
+          },
+          {
+            "text": "被常數項取代",
+            "fraction": 0,
+            "feedback": "它就直接消失;不會引入常數。"
+          },
+          {
+            "text": "被賦予指數零",
+            "fraction": 0,
+            "feedback": "該項被移除,而非重設指數。"
+          }
+        ],
+        "generalFeedback": "當係數相消為零時,該項被捨棄,使串列只保有非零項。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "單次線性掃描",
+        "text": "<p>因為兩個串列都依指數排序,相加可以用單一線性掃描合併它們。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 如同合併兩個已排序串列,比較領頭的指數。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "已排序的順序使單次線性合併成為可能。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "相加指數的迷思",
+        "text": "<p>要把兩個多項式相加,你要把相配對項的指數相加。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "你要把指數相等之項的係數相加;指數不變。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 配對指的是指數相等;你要相加的是係數。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "次方名詞",
+        "text": "<p>多項式串列的項依其 ______(英文)排序,也就是變數被提升到的次方。</p>",
+        "answers": [
+          {
+            "text": "exponent",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "exponent*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "多項式相加性質",
+        "text": "<p>關於鏈結串列多項式相加,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每個節點儲存一個係數與一個指數",
+            "fraction": 50,
+            "feedback": "正確 —— 每個節點一項。"
+          },
+          {
+            "text": "指數相等的項將其係數相加",
+            "fraction": 50,
+            "feedback": "正確 —— 同次方合併。"
+          },
+          {
+            "text": "項以指數遞增順序儲存",
+            "fraction": -50,
+            "feedback": "錯 —— 是以指數遞減順序保存。"
+          },
+          {
+            "text": "係數總和為零的項會保留在結果中",
+            "fraction": -50,
+            "feedback": "錯 —— 零項會被捨棄。"
+          }
+        ],
+        "generalFeedback": "節點為 (係數, 指數) 且依指數遞減;指數相等以係數相加合併;結果為零則捨棄。",
+        "single": false
+      }
+    ]
+  },
+  "queue": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Queue ordering",
+        "text": "<p>Which ordering discipline does a <strong>queue</strong> follow?</p>",
+        "answers": [
+          {
+            "text": "FIFO — the first element enqueued is the first dequeued",
+            "fraction": 100,
+            "feedback": "Correct — a queue is First-In-First-Out."
+          },
+          {
+            "text": "LIFO — the last element enqueued is the first dequeued",
+            "fraction": 0,
+            "feedback": "That describes a stack, not a queue."
+          },
+          {
+            "text": "Elements leave in sorted key order",
+            "fraction": 0,
+            "feedback": "A plain queue does not sort; that would be a priority queue."
+          },
+          {
+            "text": "Highest-priority element leaves first",
+            "fraction": 0,
+            "feedback": "That is a priority queue, not an ordinary FIFO queue."
+          }
+        ],
+        "generalFeedback": "A queue is FIFO: elements leave in exactly the order they arrived.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Enqueue location",
+        "text": "<p>In a queue, at which end does an <code>enqueue</code> operation add a new element?</p>",
+        "answers": [
+          {
+            "text": "At the rear (back) of the queue",
+            "fraction": 100,
+            "feedback": "Correct — new arrivals join at the rear."
+          },
+          {
+            "text": "At the front of the queue",
+            "fraction": 0,
+            "feedback": "The front is where dequeue removes elements."
+          },
+          {
+            "text": "In the middle, keeping the queue sorted",
+            "fraction": 0,
+            "feedback": "An ordinary queue does not insert in the middle."
+          },
+          {
+            "text": "At whichever end is currently shorter",
+            "fraction": 0,
+            "feedback": "The end is fixed: rear for enqueue, front for dequeue."
+          }
+        ],
+        "generalFeedback": "Enqueue adds at the rear; dequeue removes at the front.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Queue operation cost",
+        "text": "<p>What is the time complexity of <code>enqueue</code> and <code>dequeue</code> in a well-implemented queue?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — front and rear indices are updated in constant time."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No element shifting is needed when using front/rear indices."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "There is no logarithmic search in a queue."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a sorting cost, unrelated to queue operations."
+          }
+        ],
+        "generalFeedback": "With separate front and rear indices, both ends are updated in constant time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Why a circular array",
+        "text": "<p>Why is a queue often implemented with a <strong>circular (ring) array</strong>?</p>",
+        "answers": [
+          {
+            "text": "It reuses freed slots at the front, avoiding shifting elements on each dequeue",
+            "fraction": 100,
+            "feedback": "Correct — wrapping the rear index around reclaims space without moving data."
+          },
+          {
+            "text": "It keeps the elements sorted automatically",
+            "fraction": 0,
+            "feedback": "A ring buffer does not sort anything."
+          },
+          {
+            "text": "It resolves hash collisions",
+            "fraction": 0,
+            "feedback": "Hash collisions are unrelated to a queue's storage."
+          },
+          {
+            "text": "It enables O(log n) search of the queue",
+            "fraction": 0,
+            "feedback": "A queue is not searched logarithmically."
+          }
+        ],
+        "generalFeedback": "A ring array wraps front and rear indices modulo capacity, reusing vacated slots instead of shifting.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Queue properties",
+        "text": "<p>Which statements about a queue are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It follows FIFO order",
+            "fraction": 50,
+            "feedback": "Yes — first in, first out."
+          },
+          {
+            "text": "enqueue at the rear and dequeue at the front are both O(1)",
+            "fraction": 50,
+            "feedback": "Yes — with front/rear indices."
+          },
+          {
+            "text": "Elements are removed in LIFO order",
+            "fraction": -50,
+            "feedback": "No — LIFO is a stack; a queue is FIFO."
+          },
+          {
+            "text": "A circular array must shift every element on each dequeue",
+            "fraction": -50,
+            "feedback": "No — a ring array avoids shifting by wrapping indices."
+          }
+        ],
+        "generalFeedback": "Queues are FIFO with O(1) ends; a ring array avoids shifting on dequeue.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Queue is FIFO",
+        "text": "<p>In a queue, the first element enqueued is the first element dequeued.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a queue is First-In-First-Out."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "A queue is indeed FIFO."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Queue removal order",
+        "text": "<p>A queue removes the most recently added element first.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Removing the most recent first is LIFO, which is a stack."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a queue removes the oldest element first (FIFO)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Queue ordering abbreviation",
+        "text": "<p>The ordering discipline a queue follows is abbreviated ______ (four letters).</p>",
+        "answers": [
+          {
+            "text": "FIFO",
+            "fraction": 100,
+            "feedback": "Correct — First-In-First-Out."
+          },
+          {
+            "text": "FIFO*",
+            "fraction": 100,
+            "feedback": "Correct — First-In-First-Out."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "佇列的順序",
+        "text": "<p><strong>佇列(queue)</strong>遵循哪一種順序規則?</p>",
+        "answers": [
+          {
+            "text": "FIFO —— 最先 enqueue 的元素最先 dequeue",
+            "fraction": 100,
+            "feedback": "正確 —— 佇列是先進先出。"
+          },
+          {
+            "text": "LIFO —— 最後 enqueue 的元素最先 dequeue",
+            "fraction": 0,
+            "feedback": "那描述的是堆疊,不是佇列。"
+          },
+          {
+            "text": "元素依鍵值排序後離開",
+            "fraction": 0,
+            "feedback": "普通佇列不排序;那會是優先佇列。"
+          },
+          {
+            "text": "優先權最高的元素最先離開",
+            "fraction": 0,
+            "feedback": "那是優先佇列,不是一般的 FIFO 佇列。"
+          }
+        ],
+        "generalFeedback": "佇列是 FIFO:元素離開的順序與到達的順序完全相同。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "enqueue 的位置",
+        "text": "<p>在佇列中,<code>enqueue</code> 操作在哪一端加入新元素?</p>",
+        "answers": [
+          {
+            "text": "在佇列的後端(rear)",
+            "fraction": 100,
+            "feedback": "正確 —— 新到者從後端加入。"
+          },
+          {
+            "text": "在佇列的前端(front)",
+            "fraction": 0,
+            "feedback": "前端是 dequeue 移除元素的地方。"
+          },
+          {
+            "text": "插在中間以維持佇列排序",
+            "fraction": 0,
+            "feedback": "普通佇列不會插在中間。"
+          },
+          {
+            "text": "加在目前較短的那一端",
+            "fraction": 0,
+            "feedback": "端點是固定的:enqueue 在後端,dequeue 在前端。"
+          }
+        ],
+        "generalFeedback": "enqueue 從後端加入;dequeue 從前端移除。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "佇列操作的成本",
+        "text": "<p>在良好實作的佇列中,<code>enqueue</code> 與 <code>dequeue</code> 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 前端與後端索引以常數時間更新。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "使用 front/rear 索引時不需要搬移元素。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "佇列裡沒有對數等級的搜尋。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是排序成本,與佇列操作無關。"
+          }
+        ],
+        "generalFeedback": "有各自的 front 與 rear 索引,兩端都以常數時間更新。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "為何使用環狀陣列",
+        "text": "<p>為什麼佇列常以<strong>環狀(ring)陣列</strong>實作?</p>",
+        "answers": [
+          {
+            "text": "它能重用前端釋出的空位,避免每次 dequeue 都搬移元素",
+            "fraction": 100,
+            "feedback": "正確 —— 讓後端索引繞回可回收空間而不必移動資料。"
+          },
+          {
+            "text": "它會自動保持元素排序",
+            "fraction": 0,
+            "feedback": "環狀緩衝區不會排序任何東西。"
+          },
+          {
+            "text": "它能解決雜湊碰撞",
+            "fraction": 0,
+            "feedback": "雜湊碰撞與佇列的儲存無關。"
+          },
+          {
+            "text": "它能讓佇列以 O(log n) 搜尋",
+            "fraction": 0,
+            "feedback": "佇列不會以對數方式搜尋。"
+          }
+        ],
+        "generalFeedback": "環狀陣列讓 front 與 rear 索引對容量取模繞回,重用空出的位置而非搬移。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "佇列的性質",
+        "text": "<p>關於佇列,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它遵循 FIFO 順序",
+            "fraction": 50,
+            "feedback": "正確 —— 先進先出。"
+          },
+          {
+            "text": "在後端 enqueue 與在前端 dequeue 都是 O(1)",
+            "fraction": 50,
+            "feedback": "正確 —— 使用 front/rear 索引即可。"
+          },
+          {
+            "text": "元素以 LIFO 順序被移除",
+            "fraction": -50,
+            "feedback": "錯 —— LIFO 是堆疊;佇列是 FIFO。"
+          },
+          {
+            "text": "環狀陣列每次 dequeue 都必須搬移每個元素",
+            "fraction": -50,
+            "feedback": "錯 —— 環狀陣列以繞回索引避免搬移。"
+          }
+        ],
+        "generalFeedback": "佇列是 FIFO,兩端為 O(1);環狀陣列在 dequeue 時避免搬移。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "佇列是 FIFO",
+        "text": "<p>在佇列中,最先 enqueue 的元素是最先 dequeue 的元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 佇列是先進先出。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "佇列確實是 FIFO。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "佇列的移除順序",
+        "text": "<p>佇列會最先移除最近才加入的元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "最先移除最近加入的是 LIFO,那是堆疊。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 佇列最先移除最舊的元素(FIFO)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "佇列順序的縮寫",
+        "text": "<p>佇列所遵循的順序規則縮寫為 ______(四個字母)。</p>",
+        "answers": [
+          {
+            "text": "FIFO",
+            "fraction": 100,
+            "feedback": "正確 —— First-In-First-Out(先進先出)。"
+          },
+          {
+            "text": "FIFO*",
+            "fraction": 100,
+            "feedback": "正確 —— First-In-First-Out(先進先出)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "recursion": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Definition of recursion",
+        "text": "<p>What defines a <strong>recursive</strong> function?</p>",
+        "answers": [
+          {
+            "text": "A function that calls itself",
+            "fraction": 100,
+            "feedback": "Correct — recursion means a function invokes itself (directly or indirectly)."
+          },
+          {
+            "text": "A function that loops using only a while statement",
+            "fraction": 0,
+            "feedback": "That is iteration, not recursion."
+          },
+          {
+            "text": "A function with no parameters",
+            "fraction": 0,
+            "feedback": "Parameter count has nothing to do with recursion."
+          },
+          {
+            "text": "A function that returns void",
+            "fraction": 0,
+            "feedback": "Return type does not determine whether a function is recursive."
+          }
+        ],
+        "generalFeedback": "Recursion is when a function calls itself, solving a problem in terms of smaller instances of the same problem.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Base case purpose",
+        "text": "<p>Why does a correct recursive function need a <em>base case</em>?</p>",
+        "answers": [
+          {
+            "text": "It stops the recursion, giving a directly answerable smallest case",
+            "fraction": 100,
+            "feedback": "Correct — the base case terminates the recursion so it does not go on forever."
+          },
+          {
+            "text": "It makes the recursion run faster by caching results",
+            "fraction": 0,
+            "feedback": "That is memoization; the base case is about termination."
+          },
+          {
+            "text": "It allocates the call stack in advance",
+            "fraction": 0,
+            "feedback": "The base case does not pre-allocate the stack; it ends the recursion."
+          },
+          {
+            "text": "It converts the function into an iterative loop",
+            "fraction": 0,
+            "feedback": "A base case does not turn recursion into iteration; it stops the recursion."
+          }
+        ],
+        "generalFeedback": "A base case gives a directly solvable smallest instance and stops the recursion; without it the calls never terminate.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Recursive case",
+        "text": "<p>What must the <em>recursive case</em> do for the recursion to reach the base case?</p>",
+        "answers": [
+          {
+            "text": "Reduce the problem toward the base case on each call",
+            "fraction": 100,
+            "feedback": "Correct — each recursive call must make progress toward the base case."
+          },
+          {
+            "text": "Call the function with the exact same arguments",
+            "fraction": 0,
+            "feedback": "Unchanged arguments make no progress and cause infinite recursion."
+          },
+          {
+            "text": "Grow the problem larger on each call",
+            "fraction": 0,
+            "feedback": "Growing the problem moves away from the base case."
+          },
+          {
+            "text": "Avoid calling the function again",
+            "fraction": 0,
+            "feedback": "Then it would not be recursive at all."
+          }
+        ],
+        "generalFeedback": "The recursive case reduces the problem toward the base case, guaranteeing the recursion eventually terminates.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Call stack per call",
+        "text": "<p>What happens on the call stack each time a recursive call is made?</p>",
+        "answers": [
+          {
+            "text": "A new stack frame is pushed onto the call stack",
+            "fraction": 100,
+            "feedback": "Correct — every call pushes a frame holding its parameters and locals."
+          },
+          {
+            "text": "The previous frame is overwritten in place",
+            "fraction": 0,
+            "feedback": "Each call gets its own frame; the caller's frame is preserved."
+          },
+          {
+            "text": "Nothing; recursion uses no extra stack space",
+            "fraction": 0,
+            "feedback": "Each pending call keeps a frame on the stack."
+          },
+          {
+            "text": "The heap is compacted",
+            "fraction": 0,
+            "feedback": "Recursive calls use the call stack, not heap compaction."
+          }
+        ],
+        "generalFeedback": "Each recursive call pushes a new stack frame onto the call stack; the frames pop as the calls return.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Recursion facts",
+        "text": "<p>Which statements about recursion are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A missing or incorrect base case can cause infinite recursion and a stack overflow",
+            "fraction": 50,
+            "feedback": "Yes — without proper termination the stack grows until it overflows."
+          },
+          {
+            "text": "The call tree models the nested pattern of recursive calls",
+            "fraction": 50,
+            "feedback": "Yes — the call tree captures how calls branch and nest."
+          },
+          {
+            "text": "Recursion never uses any extra memory",
+            "fraction": -50,
+            "feedback": "No — each pending call keeps a stack frame."
+          },
+          {
+            "text": "A recursive function does not need a base case if it is written carefully",
+            "fraction": -50,
+            "feedback": "No — a base case is required to stop the recursion."
+          }
+        ],
+        "generalFeedback": "Recursion needs a base case plus a reducing recursive case; each call pushes a frame, and a bad base case leads to infinite recursion and stack overflow.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Missing base case",
+        "text": "<p>A missing or incorrect base case can lead to infinite recursion and eventually a stack overflow.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — with no valid base case the recursion never stops and the stack overflows."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Without a proper base case, the calls never terminate and the stack overflows."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Recursion memory misconception",
+        "text": "<p>Recursion uses no extra memory because every recursive call reuses a single shared stack frame.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Each recursive call pushes its own frame, so recursion does consume stack space."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — every call pushes a new frame, so deep recursion can exhaust the stack."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Termination case term",
+        "text": "<p>The condition that stops a recursion by handling the smallest, directly solvable instance is called the ______ case.</p>",
+        "answers": [
+          {
+            "text": "base",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "base*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "base case",
+            "fraction": 100,
+            "feedback": "Accepted."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "遞迴的定義",
+        "text": "<p>什麼樣的函式稱為<strong>遞迴(recursive)</strong>函式?</p>",
+        "answers": [
+          {
+            "text": "會呼叫自己的函式",
+            "fraction": 100,
+            "feedback": "正確 —— 遞迴指的是函式(直接或間接)呼叫自己。"
+          },
+          {
+            "text": "只用 while 敘述做迴圈的函式",
+            "fraction": 0,
+            "feedback": "那是迭代,不是遞迴。"
+          },
+          {
+            "text": "沒有參數的函式",
+            "fraction": 0,
+            "feedback": "參數數量與遞迴無關。"
+          },
+          {
+            "text": "回傳 void 的函式",
+            "fraction": 0,
+            "feedback": "回傳型別不決定函式是否為遞迴。"
+          }
+        ],
+        "generalFeedback": "遞迴是指函式呼叫自己,以相同問題的較小實例來解決問題。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "基底情況的目的",
+        "text": "<p>正確的遞迴函式為什麼需要<em>基底情況(base case)</em>?</p>",
+        "answers": [
+          {
+            "text": "它讓遞迴停止,提供一個可直接回答的最小情況",
+            "fraction": 100,
+            "feedback": "正確 —— 基底情況終止遞迴,使其不會無止盡地繼續。"
+          },
+          {
+            "text": "它藉由快取結果讓遞迴更快",
+            "fraction": 0,
+            "feedback": "那是記憶化;基底情況關乎的是終止。"
+          },
+          {
+            "text": "它預先配置呼叫堆疊",
+            "fraction": 0,
+            "feedback": "基底情況不會預先配置堆疊;它結束遞迴。"
+          },
+          {
+            "text": "它把函式轉換成迭代迴圈",
+            "fraction": 0,
+            "feedback": "基底情況不會把遞迴變成迭代;它讓遞迴停止。"
+          }
+        ],
+        "generalFeedback": "基底情況提供一個可直接解決的最小實例並停止遞迴;沒有它,呼叫將永不終止。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "遞迴情況",
+        "text": "<p>為了讓遞迴能抵達基底情況,<em>遞迴情況(recursive case)</em>必須做什麼?</p>",
+        "answers": [
+          {
+            "text": "每次呼叫都把問題朝基底情況縮小",
+            "fraction": 100,
+            "feedback": "正確 —— 每次遞迴呼叫都必須朝基底情況推進。"
+          },
+          {
+            "text": "以完全相同的引數呼叫函式",
+            "fraction": 0,
+            "feedback": "引數不變就沒有進展,會造成無窮遞迴。"
+          },
+          {
+            "text": "每次呼叫都把問題變得更大",
+            "fraction": 0,
+            "feedback": "把問題變大會離基底情況更遠。"
+          },
+          {
+            "text": "避免再次呼叫函式",
+            "fraction": 0,
+            "feedback": "那樣就完全不是遞迴了。"
+          }
+        ],
+        "generalFeedback": "遞迴情況把問題朝基底情況縮小,保證遞迴最終會終止。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "每次呼叫與呼叫堆疊",
+        "text": "<p>每次進行一次遞迴呼叫時,呼叫堆疊上會發生什麼?</p>",
+        "answers": [
+          {
+            "text": "一個新的堆疊框(stack frame)被推入呼叫堆疊",
+            "fraction": 100,
+            "feedback": "正確 —— 每次呼叫都推入一個保存其參數與區域變數的框。"
+          },
+          {
+            "text": "前一個框被就地覆蓋",
+            "fraction": 0,
+            "feedback": "每次呼叫都有自己的框;呼叫者的框會被保留。"
+          },
+          {
+            "text": "什麼都沒有;遞迴不使用額外堆疊空間",
+            "fraction": 0,
+            "feedback": "每個尚未返回的呼叫都在堆疊上保留一個框。"
+          },
+          {
+            "text": "堆積被壓縮",
+            "fraction": 0,
+            "feedback": "遞迴呼叫使用呼叫堆疊,而非堆積壓縮。"
+          }
+        ],
+        "generalFeedback": "每次遞迴呼叫都把新的堆疊框推入呼叫堆疊;呼叫返回時框會彈出。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "遞迴事實",
+        "text": "<p>關於遞迴,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "缺少或錯誤的基底情況可能造成無窮遞迴與堆疊溢位",
+            "fraction": 50,
+            "feedback": "正確 —— 若無法正確終止,堆疊會不斷增長直到溢位。"
+          },
+          {
+            "text": "呼叫樹(call tree)描繪遞迴呼叫的巢狀模式",
+            "fraction": 50,
+            "feedback": "正確 —— 呼叫樹刻畫呼叫如何分支與巢狀。"
+          },
+          {
+            "text": "遞迴永遠不使用任何額外記憶體",
+            "fraction": -50,
+            "feedback": "錯 —— 每個尚未返回的呼叫都保留一個堆疊框。"
+          },
+          {
+            "text": "只要寫得小心,遞迴函式就不需要基底情況",
+            "fraction": -50,
+            "feedback": "錯 —— 需要基底情況才能停止遞迴。"
+          }
+        ],
+        "generalFeedback": "遞迴需要基底情況加上會縮小的遞迴情況;每次呼叫推入一個框,錯誤的基底情況會導致無窮遞迴與堆疊溢位。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "缺少基底情況",
+        "text": "<p>缺少或錯誤的基底情況可能導致無窮遞迴,最終造成堆疊溢位。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 沒有有效的基底情況,遞迴永不停止,堆疊會溢位。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "沒有適當的基底情況,呼叫永不終止,堆疊會溢位。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "遞迴記憶體的迷思",
+        "text": "<p>遞迴不使用額外記憶體,因為每次遞迴呼叫都重複使用同一個共享的堆疊框。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "每次遞迴呼叫都推入自己的框,因此遞迴確實會消耗堆疊空間。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 每次呼叫都推入新框,因此深層遞迴可能耗盡堆疊。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "終止情況名詞",
+        "text": "<p>藉由處理最小、可直接解決的實例來停止遞迴的條件,稱為 ______ 情況(case)。</p>",
+        "answers": [
+          {
+            "text": "base",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "base*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "base case",
+            "fraction": 100,
+            "feedback": "接受。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
       }
     ]
   },
@@ -20624,7 +38628,7 @@ window.QUIZ_RENDERED = {
             "feedback": "No — passes depend on N, M, and the fan-in k, not CPU speed."
           }
         ],
-        "generalFeedback": "Number of merge passes &asymp; &lceil;log(N/M)&rceil;; each pass moves &asymp; 2N records, so higher k lowers both passes and I/O.",
+        "generalFeedback": "Number of merge passes &asymp; &lceil;logk(N/M)&rceil;; each pass moves &asymp; 2N records, so higher k lowers both passes and I/O.",
         "single": true
       },
       {
@@ -20713,7 +38717,7 @@ window.QUIZ_RENDERED = {
             "feedback": "No — extra comparisons do not reduce disk passes."
           }
         ],
-        "generalFeedback": "Fewer passes come from bigger memory (longer runs) and higher merge order; both attack the &lceil;log(N/M)&rceil; pass count.",
+        "generalFeedback": "Fewer passes come from bigger memory (longer runs) and higher merge order; both attack the &lceil;logk(N/M)&rceil; pass count.",
         "single": false
       }
     ],
@@ -20831,7 +38835,7 @@ window.QUIZ_RENDERED = {
             "feedback": "錯 —— 回合數取決於 N、M 與 fan-in k,而非 CPU 速度。"
           }
         ],
-        "generalFeedback": "合併回合數 &asymp; &lceil;log(N/M)&rceil;;每個回合搬動 &asymp; 2N 筆記錄,故 k 越大回合數與 I/O 都越少。",
+        "generalFeedback": "合併回合數 &asymp; &lceil;logk(N/M)&rceil;;每個回合搬動 &asymp; 2N 筆記錄,故 k 越大回合數與 I/O 都越少。",
         "single": true
       },
       {
@@ -20920,7 +38924,7 @@ window.QUIZ_RENDERED = {
             "feedback": "錯 —— 額外比較無法減少磁碟回合。"
           }
         ],
-        "generalFeedback": "更少的回合來自更大的記憶體(更長段落)與更高的合併路數;兩者都針對 &lceil;log(N/M)&rceil; 的回合數。",
+        "generalFeedback": "更少的回合來自更大的記憶體(更長段落)與更高的合併路數;兩者都針對 &lceil;logk(N/M)&rceil; 的回合數。",
         "single": false
       }
     ]
@@ -24383,6 +42387,818 @@ window.QUIZ_RENDERED = {
       }
     ]
   },
+  "stack-array": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Stack ordering",
+        "text": "<p>Which ordering discipline does a <strong>stack</strong> follow?</p>",
+        "answers": [
+          {
+            "text": "LIFO — the last element pushed is the first popped",
+            "fraction": 100,
+            "feedback": "Correct — a stack is Last-In-First-Out."
+          },
+          {
+            "text": "FIFO — the first element pushed is the first popped",
+            "fraction": 0,
+            "feedback": "That describes a queue, not a stack."
+          },
+          {
+            "text": "Elements are always kept in sorted order",
+            "fraction": 0,
+            "feedback": "A stack does not sort its contents."
+          },
+          {
+            "text": "Elements are removed in random order",
+            "fraction": 0,
+            "feedback": "Removal order is strictly LIFO, never random."
+          }
+        ],
+        "generalFeedback": "A stack is a LIFO container: pushes and pops both happen at the same end (the top).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Stack operation cost",
+        "text": "<p>In an array-backed stack, what is the time complexity of <code>push</code>, <code>pop</code>, and <code>peek</code>?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — each touches only the top index."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No shifting or scanning is needed at the top."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "There is no search involved."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a sorting cost, unrelated to stack operations."
+          }
+        ],
+        "generalFeedback": "All three operations act on the single top index, so each is constant time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Full array stack",
+        "text": "<p>You push onto a fixed-capacity array stack that is already full. What condition occurs?</p>",
+        "answers": [
+          {
+            "text": "Stack overflow",
+            "fraction": 100,
+            "feedback": "Correct — a full fixed-capacity stack overflows on push."
+          },
+          {
+            "text": "Stack underflow",
+            "fraction": 0,
+            "feedback": "Underflow happens when popping an empty stack, not pushing a full one."
+          },
+          {
+            "text": "The array silently doubles its capacity",
+            "fraction": 0,
+            "feedback": "A fixed-capacity array does not resize automatically."
+          },
+          {
+            "text": "The bottom element is dequeued to make room",
+            "fraction": 0,
+            "feedback": "A stack has no dequeue-from-bottom behavior."
+          }
+        ],
+        "generalFeedback": "With a fixed capacity, pushing when full is overflow; popping when empty is underflow.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Stack use case",
+        "text": "<p>Which task is a classic use of a stack?</p>",
+        "answers": [
+          {
+            "text": "Managing nested function calls (the call stack)",
+            "fraction": 100,
+            "feedback": "Correct — return addresses are pushed and popped LIFO."
+          },
+          {
+            "text": "Level-order (breadth-first) traversal of a tree",
+            "fraction": 0,
+            "feedback": "That uses a queue, not a stack."
+          },
+          {
+            "text": "Round-robin CPU scheduling",
+            "fraction": 0,
+            "feedback": "Round-robin scheduling is a FIFO queue task."
+          },
+          {
+            "text": "Serving print jobs strictly in arrival order",
+            "fraction": 0,
+            "feedback": "Arrival-order serving is FIFO, a queue."
+          }
+        ],
+        "generalFeedback": "Function calls, undo history, expression evaluation, and DFS all rely on LIFO stacks.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Array stack properties",
+        "text": "<p>Which statements about an array-backed stack are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "push, pop, and peek are all O(1)",
+            "fraction": 50,
+            "feedback": "Yes — they act only on the top index."
+          },
+          {
+            "text": "Pushing onto a full fixed-capacity stack causes overflow",
+            "fraction": 50,
+            "feedback": "Yes — there is no room left."
+          },
+          {
+            "text": "It follows FIFO order",
+            "fraction": -50,
+            "feedback": "No — a stack is LIFO; FIFO describes a queue."
+          },
+          {
+            "text": "Popping from an empty stack is called overflow",
+            "fraction": -50,
+            "feedback": "No — that is underflow."
+          }
+        ],
+        "generalFeedback": "Array stacks are LIFO with O(1) top operations; a full push overflows and an empty pop underflows.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Stack is LIFO",
+        "text": "<p>A stack follows Last-In-First-Out (LIFO) order.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the most recently pushed element is popped first."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "A stack is indeed LIFO."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Stack vs queue order",
+        "text": "<p>In a stack, the first element pushed is always the first element popped.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "That is FIFO behavior, which describes a queue."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a stack is LIFO, so the last pushed is popped first."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Stack ordering abbreviation",
+        "text": "<p>The ordering discipline a stack follows is abbreviated ______ (four letters).</p>",
+        "answers": [
+          {
+            "text": "LIFO",
+            "fraction": 100,
+            "feedback": "Correct — Last-In-First-Out."
+          },
+          {
+            "text": "LIFO*",
+            "fraction": 100,
+            "feedback": "Correct — Last-In-First-Out."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "堆疊的順序",
+        "text": "<p><strong>堆疊(stack)</strong>遵循哪一種順序規則?</p>",
+        "answers": [
+          {
+            "text": "LIFO —— 最後被 push 的元素最先被 pop",
+            "fraction": 100,
+            "feedback": "正確 —— 堆疊是後進先出。"
+          },
+          {
+            "text": "FIFO —— 最先被 push 的元素最先被 pop",
+            "fraction": 0,
+            "feedback": "那描述的是佇列,不是堆疊。"
+          },
+          {
+            "text": "元素永遠保持排序狀態",
+            "fraction": 0,
+            "feedback": "堆疊不會對內容排序。"
+          },
+          {
+            "text": "元素以隨機順序被移除",
+            "fraction": 0,
+            "feedback": "移除順序嚴格為 LIFO,絕非隨機。"
+          }
+        ],
+        "generalFeedback": "堆疊是後進先出容器:push 與 pop 都發生在同一端(頂端 top)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "堆疊操作的成本",
+        "text": "<p>在以陣列實作的堆疊中,<code>push</code>、<code>pop</code> 與 <code>peek</code> 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個操作只碰到頂端索引。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "在頂端不需要搬移或掃描。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "沒有涉及任何搜尋。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是排序成本,與堆疊操作無關。"
+          }
+        ],
+        "generalFeedback": "三個操作都作用在單一的 top 索引上,因此皆為常數時間。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "已滿的陣列堆疊",
+        "text": "<p>你對一個已經滿的固定容量陣列堆疊執行 push,會發生什麼情況?</p>",
+        "answers": [
+          {
+            "text": "堆疊溢位(overflow)",
+            "fraction": 100,
+            "feedback": "正確 —— 已滿的固定容量堆疊在 push 時會溢位。"
+          },
+          {
+            "text": "堆疊下溢(underflow)",
+            "fraction": 0,
+            "feedback": "下溢發生在對空堆疊 pop,而非對滿堆疊 push。"
+          },
+          {
+            "text": "陣列會自動悄悄地將容量加倍",
+            "fraction": 0,
+            "feedback": "固定容量的陣列不會自動改變大小。"
+          },
+          {
+            "text": "底部元素會被 dequeue 以騰出空間",
+            "fraction": 0,
+            "feedback": "堆疊沒有從底部取出的行為。"
+          }
+        ],
+        "generalFeedback": "固定容量下,滿時 push 是溢位;空時 pop 是下溢。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "堆疊的應用",
+        "text": "<p>下列哪一項是堆疊的經典應用?</p>",
+        "answers": [
+          {
+            "text": "管理巢狀的函式呼叫(呼叫堆疊)",
+            "fraction": 100,
+            "feedback": "正確 —— 返回位址以 LIFO 方式被 push 與 pop。"
+          },
+          {
+            "text": "樹的層序(廣度優先)走訪",
+            "fraction": 0,
+            "feedback": "那使用佇列,不是堆疊。"
+          },
+          {
+            "text": "輪詢式(round-robin)CPU 排程",
+            "fraction": 0,
+            "feedback": "輪詢排程是 FIFO 佇列的工作。"
+          },
+          {
+            "text": "嚴格依到達順序處理列印工作",
+            "fraction": 0,
+            "feedback": "依到達順序處理屬於 FIFO,是佇列。"
+          }
+        ],
+        "generalFeedback": "函式呼叫、復原歷史、運算式求值與 DFS 都仰賴 LIFO 堆疊。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "陣列堆疊的性質",
+        "text": "<p>關於以陣列實作的堆疊,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "push、pop 與 peek 都是 O(1)",
+            "fraction": 50,
+            "feedback": "正確 —— 它們只作用在頂端索引。"
+          },
+          {
+            "text": "對已滿的固定容量堆疊 push 會造成溢位",
+            "fraction": 50,
+            "feedback": "正確 —— 已經沒有空間了。"
+          },
+          {
+            "text": "它遵循 FIFO 順序",
+            "fraction": -50,
+            "feedback": "錯 —— 堆疊是 LIFO;FIFO 描述的是佇列。"
+          },
+          {
+            "text": "對空堆疊 pop 稱為溢位(overflow)",
+            "fraction": -50,
+            "feedback": "錯 —— 那是下溢(underflow)。"
+          }
+        ],
+        "generalFeedback": "陣列堆疊是 LIFO,頂端操作為 O(1);滿時 push 溢位,空時 pop 下溢。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "堆疊是 LIFO",
+        "text": "<p>堆疊遵循後進先出(LIFO)順序。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 最近被 push 的元素最先被 pop。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "堆疊確實是 LIFO。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "堆疊與佇列的順序",
+        "text": "<p>在堆疊中,最先被 push 的元素永遠是最先被 pop 的元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "那是 FIFO 行為,描述的是佇列。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 堆疊是 LIFO,所以最後被 push 的最先被 pop。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "堆疊順序的縮寫",
+        "text": "<p>堆疊所遵循的順序規則縮寫為 ______(四個字母)。</p>",
+        "answers": [
+          {
+            "text": "LIFO",
+            "fraction": 100,
+            "feedback": "正確 —— Last-In-First-Out(後進先出)。"
+          },
+          {
+            "text": "LIFO*",
+            "fraction": 100,
+            "feedback": "正確 —— Last-In-First-Out(後進先出)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "stack-list": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Where push and pop happen",
+        "text": "<p>In a singly-linked-list stack, at which end are <code>push</code> and <code>pop</code> performed?</p>",
+        "answers": [
+          {
+            "text": "At the head of the list",
+            "fraction": 100,
+            "feedback": "Correct — inserting and removing at the head is O(1)."
+          },
+          {
+            "text": "At the tail of the list",
+            "fraction": 0,
+            "feedback": "Reaching the tail of a singly linked list would cost O(n) without a tail pointer."
+          },
+          {
+            "text": "In the middle of the list",
+            "fraction": 0,
+            "feedback": "Stacks only touch one end, and finding the middle is not O(1)."
+          },
+          {
+            "text": "At a randomly chosen node",
+            "fraction": 0,
+            "feedback": "Stack access is not random."
+          }
+        ],
+        "generalFeedback": "Operating at the head lets both push and pop stay O(1) with just a head pointer.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linked stack cost",
+        "text": "<p>What is the time complexity of <code>push</code> and <code>pop</code> at the head of a linked-list stack?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — only the head pointer is rewired."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No traversal is needed to reach the head."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "There is no logarithmic search here."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is unrelated to head insertion."
+          }
+        ],
+        "generalFeedback": "Prepending a node and detaching the head are both constant-time pointer updates.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linked vs array stack",
+        "text": "<p>What is a key advantage of a linked-list stack over a fixed-capacity array stack?</p>",
+        "answers": [
+          {
+            "text": "It grows dynamically with no fixed capacity limit",
+            "fraction": 100,
+            "feedback": "Correct — nodes are allocated on demand, so it never overflows from a preset size."
+          },
+          {
+            "text": "It provides O(1) random access by index",
+            "fraction": 0,
+            "feedback": "A linked list has no random access."
+          },
+          {
+            "text": "It uses less memory per element",
+            "fraction": 0,
+            "feedback": "Each node adds a pointer, so it uses more, not less."
+          },
+          {
+            "text": "It guarantees better cache locality",
+            "fraction": 0,
+            "feedback": "Scattered nodes generally hurt cache locality."
+          }
+        ],
+        "generalFeedback": "The linked stack trades a per-node pointer and worse locality for unbounded, dynamic growth.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linked stack node",
+        "text": "<p>What does a single node in a singly-linked-list stack contain?</p>",
+        "answers": [
+          {
+            "text": "The data plus a next pointer to the following node",
+            "fraction": 100,
+            "feedback": "Correct — data and a single forward link."
+          },
+          {
+            "text": "The data plus both a prev and a next pointer",
+            "fraction": 0,
+            "feedback": "That is a doubly linked node, not singly linked."
+          },
+          {
+            "text": "Only the data, with no pointer",
+            "fraction": 0,
+            "feedback": "Without a link the nodes could not be chained."
+          },
+          {
+            "text": "The data plus a numeric array index",
+            "fraction": 0,
+            "feedback": "Linked nodes chain by pointer, not by index."
+          }
+        ],
+        "generalFeedback": "A singly linked node stores its payload and one next pointer.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linked stack properties",
+        "text": "<p>Which statements about a singly-linked-list stack are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It follows LIFO order",
+            "fraction": 50,
+            "feedback": "Yes — it is still a stack."
+          },
+          {
+            "text": "push and pop at the head are O(1)",
+            "fraction": 50,
+            "feedback": "Yes — just a head-pointer rewiring."
+          },
+          {
+            "text": "It supports O(1) random access by index",
+            "fraction": -50,
+            "feedback": "No — a linked list has no random access."
+          },
+          {
+            "text": "It has a fixed maximum capacity set at creation",
+            "fraction": -50,
+            "feedback": "No — it grows dynamically as nodes are allocated."
+          }
+        ],
+        "generalFeedback": "A linked stack is LIFO with O(1) head operations, no random access, and no fixed capacity.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Dynamic growth",
+        "text": "<p>A linked-list stack can grow dynamically without a fixed capacity.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — nodes are allocated on demand."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It does grow dynamically; only array stacks have a fixed size."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "No random access",
+        "text": "<p>A singly-linked-list stack supports O(1) random access to any element by index.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Reaching an arbitrary node requires O(n) traversal from the head."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — linked lists have no O(1) random access."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Operating end of a linked stack",
+        "text": "<p>In a linked-list stack, both push and pop occur at the ______ of the list.</p>",
+        "answers": [
+          {
+            "text": "head",
+            "fraction": 100,
+            "feedback": "Correct — the head gives O(1) push and pop."
+          },
+          {
+            "text": "head*",
+            "fraction": 100,
+            "feedback": "Correct — the head gives O(1) push and pop."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "push 與 pop 的位置",
+        "text": "<p>在以單向鏈結串列實作的堆疊中,<code>push</code> 與 <code>pop</code> 在哪一端進行?</p>",
+        "answers": [
+          {
+            "text": "在串列的頭端(head)",
+            "fraction": 100,
+            "feedback": "正確 —— 在頭端插入與移除都是 O(1)。"
+          },
+          {
+            "text": "在串列的尾端(tail)",
+            "fraction": 0,
+            "feedback": "若沒有尾指標,到達單向串列尾端要花 O(n)。"
+          },
+          {
+            "text": "在串列的中間",
+            "fraction": 0,
+            "feedback": "堆疊只碰一端,而找中間並非 O(1)。"
+          },
+          {
+            "text": "在隨機挑選的節點",
+            "fraction": 0,
+            "feedback": "堆疊的存取不是隨機的。"
+          }
+        ],
+        "generalFeedback": "在頭端操作,只需一個 head 指標即可讓 push 與 pop 維持 O(1)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結堆疊的成本",
+        "text": "<p>在鏈結串列堆疊的頭端執行 <code>push</code> 與 <code>pop</code> 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 只需改接 head 指標。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "到達頭端不需要走訪。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "這裡沒有對數等級的搜尋。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那與頭端插入無關。"
+          }
+        ],
+        "generalFeedback": "在前端加入節點與拆下頭節點都是常數時間的指標更新。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結堆疊與陣列堆疊",
+        "text": "<p>相較於固定容量的陣列堆疊,鏈結串列堆疊的主要優點是什麼?</p>",
+        "answers": [
+          {
+            "text": "可動態成長,沒有固定容量上限",
+            "fraction": 100,
+            "feedback": "正確 —— 節點依需要配置,不會因預設大小而溢位。"
+          },
+          {
+            "text": "提供 O(1) 的索引隨機存取",
+            "fraction": 0,
+            "feedback": "鏈結串列沒有隨機存取。"
+          },
+          {
+            "text": "每個元素使用較少記憶體",
+            "fraction": 0,
+            "feedback": "每個節點多一個指標,是用得更多而非更少。"
+          },
+          {
+            "text": "保證有更好的快取區域性",
+            "fraction": 0,
+            "feedback": "分散的節點通常會損害快取區域性。"
+          }
+        ],
+        "generalFeedback": "鏈結堆疊以每節點一個指標與較差的區域性,換取無上限的動態成長。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結堆疊的節點",
+        "text": "<p>單向鏈結串列堆疊中的單一節點包含什麼?</p>",
+        "answers": [
+          {
+            "text": "資料加上指向下一個節點的 next 指標",
+            "fraction": 100,
+            "feedback": "正確 —— 資料加上單一向前的連結。"
+          },
+          {
+            "text": "資料加上 prev 與 next 兩個指標",
+            "fraction": 0,
+            "feedback": "那是雙向鏈結節點,不是單向的。"
+          },
+          {
+            "text": "只有資料,沒有任何指標",
+            "fraction": 0,
+            "feedback": "沒有連結就無法把節點串起來。"
+          },
+          {
+            "text": "資料加上一個數值陣列索引",
+            "fraction": 0,
+            "feedback": "鏈結節點是以指標串接,不是靠索引。"
+          }
+        ],
+        "generalFeedback": "單向鏈結節點儲存其資料與一個 next 指標。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結堆疊的性質",
+        "text": "<p>關於單向鏈結串列堆疊,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它遵循 LIFO 順序",
+            "fraction": 50,
+            "feedback": "正確 —— 它仍然是堆疊。"
+          },
+          {
+            "text": "在頭端 push 與 pop 都是 O(1)",
+            "fraction": 50,
+            "feedback": "正確 —— 只是改接 head 指標。"
+          },
+          {
+            "text": "它支援 O(1) 的索引隨機存取",
+            "fraction": -50,
+            "feedback": "錯 —— 鏈結串列沒有隨機存取。"
+          },
+          {
+            "text": "它在建立時就設定了固定的最大容量",
+            "fraction": -50,
+            "feedback": "錯 —— 它隨著節點配置而動態成長。"
+          }
+        ],
+        "generalFeedback": "鏈結堆疊是 LIFO,頭端操作為 O(1),沒有隨機存取,也沒有固定容量。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "動態成長",
+        "text": "<p>鏈結串列堆疊可以動態成長,沒有固定容量。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 節點依需要配置。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "它確實會動態成長;只有陣列堆疊才有固定大小。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "沒有隨機存取",
+        "text": "<p>單向鏈結串列堆疊支援以索引 O(1) 隨機存取任一元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "要到達任意節點需從頭端 O(n) 走訪。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 鏈結串列沒有 O(1) 隨機存取。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "鏈結堆疊的操作端",
+        "text": "<p>在鏈結串列堆疊中,push 與 pop 都發生在串列的 ______ 端。</p>",
+        "answers": [
+          {
+            "text": "head",
+            "fraction": 100,
+            "feedback": "正確 —— 頭端提供 O(1) 的 push 與 pop。"
+          },
+          {
+            "text": "head*",
+            "fraction": 100,
+            "feedback": "正確 —— 頭端提供 O(1) 的 push 與 pop。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
   "tree-array-rep": {
     "en": [
       {
@@ -26568,22 +45384,22 @@ window.QUIZ_RENDERED = {
         "text": "<p>Which recurrence generates the Catalan numbers (splitting on the root's subtree sizes)?</p>",
         "answers": [
           {
-            "text": "C= &Sigma;C&middot; C",
+            "text": "Cn+1 = &Sigma;i=0..n Ci &middot; Cn&minus;i",
             "fraction": 100,
             "feedback": "Correct — sum over the left subtree size i and right subtree size n−i."
           },
           {
-            "text": "C= C+ C",
+            "text": "Cn = Cn&minus;1 + Cn&minus;2",
             "fraction": 0,
             "feedback": "No — that is the Fibonacci recurrence."
           },
           {
-            "text": "C= n &middot; C",
+            "text": "Cn = n &middot; Cn&minus;1",
             "fraction": 0,
             "feedback": "No — that generates factorials."
           },
           {
-            "text": "C= 2 &middot; C",
+            "text": "Cn = 2 &middot; Cn&minus;1",
             "fraction": 0,
             "feedback": "No — that generates powers of two."
           }
@@ -26770,22 +45586,22 @@ window.QUIZ_RENDERED = {
         "text": "<p>哪一條遞迴式產生卡塔蘭數(依根節點的子樹大小拆分)?</p>",
         "answers": [
           {
-            "text": "C= &Sigma;C&middot; C",
+            "text": "Cn+1 = &Sigma;i=0..n Ci &middot; Cn&minus;i",
             "fraction": 100,
             "feedback": "正確 —— 對左子樹大小 i 與右子樹大小 n−i 求和。"
           },
           {
-            "text": "C= C+ C",
+            "text": "Cn = Cn&minus;1 + Cn&minus;2",
             "fraction": 0,
             "feedback": "錯 —— 那是費氏數遞迴。"
           },
           {
-            "text": "C= n &middot; C",
+            "text": "Cn = n &middot; Cn&minus;1",
             "fraction": 0,
             "feedback": "錯 —— 那會產生階乘。"
           },
           {
-            "text": "C= 2 &middot; C",
+            "text": "Cn = 2 &middot; Cn&minus;1",
             "fraction": 0,
             "feedback": "錯 —— 那會產生 2 的次方。"
           }
@@ -28174,9 +46990,9 @@ window.QUIZ_RENDERED = {
         "text": "<p>How does a Fenwick tree move between the indices it must touch during a query or update?</p>",
         "answers": [
           {
-            "text": "By jumping via the lowest set bit, computed as(the \"lowbit\")",
+            "text": "By jumping via the lowest set bit, computed as i & -i (the \"lowbit\")",
             "fraction": 100,
-            "feedback": "Correct — adding or subtractingwalks the responsibility ranges."
+            "feedback": "Correct — adding or subtracting i & -i walks the responsibility ranges."
           },
           {
             "text": "By following left and right child pointers of a binary tree",
@@ -28194,7 +47010,7 @@ window.QUIZ_RENDERED = {
             "feedback": "No hashing is involved; it is pure bit manipulation."
           }
         ],
-        "generalFeedback": "The lowbitisolates the least-significant set bit; adding it (update) or subtracting it (query) steps through O(log n) indices.",
+        "generalFeedback": "The lowbit i & -i isolates the least-significant set bit; adding it (update) or subtracting it (query) steps through O(log n) indices.",
         "single": true
       },
       {
@@ -28376,9 +47192,9 @@ window.QUIZ_RENDERED = {
         "text": "<p>在查詢或更新時,Fenwick 樹如何在必須碰觸的索引之間移動?</p>",
         "answers": [
           {
-            "text": "藉由最低位設定位元跳躍,以計算(即「lowbit」)",
+            "text": "藉由最低位設定位元跳躍,以 i & -i 計算(即「lowbit」)",
             "fraction": 100,
-            "feedback": "正確 —— 加上或減去即可走過各負責區間。"
+            "feedback": "正確 —— 加上或減去 i & -i 即可走過各負責區間。"
           },
           {
             "text": "沿著二元樹的左右子指標前進",
@@ -28396,7 +47212,7 @@ window.QUIZ_RENDERED = {
             "feedback": "不涉及雜湊;它純粹是位元運算。"
           }
         ],
-        "generalFeedback": "lowbit取出最低有效設定位元;加上它(更新)或減去它(查詢)即可走過 O(log n) 個索引。",
+        "generalFeedback": "lowbit i & -i 取出最低有效設定位元;加上它(更新)或減去它(查詢)即可走過 O(log n) 個索引。",
         "single": true
       },
       {

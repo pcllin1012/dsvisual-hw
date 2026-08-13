@@ -38,10 +38,10 @@
     <name><text>卡塔蘭數遞迴</text></name>
     <questiontext format="html"><text><![CDATA[<p>哪一條遞迴式產生卡塔蘭數(依根節點的子樹大小拆分)?</p>]]></text></questiontext>
     <single>true</single>
-    <answer fraction="100"><text>C<sub>n+1</sub> = &Sigma;<sub>i=0..n</sub> C<sub>i</sub> &middot; C<sub>n&minus;i</sub></text><feedback><text>正確 —— 對左子樹大小 i 與右子樹大小 n−i 求和。</text></feedback></answer>
-    <answer fraction="0"><text>C<sub>n</sub> = C<sub>n&minus;1</sub> + C<sub>n&minus;2</sub></text><feedback><text>錯 —— 那是費氏數遞迴。</text></feedback></answer>
-    <answer fraction="0"><text>C<sub>n</sub> = n &middot; C<sub>n&minus;1</sub></text><feedback><text>錯 —— 那會產生階乘。</text></feedback></answer>
-    <answer fraction="0"><text>C<sub>n</sub> = 2 &middot; C<sub>n&minus;1</sub></text><feedback><text>錯 —— 那會產生 2 的次方。</text></feedback></answer>
+    <answer fraction="100"><text>Cn+1 = &Sigma;i=0..n Ci &middot; Cn&minus;i</text><feedback><text>正確 —— 對左子樹大小 i 與右子樹大小 n−i 求和。</text></feedback></answer>
+    <answer fraction="0"><text>Cn = Cn&minus;1 + Cn&minus;2</text><feedback><text>錯 —— 那是費氏數遞迴。</text></feedback></answer>
+    <answer fraction="0"><text>Cn = n &middot; Cn&minus;1</text><feedback><text>錯 —— 那會產生階乘。</text></feedback></answer>
+    <answer fraction="0"><text>Cn = 2 &middot; Cn&minus;1</text><feedback><text>錯 —— 那會產生 2 的次方。</text></feedback></answer>
     <generalfeedback><text>固定根節點後,左子樹有 i 個節點、右子樹有 n−i 個,故 C_{n+1} = Σ C_i·C_{n−i}。</text></generalfeedback>
   </question>
   <question type="truefalse">

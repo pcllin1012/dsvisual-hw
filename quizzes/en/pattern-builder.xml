@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Builder Pattern</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Builder intent</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does the <strong>Builder</strong> pattern separate?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The construction of a complex object from its representation</text><feedback><text>Correct — the same build steps can yield different representations.</text></feedback></answer>
+    <answer fraction="0"><text>The single instance of a class from its global access point</text><feedback><text>That describes Singleton, not Builder.</text></feedback></answer>
+    <answer fraction="0"><text>One incompatible interface from the interface a client expects</text><feedback><text>That describes Adapter, not Builder.</text></feedback></answer>
+    <answer fraction="0"><text>A subclass's product choice from the creation interface</text><feedback><text>That describes Factory Method, not Builder.</text></feedback></answer>
+    <generalfeedback><text>Builder separates the construction of a complex object from its representation, so the same step-by-step process can build different representations.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Builder category</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Into which GoF category does Builder fall?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Creational</text><feedback><text>Correct — Builder is a creational pattern about how objects are constructed.</text></feedback></answer>
+    <answer fraction="0"><text>Structural</text><feedback><text>No — structural patterns compose classes/objects; Builder governs construction.</text></feedback></answer>
+    <answer fraction="0"><text>Behavioral</text><feedback><text>No — behavioral patterns concern object communication and responsibility.</text></feedback></answer>
+    <generalfeedback><text>Builder is one of the creational patterns, alongside Singleton and Factory Method.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Builder director</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which participant orchestrates the build steps in the Builder pattern?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The Director</text><feedback><text>Correct — the Director drives the sequence of building steps.</text></feedback></answer>
+    <answer fraction="0"><text>The Adaptee</text><feedback><text>No — that is a participant of the Adapter pattern.</text></feedback></answer>
+    <answer fraction="0"><text>The Singleton</text><feedback><text>No — that is an unrelated creational pattern.</text></feedback></answer>
+    <generalfeedback><text>A Director object knows the sequence of construction steps and delegates the actual work to a Builder.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Builder benefit</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What key benefit does Builder provide?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The same construction process can produce different representations</text><feedback><text>Correct — that is Builder's defining benefit.</text></feedback></answer>
+    <answer fraction="0"><text>It guarantees only one instance of the product exists</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <answer fraction="0"><text>It lets objects be treated as part-whole tree hierarchies</text><feedback><text>No — that is Composite.</text></feedback></answer>
+    <generalfeedback><text>Because construction is decoupled from representation, one build process can create several different final products.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Builder characteristics</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Builder are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It separates the construction of a complex object from its representation</text><feedback><text>Yes — this is Builder's core intent.</text></feedback></answer>
+    <answer fraction="50"><text>A fluent interface often returns the builder itself so calls can be chained</text><feedback><text>Yes — chained calls are a common Builder idiom.</text></feedback></answer>
+    <answer fraction="-50"><text>Its main purpose is to ensure a class has exactly one instance</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <answer fraction="-50"><text>It converts one class's interface into another interface a client expects</text><feedback><text>No — that is Adapter.</text></feedback></answer>
+    <generalfeedback><text>Builder decouples construction from representation and commonly uses a fluent, chainable interface plus an optional Director.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Builder different representations</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The Builder pattern lets the same construction process create different representations of a product.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — that is exactly Builder's intent.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Builder decouples construction from representation for exactly this reason.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Builder vs Singleton</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The main intent of Builder is to ensure a class has only one instance.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — that is the Singleton pattern, not Builder.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — ensuring a single instance is Singleton; Builder separates construction from representation.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Builder term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The creational pattern that separates the step-by-step construction of a complex object from its representation is the ______ pattern.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>builder</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>builder*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

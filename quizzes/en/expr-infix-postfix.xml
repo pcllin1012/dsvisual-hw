@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Infix to Postfix</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Shunting-yard structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which data structure does the shunting-yard algorithm use to hold operators during infix &rarr; postfix conversion?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A stack</text><feedback><text>Correct — operators are pushed and popped on a stack.</text></feedback></answer>
+    <answer fraction="0"><text>A queue</text><feedback><text>The output can be a queue, but operators are held on a stack.</text></feedback></answer>
+    <answer fraction="0"><text>A binary search tree</text><feedback><text>No tree is needed for the linear scan.</text></feedback></answer>
+    <answer fraction="0"><text>A hash table</text><feedback><text>Operator precedence ordering needs a stack, not a hash table.</text></feedback></answer>
+    <generalfeedback><text>The shunting-yard algorithm uses a stack to hold operators while scanning the infix expression.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Handling an operand</text></name>
+    <questiontext format="html"><text><![CDATA[<p>While scanning the infix expression left to right, what do you do when you read an <em>operand</em>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Output it directly to the postfix expression</text><feedback><text>Correct — operands go straight to the output.</text></feedback></answer>
+    <answer fraction="0"><text>Push it onto the operator stack</text><feedback><text>Only operators and parentheses are pushed; operands are output.</text></feedback></answer>
+    <answer fraction="0"><text>Discard it</text><feedback><text>Operands must appear in the output.</text></feedback></answer>
+    <answer fraction="0"><text>Pop the stack until it is empty</text><feedback><text>That is not done for a plain operand.</text></feedback></answer>
+    <generalfeedback><text>Operands are appended directly to the output; the stack only manages operators and parentheses.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Left parenthesis handling</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When you read a left parenthesis <code>(</code> during infix &rarr; postfix conversion, what do you do?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Push it onto the stack</text><feedback><text>Correct — the left parenthesis is pushed and acts as a barrier.</text></feedback></answer>
+    <answer fraction="0"><text>Output it immediately to the postfix expression</text><feedback><text>Parentheses never appear in the postfix output.</text></feedback></answer>
+    <answer fraction="0"><text>Pop the stack until it is empty</text><feedback><text>That is not done on a left parenthesis.</text></feedback></answer>
+    <answer fraction="0"><text>Discard it</text><feedback><text>You must push it so the matching right parenthesis can find it.</text></feedback></answer>
+    <generalfeedback><text>A left parenthesis is pushed onto the stack and later removed when its matching right parenthesis is processed.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Equal precedence, left-associative</text></name>
+    <questiontext format="html"><text><![CDATA[<p>For a <em>left-associative</em> operator whose precedence equals the stack-top operator, before pushing you should:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Pop the stack-top operator to the output first</text><feedback><text>Correct — equal precedence with left associativity means pop before push.</text></feedback></answer>
+    <answer fraction="0"><text>Push the new operator without popping</text><feedback><text>That would be right-associative behavior, not left.</text></feedback></answer>
+    <answer fraction="0"><text>Discard the new operator</text><feedback><text>Operators are never discarded.</text></feedback></answer>
+    <answer fraction="0"><text>Output the operator's operands a second time</text><feedback><text>Operands are output once, when scanned.</text></feedback></answer>
+    <generalfeedback><text>Left associativity: pop operators of higher OR equal precedence before pushing the current operator.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Right parenthesis handling</text></name>
+    <questiontext format="html"><text><![CDATA[<p>On encountering a right parenthesis <code>)</code>, you pop operators to the output until the matching <code>(</code> is removed.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — pop until the matching left parenthesis, which is discarded.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>That is exactly how parentheses are resolved during conversion.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Postfix parentheses</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Postfix (Reverse Polish) expressions require parentheses to express operator precedence.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>Postfix is unambiguous, so parentheses are never needed.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — RPN encodes precedence in operator order and needs no parentheses.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Operator holder term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The shunting-yard algorithm holds pending operators on a ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>stack</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>stack*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Infix to postfix rules</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about infix &rarr; postfix conversion are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Before pushing a left-associative operator, pop operators of higher or equal precedence</text><feedback><text>Yes — this preserves correct precedence and associativity.</text></feedback></answer>
+    <answer fraction="50"><text>Operands are appended directly to the output</text><feedback><text>Yes — operands go straight to the output.</text></feedback></answer>
+    <answer fraction="-50"><text>A queue holds the operators awaiting output</text><feedback><text>No — operators are held on a stack.</text></feedback></answer>
+    <answer fraction="-50"><text>The resulting postfix expression needs parentheses to disambiguate precedence</text><feedback><text>No — postfix is unambiguous and needs no parentheses.</text></feedback></answer>
+    <generalfeedback><text>Operators live on a stack, popped by precedence/associativity; operands stream to output; postfix needs no parentheses.</text></generalfeedback>
+  </question>
+</quiz>

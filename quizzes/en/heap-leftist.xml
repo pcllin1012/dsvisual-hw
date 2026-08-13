@@ -8,7 +8,7 @@
     <questiontext format="html"><text><![CDATA[<p>What is the defining capability of a leftist heap?</p>]]></text></questiontext>
     <single>true</single>
     <shuffleanswers>1</shuffleanswers>
-    <answer fraction="100"><text>Efficiently <strong>merging</strong> (melding) two heaps in O(log n)</text><feedback><text>Correct — leftist heaps are mergeable heaps built around a fast meld.</text></feedback></answer>
+    <answer fraction="100"><text>Efficiently merging (melding) two heaps in O(log n)</text><feedback><text>Correct — leftist heaps are mergeable heaps built around a fast meld.</text></feedback></answer>
     <answer fraction="0"><text>O(1) worst-case extract-min</text><feedback><text>No — extract-min is O(log n), built on top of merge.</text></feedback></answer>
     <answer fraction="0"><text>Storing keys in a flat array without pointers</text><feedback><text>No — leftist heaps are pointer-based binary trees.</text></feedback></answer>
     <answer fraction="0"><text>Keeping elements in fully sorted order</text><feedback><text>No — it only maintains the heap-order property.</text></feedback></answer>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/相依注入</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>相依注入核心概念</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相依注入如何處理一個元件的相依?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>從外部提供(注入)它們</text><feedback><text>正確 —— 相依是被提供的,而非自行建立。</text></feedback></answer>
+    <answer fraction="0"><text>在內部用 new 自行建立它們</text><feedback><text>那正是 DI 要避免的。</text></feedback></answer>
+    <answer fraction="0"><text>在執行期刪除它們</text><feedback><text>DI 提供相依,而非刪除它們。</text></feedback></answer>
+    <answer fraction="0"><text>把它們藏成全域變數</text><feedback><text>DI 明確傳入相依,而非透過全域變數。</text></feedback></answer>
+    <generalfeedback><text>在 DI 中,元件從外部提供者接收其相依,而不是自行建立它們。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>DI 原則</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相依注入是下列哪個更廣泛原則的一種具體形式?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>控制反轉(IoC)</text><feedback><text>正確 —— 建立相依的控制權被反轉了。</text></feedback></answer>
+    <answer fraction="0"><text>開放/封閉原則</text><feedback><text>與物件導向設計相關,但 DI 並非它的一種形式。</text></feedback></answer>
+    <answer fraction="0"><text>單一職責原則</text><feedback><text>這是不同的原則。</text></feedback></answer>
+    <answer fraction="0"><text>里氏替換原則</text><feedback><text>這是不同的原則。</text></feedback></answer>
+    <generalfeedback><text>DI 實現了控制反轉:不由元件掌控相依如何建立,而是由外部方提供它們。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>DI 注入方式</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列哪一組列出了常見的相依注入方式?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>建構子、setter 與介面注入</text><feedback><text>正確 —— 這些是標準的注入方式。</text></feedback></answer>
+    <answer fraction="0"><text>發布、訂閱與代理注入</text><feedback><text>那些是發布訂閱術語,而非 DI 方式。</text></feedback></answer>
+    <answer fraction="0"><text>模型、視圖與控制器注入</text><feedback><text>那些是 MVC 角色,而非 DI 方式。</text></feedback></answer>
+    <answer fraction="0"><text>加密、雜湊與加鹽注入</text><feedback><text>與 DI 無關。</text></feedback></answer>
+    <generalfeedback><text>相依常透過建構子、setter 方法,或由客戶端實作的介面來注入。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>DI 好處</text></name>
+    <questiontext format="html"><text><![CDATA[<p>使用相依注入最直接帶來下列哪項好處?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>提升可測試性(例如注入 mock/stub)</text><feedback><text>正確 —— 相依可被測試替身取代。</text></feedback></answer>
+    <answer fraction="0"><text>保證更快的 CPU 時脈</text><feedback><text>與此模式無關。</text></feedback></answer>
+    <answer fraction="0"><text>自動消除所有錯誤</text><feedback><text>沒有任何模式能保證這點。</text></feedback></answer>
+    <answer fraction="0"><text>不再需要介面</text><feedback><text>DI 常仰賴介面/抽象。</text></feedback></answer>
+    <generalfeedback><text>藉由從外部提供相依,DI 讓你可替換 mock 或其他實作,提升可測試性與解耦。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>DI 特性(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於相依注入,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="50"><text>它是控制反轉的一種形式</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="50"><text>它提升可測試性與解耦</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="-50"><text>元件應以 new 自行建立其相依</text><feedback><text>錯 —— DI 由外部提供它們。</text></feedback></answer>
+    <answer fraction="-50"><text>它要求所有相依都是全域單例</text><feedback><text>錯 —— 那不是 DI 的要求。</text></feedback></answer>
+    <generalfeedback><text>DI 是一種 IoC 技術:相依透過建構子/setter/介面從外部注入,提升可測試性與解耦。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>DI 外部提供</text></name>
+    <questiontext format="html"><text><![CDATA[<p>使用相依注入時,元件從外部接收其相依,而不是在內部自行建立。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 這種外部提供正是 DI 的定義。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>從外部接收相依正是 DI 的意涵。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>DI 內部建立</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相依注入意指每個元件都應在內部用 new 自行建立其相依。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 那與 DI 相反。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— DI 從外部提供相依,而非在內部用 new 建立。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>動作動詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 DI 中,相依被說成是從外部 ______ 進元件裡。(英文動詞字根,例如 "-ion" 之前的字)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>inject</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>inject*</text><feedback><text>正確 —— 可匹配 inject/injected/injection。</text></feedback></answer>
+    <answer fraction="100"><text>injection</text><feedback><text>接受。</text></feedback></answer>
+    <answer fraction="100"><text>IoC</text><feedback><text>接受 —— 控制反轉。</text></feedback></answer>
+  </question>
+</quiz>

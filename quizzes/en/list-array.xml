@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Array List</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Random access cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of accessing an element by its index in an array list?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(1)</text><feedback><text>Correct — the address is computed directly from the base plus index.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>No traversal is needed; the index gives the address directly.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>There is no binary search involved in indexing.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>That is a sorting cost, unrelated to indexed access.</text></feedback></answer>
+    <generalfeedback><text>Contiguous storage lets an index map to a memory address in constant time.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Middle insertion cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of inserting or deleting an element in the <em>middle</em> of an array list?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>Correct — the following elements must be shifted to close or open a gap.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>Only appending at the end can be O(1); middle edits shift elements.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>Shifting is linear, not logarithmic.</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>A single middle insertion shifts at most n elements, so O(n).</text></feedback></answer>
+    <generalfeedback><text>Because storage is contiguous, a middle insert or delete must shift the trailing elements, costing O(n).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Append cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of appending an element to the end of a dynamic array list?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Amortized O(1)</text><feedback><text>Correct — most appends are O(1), and occasional resizes average out.</text></feedback></answer>
+    <answer fraction="0"><text>O(n) for every append</text><feedback><text>Only the rare resizing append is O(n); most are O(1).</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>Appending does not involve a logarithmic search.</text></feedback></answer>
+    <answer fraction="0"><text>Strict O(1) worst case for every append</text><feedback><text>The occasional resize makes a single append O(n) in the worst case, hence amortized O(1).</text></feedback></answer>
+    <generalfeedback><text>Appends are O(1) until the array fills; a resize costs O(n) but is infrequent, giving amortized O(1).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Growth strategy</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When a dynamic array runs out of capacity, how does it typically grow?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It allocates a new array of double the capacity and copies the elements over</text><feedback><text>Correct — geometric (doubling) growth gives amortized O(1) appends.</text></feedback></answer>
+    <answer fraction="0"><text>It grows by exactly one slot each time an element is added</text><feedback><text>Growing by one makes every append O(n) overall; doubling is used instead.</text></feedback></answer>
+    <answer fraction="0"><text>It halves its capacity to save memory</text><feedback><text>Halving on a full array would lose data; capacity must grow.</text></feedback></answer>
+    <answer fraction="0"><text>It converts itself into a linked list of nodes</text><feedback><text>A dynamic array reallocates a larger array; it does not become a linked list.</text></feedback></answer>
+    <generalfeedback><text>Doubling the capacity on overflow spreads the O(n) copy cost across many O(1) appends.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Array list properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about an array list are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Elements are stored contiguously in memory</text><feedback><text>Yes — that is what enables O(1) indexing.</text></feedback></answer>
+    <answer fraction="50"><text>Random access by index is O(1)</text><feedback><text>Yes — the address is computed directly.</text></feedback></answer>
+    <answer fraction="-50"><text>Inserting in the middle is O(1)</text><feedback><text>No — it is O(n) because trailing elements shift.</text></feedback></answer>
+    <answer fraction="-50"><text>It never needs to move elements when appending</text><feedback><text>No — a resize copies all elements to a larger array.</text></feedback></answer>
+    <generalfeedback><text>Array lists give O(1) indexed access via contiguous storage, but middle edits shift and resizes copy.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Constant-time indexing</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An array list provides O(1) random access to any element by its index.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — contiguous storage maps an index to an address directly.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Indexed access is indeed O(1) for an array list.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Middle insertion is O(1)?</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Inserting an element in the middle of an array list is an O(1) operation.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>The trailing elements must shift, making it O(n).</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a middle insert shifts elements and costs O(n).</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Direct access term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an array list you access an element directly by its numeric ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>index</text><feedback><text>Correct — the index maps to a memory address in O(1).</text></feedback></answer>
+    <answer fraction="100"><text>index*</text><feedback><text>Correct — the index maps to a memory address in O(1).</text></feedback></answer>
+  </question>
+</quiz>

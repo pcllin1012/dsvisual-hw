@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Polynomial Addition</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>項節點欄位</text></name>
+    <questiontext format="html"><text><![CDATA[<p>當多項式以「項」的鏈結串列儲存時,每個項節點保有什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>係數與指數</text><feedback><text>正確 —— 每個節點一項,儲存 (係數, 指數)。</text></feedback></answer>
+    <answer fraction="0"><text>只有係數</text><feedback><text>沒有指數就無法判斷該項是哪次方。</text></feedback></answer>
+    <answer fraction="0"><text>只有指數</text><feedback><text>需要係數才能知道該項的大小。</text></feedback></answer>
+    <answer fraction="0"><text>整個多項式的字串</text><feedback><text>每個節點保有單一項,而非整個多項式。</text></feedback></answer>
+    <generalfeedback><text>項節點為 (係數, 指數) 加上指向下一項的鏈結。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>項的排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在標準表示法中,項節點依什麼排序?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>指數遞減</text><feedback><text>正確 —— 最高次在前,使合併能一次掃描完成。</text></feedback></answer>
+    <answer fraction="0"><text>係數遞增</text><feedback><text>係數不決定項的順序。</text></feedback></answer>
+    <answer fraction="0"><text>插入順序</text><feedback><text>未排序的項會讓相加更困難。</text></feedback></answer>
+    <answer fraction="0"><text>變數名稱的字母順序</text><feedback><text>這些是單變數多項式,依指數排序。</text></feedback></answer>
+    <generalfeedback><text>依指數遞減排序,可讓相加以單一線性掃描合併兩個串列。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>指數相等規則</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相加時,當兩項的指數<strong>相等</strong>,你要...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>將它們的係數相加成一項</text><feedback><text>正確 —— 同次方合併。</text></feedback></answer>
+    <answer fraction="0"><text>將它們的指數相加</text><feedback><text>指數是用來配對,不是相加。</text></feedback></answer>
+    <answer fraction="0"><text>分別保留兩項</text><feedback><text>同次方的項必須合併。</text></feedback></answer>
+    <answer fraction="0"><text>將它們的係數相乘</text><feedback><text>加法是把係數相加,而非相乘。</text></feedback></answer>
+    <generalfeedback><text>指數相同的項藉由係數相加合併;指數維持不變。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>係數為零的結果</text></name>
+    <questiontext format="html"><text><![CDATA[<p>若兩項合併後係數總和為零,則結果項會...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>從結果串列中被捨棄</text><feedback><text>正確 —— 係數為零不貢獻任何值,故省略。</text></feedback></answer>
+    <answer fraction="0"><text>以係數零保留</text><feedback><text>顯式儲存零浪費空間,應避免。</text></feedback></answer>
+    <answer fraction="0"><text>被常數項取代</text><feedback><text>它就直接消失;不會引入常數。</text></feedback></answer>
+    <answer fraction="0"><text>被賦予指數零</text><feedback><text>該項被移除,而非重設指數。</text></feedback></answer>
+    <generalfeedback><text>當係數相消為零時,該項被捨棄,使串列只保有非零項。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>單次線性掃描</text></name>
+    <questiontext format="html"><text><![CDATA[<p>因為兩個串列都依指數排序,相加可以用單一線性掃描合併它們。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 如同合併兩個已排序串列,比較領頭的指數。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>已排序的順序使單次線性合併成為可能。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>相加指數的迷思</text></name>
+    <questiontext format="html"><text><![CDATA[<p>要把兩個多項式相加,你要把相配對項的指數相加。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>你要把指數相等之項的係數相加;指數不變。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 配對指的是指數相等;你要相加的是係數。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>次方名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>多項式串列的項依其 ______(英文)排序,也就是變數被提升到的次方。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>exponent</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>exponent*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>多項式相加性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於鏈結串列多項式相加,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>每個節點儲存一個係數與一個指數</text><feedback><text>正確 —— 每個節點一項。</text></feedback></answer>
+    <answer fraction="50"><text>指數相等的項將其係數相加</text><feedback><text>正確 —— 同次方合併。</text></feedback></answer>
+    <answer fraction="-50"><text>項以指數遞增順序儲存</text><feedback><text>錯 —— 是以指數遞減順序保存。</text></feedback></answer>
+    <answer fraction="-50"><text>係數總和為零的項會保留在結果中</text><feedback><text>錯 —— 零項會被捨棄。</text></feedback></answer>
+    <generalfeedback><text>節點為 (係數, 指數) 且依指數遞減;指數相等以係數相加合併;結果為零則捨棄。</text></generalfeedback>
+  </question>
+</quiz>

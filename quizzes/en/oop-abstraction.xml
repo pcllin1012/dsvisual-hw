@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Abstraction</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>What makes a class abstract</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In C++, what makes a class <strong>abstract</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>It declares at least one pure virtual function (= 0)</text><feedback><text>Correct — one pure virtual function makes the class abstract.</text></feedback></answer>
+    <answer fraction="0"><text>It has only private data members</text><feedback><text>No — that concerns encapsulation, not abstractness.</text></feedback></answer>
+    <answer fraction="0"><text>It inherits from more than one base class</text><feedback><text>No — that is multiple inheritance, unrelated.</text></feedback></answer>
+    <answer fraction="0"><text>It is marked with the keyword abstract</text><feedback><text>No — C++ has no abstract keyword; use = 0.</text></feedback></answer>
+    <generalfeedback><text>A C++ class becomes abstract as soon as it declares one or more pure virtual functions (= 0).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Instantiating an abstract class</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Can you create an object (instance) directly from an abstract class?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>No — an abstract class cannot be instantiated</text><feedback><text>Correct — you must instantiate a concrete derived class.</text></feedback></answer>
+    <answer fraction="0"><text>Yes — abstract classes behave like any other class</text><feedback><text>No — an abstract class cannot be instantiated directly.</text></feedback></answer>
+    <answer fraction="0"><text>Yes, but only on the heap with new</text><feedback><text>No — neither stack nor heap allocation of an abstract class is allowed.</text></feedback></answer>
+    <answer fraction="0"><text>Only if it has a virtual destructor</text><feedback><text>No — a destructor does not make an abstract class instantiable.</text></feedback></answer>
+    <generalfeedback><text>An abstract class has unimplemented (pure virtual) behavior, so objects of it cannot be created; derive a concrete class.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Pure virtual syntax</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which declaration correctly makes <code>area()</code> a pure virtual function?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>virtual double area() const = 0;</text><feedback><text>Correct — the = 0 specifier makes it pure virtual.</text></feedback></answer>
+    <answer fraction="0"><text>static double area() const;</text><feedback><text>No — static functions cannot be virtual or pure virtual.</text></feedback></answer>
+    <answer fraction="0"><text>double area() = pure;</text><feedback><text>No — there is no pure specifier in C++.</text></feedback></answer>
+    <answer fraction="0"><text>virtual double area() final;</text><feedback><text>No — final forbids overriding; it is not a pure declaration.</text></feedback></answer>
+    <generalfeedback><text>Appending = 0 to a virtual function makes it pure virtual, requiring derived classes to implement it.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Role of an abstract base</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What role does an abstract class typically play?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It defines an interface that derived classes must implement</text><feedback><text>Correct — it specifies required behavior, hiding the detail.</text></feedback></answer>
+    <answer fraction="0"><text>It stores the final, complete implementation of every method</text><feedback><text>No — at least one method is left unimplemented (pure virtual).</text></feedback></answer>
+    <answer fraction="0"><text>It exists only to hold static constants</text><feedback><text>No — that is not the purpose of abstraction.</text></feedback></answer>
+    <answer fraction="0"><text>It prevents any class from deriving from it</text><feedback><text>No — abstract classes are meant to be derived from.</text></feedback></answer>
+    <generalfeedback><text>An abstract class models essential behavior as an interface; concrete derived classes supply the implementation detail.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Abstraction facts (select all)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about abstract classes in C++ are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>A class with a pure virtual function cannot be instantiated</text><feedback><text>Yes — it is abstract.</text></feedback></answer>
+    <answer fraction="50"><text>It defines an interface that derived classes must implement</text><feedback><text>Yes — that is the point of an abstract base.</text></feedback></answer>
+    <answer fraction="-50"><text>An abstract class may still be instantiated with new</text><feedback><text>No — abstract classes cannot be instantiated.</text></feedback></answer>
+    <answer fraction="-50"><text>Pure virtual functions are declared with the abstract keyword</text><feedback><text>No — they are declared with = 0.</text></feedback></answer>
+    <generalfeedback><text>Abstract classes (pure virtual, = 0) define an interface and cannot be instantiated; there is no abstract keyword.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Abstract not instantiable</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A class containing a pure virtual function cannot be instantiated directly.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — such a class is abstract and cannot be instantiated.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>A pure virtual function does make the class abstract and non-instantiable.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Derived must implement</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A concrete class deriving from an abstract base can leave a pure virtual function unimplemented and still be instantiated.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — until every pure virtual is overridden, the derived class stays abstract.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a concrete class must implement all inherited pure virtual functions.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Abstract function term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A virtual function declared with <code>= 0</code> is called a ______ function (two words).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>pure virtual</text><feedback><text>Correct — a pure virtual function.</text></feedback></answer>
+    <answer fraction="100"><text>abstract</text><feedback><text>Correct — such a function makes the class abstract.</text></feedback></answer>
+    <answer fraction="100"><text>abstract*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

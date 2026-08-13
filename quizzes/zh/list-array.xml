@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Array List</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>隨機存取的成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在陣列串列(array list)中,以索引存取某個元素的時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(1)</text><feedback><text>正確 —— 位址可由基底加上索引直接算出。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>不需要走訪;索引可直接得到位址。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>索引存取不涉及二分搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>那是排序成本,與索引存取無關。</text></feedback></answer>
+    <generalfeedback><text>連續儲存讓索引能以常數時間對應到記憶體位址。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>中間插入的成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在陣列串列<em>中間</em>插入或刪除一個元素的時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>正確 —— 後續元素必須搬移以填補或空出位置。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>只有在尾端附加可能是 O(1);中間修改會搬移元素。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>搬移是線性的,不是對數的。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>單次中間插入最多搬移 n 個元素,所以是 O(n)。</text></feedback></answer>
+    <generalfeedback><text>因為儲存是連續的,中間插入或刪除必須搬移其後的元素,成本為 O(n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>附加的成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在動態陣列串列尾端附加一個元素的時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>攤銷 O(1)</text><feedback><text>正確 —— 大多數附加是 O(1),偶爾的重新配置平均分攤後可忽略。</text></feedback></answer>
+    <answer fraction="0"><text>每次附加都是 O(n)</text><feedback><text>只有少見的重新配置附加是 O(n);多數是 O(1)。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>附加不涉及對數等級的搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>每次附加都是嚴格的最差情況 O(1)</text><feedback><text>偶爾的重新配置使單次附加在最差情況為 O(n),故為攤銷 O(1)。</text></feedback></answer>
+    <generalfeedback><text>在陣列填滿前附加是 O(1);重新配置花 O(n) 但不常發生,平均得到攤銷 O(1)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>成長策略</text></name>
+    <questiontext format="html"><text><![CDATA[<p>當動態陣列的容量用盡時,通常如何成長?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>配置一個容量加倍的新陣列,並把元素複製過去</text><feedback><text>正確 —— 幾何式(加倍)成長帶來攤銷 O(1) 的附加。</text></feedback></answer>
+    <answer fraction="0"><text>每加入一個元素就只增加一個位置</text><feedback><text>每次只加一個會使整體附加變成 O(n);因此改採加倍。</text></feedback></answer>
+    <answer fraction="0"><text>將容量減半以節省記憶體</text><feedback><text>對已滿的陣列減半會遺失資料;容量必須成長。</text></feedback></answer>
+    <answer fraction="0"><text>把自己轉換成一串節點的鏈結串列</text><feedback><text>動態陣列會重新配置更大的陣列,不會變成鏈結串列。</text></feedback></answer>
+    <generalfeedback><text>溢位時把容量加倍,將 O(n) 的複製成本分攤到許多 O(1) 的附加上。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>陣列串列的性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於陣列串列,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>元素在記憶體中連續儲存</text><feedback><text>正確 —— 這正是能 O(1) 索引的原因。</text></feedback></answer>
+    <answer fraction="50"><text>以索引隨機存取是 O(1)</text><feedback><text>正確 —— 位址可直接算出。</text></feedback></answer>
+    <answer fraction="-50"><text>在中間插入是 O(1)</text><feedback><text>錯 —— 因為後續元素要搬移,所以是 O(n)。</text></feedback></answer>
+    <answer fraction="-50"><text>附加時從不需要移動元素</text><feedback><text>錯 —— 重新配置會把所有元素複製到更大的陣列。</text></feedback></answer>
+    <generalfeedback><text>陣列串列以連續儲存提供 O(1) 索引存取,但中間修改會搬移、重新配置會複製。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>常數時間索引</text></name>
+    <questiontext format="html"><text><![CDATA[<p>陣列串列提供以索引 O(1) 隨機存取任一元素。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 連續儲存讓索引直接對應到位址。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>陣列串列的索引存取確實是 O(1)。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>中間插入是 O(1) 嗎?</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在陣列串列的中間插入一個元素是 O(1) 的操作。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>後續元素必須搬移,使其成為 O(n)。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 中間插入會搬移元素,成本為 O(n)。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>直接存取的名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在陣列串列中,你以元素的數值 ______ 直接存取它。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>index</text><feedback><text>正確 —— 索引以 O(1) 對應到記憶體位址。</text></feedback></answer>
+    <answer fraction="100"><text>index*</text><feedback><text>正確 —— 索引以 O(1) 對應到記憶體位址。</text></feedback></answer>
+  </question>
+</quiz>

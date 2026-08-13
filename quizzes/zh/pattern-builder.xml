@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Builder Pattern</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>建造者意圖</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>建造者(Builder)</strong>模式將什麼分離?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>複雜物件的建構過程與其表示形式</text><feedback><text>正確 —— 相同的建構步驟可產生不同的表示形式。</text></feedback></answer>
+    <answer fraction="0"><text>類別的單一實例與其全域存取點</text><feedback><text>那是單例(Singleton),不是建造者。</text></feedback></answer>
+    <answer fraction="0"><text>不相容的介面與用戶端期望的介面</text><feedback><text>那是配接器(Adapter),不是建造者。</text></feedback></answer>
+    <answer fraction="0"><text>子類別的產品選擇與建立介面</text><feedback><text>那是工廠方法(Factory Method),不是建造者。</text></feedback></answer>
+    <generalfeedback><text>建造者將複雜物件的建構過程與其表示形式分離,因此相同的逐步流程可建造出不同的表示形式。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>建造者分類</text></name>
+    <questiontext format="html"><text><![CDATA[<p>建造者屬於 GoF 的哪一類?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>建立型(Creational)</text><feedback><text>正確 —— 建造者是關於物件如何被建構的建立型模式。</text></feedback></answer>
+    <answer fraction="0"><text>結構型(Structural)</text><feedback><text>錯 —— 結構型模式組合類別/物件;建造者管理的是建構過程。</text></feedback></answer>
+    <answer fraction="0"><text>行為型(Behavioral)</text><feedback><text>錯 —— 行為型模式關注物件的溝通與職責分配。</text></feedback></answer>
+    <generalfeedback><text>建造者是建立型模式之一,與單例、工廠方法同屬一類。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>建造者指揮者</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在建造者模式中,哪一個參與者負責編排建構步驟?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>指揮者(Director)</text><feedback><text>正確 —— 指揮者驅動建構步驟的順序。</text></feedback></answer>
+    <answer fraction="0"><text>被配接者(Adaptee)</text><feedback><text>錯 —— 那是配接器模式的參與者。</text></feedback></answer>
+    <answer fraction="0"><text>單例(Singleton)</text><feedback><text>錯 —— 那是不相關的建立型模式。</text></feedback></answer>
+    <generalfeedback><text>指揮者物件知道建構步驟的順序,並將實際工作委派給建造者。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>建造者的好處</text></name>
+    <questiontext format="html"><text><![CDATA[<p>建造者提供的關鍵好處是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>相同的建構過程可以產生不同的表示形式</text><feedback><text>正確 —— 這正是建造者的核心好處。</text></feedback></answer>
+    <answer fraction="0"><text>保證產品只存在一個實例</text><feedback><text>錯 —— 那是單例。</text></feedback></answer>
+    <answer fraction="0"><text>讓物件能以部分—整體的樹狀階層被處理</text><feedback><text>錯 —— 那是組合(Composite)。</text></feedback></answer>
+    <generalfeedback><text>由於建構過程與表示形式解耦,同一個建構流程可以建立出多種不同的最終產品。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>建造者特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於建造者,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它將複雜物件的建構過程與其表示形式分離</text><feedback><text>正確 —— 這是建造者的核心意圖。</text></feedback></answer>
+    <answer fraction="50"><text>流暢介面(fluent interface)常回傳建造者本身,使呼叫可以串接</text><feedback><text>正確 —— 串接呼叫是常見的建造者慣用法。</text></feedback></answer>
+    <answer fraction="-50"><text>它的主要目的是確保類別只有一個實例</text><feedback><text>錯 —— 那是單例。</text></feedback></answer>
+    <answer fraction="-50"><text>它將某類別的介面轉換成用戶端期望的另一種介面</text><feedback><text>錯 —— 那是配接器。</text></feedback></answer>
+    <generalfeedback><text>建造者將建構過程與表示形式解耦,並常使用流暢、可串接的介面搭配可選的指揮者。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>建造者不同表示形式</text></name>
+    <questiontext format="html"><text><![CDATA[<p>建造者模式讓相同的建構過程能建立出產品的不同表示形式。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 這正是建造者的意圖。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>建造者正是為此將建構過程與表示形式解耦。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>建造者與單例</text></name>
+    <questiontext format="html"><text><![CDATA[<p>建造者的主要意圖是確保類別只有一個實例。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 那是單例模式,不是建造者。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 確保單一實例是單例;建造者是將建構過程與表示形式分離。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>建造者名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>將複雜物件逐步建構的過程與其表示形式分離的建立型模式,稱為 ______ 模式。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>builder</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>builder*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

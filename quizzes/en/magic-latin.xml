@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Magic Square (Latin)</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Building blocks</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In the Latin-square decomposition, a magic square is built from...</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>two orthogonal Latin squares</text><feedback><text>Correct — a Graeco-Latin (Euler) square is a pair of orthogonal Latin squares.</text></feedback></answer>
+    <answer fraction="0"><text>a single random permutation</text><feedback><text>One permutation cannot guarantee the magic property.</text></feedback></answer>
+    <answer fraction="0"><text>the prime factorization of n</text><feedback><text>Factorization is unrelated to this construction.</text></feedback></answer>
+    <answer fraction="0"><text>a sorted list of the values</text><feedback><text>Sorting does not produce a magic square.</text></feedback></answer>
+    <generalfeedback><text>Two orthogonal Latin squares combine into a Graeco-Latin square, from which the magic square is read off.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Value formula</text></name>
+    <questiontext format="html"><text><![CDATA[<p>If a and b are the symbols from the two Latin squares at a cell, the magic-square value there is...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>a * n + b</text><feedback><text>Correct — the pair (a, b) becomes a base-n digit combination.</text></feedback></answer>
+    <answer fraction="0"><text>a + b</text><feedback><text>Simple addition loses the one-to-one mapping of pairs.</text></feedback></answer>
+    <answer fraction="0"><text>a * b</text><feedback><text>Multiplying the symbols does not give distinct values.</text></feedback></answer>
+    <answer fraction="0"><text>a - b</text><feedback><text>Subtraction does not yield the 0..n^2-1 range.</text></feedback></answer>
+    <generalfeedback><text>Reading (a, b) as a two-digit base-n number, value = a*n + b, gives every value once when the squares are orthogonal.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Latin square defining rule</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What defines a Latin square of order n?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>each symbol appears exactly once in every row and every column</text><feedback><text>Correct — that is the Latin-square condition.</text></feedback></answer>
+    <answer fraction="0"><text>each symbol appears once in the whole grid</text><feedback><text>Symbols repeat across the grid; the rule is per row and per column.</text></feedback></answer>
+    <answer fraction="0"><text>the diagonals contain only one symbol</text><feedback><text>Latin squares constrain rows and columns, not a single diagonal symbol.</text></feedback></answer>
+    <answer fraction="0"><text>all rows are identical</text><feedback><text>Identical rows would repeat symbols in columns.</text></feedback></answer>
+    <generalfeedback><text>A Latin square has each of its n symbols exactly once per row and once per column.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Orthogonality meaning</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Two Latin squares are <strong>orthogonal</strong> when, superimposed...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>every ordered pair (a, b) of symbols occurs exactly once</text><feedback><text>Correct — that is the definition of orthogonal Latin squares.</text></feedback></answer>
+    <answer fraction="0"><text>the two squares are identical</text><feedback><text>Identical squares are not orthogonal.</text></feedback></answer>
+    <answer fraction="0"><text>their rows are reversed copies</text><feedback><text>Reversal does not ensure all pairs appear once.</text></feedback></answer>
+    <answer fraction="0"><text>they share no common symbol set</text><feedback><text>They use the same symbol set; orthogonality is about pairings.</text></feedback></answer>
+    <generalfeedback><text>Superimposing orthogonal squares yields each of the n^2 ordered pairs exactly once — a Graeco-Latin square.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Symbol per line</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a Latin square, each symbol appears exactly once in every row and once in every column.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — that is the defining property.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>This is precisely the Latin-square rule.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Single square myth</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The Latin-square decomposition needs only one Latin square to form the magic square.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>It needs two orthogonal Latin squares combined via a*n + b.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a pair of orthogonal Latin squares is required.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Square-type term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A grid in which each symbol occurs exactly once per row and once per column is called a ______ square.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Latin</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>Latin*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Latin decomposition properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the Latin-square decomposition are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>The value at a cell is a*n + b from the two squares</text><feedback><text>Yes — a base-n combination of the pair.</text></feedback></answer>
+    <answer fraction="50"><text>Each symbol appears once per row and once per column</text><feedback><text>Yes — the Latin-square condition.</text></feedback></answer>
+    <answer fraction="-50"><text>Only one Latin square is required</text><feedback><text>No — two orthogonal Latin squares are needed.</text></feedback></answer>
+    <answer fraction="-50"><text>The value at a cell is the product a*b</text><feedback><text>No — it is a*n + b, not a*b.</text></feedback></answer>
+    <generalfeedback><text>Two orthogonal Latin squares combine as a*n + b; each symbol appears once per row and column.</text></generalfeedback>
+  </question>
+</quiz>

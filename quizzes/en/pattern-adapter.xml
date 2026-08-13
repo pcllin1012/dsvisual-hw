@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Adapter Pattern</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Adapter intent</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does the <strong>Adapter</strong> pattern do?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Converts one class's interface into another interface the client expects</text><feedback><text>Correct — Adapter translates between interfaces.</text></feedback></answer>
+    <answer fraction="0"><text>Ensures a class has exactly one instance</text><feedback><text>That describes Singleton, not Adapter.</text></feedback></answer>
+    <answer fraction="0"><text>Composes objects into part-whole tree hierarchies</text><feedback><text>That describes Composite, not Adapter.</text></feedback></answer>
+    <answer fraction="0"><text>Separates construction of a complex object from its representation</text><feedback><text>That describes Builder, not Adapter.</text></feedback></answer>
+    <generalfeedback><text>Adapter converts the interface of a class into another interface clients expect, letting otherwise incompatible classes work together.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Adapter alias</text></name>
+    <questiontext format="html"><text><![CDATA[<p>By what other name is the Adapter pattern commonly known?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Wrapper</text><feedback><text>Correct — Adapter is also called Wrapper because it wraps an existing class.</text></feedback></answer>
+    <answer fraction="0"><text>Director</text><feedback><text>No — Director is a Builder participant.</text></feedback></answer>
+    <answer fraction="0"><text>Prototype</text><feedback><text>No — Prototype is a separate creational pattern.</text></feedback></answer>
+    <generalfeedback><text>Adapter is also known as Wrapper: it wraps an existing (adaptee) class to expose a different interface.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Adapter category</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Into which GoF category does Adapter fall?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Structural</text><feedback><text>Correct — Adapter is a structural pattern.</text></feedback></answer>
+    <answer fraction="0"><text>Creational</text><feedback><text>No — creational patterns concern object creation.</text></feedback></answer>
+    <answer fraction="0"><text>Behavioral</text><feedback><text>No — behavioral patterns concern communication and responsibility.</text></feedback></answer>
+    <generalfeedback><text>Adapter is a structural pattern, alongside Composite and Decorator.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Adapter when to use</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When is Adapter the right choice?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>You want to reuse an existing class whose interface does not match what the client needs</text><feedback><text>Correct — Adapter wraps the incompatible class to fit the expected interface.</text></feedback></answer>
+    <answer fraction="0"><text>You need to guarantee a single shared instance</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <answer fraction="0"><text>You need to build part-whole tree hierarchies</text><feedback><text>No — that is Composite.</text></feedback></answer>
+    <generalfeedback><text>Use Adapter to make an existing class usable through a different, expected interface without modifying it.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Adapter characteristics</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Adapter are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It converts an existing interface into the interface a client expects</text><feedback><text>Yes — that is Adapter's core intent.</text></feedback></answer>
+    <answer fraction="50"><text>It enables reuse of an existing class with an incompatible interface</text><feedback><text>Yes — that is a primary motivation.</text></feedback></answer>
+    <answer fraction="-50"><text>Its main purpose is to add responsibilities dynamically by stacking wrappers</text><feedback><text>No — that is Decorator.</text></feedback></answer>
+    <answer fraction="-50"><text>It ensures a class has exactly one instance</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <generalfeedback><text>Adapter wraps an existing class to convert its interface into the one a client expects, enabling reuse of incompatible code.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Adapter incompatible interfaces</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Adapter lets classes with incompatible interfaces work together.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — that is exactly why Adapter exists.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Bridging incompatible interfaces is Adapter's defining purpose.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Adapter changes behavior</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Adapter's job is to change the underlying behavior of the wrapped class, not just its interface.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — Adapter only converts the interface; it does not alter the wrapped class's core behavior.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — Adapter converts the interface while leaving the adaptee's behavior intact.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Adapter term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The structural pattern that converts one class's interface into another interface a client expects is the ______ pattern.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>adapter</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>wrapper</text><feedback><text>Accepted — Adapter is also known as Wrapper.</text></feedback></answer>
+    <answer fraction="100"><text>adapter*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

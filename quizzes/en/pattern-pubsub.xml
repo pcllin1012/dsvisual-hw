@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Publish-Subscribe</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Pub-sub intermediary</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In Publish-Subscribe, publishers send messages to what intermediary?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A broker (topic/channel)</text><feedback><text>Correct — the broker routes messages by topic.</text></feedback></answer>
+    <answer fraction="0"><text>Each subscriber directly</text><feedback><text>No — pub-sub decouples them via a broker.</text></feedback></answer>
+    <answer fraction="0"><text>A single receiver object</text><feedback><text>That resembles Command's receiver, not pub-sub.</text></feedback></answer>
+    <answer fraction="0"><text>A controller</text><feedback><text>Controllers belong to MVC.</text></feedback></answer>
+    <generalfeedback><text>Publishers emit messages to a broker organized by topic/channel; the broker delivers them to matching subscribers.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Pub-sub coupling</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the relationship between publishers and subscribers?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>They are decoupled and do not reference each other</text><feedback><text>Correct — the broker sits between them.</text></feedback></answer>
+    <answer fraction="0"><text>Each publisher holds a direct reference to every subscriber</text><feedback><text>No — that would couple them tightly.</text></feedback></answer>
+    <answer fraction="0"><text>They must run in the same thread</text><feedback><text>No — pub-sub is typically asynchronous.</text></feedback></answer>
+    <answer fraction="0"><text>Subscribers create the publishers</text><feedback><text>There is no such requirement.</text></feedback></answer>
+    <generalfeedback><text>Publishers and subscribers never reference each other; the broker mediates, so either side can change independently.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Pub-sub cardinality</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What message cardinality does pub-sub typically support?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Many-to-many</text><feedback><text>Correct — many publishers, many subscribers per topic.</text></feedback></answer>
+    <answer fraction="0"><text>Strictly one-to-one</text><feedback><text>Pub-sub is not limited to one-to-one.</text></feedback></answer>
+    <answer fraction="0"><text>Exactly one-to-zero</text><feedback><text>Topics may have any number of subscribers.</text></feedback></answer>
+    <answer fraction="0"><text>Always exactly two participants</text><feedback><text>There is no fixed participant count.</text></feedback></answer>
+    <generalfeedback><text>A topic may have many publishers and many subscribers, giving many-to-many, typically asynchronous communication.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Pub-sub timing</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Publish-subscribe communication is typically ______.</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Asynchronous</text><feedback><text>Correct — publishers do not block waiting for subscribers.</text></feedback></answer>
+    <answer fraction="0"><text>Always synchronous and blocking</text><feedback><text>Pub-sub decouples timing; it is usually async.</text></feedback></answer>
+    <answer fraction="0"><text>Only possible on a single machine</text><feedback><text>Brokers commonly span machines/networks.</text></feedback></answer>
+    <answer fraction="0"><text>Restricted to one subscriber</text><feedback><text>Topics support many subscribers.</text></feedback></answer>
+    <generalfeedback><text>Because a broker buffers and routes messages, publishers and subscribers operate asynchronously and independently.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Pub-sub properties (select all)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Publish-Subscribe are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="50"><text>A broker routes messages by topic/channel</text><feedback><text>Yes.</text></feedback></answer>
+    <answer fraction="50"><text>Publishers and subscribers are decoupled from each other</text><feedback><text>Yes.</text></feedback></answer>
+    <answer fraction="-50"><text>Every publisher must hold a direct reference to each subscriber</text><feedback><text>No — the broker removes that need.</text></feedback></answer>
+    <answer fraction="-50"><text>It supports only one-to-one delivery</text><feedback><text>No — it is many-to-many.</text></feedback></answer>
+    <generalfeedback><text>Pub-sub routes messages through a broker by topic, keeping publishers and subscribers decoupled in a many-to-many, asynchronous fashion.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Pub-sub decoupling</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In publish-subscribe, publishers and subscribers do not reference each other directly; a broker mediates.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the broker decouples the two sides.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The broker is precisely what removes direct references.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Pub-sub direct call</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In publish-subscribe, a publisher must call each subscriber directly and synchronously.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — messages go through a broker, usually asynchronously.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — delivery goes via a broker, not direct calls.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Intermediary name</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The intermediary that receives published messages and delivers them to subscribers is the ______. (one word, English)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>broker</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>broker*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>topic</text><feedback><text>Accepted — messages are routed by topic.</text></feedback></answer>
+    <answer fraction="100"><text>channel</text><feedback><text>Accepted — a channel/topic carries the messages.</text></feedback></answer>
+  </question>
+</quiz>

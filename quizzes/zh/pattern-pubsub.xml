@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/發布-訂閱</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>發布訂閱的中介</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在發布-訂閱中,發布者把訊息送往哪個中介?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一個代理(主題/通道)</text><feedback><text>正確 —— 代理依主題路由訊息。</text></feedback></answer>
+    <answer fraction="0"><text>直接送給每個訂閱者</text><feedback><text>錯 —— 發布訂閱透過代理將兩者解耦。</text></feedback></answer>
+    <answer fraction="0"><text>單一接收者物件</text><feedback><text>那類似命令的接收者,而非發布訂閱。</text></feedback></answer>
+    <answer fraction="0"><text>一個控制器</text><feedback><text>控制器屬於 MVC。</text></feedback></answer>
+    <generalfeedback><text>發布者把訊息發往依主題/通道組織的代理;代理再把訊息送給符合的訂閱者。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>發布訂閱的耦合</text></name>
+    <questiontext format="html"><text><![CDATA[<p>發布者與訂閱者之間的關係是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>它們彼此解耦、互不參考</text><feedback><text>正確 —— 代理位於兩者之間。</text></feedback></answer>
+    <answer fraction="0"><text>每個發布者都持有每個訂閱者的直接參考</text><feedback><text>錯 —— 那會讓它們緊密耦合。</text></feedback></answer>
+    <answer fraction="0"><text>它們必須在同一執行緒中運行</text><feedback><text>錯 —— 發布訂閱通常是非同步的。</text></feedback></answer>
+    <answer fraction="0"><text>訂閱者建立發布者</text><feedback><text>並無此要求。</text></feedback></answer>
+    <generalfeedback><text>發布者與訂閱者從不互相參考;由代理居中協調,因此任一方都能獨立改變。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>發布訂閱的多重性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>發布訂閱通常支援何種訊息多重性?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>多對多</text><feedback><text>正確 —— 每個主題可有多個發布者與多個訂閱者。</text></feedback></answer>
+    <answer fraction="0"><text>嚴格一對一</text><feedback><text>發布訂閱不限於一對一。</text></feedback></answer>
+    <answer fraction="0"><text>恰好一對零</text><feedback><text>一個主題可有任意數量的訂閱者。</text></feedback></answer>
+    <answer fraction="0"><text>永遠恰好兩個參與者</text><feedback><text>參與者數量並不固定。</text></feedback></answer>
+    <generalfeedback><text>一個主題可有多個發布者與多個訂閱者,形成多對多、通常非同步的通訊。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>發布訂閱的時序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>發布-訂閱的通訊通常是 ______。</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>非同步的</text><feedback><text>正確 —— 發布者不會阻塞等待訂閱者。</text></feedback></answer>
+    <answer fraction="0"><text>總是同步且阻塞的</text><feedback><text>發布訂閱讓時序解耦,通常是非同步的。</text></feedback></answer>
+    <answer fraction="0"><text>只可能在單一機器上</text><feedback><text>代理常橫跨多台機器/網路。</text></feedback></answer>
+    <answer fraction="0"><text>限定一個訂閱者</text><feedback><text>主題支援多個訂閱者。</text></feedback></answer>
+    <generalfeedback><text>由於代理會緩衝並路由訊息,發布者與訂閱者可非同步且獨立地運作。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>發布訂閱特性(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於發布-訂閱,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="50"><text>代理依主題/通道路由訊息</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="50"><text>發布者與訂閱者彼此解耦</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="-50"><text>每個發布者都必須持有每個訂閱者的直接參考</text><feedback><text>錯 —— 代理消除了這種需求。</text></feedback></answer>
+    <answer fraction="-50"><text>它只支援一對一的傳遞</text><feedback><text>錯 —— 它是多對多。</text></feedback></answer>
+    <generalfeedback><text>發布訂閱透過代理依主題路由訊息,讓發布者與訂閱者以多對多、非同步的方式保持解耦。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>發布訂閱解耦</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在發布-訂閱中,發布者與訂閱者不直接互相參考;由代理居中協調。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 代理讓兩端解耦。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>代理正是消除直接參考的關鍵。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>發布訂閱直接呼叫</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在發布-訂閱中,發布者必須直接且同步地呼叫每個訂閱者。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 訊息經由代理傳遞,通常是非同步的。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 傳遞經由代理,而非直接呼叫。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>中介名稱</text></name>
+    <questiontext format="html"><text><![CDATA[<p>接收已發布訊息並將其傳遞給訂閱者的中介稱為 ______。(英文單字)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>broker</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>broker*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>topic</text><feedback><text>接受 —— 訊息依主題路由。</text></feedback></answer>
+    <answer fraction="100"><text>channel</text><feedback><text>接受 —— 通道/主題承載訊息。</text></feedback></answer>
+  </question>
+</quiz>

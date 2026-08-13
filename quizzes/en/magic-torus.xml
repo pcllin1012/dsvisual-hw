@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Magic Square (Torus)</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Wrap arithmetic</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In the up-right construction, when a move leaves the grid, the position wraps around using...</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>arithmetic modulo n on the row and column</text><feedback><text>Correct — indices are taken mod n, as on a torus.</text></feedback></answer>
+    <answer fraction="0"><text>reflection off the border</text><feedback><text>The torus wraps, it does not reflect.</text></feedback></answer>
+    <answer fraction="0"><text>a jump to the center</text><feedback><text>Wrapping goes to the opposite edge, not the center.</text></feedback></answer>
+    <answer fraction="0"><text>stopping the walk</text><feedback><text>The walk continues after wrapping around.</text></feedback></answer>
+    <generalfeedback><text>Row and column indices are reduced modulo n, so leaving one edge re-enters at the opposite edge.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Topological shape</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Treating the wrap-around as gluing opposite edges makes the grid topologically a...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>torus</text><feedback><text>Correct — gluing both pairs of opposite edges yields a torus.</text></feedback></answer>
+    <answer fraction="0"><text>sphere</text><feedback><text>A sphere comes from a different gluing, not edge-to-opposite-edge.</text></feedback></answer>
+    <answer fraction="0"><text>flat disk</text><feedback><text>A disk has a boundary; the wrapped grid has none.</text></feedback></answer>
+    <answer fraction="0"><text>Mobius strip</text><feedback><text>A Mobius strip needs a twist; here edges join without a flip.</text></feedback></answer>
+    <generalfeedback><text>Gluing left-to-right and top-to-bottom edges of a square yields a torus.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Tiled-plane windows</text></name>
+    <questiontext format="html"><text><![CDATA[<p>If the magic square is used to tile the plane, which n x n windows are themselves magic?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>every aligned n x n window of the tiling</text><feedback><text>Correct — the toroidal structure makes every aligned window magic.</text></feedback></answer>
+    <answer fraction="0"><text>only the original copy</text><feedback><text>Because of wrap symmetry, shifted aligned windows are magic too.</text></feedback></answer>
+    <answer fraction="0"><text>none of the shifted windows</text><feedback><text>Aligned shifted windows remain magic.</text></feedback></answer>
+    <answer fraction="0"><text>only windows centered on a corner</text><feedback><text>Position within the tiling does not matter for aligned windows.</text></feedback></answer>
+    <generalfeedback><text>Tiling with copies and sliding an aligned n x n window always frames a magic square, thanks to the modular wrap.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Why wrap works</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why does the modulo wrap keep the Siamese walk consistent?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>leaving one edge re-enters at the opposite edge, keeping the up-right diagonal continuous</text><feedback><text>Correct — the diagonal path is unbroken on the torus.</text></feedback></answer>
+    <answer fraction="0"><text>it randomly relocates each number</text><feedback><text>The wrap is deterministic, not random.</text></feedback></answer>
+    <answer fraction="0"><text>it doubles the grid size</text><feedback><text>The grid stays n x n; only indexing wraps.</text></feedback></answer>
+    <answer fraction="0"><text>it stops when reaching an edge</text><feedback><text>The walk continues by wrapping, it does not stop.</text></feedback></answer>
+    <generalfeedback><text>Modular indexing continues the up-right diagonal across edges, as if walking on a seamless torus.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Torus wrap true</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The up-right construction wraps around modulo n, behaving as if drawn on a torus.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — opposite edges are identified, forming a torus.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The modular wrap is exactly toroidal behavior.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Reflection myth</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When a move leaves the grid, the toroidal method reflects the position back off the border.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>It wraps to the opposite edge (mod n); it does not reflect.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the position wraps around, not reflects.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Boundary behavior term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When a move runs off one edge of the grid, it re-enters at the opposite edge; this behavior is called ______ around.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>wrap</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>wrap*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>torus</text><feedback><text>Accepted — the wrap turns the grid into a torus.</text></feedback></answer>
+    <answer fraction="100"><text>modulo</text><feedback><text>Accepted — wrapping is arithmetic modulo n.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Toroidal magic properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the toroidal magic square are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Indices wrap around modulo n at the edges</text><feedback><text>Yes — that is the toroidal rule.</text></feedback></answer>
+    <answer fraction="50"><text>Every aligned n x n window of the tiled plane is magic</text><feedback><text>Yes — a consequence of the wrap symmetry.</text></feedback></answer>
+    <answer fraction="-50"><text>Leaving an edge reflects the position back inward</text><feedback><text>No — it wraps to the opposite edge.</text></feedback></answer>
+    <answer fraction="-50"><text>Gluing opposite edges gives a sphere</text><feedback><text>No — it gives a torus.</text></feedback></answer>
+    <generalfeedback><text>Modular wrap makes the grid a torus; tiling the plane, every aligned n x n window is magic.</text></generalfeedback>
+  </question>
+</quiz>

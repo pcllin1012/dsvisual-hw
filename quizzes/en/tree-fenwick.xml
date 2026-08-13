@@ -18,11 +18,11 @@
     <name><text>Fenwick lowbit mechanism</text></name>
     <questiontext format="html"><text><![CDATA[<p>How does a Fenwick tree move between the indices it must touch during a query or update?</p>]]></text></questiontext>
     <single>true</single>
-    <answer fraction="100"><text>By jumping via the lowest set bit, computed as <code>i &amp; -i</code> (the "lowbit")</text><feedback><text>Correct — adding or subtracting <code>i &amp; -i</code> walks the responsibility ranges.</text></feedback></answer>
+    <answer fraction="100"><text>By jumping via the lowest set bit, computed as i &amp; -i (the "lowbit")</text><feedback><text>Correct — adding or subtracting i &amp; -i walks the responsibility ranges.</text></feedback></answer>
     <answer fraction="0"><text>By following left and right child pointers of a binary tree</text><feedback><text>A BIT stores no explicit child pointers; it uses index arithmetic.</text></feedback></answer>
     <answer fraction="0"><text>By binary searching the array each step</text><feedback><text>No search is needed; the lowbit gives the next index directly.</text></feedback></answer>
     <answer fraction="0"><text>By hashing the index into a bucket</text><feedback><text>No hashing is involved; it is pure bit manipulation.</text></feedback></answer>
-    <generalfeedback><text>The lowbit <code>i &amp; -i</code> isolates the least-significant set bit; adding it (update) or subtracting it (query) steps through O(log n) indices.</text></generalfeedback>
+    <generalfeedback><text>The lowbit i &amp; -i isolates the least-significant set bit; adding it (update) or subtracting it (query) steps through O(log n) indices.</text></generalfeedback>
   </question>
   <question type="multichoice">
     <name><text>Fenwick tree space</text></name>

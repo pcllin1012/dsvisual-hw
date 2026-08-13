@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Deque</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>雙端佇列核心操作</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>雙端佇列(deque)</strong>支援哪一項 O(1) 的操作?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>在前端與後端兩端都能插入與刪除</text><feedback><text>正確 —— 雙端佇列在兩端皆可 O(1) 插入與刪除。</text></feedback></answer>
+    <answer fraction="0"><text>只能在後端插入、只能在前端刪除</text><feedback><text>那是一般的 FIFO 佇列,不是雙端佇列。</text></feedback></answer>
+    <answer fraction="0"><text>只能在前端插入與刪除</text><feedback><text>雙端佇列在兩端都能操作,不只前端。</text></feedback></answer>
+    <answer fraction="0"><text>以 O(1) 隨機存取中間元素</text><feedback><text>雙端佇列在兩端操作;任意索引存取並非其定義性的 O(1) 操作。</text></feedback></answer>
+    <generalfeedback><text>雙端佇列在前端與後端兩端皆支援 O(1) 的插入與刪除。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>雙端佇列可模擬堆疊或佇列</text></name>
+    <questiontext format="html"><text><![CDATA[<p>雙端佇列可以模擬哪些經典結構?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>堆疊與佇列兩者</text><feedback><text>正確 —— 只用一端即為堆疊;兩端分工即為佇列。</text></feedback></answer>
+    <answer fraction="0"><text>只有佇列</text><feedback><text>只用單一端也能表現為堆疊。</text></feedback></answer>
+    <answer fraction="0"><text>只有堆疊</text><feedback><text>一端入、另一端出也能表現為佇列。</text></feedback></answer>
+    <answer fraction="0"><text>既非堆疊也非佇列</text><feedback><text>雙端佇列是兩者的推廣。</text></feedback></answer>
+    <generalfeedback><text>因為在兩端都能操作,雙端佇列可表現為堆疊(LIFO)或佇列(FIFO)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>雙端佇列的實作選擇</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪一種實作能讓雙端佇列在兩端皆為 O(1)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>循環陣列或雙向鏈結串列</text><feedback><text>正確 —— 兩者都能對前端與後端提供 O(1) 的操作。</text></feedback></answer>
+    <answer fraction="0"><text>沒有尾指標的單向鏈結串列</text><feedback><text>沒有尾指標時,後端操作並非 O(1)。</text></feedback></answer>
+    <answer fraction="0"><text>二元堆積</text><feedback><text>堆積依優先權排序,而非依兩端操作。</text></feedback></answer>
+    <answer fraction="0"><text>雜湊表</text><feedback><text>雜湊提供鍵值查找,而非有序的端點操作。</text></feedback></answer>
+    <generalfeedback><text>循環陣列或雙向鏈結串列可在兩端皆支援 O(1) 的插入與刪除。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>只用單一端的雙端佇列</text></name>
+    <questiontext format="html"><text><![CDATA[<p>若只在雙端佇列的單一端推入與彈出,它會表現為:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>堆疊(LIFO)</text><feedback><text>正確 —— 在同一端推入與彈出正是堆疊。</text></feedback></answer>
+    <answer fraction="0"><text>最小優先佇列</text><feedback><text>雙端佇列不依優先權排序元素。</text></feedback></answer>
+    <answer fraction="0"><text>已排序串列</text><feedback><text>雙端佇列不會讓元素保持排序。</text></feedback></answer>
+    <answer fraction="0"><text>雜湊集合</text><feedback><text>雙端佇列是序列,不是集合。</text></feedback></answer>
+    <generalfeedback><text>在單一端同時推入與彈出,會讓雙端佇列表現為 LIFO 堆疊。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>雙端佇列的實作</text></name>
+    <questiontext format="html"><text><![CDATA[<p>雙端佇列可以用循環陣列或雙向鏈結串列來實作。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 循環陣列與雙向鏈結串列都能對兩端提供 O(1) 存取。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>循環陣列與雙向鏈結串列都是標準的雙端佇列實作方式。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>雙端佇列的單端限制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>雙端佇列只允許在單一端進行插入與刪除。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>雙端佇列在兩端都能操作,不只一端。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 雙端佇列在前端與後端皆可操作。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>雙端佇列的兩端名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>雙端佇列允許在 ______ 端(兩端)進行插入與刪除。(請以英文作答)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>both</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>both ends</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>both*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>雙端佇列的性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於雙端佇列,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>在兩端皆支援 O(1) 的插入與刪除</text><feedback><text>正確 —— 這是它的定義性性質。</text></feedback></answer>
+    <answer fraction="50"><text>可以用雙向鏈結串列實作</text><feedback><text>正確 —— 雙向鏈結串列對兩端提供 O(1) 存取。</text></feedback></answer>
+    <answer fraction="-50"><text>提供 O(1) 的任意位置索引存取</text><feedback><text>錯 —— 雙端佇列在兩端操作,而非任意索引。</text></feedback></answer>
+    <answer fraction="-50"><text>只允許 LIFO 存取</text><feedback><text>錯 —— 它同時涵蓋 LIFO 與 FIFO 存取。</text></feedback></answer>
+    <generalfeedback><text>雙端佇列:兩端 O(1)、可用循環陣列或雙向鏈結串列實作、可作為堆疊或佇列。</text></generalfeedback>
+  </question>
+</quiz>
