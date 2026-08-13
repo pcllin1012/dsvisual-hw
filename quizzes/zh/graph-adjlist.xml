@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Adjacency List</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>相鄰串列結構</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在圖的<strong>相鄰串列(adjacency list)</strong>表示法中,每個頂點儲存什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>它的相鄰(鄰接)頂點清單</text><feedback><text>正確 —— 每個頂點保存與它直接相連的頂點清單。</text></feedback></answer>
+    <answer fraction="0"><text>對每個其他頂點都有的一整列長度 V 的 0 與 1</text><feedback><text>那是相鄰矩陣的一列,不是相鄰串列。</text></feedback></answer>
+    <answer fraction="0"><text>只有它自己的度數(一個整數)</text><feedback><text>只知道度數無法得知相鄰的是哪些頂點。</text></feedback></answer>
+    <answer fraction="0"><text>指向圖的根頂點的指標</text><feedback><text>一般圖沒有根,而且那也無法表示相鄰關係。</text></feedback></answer>
+    <generalfeedback><text>相鄰串列讓每個頂點擁有一份鄰居清單,只儲存真正存在的邊。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>相鄰串列空間</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對於有 V 個頂點與 E 條邊的圖,相鄰串列的空間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V + E)</text><feedback><text>正確 —— 每個頂點一個表頭,每條邊(或每個端點)一個節點。</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>那是相鄰矩陣的空間,不是相鄰串列。</text></feedback></answer>
+    <answer fraction="0"><text>O(E^2)</text><feedback><text>儲存量隨邊數線性成長,不是平方成長。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>必須儲存每個頂點與每條邊,不可能是常數。</text></feedback></answer>
+    <generalfeedback><text>相鄰串列使用 O(V + E) 空間:V 個表頭加上每條邊出現一個節點。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>相鄰串列最佳適用</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相鄰串列對哪一種圖<strong>最</strong>省空間?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>稀疏圖,E 遠小於 V^2</text><feedback><text>正確 —— 串列只儲存存在的邊,邊少時最理想。</text></feedback></answer>
+    <answer fraction="0"><text>稠密圖,E 接近 V^2</text><feedback><text>稠密圖通常用矩陣較好;串列失去空間優勢。</text></feedback></answer>
+    <answer fraction="0"><text>對所有頂點皆相連的完全圖</text><feedback><text>完全圖最稠密 —— 是相鄰串列省空間的最差情況。</text></feedback></answer>
+    <answer fraction="0"><text>任何恰好有 V^2 條邊的圖</text><feedback><text>那是最稠密的圖,不是串列擅長的場景。</text></feedback></answer>
+    <generalfeedback><text>因為只儲存真實的邊,相鄰串列在稀疏圖(E 遠小於 V^2)時表現最佳。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>走訪鄰居的成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>使用相鄰串列時,走訪頂點 u 的所有鄰居的成本為:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(degree(u))</text><feedback><text>正確 —— 走過 u 的串列,長度就是它的度數。</text></feedback></answer>
+    <answer fraction="0"><text>不論度數皆為 O(V)</text><feedback><text>那是矩陣的成本;串列只走訪真正的鄰居。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>必須逐一走訪每個鄰居,因此取決於度數。</text></feedback></answer>
+    <answer fraction="0"><text>對每個頂點皆為 O(E)</text><feedback><text>你只走訪 u 自己的串列,而非圖中所有邊。</text></feedback></answer>
+    <generalfeedback><text>走訪鄰居沿著 u 的串列進行,成本為 O(degree(u)) —— 這是稀疏圖上的關鍵優勢。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>相鄰串列的邊查詢</text></name>
+    <questiontext format="html"><text><![CDATA[<p>使用相鄰串列時,測試邊 (u, v) 是否存在,最差情況需要 O(degree(u)) 的時間。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 你可能必須掃過 u 的所有鄰居。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>相鄰串列沒有 O(1) 的邊查詢;必須掃 u 的串列。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>相鄰串列於稠密圖</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相鄰串列永遠比相鄰矩陣省記憶體,即使是非常稠密的圖也是如此。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>在稠密圖上,每個節點的指標額外負擔可能超過精簡的矩陣。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 對稠密圖,矩陣可能一樣好甚至更佳。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>串列內容的名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在相鄰串列中,掛在每個頂點上的清單存放該頂點的 ______(相鄰頂點,請以英文作答)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>neighbors</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>neighbours</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>neighbor*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>neighbour*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>相鄰串列性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於相鄰串列表示法,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它使用 O(V + E) 空間</text><feedback><text>正確 —— V 個表頭加上每條邊出現一個節點。</text></feedback></answer>
+    <answer fraction="50"><text>走訪一個頂點的鄰居成本為 O(degree)</text><feedback><text>正確 —— 只走該頂點的串列。</text></feedback></answer>
+    <answer fraction="-50"><text>它支援最差情況 O(1) 的邊存在性測試</text><feedback><text>錯 —— 那是相鄰矩陣;串列必須掃描頂點的鄰居。</text></feedback></answer>
+    <answer fraction="-50"><text>不論邊數多少,它都使用 O(V^2) 空間</text><feedback><text>錯 —— 那是矩陣;串列的大小隨 E 成長。</text></feedback></answer>
+    <generalfeedback><text>相鄰串列:O(V + E) 空間、O(degree) 走訪鄰居、無 O(1) 邊查詢、大小隨 E 成長(適合稀疏圖)。</text></generalfeedback>
+  </question>
+</quiz>

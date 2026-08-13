@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Binary Heap</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>二元堆積結構</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列何者最能描述二元堆積(binary heap)的底層結構?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一棵完全二元樹,通常以陣列儲存</text><feedback><text>正確 —— 完全性讓它能連續地塞進陣列中。</text></feedback></answer>
+    <answer fraction="0"><text>一棵維持排序的二元搜尋樹</text><feedback><text>錯 —— 堆積只規範父子順序,不規範左右順序。</text></feedback></answer>
+    <answer fraction="0"><text>一串具有父指標的節點鏈結串列</text><feedback><text>錯 —— 標準實作是陣列,而非鏈結串列。</text></feedback></answer>
+    <answer fraction="0"><text>一棵平衡的紅黑樹</text><feedback><text>錯 —— 那是另一種更複雜的結構。</text></feedback></answer>
+    <generalfeedback><text>二元堆積是滿足堆積性質的完全二元樹,完全性使得陣列表示法自然且不需指標。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>取出最小值成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在含 <em>n</em> 個元素的最小二元堆積中,<strong>取出最小值(extract-min)</strong>的時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— 移除根之後沿一條根到葉的路徑向下篩。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>那是查詢最小值;移除它需要重建堆積。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>錯 —— 向下篩只碰一條高度為 log n 的路徑。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>錯 —— 那是取出全部 n 個元素的成本。</text></feedback></answer>
+    <generalfeedback><text>取出最小值把最後一個元素移到根,再沿高度 O(log n) 的一條路徑向下篩。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>父節點索引(1 起始)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>使用<strong>以 1 為起始</strong>的陣列,索引 <em>i</em> 的節點,其父節點存放在哪個索引?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>&lfloor;i/2&rfloor;</text><feedback><text>正確 —— 子節點在 2i 與 2i+1,故父節點在 floor(i/2)。</text></feedback></answer>
+    <answer fraction="0"><text>2i</text><feedback><text>錯 —— 2i 是子節點索引,不是父節點。</text></feedback></answer>
+    <answer fraction="0"><text>i - 1</text><feedback><text>錯 —— 隱式樹與陣列的對應不是這樣。</text></feedback></answer>
+    <answer fraction="0"><text>&lfloor;i/2&rfloor; - 1</text><feedback><text>錯 —— 那個差一是用於以 0 為起始的索引,而非以 1 為起始。</text></feedback></answer>
+    <generalfeedback><text>以 1 為起始的陣列中,i 的父節點在 floor(i/2),i 的子節點在 2i 與 2i+1。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>建堆成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>以由下而上的 heapify 從 <em>n</em> 個無序元素建立堆積,執行時間為:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>正確 —— 依節點高度做更緊的分析,總和為線性時間。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>那是寬鬆界;由下而上建堆的緊界是 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>錯 —— 必須處理每一個元素。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>錯 —— heapify 遠比這便宜。</text></feedback></answer>
+    <generalfeedback><text>大多數節點靠近底部、向下篩成本極小;將高度乘以節點數求和會收斂為 O(n)。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>查詢最小值為常數時間</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在最小二元堆積中,查詢最小元素只需 O(1) 時間。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 最小值永遠在根(陣列索引 1)。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>最小值永遠是根,故為 O(1)。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>堆積的排序順序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對二元堆積做中序走訪會依排序順序拜訪元素。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 堆積只限制父子關係,不限制左右兄弟。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 堆積不像 BST 那樣有序;只有最小/最大值在根。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>左子節點索引</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在<strong>以 1 為起始</strong>的陣列堆積中,索引 <em>i</em> 的節點,其左子節點存放在索引 ______(以 i 的算式作答)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>2i</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>2*i</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>2i*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>二元堆積敘述</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於二元最小堆積,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>插入透過向上篩以 O(log n) 完成</text><feedback><text>正確 —— 新葉節點最多向上冒泡一條路徑高度。</text></feedback></answer>
+    <answer fraction="50"><text>它是標準的陣列式優先佇列實作</text><feedback><text>正確 —— 多數優先佇列以堆積為底層。</text></feedback></answer>
+    <answer fraction="-50"><text>陣列表示法每個節點需要子指標</text><feedback><text>錯 —— 索引以算術計算,不需儲存指標。</text></feedback></answer>
+    <answer fraction="-50"><text>每個左子樹的鍵值都小於每個右子樹</text><feedback><text>錯 —— 那是 BST 性質;堆積不規範兄弟順序。</text></feedback></answer>
+    <generalfeedback><text>二元堆積提供 O(log n) 插入/取出與 O(1) 查詢最小值,不儲存指標,是多數優先佇列的底層;它不像 BST 那樣具搜尋順序。</text></generalfeedback>
+  </question>
+</quiz>

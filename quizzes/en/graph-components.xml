@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Connected Components</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Connected component definition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an <strong>undirected</strong> graph, a <strong>connected component</strong> is best defined as:</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A maximal set of vertices that are all mutually reachable</text><feedback><text>Correct — a maximal mutually-reachable vertex set.</text></feedback></answer>
+    <answer fraction="0"><text>Any path between two vertices</text><feedback><text>No — a component is a set of vertices, not a single path.</text></feedback></answer>
+    <answer fraction="0"><text>The set of all edges incident to a vertex</text><feedback><text>No — that is a vertex's adjacency, not a component.</text></feedback></answer>
+    <answer fraction="0"><text>A cycle that visits every vertex once</text><feedback><text>No — that describes a Hamiltonian cycle.</text></feedback></answer>
+    <generalfeedback><text>A connected component is a maximal subset of vertices such that a path exists between every pair; "maximal" means it cannot be extended by adding more reachable vertices.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Finding all components</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the standard traversal-based method to find <em>all</em> connected components?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Run BFS or DFS from each not-yet-visited vertex; each traversal marks one component</text><feedback><text>Correct — one traversal per unvisited start yields one component.</text></feedback></answer>
+    <answer fraction="0"><text>Run a single BFS from vertex 0 only</text><feedback><text>No — one BFS reaches only the component containing vertex 0.</text></feedback></answer>
+    <answer fraction="0"><text>Run Dijkstra from every vertex</text><feedback><text>No — shortest paths are unnecessary; plain BFS/DFS suffices.</text></feedback></answer>
+    <answer fraction="0"><text>Sort the edges and scan them once</text><feedback><text>No — sorting edges alone does not group vertices into components.</text></feedback></answer>
+    <generalfeedback><text>Loop over all vertices; whenever you hit an unvisited one, launch BFS/DFS to mark its whole component, then increment the component count.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Time complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using BFS/DFS with adjacency lists, the time to find all connected components is:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V + E)</text><feedback><text>Correct — each vertex and edge is examined a constant number of times.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>That would hold for an adjacency matrix, not adjacency lists.</text></feedback></answer>
+    <answer fraction="0"><text>O(E log V)</text><feedback><text>No — no priority queue or sorting is involved.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^3)</text><feedback><text>No — that is far more work than a linear traversal requires.</text></feedback></answer>
+    <generalfeedback><text>Every vertex is visited once and every edge traversed a constant number of times, giving linear O(V + E) time.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Alternative structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Besides BFS/DFS, which data structure is commonly used to maintain connected components as edges are added?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Union-Find (disjoint-set union)</text><feedback><text>Correct — union-find merges sets as edges connect vertices.</text></feedback></answer>
+    <answer fraction="0"><text>A min-heap</text><feedback><text>No — heaps order by key; they do not track connectivity.</text></feedback></answer>
+    <answer fraction="0"><text>A hash table of edge weights</text><feedback><text>No — that stores weights, not component membership.</text></feedback></answer>
+    <answer fraction="0"><text>A balanced binary search tree of vertices</text><feedback><text>No — a BST orders keys but does not group connected sets.</text></feedback></answer>
+    <generalfeedback><text>Union-Find with union-by-rank and path compression answers "same component?" and merges components in near-constant amortized time, ideal for incremental edge insertion.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Directed graphs</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The term "connected components" (as opposed to <em>strongly</em> connected components) applies to <em>undirected</em> graphs.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — plain connected components are defined on undirected graphs.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Undirected graphs have connected components; directed graphs have strongly connected components.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Single component graph</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A graph is called <em>connected</em> when it has exactly one connected component.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — one component covering all vertices means the graph is connected.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>By definition a connected graph consists of a single component.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Component term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A maximal set of mutually reachable vertices in an undirected graph is called a connected ______ (one English word).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>component</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>component*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Connected component facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about connected components are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Each vertex belongs to exactly one connected component</text><feedback><text>Yes — components partition the vertex set.</text></feedback></answer>
+    <answer fraction="50"><text>BFS and DFS discover the same components</text><feedback><text>Yes — the components are a property of the graph, not the traversal order.</text></feedback></answer>
+    <answer fraction="-50"><text>A graph with n vertices always has exactly one component</text><feedback><text>No — a graph can have many components, up to n isolated vertices.</text></feedback></answer>
+    <answer fraction="-50"><text>Finding components requires sorting the vertices first</text><feedback><text>No — a simple BFS/DFS sweep needs no sorting.</text></feedback></answer>
+    <generalfeedback><text>Components partition the vertices; every vertex is in exactly one. Both BFS and DFS find the same partition in O(V + E) with no sorting required.</text></generalfeedback>
+  </question>
+</quiz>

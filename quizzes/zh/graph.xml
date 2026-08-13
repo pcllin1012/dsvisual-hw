@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Undirected Graph</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>無向邊的定義</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在<strong>無向</strong>圖中,連接頂點 u 與 v 的邊,以下哪個描述最正確?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一個無序對 {u, v},可以雙向通行</text><feedback><text>正確 —— 無向邊沒有方向,因此 {u, v} = {v, u}。</text></feedback></answer>
+    <answer fraction="0"><text>一個有序對 (u, v),只能從 u 走到 v</text><feedback><text>那是有向邊(弧),不是無向邊。</text></feedback></answer>
+    <answer fraction="0"><text>一個永遠把頂點連到自己的自環</text><feedback><text>自環是特例,不是邊的一般定義。</text></feedback></answer>
+    <answer fraction="0"><text>指派給單一頂點的權重值</text><feedback><text>邊連接兩個頂點,不是頂點的權重。</text></feedback></answer>
+    <generalfeedback><text>無向邊是無序對 {u, v},可雙向通行,且與 {v, u} 相同。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>頂點的度數</text></name>
+    <questiontext format="html"><text><![CDATA[<p>無向圖中一個頂點的<strong>度數(degree)</strong>定義為:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>與該頂點相連(相鄰接)的邊數</text><feedback><text>正確 —— 度數計算碰觸該頂點的邊數。</text></feedback></answer>
+    <answer fraction="0"><text>整張圖中的頂點數</text><feedback><text>那是 V,不是單一頂點的度數。</text></feedback></answer>
+    <answer fraction="0"><text>從該頂點出發最長路徑的長度</text><feedback><text>那與度數無關。</text></feedback></answer>
+    <answer fraction="0"><text>整張圖的邊數 E</text><feedback><text>那是邊的總數,不是單一頂點的度數。</text></feedback></answer>
+    <generalfeedback><text>頂點的度數就是與它相連的邊數。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>握手引理度數和</text></name>
+    <questiontext format="html"><text><![CDATA[<p>依據握手引理,在有 E 條邊的無向圖中,所有頂點的<strong>度數總和</strong>等於:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>2E</text><feedback><text>正確 —— 每條邊為它的兩個端點各貢獻 1 的度數。</text></feedback></answer>
+    <answer fraction="0"><text>E</text><feedback><text>每條邊在兩端各被計一次,因此總和是 E 的兩倍。</text></feedback></answer>
+    <answer fraction="0"><text>V</text><feedback><text>頂點數與度數總和無關。</text></feedback></answer>
+    <answer fraction="0"><text>E / 2</text><feedback><text>總和比 E 大,不是比 E 小。</text></feedback></answer>
+    <generalfeedback><text>每條邊為兩端點各加 1 的度數,因此度數總和為 2E(握手引理)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>環的定義</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪個名詞指的是「起點與終點為<em>同一</em>頂點,且不重複使用任何邊」的路徑?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>環(cycle)</text><feedback><text>正確 —— 回到起點的封閉路徑就是環。</text></feedback></answer>
+    <answer fraction="0"><text>子圖(subgraph)</text><feedback><text>子圖是頂點與邊的任意子集,不一定是封閉路徑。</text></feedback></answer>
+    <answer fraction="0"><text>生成樹(spanning tree)</text><feedback><text>生成樹無環且連接所有頂點,沒有環。</text></feedback></answer>
+    <answer fraction="0"><text>度數(degree)</text><feedback><text>度數計算相連的邊,不是路徑。</text></feedback></answer>
+    <generalfeedback><text>環是回到起點、且不重複使用邊的封閉路徑。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>連通圖</text></name>
+    <questiontext format="html"><text><![CDATA[<p>若無向圖中「任意一對頂點之間都存在一條路徑」,則稱該圖為<em>連通</em>的。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 連通即任意兩頂點間都有路徑相連。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>依定義,連通圖任意兩頂點間都有路徑。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>無向邊的方向</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在無向圖中,邊 {u, v} 與邊 {v, u} 是不同的邊。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>它們是相同的無序對;無向邊沒有方向。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— {u, v} 與 {v, u} 表示同一條無向邊。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>相連邊數的名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在無向圖中,與一個頂點相連的邊數稱為該頂點的 ______(請以英文作答)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>degree</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>degree*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>無向圖的性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於無向圖,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>所有頂點的度數總和等於 2E</text><feedback><text>正確 —— 這是握手引理。</text></feedback></answer>
+    <answer fraction="50"><text>子圖由圖的部分頂點與部分邊所組成</text><feedback><text>正確 —— 這是子圖的定義。</text></feedback></answer>
+    <answer fraction="-50"><text>每條邊都只能朝一個固定方向通行</text><feedback><text>錯 —— 無向邊可雙向通行。</text></feedback></answer>
+    <answer fraction="-50"><text>頂點的度數永遠等於 V</text><feedback><text>錯 —— 度數取決於相連的邊,而非頂點數。</text></feedback></answer>
+    <generalfeedback><text>無向圖:度數總和為 2E、子圖是子集、邊可雙向通行、度數計算相連的邊(而非 V)。</text></generalfeedback>
+  </question>
+</quiz>

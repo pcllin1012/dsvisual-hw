@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Fibonacci Heap</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>減少鍵值的攤還成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在費氏堆積(Fibonacci heap)中,<em>減少鍵值(decrease-key)</em>的<strong>攤還</strong>成本為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(1)</text><feedback><text>正確 —— 這個快速的 decrease-key 正是費氏堆積的招牌特性。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>錯 —— decrease-key 為 O(1) 攤還;O(log n) 的是 extract-min。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>錯 —— 透過切斷與連鎖切斷,為 O(1) 攤還。</text></feedback></answer>
+    <answer fraction="0"><text>O(log log n)</text><feedback><text>錯 —— 攤還界為 O(1)。</text></feedback></answer>
+    <generalfeedback><text>Decrease-key 將節點自其父節點切下(可能觸發連鎖切斷),以 O(1) 攤還完成 —— 這正是費氏堆積對 Dijkstra 與 Prim 具吸引力的原因。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>取出最小值的成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在費氏堆積中,<strong>取出最小值(extract-min)</strong>的攤還成本為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— extract-min 會整併根串列,為 O(log n) 攤還。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>錯 —— 插入、找最小、decrease-key 與合併為 O(1);extract-min 為 O(log n)。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>錯 —— 整併使其為 O(log n) 攤還。</text></feedback></answer>
+    <answer fraction="0"><text>O(sqrt n)</text><feedback><text>錯 —— 攤還界為 O(log n)。</text></feedback></answer>
+    <generalfeedback><text>Extract-min 移除最小根後,整併同度數的樹以支付先前延後的工作;攤還後為 O(log n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>以費氏堆積實作 Dijkstra</text></name>
+    <questiontext format="html"><text><![CDATA[<p>以費氏堆積作為優先佇列時,Dijkstra 演算法的時間界為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(E + V log V)</text><feedback><text>正確 —— E 條邊上 O(1) 的 decrease-key,加上 V 個頂點各 O(log V) 的 extract-min。</text></feedback></answer>
+    <answer fraction="0"><text>O(E log V)</text><feedback><text>那是二元堆積的界;費氏堆積將其改進為 O(E + V log V)。</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>那是簡單陣列的界,不是費氏堆積的結果。</text></feedback></answer>
+    <answer fraction="0"><text>O(E + V)</text><feedback><text>錯 —— V 次 extract-min 合計仍需 O(V log V)。</text></feedback></answer>
+    <generalfeedback><text>O(1) 攤還的 decrease-key 消去了 E 次鬆弛的 log 因子,使 Dijkstra(與 Prim)達到 O(E + V log V)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>運作機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>費氏堆積依賴哪一種機制達成其時間界?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>對根串列採惰性整併,並以標記節點進行連鎖切斷</text><feedback><text>正確 —— 工作延後到 extract-min 才處理,標記則限制切斷造成的破壞。</text></feedback></answer>
+    <answer fraction="0"><text>以旋轉維持每棵樹高度平衡</text><feedback><text>錯 —— 費氏堆積不旋轉;它以惰性方式切斷與整併。</text></feedback></answer>
+    <answer fraction="0"><text>將所有鍵值存於單一已排序陣列</text><feedback><text>錯 —— 它是堆積序樹的惰性森林。</text></feedback></answer>
+    <answer fraction="0"><text>將鍵值雜湊到桶中</text><feedback><text>錯 —— 並不涉及雜湊。</text></feedback></answer>
+    <generalfeedback><text>插入與合併僅將節點接入根串列(惰性);整併只在 extract-min 時發生,對標記節點的連鎖切斷則避免樹結構退化。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>插入與合併為 O(1)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在費氏堆積中,插入與合併的攤還時間各為 O(1)。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 兩者都只是接入根串列,把實際工作延後到 extract-min。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>插入與合併皆為 O(1) 攤還;延後的工作在 extract-min 時支付。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>常數因子</text></name>
+    <questiontext format="html"><text><![CDATA[<p>儘管漸進界極佳,費氏堆積因常數因子龐大,實務上常比更簡單的堆積更慢。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 記帳開銷使其在一般輸入上輸給二元堆積或配對堆積。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>此為真 —— 其常數因子與指標開銷常使實務上更慢。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>切斷策略名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>當一個節點失去第二個子節點時將其切下,並可能連帶切下其父節點,這稱為 ______ 切斷。(請以英文單字作答)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>cascading</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>cascading*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>費氏堆積的 O(1) 操作</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在費氏堆積中,哪些操作是 O(1) <em>攤還</em>時間?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>decrease-key(減少鍵值)</text><feedback><text>正確 —— O(1) 攤還,是此堆積的招牌特性。</text></feedback></answer>
+    <answer fraction="50"><text>find-min(找最小)</text><feedback><text>正確 —— 以指標指向最小根即得 O(1)。</text></feedback></answer>
+    <answer fraction="-50"><text>extract-min(取出最小)</text><feedback><text>錯 —— extract-min 為 O(log n) 攤還,不是 O(1)。</text></feedback></answer>
+    <answer fraction="-50"><text>搜尋任意鍵值</text><feedback><text>錯 —— 任意搜尋並非堆積所支援的 O(1) 操作。</text></feedback></answer>
+    <generalfeedback><text>插入、找最小、decrease-key 與合併為 O(1) 攤還;extract-min 為 O(log n) 攤還,而任意搜尋並非高效的堆積操作。</text></generalfeedback>
+  </question>
+</quiz>

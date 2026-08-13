@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Adjacency Multilist</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Multilist node meaning</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an <strong>adjacency multilist</strong> for an undirected graph, what does a single list node represent?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>One edge, shared and linked into both of its endpoints' lists</text><feedback><text>Correct — a multilist is edge-oriented; each edge is a single shared node.</text></feedback></answer>
+    <answer fraction="0"><text>One vertex and its degree</text><feedback><text>The multilist is organised around edges, not per-vertex counters.</text></feedback></answer>
+    <answer fraction="0"><text>An entire V-length matrix row</text><feedback><text>That is the adjacency matrix, not a multilist node.</text></feedback></answer>
+    <answer fraction="0"><text>A separate copy of the edge for each endpoint</text><feedback><text>A plain adjacency list duplicates edges; the multilist deliberately does not.</text></feedback></answer>
+    <generalfeedback><text>An adjacency multilist is edge-oriented: each edge is one shared node threaded into both endpoints' lists.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Edge stored once</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Compared with a plain adjacency list, how many times does an adjacency multilist store each undirected edge?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Once — as a single node shared by both endpoints</text><feedback><text>Correct — the edge node is shared, so it is stored exactly once.</text></feedback></answer>
+    <answer fraction="0"><text>Twice — once in each endpoint's list</text><feedback><text>That is the plain adjacency list; the multilist avoids the duplicate.</text></feedback></answer>
+    <answer fraction="0"><text>V times — once per vertex</text><feedback><text>An edge only involves its two endpoints, not every vertex.</text></feedback></answer>
+    <answer fraction="0"><text>Never — edges are recomputed on demand</text><feedback><text>Edges are stored explicitly as nodes.</text></feedback></answer>
+    <generalfeedback><text>A multilist stores each undirected edge once as a shared node, unlike a plain adjacency list which stores it twice.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Multilist orientation</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The adjacency multilist is best described as which kind of representation?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>An edge-oriented representation for undirected graphs</text><feedback><text>Correct — nodes correspond to edges, shared between endpoints.</text></feedback></answer>
+    <answer fraction="0"><text>A purely vertex-oriented array of counters</text><feedback><text>The multilist centres on edge nodes, not per-vertex counters.</text></feedback></answer>
+    <answer fraction="0"><text>A dense V×V table of bits</text><feedback><text>That is the adjacency matrix.</text></feedback></answer>
+    <answer fraction="0"><text>A representation only usable for directed graphs</text><feedback><text>The multilist is designed for undirected graphs.</text></feedback></answer>
+    <generalfeedback><text>The multilist is an edge-oriented structure for undirected graphs where each edge is a shared node.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Multilist use case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why is the shared-edge-node design of a multilist convenient?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>You can mark an edge as visited once and see it from both endpoints</text><feedback><text>Correct — a single shared node makes edge marking during traversal easy.</text></feedback></answer>
+    <answer fraction="0"><text>It makes edge lookup O(1) like a matrix</text><feedback><text>Edge lookup still requires walking a list; O(1) lookup is the matrix's trait.</text></feedback></answer>
+    <answer fraction="0"><text>It removes the need to store vertices at all</text><feedback><text>Vertices still head their lists of edge nodes.</text></feedback></answer>
+    <answer fraction="0"><text>It converts the graph into a directed graph</text><feedback><text>The multilist represents the same undirected graph.</text></feedback></answer>
+    <generalfeedback><text>Because each edge is one shared node, marking or traversing an edge once is visible from both endpoints — handy in edge-based algorithms.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Shared edge node</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an adjacency multilist, each edge node is linked into the lists of both of its endpoints.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the single edge node belongs to both endpoints' lists.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The whole point of the multilist is that both endpoints share the one edge node.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Multilist vs adjacency list duplication</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A plain adjacency list stores an undirected edge twice, whereas an adjacency multilist stores it only once.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the multilist's shared node avoids the duplicate the adjacency list keeps.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>An adjacency list does duplicate the edge; the multilist stores it once.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Multilist unit term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an adjacency multilist, each shared node corresponds to one ______ of the graph.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>edge</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>edge*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Multilist facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the adjacency multilist are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Each undirected edge is represented by exactly one shared node</text><feedback><text>Yes — that is the defining feature.</text></feedback></answer>
+    <answer fraction="50"><text>An edge node is threaded into both of its endpoints' lists</text><feedback><text>Yes — it is reachable from both endpoints.</text></feedback></answer>
+    <answer fraction="-50"><text>It duplicates every edge, once per endpoint, like a plain adjacency list</text><feedback><text>No — the multilist shares one node instead of duplicating.</text></feedback></answer>
+    <answer fraction="-50"><text>It provides O(1) edge-existence tests like an adjacency matrix</text><feedback><text>No — O(1) edge tests are the matrix's property, not the multilist's.</text></feedback></answer>
+    <generalfeedback><text>Multilist: each edge is one shared node linked from both endpoints, stored once (not duplicated), and it does not give O(1) matrix-style lookups.</text></generalfeedback>
+  </question>
+</quiz>

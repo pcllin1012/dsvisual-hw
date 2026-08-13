@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Skip List</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>跳躍串列結構</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>跳躍串列(skip list)</strong>是由什麼資料結構建構而成?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一個多層鏈結串列,較高層可跳過許多節點</text><feedback><text>正確 —— 位於基底串列之上的快速通道讓搜尋能向前跳躍。</text></feedback></answer>
+    <answer fraction="0"><text>以 k 個雜湊函數索引的位元陣列</text><feedback><text>那描述的是布隆過濾器,而非跳躍串列。</text></feedback></answer>
+    <answer fraction="0"><text>一個保持排序的連續陣列</text><feedback><text>錯 —— 跳躍串列以指標為基礎,而非陣列。</text></feedback></answer>
+    <answer fraction="0"><text>一棵帶旋轉的高度平衡二元搜尋樹</text><feedback><text>錯 —— 跳躍串列是平衡 BST 的替代方案,且不使用旋轉。</text></feedback></answer>
+    <generalfeedback><text>跳躍串列堆疊多個鏈結串列;最底層依序保存所有元素,每個較高層都是其下一層之上的稀疏快速通道。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>跳躍串列節點高度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>新插入的跳躍串列節點,其層數(高度)是如何決定的?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>隨機決定,例如反覆擲硬幣直到出現反面為止</text><feedback><text>正確 —— 每一層以機率 p(常為 1/2)晉升,達到期望上的平衡。</text></feedback></answer>
+    <answer fraction="0"><text>計算所儲存鍵的精確中位數</text><feedback><text>錯 —— 高度是隨機的,而非由鍵值推導。</text></feedback></answer>
+    <answer fraction="0"><text>以 k 個雜湊函數對鍵做雜湊</text><feedback><text>錯 —— 那是布隆過濾器的做法;跳躍串列用擲硬幣。</text></feedback></answer>
+    <answer fraction="0"><text>在每次插入後執行樹旋轉</text><feedback><text>錯 —— 跳躍串列從不旋轉;高度來自隨機化。</text></feedback></answer>
+    <generalfeedback><text>每個節點的高度由隨機擲硬幣的過程選定,因此層次結構在機率上是平衡的,不需任何確定性的再平衡。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>跳躍串列期望複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>跳躍串列中搜尋、插入、刪除的<strong>期望</strong>時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— 快速通道平均將搜尋範圍減半。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>錯 —— 平均仍需走過約 log n 層。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>錯 —— 太慢;單一操作的期望為 O(log n)。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>錯 —— 即使是單一操作的最差情況也只是 O(n)。</text></feedback></answer>
+    <generalfeedback><text>因為較高層平均跳過約一半的剩餘節點,搜尋/插入/刪除的期望成本為 O(log n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>跳躍串列與平衡 BST 比較</text></name>
+    <questiontext format="html"><text><![CDATA[<p>實務上為何常偏好使用跳躍串列而非平衡二元搜尋樹?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>實作更簡單,不需旋轉或再平衡邏輯</text><feedback><text>正確 —— 隨機化取代了 AVL/紅黑樹複雜的再平衡。</text></feedback></answer>
+    <answer fraction="0"><text>它們保證 O(log n) 最差情況,勝過任何 BST</text><feedback><text>錯 —— 跳躍串列最差情況為 O(n);平衡 BST 才提供 O(log n) 最差情況。</text></feedback></answer>
+    <answer fraction="0"><text>不論 n 多大都只用 O(1) 總空間</text><feedback><text>錯 —— 跳躍串列使用 O(n) 空間,與 BST 相同。</text></feedback></answer>
+    <answer fraction="0"><text>它們能消除偽陽性</text><feedback><text>錯 —— 偽陽性是布隆過濾器的概念,與跳躍串列無關。</text></feedback></answer>
+    <generalfeedback><text>跳躍串列以更簡單的程式碼達到接近 BST 的效能,因為擲硬幣高度免去了明確的旋轉與再平衡。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>跳躍串列最差情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>雖然期望搜尋時間為 O(log n),但跳躍串列的<em>最差情況</em>搜尋時間為 O(n)。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 一連串不走運的擲硬幣可能讓幾乎所有節點都停在第 1 層。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>錯 —— O(log n) 只是期望值;罕見的最差情況會退化為 O(n)。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>跳躍串列旋轉</text></name>
+    <questiontext format="html"><text><![CDATA[<p>跳躍串列會像 AVL 樹一樣,在每次插入後執行旋轉來維持自身平衡。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 跳躍串列從不旋轉;它改以隨機化的節點高度來達成。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 平衡是透過擲硬幣以機率方式達成,完全沒有旋轉。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>跳躍串列快速通道名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>跳躍串列中,堆疊於基底串列之上的每一條水平快速通道稱為一個 ______(英文)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>level</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>level*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>layer</text><feedback><text>正確 —— 跳躍串列的一個層(level/layer)。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>跳躍串列特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於跳躍串列,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它是一種機率式、隨機化的資料結構</text><feedback><text>正確 —— 節點高度來自隨機擲硬幣。</text></feedback></answer>
+    <answer fraction="50"><text>它保持元素排序,並支援有序走訪</text><feedback><text>正確 —— 最底層是一個排序的鏈結串列。</text></feedback></answer>
+    <answer fraction="-50"><text>它保證最差情況為 O(log n) 時間</text><feedback><text>錯 —— 只有期望時間為 O(log n);最差情況為 O(n)。</text></feedback></answer>
+    <answer fraction="-50"><text>它不儲存鍵,只能測試成員資格</text><feedback><text>錯 —— 那是布隆過濾器;跳躍串列儲存鍵並支援有序操作。</text></feedback></answer>
+    <generalfeedback><text>跳躍串列是隨機化的有序結構,操作期望為 O(log n)、空間為 O(n);最差情況為 O(n),且它確實儲存鍵。</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Bellman-Ford</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Bellman-Ford 主要優勢</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Bellman-Ford 能做到而 Dijkstra 做不到的是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>處理含負權邊的圖</text><feedback><text>正確 —— Bellman-Ford 專為負權設計,並能偵測負環。</text></feedback></answer>
+    <answer fraction="0"><text>在所有圖上都比 Dijkstra 快</text><feedback><text>正好相反 —— Bellman-Ford 較慢,其價值在於通用性。</text></feedback></answer>
+    <answer fraction="0"><text>計算最小生成樹</text><feedback><text>MST 是另一個問題(Prim/Kruskal)。</text></feedback></answer>
+    <answer fraction="0"><text>一次執行解出全點對最短路徑</text><feedback><text>一次執行是單源,與 Dijkstra 相同。</text></feedback></answer>
+    <generalfeedback><text>Bellman-Ford 以速度換取通用性:能正確處理負邊,並可回報負環。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Bellman-Ford 鬆弛次數</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在標準 Bellman-Ford 演算法中,整組邊被鬆弛幾次?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>V - 1 次</text><feedback><text>正確 —— 最短路徑至多有 V-1 條邊,故 V-1 輪即足夠。</text></feedback></answer>
+    <answer fraction="0"><text>V 次</text><feedback><text>接近,但 V-1 輪已足夠;第 V 輪只用來偵測負環。</text></feedback></answer>
+    <answer fraction="0"><text>E 次</text><feedback><text>每輪鬆弛全部 E 條邊,但輪數是 V-1。</text></feedback></answer>
+    <answer fraction="0"><text>log V 次</text><feedback><text>那不是 Bellman-Ford 的界。</text></feedback></answer>
+    <generalfeedback><text>因為任何最短路徑至多使用 V-1 條邊,對每條邊鬆弛 V-1 次即保證收斂。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Bellman-Ford 複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 V 個頂點、E 條邊上,Bellman-Ford 的時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V * E)</text><feedback><text>正確 —— V-1 輪,每輪鬆弛全部 E 條邊。</text></feedback></answer>
+    <answer fraction="0"><text>O((V + E) log V)</text><feedback><text>那是使用二元堆積的 Dijkstra。</text></feedback></answer>
+    <answer fraction="0"><text>O(V^3)</text><feedback><text>那是 Floyd-Warshall。</text></feedback></answer>
+    <answer fraction="0"><text>O(E log E)</text><feedback><text>那類似 Kruskal 的排序成本,不是 Bellman-Ford。</text></feedback></answer>
+    <generalfeedback><text>V-1 輪乘上每輪 E 條邊,得 O(V * E)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Bellman-Ford 負環偵測</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Bellman-Ford 如何偵測從起點可達的負權環?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>若再多做一輪鬆弛仍能改善某個距離,即存在負環</text><feedback><text>正確 —— 經 V-1 輪後距離應為最終值;仍可改善即表示有負環。</text></feedback></answer>
+    <answer fraction="0"><text>若某個距離恰好變為零</text><feedback><text>距離為零並非負環的證據。</text></feedback></answer>
+    <answer fraction="0"><text>若優先佇列提早清空</text><feedback><text>Bellman-Ford 不使用優先佇列。</text></feedback></answer>
+    <answer fraction="0"><text>若某頂點沒有出邊</text><feedback><text>匯點頂點與環無關。</text></feedback></answer>
+    <generalfeedback><text>經 V-1 輪後所有距離皆為最終值;若第 V 輪仍能鬆弛某條邊,即證明存在可達的負環。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Bellman-Ford 負權</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對於含負權邊但沒有負環的圖,Bellman-Ford 能正確計算最短路徑。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 這正是它能處理的情況。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>只要沒有可達的負環,它確實能處理負邊。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Bellman-Ford 與 Dijkstra 速度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在只有非負權重的圖上,Bellman-Ford 通常比 Dijkstra 快。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— O(V*E) 通常比 O((V+E) log V) 慢;權重非負時應優先選 Dijkstra。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— Bellman-Ford 較慢,其優勢是處理負權而非速度。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Bellman-Ford 邊的類型</text></name>
+    <questiontext format="html"><text><![CDATA[<p>選用 Bellman-Ford 而非 Dijkstra 的主要理由,是支援 ______ 權重的邊(單字,英文術語)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>negative</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>negative*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Bellman-Ford 性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 Bellman-Ford,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它能偵測負權環</text><feedback><text>正確 —— 透過額外一輪仍能改善距離的鬆弛。</text></feedback></answer>
+    <answer fraction="50"><text>它在 V-1 輪中的每一輪都鬆弛每條邊</text><feedback><text>正確 —— 這是核心迴圈結構。</text></feedback></answer>
+    <answer fraction="-50"><text>它要求所有邊權皆非負</text><feedback><text>錯 —— 那是 Dijkstra 的要求。</text></feedback></answer>
+    <answer fraction="-50"><text>它以 O(V + E) 時間執行</text><feedback><text>錯 —— 它以 O(V * E) 執行。</text></feedback></answer>
+    <generalfeedback><text>Bellman-Ford:對所有邊進行 V-1 輪鬆弛,O(V*E),可處理負權並偵測負環。</text></generalfeedback>
+  </question>
+</quiz>

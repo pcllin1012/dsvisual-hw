@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Bucketing</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>分桶的核心概念</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>分桶(bucketing)</strong>的核心概念是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>依雜湊或數值範圍把鍵分配到各個桶,每個桶以小型次級結構存放數個項目</text><feedback><text>正確 —— 項目被分組到桶中,再於桶內搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>把每個鍵都存進單一的全域已排序陣列</text><feedback><text>那不是分桶;分桶把鍵拆散到許多桶中。</text></feedback></answer>
+    <answer fraction="0"><text>每次碰撞就往前探測到下一個空槽</text><feedback><text>那是開放定址法,不是分桶。</text></feedback></answer>
+    <answer fraction="0"><text>用前綴樹壓縮鍵</text><feedback><text>那描述的是 trie,與分桶無關。</text></feedback></answer>
+    <generalfeedback><text>分桶把鍵分散到各桶(依雜湊或數值範圍);每個桶再以自己的次級結構存放一小群項目。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>桶的內容</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在單一桶內,項目通常如何組織?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>以小型次級結構(串列或陣列)於本地搜尋</text><feedback><text>正確 —— 一個桶存放少量項目,並在該桶內搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>永遠剛好一個項目,絕不多於一個</text><feedback><text>桶的設計是為了存放數個項目。</text></feedback></answer>
+    <answer fraction="0"><text>整個資料集的自平衡樹</text><feedback><text>一個桶只存放它本地的那一群,而非整個資料集。</text></feedback></answer>
+    <answer fraction="0"><text>全域陣列中的墓碑槽位</text><feedback><text>墓碑屬於開放定址法,不是分桶。</text></feedback></answer>
+    <generalfeedback><text>每個桶保存一個小型次級容器,存放分配給它的少數項目;查找時先縮小到某個桶,再於本地搜尋。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>分桶的取捨</text></name>
+    <questiontext format="html"><text><![CDATA[<p>分桶做了什麼取捨?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>放棄純粹 O(1) 的直接索引,換取每個桶內的短暫搜尋</text><feedback><text>正確 —— 你先定位到某個桶,再於其中搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>像平衡樹一樣保證最差 O(log n)</text><feedback><text>桶內搜尋是本地且短的,不是樹高的界限。</text></feedback></answer>
+    <answer fraction="0"><text>從結構上完全消除碰撞</text><feedback><text>多個鍵仍會共用一個桶;那正是於本地處理的碰撞。</text></feedback></answer>
+    <answer fraction="0"><text>每個鍵只存在自己專屬的一個陣列元素中</text><feedback><text>那是直接索引;分桶把數個鍵分到同一桶。</text></feedback></answer>
+    <generalfeedback><text>分桶放棄一步到位的直接索引,換取搜尋小桶的適度成本,以取得分組與均勻分布的好處。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>分桶的最佳情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>分桶在什麼情況下表現最好?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>當鍵均勻分布,使每個桶只存放少數項目</text><feedback><text>正確 —— 均勻分布使每個桶都小、搜尋快。</text></feedback></answer>
+    <answer fraction="0"><text>當幾乎所有鍵都落入同一個桶</text><feedback><text>那會使單一桶過載,造成緩慢的線性搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>當整個資料集只有恰好一個桶</text><feedback><text>單一桶會退化成一次龐大的線性搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>當每個桶都是整個資料集的平衡樹</text><feedback><text>一個桶只存放它本地的那一群,而非整個資料集。</text></feedback></answer>
+    <generalfeedback><text>分桶在分區能把鍵均勻分散時最出色,如此沒有桶會變大,每次本地搜尋都保持短。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>分桶的相關方法</text></name>
+    <questiontext format="html"><text><![CDATA[<p>分桶與雜湊鏈結法及桶排序密切相關,三者都把鍵分組到桶中。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 三者都把鍵分到桶中並逐桶處理。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>它們共用相同的「分組到桶」概念。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>不均勻的桶分布</text></name>
+    <questiontext format="html"><text><![CDATA[<p>若鍵在各桶間分布非常不均勻,一個過載的桶可能主導搜尋成本。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 過載的桶存放許多項目,搜尋它會很慢。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>傾斜會把項目集中到少數桶,損害效能。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>分桶容器名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>每個把映射到相同範圍或雜湊值的鍵分在一起的分區,稱為 ______。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>bucket</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>bucket*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>分桶的性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於分桶,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>鍵可以依雜湊或依數值範圍被分配到桶</text><feedback><text>正確 —— 雜湊與範圍分區都是常見的分桶方案。</text></feedback></answer>
+    <answer fraction="50"><text>效能取決於鍵在各桶間分布得多均勻</text><feedback><text>正確 —— 均勻分布使每個桶都小、搜尋快。</text></feedback></answer>
+    <answer fraction="-50"><text>每個桶至多只能存放一個項目</text><feedback><text>錯 —— 桶的用意是以次級結構存放數個項目。</text></feedback></answer>
+    <answer fraction="-50"><text>分桶消除了在桶內搜尋的需要</text><feedback><text>錯 —— 定位到桶之後,仍需在其項目間搜尋。</text></feedback></answer>
+    <generalfeedback><text>分桶依雜湊或範圍分配鍵並仰賴均勻分布;每個桶存放數個項目,仍必須於本地搜尋。</text></generalfeedback>
+  </question>
+</quiz>

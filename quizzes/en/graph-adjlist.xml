@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Adjacency List</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Adjacency list structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an <strong>adjacency list</strong> representation of a graph, what does each vertex store?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A list of its neighbouring (adjacent) vertices</text><feedback><text>Correct — each vertex keeps a list of the vertices it is directly connected to.</text></feedback></answer>
+    <answer fraction="0"><text>A full V-length row of 0s and 1s for every other vertex</text><feedback><text>That describes a row of the adjacency matrix, not an adjacency list.</text></feedback></answer>
+    <answer fraction="0"><text>Only its own degree as an integer</text><feedback><text>The degree alone does not tell you which vertices are neighbours.</text></feedback></answer>
+    <answer fraction="0"><text>A pointer to the graph's root vertex</text><feedback><text>General graphs have no root, and that would not encode adjacency.</text></feedback></answer>
+    <generalfeedback><text>An adjacency list gives each vertex a list of its neighbours, so it only stores edges that actually exist.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Adjacency list space</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the space complexity of an adjacency list for a graph with V vertices and E edges?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V + E)</text><feedback><text>Correct — one entry per vertex plus one node per edge (or per endpoint).</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>That is the adjacency matrix's space, not the adjacency list's.</text></feedback></answer>
+    <answer fraction="0"><text>O(E^2)</text><feedback><text>Storage grows linearly with edges, not quadratically.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>You must store every vertex and edge, so it cannot be constant.</text></feedback></answer>
+    <generalfeedback><text>An adjacency list uses O(V + E) space: V list heads plus a node for each edge appearance.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Adjacency list best use</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An adjacency list is <strong>most</strong> space-efficient for which kind of graph?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A sparse graph, where E is far smaller than V^2</text><feedback><text>Correct — lists only store existing edges, ideal when edges are few.</text></feedback></answer>
+    <answer fraction="0"><text>A dense graph, where E is close to V^2</text><feedback><text>For dense graphs a matrix is often preferable; lists lose their space advantage.</text></feedback></answer>
+    <answer fraction="0"><text>A complete graph on every vertex</text><feedback><text>A complete graph is maximally dense — the worst case for adjacency-list savings.</text></feedback></answer>
+    <answer fraction="0"><text>Any graph with exactly V^2 edges</text><feedback><text>That is a maximally dense graph, not where lists shine.</text></feedback></answer>
+    <generalfeedback><text>Because it stores only real edges, an adjacency list shines on sparse graphs (E much smaller than V^2).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Iterating neighbours cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using an adjacency list, iterating over all neighbours of a vertex u costs:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(degree(u))</text><feedback><text>Correct — you walk u's list, whose length is its degree.</text></feedback></answer>
+    <answer fraction="0"><text>O(V) regardless of degree</text><feedback><text>That is the matrix cost; a list visits only actual neighbours.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>You must visit each neighbour, so it depends on the degree.</text></feedback></answer>
+    <answer fraction="0"><text>O(E) for every vertex</text><feedback><text>You only traverse u's own list, not all edges in the graph.</text></feedback></answer>
+    <generalfeedback><text>Neighbour iteration follows u's list, costing O(degree(u)) — a key advantage on sparse graphs.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Adjacency list edge test</text></name>
+    <questiontext format="html"><text><![CDATA[<p>With an adjacency list, testing whether edge (u, v) exists takes O(degree(u)) time in the worst case.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — you may have to scan all of u's neighbours.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>An adjacency list has no O(1) edge lookup; you scan u's list.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Adjacency list on dense graphs</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An adjacency list always uses less memory than an adjacency matrix, even for very dense graphs.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>On dense graphs the per-node pointer overhead can exceed a compact matrix.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — for dense graphs a matrix can be as good or better.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>List content term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an adjacency list, the list attached to each vertex holds that vertex's ______ (the adjacent vertices).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>neighbors</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>neighbours</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>neighbor*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>neighbour*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Adjacency list facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the adjacency-list representation are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It uses O(V + E) space</text><feedback><text>Yes — heads for V vertices plus one node per edge appearance.</text></feedback></answer>
+    <answer fraction="50"><text>Iterating a vertex's neighbours costs O(degree)</text><feedback><text>Yes — you walk only that vertex's list.</text></feedback></answer>
+    <answer fraction="-50"><text>It supports O(1) worst-case edge existence tests</text><feedback><text>No — that is the adjacency matrix; a list must scan a vertex's neighbours.</text></feedback></answer>
+    <answer fraction="-50"><text>It uses O(V^2) space regardless of the number of edges</text><feedback><text>No — that is the matrix; a list's size scales with E.</text></feedback></answer>
+    <generalfeedback><text>Adjacency lists: O(V + E) space, O(degree) neighbour scans, no O(1) edge test, and size scales with E (great for sparse graphs).</text></generalfeedback>
+  </question>
+</quiz>

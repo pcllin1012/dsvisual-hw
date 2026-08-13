@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Hash Chaining</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>鏈結桶的內容</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在使用<strong>分離鏈結法(separate chaining)</strong>的雜湊表中,每個桶(表格槽位)存放什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一條由所有雜湊到該槽的項目組成的鏈結串列(或類似結構)</text><feedback><text>正確 —— 發生碰撞的鍵值一起存放在該桶的鏈中。</text></feedback></answer>
+    <answer fraction="0"><text>剛好一個項目,溢出時探測到下一個空槽</text><feedback><text>那是開放定址法,不是鏈結法。</text></feedback></answer>
+    <answer fraction="0"><text>每次插入都會重建的已排序陣列</text><feedback><text>標準鏈結法使用未排序的串列;不會每次插入就整個重建。</text></feedback></answer>
+    <answer fraction="0"><text>指向表中前一個桶的指標</text><feedback><text>各桶彼此獨立,不會互相串接。</text></feedback></answer>
+    <generalfeedback><text>分離鏈結法在每個槽位保存一個次級容器(通常是鏈結串列),存放所有映射到該處的鍵值,以解決碰撞。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>鏈結法的平均成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在良好的雜湊函數下並將負載因子 &alpha; = n/m 維持得小,鏈結雜湊表的搜尋、插入、刪除<strong>平均</strong>時間為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>期望 O(1)</text><feedback><text>正確 —— 期望鏈長為 &alpha;,當 &alpha; 有界時視為常數。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>不涉及樹狀搜尋;鏈是線性掃描,且平均很短。</text></feedback></answer>
+    <answer fraction="0"><text>永遠 O(n)</text><feedback><text>那是最差情況,不是良好雜湊下的平均。</text></feedback></answer>
+    <answer fraction="0"><text>O(m)</text><feedback><text>成本取決於鏈長(約 &alpha;),而非槽位數。</text></feedback></answer>
+    <generalfeedback><text>期望探測次數與平均鏈長 &alpha; = n/m 成正比;維持 &alpha; = O(1) 即得期望 O(1) 的操作。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>鏈結法的最差情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>什麼輸入會使鏈結雜湊表退化為每次操作 <em>&Theta;(n)</em>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>全部 n 個鍵都雜湊到同一個桶,形成一條長鏈</text><feedback><text>正確 —— 操作因而要掃描一條長度為 n 的串列。</text></feedback></answer>
+    <answer fraction="0"><text>鍵以排序順序插入</text><feedback><text>插入順序對雜湊表沒有影響。</text></feedback></answer>
+    <answer fraction="0"><text>負載因子剛好是 0.75</text><feedback><text>中等的負載因子仍給出期望 O(1)。</text></feedback></answer>
+    <answer fraction="0"><text>表的槽位數多於項目數</text><feedback><text>那會降低 &alpha; 並提升效能。</text></feedback></answer>
+    <generalfeedback><text>若每個鍵都碰撞進同一個桶,鏈長為 n,每次操作就變成線性的串列走訪。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>鏈結法 vs 開放定址</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列哪一項是分離鏈結法<em>相對於</em>開放定址法的真正優勢?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>刪除很直接 —— 不需要墓碑標記</text><feedback><text>正確 —— 只要把節點從鏈中解開即可。</text></feedback></answer>
+    <answer fraction="0"><text>它把一切存在表格陣列中,沒有指標開銷</text><feedback><text>那是開放定址法的好處;鏈結法會增加指標開銷。</text></feedback></answer>
+    <answer fraction="0"><text>它保證最差情況 O(1) 的操作</text><feedback><text>鏈結法只在平均情況下 O(1);不良雜湊會給出 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>它比連續陣列有更好的快取區域性</text><feedback><text>分散的串列節點通常比開放定址法的區域性更差。</text></feedback></answer>
+    <generalfeedback><text>鏈結法以解開節點的方式 O(1) 刪除且不需墓碑,但代價是指標記憶體與較差的快取區域性。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>鏈結法負載因子可大於 1</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在分離鏈結法中,負載因子 &alpha; = n/m 可以超過 1,因為鏈可以持續增長,表格永遠不會「裝滿」。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 沒有固定容量上限,桶的鏈只是變長。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>與開放定址法不同,鏈結法對 &alpha; 沒有硬性上限。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>鏈結法的記憶體開銷</text></name>
+    <questiontext format="html"><text><![CDATA[<p>分離鏈結法除了表格陣列本身之外不需要任何額外記憶體。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>每個串列節點至少多帶一個指標,造成額外開銷。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 指標(以及節點配置)帶來額外記憶體成本。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>碰撞解決法名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>把所有映射到同一槽的鍵值以鏈結串列一起存放的碰撞解決策略,稱為 separate ______。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>chaining</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>chaining*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>chain</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>鏈結法的性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於分離鏈結法,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>刪除很簡單:只要把節點從其鏈中解開即可</text><feedback><text>正確 —— 不像開放定址法需要墓碑標記。</text></feedback></answer>
+    <answer fraction="50"><text>負載因子 &alpha; 可以大於 1</text><feedback><text>正確 —— 鏈無固定容量上限地增長。</text></feedback></answer>
+    <answer fraction="-50"><text>所有項目都直接存在表格陣列內,沒有外部節點</text><feedback><text>錯 —— 那是開放定址法;鏈結法把項目存在外部串列節點中。</text></feedback></answer>
+    <answer fraction="-50"><text>無論雜湊函數如何,都保證最差 O(1) 時間</text><feedback><text>錯 —— 不良雜湊會把所有鍵擠進一條鏈,退化為 O(n)。</text></feedback></answer>
+    <generalfeedback><text>鏈結法便於刪除且 &alpha; 可大於 1,但項目存於外部節點,且只在平均情況下為 O(1),最差情況並非如此。</text></generalfeedback>
+  </question>
+</quiz>

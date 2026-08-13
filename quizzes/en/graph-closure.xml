@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Transitive Closure</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Transitive closure definition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The <strong>transitive closure</strong> of a graph records, for every ordered pair (u, v), whether:</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>v is reachable from u by some directed path</text><feedback><text>Correct — closure answers reachability for every pair.</text></feedback></answer>
+    <answer fraction="0"><text>There is a direct edge from u to v</text><feedback><text>No — that is the adjacency matrix, not the closure.</text></feedback></answer>
+    <answer fraction="0"><text>The shortest-path distance from u to v</text><feedback><text>No — closure records reachability (yes/no), not distances.</text></feedback></answer>
+    <answer fraction="0"><text>u and v share a common neighbor</text><feedback><text>No — closure is about reachability along paths of any length.</text></feedback></answer>
+    <generalfeedback><text>The transitive closure is the reachability matrix: entry (u, v) is 1 exactly when a directed path from u to v exists (of any length).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Warshall's algorithm</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which classic algorithm computes the transitive closure using boolean matrix operations?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Warshall's algorithm — the boolean version of Floyd-Warshall</text><feedback><text>Correct — Warshall's is the boolean OR/AND analogue.</text></feedback></answer>
+    <answer fraction="0"><text>Kruskal's algorithm</text><feedback><text>No — Kruskal's builds a minimum spanning tree.</text></feedback></answer>
+    <answer fraction="0"><text>Prim's algorithm</text><feedback><text>No — Prim's also builds a minimum spanning tree.</text></feedback></answer>
+    <answer fraction="0"><text>Bellman-Ford algorithm</text><feedback><text>No — Bellman-Ford computes shortest paths, not closure.</text></feedback></answer>
+    <generalfeedback><text>Warshall's algorithm mirrors Floyd-Warshall but replaces min/+ with logical OR/AND: reach[i][j] |= reach[i][k] &amp;&amp; reach[k][j].</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Warshall complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of Warshall's transitive-closure algorithm on V vertices?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V^3)</text><feedback><text>Correct — three nested loops over the vertices.</text></feedback></answer>
+    <answer fraction="0"><text>O(V + E)</text><feedback><text>No — that is a single BFS/DFS; Warshall's is cubic.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>No — the intermediate-vertex loop adds a third factor of V.</text></feedback></answer>
+    <answer fraction="0"><text>O(E log V)</text><feedback><text>No — Warshall's uses a dense triple loop, not edge sorting.</text></feedback></answer>
+    <generalfeedback><text>Warshall's runs three nested loops (intermediate k, source i, target j) over V vertices, giving O(V^3).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Traversal alternative</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Besides Warshall's algorithm, how else can the full transitive closure be computed?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Run BFS or DFS from every vertex and record all vertices reached</text><feedback><text>Correct — one traversal per source gives that source's reachable set.</text></feedback></answer>
+    <answer fraction="0"><text>Run a single DFS from one vertex</text><feedback><text>No — that only gives reachability from one source, not all pairs.</text></feedback></answer>
+    <answer fraction="0"><text>Sort the edges by weight</text><feedback><text>No — sorting edges does not compute reachability.</text></feedback></answer>
+    <answer fraction="0"><text>Compute a topological order once</text><feedback><text>No — a topological order alone does not give pairwise reachability.</text></feedback></answer>
+    <generalfeedback><text>Launching BFS/DFS from each of the V vertices records that vertex's reachable set; together they form the closure in O(V(V + E)) time.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Reachability matrix</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The transitive closure is also called the <em>reachability matrix</em> of the graph.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the closure is exactly the reachability matrix.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The transitive closure and the reachability matrix are the same thing.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Closure vs shortest path</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The transitive closure stores the exact shortest-path distance between every pair of vertices.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — it stores only reachability (a boolean), not distances.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — closure records only whether a path exists, not its length.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Reachability term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Entry (u, v) of the transitive closure is 1 exactly when v is ______ from u (fill in the English word).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>reachable</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>reachable*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>Warshall*</text><feedback><text>Accepted — Warshall's algorithm computes it.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Transitive closure facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the transitive closure are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Warshall's algorithm computes it in O(V^3) using boolean OR/AND</text><feedback><text>Yes — it is the boolean form of Floyd-Warshall.</text></feedback></answer>
+    <answer fraction="50"><text>Running BFS/DFS from each vertex also yields the closure</text><feedback><text>Yes — each source's reachable set forms one row.</text></feedback></answer>
+    <answer fraction="-50"><text>It records edge weights rather than reachability</text><feedback><text>No — it records reachability (booleans), not weights.</text></feedback></answer>
+    <answer fraction="-50"><text>It can be computed in O(V + E) with a single traversal</text><feedback><text>No — one traversal gives only one source's reachability, not all pairs.</text></feedback></answer>
+    <generalfeedback><text>The closure is a reachability matrix computable by Warshall's O(V^3) boolean algorithm or by per-vertex BFS/DFS. It stores booleans, not weights, and needs work per source.</text></generalfeedback>
+  </question>
+</quiz>

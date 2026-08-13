@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Graph Traversal (BFS vs DFS)</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>BFS 使用的資料結構</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>廣度優先搜尋(BFS)</strong>使用哪一種輔助資料結構來決定下一個要造訪的頂點?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>佇列(queue,FIFO)</text><feedback><text>正確 —— BFS 用佇列逐層探索頂點。</text></feedback></answer>
+    <answer fraction="0"><text>堆疊(stack,LIFO)</text><feedback><text>堆疊驅動的是 DFS,不是 BFS。</text></feedback></answer>
+    <answer fraction="0"><text>最小堆積優先佇列</text><feedback><text>那用於 Dijkstra,不是普通 BFS。</text></feedback></answer>
+    <answer fraction="0"><text>存放邊權重的雜湊表</text><feedback><text>BFS 不需要邊權重;它使用佇列。</text></feedback></answer>
+    <generalfeedback><text>BFS 依賴 FIFO 佇列,依頂點被發現的順序處理 —— 逐層進行。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>DFS 的行為</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪個描述最符合<strong>深度優先搜尋(DFS)</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>沿著一條分支盡量往深走,再回溯,使用堆疊或遞迴</text><feedback><text>正確 —— DFS 深入後回溯,由堆疊(常是呼叫堆疊)驅動。</text></feedback></answer>
+    <answer fraction="0"><text>先造訪目前距離的所有頂點再往深走,使用佇列</text><feedback><text>那描述的是 BFS,不是 DFS。</text></feedback></answer>
+    <answer fraction="0"><text>永遠依索引由小到大造訪頂點</text><feedback><text>造訪順序取決於圖與起點,而非索引。</text></feedback></answer>
+    <answer fraction="0"><text>需要邊權重來挑選成本最低的頂點</text><feedback><text>那是加權最短路徑演算法,不是 DFS。</text></feedback></answer>
+    <generalfeedback><text>DFS 完整探索一條分支,經由堆疊或遞迴回溯,並支撐拓撲排序、環偵測與強連通元件。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>BFS 最短路徑</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在<strong>無權重</strong>圖上,從某來源出發的 BFS 會找出:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>從來源到每個可達頂點的最短路徑(最少邊數)</text><feedback><text>正確 —— 逐層探索得到最少的邊數。</text></feedback></answer>
+    <answer fraction="0"><text>總邊權重最大的路徑</text><feedback><text>BFS 忽略權重,也不會最大化任何東西。</text></feedback></answer>
+    <answer fraction="0"><text>依權重的最小生成樹</text><feedback><text>那是 Prim 或 Kruskal,不是 BFS。</text></feedback></answer>
+    <answer fraction="0"><text>頂點的拓撲排序</text><feedback><text>拓撲排序通常用 DFS 建立,而非 BFS 的距離。</text></feedback></answer>
+    <generalfeedback><text>由於 BFS 一次向外擴展一層,第一次到達某頂點時走的就是邊數最少的路徑。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>走訪時間複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>使用相鄰串列時,BFS 與 DFS 在有 V 個頂點與 E 條邊的圖上執行時間為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V + E)</text><feedback><text>正確 —— 每個頂點與每條邊都只被檢視常數次。</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>那是使用相鄰矩陣的成本,不是相鄰串列。</text></feedback></answer>
+    <answer fraction="0"><text>O(E log V)</text><feedback><text>那是搭配堆積的 Dijkstra,不是普通 BFS/DFS。</text></feedback></answer>
+    <answer fraction="0"><text>O(V!)</text><feedback><text>走訪對圖的大小是線性,不是階乘。</text></feedback></answer>
+    <generalfeedback><text>使用相鄰串列時,每個頂點被取出/造訪一次、每條邊被掃過一次,得 O(V + E)。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>DFS 的應用</text></name>
+    <questiontext format="html"><text><![CDATA[<p>DFS 支撐了拓撲排序、環偵測,以及尋找強連通元件等演算法。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 這些經典演算法都建立在 DFS 之上。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>拓撲排序、環偵測與強連通元件都依賴 DFS。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>BFS 加權最短路徑的說法</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在具有任意正邊權重的圖上,普通 BFS 能找出最小權重的最短路徑。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>BFS 計算的是邊數而非權重;加權最短路徑需要 Dijkstra。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— BFS 只在無權重圖上最小化邊的數目。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>BFS 結構的名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>廣度優先搜尋使用一個 FIFO 的 ______ 來管理待造訪的頂點(請以英文作答)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>queue</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>queue*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>BFS 與 DFS 的比較</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 BFS 與 DFS 的比較,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>BFS 使用佇列,並在無權重圖上找出最短路徑(最少邊數)</text><feedback><text>正確 —— 以 FIFO 佇列進行層序探索。</text></feedback></answer>
+    <answer fraction="50"><text>DFS 使用堆疊或遞迴,先深入再回溯</text><feedback><text>正確 —— 這是深度優先搜尋的精髓。</text></feedback></answer>
+    <answer fraction="-50"><text>BFS 使用堆疊,而 DFS 使用佇列</text><feedback><text>錯 —— 剛好相反:BFS 用佇列,DFS 用堆疊。</text></feedback></answer>
+    <answer fraction="-50"><text>使用相鄰串列時兩者皆為 O(V^2) 時間</text><feedback><text>錯 —— 使用相鄰串列時兩者皆為 O(V + E)。</text></feedback></answer>
+    <generalfeedback><text>BFS = 佇列、層序、無權重最短路徑;DFS = 堆疊/遞迴、先深入再回溯;使用相鄰串列時兩者皆為 O(V + E)。</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Kruskal MST</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Kruskal core strategy</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the core greedy strategy of <strong>Kruskal's</strong> minimum spanning tree algorithm?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Sort all edges by weight, then add the next-smallest edge that does not form a cycle</text><feedback><text>Correct — Kruskal grows a forest by adding safe, globally cheapest edges.</text></feedback></answer>
+    <answer fraction="0"><text>Grow one tree from a start vertex by adding the cheapest crossing edge</text><feedback><text>That is Prim's algorithm, not Kruskal's.</text></feedback></answer>
+    <answer fraction="0"><text>Let every component pick its cheapest outgoing edge each round</text><feedback><text>That is Borůvka's algorithm.</text></feedback></answer>
+    <answer fraction="0"><text>Explore depth-first and keep the first spanning tree found</text><feedback><text>DFS builds a spanning tree but ignores weights, so it is not minimum.</text></feedback></answer>
+    <generalfeedback><text>Kruskal considers edges in nondecreasing weight order and accepts each one unless it would connect two vertices already in the same component.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Kruskal cycle test structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which data structure does Kruskal use to test efficiently whether adding an edge would create a cycle?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A disjoint-set (union-find) structure</text><feedback><text>Correct — find checks if endpoints share a set; union merges them.</text></feedback></answer>
+    <answer fraction="0"><text>A min-priority queue of vertices</text><feedback><text>That is Prim's tool; Kruskal sorts edges and uses union-find.</text></feedback></answer>
+    <answer fraction="0"><text>A FIFO queue</text><feedback><text>A queue is for BFS traversal, not cycle testing in Kruskal.</text></feedback></answer>
+    <answer fraction="0"><text>A balanced binary search tree of edge weights</text><feedback><text>Sorting handles weights; cycle testing needs union-find.</text></feedback></answer>
+    <generalfeedback><text>Union-find gives near-constant amortized find/union, so each cycle test when adding an edge is very cheap.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Kruskal complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What dominates the running time of Kruskal's algorithm on a graph with E edges?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(E log E) — dominated by sorting the edges</text><feedback><text>Correct — the sort dominates; union-find operations are nearly linear.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2) from scanning a matrix each step</text><feedback><text>That is a dense-Prim bound, not Kruskal's.</text></feedback></answer>
+    <answer fraction="0"><text>O(V!) from trying all spanning trees</text><feedback><text>Kruskal is greedy and polynomial, not brute force.</text></feedback></answer>
+    <answer fraction="0"><text>O(E) with no sorting at all</text><feedback><text>Kruskal must order edges by weight, so sorting cost applies.</text></feedback></answer>
+    <generalfeedback><text>Sorting the E edges costs O(E log E); the subsequent union-find work is almost linear, so the sort dominates.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Kruskal graph density preference</text></name>
+    <questiontext format="html"><text><![CDATA[<p>For which kind of graph is Kruskal's algorithm often a particularly good fit?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Sparse graphs, where E is small relative to V^2</text><feedback><text>Correct — few edges keep the dominant edge-sort cheap.</text></feedback></answer>
+    <answer fraction="0"><text>Only complete graphs</text><feedback><text>Kruskal works on any connected weighted graph and shines on sparse ones.</text></feedback></answer>
+    <answer fraction="0"><text>Only unweighted graphs</text><feedback><text>MST algorithms need edge weights; unweighted MST is trivial.</text></feedback></answer>
+    <answer fraction="0"><text>Only directed acyclic graphs</text><feedback><text>MSTs are defined on undirected weighted graphs.</text></feedback></answer>
+    <generalfeedback><text>Because Kruskal's cost is driven by sorting E edges, it is attractive when E is small — that is, on sparse graphs.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Kruskal edge order</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Kruskal's algorithm considers edges in <em>nondecreasing</em> order of weight.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it processes the smallest available edge first.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Sorting edges from smallest to largest is central to Kruskal.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Kruskal cycle acceptance</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Kruskal adds an edge even when both of its endpoints are already in the same connected component.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — that edge would form a cycle, so Kruskal rejects it.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — an edge whose endpoints share a component is skipped to avoid a cycle.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Kruskal cycle structure term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Kruskal tests for cycles using a disjoint-set structure also known by the hyphenated English name ______ (e.g. "union-find").</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>union-find</text><feedback><text>Correct — the disjoint-set / union-find structure.</text></feedback></answer>
+    <answer fraction="100"><text>union find</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>disjoint-set*</text><feedback><text>Correct — also called a disjoint-set structure.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Kruskal properties multi</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Kruskal's algorithm are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It is a greedy algorithm that adds globally cheapest safe edges</text><feedback><text>Yes — it always takes the smallest edge that avoids a cycle.</text></feedback></answer>
+    <answer fraction="50"><text>Its running time is dominated by sorting the edges, O(E log E)</text><feedback><text>Yes — sorting is the bottleneck.</text></feedback></answer>
+    <answer fraction="-50"><text>It uses a min-priority queue to grow a single tree from a start vertex</text><feedback><text>No — that is Prim's approach, not Kruskal's.</text></feedback></answer>
+    <answer fraction="-50"><text>It ignores edge weights entirely</text><feedback><text>No — Kruskal sorts by weight; weights are essential.</text></feedback></answer>
+    <generalfeedback><text>Kruskal is a greedy, sort-then-union-find algorithm running in O(E log E); it grows a forest by weight order, unlike Prim's single-tree priority-queue growth.</text></generalfeedback>
+  </question>
+</quiz>
