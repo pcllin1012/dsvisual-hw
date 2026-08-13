@@ -15,8 +15,17 @@
       storage.setItem(key(methodId), JSON.stringify(arr.slice(0, 10)));
     } catch (e) { /* ignore */ }
   }
+  function upsert(storage, methodId, attempt) {
+    try {
+      var arr = recentFor(storage, methodId, 100);
+      var i = -1;
+      for (var k = 0; k < arr.length; k++) { if (arr[k] && arr[k].id === attempt.id) { i = k; break; } }
+      if (i >= 0) arr[i] = attempt; else arr.unshift(attempt);
+      storage.setItem(key(methodId), JSON.stringify(arr.slice(0, 10)));
+    } catch (e) { /* ignore */ }
+  }
   function clearFor(storage, methodId) { try { storage.removeItem(key(methodId)); } catch (e) {} }
-  var api = { key: key, record: record, recentFor: recentFor, clearFor: clearFor };
+  var api = { key: key, record: record, upsert: upsert, recentFor: recentFor, clearFor: clearFor };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   global.QuizAttempts = api;
 })(typeof window !== 'undefined' ? window : globalThis);
