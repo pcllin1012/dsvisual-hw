@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/觀察者模式</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>觀察者的相依關係</text></name>
+    <questiontext format="html"><text><![CDATA[<p>觀察者模式定義了物件之間何種相依關係?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一對多的相依關係</text><feedback><text>正確 —— 一個主體、多個觀察者。</text></feedback></answer>
+    <answer fraction="0"><text>一對一的委派</text><feedback><text>觀察者支援多個相依者,不只一個。</text></feedback></answer>
+    <answer fraction="0"><text>分層由上而下的相依</text><feedback><text>那描述的是分層架構。</text></feedback></answer>
+    <answer fraction="0"><text>管線相依</text><feedback><text>那描述的是管道與過濾器。</text></feedback></answer>
+    <generalfeedback><text>觀察者建立一對多關係,使得當一個主體改變時,所有相依者都會被更新。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>觀察者的通知</text></name>
+    <questiontext format="html"><text><![CDATA[<p>當主體的狀態改變時,它的觀察者會如何?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>所有已註冊的觀察者都會被自動通知</text><feedback><text>正確 —— 通知是自動的。</text></feedback></answer>
+    <answer fraction="0"><text>觀察者必須以計時器輪詢主體</text><feedback><text>錯 —— 由主體推送通知,不需輪詢。</text></feedback></answer>
+    <answer fraction="0"><text>只有第一個觀察者會被通知</text><feedback><text>所有已註冊的觀察者都會被通知。</text></feedback></answer>
+    <answer fraction="0"><text>主體會重建自己</text><feedback><text>主體通知觀察者,並非重建自己。</text></feedback></answer>
+    <generalfeedback><text>主體保存一份觀察者清單,並在狀態改變時呼叫它們的 update 方法。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>觀察者的註冊</text></name>
+    <questiontext format="html"><text><![CDATA[<p>觀察者如何控制自己是否接收更新?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>透過訂閱與取消訂閱(註冊/取消註冊)</text><feedback><text>正確 —— 訂閱是動態的。</text></feedback></answer>
+    <answer fraction="0"><text>透過繼承主體類別</text><feedback><text>此處觀察者偏好組合而非繼承。</text></feedback></answer>
+    <answer fraction="0"><text>透過修改主體的原始碼</text><feedback><text>不需修改原始碼,只要訂閱即可。</text></feedback></answer>
+    <answer fraction="0"><text>無法控制;集合在編譯期固定</text><feedback><text>觀察者可在執行期新增或移除。</text></feedback></answer>
+    <generalfeedback><text>觀察者在執行期訂閱/取消訂閱,使主體與相依者之間鬆散耦合。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>觀察者的別名</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在物件層級,觀察者模式也被稱為 ______。</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>發布-訂閱(主體/觀察者)</text><feedback><text>正確 —— 主體發布、觀察者訂閱。</text></feedback></answer>
+    <answer fraction="0"><text>模型-視圖-控制器</text><feedback><text>MVC 使用觀察者,但它是不同且更大的模式。</text></feedback></answer>
+    <answer fraction="0"><text>相依注入</text><feedback><text>無關 —— DI 是關於提供相依。</text></feedback></answer>
+    <answer fraction="0"><text>管道與過濾器</text><feedback><text>無關的管線模式。</text></feedback></answer>
+    <generalfeedback><text>在物件層級,觀察者就是發布-訂閱的概念:主體發布狀態改變,觀察者訂閱以接收。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>觀察者的特性(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於觀察者模式,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="50"><text>它促進主體與觀察者之間的鬆散耦合</text><feedback><text>正確 —— 主體只知道觀察者介面。</text></feedback></answer>
+    <answer fraction="50"><text>觀察者可在執行期新增或移除</text><feedback><text>正確 —— 訂閱是動態的。</text></feedback></answer>
+    <answer fraction="-50"><text>主體必須知道每個觀察者的具體類別</text><feedback><text>錯 —— 它只相依於抽象的觀察者介面。</text></feedback></answer>
+    <answer fraction="-50"><text>它是一種建立型模式</text><feedback><text>錯 —— 觀察者是行為型模式。</text></feedback></answer>
+    <generalfeedback><text>觀察者是行為型模式:主體透過抽象介面通知一組鬆散耦合、可動態變動的觀察者。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>觀察者自動通知</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在觀察者模式中,改變主體的狀態會自動通知所有已訂閱的觀察者。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 這正是其定義行為。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>自動通知正是觀察者所提供的。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>觀察者的耦合</text></name>
+    <questiontext format="html"><text><![CDATA[<p>觀察者模式會將主體與每個觀察者的具體實作緊密耦合。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 觀察者藉由介面追求鬆散耦合。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 它透過觀察者介面達成鬆散耦合。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>模式名稱</text></name>
+    <questiontext format="html"><text><![CDATA[<p>定義一對多相依、使相依者在狀態改變時被通知的行為型模式,稱為 ______ 模式。(英文單字)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>observer</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>observer*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>subject</text><feedback><text>接受 —— 主體是負責通知的角色。</text></feedback></answer>
+  </question>
+</quiz>

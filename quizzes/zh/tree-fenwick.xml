@@ -18,11 +18,11 @@
     <name><text>Fenwick 的 lowbit 機制</text></name>
     <questiontext format="html"><text><![CDATA[<p>在查詢或更新時,Fenwick 樹如何在必須碰觸的索引之間移動?</p>]]></text></questiontext>
     <single>true</single>
-    <answer fraction="100"><text>藉由最低位設定位元跳躍,以 <code>i &amp; -i</code> 計算(即「lowbit」)</text><feedback><text>正確 —— 加上或減去 <code>i &amp; -i</code> 即可走過各負責區間。</text></feedback></answer>
+    <answer fraction="100"><text>藉由最低位設定位元跳躍,以 i &amp; -i 計算(即「lowbit」)</text><feedback><text>正確 —— 加上或減去 i &amp; -i 即可走過各負責區間。</text></feedback></answer>
     <answer fraction="0"><text>沿著二元樹的左右子指標前進</text><feedback><text>BIT 不儲存明確的子指標;它使用索引運算。</text></feedback></answer>
     <answer fraction="0"><text>每一步都對陣列做二分搜尋</text><feedback><text>不需搜尋;lowbit 直接給出下一個索引。</text></feedback></answer>
     <answer fraction="0"><text>把索引雜湊到某個桶</text><feedback><text>不涉及雜湊;它純粹是位元運算。</text></feedback></answer>
-    <generalfeedback><text>lowbit <code>i &amp; -i</code> 取出最低有效設定位元;加上它(更新)或減去它(查詢)即可走過 O(log n) 個索引。</text></generalfeedback>
+    <generalfeedback><text>lowbit i &amp; -i 取出最低有效設定位元;加上它(更新)或減去它(查詢)即可走過 O(log n) 個索引。</text></generalfeedback>
   </question>
   <question type="multichoice">
     <name><text>Fenwick 樹的空間</text></name>

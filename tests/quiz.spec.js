@@ -9,12 +9,15 @@ test.describe('self-test quiz', () => {
     await page.goto('file://' + path.resolve(__dirname, '../index.html'));
   });
 
-  test('quiz button shows on sort-quick, not on a quiz-less method', async ({ page }) => {
+  test('quiz button shows for a method with a deck, hidden when the deck is absent', async ({ page }) => {
     await loadMethod(page, 'sort-quick');
     await expect(page.locator('[data-method-section="sort-quick"] .method-quiz-btn')).toBeVisible();
-    await loadMethod(page, 'stack-array');
-    await expect(page.locator('[data-method-section="stack-array"] .method-quiz-btn')).toHaveCount(0);
-    // every sorting method now has a deck
+    // Every method now ships a deck, so simulate the deckless case: drop one deck at
+    // runtime before its (non-default) group first renders, then load it -> no button.
+    await page.evaluate(() => { if (window.QUIZ_RENDERED) delete window.QUIZ_RENDERED['recursion']; });
+    await loadMethod(page, 'recursion');
+    await expect(page.locator('[data-method-section="recursion"] .method-quiz-btn')).toHaveCount(0);
+    // a method whose deck is present still shows the button
     await loadMethod(page, 'sort-merge');
     await expect(page.locator('[data-method-section="sort-merge"] .method-quiz-btn')).toBeVisible();
   });

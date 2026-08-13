@@ -42,7 +42,7 @@
     <answer fraction="0"><text>Larger k means more passes and more I/O</text><feedback><text>No — a bigger merge order reduces the number of passes.</text></feedback></answer>
     <answer fraction="0"><text>k has no effect on the number of passes</text><feedback><text>No — k is the logarithm base, so it directly changes the pass count.</text></feedback></answer>
     <answer fraction="0"><text>Passes depend only on CPU speed, not k</text><feedback><text>No — passes depend on N, M, and the fan-in k, not CPU speed.</text></feedback></answer>
-    <generalfeedback><text>Number of merge passes &asymp; &lceil;log<sub>k</sub>(N/M)&rceil;; each pass moves &asymp; 2N records, so higher k lowers both passes and I/O.</text></generalfeedback>
+    <generalfeedback><text>Number of merge passes &asymp; &lceil;logk(N/M)&rceil;; each pass moves &asymp; 2N records, so higher k lowers both passes and I/O.</text></generalfeedback>
   </question>
   <question type="truefalse">
     <name><text>External merge stability</text></name>
@@ -72,6 +72,6 @@
     <answer fraction="50"><text>Increasing the merge fan-in k (a higher-order merge)</text><feedback><text>Yes — a larger k raises the log base and cuts the pass count.</text></feedback></answer>
     <answer fraction="-50"><text>Using a smaller memory buffer to save RAM</text><feedback><text>No — less memory yields shorter runs and more passes.</text></feedback></answer>
     <answer fraction="-50"><text>Performing more CPU comparisons per record</text><feedback><text>No — extra comparisons do not reduce disk passes.</text></feedback></answer>
-    <generalfeedback><text>Fewer passes come from bigger memory (longer runs) and higher merge order; both attack the &lceil;log<sub>k</sub>(N/M)&rceil; pass count.</text></generalfeedback>
+    <generalfeedback><text>Fewer passes come from bigger memory (longer runs) and higher merge order; both attack the &lceil;logk(N/M)&rceil; pass count.</text></generalfeedback>
   </question>
 </quiz>

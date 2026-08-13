@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Runtime Polymorphism</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>執行期多型的關鍵字</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪個 C++ 關鍵字可讓成員函式具備<strong>執行期(動態)</strong>多型?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>virtual</text><feedback><text>正確 —— 將函式宣告為 virtual 即啟用動態分派。</text></feedback></answer>
+    <answer fraction="0"><text>static</text><feedback><text>錯 —— static 於編譯期綁定,與動態分派相反。</text></feedback></answer>
+    <answer fraction="0"><text>inline</text><feedback><text>錯 —— inline 只是函式展開的提示。</text></feedback></answer>
+    <answer fraction="0"><text>friend</text><feedback><text>錯 —— friend 授予存取權,與分派無關。</text></feedback></answer>
+    <generalfeedback><text>C++ 的執行期多型仰賴透過 vtable 解析的 virtual 成員函式。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>執行哪個覆寫版本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>一個 <code>Base*</code> 指標實際指向 <code>Derived</code> 物件並呼叫一個 virtual 函式。會執行哪個實作?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Derived 類別的覆寫版本,於執行期選定</text><feedback><text>正確 —— 動態分派選出最衍生的覆寫版本。</text></feedback></answer>
+    <answer fraction="0"><text>Base 類別的版本,依指標型別決定</text><feedback><text>錯 —— 有 virtual 時由動態型別決定。</text></feedback></answer>
+    <answer fraction="0"><text>兩者皆非;此呼叫模稜兩可而無法編譯</text><feedback><text>錯 —— 這正是 virtual 函式所處理的情況。</text></feedback></answer>
+    <answer fraction="0"><text>兩者會依序被呼叫</text><feedback><text>錯 —— 只有被解析到的覆寫版本會執行(除非它明確呼叫 Base)。</text></feedback></answer>
+    <generalfeedback><text>透過基底指標/參考,virtual 呼叫會分派到物件動態型別所屬的覆寫版本。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>解析發生的時機</text></name>
+    <questiontext format="html"><text><![CDATA[<p>virtual 函式呼叫在何時被解析到具體實作?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>執行期,透過物件的 vtable</text><feedback><text>正確 —— 這就是動態分派。</text></feedback></answer>
+    <answer fraction="0"><text>編譯期,依靜態指標型別</text><feedback><text>錯 —— 那會是靜態(早期)綁定。</text></feedback></answer>
+    <answer fraction="0"><text>連結期,由連結器決定</text><feedback><text>錯 —— 連結器不會逐次呼叫選擇 virtual 覆寫版本。</text></feedback></answer>
+    <answer fraction="0"><text>從不;禁止透過指標做 virtual 呼叫</text><feedback><text>錯 —— 指標/參考正是其使用方式。</text></feedback></answer>
+    <generalfeedback><text>virtual 呼叫採用晚期(動態)綁定:執行期查詢 vtable 以找到正確的覆寫版本。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>多型的標語</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪句標語最能概括執行期多型?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>「一個介面,多種實作」</text><feedback><text>正確 —— 共同的基底介面,多種衍生行為。</text></feedback></answer>
+    <answer fraction="0"><text>「一種實作,多個名稱」</text><feedback><text>錯 —— 那較接近別名,不是多型。</text></feedback></answer>
+    <answer fraction="0"><text>「沒有介面,只有具體型別」</text><feedback><text>錯 —— 多型仰賴共享的介面。</text></feedback></answer>
+    <answer fraction="0"><text>「一切在編譯期決定」</text><feedback><text>錯 —— 那描述的是靜態多型,不是執行期多型。</text></feedback></answer>
+    <generalfeedback><text>執行期多型提供一個介面(基底類別)與多種實作(覆寫版本)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>執行期多型的敘述(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 C++ 執行期多型,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它需要在基底類別中將函式宣告為 virtual</text><feedback><text>正確 —— virtual 是動態分派的觸發條件。</text></feedback></answer>
+    <answer fraction="50"><text>分派於執行期透過 vtable 解析</text><feedback><text>正確 —— 執行期查詢物件的動態型別。</text></feedback></answer>
+    <answer fraction="-50"><text>它完全在編譯期由多載解析決定</text><feedback><text>錯 —— 那描述的是特設(多載)多型。</text></feedback></answer>
+    <answer fraction="-50"><text>只有在函式為非 virtual 時,透過基底指標才有效</text><feedback><text>錯 —— 非 virtual 函式綁定到靜態型別,反而破壞分派。</text></feedback></answer>
+    <generalfeedback><text>執行期多型需要 virtual 函式並於執行期透過 vtable 分派;非 virtual 呼叫採靜態綁定。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>基底指標分派到覆寫版本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>透過基底類別指標呼叫 virtual 函式,會呼叫到衍生類別的覆寫版本。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 物件的動態型別決定執行哪個覆寫版本。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>有 virtual 時,確實會選到衍生的覆寫版本。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>非 virtual 也是動態嗎?</text></name>
+    <questiontext format="html"><text><![CDATA[<p>透過基底指標呼叫非 <code>virtual</code> 成員函式,會動態分派到衍生版本。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 沒有 virtual 時,呼叫綁定到靜態(指標)型別。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 非 virtual 呼叫採靜態綁定,不是動態分派。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>執行期多型關鍵字</text></name>
+    <questiontext format="html"><text><![CDATA[<p>用來標示成員函式進行動態分派的 C++ 關鍵字是 ______。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>virtual</text><feedback><text>正確 —— virtual 關鍵字。</text></feedback></answer>
+    <answer fraction="100"><text>virtual*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Singleton Pattern</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Singleton intent</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the intent of the <strong>Singleton</strong> pattern?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Ensure a class has exactly one instance and provide a global point of access to it</text><feedback><text>Correct — that is Singleton's defining intent.</text></feedback></answer>
+    <answer fraction="0"><text>Separate the construction of a complex object from its representation</text><feedback><text>That describes Builder, not Singleton.</text></feedback></answer>
+    <answer fraction="0"><text>Convert one class's interface into another interface a client expects</text><feedback><text>That describes Adapter, not Singleton.</text></feedback></answer>
+    <answer fraction="0"><text>Attach additional responsibilities to an object dynamically</text><feedback><text>That describes Decorator, not Singleton.</text></feedback></answer>
+    <generalfeedback><text>Singleton ensures a class has exactly one instance and provides a single global access point to it.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Singleton mechanism</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which mechanism is typically used to implement a Singleton?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A private constructor plus a static getInstance() accessor</text><feedback><text>Correct — the private constructor blocks external creation and getInstance() returns the sole instance.</text></feedback></answer>
+    <answer fraction="0"><text>A Director that sequences building steps</text><feedback><text>No — that belongs to the Builder pattern.</text></feedback></answer>
+    <answer fraction="0"><text>A common component interface shared by leaf and composite nodes</text><feedback><text>No — that belongs to the Composite pattern.</text></feedback></answer>
+    <generalfeedback><text>A private constructor prevents callers from using new, and a static getInstance() returns (and lazily creates) the single instance.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Singleton concern</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is a common concern when implementing a Singleton in a multithreaded program?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Thread-safety of the lazy initialization</text><feedback><text>Correct — concurrent first calls could otherwise create more than one instance.</text></feedback></answer>
+    <answer fraction="0"><text>Choosing the true median as a pivot</text><feedback><text>No — that is unrelated to Singleton.</text></feedback></answer>
+    <answer fraction="0"><text>Keeping leaf and composite nodes uniform</text><feedback><text>No — that is a Composite concern.</text></feedback></answer>
+    <generalfeedback><text>If two threads call getInstance() simultaneously during lazy init, they might each create an instance, so synchronization is needed.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Lazy vs eager</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How does <em>lazy</em> initialization of a Singleton differ from <em>eager</em> initialization?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Lazy creates the instance on first use; eager creates it at load/startup time</text><feedback><text>Correct — that is the lazy vs eager distinction.</text></feedback></answer>
+    <answer fraction="0"><text>Lazy creates many instances; eager creates exactly one</text><feedback><text>No — both create exactly one instance.</text></feedback></answer>
+    <answer fraction="0"><text>Lazy uses a Director; eager uses an Adapter</text><feedback><text>No — neither pattern is involved.</text></feedback></answer>
+    <generalfeedback><text>Lazy initialization defers creation until the instance is first requested; eager initialization builds it up front.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Singleton characteristics</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Singleton are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>A private constructor prevents external code from creating new instances</text><feedback><text>Yes — that is how uniqueness is enforced.</text></feedback></answer>
+    <answer fraction="50"><text>It provides a single global point of access to its one instance</text><feedback><text>Yes — that is part of Singleton's intent.</text></feedback></answer>
+    <answer fraction="-50"><text>It is intended to create many independent instances on demand</text><feedback><text>No — Singleton allows exactly one instance.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires a Director to sequence construction steps</text><feedback><text>No — that is Builder, not Singleton.</text></feedback></answer>
+    <generalfeedback><text>Singleton uses a private constructor and a static accessor to guarantee one instance reachable through a global access point.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Singleton global access</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Singleton provides a global point of access to its single instance.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — a global access point is part of Singleton's intent.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Singleton explicitly provides a single global access point.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Singleton public constructor</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A Singleton typically exposes a public constructor that any client may call with <code>new</code>.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — the constructor is made private so clients cannot create extra instances.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the constructor is private; access goes through the static accessor.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Singleton term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The creational pattern that ensures a class has exactly one instance with a global access point is the ______ pattern.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>singleton</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>instance</text><feedback><text>Accepted — the single instance idea is the heart of the pattern.</text></feedback></answer>
+    <answer fraction="100"><text>singleton*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

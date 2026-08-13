@@ -28,8 +28,8 @@
     <name><text>資訊理論下界</text></name>
     <questiontext format="html"><text><![CDATA[<p>要用天平區分 <em>N</em> 種可能情況,所需秤重次數至少為下列哪個式子?</p>]]></text></questiontext>
     <single>true</single>
-    <answer fraction="100"><text>&lceil;log<sub>3</sub> N&rceil;</text><feedback><text>正確 —— k 次秤重最多可區分 3^k 種情況。</text></feedback></answer>
-    <answer fraction="0"><text>&lceil;log<sub>2</sub> N&rceil;</text><feedback><text>此底數假設兩種結果;天平給出三種。</text></feedback></answer>
+    <answer fraction="100"><text>&lceil;log3 N&rceil;</text><feedback><text>正確 —— k 次秤重最多可區分 3^k 種情況。</text></feedback></answer>
+    <answer fraction="0"><text>&lceil;log2 N&rceil;</text><feedback><text>此底數假設兩種結果;天平給出三種。</text></feedback></answer>
     <answer fraction="0"><text>N &minus; 1</text><feedback><text>這遠多於所需;下界是以 3 為底的對數。</text></feedback></answer>
     <answer fraction="0"><text>N / 3</text><feedback><text>此關係是對數的,而非線性的。</text></feedback></answer>
     <generalfeedback><text>每次秤重使可區分情況數乘以 3,因此 k 次秤重可涵蓋 3^k 種情況,下界為 ceil(log 底數 3 的 N)。</text></generalfeedback>

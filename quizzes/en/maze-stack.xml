@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Maze Backtracking</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Maze path structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Iterative depth-first maze solving uses which structure to remember the current path?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A stack</text><feedback><text>Correct — the current cell/move is pushed onto a stack.</text></feedback></answer>
+    <answer fraction="0"><text>A queue</text><feedback><text>A queue gives breadth-first search, not iterative DFS backtracking.</text></feedback></answer>
+    <answer fraction="0"><text>A priority queue</text><feedback><text>No priorities are involved in plain DFS backtracking.</text></feedback></answer>
+    <answer fraction="0"><text>A hash map keyed by distance</text><feedback><text>Distance keying is not how the path is tracked here.</text></feedback></answer>
+    <generalfeedback><text>Iterative DFS pushes each visited cell/move onto a stack so it can backtrack later.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Dead-end behavior</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What happens at a <em>dead end</em> during stack-based maze solving?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Pop the stack to backtrack to the previous cell</text><feedback><text>Correct — popping returns to the last cell with unexplored options.</text></feedback></answer>
+    <answer fraction="0"><text>Push a new random cell onto the stack</text><feedback><text>Backtracking pops; it does not jump to a random cell.</text></feedback></answer>
+    <answer fraction="0"><text>Clear the entire stack and restart</text><feedback><text>You only unwind one step at a time, not the whole path.</text></feedback></answer>
+    <answer fraction="0"><text>Terminate immediately with failure</text><feedback><text>A dead end only ends the current branch, not the whole search.</text></feedback></answer>
+    <generalfeedback><text>On a dead end you pop the stack, backtracking to the previous cell to try another direction.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>What is pushed</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In stack-based maze solving, what is pushed onto the stack as you advance?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The current cell (or move) being explored</text><feedback><text>Correct — the path of cells/moves is stored on the stack.</text></feedback></answer>
+    <answer fraction="0"><text>The total number of dead ends found so far</text><feedback><text>A running count is not what drives backtracking.</text></feedback></answer>
+    <answer fraction="0"><text>The Manhattan distance to the exit</text><feedback><text>Plain DFS backtracking does not store distances.</text></feedback></answer>
+    <answer fraction="0"><text>A random neighbor's color</text><feedback><text>That is unrelated to path tracking.</text></feedback></answer>
+    <generalfeedback><text>Each current cell or move is pushed so the algorithm can pop and backtrack later.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Traversal it implements</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Overall, stack-based maze solving is an iterative form of which traversal?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Depth-first search (DFS)</text><feedback><text>Correct — a stack yields depth-first exploration with backtracking.</text></feedback></answer>
+    <answer fraction="0"><text>Breadth-first search (BFS)</text><feedback><text>BFS uses a queue and explores level by level.</text></feedback></answer>
+    <answer fraction="0"><text>Dijkstra's shortest-path search</text><feedback><text>That needs a priority queue and edge weights.</text></feedback></answer>
+    <answer fraction="0"><text>Level-order traversal</text><feedback><text>Level-order is a queue-based BFS pattern, not stack-based DFS.</text></feedback></answer>
+    <generalfeedback><text>Using a stack to go deep and backtrack is exactly iterative depth-first search.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Marking visited cells</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Cells are marked as visited to avoid revisiting them and getting stuck in cycles.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — marking visited cells prevents cycles and redundant work.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Without a visited mark the search could loop forever.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>DFS versus BFS exploration</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Stack-based maze solving explores all neighbors level by level, exactly like breadth-first search.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>Level-by-level is BFS; a stack gives depth-first exploration.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a stack explores one path as deep as possible, then backtracks.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Backtracking term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Going as deep as possible and returning on a dead end is called ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>backtracking</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>backtrack*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Stack-based maze properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about stack-based maze solving are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>On a dead end it pops the stack to backtrack</text><feedback><text>Yes — popping unwinds to the previous decision point.</text></feedback></answer>
+    <answer fraction="50"><text>It explores one path as deep as possible before trying alternatives</text><feedback><text>Yes — that is depth-first behavior.</text></feedback></answer>
+    <answer fraction="-50"><text>It guarantees the shortest path in an unweighted maze</text><feedback><text>No — that is BFS; DFS finds a path, not necessarily the shortest.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires a priority queue ordered by distance</text><feedback><text>No — a plain stack suffices; no priorities are needed.</text></feedback></answer>
+    <generalfeedback><text>Stack-based DFS: push moves, pop to backtrack on dead ends, go deep first; it does not guarantee shortest paths.</text></generalfeedback>
+  </question>
+</quiz>

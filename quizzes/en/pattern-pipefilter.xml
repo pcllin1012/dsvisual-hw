@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Pipes and Filters</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Pipe-filter data flow</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In Pipes and Filters, how does data move through the system?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Through a pipeline of filters connected by pipes</text><feedback><text>Correct — each filter transforms and passes the stream on.</text></feedback></answer>
+    <answer fraction="0"><text>By broadcasting to all components at once</text><feedback><text>That resembles pub-sub, not a pipeline.</text></feedback></answer>
+    <answer fraction="0"><text>Through a single monolithic function</text><feedback><text>Pipes and filters decompose processing into stages.</text></feedback></answer>
+    <answer fraction="0"><text>By storing everything in one shared variable</text><feedback><text>Not how the pattern works.</text></feedback></answer>
+    <generalfeedback><text>Data flows through a chain of filters; pipes connect them, and each filter transforms the stream and passes it to the next.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Filter responsibility</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does each filter do?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Transforms its input stream and passes the result on</text><feedback><text>Correct — a filter is an independent transformation stage.</text></feedback></answer>
+    <answer fraction="0"><text>Stores the entire dataset permanently</text><feedback><text>Filters transform streams; they are not the datastore.</text></feedback></answer>
+    <answer fraction="0"><text>Coordinates all other filters as a controller</text><feedback><text>Filters are independent; there is no central coordinator.</text></feedback></answer>
+    <answer fraction="0"><text>Notifies subscribers of state changes</text><feedback><text>That is Observer/pub-sub behavior.</text></feedback></answer>
+    <generalfeedback><text>A filter reads from its input pipe, transforms the data, and writes to its output pipe, independent of neighboring filters.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Pipe-filter example</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which everyday system is a classic example of pipes and filters?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Unix shell pipelines (cmd1 | cmd2 | cmd3)</text><feedback><text>Correct — each command is a filter joined by pipes.</text></feedback></answer>
+    <answer fraction="0"><text>A relational database index</text><feedback><text>An index is a data structure, not a pipeline.</text></feedback></answer>
+    <answer fraction="0"><text>A GUI button click handler</text><feedback><text>That is event handling, not a filter chain.</text></feedback></answer>
+    <answer fraction="0"><text>A singleton logger</text><feedback><text>Unrelated to the pattern.</text></feedback></answer>
+    <generalfeedback><text>Unix pipelines are the archetypal pipes-and-filters system: each command transforms the stream and pipes it onward.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Pipe-filter benefit</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What advantage do independent filters provide?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>They are composable and reusable in different pipelines</text><feedback><text>Correct — filters can be recombined freely.</text></feedback></answer>
+    <answer fraction="0"><text>They force all stages into one class</text><feedback><text>The opposite — filters are separate stages.</text></feedback></answer>
+    <answer fraction="0"><text>They require shared global state</text><feedback><text>Filters communicate via pipes, not shared globals.</text></feedback></answer>
+    <answer fraction="0"><text>They must all run before any data flows</text><feedback><text>Streaming lets data flow through incrementally.</text></feedback></answer>
+    <generalfeedback><text>Because filters are independent and share a stream interface, they can be composed and reused across pipelines.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Pipe-filter properties (select all)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about pipes and filters are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="50"><text>Filters are independent and composable</text><feedback><text>Yes.</text></feedback></answer>
+    <answer fraction="50"><text>Pipes connect the output of one filter to the input of the next</text><feedback><text>Yes.</text></feedback></answer>
+    <answer fraction="-50"><text>A central controller must orchestrate every filter</text><feedback><text>No — filters run independently along the pipeline.</text></feedback></answer>
+    <answer fraction="-50"><text>Filters must share mutable global state to communicate</text><feedback><text>No — they communicate through pipes.</text></feedback></answer>
+    <generalfeedback><text>Pipes and filters compose independent transformation stages connected by pipes, with no central coordinator or shared global state.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Filter composability</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In pipes and filters, each filter transforms the data stream and passes it on, and filters can be recombined.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — independence makes filters reusable and composable.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Transform-and-pass-on with composability is the essence of the pattern.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Filter central control</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Pipes and filters require a central controller that directly manages the state of every filter.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — filters are independent stages with no central manager.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — filters run independently, connected only by pipes.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Component name</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In this style, each independent stage that transforms the data stream is called a ______. (one word, English)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>filter</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>filter*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>pipe</text><feedback><text>Accepted — pipes connect the filters.</text></feedback></answer>
+  </question>
+</quiz>

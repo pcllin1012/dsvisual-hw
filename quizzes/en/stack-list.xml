@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Stack (Linked List)</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Where push and pop happen</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a singly-linked-list stack, at which end are <code>push</code> and <code>pop</code> performed?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>At the head of the list</text><feedback><text>Correct — inserting and removing at the head is O(1).</text></feedback></answer>
+    <answer fraction="0"><text>At the tail of the list</text><feedback><text>Reaching the tail of a singly linked list would cost O(n) without a tail pointer.</text></feedback></answer>
+    <answer fraction="0"><text>In the middle of the list</text><feedback><text>Stacks only touch one end, and finding the middle is not O(1).</text></feedback></answer>
+    <answer fraction="0"><text>At a randomly chosen node</text><feedback><text>Stack access is not random.</text></feedback></answer>
+    <generalfeedback><text>Operating at the head lets both push and pop stay O(1) with just a head pointer.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Linked stack cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of <code>push</code> and <code>pop</code> at the head of a linked-list stack?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(1)</text><feedback><text>Correct — only the head pointer is rewired.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>No traversal is needed to reach the head.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>There is no logarithmic search here.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>That is unrelated to head insertion.</text></feedback></answer>
+    <generalfeedback><text>Prepending a node and detaching the head are both constant-time pointer updates.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Linked vs array stack</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is a key advantage of a linked-list stack over a fixed-capacity array stack?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It grows dynamically with no fixed capacity limit</text><feedback><text>Correct — nodes are allocated on demand, so it never overflows from a preset size.</text></feedback></answer>
+    <answer fraction="0"><text>It provides O(1) random access by index</text><feedback><text>A linked list has no random access.</text></feedback></answer>
+    <answer fraction="0"><text>It uses less memory per element</text><feedback><text>Each node adds a pointer, so it uses more, not less.</text></feedback></answer>
+    <answer fraction="0"><text>It guarantees better cache locality</text><feedback><text>Scattered nodes generally hurt cache locality.</text></feedback></answer>
+    <generalfeedback><text>The linked stack trades a per-node pointer and worse locality for unbounded, dynamic growth.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Linked stack node</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does a single node in a singly-linked-list stack contain?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The data plus a next pointer to the following node</text><feedback><text>Correct — data and a single forward link.</text></feedback></answer>
+    <answer fraction="0"><text>The data plus both a prev and a next pointer</text><feedback><text>That is a doubly linked node, not singly linked.</text></feedback></answer>
+    <answer fraction="0"><text>Only the data, with no pointer</text><feedback><text>Without a link the nodes could not be chained.</text></feedback></answer>
+    <answer fraction="0"><text>The data plus a numeric array index</text><feedback><text>Linked nodes chain by pointer, not by index.</text></feedback></answer>
+    <generalfeedback><text>A singly linked node stores its payload and one next pointer.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Linked stack properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about a singly-linked-list stack are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It follows LIFO order</text><feedback><text>Yes — it is still a stack.</text></feedback></answer>
+    <answer fraction="50"><text>push and pop at the head are O(1)</text><feedback><text>Yes — just a head-pointer rewiring.</text></feedback></answer>
+    <answer fraction="-50"><text>It supports O(1) random access by index</text><feedback><text>No — a linked list has no random access.</text></feedback></answer>
+    <answer fraction="-50"><text>It has a fixed maximum capacity set at creation</text><feedback><text>No — it grows dynamically as nodes are allocated.</text></feedback></answer>
+    <generalfeedback><text>A linked stack is LIFO with O(1) head operations, no random access, and no fixed capacity.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Dynamic growth</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A linked-list stack can grow dynamically without a fixed capacity.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — nodes are allocated on demand.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>It does grow dynamically; only array stacks have a fixed size.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>No random access</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A singly-linked-list stack supports O(1) random access to any element by index.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>Reaching an arbitrary node requires O(n) traversal from the head.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — linked lists have no O(1) random access.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Operating end of a linked stack</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a linked-list stack, both push and pop occur at the ______ of the list.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>head</text><feedback><text>Correct — the head gives O(1) push and pop.</text></feedback></answer>
+    <answer fraction="100"><text>head*</text><feedback><text>Correct — the head gives O(1) push and pop.</text></feedback></answer>
+  </question>
+</quiz>

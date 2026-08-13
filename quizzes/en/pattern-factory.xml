@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Factory Method Pattern</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Factory who decides</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In the <strong>Factory Method</strong> pattern, who decides which concrete class to instantiate?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Subclasses that override the creation method</text><feedback><text>Correct — subclasses decide which concrete product to create.</text></feedback></answer>
+    <answer fraction="0"><text>A single global instance shared by all clients</text><feedback><text>That describes Singleton, not Factory Method.</text></feedback></answer>
+    <answer fraction="0"><text>A Director that sequences building steps</text><feedback><text>That describes Builder, not Factory Method.</text></feedback></answer>
+    <answer fraction="0"><text>A wrapper that converts one interface into another</text><feedback><text>That describes Adapter, not Factory Method.</text></feedback></answer>
+    <generalfeedback><text>Factory Method defines an interface for creating an object but lets subclasses decide which class to instantiate.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Factory category</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Into which GoF category does Factory Method fall?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Creational</text><feedback><text>Correct — Factory Method is a creational pattern about object creation.</text></feedback></answer>
+    <answer fraction="0"><text>Structural</text><feedback><text>No — structural patterns compose classes/objects.</text></feedback></answer>
+    <answer fraction="0"><text>Behavioral</text><feedback><text>No — behavioral patterns concern communication and responsibility.</text></feedback></answer>
+    <generalfeedback><text>Factory Method is a creational pattern, like Builder and Singleton.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Factory benefit</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What key benefit does Factory Method provide?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It decouples client code from the concrete product classes</text><feedback><text>Correct — clients depend only on the product interface.</text></feedback></answer>
+    <answer fraction="0"><text>It guarantees a class has exactly one instance</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <answer fraction="0"><text>It composes objects into part-whole tree hierarchies</text><feedback><text>No — that is Composite.</text></feedback></answer>
+    <generalfeedback><text>By creating products through an overridable method, the client is decoupled from concrete product classes.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Factory defines</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does Factory Method define?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>An interface (method) for creating an object</text><feedback><text>Correct — it defines a creation interface whose concrete result is chosen by subclasses.</text></feedback></answer>
+    <answer fraction="0"><text>A single shared instance and a global access point</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <answer fraction="0"><text>A way to attach responsibilities dynamically by wrapping</text><feedback><text>No — that is Decorator.</text></feedback></answer>
+    <generalfeedback><text>Factory Method defines the interface for creating an object while deferring the concrete choice to subclasses.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Factory characteristics</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Factory Method are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Subclasses override the factory method to choose the concrete product</text><feedback><text>Yes — that is how the concrete class is selected.</text></feedback></answer>
+    <answer fraction="50"><text>It promotes loose coupling between client code and concrete products</text><feedback><text>Yes — clients depend on the product interface, not concrete classes.</text></feedback></answer>
+    <answer fraction="-50"><text>It guarantees that only one instance of the product ever exists</text><feedback><text>No — that is Singleton.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires composing products into a part-whole tree</text><feedback><text>No — that is Composite.</text></feedback></answer>
+    <generalfeedback><text>Factory Method defers instantiation to subclasses and decouples clients from concrete product classes.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Factory subclasses</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Factory Method lets subclasses alter the type of objects that will be created.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — subclasses decide which concrete product to instantiate.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Deferring the concrete choice to subclasses is exactly Factory Method's purpose.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Factory concrete coupling</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Factory Method requires client code to reference the concrete product classes directly.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — it decouples the client from concrete product classes.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the client depends only on the product interface, not concrete classes.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Factory term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The creational pattern that defines a creation interface but lets subclasses decide which concrete class to instantiate is the ______ Method pattern.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>factory</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>factory*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

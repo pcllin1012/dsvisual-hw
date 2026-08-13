@@ -38,10 +38,10 @@
     <name><text>Catalan recurrence</text></name>
     <questiontext format="html"><text><![CDATA[<p>Which recurrence generates the Catalan numbers (splitting on the root's subtree sizes)?</p>]]></text></questiontext>
     <single>true</single>
-    <answer fraction="100"><text>C<sub>n+1</sub> = &Sigma;<sub>i=0..n</sub> C<sub>i</sub> &middot; C<sub>n&minus;i</sub></text><feedback><text>Correct — sum over the left subtree size i and right subtree size n−i.</text></feedback></answer>
-    <answer fraction="0"><text>C<sub>n</sub> = C<sub>n&minus;1</sub> + C<sub>n&minus;2</sub></text><feedback><text>No — that is the Fibonacci recurrence.</text></feedback></answer>
-    <answer fraction="0"><text>C<sub>n</sub> = n &middot; C<sub>n&minus;1</sub></text><feedback><text>No — that generates factorials.</text></feedback></answer>
-    <answer fraction="0"><text>C<sub>n</sub> = 2 &middot; C<sub>n&minus;1</sub></text><feedback><text>No — that generates powers of two.</text></feedback></answer>
+    <answer fraction="100"><text>Cn+1 = &Sigma;i=0..n Ci &middot; Cn&minus;i</text><feedback><text>Correct — sum over the left subtree size i and right subtree size n−i.</text></feedback></answer>
+    <answer fraction="0"><text>Cn = Cn&minus;1 + Cn&minus;2</text><feedback><text>No — that is the Fibonacci recurrence.</text></feedback></answer>
+    <answer fraction="0"><text>Cn = n &middot; Cn&minus;1</text><feedback><text>No — that generates factorials.</text></feedback></answer>
+    <answer fraction="0"><text>Cn = 2 &middot; Cn&minus;1</text><feedback><text>No — that generates powers of two.</text></feedback></answer>
     <generalfeedback><text>Fixing the root, the left subtree has i nodes and the right has n−i, so C_{n+1} = Σ C_i·C_{n−i}.</text></generalfeedback>
   </question>
   <question type="truefalse">

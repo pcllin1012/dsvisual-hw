@@ -42,7 +42,7 @@
     <answer fraction="0"><text>k 越大回合數越多、I/O 越多</text><feedback><text>錯 —— 較大的合併路數會減少回合數。</text></feedback></answer>
     <answer fraction="0"><text>k 對回合數沒有影響</text><feedback><text>錯 —— k 是對數的底數,會直接改變回合數。</text></feedback></answer>
     <answer fraction="0"><text>回合數只取決於 CPU 速度,與 k 無關</text><feedback><text>錯 —— 回合數取決於 N、M 與 fan-in k,而非 CPU 速度。</text></feedback></answer>
-    <generalfeedback><text>合併回合數 &asymp; &lceil;log<sub>k</sub>(N/M)&rceil;;每個回合搬動 &asymp; 2N 筆記錄,故 k 越大回合數與 I/O 都越少。</text></generalfeedback>
+    <generalfeedback><text>合併回合數 &asymp; &lceil;logk(N/M)&rceil;;每個回合搬動 &asymp; 2N 筆記錄,故 k 越大回合數與 I/O 都越少。</text></generalfeedback>
   </question>
   <question type="truefalse">
     <name><text>外部合併排序穩定性</text></name>
@@ -72,6 +72,6 @@
     <answer fraction="50"><text>增大合併 fan-in k(更高路數的合併)</text><feedback><text>正確 —— k 越大抬高對數底數,削減回合數。</text></feedback></answer>
     <answer fraction="-50"><text>使用較小的記憶體緩衝以節省 RAM</text><feedback><text>錯 —— 記憶體越少段落越短,回合數越多。</text></feedback></answer>
     <answer fraction="-50"><text>每筆記錄執行更多 CPU 比較</text><feedback><text>錯 —— 額外比較無法減少磁碟回合。</text></feedback></answer>
-    <generalfeedback><text>更少的回合來自更大的記憶體(更長段落)與更高的合併路數;兩者都針對 &lceil;log<sub>k</sub>(N/M)&rceil; 的回合數。</text></generalfeedback>
+    <generalfeedback><text>更少的回合來自更大的記憶體(更長段落)與更高的合併路數;兩者都針對 &lceil;logk(N/M)&rceil; 的回合數。</text></generalfeedback>
   </question>
 </quiz>

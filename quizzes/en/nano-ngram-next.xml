@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/n-gram Next-token Sampling</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>What predicts the next token</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an n-gram model, the next token is predicted from what?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The previous n-1 tokens (the context)</text><feedback><text>Correct — the preceding n-1 tokens form the context.</text></feedback></answer>
+    <answer fraction="0"><text>The entire document from the start</text><feedback><text>No — an n-gram only looks back n-1 tokens.</text></feedback></answer>
+    <answer fraction="0"><text>A single fixed token, ignoring history</text><feedback><text>No — the context is the previous n-1 tokens, not one.</text></feedback></answer>
+    <answer fraction="0"><text>The token that comes after it</text><feedback><text>No — prediction uses preceding tokens, not future ones.</text></feedback></answer>
+    <generalfeedback><text>An n-gram model conditions on the previous n-1 tokens, called the context.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Storing the counts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What data structure stores the mapping from context to next-token counts?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A hash map keyed by the context</text><feedback><text>Yes — a hash map maps each context to its next-token counts.</text></feedback></answer>
+    <answer fraction="0"><text>A sorted array of all tokens</text><feedback><text>No — that does not directly map contexts to distributions.</text></feedback></answer>
+    <answer fraction="0"><text>A single global counter</text><feedback><text>No — counts are per-context, not one global number.</text></feedback></answer>
+    <generalfeedback><text>A hash map stores context to next-token counts for O(1) average lookup.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Choosing the next token</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Given a context's counts, how is the next token chosen?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It is sampled from the distribution, e.g. proportional to counts</text><feedback><text>Yes — sampling (optionally with temperature) draws from the distribution.</text></feedback></answer>
+    <answer fraction="0"><text>Always take the alphabetically first candidate</text><feedback><text>No — that ignores the learned distribution.</text></feedback></answer>
+    <answer fraction="0"><text>Pick a token uniformly at random ignoring counts</text><feedback><text>No — sampling is weighted by the counts.</text></feedback></answer>
+    <generalfeedback><text>The next token is sampled from the context's distribution, e.g. proportional to counts, optionally with temperature.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Effect of larger n</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the trade-off of using a larger n?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It captures more context but the counts become sparser</text><feedback><text>Yes — longer contexts are seen less often, so estimates get sparse.</text></feedback></answer>
+    <answer fraction="0"><text>It captures less context and uses more memory for no benefit</text><feedback><text>No — larger n captures more, not less, context.</text></feedback></answer>
+    <answer fraction="0"><text>It removes the need to store any counts</text><feedback><text>No — counts are still required regardless of n.</text></feedback></answer>
+    <generalfeedback><text>A higher n captures more context but is sparser, since long contexts recur rarely.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>n-gram model properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the n-gram next-token model are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>The context is the previous n-1 tokens</text><feedback><text>Yes — that preceding window is the context.</text></feedback></answer>
+    <answer fraction="50"><text>The next token is sampled from the context's count distribution</text><feedback><text>Yes — sampling is proportional to counts, optionally temperature-scaled.</text></feedback></answer>
+    <answer fraction="-50"><text>A larger n always makes the counts denser</text><feedback><text>No — larger n makes the counts sparser.</text></feedback></answer>
+    <answer fraction="-50"><text>It must scan the whole corpus for every prediction</text><feedback><text>No — a hash map gives fast lookup of the context.</text></feedback></answer>
+    <generalfeedback><text>The model conditions on the previous n-1 tokens, samples from hashed counts, and grows sparser as n increases.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Sampling not argmax</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The next token can be sampled from the distribution rather than always taking the single most frequent one.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — sampling (optionally with temperature) introduces variety.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Sampling from the distribution is exactly how the next token is drawn.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Larger n denser</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Increasing n makes the observed context counts denser and less sparse.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — larger n captures more context but is sparser.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a higher n is sparser because long contexts recur rarely.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Conditioning term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The previous n-1 tokens that the model conditions on are called the ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>context</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>context*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>n-gram</text><feedback><text>Accepted.</text></feedback></answer>
+    <answer fraction="100"><text>hash</text><feedback><text>Accepted — a hash map stores the context counts.</text></feedback></answer>
+  </question>
+</quiz>

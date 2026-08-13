@@ -38,10 +38,10 @@
     <name><text>Alpha-beta 複雜度</text></name>
     <questiontext format="html"><text><![CDATA[<p>在理想的走法排序下,對分支度 <em>b</em> 與深度 <em>d</em>,alpha-beta 大約會探索多少節點?</p>]]></text></questiontext>
     <single>true</single>
-    <answer fraction="100"><text>O(b<sup>d/2</sup>)</text><feedback><text>正確 —— 實際上使可搜尋深度加倍。</text></feedback></answer>
-    <answer fraction="0"><text>O(b<sup>d</sup>)</text><feedback><text>那是純 minimax;良好排序約可將指數減半。</text></feedback></answer>
+    <answer fraction="100"><text>O(bd/2)</text><feedback><text>正確 —— 實際上使可搜尋深度加倍。</text></feedback></answer>
+    <answer fraction="0"><text>O(bd)</text><feedback><text>那是純 minimax;良好排序約可將指數減半。</text></feedback></answer>
     <answer fraction="0"><text>O(b &middot; d)</text><feedback><text>成本是指數的,而非線性。</text></feedback></answer>
-    <answer fraction="0"><text>O(d<sup>b</sup>)</text><feedback><text>指數涉及深度,約為 d/2,底數為 b。</text></feedback></answer>
+    <answer fraction="0"><text>O(db)</text><feedback><text>指數涉及深度,約為 d/2,底數為 b。</text></feedback></answer>
     <generalfeedback><text>在良好走法排序下,alpha-beta 大約探索 O(b^(d/2)) 個節點,而非 O(b^d),等於在相同成本下使可達深度加倍。</text></generalfeedback>
   </question>
   <question type="truefalse">

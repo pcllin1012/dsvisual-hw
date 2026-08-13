@@ -38,10 +38,10 @@
     <name><text>Alpha-beta complexity</text></name>
     <questiontext format="html"><text><![CDATA[<p>With ideal move ordering, roughly how many nodes does alpha-beta explore, for branching factor <em>b</em> and depth <em>d</em>?</p>]]></text></questiontext>
     <single>true</single>
-    <answer fraction="100"><text>O(b<sup>d/2</sup>)</text><feedback><text>Correct — effectively doubling the searchable depth.</text></feedback></answer>
-    <answer fraction="0"><text>O(b<sup>d</sup>)</text><feedback><text>That is plain minimax; good ordering cuts the exponent roughly in half.</text></feedback></answer>
+    <answer fraction="100"><text>O(bd/2)</text><feedback><text>Correct — effectively doubling the searchable depth.</text></feedback></answer>
+    <answer fraction="0"><text>O(bd)</text><feedback><text>That is plain minimax; good ordering cuts the exponent roughly in half.</text></feedback></answer>
     <answer fraction="0"><text>O(b &middot; d)</text><feedback><text>The cost is exponential, not linear.</text></feedback></answer>
-    <answer fraction="0"><text>O(d<sup>b</sup>)</text><feedback><text>The exponent involves depth, roughly d/2, over base b.</text></feedback></answer>
+    <answer fraction="0"><text>O(db)</text><feedback><text>The exponent involves depth, roughly d/2, over base b.</text></feedback></answer>
     <generalfeedback><text>With good move ordering alpha-beta explores about O(b^(d/2)) nodes instead of O(b^d), effectively doubling the depth reachable for the same cost.</text></generalfeedback>
   </question>
   <question type="truefalse">

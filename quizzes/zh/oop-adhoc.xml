@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Ad-hoc Polymorphism</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>什麼是特設多型</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪個 C++ 特性是<strong>特設(ad-hoc)</strong>多型的經典例子?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>函式與運算子多載(overloading)</text><feedback><text>正確 —— 多載就是特設多型。</text></feedback></answer>
+    <answer fraction="0"><text>透過 vtable 分派的 virtual 函式</text><feedback><text>錯 —— 那是執行期(子型別)多型。</text></feedback></answer>
+    <answer fraction="0"><text>依型別逐一實例化的樣板</text><feedback><text>錯 —— 那是參數式多型。</text></feedback></answer>
+    <answer fraction="0"><text>形成 is-a 階層的 public 繼承</text><feedback><text>錯 —— 繼承不是特設多型。</text></feedback></answer>
+    <generalfeedback><text>特設多型即多載:同一個名稱依引數型別而表現不同行為。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>多載之間必須不同之處</text></name>
+    <questiontext format="html"><text><![CDATA[<p>兩個同名的多載函式之間,必須有什麼不同?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>參數型別及/或參數數量</text><feedback><text>正確 —— 參數列用以區分多載。</text></feedback></answer>
+    <answer fraction="0"><text>只有回傳型別</text><feedback><text>錯 —— 僅回傳型別不同無法區分多載。</text></feedback></answer>
+    <answer fraction="0"><text>只有參數的名稱</text><feedback><text>錯 —— 參數名稱與多載解析無關。</text></feedback></answer>
+    <answer fraction="0"><text>無須不同;允許完全相同的簽章</text><feedback><text>錯 —— 兩個相同簽章會造成重複定義錯誤。</text></feedback></answer>
+    <generalfeedback><text>多載共用名稱但參數列(型別及/或數量)不同;僅回傳型別不同並不足夠。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>多載於何時解析</text></name>
+    <questiontext format="html"><text><![CDATA[<p>編譯器在何時決定要呼叫哪個多載函式?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>編譯期,透過多載解析(靜態分派)</text><feedback><text>正確 —— 多載於靜態階段解析。</text></feedback></answer>
+    <answer fraction="0"><text>執行期,透過 vtable</text><feedback><text>錯 —— 那是 virtual 函式的動態分派。</text></feedback></answer>
+    <answer fraction="0"><text>連結期,由連結器比對符號</text><feedback><text>錯 —— 多載解析發生於編譯過程中。</text></feedback></answer>
+    <answer fraction="0"><text>安裝期,由套件管理器決定</text><feedback><text>錯 —— 那與多載解析毫無關係。</text></feedback></answer>
+    <generalfeedback><text>多載解析由編譯器於編譯期(靜態分派)依引數型別執行。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>運算子多載</text></name>
+    <questiontext format="html"><text><![CDATA[<p>為你自己的類別定義 <code>operator+</code> 是哪一種例子?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>運算子多載 —— 特設多型的一種形式</text><feedback><text>正確 —— 同一個運算子符號對你的型別獲得新意義。</text></feedback></answer>
+    <answer fraction="0"><text>透過 virtual 分派的執行期多型</text><feedback><text>錯 —— 運算子多載於編譯期解析。</text></feedback></answer>
+    <answer fraction="0"><text>樣板實例化</text><feedback><text>錯 —— 這裡沒有牽涉樣板參數。</text></feedback></answer>
+    <answer fraction="0"><text>private 繼承</text><feedback><text>錯 —— 那與運算子無關。</text></feedback></answer>
+    <generalfeedback><text>運算子多載讓運算子符號帶有型別專屬行為,並於編譯期解析。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>特設多型的敘述(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於特設多型(多載),以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>多載共用名稱,但在參數型別或數量上不同</text><feedback><text>正確 —— 參數列用以區分它們。</text></feedback></answer>
+    <answer fraction="50"><text>它於編譯期解析(靜態分派)</text><feedback><text>正確 —— 由編譯器挑選多載。</text></feedback></answer>
+    <answer fraction="-50"><text>它於執行期透過 vtable 解析</text><feedback><text>錯 —— 那描述的是執行期多型,不是多載。</text></feedback></answer>
+    <answer fraction="-50"><text>兩個函式可僅以回傳型別來構成多載</text><feedback><text>錯 —— 僅回傳型別不同不是有效的多載。</text></feedback></answer>
+    <generalfeedback><text>多載以參數列區分函式,並於編譯期靜態解析。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>多載於編譯期解析</text></name>
+    <questiontext format="html"><text><![CDATA[<p>函式多載的多載解析發生於編譯期。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 多載採靜態(編譯期)分派。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>多載確實由編譯器於編譯期解析。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>以回傳型別多載</text></name>
+    <questiontext format="html"><text><![CDATA[<p>兩個同名、同參數但回傳型別不同的函式可構成有效的多載集合。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 僅回傳型別不同是不被允許的。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 多載必須在參數列上不同,而非僅回傳型別。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>特設多型名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>讓多個函式共用同一名稱但參數列不同,稱為函式 ______(英文)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>overloading</text><feedback><text>正確 —— 函式多載(overloading)。</text></feedback></answer>
+    <answer fraction="100"><text>overload*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

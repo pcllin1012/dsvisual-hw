@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/ISAM</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>ISAM record layout</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an <strong>ISAM</strong> (Indexed Sequential Access Method) file, how are the data records physically stored?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Sequentially, sorted by key</text><feedback><text>Correct — records sit in key order, which is what makes sequential and range access efficient.</text></feedback></answer>
+    <answer fraction="0"><text>In random order, located only through a hash function</text><feedback><text>That describes a hash file, not ISAM.</text></feedback></answer>
+    <answer fraction="0"><text>As a linked list with no ordering</text><feedback><text>ISAM keeps records physically sorted by key, not in an unordered chain.</text></feedback></answer>
+    <answer fraction="0"><text>Scattered across overflow areas from the start</text><feedback><text>Overflow areas only hold later inserts; the primary records are stored sorted.</text></feedback></answer>
+    <generalfeedback><text>ISAM stores records sequentially in key order so that both sequential scans and range queries are cheap.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>ISAM index role</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the job of the <em>static index</em> in ISAM?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It maps key ranges to the block that contains those keys</text><feedback><text>Correct — the index points each key range at a data block.</text></feedback></answer>
+    <answer fraction="0"><text>It stores every record twice for redundancy</text><feedback><text>The index holds key ranges and block pointers, not full duplicate records.</text></feedback></answer>
+    <answer fraction="0"><text>It rebalances itself on every insertion</text><feedback><text>The ISAM index is static; it does not rebalance per insert.</text></feedback></answer>
+    <answer fraction="0"><text>It hashes keys to random slots</text><feedback><text>ISAM uses an ordered index over key ranges, not hashing.</text></feedback></answer>
+    <generalfeedback><text>The static index maps key ranges to blocks, letting a lookup jump near the target before scanning.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>ISAM lookup procedure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How does a key lookup proceed in ISAM?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Consult the index to find the right block, then scan that block for the key</text><feedback><text>Correct — the index narrows the search to one block, which is then scanned.</text></feedback></answer>
+    <answer fraction="0"><text>Scan the whole file from the beginning every time</text><feedback><text>The index exists precisely to avoid a full scan.</text></feedback></answer>
+    <answer fraction="0"><text>Compute a hash of the key and jump straight to a bucket</text><feedback><text>That is hashing, not the ISAM index-then-scan approach.</text></feedback></answer>
+    <answer fraction="0"><text>Follow parent pointers up a self-balancing tree</text><feedback><text>ISAM uses a static index, not a dynamically balanced tree walk.</text></feedback></answer>
+    <generalfeedback><text>A lookup first consults the static index to locate the block, then scans within that block for the exact key.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>ISAM inserts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Where do new records go when they are inserted into an ISAM file after it has been built?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Into overflow areas, since the primary blocks are static</text><feedback><text>Correct — inserts land in overflow areas linked to the block.</text></feedback></answer>
+    <answer fraction="0"><text>The index is rebuilt from scratch on every insert</text><feedback><text>That would be far too costly; ISAM instead uses overflow areas.</text></feedback></answer>
+    <answer fraction="0"><text>Records are appended to the end of the file in arrival order</text><feedback><text>They go to overflow areas tied to the correct block, not simply the file end.</text></feedback></answer>
+    <answer fraction="0"><text>Inserts are rejected once the file is built</text><feedback><text>Inserts are allowed; they are routed to overflow areas.</text></feedback></answer>
+    <generalfeedback><text>Because the primary layout is static, inserts go to overflow areas, which is why performance degrades and reorganization is periodically required.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>ISAM properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about ISAM are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It is well suited to range queries and sequential reads</text><feedback><text>Yes — sorted storage makes ranges and scans efficient.</text></feedback></answer>
+    <answer fraction="50"><text>Heavy inserting degrades performance and calls for periodic reorganization</text><feedback><text>Yes — overflow chains grow, so the file is periodically reorganized.</text></feedback></answer>
+    <answer fraction="-50"><text>Its index automatically rebalances on every insertion</text><feedback><text>No — the ISAM index is static.</text></feedback></answer>
+    <answer fraction="-50"><text>Records are located purely by hashing with no ordering</text><feedback><text>No — ISAM keeps records sorted and uses an ordered index.</text></feedback></answer>
+    <generalfeedback><text>ISAM excels at range/sequential access with a static index, but inserts flow to overflow areas, degrading performance until reorganization.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>ISAM range queries</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Because records are stored in sorted key order, ISAM is well suited to range queries and sequential reads.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — sorted storage makes ranges and sequential scans efficient.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Sorted-by-key storage is exactly what makes range and sequential access cheap.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>ISAM reorganization</text></name>
+    <questiontext format="html"><text><![CDATA[<p>ISAM never needs reorganization: no matter how many records are inserted, lookup performance stays constant.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>Inserts pile into overflow areas, so performance degrades over time.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — overflow growth degrades performance, so periodic reorganization is needed.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>ISAM index term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In ISAM, the static structure that maps key ranges to data blocks so a lookup can avoid a full scan is called the ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>index</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>index*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

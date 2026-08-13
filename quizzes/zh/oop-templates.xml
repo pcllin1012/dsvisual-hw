@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Parametric Polymorphism</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>參數式多型的 C++ 特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪個 C++ 特性提供<strong>參數式(parametric)</strong>多型?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>樣板(template&lt;class T&gt;)</text><feedback><text>正確 —— 樣板提供參數式(以型別參數化)多型。</text></feedback></answer>
+    <answer fraction="0"><text>virtual 函式</text><feedback><text>錯 —— 那提供執行期(子型別)多型。</text></feedback></answer>
+    <answer fraction="0"><text>函式多載</text><feedback><text>錯 —— 那是特設多型。</text></feedback></answer>
+    <answer fraction="0"><text>private 繼承</text><feedback><text>錯 —— 繼承不是參數式多型。</text></feedback></answer>
+    <generalfeedback><text>樣板讓你以型別將程式碼參數化,這正是參數式多型。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>樣板讓你寫出什麼</text></name>
+    <questiontext format="html"><text><![CDATA[<p>C++ 樣板讓你寫出什麼樣的程式碼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>與型別無關、適用於多種具體型別的程式碼</text><feedback><text>正確 —— 一個樣板服務多種型別。</text></feedback></answer>
+    <answer fraction="0"><text>只對 int 有效的程式碼</text><feedback><text>錯 —— 那會違背樣板的目的。</text></feedback></answer>
+    <answer fraction="0"><text>型別於執行期才選定的程式碼</text><feedback><text>錯 —— 樣板型別在編譯期即固定。</text></feedback></answer>
+    <answer fraction="0"><text>完全跳過編譯器的機器碼</text><feedback><text>錯 —— 樣板與程式其餘部分一樣會被編譯。</text></feedback></answer>
+    <generalfeedback><text>樣板是與型別無關程式碼的藍圖,編譯器會為每個使用到的型別加以特化。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>樣板何時實例化</text></name>
+    <questiontext format="html"><text><![CDATA[<p>編譯器在何時為某個型別產生樣板的具體版本?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>編譯期,為每個使用到的具體型別各實例化一個版本</text><feedback><text>正確 —— 樣板實例化發生於編譯期。</text></feedback></answer>
+    <answer fraction="0"><text>執行期,依物件的動態型別</text><feedback><text>錯 —— 那描述的是 virtual 分派,不是樣板。</text></feedback></answer>
+    <answer fraction="0"><text>從不;樣板以直譯方式執行</text><feedback><text>錯 —— 樣板會被編譯成具體程式碼。</text></feedback></answer>
+    <answer fraction="0"><text>連結期,只做重複符號的合併</text><feedback><text>錯 —— 實例化本身發生於編譯過程中。</text></feedback></answer>
+    <generalfeedback><text>編譯器於編譯期為每個使用到的具體型別各實例化一個獨立的具體版本。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>其他語言中的對應</text></name>
+    <questiontext format="html"><text><![CDATA[<p>C++ 樣板最接近其他語言中的哪個特性?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>泛型(如 Java 或 C#)</text><feedback><text>正確 —— 泛型即參數式多型的對應物。</text></feedback></answer>
+    <answer fraction="0"><text>僅是前置處理器巨集</text><feedback><text>錯 —— 樣板會做型別檢查,與純巨集不同。</text></feedback></answer>
+    <answer fraction="0"><text>反射(reflection)</text><feedback><text>錯 —— 反射是執行期自省特性,無關。</text></feedback></answer>
+    <answer fraction="0"><text>垃圾回收</text><feedback><text>錯 —— 那與參數式多型無關。</text></feedback></answer>
+    <generalfeedback><text>樣板是 C++ 的泛型形式:與 Java/C# 泛型相同的參數式多型。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>樣板的敘述(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 C++ 樣板,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它讓你寫出以型別參數化、與型別無關的程式碼</text><feedback><text>正確 —— 這就是參數式多型。</text></feedback></answer>
+    <answer fraction="50"><text>編譯器於編譯期為每個具體型別實例化一個版本</text><feedback><text>正確 —— 實例化是編譯期步驟。</text></feedback></answer>
+    <answer fraction="-50"><text>它們於執行期透過 vtable 解析</text><feedback><text>錯 —— 那描述的是執行期多型,不是樣板。</text></feedback></answer>
+    <answer fraction="-50"><text>一個樣板只能搭配一個固定型別使用</text><feedback><text>錯 —— 樣板可跨多種型別運作。</text></feedback></answer>
+    <generalfeedback><text>樣板以型別將程式碼參數化,並於編譯期為每個具體型別實例化;它不是以 vtable 為基礎。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>樣板於編譯期實例化</text></name>
+    <questiontext format="html"><text><![CDATA[<p>C++ 樣板會在編譯期為每個使用到的型別實例化成具體程式碼。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 樣板實例化是編譯期程序。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>樣板確實於編譯期實例化,每個型別各一個版本。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>樣板需要 vtable 嗎?</text></name>
+    <questiontext format="html"><text><![CDATA[<p>樣板(參數式)多型仰賴執行期的 vtable 來選擇行為。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 樣板於編譯期解析,不需 vtable。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 樣板採編譯期實例化,而非執行期 vtable 分派。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>參數式多型關鍵字</text></name>
+    <questiontext format="html"><text><![CDATA[<p>用來開啟泛型、以型別參數化定義的 C++ 關鍵字是 ______。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>template</text><feedback><text>正確 —— template 關鍵字。</text></feedback></answer>
+    <answer fraction="100"><text>generic</text><feedback><text>正確 —— 「generic(泛型)」是其他語言中的對應概念。</text></feedback></answer>
+    <answer fraction="100"><text>template*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

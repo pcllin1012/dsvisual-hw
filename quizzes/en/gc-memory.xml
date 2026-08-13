@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Storage Management &amp; GC</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Free list role</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In dynamic storage management, what does the <strong>free list</strong> track?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The blocks of memory that are currently available for allocation</text><feedback><text>Correct — the free list records which blocks are free to hand out.</text></feedback></answer>
+    <answer fraction="0"><text>The set of all currently reachable objects</text><feedback><text>Reachability is tracked during collection, not by the free list of available blocks.</text></feedback></answer>
+    <answer fraction="0"><text>The order in which functions were called</text><feedback><text>That is the call stack, not the free list.</text></feedback></answer>
+    <answer fraction="0"><text>The CPU registers in use</text><feedback><text>The free list is about heap blocks, not registers.</text></feedback></answer>
+    <generalfeedback><text>The free list tracks the available (free) blocks of memory so the allocator can satisfy requests.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Allocation strategies</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which pair are classic allocation strategies for choosing a free block?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>First-fit and best-fit</text><feedback><text>Correct — first-fit takes the first big-enough block; best-fit takes the smallest big-enough block.</text></feedback></answer>
+    <answer fraction="0"><text>Depth-first and breadth-first</text><feedback><text>Those are graph traversals, not allocation strategies.</text></feedback></answer>
+    <answer fraction="0"><text>Merge-fit and quick-fit-sort</text><feedback><text>Those are not the standard allocation strategies discussed here.</text></feedback></answer>
+    <answer fraction="0"><text>Mark-fit and sweep-fit</text><feedback><text>Mark and sweep are garbage-collection phases, not block-selection strategies.</text></feedback></answer>
+    <generalfeedback><text>Common allocation strategies include first-fit (first block that fits) and best-fit (smallest block that fits).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>What GC reclaims</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Automatic garbage collection reclaims which objects?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Objects that are no longer reachable from the program</text><feedback><text>Correct — unreachable objects can never be used again, so their memory is reclaimed.</text></feedback></answer>
+    <answer fraction="0"><text>Objects that are still reachable and in use</text><feedback><text>Reachable objects must be kept; only unreachable ones are reclaimed.</text></feedback></answer>
+    <answer fraction="0"><text>The largest objects, regardless of reachability</text><feedback><text>Size is not the criterion; reachability is.</text></feedback></answer>
+    <answer fraction="0"><text>Objects stored in CPU registers</text><feedback><text>GC reclaims unreachable heap objects, not register contents.</text></feedback></answer>
+    <generalfeedback><text>Garbage collection automatically reclaims unreachable objects using techniques like mark-and-sweep or reference counting.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Mark-and-sweep phases</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In mark-and-sweep collection, what happens during the two phases?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The mark phase marks all reachable objects; the sweep phase reclaims the rest</text><feedback><text>Correct — mark identifies live objects, sweep frees the unmarked ones.</text></feedback></answer>
+    <answer fraction="0"><text>The mark phase frees memory; the sweep phase allocates new objects</text><feedback><text>Mark does not free, and sweep does not allocate; it reclaims unmarked memory.</text></feedback></answer>
+    <answer fraction="0"><text>Both phases increment reference counts</text><feedback><text>That describes reference counting, a different technique.</text></feedback></answer>
+    <answer fraction="0"><text>The sweep phase marks reachable objects and the mark phase compacts them</text><feedback><text>The roles are reversed: mark marks, sweep reclaims.</text></feedback></answer>
+    <generalfeedback><text>Mark-and-sweep: the mark phase marks every reachable object, then the sweep phase reclaims all objects that were not marked.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Storage management facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about dynamic storage management and GC are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Reference counting is an alternative to mark-and-sweep for reclaiming objects</text><feedback><text>Yes — both are automatic reclamation techniques.</text></feedback></answer>
+    <answer fraction="50"><text>External fragmentation may require compaction to consolidate free space</text><feedback><text>Yes — compaction moves objects together to defragment the heap.</text></feedback></answer>
+    <answer fraction="-50"><text>The sweep phase marks all reachable objects</text><feedback><text>No — marking is the mark phase; sweep reclaims the unmarked ones.</text></feedback></answer>
+    <answer fraction="-50"><text>Best-fit always eliminates fragmentation entirely</text><feedback><text>No — best-fit reduces waste per allocation but does not eliminate fragmentation.</text></feedback></answer>
+    <generalfeedback><text>Free lists and first-/best-fit drive allocation; mark-and-sweep or reference counting reclaim unreachable objects; fragmentation may need compaction.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Compaction and fragmentation</text></name>
+    <questiontext format="html"><text><![CDATA[<p>External fragmentation can leave enough total free memory yet no single block big enough, which is one reason compaction may be needed.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — scattered free space can be consolidated by compaction.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Fragmentation really can scatter free space, motivating compaction.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Sweep phase misconception</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In mark-and-sweep, it is the sweep phase that marks all reachable objects.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>Marking reachable objects is the mark phase; the sweep phase reclaims the rest.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the mark phase marks reachable objects; the sweep phase reclaims the unmarked ones.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Live-marking phase term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The garbage-collection phase that visits and flags every reachable object is called the ______ phase.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>mark</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>mark*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>mark-and-sweep</text><feedback><text>Accepted — this is the mark-and-sweep algorithm.</text></feedback></answer>
+    <answer fraction="100"><text>sweep</text><feedback><text>Accepted — the companion phase in mark-and-sweep.</text></feedback></answer>
+  </question>
+</quiz>

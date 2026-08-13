@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Strategy Pattern</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Strategy core idea</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does the <strong>Strategy</strong> pattern define?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A family of interchangeable algorithms behind a common interface</text><feedback><text>Correct — each algorithm is encapsulated.</text></feedback></answer>
+    <answer fraction="0"><text>A one-to-many notification mechanism</text><feedback><text>That is Observer.</text></feedback></answer>
+    <answer fraction="0"><text>A request wrapped as an object</text><feedback><text>That is Command.</text></feedback></answer>
+    <answer fraction="0"><text>A layered separation of concerns</text><feedback><text>That is Layered architecture.</text></feedback></answer>
+    <generalfeedback><text>Strategy encapsulates each algorithm behind a shared interface so they become interchangeable.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Strategy selection time</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When can the client switch between strategies?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>At run time</text><feedback><text>Correct — strategies are swapped dynamically.</text></feedback></answer>
+    <answer fraction="0"><text>Only at compile time</text><feedback><text>Strategy allows run-time swapping.</text></feedback></answer>
+    <answer fraction="0"><text>Only at link time</text><feedback><text>No — selection happens at run time.</text></feedback></answer>
+    <answer fraction="0"><text>Never; it is fixed once set</text><feedback><text>The client can change the strategy at run time.</text></feedback></answer>
+    <generalfeedback><text>The client holds a reference to a strategy interface and can assign a different concrete strategy at run time.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Strategy design principle</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which design principle does Strategy most clearly favor?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Composition over inheritance</text><feedback><text>Correct — behavior is composed via a strategy object.</text></feedback></answer>
+    <answer fraction="0"><text>Inheritance over composition</text><feedback><text>Strategy replaces subclassing behavior with composition.</text></feedback></answer>
+    <answer fraction="0"><text>Global mutable state</text><feedback><text>Not a goal of the pattern.</text></feedback></answer>
+    <answer fraction="0"><text>Tight coupling to concrete classes</text><feedback><text>Strategy decouples the client from concrete algorithms.</text></feedback></answer>
+    <generalfeedback><text>Rather than subclassing to vary behavior, Strategy composes a behavior object, favoring composition over inheritance.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Strategy interface</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What do all concrete strategies in a family share?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A common interface so they are interchangeable</text><feedback><text>Correct — the shared interface is what makes swapping possible.</text></feedback></answer>
+    <answer fraction="0"><text>The same identical implementation</text><feedback><text>No — implementations differ; the interface is shared.</text></feedback></answer>
+    <answer fraction="0"><text>A single global instance</text><feedback><text>That is unrelated to Strategy.</text></feedback></answer>
+    <answer fraction="0"><text>A database connection</text><feedback><text>Irrelevant to the pattern.</text></feedback></answer>
+    <generalfeedback><text>Concrete strategies implement the same interface, so the client can treat them uniformly and swap them freely.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Strategy properties (select all)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the Strategy pattern are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="50"><text>Algorithms can be selected or swapped at run time</text><feedback><text>Yes.</text></feedback></answer>
+    <answer fraction="50"><text>Each algorithm is encapsulated behind a common interface</text><feedback><text>Yes.</text></feedback></answer>
+    <answer fraction="-50"><text>It hardcodes a single algorithm into the client</text><feedback><text>No — that is what Strategy avoids.</text></feedback></answer>
+    <answer fraction="-50"><text>It is a creational pattern</text><feedback><text>No — Strategy is behavioral.</text></feedback></answer>
+    <generalfeedback><text>Strategy is behavioral: interchangeable algorithms sit behind one interface and are chosen by the client at run time.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Strategy run-time swap</text></name>
+    <questiontext format="html"><text><![CDATA[<p>With the Strategy pattern, a client can switch algorithms at run time without changing its own code.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the client depends only on the strategy interface.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Run-time interchangeability is the core of Strategy.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Strategy vs Observer</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The Strategy pattern is chiefly about notifying many dependents when one object changes state.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>That describes Observer, not Strategy.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — that is Observer; Strategy swaps algorithms.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Pattern name</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The behavioral pattern defining a family of interchangeable, encapsulated algorithms is the ______ pattern. (one word, English)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>strategy</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>strategy*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>algorithm</text><feedback><text>Accepted — Strategy encapsulates an algorithm.</text></feedback></answer>
+  </question>
+</quiz>
