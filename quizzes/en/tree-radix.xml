@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Radix Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Radix tree defining idea</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the defining difference between a radix tree (compressed trie) and a plain trie?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Chains of single-child nodes are compressed, so each edge is labeled with a whole substring</text><feedback><text>Correct — that compression is exactly what defines a radix/Patricia tree.</text></feedback></answer>
+    <answer fraction="0"><text>Each node has exactly three children</text><feedback><text>No — that describes a ternary search tree, not a radix tree.</text></feedback></answer>
+    <answer fraction="0"><text>Keys are compared by hashing them to buckets</text><feedback><text>No — a radix tree still walks the key; it does not hash.</text></feedback></answer>
+    <answer fraction="0"><text>It stores only numeric keys, never strings</text><feedback><text>No — radix trees handle string/byte keys just like tries.</text></feedback></answer>
+    <generalfeedback><text>A radix tree is a trie in which every chain of single-child nodes is merged into one edge labeled with the whole shared substring.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Radix tree edge label</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a radix tree, what does a single <strong>edge</strong> carry?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A whole substring (possibly several characters)</text><feedback><text>Correct — compressed edges are labeled with multi-character substrings.</text></feedback></answer>
+    <answer fraction="0"><text>Exactly one character</text><feedback><text>No — that is a plain trie; the radix tree merges single-child chains.</text></feedback></answer>
+    <answer fraction="0"><text>A less-than / equal / greater-than pointer</text><feedback><text>No — that is a ternary search tree node.</text></feedback></answer>
+    <answer fraction="0"><text>A hash of the remaining key</text><feedback><text>No — radix trees store literal substrings on edges, not hashes.</text></feedback></answer>
+    <generalfeedback><text>Because single-child chains are compressed, a radix-tree edge is labeled with the entire shared substring rather than one character.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Radix tree benefit</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Compared with a plain trie storing the same keys, a radix tree mainly...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Saves space by collapsing single-child chains, while keeping O(L) operations</text><feedback><text>Correct — fewer nodes, same O(L) time on a key of length L.</text></feedback></answer>
+    <answer fraction="0"><text>Reduces search time from O(L) to O(log L)</text><feedback><text>No — operations stay O(L); the win is in space, not asymptotic time.</text></feedback></answer>
+    <answer fraction="0"><text>Makes the structure comparison-based like a BST</text><feedback><text>No — it is still a trie; it navigates by characters, not comparisons.</text></feedback></answer>
+    <answer fraction="0"><text>Loses the ability to answer prefix queries</text><feedback><text>No — it keeps the same prefix-query strengths as a trie.</text></feedback></answer>
+    <generalfeedback><text>Compression removes redundant single-child nodes, cutting memory while search, insert, and delete of a length-L key remain O(L).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Radix tree application</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which application is a classic use of radix trees?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>IP routing tables (longest-prefix match)</text><feedback><text>Correct — radix/Patricia trees are a staple of IP routing.</text></feedback></answer>
+    <answer fraction="0"><text>Balancing a set of numbers for median queries</text><feedback><text>No — that is order-statistic territory, not radix trees.</text></feedback></answer>
+    <answer fraction="0"><text>Priority-queue scheduling by key value</text><feedback><text>No — that is a heap's job, not a radix tree's.</text></feedback></answer>
+    <answer fraction="0"><text>Cache eviction with least-recently-used order</text><feedback><text>No — LRU uses a list plus map, not a radix tree.</text></feedback></answer>
+    <generalfeedback><text>Radix (Patricia) trees are widely used for IP routing tables and similar prefix-matching workloads.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Radix tree operation cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Compressing a trie into a radix tree keeps search, insert, and delete of a length-L key at O(L).</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — compression saves space without changing the O(L) time.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>No — operations remain O(L); only the node count shrinks.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Radix vs plain trie space</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A radix tree generally uses <em>more</em> memory than the plain trie holding the same keys.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — compression removes single-child nodes, so it uses less memory.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the radix tree saves space compared with a plain trie.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Radix tree alias</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A radix tree that compresses single-child chains is also historically known as a ______ tree (one word, the classic name).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Patricia</text><feedback><text>Correct — the radix tree is also called a Patricia tree/trie.</text></feedback></answer>
+    <answer fraction="100"><text>Patricia*</text><feedback><text>Correct — the radix tree is also called a Patricia tree/trie.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Radix tree properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about radix trees are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>They merge single-child chains, labeling edges with whole substrings</text><feedback><text>Yes — that is the compression that defines them.</text></feedback></answer>
+    <answer fraction="50"><text>They keep the same prefix-query strengths as an ordinary trie</text><feedback><text>Yes — shared prefixes still lead to a common subtree.</text></feedback></answer>
+    <answer fraction="-50"><text>They are comparison-based like a balanced BST</text><feedback><text>No — a radix tree is still a trie, navigating by characters.</text></feedback></answer>
+    <answer fraction="-50"><text>Compression raises operation cost above O(L)</text><feedback><text>No — operations remain O(L).</text></feedback></answer>
+    <generalfeedback><text>Radix trees compress single-child chains to save space, retain trie-style prefix queries, stay non-comparison-based, and keep O(L) operations.</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Trie</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie lookup complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a trie storing <em>n</em> keys, what is the time to search for a key of length <strong>L</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(L)</text><feedback><text>Correct — you follow one edge per character, independent of n.</text></feedback></answer>
+    <answer fraction="0"><text>O(L log n)</text><feedback><text>No — a trie needs no comparisons against other keys; the number of stored keys does not appear.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>No — the cost depends on the key length, not on how many keys are stored.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>No — that is a balanced-BST bound; a trie descends one node per character.</text></feedback></answer>
+    <generalfeedback><text>A trie descends exactly one edge per character of the query key, so search, insert, and delete are all O(L), independent of the number n of stored keys.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie edge meaning</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a standard trie, what does a single <strong>edge</strong> from a node to a child represent?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>One character of a key</text><feedback><text>Correct — each edge is labeled with a single character.</text></feedback></answer>
+    <answer fraction="0"><text>A whole stored key</text><feedback><text>No — a key is spelled out along a root-to-node path, one character per edge.</text></feedback></answer>
+    <answer fraction="0"><text>A comparison result (less/greater)</text><feedback><text>No — a trie is not comparison-based; edges are indexed by character.</text></feedback></answer>
+    <answer fraction="0"><text>A compressed substring</text><feedback><text>No — that describes a radix/compressed trie, not a standard trie.</text></feedback></answer>
+    <generalfeedback><text>A trie stores strings by shared prefixes; each edge carries one character, and a key is read off the path from the root.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie strength</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which operation is a trie <strong>especially well suited</strong> for?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Prefix queries / autocomplete</text><feedback><text>Correct — all keys sharing a prefix live under one subtree.</text></feedback></answer>
+    <answer fraction="0"><text>Range-sum over numeric values</text><feedback><text>No — that is a job for a Fenwick/segment tree, not a trie.</text></feedback></answer>
+    <answer fraction="0"><text>Finding the median of a set of numbers</text><feedback><text>No — tries index strings by character, not by numeric order statistics.</text></feedback></answer>
+    <answer fraction="0"><text>Hashing keys to O(1) buckets</text><feedback><text>No — that describes a hash table; a trie walks the key character by character.</text></feedback></answer>
+    <generalfeedback><text>Because every key that shares a prefix descends through the same nodes, a trie answers "all words starting with…" queries by walking to the prefix node and enumerating its subtree.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie main drawback</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the main <strong>disadvantage</strong> of a plain trie?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>High space usage — a node or child-map per character position</text><feedback><text>Correct — a full child array/map at every node is memory-hungry.</text></feedback></answer>
+    <answer fraction="0"><text>Search time grows with the number of stored keys</text><feedback><text>No — search is O(L), independent of n.</text></feedback></answer>
+    <answer fraction="0"><text>It requires the keys to be sorted first</text><feedback><text>No — tries need no pre-sorting; insertion order does not matter.</text></feedback></answer>
+    <answer fraction="0"><text>It cannot answer prefix queries</text><feedback><text>No — prefix queries are exactly what tries excel at.</text></feedback></answer>
+    <generalfeedback><text>The classic cost of a trie is memory: each node may keep a child slot for every possible character, so many sparsely-used nodes waste space.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Trie is comparison-based</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A trie locates a key by comparing it against other stored keys, like a binary search tree.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — a trie is not comparison-based; it indexes into children by the next character.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a trie navigates by character, never comparing whole keys.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Trie search independent of n</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Searching a trie for a key of length L takes time proportional to L, regardless of how many keys the trie stores.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the cost is O(L), independent of n.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>No — the number of stored keys does not affect the O(L) walk.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Trie alias term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Because it stores strings by their shared leading characters, a trie is also called a ______ tree (one word).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>prefix</text><feedback><text>Correct — a trie is also known as a prefix tree.</text></feedback></answer>
+    <answer fraction="100"><text>prefix*</text><feedback><text>Correct — a trie is also known as a prefix tree.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about tries are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Keys sharing a prefix share the same upper path in the tree</text><feedback><text>Yes — shared prefixes are stored once.</text></feedback></answer>
+    <answer fraction="50"><text>Insert, search, and delete of a length-L key are all O(L)</text><feedback><text>Yes — one edge per character for every operation.</text></feedback></answer>
+    <answer fraction="-50"><text>A trie uses less memory than storing the keys in a hash set</text><feedback><text>No — a plain trie is typically space-hungry, not thrifty.</text></feedback></answer>
+    <answer fraction="-50"><text>Trie search time grows as O(log n) in the number of keys</text><feedback><text>No — search is O(L) and does not depend on n.</text></feedback></answer>
+    <generalfeedback><text>Tries share prefixes, give O(L) operations independent of n, and excel at prefix queries — but they pay for this in space, not memory savings.</text></generalfeedback>
+  </question>
+</quiz>

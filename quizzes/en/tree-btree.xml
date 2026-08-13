@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/B-Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree node capacity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a B-tree of <strong>order m</strong>, how many keys and children can a single node hold at most?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Up to m&minus;1 keys and up to m children</text><feedback><text>Correct — a node with k keys has k+1 children, so at most m&minus;1 keys and m children.</text></feedback></answer>
+    <answer fraction="0"><text>Up to m keys and up to m&minus;1 children</text><feedback><text>Reversed — keys are one fewer than children.</text></feedback></answer>
+    <answer fraction="0"><text>Exactly 2 keys and 3 children</text><feedback><text>That describes only a 2-3 tree (order 3), not the general case.</text></feedback></answer>
+    <answer fraction="0"><text>Up to m keys and up to m children</text><feedback><text>Children always exceed keys by exactly one.</text></feedback></answer>
+    <generalfeedback><text>Order m bounds a node to m&minus;1 keys; the separating keys create m child pointers.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree leaf depth</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is true about the <strong>leaves</strong> of a B-tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>All leaves lie at the same depth</text><feedback><text>Correct — the B-tree stays perfectly height-balanced.</text></feedback></answer>
+    <answer fraction="0"><text>Leaves may differ in depth by up to one level</text><feedback><text>No — every leaf is at exactly the same depth.</text></feedback></answer>
+    <answer fraction="0"><text>Only the leftmost path reaches a leaf</text><feedback><text>Every root-to-leaf path has equal length.</text></feedback></answer>
+    <answer fraction="0"><text>Leaves store no keys, only child pointers</text><feedback><text>In a B-tree leaves do store keys.</text></feedback></answer>
+    <generalfeedback><text>Insertions grow the tree by splitting upward, so all leaves always remain equidistant from the root.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree disk motivation</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why is a B-tree preferred over a binary search tree for <strong>disk-resident</strong> data?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>High fan-out gives low height, so a search touches few nodes and few disk/block reads</text><feedback><text>Correct — each node maps to a disk block; fewer levels mean fewer I/O operations.</text></feedback></answer>
+    <answer fraction="0"><text>It stores every key in RAM so no disk is needed</text><feedback><text>B-trees are designed precisely for data too large for RAM.</text></feedback></answer>
+    <answer fraction="0"><text>It compresses keys to save disk space</text><feedback><text>The motivation is reducing I/O count, not compression.</text></feedback></answer>
+    <answer fraction="0"><text>It sorts data faster than quicksort</text><feedback><text>It is a search structure, not a sorting algorithm.</text></feedback></answer>
+    <generalfeedback><text>A disk seek is far costlier than a comparison; wide nodes minimize the number of blocks read per query.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree operation complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of search, insert, and delete in a B-tree with n keys?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>Correct — the balanced height is logarithmic in n.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>That would be a degenerate list, which B-trees avoid by balancing.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>You still descend a logarithmic number of levels.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>That is a total sorting cost, not a single operation.</text></feedback></answer>
+    <generalfeedback><text>Balanced height guarantees logarithmic search, insert, and delete.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>B-Tree key placement</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a classic B-tree, keys (and their associated data) are stored in <em>both</em> internal and leaf nodes.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — unlike a B+ tree, a B-tree keeps data in internal nodes too.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>A B-tree stores keys throughout; only the B+ tree confines data to leaves.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>B-Tree occupancy</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Every non-root node of a B-tree of order m must hold at least &lceil;m/2&rceil;&minus;1 keys.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — this minimum-occupancy rule keeps the tree at least half full and balanced.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The lower bound &lceil;m/2&rceil;&minus;1 is exactly what guarantees balance.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Balance property term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A B-tree is a <em>balanced</em> multiway search tree because all of its ______ lie at the same depth. (one word)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>leaves</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>leaf</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>leaves*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree properties multi</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about B-trees are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Node occupancy is kept between &lceil;m/2&rceil;&minus;1 and m&minus;1 keys</text><feedback><text>Yes — this bounded fill keeps the structure balanced.</text></feedback></answer>
+    <answer fraction="50"><text>They are designed to minimize disk/block accesses</text><feedback><text>Yes — low height means few I/O operations.</text></feedback></answer>
+    <answer fraction="-50"><text>They confine all data to the leaves and link the leaves together</text><feedback><text>No — that describes a B+ tree, not a B-tree.</text></feedback></answer>
+    <answer fraction="-50"><text>Each node has at most two children</text><feedback><text>No — that is a binary tree; a B-tree node has up to m children.</text></feedback></answer>
+    <generalfeedback><text>B-trees keep bounded occupancy for balance and wide nodes for low-I/O search; leaf-only data with linked leaves is the B+ tree.</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/m-way Search Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way node structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an <strong>m-way search tree</strong>, how many keys and children may a node have at most?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Up to m&minus;1 keys and up to m children</text><feedback><text>Correct — m children are separated by m&minus;1 ordered keys.</text></feedback></answer>
+    <answer fraction="0"><text>Exactly 1 key and 2 children</text><feedback><text>That is the binary special case (m=2), not the general m-way node.</text></feedback></answer>
+    <answer fraction="0"><text>Up to m keys and up to m&minus;1 children</text><feedback><text>Reversed — children exceed keys by one.</text></feedback></answer>
+    <answer fraction="0"><text>Unlimited keys and children</text><feedback><text>The order m caps both.</text></feedback></answer>
+    <generalfeedback><text>An m-way search tree generalizes the BST: each node holds up to m&minus;1 keys and points to up to m subtrees.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way generalizes BST</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An m-way search tree is best described as a generalization of which structure?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The binary search tree, allowing more than two children per node</text><feedback><text>Correct — a BST is the m=2 case of an m-way search tree.</text></feedback></answer>
+    <answer fraction="0"><text>The hash table</text><feedback><text>No — m-way trees are ordered comparison structures, not hashed.</text></feedback></answer>
+    <answer fraction="0"><text>The heap</text><feedback><text>A heap orders by parent-child priority, not by ordered search keys.</text></feedback></answer>
+    <answer fraction="0"><text>The linked list</text><feedback><text>A list has no branching search order.</text></feedback></answer>
+    <generalfeedback><text>Raising the branching factor from 2 to m turns a binary search tree into an m-way search tree.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way key ordering</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How are keys and subtrees ordered within an m-way search tree node?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Keys are sorted, and the subtree between two consecutive keys holds values in that range</text><feedback><text>Correct — the ordering generalizes the BST invariant to multiple keys.</text></feedback></answer>
+    <answer fraction="0"><text>Keys are unordered; search must scan every subtree</text><feedback><text>No — ordered keys are what make it a search tree.</text></feedback></answer>
+    <answer fraction="0"><text>All keys in a subtree exceed the root's largest key</text><feedback><text>Only the rightmost subtree does; each gap has its own range.</text></feedback></answer>
+    <answer fraction="0"><text>Subtrees are ordered by size, not by key value</text><feedback><text>Ordering is by key value, enabling directed search.</text></feedback></answer>
+    <generalfeedback><text>Ordered keys partition the key space; child i covers the interval between key i&minus;1 and key i.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way vs B-Tree</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the relationship between an m-way search tree and a B-tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A B-tree is a balanced m-way search tree with minimum-occupancy constraints</text><feedback><text>Correct — the B-tree adds balancing and fill rules to the general m-way concept.</text></feedback></answer>
+    <answer fraction="0"><text>They are completely unrelated structures</text><feedback><text>No — the B-tree is a special case of the m-way search tree.</text></feedback></answer>
+    <answer fraction="0"><text>An m-way search tree is always balanced, a B-tree is not</text><feedback><text>Reversed — the B-tree adds the balance guarantee.</text></feedback></answer>
+    <answer fraction="0"><text>A B-tree allows only two children, an m-way tree allows m</text><feedback><text>Both allow up to m children; the B-tree adds occupancy rules.</text></feedback></answer>
+    <generalfeedback><text>The m-way search tree is the general concept; B-trees and B+ trees add the balancing rules that guarantee low height.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>m-way degeneracy</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A plain m-way search tree with no balancing rules can degenerate and give no height guarantee.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — without occupancy/balance rules it can become tall and unbalanced.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Only the added B-tree rules guarantee balance; the bare m-way tree does not.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>m-way children count</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an m-way search tree, a node holding k keys has exactly k+1 children.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — k ordered keys create k+1 key-space intervals, hence k+1 subtrees.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Children always number one more than keys in a node.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Balanced special case term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A ______ tree is the <em>balanced</em> special case of an m-way search tree, keeping all leaves at the same depth. (one letter/word, English)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>B</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>B-tree</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>B tree</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way properties multi</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about m-way search trees are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Each node has up to m children and up to m&minus;1 ordered keys</text><feedback><text>Yes — this is the defining node shape.</text></feedback></answer>
+    <answer fraction="50"><text>They are the general concept; B-trees and B+ trees add balancing rules</text><feedback><text>Yes — balanced variants build on the m-way idea.</text></feedback></answer>
+    <answer fraction="-50"><text>They always guarantee O(log n) height on their own</text><feedback><text>No — only balanced variants like the B-tree guarantee logarithmic height.</text></feedback></answer>
+    <answer fraction="-50"><text>They are limited to exactly two children per node</text><feedback><text>No — that is a binary search tree; an m-way node has up to m children.</text></feedback></answer>
+    <generalfeedback><text>The m-way search tree generalizes the BST to m children with m&minus;1 ordered keys; balance is not automatic and is what B-trees add.</text></generalfeedback>
+  </question>
+</quiz>

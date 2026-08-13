@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Ternary Search Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>TST 子節點數目</text></name>
+    <questiontext format="html"><text><![CDATA[<p>三元搜尋樹(TST)的每個節點有幾個子節點?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>三個:小於、等於、大於</text><feedback><text>正確 —— 因此稱「三元」:低、等、高。</text></feedback></answer>
+    <answer fraction="0"><text>兩個:左與右</text><feedback><text>錯 —— 那是二元搜尋樹;TST 多了一個中間(等於)子節點。</text></feedback></answer>
+    <answer fraction="0"><text>每個字母字元各一個</text><feedback><text>錯 —— 那是純 trie 節點;TST 每個節點存一個字元並有三個指標。</text></feedback></answer>
+    <answer fraction="0"><text>數目可變,並以子字串標記</text><feedback><text>錯 —— 那描述的是基數樹,不是 TST。</text></feedback></answer>
+    <generalfeedback><text>每個 TST 節點存放一個字元與三個子節點:小於、等於、大於 —— 結合 BST 式分支與 trie 式下降。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>TST 等於子節點的角色</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 TST 中,當你走<strong>等於(中間)</strong>子節點時會發生什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>你前進到搜尋鍵的下一個字元</text><feedback><text>正確 —— 中間/等於子節點在鍵中下降一個位置。</text></feedback></answer>
+    <answer fraction="0"><text>你將同一個字元與較大的值比較</text><feedback><text>錯 —— 那是大於子節點做的,不是等於子節點。</text></feedback></answer>
+    <answer fraction="0"><text>你從根重新開始搜尋</text><feedback><text>錯 —— 下降會繼續;不會重新開始。</text></feedback></answer>
+    <answer fraction="0"><text>你跳到鍵的結尾</text><feedback><text>錯 —— 等於子節點剛好前進一個字元。</text></feedback></answer>
+    <generalfeedback><text>走等於子節點表示目前字元已匹配,因此你移到鍵的下一個字元 —— 這就是 TST 的 trie 式下降部分。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>TST 與純 trie 的空間</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相較於純 trie,三元搜尋樹通常...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>更省空間 —— 每個節點不需完整的子節點陣列/對映表</text><feedback><text>正確 —— 每個節點三個指標,而非每個字母符號一個槽。</text></feedback></answer>
+    <answer fraction="0"><text>因為多了中間子節點而更耗空間</text><feedback><text>錯 —— 三個指標優於每節點的完整子節點陣列;TST 使用更少空間。</text></feedback></answer>
+    <answer fraction="0"><text>記憶體相同,只在速度上不同</text><feedback><text>錯 —— 記憶體特性不同;TST 避開 trie 的寬子節點陣列。</text></feedback></answer>
+    <answer fraction="0"><text>無法儲存可變長度字串</text><feedback><text>錯 —— TST 完全可以儲存可變長度字串鍵。</text></feedback></answer>
+    <generalfeedback><text>純 trie 可能在每個節點為每個字母符號保留一個子節點槽;TST 每個節點只保留三個指標,因此更省空間。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>TST 支援的查詢</text></name>
+    <questiontext format="html"><text><![CDATA[<p>三元搜尋樹和 trie 一樣,能良好支援哪一種能力?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>前綴 / 自動完成與最近鄰查詢</text><feedback><text>正確 —— TST 支援前綴、自動完成與近似匹配查找。</text></feedback></answer>
+    <answer fraction="0"><text>對整個鍵做常數時間雜湊</text><feedback><text>錯 —— 那是雜湊表;TST 逐字元走過鍵。</text></feedback></answer>
+    <answer fraction="0"><text>對數值陣列做區間求和查詢</text><feedback><text>錯 —— 那是樹狀陣列/線段樹,不是 TST。</text></feedback></answer>
+    <answer fraction="0"><text>維護優先權的最小堆積</text><feedback><text>錯 —— 那是堆積做的,不是 TST。</text></feedback></answer>
+    <generalfeedback><text>由於它像 trie 一樣逐字元下降,TST 支援前綴查詢、自動完成與最近鄰(近似匹配)搜尋。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>TST 中間子節點會前進</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在三元搜尋樹中,走中間(等於)子節點會使搜尋前進到鍵的下一個字元。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 等於子節點就是 trie 式下降的步驟。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>錯 —— 中間子節點確實會前進到下一個字元。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>TST 是純 BST</text></name>
+    <questiontext format="html"><text><![CDATA[<p>三元搜尋樹只是一棵普通的二元搜尋樹,沒有任何類似 trie 的行為。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— TST 結合 BST 式的低/高分支與經由等於子節點的 trie 式下降。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 等於子節點賦予它 trie 式逐字元下降。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>TST 中間指標術語</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 TST 中,當目前字元匹配時所走的中間子節點稱為 ______ child(請填一個英文單字)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>equal</text><feedback><text>正確 —— 匹配的路徑是 equal(中間)子節點。</text></feedback></answer>
+    <answer fraction="100"><text>equal*</text><feedback><text>正確 —— 匹配的路徑是 equal(中間)子節點。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>TST 性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於三元搜尋樹,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>每個節點存一個字元並有三個子節點(低、等、高)</text><feedback><text>正確 —— 這就是 TST 的節點結構。</text></feedback></answer>
+    <answer fraction="50"><text>它們比純 trie 更省空間</text><feedback><text>正確 —— 每節點三個指標,而非完整子節點陣列。</text></feedback></answer>
+    <answer fraction="-50"><text>每個節點都放完整的子節點陣列,每個字母符號一個</text><feedback><text>錯 —— 那是純 trie;TST 只保留三個指標。</text></feedback></answer>
+    <answer fraction="-50"><text>它們無法支援前綴或自動完成查詢</text><feedback><text>錯 —— TST 支援前綴、自動完成與最近鄰查詢。</text></feedback></answer>
+    <generalfeedback><text>TST 每個節點存一個字元並有低/等/高子節點,比純 trie 更省空間,並支援前綴、自動完成與近似匹配查詢,查找約為 O(L + log n)。</text></generalfeedback>
+  </question>
+</quiz>

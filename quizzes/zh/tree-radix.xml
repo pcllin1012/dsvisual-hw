@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Radix Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>基數樹的定義概念</text></name>
+    <questiontext format="html"><text><![CDATA[<p>基數樹(壓縮 trie)與純 trie 之間的定義性差異是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>單一子節點的鏈被壓縮,因此每條邊以一整段子字串標記</text><feedback><text>正確 —— 這種壓縮正是基數樹/Patricia 樹的定義。</text></feedback></answer>
+    <answer fraction="0"><text>每個節點剛好有三個子節點</text><feedback><text>錯 —— 那描述的是三元搜尋樹,不是基數樹。</text></feedback></answer>
+    <answer fraction="0"><text>鍵透過雜湊到桶中來比較</text><feedback><text>錯 —— 基數樹仍逐字元走過鍵;它不做雜湊。</text></feedback></answer>
+    <answer fraction="0"><text>它只儲存數值鍵,從不儲存字串</text><feedback><text>錯 —— 基數樹如 trie 一般處理字串/位元組鍵。</text></feedback></answer>
+    <generalfeedback><text>基數樹是一種 trie,其中每一段單一子節點的鏈都被合併成一條以整段共享子字串標記的邊。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>基數樹邊的標記</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在基數樹中,單一<strong>邊</strong>承載什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>一整段子字串(可能有數個字元)</text><feedback><text>正確 —— 壓縮後的邊以多字元子字串標記。</text></feedback></answer>
+    <answer fraction="0"><text>剛好一個字元</text><feedback><text>錯 —— 那是純 trie;基數樹合併了單一子節點的鏈。</text></feedback></answer>
+    <answer fraction="0"><text>一個小於 / 等於 / 大於的指標</text><feedback><text>錯 —— 那是三元搜尋樹的節點。</text></feedback></answer>
+    <answer fraction="0"><text>剩餘鍵的雜湊值</text><feedback><text>錯 —— 基數樹在邊上儲存實際子字串,而非雜湊值。</text></feedback></answer>
+    <generalfeedback><text>由於單一子節點的鏈被壓縮,基數樹的邊以整段共享子字串標記,而非單一字元。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>基數樹的好處</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相較於儲存相同鍵的純 trie,基數樹主要...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>透過壓縮單一子節點的鏈來節省空間,同時保持 O(L) 操作</text><feedback><text>正確 —— 節點更少,對長度 L 的鍵時間仍為 O(L)。</text></feedback></answer>
+    <answer fraction="0"><text>將搜尋時間從 O(L) 降到 O(log L)</text><feedback><text>錯 —— 操作仍是 O(L);好處在空間,而非漸進時間。</text></feedback></answer>
+    <answer fraction="0"><text>使結構像 BST 一樣基於比較</text><feedback><text>錯 —— 它仍是 trie;以字元導航,而非比較。</text></feedback></answer>
+    <answer fraction="0"><text>失去回答前綴查詢的能力</text><feedback><text>錯 —— 它保有與 trie 相同的前綴查詢強項。</text></feedback></answer>
+    <generalfeedback><text>壓縮移除多餘的單一子節點,削減記憶體;而長度 L 的鍵之搜尋、插入、刪除仍為 O(L)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>基數樹的應用</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪一項應用是基數樹的經典用途?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>IP 路由表(最長前綴匹配)</text><feedback><text>正確 —— 基數樹/Patricia 樹是 IP 路由的主力。</text></feedback></answer>
+    <answer fraction="0"><text>將一組數字平衡以查詢中位數</text><feedback><text>錯 —— 那是順序統計的領域,不是基數樹。</text></feedback></answer>
+    <answer fraction="0"><text>依鍵值進行優先佇列排程</text><feedback><text>錯 —— 那是堆積的工作,不是基數樹。</text></feedback></answer>
+    <answer fraction="0"><text>以最近最少使用順序進行快取淘汰</text><feedback><text>錯 —— LRU 使用鏈結串列加對映表,不是基數樹。</text></feedback></answer>
+    <generalfeedback><text>基數樹(Patricia 樹)廣泛用於 IP 路由表以及類似的前綴匹配工作負載。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>基數樹操作成本</text></name>
+    <questiontext format="html"><text><![CDATA[<p>將 trie 壓縮成基數樹,長度 L 的鍵之搜尋、插入、刪除仍維持 O(L)。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 壓縮節省空間而不改變 O(L) 時間。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>錯 —— 操作仍為 O(L);只是節點數變少。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>基數樹與純 trie 的空間</text></name>
+    <questiontext format="html"><text><![CDATA[<p>基數樹通常比儲存相同鍵的純 trie 使用<em>更多</em>記憶體。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 壓縮移除單一子節點,因此使用更少記憶體。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 基數樹相較純 trie 節省空間。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>基數樹別名</text></name>
+    <questiontext format="html"><text><![CDATA[<p>壓縮單一子節點鏈的基數樹在歷史上也被稱為 ______ tree(請填一個英文單字,經典名稱)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Patricia</text><feedback><text>正確 —— 基數樹又稱為 Patricia tree/trie。</text></feedback></answer>
+    <answer fraction="100"><text>Patricia*</text><feedback><text>正確 —— 基數樹又稱為 Patricia tree/trie。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>基數樹性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於基數樹,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它們合併單一子節點的鏈,並以整段子字串標記邊</text><feedback><text>正確 —— 這正是定義它們的壓縮。</text></feedback></answer>
+    <answer fraction="50"><text>它們保有與一般 trie 相同的前綴查詢強項</text><feedback><text>正確 —— 共享前綴仍導向共同的子樹。</text></feedback></answer>
+    <answer fraction="-50"><text>它們像平衡 BST 一樣基於比較</text><feedback><text>錯 —— 基數樹仍是 trie,以字元導航。</text></feedback></answer>
+    <answer fraction="-50"><text>壓縮使操作成本高於 O(L)</text><feedback><text>錯 —— 操作仍為 O(L)。</text></feedback></answer>
+    <generalfeedback><text>基數樹壓縮單一子節點的鏈以節省空間、保有 trie 式前綴查詢、維持非比較式、並保持 O(L) 操作。</text></generalfeedback>
+  </question>
+</quiz>

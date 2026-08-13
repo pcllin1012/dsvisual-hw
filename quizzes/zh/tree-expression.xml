@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Expression Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>運算式樹節點</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在二元運算式樹中,<strong>內部節點</strong>與<strong>葉節點</strong>分別代表什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>內部節點是運算子;葉節點是運算元</text><feedback><text>正確 —— 運算子結合其運算元子樹的結果。</text></feedback></answer>
+    <answer fraction="0"><text>內部節點是運算元;葉節點是運算子</text><feedback><text>錯 —— 剛好相反:運算子在內部,運算元在葉節點。</text></feedback></answer>
+    <answer fraction="0"><text>每個節點同時含有一個運算子與一個運算元</text><feedback><text>錯 —— 每個節點只是其中一種。</text></feedback></answer>
+    <answer fraction="0"><text>所有節點都是運算元</text><feedback><text>錯 —— 運算子必定出現在內部節點。</text></feedback></answer>
+    <generalfeedback><text>運算式樹將運算子放在內部節點,運算元(常數或變數)放在葉節點。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>後序產生後綴</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對運算式樹進行哪一種走訪會產生<strong>後綴(RPN)</strong>形式?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>後序(Post-order)</text><feedback><text>正確 —— 先走訪兩個子樹再到運算子,即產生後綴。</text></feedback></answer>
+    <answer fraction="0"><text>前序(Pre-order)</text><feedback><text>錯 —— 前序(運算子在先)產生前綴表示法。</text></feedback></answer>
+    <answer fraction="0"><text>中序(In-order)</text><feedback><text>錯 —— 中序產生中綴(需括號才不歧義)。</text></feedback></answer>
+    <answer fraction="0"><text>層序(Level-order)</text><feedback><text>錯 —— 廣度優先走訪並不對應標準表示法。</text></feedback></answer>
+    <generalfeedback><text>後序走訪先左、再右、後根,運算子跟在運算元之後 —— 恰為後綴 / RPN。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>中序產生中綴</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對運算式樹做<strong>中序</strong>走訪(加上括號)會產生哪種表示法?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>中綴(Infix)</text><feedback><text>正確 —— 運算子出現在其運算元之間,即一般的中綴形式。</text></feedback></answer>
+    <answer fraction="0"><text>後綴(Postfix)</text><feedback><text>錯 —— 後綴來自後序。</text></feedback></answer>
+    <answer fraction="0"><text>前綴(Prefix)</text><feedback><text>錯 —— 前綴來自前序。</text></feedback></answer>
+    <answer fraction="0"><text>二進位機器碼</text><feedback><text>錯 —— 走訪順序不會產生機器碼。</text></feedback></answer>
+    <generalfeedback><text>中序走訪先左子樹、再根、後右子樹,運算子落在運算元之間 —— 即中綴(括號還原優先順序)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>求值走訪</text></name>
+    <questiontext format="html"><text><![CDATA[<p>要對運算式樹求值,哪一種遞迴策略最自然?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>後序:先求兩個子樹的值,再套用運算子</text><feedback><text>正確 —— 套用運算子前必須先備妥運算元的值。</text></feedback></answer>
+    <answer fraction="0"><text>前序:先套用運算子再求子樹的值</text><feedback><text>錯 —— 運算子需要先有其運算元的值。</text></feedback></answer>
+    <answer fraction="0"><text>由根往下的層序</text><feedback><text>錯 —— 廣度優先走訪不遵守運算元的相依關係。</text></feedback></answer>
+    <answer fraction="0"><text>只求左子樹的值</text><feedback><text>錯 —— 兩個運算元都需要。</text></feedback></answer>
+    <generalfeedback><text>求值以後序遞迴:先算左值、再算右值,然後以該節點的運算子將兩者結合。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>前序是前綴</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對運算式樹做前序走訪會產生前綴(波蘭)表示法。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 先走訪運算子再到運算元,即前綴。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>前序先走訪根,正是前綴表示法。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>運算子在葉節點為誤</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在二元運算式樹中,運算子儲存於葉節點。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 運算子是內部節點;葉節點存放運算元。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 運算子在內部;運算元在葉節點。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>RPN 走訪名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>運算式的後綴(RPN)形式由______走訪產生(以英文寫出該走訪名稱)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>postorder</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>post-order</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>postfix</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>post*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>運算式樹走訪複選</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於運算式樹,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>後序走訪產生後綴(RPN)</text><feedback><text>正確 —— 運算元在其運算子之前。</text></feedback></answer>
+    <answer fraction="50"><text>運算元儲存於葉節點</text><feedback><text>正確 —— 葉節點是常數或變數。</text></feedback></answer>
+    <answer fraction="-50"><text>中序走訪產生前綴表示法</text><feedback><text>錯 —— 中序產生中綴;前序才產生前綴。</text></feedback></answer>
+    <answer fraction="-50"><text>運算子儲存於葉節點</text><feedback><text>錯 —— 運算子是內部節點。</text></feedback></answer>
+    <generalfeedback><text>運算式樹:運算子在內部、運算元在葉節點;後序=後綴、中序=中綴、前序=前綴。</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Threaded Binary Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>線索取代了什麼</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在引線二元樹(threaded binary tree)中,<strong>線索(thread)</strong>重複利用或取代了什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>原本會是 NULL 的子節點指標</text><feedback><text>正確 —— 原本會是 NULL 的指標被改用為線索。</text></feedback></answer>
+    <answer fraction="0"><text>節點的資料欄位</text><feedback><text>錯 —— 資料不受影響;只有未使用的子節點指標會變成線索。</text></feedback></answer>
+    <answer fraction="0"><text>連往現有子節點的真實連結</text><feedback><text>錯 —— 真正的子節點連結會保留;只有 NULL 連結會變成線索。</text></feedback></answer>
+    <answer fraction="0"><text>整棵樹的根指標</text><feedback><text>錯 —— 引線處理的是葉層那些 NULL 子指標,而非根的把手。</text></feedback></answer>
+    <generalfeedback><text>引線會把浪費掉、原本為 NULL 的子指標填入有用的連結(線索),而不是讓它們空著。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>線索指向何處</text></name>
+    <questiontext format="html"><text><![CDATA[<p>線索會指向某節點在走訪順序上的 ______。</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>中序前驅或後繼</text><feedback><text>正確 —— 左線索指向中序前驅,右線索指向中序後繼。</text></feedback></answer>
+    <answer fraction="0"><text>層序後繼</text><feedback><text>錯 —— 線索遵循中序順序,而非層序。</text></feedback></answer>
+    <answer fraction="0"><text>永遠是父節點</text><feedback><text>錯 —— 線索指向中序上的鄰居,不一定是父節點。</text></feedback></answer>
+    <answer fraction="0"><text>樹的根</text><feedback><text>錯 —— 線索指向中序順序上相鄰的節點。</text></feedback></answer>
+    <generalfeedback><text>右線索連往中序後繼、左線索連往中序前驅,因此不需遞迴也能以中序走訪整棵樹。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>引線的主要好處</text></name>
+    <questiontext format="html"><text><![CDATA[<p>引線二元樹的主要好處為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>不需遞迴或明確堆疊即可中序走訪,且只用 O(1) 額外空間</text><feedback><text>正確 —— 線索讓你能直接找到下一個節點。</text></feedback></answer>
+    <answer fraction="0"><text>它讓搜尋在最差情況下變成 O(1)</text><feedback><text>錯 —— 引線不會改變搜尋成本。</text></feedback></answer>
+    <answer fraction="0"><text>它讓節點不再需要儲存任何資料</text><feedback><text>錯 —— 資料仍需儲存;只有 NULL 指標被重複利用。</text></feedback></answer>
+    <answer fraction="0"><text>它會自動平衡這棵樹</text><feedback><text>錯 —— 引線不會改變樹的形狀或平衡。</text></feedback></answer>
+    <generalfeedback><text>由於每條線索指向中序後繼/前驅,你可以用 O(1) 額外空間以迭代方式進行中序走訪。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>區分線索與子連結</text></name>
+    <questiontext format="html"><text><![CDATA[<p>資料結構如何區分真正的子連結與線索?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>每個指標附帶一個布林旗標,標示它是子連結還是線索</text><feedback><text>正確 —— 每個節點為其左、右指標各存一個標記位元。</text></feedback></answer>
+    <answer fraction="0"><text>線索永遠是 NULL</text><feedback><text>錯 —— 線索是非 NULL 的連結,這正是重點所在。</text></feedback></answer>
+    <answer fraction="0"><text>比較指標的數值位址與根的位址</text><feedback><text>錯 —— 用來標示差異的是每個指標的旗標,而非位址運算。</text></feedback></answer>
+    <answer fraction="0"><text>真正的子節點存放在另一個陣列中</text><feedback><text>錯 —— 兩者共用同一個指標欄位,由旗標區分。</text></feedback></answer>
+    <generalfeedback><text>每個指標帶有一個標記(例如 isThread),讓走訪知道要往子節點下降,還是沿著線索前進。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>不需堆疊即可走訪</text></name>
+    <questiontext format="html"><text><![CDATA[<p>引線二元樹可以在不使用遞迴或明確堆疊的情況下進行中序走訪。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 線索直接提供下一個中序節點,只用 O(1) 額外空間。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>確實可以 —— 這正是引線的主要目的。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>線索遵循層序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在引線二元樹中,線索指向該節點的層序後繼。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 線索遵循中序順序,而非層序。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 線索指向中序前驅或後繼。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>替代指標的名稱</text></name>
+    <questiontext format="html"><text><![CDATA[<p>取代原本會是 NULL 的子指標、並指向中序鄰居的特殊連結稱為 ______。請以英文作答。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>thread</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>threads</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>thread*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>關於引線樹的事實</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於引線二元樹,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>線索重複利用原本會是 NULL 的指標</text><feedback><text>正確 —— 浪費掉的 NULL 子指標變成線索。</text></feedback></answer>
+    <answer fraction="50"><text>用一個布林旗標區分線索與真正的子連結</text><feedback><text>正確 —— 每個指標帶有一個標記位元。</text></feedback></answer>
+    <answer fraction="-50"><text>引線需要一個與樹高成正比的輔助堆疊</text><feedback><text>錯 —— 引線的重點正是 O(1) 額外空間、不需堆疊。</text></feedback></answer>
+    <answer fraction="-50"><text>線索指向節點的層序後繼</text><feedback><text>錯 —— 線索指向中序前驅/後繼。</text></feedback></answer>
+    <generalfeedback><text>線索填入 NULL 子指標、以旗標標示、指向中序鄰居,並允許以 O(1) 空間進行不需堆疊的中序走訪。</text></generalfeedback>
+  </question>
+</quiz>

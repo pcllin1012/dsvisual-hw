@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/m-way Search Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way 節點結構</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 <strong>m 路搜尋樹(m-way search tree)</strong>中,一個節點最多可有多少個鍵與多少個子節點?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>最多 m&minus;1 個鍵、最多 m 個子節點</text><feedback><text>正確 —— m 個子節點由 m&minus;1 個有序鍵分隔。</text></feedback></answer>
+    <answer fraction="0"><text>剛好 1 個鍵、2 個子節點</text><feedback><text>那是二元的特例(m=2),不是一般的 m 路節點。</text></feedback></answer>
+    <answer fraction="0"><text>最多 m 個鍵、最多 m&minus;1 個子節點</text><feedback><text>顛倒了 —— 子節點比鍵多一個。</text></feedback></answer>
+    <answer fraction="0"><text>鍵與子節點皆無上限</text><feedback><text>階數 m 同時限制兩者。</text></feedback></answer>
+    <generalfeedback><text>m 路搜尋樹推廣了 BST:每個節點最多持有 m&minus;1 個鍵,並指向最多 m 棵子樹。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way 推廣自 BST</text></name>
+    <questiontext format="html"><text><![CDATA[<p>m 路搜尋樹最適合被描述為哪一種結構的推廣?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>二元搜尋樹,允許每個節點有超過兩個子節點</text><feedback><text>正確 —— BST 是 m 路搜尋樹在 m=2 時的情況。</text></feedback></answer>
+    <answer fraction="0"><text>雜湊表</text><feedback><text>錯 —— m 路樹是有序的比較結構,不是雜湊。</text></feedback></answer>
+    <answer fraction="0"><text>堆積(heap)</text><feedback><text>堆積依父子優先權排序,而非依有序搜尋鍵。</text></feedback></answer>
+    <answer fraction="0"><text>連結串列</text><feedback><text>串列沒有分支的搜尋順序。</text></feedback></answer>
+    <generalfeedback><text>把分支因子從 2 提高到 m,就把二元搜尋樹變成 m 路搜尋樹。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way 鍵的排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 m 路搜尋樹的節點內,鍵與子樹如何排序?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>鍵為排序好的,兩個相鄰鍵之間的子樹持有落在該範圍內的值</text><feedback><text>正確 —— 此排序把 BST 不變量推廣到多個鍵。</text></feedback></answer>
+    <answer fraction="0"><text>鍵無序;搜尋時必須掃描每一棵子樹</text><feedback><text>錯 —— 有序的鍵正是使它成為搜尋樹的原因。</text></feedback></answer>
+    <answer fraction="0"><text>子樹中所有鍵都大於根節點的最大鍵</text><feedback><text>只有最右子樹如此;每個間隔各有其範圍。</text></feedback></answer>
+    <answer fraction="0"><text>子樹依大小排序,而非依鍵值</text><feedback><text>排序依鍵值進行,才能導向式搜尋。</text></feedback></answer>
+    <generalfeedback><text>有序的鍵切分鍵空間;第 i 個子節點涵蓋第 i&minus;1 個鍵與第 i 個鍵之間的區間。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way 與 B-Tree</text></name>
+    <questiontext format="html"><text><![CDATA[<p>m 路搜尋樹與 B-tree 之間的關係為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>B-tree 是一種帶有最低佔用限制的平衡 m 路搜尋樹</text><feedback><text>正確 —— B-tree 在一般 m 路概念上加入平衡與填充規則。</text></feedback></answer>
+    <answer fraction="0"><text>它們是完全無關的結構</text><feedback><text>錯 —— B-tree 是 m 路搜尋樹的特例。</text></feedback></answer>
+    <answer fraction="0"><text>m 路搜尋樹一定平衡,B-tree 則否</text><feedback><text>顛倒了 —— 是 B-tree 加入了平衡保證。</text></feedback></answer>
+    <answer fraction="0"><text>B-tree 只允許兩個子節點,m 路樹允許 m 個</text><feedback><text>兩者都允許最多 m 個子節點;B-tree 加的是佔用規則。</text></feedback></answer>
+    <generalfeedback><text>m 路搜尋樹是一般概念;B-tree 與 B+ 樹加入了保證低樹高的平衡規則。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>m-way 退化</text></name>
+    <questiontext format="html"><text><![CDATA[<p>沒有平衡規則的純 m 路搜尋樹可能退化,而無法提供任何樹高保證。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 缺少佔用/平衡規則時,它可能變得又高又不平衡。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>只有 B-tree 額外的規則才保證平衡;純 m 路樹不保證。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>m-way 子節點數</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 m 路搜尋樹中,持有 k 個鍵的節點恰有 k+1 個子節點。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— k 個有序鍵形成 k+1 個鍵空間區間,故有 k+1 棵子樹。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>節點的子節點數恆比鍵數多一。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>平衡特例名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>______ 樹是 m 路搜尋樹的<em>平衡</em>特例,使所有葉節點維持在相同深度。(請以英文字母/單字作答)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>B</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>B-tree</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>B tree</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>m-way 性質複選</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 m 路搜尋樹,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>每個節點最多有 m 個子節點與最多 m&minus;1 個有序鍵</text><feedback><text>正確 —— 這是其定義性的節點形狀。</text></feedback></answer>
+    <answer fraction="50"><text>它是一般概念;B-tree 與 B+ 樹在其上加入平衡規則</text><feedback><text>正確 —— 平衡變體建構於 m 路概念之上。</text></feedback></answer>
+    <answer fraction="-50"><text>它本身總是保證 O(log n) 的樹高</text><feedback><text>錯 —— 只有像 B-tree 的平衡變體才保證對數樹高。</text></feedback></answer>
+    <answer fraction="-50"><text>它每個節點僅限恰兩個子節點</text><feedback><text>錯 —— 那是二元搜尋樹;m 路節點最多有 m 個子節點。</text></feedback></answer>
+    <generalfeedback><text>m 路搜尋樹把 BST 推廣為 m 個子節點與 m&minus;1 個有序鍵;平衡並非自動,那是 B-tree 所加入的。</text></generalfeedback>
+  </question>
+</quiz>

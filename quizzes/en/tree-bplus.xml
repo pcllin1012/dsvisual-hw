@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/B+ Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree data location</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a B+ tree, where do the actual <strong>records / data values</strong> reside?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Only in the leaf nodes</text><feedback><text>Correct — all data lives in the leaves; internal nodes hold only routing keys.</text></feedback></answer>
+    <answer fraction="0"><text>Only in the root node</text><feedback><text>The root is just an internal router, not a data store.</text></feedback></answer>
+    <answer fraction="0"><text>In both internal and leaf nodes</text><feedback><text>That describes a classic B-tree; a B+ tree confines data to leaves.</text></feedback></answer>
+    <answer fraction="0"><text>In a separate hash table</text><feedback><text>No — the data is held in the leaf level of the tree itself.</text></feedback></answer>
+    <generalfeedback><text>A B+ tree separates navigation from storage: internal nodes route, leaves store.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree internal nodes</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What role do the <strong>internal nodes</strong> of a B+ tree play?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>They hold keys only, acting as routers (separators) that guide the search downward</text><feedback><text>Correct — internal keys are separator copies, not data.</text></feedback></answer>
+    <answer fraction="0"><text>They store the full data records</text><feedback><text>No — records live only in the leaves.</text></feedback></answer>
+    <answer fraction="0"><text>They link horizontally to support range scans</text><feedback><text>It is the leaves that are linked, not the internal nodes.</text></feedback></answer>
+    <answer fraction="0"><text>They are always empty until a delete occurs</text><feedback><text>Internal nodes always carry separator keys.</text></feedback></answer>
+    <generalfeedback><text>Because internal nodes carry no data, they pack more separator keys per block, raising fan-out.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree range scan</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which structural feature makes B+ tree <strong>range and in-order scans</strong> especially fast?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The leaves are linked together in a sorted list</text><feedback><text>Correct — after finding the start, you walk the leaf links sequentially.</text></feedback></answer>
+    <answer fraction="0"><text>Every key is hashed for O(1) lookup</text><feedback><text>B+ trees are ordered, not hashed; hashing would break range order.</text></feedback></answer>
+    <answer fraction="0"><text>Data is duplicated in every internal node</text><feedback><text>Internal nodes hold only routing keys, no data.</text></feedback></answer>
+    <answer fraction="0"><text>The tree re-sorts itself on each query</text><feedback><text>No re-sorting occurs; order is maintained by structure.</text></feedback></answer>
+    <generalfeedback><text>The linked leaf list turns a range query into one descent plus a sequential walk — ideal for databases.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree fan-out</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Compared with a B-tree of the same block size, why does a B+ tree tend to be <strong>shorter</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Internal nodes store no data, so each block packs more keys, raising fan-out</text><feedback><text>Correct — higher fan-out means fewer levels for the same key count.</text></feedback></answer>
+    <answer fraction="0"><text>It removes duplicate keys entirely</text><feedback><text>Separator keys are actually duplicated into internal nodes.</text></feedback></answer>
+    <answer fraction="0"><text>It uses binary nodes instead of multiway nodes</text><feedback><text>It is a multiway structure, like the B-tree.</text></feedback></answer>
+    <answer fraction="0"><text>It stores everything in the root</text><feedback><text>Data is in the leaves, spread across the leaf level.</text></feedback></answer>
+    <generalfeedback><text>Data-free internal nodes maximize branching factor, shrinking tree height and I/O per lookup.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>B+ Tree leaf linkage</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a B+ tree the leaf nodes are chained together so they can be traversed as a sorted sequential list.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the linked leaves enable fast sequential and range access.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Leaf linkage is a defining feature of the B+ tree.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>B+ Tree internal data</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a B+ tree the internal nodes store full data records alongside their keys.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — internal nodes hold only separator keys; data lives in the leaves.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — internal nodes route only; the records are all in the leaves.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Index use case term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The B+ tree is the standard on-disk ______ structure used by relational databases and filesystems. (one English word)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>index</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>index*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>indexing</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree vs B-Tree multi</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements distinguishing a B+ tree from a B-tree are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>A B+ tree keeps all data records in the leaves; a B-tree keeps data in internal nodes too</text><feedback><text>Yes — this is the core structural difference.</text></feedback></answer>
+    <answer fraction="50"><text>A B+ tree links its leaves for fast range scans; a plain B-tree does not</text><feedback><text>Yes — linked leaves are a B+ tree feature.</text></feedback></answer>
+    <answer fraction="-50"><text>A B+ tree is unbalanced while a B-tree is balanced</text><feedback><text>No — both are height-balanced with all leaves at equal depth.</text></feedback></answer>
+    <answer fraction="-50"><text>A B+ tree has lower fan-out than a B-tree of the same block size</text><feedback><text>No — data-free internal nodes give a B+ tree higher fan-out.</text></feedback></answer>
+    <generalfeedback><text>B+ trees confine data to linked leaves and gain higher fan-out; both trees remain balanced.</text></generalfeedback>
+  </question>
+</quiz>

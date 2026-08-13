@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Threaded Binary Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>What threads replace</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a threaded binary tree, what do the <strong>threads</strong> reuse or replace?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The otherwise-NULL child pointers</text><feedback><text>Correct — pointers that would be NULL are repurposed as threads.</text></feedback></answer>
+    <answer fraction="0"><text>The node's data field</text><feedback><text>No — the payload is untouched; only unused child pointers become threads.</text></feedback></answer>
+    <answer fraction="0"><text>The real links to existing children</text><feedback><text>No — genuine child links are kept; only NULL links become threads.</text></feedback></answer>
+    <answer fraction="0"><text>The root pointer of the tree</text><feedback><text>No — threading concerns the leaf-level NULL child pointers, not the root handle.</text></feedback></answer>
+    <generalfeedback><text>Threading fills the wasted, otherwise-NULL child pointers with useful links (threads) instead of leaving them empty.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Where a thread points</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A thread points to a node's ______ in the traversal order.</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>In-order predecessor or successor</text><feedback><text>Correct — a left thread points to the in-order predecessor, a right thread to the in-order successor.</text></feedback></answer>
+    <answer fraction="0"><text>Level-order successor</text><feedback><text>No — threads follow the in-order sequence, not level-order.</text></feedback></answer>
+    <answer fraction="0"><text>The parent node always</text><feedback><text>No — a thread targets the in-order neighbor, which is not necessarily the parent.</text></feedback></answer>
+    <answer fraction="0"><text>The tree's root</text><feedback><text>No — threads point to adjacent nodes in in-order sequence.</text></feedback></answer>
+    <generalfeedback><text>A right thread links to the in-order successor and a left thread to the in-order predecessor, so you can walk the tree in in-order without recursion.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Main benefit of threading</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the main benefit of a threaded binary tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>In-order traversal without recursion or an explicit stack, in O(1) extra space</text><feedback><text>Correct — threads let you find the next node directly.</text></feedback></answer>
+    <answer fraction="0"><text>It makes search O(1) in the worst case</text><feedback><text>No — search cost is unchanged by threading.</text></feedback></answer>
+    <answer fraction="0"><text>It removes the need to store any data in nodes</text><feedback><text>No — data is still stored; only NULL pointers are reused.</text></feedback></answer>
+    <answer fraction="0"><text>It automatically balances the tree</text><feedback><text>No — threading does not change the tree's shape or balance.</text></feedback></answer>
+    <generalfeedback><text>Because each thread points at the in-order successor/predecessor, you can traverse in-order iteratively using O(1) extra space.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Distinguishing thread from child</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How does the structure tell a real child link apart from a thread?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A boolean flag per pointer marks it as a child link or a thread</text><feedback><text>Correct — each node stores a tag bit for its left and right pointers.</text></feedback></answer>
+    <answer fraction="0"><text>Threads are always NULL</text><feedback><text>No — a thread is a non-NULL link; that is the whole point.</text></feedback></answer>
+    <answer fraction="0"><text>By comparing the pointer's numeric address to the root</text><feedback><text>No — a per-pointer flag is what marks the difference, not address arithmetic.</text></feedback></answer>
+    <answer fraction="0"><text>Real children are stored in a separate array</text><feedback><text>No — both kinds share the same pointer field, distinguished by a flag.</text></feedback></answer>
+    <generalfeedback><text>Each pointer carries a tag (e.g. isThread) so traversal knows whether to descend into a child or follow a thread.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Traversal without a stack</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A threaded binary tree enables in-order traversal without recursion or an explicit stack.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — threads provide the next in-order node directly, using O(1) extra space.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>It does — that is the primary purpose of threading.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Threads follow level-order</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a threaded binary tree, a thread points to the node's level-order successor.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — threads follow the in-order sequence, not level-order.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — a thread points to the in-order predecessor or successor.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Name of the substitute pointer</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The special link that replaces an otherwise-NULL child pointer and points to an in-order neighbor is called a ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>thread</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>threads</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>thread*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Facts about threaded trees</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about threaded binary trees are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Threads reuse pointers that would otherwise be NULL</text><feedback><text>Yes — wasted NULL child pointers become threads.</text></feedback></answer>
+    <answer fraction="50"><text>A boolean flag distinguishes a thread from a real child link</text><feedback><text>Yes — each pointer carries a tag bit.</text></feedback></answer>
+    <answer fraction="-50"><text>Threading requires an auxiliary stack proportional to tree height</text><feedback><text>No — the point of threading is O(1) extra space with no stack.</text></feedback></answer>
+    <answer fraction="-50"><text>Threads point to a node's level-order successor</text><feedback><text>No — threads point to in-order predecessor/successor.</text></feedback></answer>
+    <generalfeedback><text>Threads fill NULL child pointers, are marked by a flag, target in-order neighbors, and permit stackless in-order traversal in O(1) space.</text></generalfeedback>
+  </question>
+</quiz>

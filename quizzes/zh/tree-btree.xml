@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/B-Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree 節點容量</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在<strong>階數為 m</strong> 的 B-tree 中,單一節點最多可容納多少個鍵與多少個子節點?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>最多 m&minus;1 個鍵、最多 m 個子節點</text><feedback><text>正確 —— 有 k 個鍵的節點有 k+1 個子節點,故最多 m&minus;1 個鍵、m 個子節點。</text></feedback></answer>
+    <answer fraction="0"><text>最多 m 個鍵、最多 m&minus;1 個子節點</text><feedback><text>顛倒了 —— 鍵比子節點少一個。</text></feedback></answer>
+    <answer fraction="0"><text>剛好 2 個鍵、3 個子節點</text><feedback><text>那只描述 2-3 樹(階數 3),並非一般情況。</text></feedback></answer>
+    <answer fraction="0"><text>最多 m 個鍵、最多 m 個子節點</text><feedback><text>子節點數恆比鍵數多一。</text></feedback></answer>
+    <generalfeedback><text>階數 m 限制每個節點最多 m&minus;1 個鍵;分隔鍵形成 m 個子節點指標。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree 葉節點深度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 B-tree 的<strong>葉節點</strong>,下列何者正確?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>所有葉節點都位於相同深度</text><feedback><text>正確 —— B-tree 維持完美的高度平衡。</text></feedback></answer>
+    <answer fraction="0"><text>葉節點深度最多可相差一層</text><feedback><text>錯 —— 每個葉節點都在完全相同的深度。</text></feedback></answer>
+    <answer fraction="0"><text>只有最左路徑會抵達葉節點</text><feedback><text>每條由根到葉的路徑長度都相等。</text></feedback></answer>
+    <answer fraction="0"><text>葉節點不存鍵,只存子節點指標</text><feedback><text>B-tree 的葉節點確實存放鍵。</text></feedback></answer>
+    <generalfeedback><text>插入時透過向上分裂使樹長高,因此所有葉節點與根始終等距。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree 磁碟動機</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對於<strong>存放於磁碟</strong>的資料,為何偏好 B-tree 而非二元搜尋樹?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>高分支度使樹高很低,一次搜尋只碰觸少數節點、少數磁碟/區塊讀取</text><feedback><text>正確 —— 每個節點對應一個磁碟區塊;層數少代表 I/O 次數少。</text></feedback></answer>
+    <answer fraction="0"><text>它把所有鍵放在 RAM,故不需磁碟</text><feedback><text>B-tree 正是為了處理大於 RAM 的資料而設計。</text></feedback></answer>
+    <answer fraction="0"><text>它壓縮鍵以節省磁碟空間</text><feedback><text>其動機是降低 I/O 次數,而非壓縮。</text></feedback></answer>
+    <answer fraction="0"><text>它排序資料比快速排序更快</text><feedback><text>它是搜尋結構,不是排序演算法。</text></feedback></answer>
+    <generalfeedback><text>一次磁碟尋道遠比一次比較昂貴;寬節點使每次查詢讀取的區塊數最少。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree 操作複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在有 n 個鍵的 B-tree 中,搜尋、插入、刪除的時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— 平衡的樹高與 n 呈對數關係。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>那是退化成串列的情況,B-tree 以平衡避免之。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>仍需下降對數層數。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>那是整體排序成本,不是單一操作。</text></feedback></answer>
+    <generalfeedback><text>平衡的樹高保證搜尋、插入、刪除皆為對數時間。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>B-Tree 鍵的放置</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在傳統 B-tree 中,鍵(及其對應資料)存放於<em>內部節點與葉節點兩者</em>。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 與 B+ 樹不同,B-tree 的內部節點也存放資料。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>B-tree 各處皆存鍵;只有 B+ 樹才把資料限制在葉節點。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>B-Tree 佔用率</text></name>
+    <questiontext format="html"><text><![CDATA[<p>階數為 m 的 B-tree 中,除根節點外的每個節點都必須至少持有 &lceil;m/2&rceil;&minus;1 個鍵。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 此最低佔用規則使樹至少半滿並保持平衡。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>下界 &lceil;m/2&rceil;&minus;1 正是保證平衡的條件。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>平衡性質名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>B-tree 之所以是<em>平衡</em>的多路搜尋樹,是因為它所有的 ______ 都位於相同深度。(請以英文單字作答)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>leaves</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>leaf</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>leaves*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>B-Tree 性質複選</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 B-tree,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>節點佔用率維持在 &lceil;m/2&rceil;&minus;1 至 m&minus;1 個鍵之間</text><feedback><text>正確 —— 此有界填充使結構保持平衡。</text></feedback></answer>
+    <answer fraction="50"><text>其設計目的是最小化磁碟/區塊存取次數</text><feedback><text>正確 —— 低樹高代表少 I/O 次數。</text></feedback></answer>
+    <answer fraction="-50"><text>它把所有資料限制在葉節點,並將葉節點彼此串接</text><feedback><text>錯 —— 那是 B+ 樹,不是 B-tree。</text></feedback></answer>
+    <answer fraction="-50"><text>每個節點最多只有兩個子節點</text><feedback><text>錯 —— 那是二元樹;B-tree 節點最多有 m 個子節點。</text></feedback></answer>
+    <generalfeedback><text>B-tree 以有界佔用維持平衡、以寬節點達成低 I/O 搜尋;資料僅存葉節點且葉節點串接的是 B+ 樹。</text></generalfeedback>
+  </question>
+</quiz>

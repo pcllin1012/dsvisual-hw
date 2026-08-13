@@ -1,4 +1,1232 @@
 window.QUIZ_RENDERED = {
+  "decision-tree-coins": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Outcomes per weighing",
+        "text": "<p>When you place coins on a two-pan <strong>balance scale</strong>, how many distinct outcomes can a single weighing produce?</p>",
+        "answers": [
+          {
+            "text": "Three (left heavier, balanced, right heavier)",
+            "fraction": 100,
+            "feedback": "Correct — three outcomes, so the decision tree is ternary."
+          },
+          {
+            "text": "Two (heavier or lighter)",
+            "fraction": 0,
+            "feedback": "That ignores the balanced case; a scale has three outcomes."
+          },
+          {
+            "text": "Four",
+            "fraction": 0,
+            "feedback": "A single balance comparison yields only three distinguishable results."
+          },
+          {
+            "text": "Eight, one per coin",
+            "fraction": 0,
+            "feedback": "The number of outcomes depends on the scale, not the coin count."
+          }
+        ],
+        "generalFeedback": "A balance scale tilts left, stays level, or tilts right — three outcomes per weighing, which makes the decision tree ternary.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Decision tree branching factor",
+        "text": "<p>The decision tree for the balance-scale coin problem is best described as which kind of tree?</p>",
+        "answers": [
+          {
+            "text": "A ternary tree (up to three children per node)",
+            "fraction": 100,
+            "feedback": "Correct — each weighing has three outcomes."
+          },
+          {
+            "text": "A binary tree (two children per node)",
+            "fraction": 0,
+            "feedback": "Binary would fit a yes/no test; a balance gives three results."
+          },
+          {
+            "text": "A complete graph",
+            "fraction": 0,
+            "feedback": "The structure is a rooted decision tree, not a graph."
+          },
+          {
+            "text": "A linked list",
+            "fraction": 0,
+            "feedback": "Each internal node branches on the weighing outcome, so it is a tree."
+          }
+        ],
+        "generalFeedback": "Because each weighing has three outcomes, the decision tree branches up to three ways at every internal node — a ternary tree.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Information-theoretic bound",
+        "text": "<p>To distinguish among <em>N</em> possible cases with a balance scale, the minimum number of weighings is at least which expression?</p>",
+        "answers": [
+          {
+            "text": "&lceil;logN&rceil;",
+            "fraction": 100,
+            "feedback": "Correct — k weighings distinguish at most 3^k cases."
+          },
+          {
+            "text": "&lceil;logN&rceil;",
+            "fraction": 0,
+            "feedback": "That base assumes two outcomes; a balance gives three."
+          },
+          {
+            "text": "N &minus; 1",
+            "fraction": 0,
+            "feedback": "That is far more than needed; the bound is logarithmic base 3."
+          },
+          {
+            "text": "N / 3",
+            "fraction": 0,
+            "feedback": "The relationship is logarithmic, not linear."
+          }
+        ],
+        "generalFeedback": "Each weighing multiplies the number of distinguishable cases by 3, so k weighings cover 3^k cases and the lower bound is ceil(log base 3 of N).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Height equals weighings",
+        "text": "<p>In the decision tree, what does the <strong>height</strong> of the tree represent?</p>",
+        "answers": [
+          {
+            "text": "The worst-case number of weighings needed",
+            "fraction": 100,
+            "feedback": "Correct — the longest root-to-leaf path is the worst case."
+          },
+          {
+            "text": "The total number of coins",
+            "fraction": 0,
+            "feedback": "Height measures path length, not the number of coins."
+          },
+          {
+            "text": "The number of counterfeit coins",
+            "fraction": 0,
+            "feedback": "There is exactly one counterfeit; height is about weighings."
+          },
+          {
+            "text": "The number of leaves",
+            "fraction": 0,
+            "feedback": "Leaves are the outcomes; height is the longest path to one."
+          }
+        ],
+        "generalFeedback": "Each level of the tree is one weighing, so the height (longest root-to-leaf path) equals the worst-case number of weighings.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Balance three outcomes",
+        "text": "<p>A single use of a balance scale can distinguish three outcomes, which is why the decision tree is ternary rather than binary.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — left-heavy, balanced, and right-heavy give three outcomes."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The three tilt states make each weighing a three-way branch."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Eight coins two weighings",
+        "text": "<p>If the counterfeit among 8 coins is known to be <em>lighter</em>, two weighings are enough to identify it.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — 3^2 = 9 &ge; 8, so two weighings suffice."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "With a known-lighter counterfeit there are 8 cases and 3^2 = 9 &ge; 8."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Outcomes number",
+        "text": "<p>How many distinct outcomes does one weighing on a balance scale have? Answer with a single digit.</p>",
+        "answers": [
+          {
+            "text": "3",
+            "fraction": 100,
+            "feedback": "Correct — three outcomes make the tree ternary."
+          },
+          {
+            "text": "three",
+            "fraction": 100,
+            "feedback": "Correct — three outcomes make the tree ternary."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Decision tree facts",
+        "text": "<p>Which statements about the 8-coins balance decision tree are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each internal node corresponds to one weighing",
+            "fraction": 50,
+            "feedback": "Yes — every internal node is a weighing."
+          },
+          {
+            "text": "k weighings can distinguish at most 3^k cases",
+            "fraction": 50,
+            "feedback": "Yes — each weighing triples the distinguishable cases."
+          },
+          {
+            "text": "Each weighing has only two possible outcomes",
+            "fraction": -50,
+            "feedback": "No — a balance scale has three outcomes."
+          },
+          {
+            "text": "The tree is binary because a coin is either counterfeit or genuine",
+            "fraction": -50,
+            "feedback": "No — branching follows the three weighing outcomes, so it is ternary."
+          }
+        ],
+        "generalFeedback": "Internal nodes are weighings, each with three outcomes, so k weighings cover up to 3^k cases and the tree is ternary — not binary.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "每次秤重的結果數",
+        "text": "<p>當你把硬幣放到雙盤<strong>天平</strong>上時,一次秤重可以產生幾種不同的結果?</p>",
+        "answers": [
+          {
+            "text": "三種(左盤較重、平衡、右盤較重)",
+            "fraction": 100,
+            "feedback": "正確 —— 三種結果,因此決策樹是三元的。"
+          },
+          {
+            "text": "兩種(較重或較輕)",
+            "fraction": 0,
+            "feedback": "這忽略了平衡的情況;天平有三種結果。"
+          },
+          {
+            "text": "四種",
+            "fraction": 0,
+            "feedback": "單次天平比較只會產生三種可區分的結果。"
+          },
+          {
+            "text": "八種,每個硬幣一種",
+            "fraction": 0,
+            "feedback": "結果數取決於天平,而非硬幣數量。"
+          }
+        ],
+        "generalFeedback": "天平會向左傾、保持水平、或向右傾 —— 每次秤重三種結果,使決策樹成為三元樹。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "決策樹的分支度",
+        "text": "<p>天平找假幣問題的決策樹,最適合描述為哪一種樹?</p>",
+        "answers": [
+          {
+            "text": "三元樹(每個節點最多三個子節點)",
+            "fraction": 100,
+            "feedback": "正確 —— 每次秤重有三種結果。"
+          },
+          {
+            "text": "二元樹(每個節點兩個子節點)",
+            "fraction": 0,
+            "feedback": "二元適合是非測試;天平會給出三種結果。"
+          },
+          {
+            "text": "完全圖",
+            "fraction": 0,
+            "feedback": "此結構是有根的決策樹,不是圖。"
+          },
+          {
+            "text": "鏈結串列",
+            "fraction": 0,
+            "feedback": "每個內部節點依秤重結果分支,因此是樹。"
+          }
+        ],
+        "generalFeedback": "因為每次秤重有三種結果,決策樹在每個內部節點最多分成三支 —— 三元樹。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "資訊理論下界",
+        "text": "<p>要用天平區分 <em>N</em> 種可能情況,所需秤重次數至少為下列哪個式子?</p>",
+        "answers": [
+          {
+            "text": "&lceil;logN&rceil;",
+            "fraction": 100,
+            "feedback": "正確 —— k 次秤重最多可區分 3^k 種情況。"
+          },
+          {
+            "text": "&lceil;logN&rceil;",
+            "fraction": 0,
+            "feedback": "此底數假設兩種結果;天平給出三種。"
+          },
+          {
+            "text": "N &minus; 1",
+            "fraction": 0,
+            "feedback": "這遠多於所需;下界是以 3 為底的對數。"
+          },
+          {
+            "text": "N / 3",
+            "fraction": 0,
+            "feedback": "此關係是對數的,而非線性的。"
+          }
+        ],
+        "generalFeedback": "每次秤重使可區分情況數乘以 3,因此 k 次秤重可涵蓋 3^k 種情況,下界為 ceil(log 底數 3 的 N)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "高度等於秤重次數",
+        "text": "<p>在此決策樹中,樹的<strong>高度</strong>代表什麼?</p>",
+        "answers": [
+          {
+            "text": "最差情況所需的秤重次數",
+            "fraction": 100,
+            "feedback": "正確 —— 最長的根到葉路徑就是最差情況。"
+          },
+          {
+            "text": "硬幣的總數",
+            "fraction": 0,
+            "feedback": "高度衡量路徑長度,不是硬幣數量。"
+          },
+          {
+            "text": "假幣的數量",
+            "fraction": 0,
+            "feedback": "假幣恰好一枚;高度指的是秤重次數。"
+          },
+          {
+            "text": "葉節點的數量",
+            "fraction": 0,
+            "feedback": "葉節點是結果;高度是到某葉的最長路徑。"
+          }
+        ],
+        "generalFeedback": "樹的每一層是一次秤重,因此高度(最長的根到葉路徑)等於最差情況的秤重次數。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "天平三種結果",
+        "text": "<p>單次使用天平可區分三種結果,這正是決策樹為三元而非二元的原因。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 左傾、平衡、右傾共三種結果。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "三種傾斜狀態使每次秤重成為三向分支。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "八枚硬幣兩次秤重",
+        "text": "<p>若已知 8 枚硬幣中的假幣<em>較輕</em>,兩次秤重就足以找出它。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 3^2 = 9 &ge; 8,兩次秤重足夠。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "假幣已知較輕時共有 8 種情況,而 3^2 = 9 &ge; 8。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "結果數目",
+        "text": "<p>天平的一次秤重有幾種不同的結果?請以單一數字作答。</p>",
+        "answers": [
+          {
+            "text": "3",
+            "fraction": 100,
+            "feedback": "正確 —— 三種結果使樹成為三元。"
+          },
+          {
+            "text": "three",
+            "fraction": 100,
+            "feedback": "正確 —— 三種結果使樹成為三元。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "決策樹事實",
+        "text": "<p>關於 8 枚硬幣的天平決策樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每個內部節點對應一次秤重",
+            "fraction": 50,
+            "feedback": "正確 —— 每個內部節點都是一次秤重。"
+          },
+          {
+            "text": "k 次秤重最多可區分 3^k 種情況",
+            "fraction": 50,
+            "feedback": "正確 —— 每次秤重使可區分情況數變三倍。"
+          },
+          {
+            "text": "每次秤重只有兩種可能結果",
+            "fraction": -50,
+            "feedback": "錯 —— 天平有三種結果。"
+          },
+          {
+            "text": "因為硬幣不是假就是真,所以樹是二元的",
+            "fraction": -50,
+            "feedback": "錯 —— 分支依循三種秤重結果,因此是三元樹。"
+          }
+        ],
+        "generalFeedback": "內部節點是秤重,每次三種結果,因此 k 次秤重涵蓋最多 3^k 種情況,樹為三元 —— 而非二元。",
+        "single": false
+      }
+    ]
+  },
+  "game-tree": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Minimax value meaning",
+        "text": "<p>In a game tree, what does the <strong>minimax value</strong> of a position represent?</p>",
+        "answers": [
+          {
+            "text": "The best score MAX can guarantee assuming MIN plays optimally",
+            "fraction": 100,
+            "feedback": "Correct — minimax assumes an optimal opponent."
+          },
+          {
+            "text": "The average score over all possible opponent moves",
+            "fraction": 0,
+            "feedback": "Minimax assumes optimal play, not an average."
+          },
+          {
+            "text": "The score MAX gets if MIN plays randomly",
+            "fraction": 0,
+            "feedback": "Minimax assumes the opponent plays optimally, not randomly."
+          },
+          {
+            "text": "The total number of leaf nodes",
+            "fraction": 0,
+            "feedback": "That is a size measure, not the minimax value."
+          }
+        ],
+        "generalFeedback": "Minimax propagates values upward: MAX levels take the maximum child, MIN levels take the minimum, giving the score under optimal play by both sides.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MAX and MIN levels",
+        "text": "<p>At a <strong>MIN</strong> node in the game tree, which value is chosen from the children?</p>",
+        "answers": [
+          {
+            "text": "The minimum child value",
+            "fraction": 100,
+            "feedback": "Correct — MIN minimizes MAX's score."
+          },
+          {
+            "text": "The maximum child value",
+            "fraction": 0,
+            "feedback": "That is what a MAX node does, not a MIN node."
+          },
+          {
+            "text": "The average of the child values",
+            "fraction": 0,
+            "feedback": "MIN takes the minimum, not an average."
+          },
+          {
+            "text": "A random child value",
+            "fraction": 0,
+            "feedback": "MIN plays optimally by choosing the minimum."
+          }
+        ],
+        "generalFeedback": "Levels alternate: MAX nodes take the maximum child value and MIN nodes take the minimum, modeling both players playing optimally.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Alpha-beta result",
+        "text": "<p>Compared with plain minimax, what move does <strong>alpha-beta pruning</strong> return?</p>",
+        "answers": [
+          {
+            "text": "Exactly the same move as plain minimax",
+            "fraction": 100,
+            "feedback": "Correct — alpha-beta only skips branches that cannot change the result."
+          },
+          {
+            "text": "A better move than minimax could find",
+            "fraction": 0,
+            "feedback": "No — it returns the same optimal move, just faster."
+          },
+          {
+            "text": "A slightly worse but faster move",
+            "fraction": 0,
+            "feedback": "Alpha-beta does not sacrifice quality; the move is identical."
+          },
+          {
+            "text": "A random move among the top choices",
+            "fraction": 0,
+            "feedback": "It is exact, returning minimax's move."
+          }
+        ],
+        "generalFeedback": "Alpha-beta prunes only branches that provably cannot affect the root decision, so it returns the identical move as minimax while examining fewer nodes.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Alpha-beta complexity",
+        "text": "<p>With ideal move ordering, roughly how many nodes does alpha-beta explore, for branching factor <em>b</em> and depth <em>d</em>?</p>",
+        "answers": [
+          {
+            "text": "O(b)",
+            "fraction": 100,
+            "feedback": "Correct — effectively doubling the searchable depth."
+          },
+          {
+            "text": "O(b)",
+            "fraction": 0,
+            "feedback": "That is plain minimax; good ordering cuts the exponent roughly in half."
+          },
+          {
+            "text": "O(b &middot; d)",
+            "fraction": 0,
+            "feedback": "The cost is exponential, not linear."
+          },
+          {
+            "text": "O(d)",
+            "fraction": 0,
+            "feedback": "The exponent involves depth, roughly d/2, over base b."
+          }
+        ],
+        "generalFeedback": "With good move ordering alpha-beta explores about O(b^(d/2)) nodes instead of O(b^d), effectively doubling the depth reachable for the same cost.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Alpha-beta same answer",
+        "text": "<p>Alpha-beta pruning can return a different (worse) move than plain minimax.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "It prunes only branches that cannot affect the decision, so the move is identical."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — alpha-beta returns exactly the same move as minimax."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Alpha and beta bounds",
+        "text": "<p>In alpha-beta pruning, &alpha; is the best value MAX can guarantee so far and &beta; is the best value MIN can guarantee so far.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a branch is pruned once &alpha; &ge; &beta;."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "That is exactly what &alpha; and &beta; track."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Algorithm name",
+        "text": "<p>What is the name of the algorithm that computes a position's value by alternating maximizing and minimizing levels? (one word)</p>",
+        "answers": [
+          {
+            "text": "minimax",
+            "fraction": 100,
+            "feedback": "Correct — minimax."
+          },
+          {
+            "text": "min-max",
+            "fraction": 100,
+            "feedback": "Correct — minimax."
+          },
+          {
+            "text": "minmax",
+            "fraction": 100,
+            "feedback": "Correct — minimax."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Alpha-beta facts",
+        "text": "<p>Which statements about alpha-beta pruning are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It returns the same value as plain minimax",
+            "fraction": 50,
+            "feedback": "Yes — it is an exact optimization."
+          },
+          {
+            "text": "Good move ordering improves how much it can prune",
+            "fraction": 50,
+            "feedback": "Yes — ordering strong moves first prunes more branches."
+          },
+          {
+            "text": "It may miss the optimal move to run faster",
+            "fraction": -50,
+            "feedback": "No — it never prunes a branch that could change the decision."
+          },
+          {
+            "text": "It always explores every leaf of the tree",
+            "fraction": -50,
+            "feedback": "No — its whole point is to skip provably irrelevant branches."
+          }
+        ],
+        "generalFeedback": "Alpha-beta is exact (same value as minimax) and benefits from good move ordering, pruning branches that cannot affect the root — so it does not visit every leaf.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "極小極大值的意義",
+        "text": "<p>在賽局樹中,一個局面的<strong>極小極大值(minimax value)</strong>代表什麼?</p>",
+        "answers": [
+          {
+            "text": "假設 MIN 採最佳走法時,MAX 能保證的最佳分數",
+            "fraction": 100,
+            "feedback": "正確 —— minimax 假設對手採最佳策略。"
+          },
+          {
+            "text": "對手所有可能走法的平均分數",
+            "fraction": 0,
+            "feedback": "minimax 假設最佳走法,而非平均。"
+          },
+          {
+            "text": "MIN 隨機走時 MAX 得到的分數",
+            "fraction": 0,
+            "feedback": "minimax 假設對手採最佳走法,而非隨機。"
+          },
+          {
+            "text": "葉節點的總數",
+            "fraction": 0,
+            "feedback": "那是規模的度量,不是極小極大值。"
+          }
+        ],
+        "generalFeedback": "minimax 由下往上傳遞數值:MAX 層取子節點的最大值,MIN 層取最小值,得到雙方皆採最佳走法下的分數。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "MAX 與 MIN 層",
+        "text": "<p>在賽局樹的 <strong>MIN</strong> 節點,會從子節點中選出哪個值?</p>",
+        "answers": [
+          {
+            "text": "子節點中的最小值",
+            "fraction": 100,
+            "feedback": "正確 —— MIN 會極小化 MAX 的分數。"
+          },
+          {
+            "text": "子節點中的最大值",
+            "fraction": 0,
+            "feedback": "那是 MAX 節點的作法,不是 MIN 節點。"
+          },
+          {
+            "text": "子節點值的平均",
+            "fraction": 0,
+            "feedback": "MIN 取最小值,而非平均。"
+          },
+          {
+            "text": "隨機的子節點值",
+            "fraction": 0,
+            "feedback": "MIN 以選最小值來採最佳走法。"
+          }
+        ],
+        "generalFeedback": "各層交替:MAX 節點取子節點的最大值,MIN 節點取最小值,以模擬雙方皆採最佳走法。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Alpha-beta 的結果",
+        "text": "<p>與純 minimax 相比,<strong>alpha-beta 剪枝</strong>會回傳哪一步棋?</p>",
+        "answers": [
+          {
+            "text": "與純 minimax 完全相同的走法",
+            "fraction": 100,
+            "feedback": "正確 —— alpha-beta 只略過不可能改變結果的分支。"
+          },
+          {
+            "text": "比 minimax 能找到的更好的走法",
+            "fraction": 0,
+            "feedback": "錯 —— 它回傳相同的最佳走法,只是更快。"
+          },
+          {
+            "text": "略差但較快的走法",
+            "fraction": 0,
+            "feedback": "alpha-beta 不犧牲品質;走法完全相同。"
+          },
+          {
+            "text": "在最佳選項中隨機挑一步",
+            "fraction": 0,
+            "feedback": "它是精確的,回傳 minimax 的走法。"
+          }
+        ],
+        "generalFeedback": "alpha-beta 只剪去可證明不會影響根決策的分支,因此回傳與 minimax 相同的走法,同時檢視較少的節點。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Alpha-beta 複雜度",
+        "text": "<p>在理想的走法排序下,對分支度 <em>b</em> 與深度 <em>d</em>,alpha-beta 大約會探索多少節點?</p>",
+        "answers": [
+          {
+            "text": "O(b)",
+            "fraction": 100,
+            "feedback": "正確 —— 實際上使可搜尋深度加倍。"
+          },
+          {
+            "text": "O(b)",
+            "fraction": 0,
+            "feedback": "那是純 minimax;良好排序約可將指數減半。"
+          },
+          {
+            "text": "O(b &middot; d)",
+            "fraction": 0,
+            "feedback": "成本是指數的,而非線性。"
+          },
+          {
+            "text": "O(d)",
+            "fraction": 0,
+            "feedback": "指數涉及深度,約為 d/2,底數為 b。"
+          }
+        ],
+        "generalFeedback": "在良好走法排序下,alpha-beta 大約探索 O(b^(d/2)) 個節點,而非 O(b^d),等於在相同成本下使可達深度加倍。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Alpha-beta 相同答案",
+        "text": "<p>alpha-beta 剪枝可能回傳與純 minimax 不同(較差)的走法。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "它只剪去不會影響決策的分支,因此走法完全相同。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— alpha-beta 回傳與 minimax 完全相同的走法。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Alpha 與 beta 界限",
+        "text": "<p>在 alpha-beta 剪枝中,&alpha; 是目前 MAX 能保證的最佳值,&beta; 是目前 MIN 能保證的最佳值。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 當 &alpha; &ge; &beta; 時即可剪去該分支。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "這正是 &alpha; 與 &beta; 所追蹤的內容。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "演算法名稱",
+        "text": "<p>藉由交替的極大化與極小化層來計算局面值的演算法叫什麼名字?(英文,一個字)</p>",
+        "answers": [
+          {
+            "text": "minimax",
+            "fraction": 100,
+            "feedback": "正確 —— minimax。"
+          },
+          {
+            "text": "min-max",
+            "fraction": 100,
+            "feedback": "正確 —— minimax。"
+          },
+          {
+            "text": "minmax",
+            "fraction": 100,
+            "feedback": "正確 —— minimax。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Alpha-beta 的事實",
+        "text": "<p>關於 alpha-beta 剪枝,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它回傳與純 minimax 相同的值",
+            "fraction": 50,
+            "feedback": "正確 —— 它是精確的最佳化。"
+          },
+          {
+            "text": "良好的走法排序能提升它的剪枝量",
+            "fraction": 50,
+            "feedback": "正確 —— 先排入強棋可剪去更多分支。"
+          },
+          {
+            "text": "它可能為了更快而錯過最佳走法",
+            "fraction": -50,
+            "feedback": "錯 —— 它絕不剪去可能改變決策的分支。"
+          },
+          {
+            "text": "它總是探索樹的每一個葉節點",
+            "fraction": -50,
+            "feedback": "錯 —— 它的重點正是略過可證明無關的分支。"
+          }
+        ],
+        "generalFeedback": "alpha-beta 是精確的(與 minimax 同值),並受益於良好的走法排序,剪去不會影響根的分支 —— 因此它不會走訪每一個葉節點。",
+        "single": false
+      }
+    ]
+  },
+  "huffman": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Huffman greedy step",
+        "text": "<p>At each step, Huffman's algorithm merges which two nodes?</p>",
+        "answers": [
+          {
+            "text": "The two nodes with the lowest frequencies",
+            "fraction": 100,
+            "feedback": "Correct — greedily merge the two smallest, giving the merged node their combined frequency."
+          },
+          {
+            "text": "The two nodes with the highest frequencies",
+            "fraction": 0,
+            "feedback": "No — merging the largest first would give frequent symbols longer codes."
+          },
+          {
+            "text": "Any two adjacent nodes in the input order",
+            "fraction": 0,
+            "feedback": "No — the choice is by frequency, not position."
+          },
+          {
+            "text": "The node with the highest and the node with the lowest frequency",
+            "fraction": 0,
+            "feedback": "No — always the two lowest are combined."
+          }
+        ],
+        "generalFeedback": "Huffman is greedy: repeatedly extract the two lowest-frequency nodes from a min-heap and merge them into a parent whose frequency is their sum.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Prefix-free property",
+        "text": "<p>What key property of a Huffman code makes decoding unambiguous?</p>",
+        "answers": [
+          {
+            "text": "No codeword is a prefix of another codeword",
+            "fraction": 100,
+            "feedback": "Correct — this prefix-free property lets a decoder split the bitstream unambiguously."
+          },
+          {
+            "text": "All codewords have the same length",
+            "fraction": 0,
+            "feedback": "No — Huffman codes are variable length; that describes a fixed-length code."
+          },
+          {
+            "text": "Codewords are assigned in alphabetical order",
+            "fraction": 0,
+            "feedback": "No — assignment is driven by frequency, not alphabet."
+          },
+          {
+            "text": "Every codeword starts with a 0 bit",
+            "fraction": 0,
+            "feedback": "No — that is not a property of Huffman codes."
+          }
+        ],
+        "generalFeedback": "Because symbols sit only at leaves of the tree, no codeword is a prefix of another, so the decoder never needs lookahead.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Code length vs frequency",
+        "text": "<p>In a Huffman code, symbols that appear <strong>more frequently</strong> receive codewords that are:</p>",
+        "answers": [
+          {
+            "text": "Shorter",
+            "fraction": 100,
+            "feedback": "Correct — frequent symbols land near the root, giving shorter codes and minimizing total length."
+          },
+          {
+            "text": "Longer",
+            "fraction": 0,
+            "feedback": "No — that would increase the encoded size."
+          },
+          {
+            "text": "The same length as every other symbol",
+            "fraction": 0,
+            "feedback": "No — that is a fixed-length code, not Huffman."
+          },
+          {
+            "text": "Always exactly one bit",
+            "fraction": 0,
+            "feedback": "No — only possible with two or fewer symbols."
+          }
+        ],
+        "generalFeedback": "Assigning shorter codewords to more frequent symbols minimizes the expected number of bits, producing a minimum-redundancy code.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Huffman build complexity",
+        "text": "<p>Using a min-heap (priority queue), what is the time to build a Huffman tree for <em>n</em> symbols?</p>",
+        "answers": [
+          {
+            "text": "O(n log n)",
+            "fraction": 100,
+            "feedback": "Correct — n-1 merges, each with O(log n) heap operations."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — heap operations add a log n factor unless frequencies are pre-sorted."
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "No — a naive linear scan for the minimum would give this, but a heap is faster."
+          },
+          {
+            "text": "O(2^n)",
+            "fraction": 0,
+            "feedback": "No — the construction is not exponential."
+          }
+        ],
+        "generalFeedback": "There are n-1 merges; each extract-min and insert costs O(log n), so the total is O(n log n).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Huffman optimality",
+        "text": "<p>Huffman coding produces an optimal (minimum-length) prefix code for a given set of symbol frequencies.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it is optimal among symbol-by-symbol prefix codes."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It is provably optimal for per-symbol prefix codes."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Huffman is greedy not DP",
+        "text": "<p>Huffman's algorithm requires dynamic programming to decide which nodes to merge.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — it is a greedy algorithm; the local choice of the two smallest is provably globally optimal."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — Huffman is greedy, not dynamic programming."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Prefix property term",
+        "text": "<p>A code in which no codeword is a prefix of another is called a ______-free code.</p>",
+        "answers": [
+          {
+            "text": "prefix",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "prefix*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Huffman properties multi",
+        "text": "<p>Which statements about Huffman coding are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It uses a min-heap to repeatedly extract the two lowest-frequency nodes",
+            "fraction": 50,
+            "feedback": "Yes — that is the core of the greedy construction."
+          },
+          {
+            "text": "Symbols are stored only at the leaves of the tree",
+            "fraction": 50,
+            "feedback": "Yes — internal nodes are merged frequency sums, not symbols."
+          },
+          {
+            "text": "All symbols get codewords of equal length",
+            "fraction": -50,
+            "feedback": "No — Huffman codes are variable length."
+          },
+          {
+            "text": "The merged node's frequency is the product of its children's frequencies",
+            "fraction": -50,
+            "feedback": "No — it is the sum, not the product."
+          }
+        ],
+        "generalFeedback": "Huffman: min-heap driven greedy merges of the two smallest, symbols at leaves, variable-length codewords, merged frequency = sum of children.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "霍夫曼貪婪步驟",
+        "text": "<p>霍夫曼演算法每一步合併的是哪兩個節點?</p>",
+        "answers": [
+          {
+            "text": "頻率最低的兩個節點",
+            "fraction": 100,
+            "feedback": "正確 —— 貪婪地合併兩個最小者,合併後節點的頻率為兩者之和。"
+          },
+          {
+            "text": "頻率最高的兩個節點",
+            "fraction": 0,
+            "feedback": "錯 —— 先合併最大者會讓高頻符號得到較長的編碼。"
+          },
+          {
+            "text": "輸入順序中相鄰的任意兩個節點",
+            "fraction": 0,
+            "feedback": "錯 —— 選擇依據是頻率,而非位置。"
+          },
+          {
+            "text": "頻率最高的節點與頻率最低的節點",
+            "fraction": 0,
+            "feedback": "錯 —— 永遠合併兩個最低者。"
+          }
+        ],
+        "generalFeedback": "霍夫曼是貪婪法:反覆從最小堆積取出頻率最低的兩個節點,合併為一個父節點,其頻率為兩者之和。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "無前綴性質",
+        "text": "<p>霍夫曼編碼的哪一項關鍵性質使得解碼不會產生歧義?</p>",
+        "answers": [
+          {
+            "text": "沒有任何一個編碼是另一個編碼的前綴",
+            "fraction": 100,
+            "feedback": "正確 —— 這種無前綴性質讓解碼器能明確地切分位元串。"
+          },
+          {
+            "text": "所有編碼長度相同",
+            "fraction": 0,
+            "feedback": "錯 —— 霍夫曼編碼是變長的;那是固定長度編碼。"
+          },
+          {
+            "text": "編碼依字母順序指派",
+            "fraction": 0,
+            "feedback": "錯 —— 指派依據頻率,而非字母。"
+          },
+          {
+            "text": "每個編碼都以位元 0 開頭",
+            "fraction": 0,
+            "feedback": "錯 —— 這不是霍夫曼編碼的性質。"
+          }
+        ],
+        "generalFeedback": "由於符號只位於樹的葉節點,沒有編碼是另一個的前綴,因此解碼器不需要向前預看。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "編碼長度與頻率",
+        "text": "<p>在霍夫曼編碼中,出現<strong>越頻繁</strong>的符號所得到的編碼會:</p>",
+        "answers": [
+          {
+            "text": "較短",
+            "fraction": 100,
+            "feedback": "正確 —— 高頻符號靠近根部,得到較短編碼,使總長度最小。"
+          },
+          {
+            "text": "較長",
+            "fraction": 0,
+            "feedback": "錯 —— 那會增加編碼後的大小。"
+          },
+          {
+            "text": "與其他所有符號等長",
+            "fraction": 0,
+            "feedback": "錯 —— 那是固定長度編碼,不是霍夫曼。"
+          },
+          {
+            "text": "永遠恰好一個位元",
+            "fraction": 0,
+            "feedback": "錯 —— 只有在符號數不超過兩個時才可能。"
+          }
+        ],
+        "generalFeedback": "將較短的編碼指派給較高頻的符號,可使期望位元數最小,產生最小冗餘碼。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "霍夫曼建構複雜度",
+        "text": "<p>使用最小堆積(優先佇列),為 <em>n</em> 個符號建構霍夫曼樹的時間為何?</p>",
+        "answers": [
+          {
+            "text": "O(n log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 進行 n-1 次合併,每次為 O(log n) 的堆積操作。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 除非頻率已預先排序,否則堆積操作會加上 log n 因子。"
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "錯 —— 樸素地線性掃描找最小值才會如此,但堆積更快。"
+          },
+          {
+            "text": "O(2^n)",
+            "fraction": 0,
+            "feedback": "錯 —— 此建構並非指數級。"
+          }
+        ],
+        "generalFeedback": "共有 n-1 次合併;每次取最小與插入為 O(log n),總計 O(n log n)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "霍夫曼最佳性",
+        "text": "<p>對於給定的符號頻率集合,霍夫曼編碼會產生最佳(最小長度)的無前綴碼。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 在逐符號的無前綴碼中它是最佳的。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "它對逐符號的無前綴碼可被證明為最佳。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "霍夫曼是貪婪非動態規劃",
+        "text": "<p>霍夫曼演算法需要動態規劃來決定要合併哪些節點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它是貪婪演算法;選兩個最小者的局部選擇可證明為全域最佳。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 霍夫曼是貪婪法,而非動態規劃。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "前綴性質名詞",
+        "text": "<p>沒有任何編碼是另一個編碼前綴的碼,稱為無______碼(以英文作答)。</p>",
+        "answers": [
+          {
+            "text": "prefix",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "prefix*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "霍夫曼性質複選",
+        "text": "<p>關於霍夫曼編碼,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "使用最小堆積反覆取出頻率最低的兩個節點",
+            "fraction": 50,
+            "feedback": "正確 —— 這是貪婪建構的核心。"
+          },
+          {
+            "text": "符號只儲存在樹的葉節點",
+            "fraction": 50,
+            "feedback": "正確 —— 內部節點是合併後的頻率和,而非符號。"
+          },
+          {
+            "text": "所有符號得到等長的編碼",
+            "fraction": -50,
+            "feedback": "錯 —— 霍夫曼編碼是變長的。"
+          },
+          {
+            "text": "合併節點的頻率是其子節點頻率的乘積",
+            "fraction": -50,
+            "feedback": "錯 —— 是相加之和,而非乘積。"
+          }
+        ],
+        "generalFeedback": "霍夫曼:以最小堆積驅動、貪婪合併兩個最小者、符號在葉節點、變長編碼、合併頻率為子節點之和。",
+        "single": false
+      }
+    ]
+  },
   "search-aho": {
     "en": [
       {
@@ -9147,6 +10375,9108 @@ window.QUIZ_RENDERED = {
           }
         ],
         "generalFeedback": "希爾排序:原地、不穩定,是插入排序以間隔為基礎的推廣,其速度取決於增量序列。",
+        "single": false
+      }
+    ]
+  },
+  "tree-array-rep": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Child indices",
+        "text": "<p>Storing a binary tree in a 1-based array, the children of the node at index <em>i</em> are at which indices?</p>",
+        "answers": [
+          {
+            "text": "2i and 2i+1",
+            "fraction": 100,
+            "feedback": "Correct — left child at 2i, right child at 2i+1."
+          },
+          {
+            "text": "i+1 and i+2",
+            "fraction": 0,
+            "feedback": "No — that is not how a heap-style array indexes children."
+          },
+          {
+            "text": "i/2 and i/2+1",
+            "fraction": 0,
+            "feedback": "No — i/2 gives the parent, not the children."
+          },
+          {
+            "text": "2i-1 and 2i",
+            "fraction": 0,
+            "feedback": "No — with 1-based indexing the children are 2i and 2i+1."
+          }
+        ],
+        "generalFeedback": "With 1-based indexing, node i has children at 2i (left) and 2i+1 (right); no pointers are needed.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Parent index",
+        "text": "<p>In a 1-based array representation, the parent of the node at index <em>i</em> is at which index?</p>",
+        "answers": [
+          {
+            "text": "&lfloor;i/2&rfloor;",
+            "fraction": 100,
+            "feedback": "Correct — integer division of i by 2 gives the parent."
+          },
+          {
+            "text": "2i",
+            "fraction": 0,
+            "feedback": "No — 2i is the left child, not the parent."
+          },
+          {
+            "text": "i-1",
+            "fraction": 0,
+            "feedback": "No — that is the previous array slot, not the parent."
+          },
+          {
+            "text": "2i+1",
+            "fraction": 0,
+            "feedback": "No — 2i+1 is the right child."
+          }
+        ],
+        "generalFeedback": "Parent(i) = &lfloor;i/2&rfloor;, the inverse of the child formulas 2i and 2i+1.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Best fit for array storage",
+        "text": "<p>The array representation is most space-efficient for which kind of tree?</p>",
+        "answers": [
+          {
+            "text": "A complete (or nearly complete) binary tree, such as a heap",
+            "fraction": 100,
+            "feedback": "Correct — complete trees leave no gaps in the array."
+          },
+          {
+            "text": "A long skewed tree that is essentially a linked list",
+            "fraction": 0,
+            "feedback": "No — a skewed tree wastes enormous amounts of array space."
+          },
+          {
+            "text": "A sparse tree with many missing nodes",
+            "fraction": 0,
+            "feedback": "No — missing nodes still consume reserved array slots."
+          },
+          {
+            "text": "A general tree of arbitrary degree",
+            "fraction": 0,
+            "feedback": "No — the 2i/2i+1 scheme is for binary trees."
+          }
+        ],
+        "generalFeedback": "Because a complete tree packs tightly with no holes, the array wastes no slots — which is exactly why heaps use it.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Drawback of array storage",
+        "text": "<p>What is the main drawback of the array representation?</p>",
+        "answers": [
+          {
+            "text": "It wastes space for sparse or skewed trees",
+            "fraction": 100,
+            "feedback": "Correct — missing nodes still reserve array slots, so gaps are wasteful."
+          },
+          {
+            "text": "Finding a child requires following pointers",
+            "fraction": 0,
+            "feedback": "No — the array uses index arithmetic, no pointers."
+          },
+          {
+            "text": "The parent of a node cannot be computed",
+            "fraction": 0,
+            "feedback": "No — parent(i) = &lfloor;i/2&rfloor; is easy to compute."
+          },
+          {
+            "text": "It cannot store the tree's node values",
+            "fraction": 0,
+            "feedback": "No — values are stored directly in the array cells."
+          }
+        ],
+        "generalFeedback": "A skewed or sparse tree of height h can require up to 2^(h+1)-1 slots for only a few nodes, wasting memory.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Parent formula",
+        "text": "<p>In a 1-based array representation, the parent of node <em>i</em> is at index &lfloor;i/2&rfloor;.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — integer division by 2 gives the parent."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It is true — parent(i) = &lfloor;i/2&rfloor;."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Array needs pointers",
+        "text": "<p>The array representation of a binary tree requires explicit child pointers in each node.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — positions are computed with index arithmetic (2i, 2i+1), so no pointers are stored."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the array needs no pointers; indices encode the structure."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Left-child index formula",
+        "text": "<p>In a 1-based array, the left child of node <em>i</em> is at index ______. (Give the formula in terms of <em>i</em>.)</p>",
+        "answers": [
+          {
+            "text": "2i",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "2*i",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "2i*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Facts about array representation",
+        "text": "<p>Which statements about the array representation of a binary tree are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Node i's children are at indices 2i and 2i+1 (1-based)",
+            "fraction": 50,
+            "feedback": "Yes — that is the child formula."
+          },
+          {
+            "text": "It is ideal for heaps and other complete trees",
+            "fraction": 50,
+            "feedback": "Yes — complete trees pack the array with no gaps."
+          },
+          {
+            "text": "It stores structure using explicit child pointers",
+            "fraction": -50,
+            "feedback": "No — structure comes from index arithmetic, not pointers."
+          },
+          {
+            "text": "It is the most space-efficient choice for a skewed tree",
+            "fraction": -50,
+            "feedback": "No — skewed trees waste huge amounts of array space."
+          }
+        ],
+        "generalFeedback": "Children at 2i/2i+1, parent at &lfloor;i/2&rfloor;, no pointers, great for complete trees, wasteful for sparse/skewed ones.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "子節點索引",
+        "text": "<p>將二元樹存進 1 為起始索引的陣列時,索引 <em>i</em> 之節點的兩個子節點位於哪些索引?</p>",
+        "answers": [
+          {
+            "text": "2i 與 2i+1",
+            "fraction": 100,
+            "feedback": "正確 —— 左子在 2i,右子在 2i+1。"
+          },
+          {
+            "text": "i+1 與 i+2",
+            "fraction": 0,
+            "feedback": "錯 —— 堆積式陣列並非如此索引子節點。"
+          },
+          {
+            "text": "i/2 與 i/2+1",
+            "fraction": 0,
+            "feedback": "錯 —— i/2 得到的是父節點,不是子節點。"
+          },
+          {
+            "text": "2i-1 與 2i",
+            "fraction": 0,
+            "feedback": "錯 —— 在 1 為起始的索引下,子節點是 2i 與 2i+1。"
+          }
+        ],
+        "generalFeedback": "在 1 為起始的索引下,節點 i 的子節點在 2i(左)與 2i+1(右);不需要任何指標。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "父節點索引",
+        "text": "<p>在 1 為起始索引的陣列表示法中,索引 <em>i</em> 之節點的父節點位於哪個索引?</p>",
+        "answers": [
+          {
+            "text": "&lfloor;i/2&rfloor;",
+            "fraction": 100,
+            "feedback": "正確 —— 將 i 對 2 取整數除法即得父節點。"
+          },
+          {
+            "text": "2i",
+            "fraction": 0,
+            "feedback": "錯 —— 2i 是左子節點,不是父節點。"
+          },
+          {
+            "text": "i-1",
+            "fraction": 0,
+            "feedback": "錯 —— 那是前一個陣列格,不是父節點。"
+          },
+          {
+            "text": "2i+1",
+            "fraction": 0,
+            "feedback": "錯 —— 2i+1 是右子節點。"
+          }
+        ],
+        "generalFeedback": "父(i) = &lfloor;i/2&rfloor;,是子節點公式 2i 與 2i+1 的逆運算。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "最適合陣列儲存的樹",
+        "text": "<p>陣列表示法對哪一種樹最節省空間?</p>",
+        "answers": [
+          {
+            "text": "完全(或近乎完全)二元樹,例如堆積(heap)",
+            "fraction": 100,
+            "feedback": "正確 —— 完全樹在陣列中不留空隙。"
+          },
+          {
+            "text": "本質上像鏈結串列的長歪斜樹",
+            "fraction": 0,
+            "feedback": "錯 —— 歪斜樹會浪費大量陣列空間。"
+          },
+          {
+            "text": "缺少許多節點的稀疏樹",
+            "fraction": 0,
+            "feedback": "錯 —— 缺少的節點仍會占用保留的陣列格。"
+          },
+          {
+            "text": "任意分支度的一般樹",
+            "fraction": 0,
+            "feedback": "錯 —— 2i/2i+1 的方案是給二元樹用的。"
+          }
+        ],
+        "generalFeedback": "由於完全樹能緊密排列而不留空洞,陣列不會浪費任何格子 —— 這正是堆積採用它的原因。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "陣列儲存的缺點",
+        "text": "<p>陣列表示法的主要缺點為何?</p>",
+        "answers": [
+          {
+            "text": "對稀疏或歪斜的樹會浪費空間",
+            "fraction": 100,
+            "feedback": "正確 —— 缺少的節點仍保留陣列格,因此空隙很浪費。"
+          },
+          {
+            "text": "尋找子節點需要跟隨指標",
+            "fraction": 0,
+            "feedback": "錯 —— 陣列使用索引運算,不需指標。"
+          },
+          {
+            "text": "無法計算某節點的父節點",
+            "fraction": 0,
+            "feedback": "錯 —— 父(i) = &lfloor;i/2&rfloor; 很容易計算。"
+          },
+          {
+            "text": "它無法儲存樹的節點值",
+            "fraction": 0,
+            "feedback": "錯 —— 值直接存放在陣列格中。"
+          }
+        ],
+        "generalFeedback": "高度為 h 的歪斜或稀疏樹,可能需要多達 2^(h+1)-1 個格子卻只放少數節點,浪費記憶體。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "父節點公式",
+        "text": "<p>在 1 為起始索引的陣列表示法中,節點 <em>i</em> 的父節點位於索引 &lfloor;i/2&rfloor;。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 對 2 取整數除法即得父節點。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "這是正確的 —— 父(i) = &lfloor;i/2&rfloor;。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "陣列需要指標",
+        "text": "<p>二元樹的陣列表示法需要在每個節點中存放明確的子節點指標。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 位置以索引運算(2i、2i+1)計算,因此不需儲存指標。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 陣列不需指標;索引即編碼了結構。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "左子節點索引公式",
+        "text": "<p>在 1 為起始的陣列中,節點 <em>i</em> 的左子節點位於索引 ______。(請以 <em>i</em> 表示公式。)</p>",
+        "answers": [
+          {
+            "text": "2i",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "2*i",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "2i*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "關於陣列表示法的事實",
+        "text": "<p>關於二元樹的陣列表示法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "節點 i 的子節點在索引 2i 與 2i+1(1 為起始)",
+            "fraction": 50,
+            "feedback": "正確 —— 這就是子節點公式。"
+          },
+          {
+            "text": "它非常適合堆積與其他完全樹",
+            "fraction": 50,
+            "feedback": "正確 —— 完全樹使陣列毫無空隙。"
+          },
+          {
+            "text": "它以明確的子節點指標儲存結構",
+            "fraction": -50,
+            "feedback": "錯 —— 結構來自索引運算,而非指標。"
+          },
+          {
+            "text": "它是歪斜樹最節省空間的選擇",
+            "fraction": -50,
+            "feedback": "錯 —— 歪斜樹會浪費大量陣列空間。"
+          }
+        ],
+        "generalFeedback": "子節點在 2i/2i+1、父節點在 &lfloor;i/2&rfloor;、不需指標、對完全樹很棒、對稀疏/歪斜樹則浪費。",
+        "single": false
+      }
+    ]
+  },
+  "tree-avl": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "AVL what it is",
+        "text": "<p>What best describes an <strong>AVL tree</strong>?</p>",
+        "answers": [
+          {
+            "text": "A self-balancing binary search tree that keeps every node's balance factor in {-1, 0, 1}",
+            "fraction": 100,
+            "feedback": "Correct — the height-balance invariant is the defining feature."
+          },
+          {
+            "text": "A binary heap that supports fast minimum extraction",
+            "fraction": 0,
+            "feedback": "That is a heap, not an AVL tree."
+          },
+          {
+            "text": "A hash table variant that resolves collisions with trees",
+            "fraction": 0,
+            "feedback": "An AVL tree is a search tree, not a hashing scheme."
+          },
+          {
+            "text": "A plain BST with no balancing guarantees",
+            "fraction": 0,
+            "feedback": "The whole point of AVL is that it does self-balance."
+          }
+        ],
+        "generalFeedback": "An AVL tree is a self-balancing BST; the height difference between the two subtrees of any node (its balance factor) is at most 1.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "AVL worst-case complexity",
+        "text": "<p>What is the <strong>worst-case</strong> time complexity of search, insert, and delete in an AVL tree?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — the balance invariant keeps height O(log n) even in the worst case."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "That is the plain-BST worst case; AVL avoids it by rebalancing."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "You still descend a path of height ~log n."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a sorting bound, not a single AVL operation."
+          }
+        ],
+        "generalFeedback": "Because the balance factor is bounded, an AVL tree's height stays at most ~1.44&middot;log n, so every operation is O(log n) even in the worst case.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "AVL balance factor",
+        "text": "<p>The AVL <strong>balance factor</strong> of a node is defined as the height of its left subtree minus the height of its right subtree. Which set of values is allowed for a valid AVL node?</p>",
+        "answers": [
+          {
+            "text": "-1, 0, or +1",
+            "fraction": 100,
+            "feedback": "Correct — any node outside this range triggers rebalancing."
+          },
+          {
+            "text": "0 only",
+            "fraction": 0,
+            "feedback": "Requiring exactly 0 would demand a perfectly balanced tree, which is too strict."
+          },
+          {
+            "text": "Any value from -n to +n",
+            "fraction": 0,
+            "feedback": "That would allow an arbitrarily skewed tree."
+          },
+          {
+            "text": "-2, -1, 0, +1, or +2",
+            "fraction": 0,
+            "feedback": "A magnitude of 2 is exactly the imbalance that must be fixed by rotation."
+          }
+        ],
+        "generalFeedback": "A valid AVL node has a balance factor in {-1, 0, +1}; a factor of &plusmn;2 signals imbalance and is repaired by rotation.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "AVL rebalancing mechanism",
+        "text": "<p>How does an AVL tree restore balance after an insertion or deletion breaks the invariant?</p>",
+        "answers": [
+          {
+            "text": "By performing rotations (LL, RR, LR, RL cases)",
+            "fraction": 100,
+            "feedback": "Correct — single or double rotations restore the height balance."
+          },
+          {
+            "text": "By recoloring nodes red or black",
+            "fraction": 0,
+            "feedback": "That is the red-black mechanism, not AVL."
+          },
+          {
+            "text": "By rebuilding the entire tree from scratch each time",
+            "fraction": 0,
+            "feedback": "Rebalancing is local, touching only nodes along the insertion path."
+          },
+          {
+            "text": "By moving the accessed node to the root",
+            "fraction": 0,
+            "feedback": "That is a splay tree's behavior, not AVL."
+          }
+        ],
+        "generalFeedback": "AVL trees rebalance with rotations; the four cases (LL, RR, LR, RL) are chosen from the shape of the imbalance.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "AVL vs red-black rotations",
+        "text": "<p>Compared with a red-black tree, an AVL tree is more strictly balanced, giving faster lookups but typically performing more rotations on updates.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — tighter balance means faster searches but more rebalancing work on insert/delete."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "AVL's stricter balance does trade extra rotations for faster lookups."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "AVL is a BST",
+        "text": "<p>An AVL tree still obeys the binary-search-tree ordering property (left &lt; node &lt; right).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — AVL is a BST plus a height-balance invariant."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "AVL preserves BST ordering; balancing does not violate it."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "AVL rebalance operation term",
+        "text": "<p>What single-word operation does an AVL tree use to restore balance? A ______.</p>",
+        "answers": [
+          {
+            "text": "rotation",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "rotation*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "rotate*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "AVL properties multi-select",
+        "text": "<p>Which statements about AVL trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "They guarantee O(log n) worst-case search, insert, and delete",
+            "fraction": 50,
+            "feedback": "Yes — the height stays logarithmic."
+          },
+          {
+            "text": "They rebalance using rotations classified as LL, RR, LR, and RL",
+            "fraction": 50,
+            "feedback": "Yes — those are the four rotation cases."
+          },
+          {
+            "text": "They store a red/black color bit in every node",
+            "fraction": -50,
+            "feedback": "No — that is red-black trees; AVL stores heights or balance factors."
+          },
+          {
+            "text": "They can degenerate into a linked list on sorted input",
+            "fraction": -50,
+            "feedback": "No — self-balancing prevents that degeneration."
+          }
+        ],
+        "generalFeedback": "AVL trees guarantee O(log n) operations and rebalance via LL/RR/LR/RL rotations; they use balance factors (not colors) and never degenerate to a list.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "AVL 是什麼",
+        "text": "<p>以下何者最能描述 <strong>AVL 樹</strong>?</p>",
+        "answers": [
+          {
+            "text": "一種自我平衡的二元搜尋樹,使每個節點的平衡因子維持在 {-1, 0, 1}",
+            "fraction": 100,
+            "feedback": "正確 —— 高度平衡不變式正是其定義特徵。"
+          },
+          {
+            "text": "一種支援快速取出最小值的二元堆積",
+            "fraction": 0,
+            "feedback": "那是堆積,不是 AVL 樹。"
+          },
+          {
+            "text": "一種以樹來解決碰撞的雜湊表變體",
+            "fraction": 0,
+            "feedback": "AVL 樹是搜尋樹,不是雜湊機制。"
+          },
+          {
+            "text": "沒有任何平衡保證的一般 BST",
+            "fraction": 0,
+            "feedback": "AVL 的重點正是它會自我平衡。"
+          }
+        ],
+        "generalFeedback": "AVL 樹是自我平衡的 BST;任一節點兩子樹的高度差(平衡因子)至多為 1。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "AVL 最差情況複雜度",
+        "text": "<p>AVL 樹的搜尋、插入、刪除的<strong>最差情況</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 平衡不變式讓高度即使在最差情況仍為 O(log n)。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "那是一般 BST 的最差情況;AVL 透過再平衡避免它。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "你仍需沿一條高度約 log n 的路徑下降。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是排序的界,不是單一 AVL 操作。"
+          }
+        ],
+        "generalFeedback": "因為平衡因子有界,AVL 樹高度至多約 1.44&middot;log n,所以每個操作即使在最差情況也是 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "AVL 平衡因子",
+        "text": "<p>AVL 的<strong>平衡因子</strong>定義為節點左子樹高度減右子樹高度。合法的 AVL 節點允許哪一組值?</p>",
+        "answers": [
+          {
+            "text": "-1、0 或 +1",
+            "fraction": 100,
+            "feedback": "正確 —— 超出此範圍的節點會觸發再平衡。"
+          },
+          {
+            "text": "只能是 0",
+            "fraction": 0,
+            "feedback": "要求恰好為 0 等於要求完美平衡,過於嚴苛。"
+          },
+          {
+            "text": "-n 到 +n 的任意值",
+            "fraction": 0,
+            "feedback": "那會允許任意傾斜的樹。"
+          },
+          {
+            "text": "-2、-1、0、+1 或 +2",
+            "fraction": 0,
+            "feedback": "大小為 2 正是必須以旋轉修正的失衡。"
+          }
+        ],
+        "generalFeedback": "合法的 AVL 節點平衡因子屬於 {-1, 0, +1};出現 &plusmn;2 代表失衡,需以旋轉修復。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "AVL 再平衡機制",
+        "text": "<p>當插入或刪除破壞不變式後,AVL 樹如何恢復平衡?</p>",
+        "answers": [
+          {
+            "text": "執行旋轉(LL、RR、LR、RL 情況)",
+            "fraction": 100,
+            "feedback": "正確 —— 單旋轉或雙旋轉可恢復高度平衡。"
+          },
+          {
+            "text": "將節點重新著色為紅或黑",
+            "fraction": 0,
+            "feedback": "那是紅黑樹的機制,不是 AVL。"
+          },
+          {
+            "text": "每次都從頭重建整棵樹",
+            "fraction": 0,
+            "feedback": "再平衡是局部的,只觸及插入路徑上的節點。"
+          },
+          {
+            "text": "將被存取的節點移到根",
+            "fraction": 0,
+            "feedback": "那是伸展樹的行為,不是 AVL。"
+          }
+        ],
+        "generalFeedback": "AVL 樹以旋轉再平衡;四種情況(LL、RR、LR、RL)依失衡形狀選擇。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "AVL 與紅黑樹旋轉比較",
+        "text": "<p>與紅黑樹相比,AVL 樹更嚴格平衡,因此查詢更快,但在更新時通常執行更多次旋轉。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 更緊的平衡帶來更快的搜尋,但插入/刪除時有更多再平衡工作。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "AVL 更嚴格的平衡確實以較多旋轉換取較快查詢。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "AVL 是一種 BST",
+        "text": "<p>AVL 樹仍遵守二元搜尋樹的排序性質(左 &lt; 節點 &lt; 右)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— AVL 是 BST 再加上高度平衡不變式。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "AVL 保持 BST 排序;平衡不會違反它。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "AVL 再平衡操作名詞",
+        "text": "<p>AVL 樹用什麼單一(英文)操作來恢復平衡?答:一次 ______。</p>",
+        "answers": [
+          {
+            "text": "rotation",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "rotation*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "rotate*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "AVL 性質複選",
+        "text": "<p>關於 AVL 樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "保證搜尋、插入、刪除的最差情況為 O(log n)",
+            "fraction": 50,
+            "feedback": "正確 —— 高度維持對數。"
+          },
+          {
+            "text": "以分類為 LL、RR、LR、RL 的旋轉再平衡",
+            "fraction": 50,
+            "feedback": "正確 —— 那是四種旋轉情況。"
+          },
+          {
+            "text": "在每個節點儲存紅/黑顏色位元",
+            "fraction": -50,
+            "feedback": "錯 —— 那是紅黑樹;AVL 儲存高度或平衡因子。"
+          },
+          {
+            "text": "對已排序的輸入會退化成鏈結串列",
+            "fraction": -50,
+            "feedback": "錯 —— 自我平衡可防止這種退化。"
+          }
+        ],
+        "generalFeedback": "AVL 樹保證 O(log n) 操作並以 LL/RR/LR/RL 旋轉再平衡;它使用平衡因子(非顏色),且絕不會退化成串列。",
+        "single": false
+      }
+    ]
+  },
+  "tree-bplus": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "B+ Tree data location",
+        "text": "<p>In a B+ tree, where do the actual <strong>records / data values</strong> reside?</p>",
+        "answers": [
+          {
+            "text": "Only in the leaf nodes",
+            "fraction": 100,
+            "feedback": "Correct — all data lives in the leaves; internal nodes hold only routing keys."
+          },
+          {
+            "text": "Only in the root node",
+            "fraction": 0,
+            "feedback": "The root is just an internal router, not a data store."
+          },
+          {
+            "text": "In both internal and leaf nodes",
+            "fraction": 0,
+            "feedback": "That describes a classic B-tree; a B+ tree confines data to leaves."
+          },
+          {
+            "text": "In a separate hash table",
+            "fraction": 0,
+            "feedback": "No — the data is held in the leaf level of the tree itself."
+          }
+        ],
+        "generalFeedback": "A B+ tree separates navigation from storage: internal nodes route, leaves store.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B+ Tree internal nodes",
+        "text": "<p>What role do the <strong>internal nodes</strong> of a B+ tree play?</p>",
+        "answers": [
+          {
+            "text": "They hold keys only, acting as routers (separators) that guide the search downward",
+            "fraction": 100,
+            "feedback": "Correct — internal keys are separator copies, not data."
+          },
+          {
+            "text": "They store the full data records",
+            "fraction": 0,
+            "feedback": "No — records live only in the leaves."
+          },
+          {
+            "text": "They link horizontally to support range scans",
+            "fraction": 0,
+            "feedback": "It is the leaves that are linked, not the internal nodes."
+          },
+          {
+            "text": "They are always empty until a delete occurs",
+            "fraction": 0,
+            "feedback": "Internal nodes always carry separator keys."
+          }
+        ],
+        "generalFeedback": "Because internal nodes carry no data, they pack more separator keys per block, raising fan-out.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B+ Tree range scan",
+        "text": "<p>Which structural feature makes B+ tree <strong>range and in-order scans</strong> especially fast?</p>",
+        "answers": [
+          {
+            "text": "The leaves are linked together in a sorted list",
+            "fraction": 100,
+            "feedback": "Correct — after finding the start, you walk the leaf links sequentially."
+          },
+          {
+            "text": "Every key is hashed for O(1) lookup",
+            "fraction": 0,
+            "feedback": "B+ trees are ordered, not hashed; hashing would break range order."
+          },
+          {
+            "text": "Data is duplicated in every internal node",
+            "fraction": 0,
+            "feedback": "Internal nodes hold only routing keys, no data."
+          },
+          {
+            "text": "The tree re-sorts itself on each query",
+            "fraction": 0,
+            "feedback": "No re-sorting occurs; order is maintained by structure."
+          }
+        ],
+        "generalFeedback": "The linked leaf list turns a range query into one descent plus a sequential walk — ideal for databases.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B+ Tree fan-out",
+        "text": "<p>Compared with a B-tree of the same block size, why does a B+ tree tend to be <strong>shorter</strong>?</p>",
+        "answers": [
+          {
+            "text": "Internal nodes store no data, so each block packs more keys, raising fan-out",
+            "fraction": 100,
+            "feedback": "Correct — higher fan-out means fewer levels for the same key count."
+          },
+          {
+            "text": "It removes duplicate keys entirely",
+            "fraction": 0,
+            "feedback": "Separator keys are actually duplicated into internal nodes."
+          },
+          {
+            "text": "It uses binary nodes instead of multiway nodes",
+            "fraction": 0,
+            "feedback": "It is a multiway structure, like the B-tree."
+          },
+          {
+            "text": "It stores everything in the root",
+            "fraction": 0,
+            "feedback": "Data is in the leaves, spread across the leaf level."
+          }
+        ],
+        "generalFeedback": "Data-free internal nodes maximize branching factor, shrinking tree height and I/O per lookup.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "B+ Tree leaf linkage",
+        "text": "<p>In a B+ tree the leaf nodes are chained together so they can be traversed as a sorted sequential list.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the linked leaves enable fast sequential and range access."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Leaf linkage is a defining feature of the B+ tree."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "B+ Tree internal data",
+        "text": "<p>In a B+ tree the internal nodes store full data records alongside their keys.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — internal nodes hold only separator keys; data lives in the leaves."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — internal nodes route only; the records are all in the leaves."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Index use case term",
+        "text": "<p>The B+ tree is the standard on-disk ______ structure used by relational databases and filesystems. (one English word)</p>",
+        "answers": [
+          {
+            "text": "index",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "index*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "indexing",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "B+ Tree vs B-Tree multi",
+        "text": "<p>Which statements distinguishing a B+ tree from a B-tree are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A B+ tree keeps all data records in the leaves; a B-tree keeps data in internal nodes too",
+            "fraction": 50,
+            "feedback": "Yes — this is the core structural difference."
+          },
+          {
+            "text": "A B+ tree links its leaves for fast range scans; a plain B-tree does not",
+            "fraction": 50,
+            "feedback": "Yes — linked leaves are a B+ tree feature."
+          },
+          {
+            "text": "A B+ tree is unbalanced while a B-tree is balanced",
+            "fraction": -50,
+            "feedback": "No — both are height-balanced with all leaves at equal depth."
+          },
+          {
+            "text": "A B+ tree has lower fan-out than a B-tree of the same block size",
+            "fraction": -50,
+            "feedback": "No — data-free internal nodes give a B+ tree higher fan-out."
+          }
+        ],
+        "generalFeedback": "B+ trees confine data to linked leaves and gain higher fan-out; both trees remain balanced.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "B+ Tree 資料位置",
+        "text": "<p>在 B+ 樹中,實際的<strong>資料紀錄 / 資料值</strong>存放於何處?</p>",
+        "answers": [
+          {
+            "text": "只存於葉節點",
+            "fraction": 100,
+            "feedback": "正確 —— 所有資料都在葉節點;內部節點只持有路由用的鍵。"
+          },
+          {
+            "text": "只存於根節點",
+            "fraction": 0,
+            "feedback": "根節點只是內部路由器,不是資料儲存處。"
+          },
+          {
+            "text": "內部節點與葉節點兩者皆有",
+            "fraction": 0,
+            "feedback": "那是傳統 B-tree;B+ 樹把資料限制在葉節點。"
+          },
+          {
+            "text": "存於另一個雜湊表",
+            "fraction": 0,
+            "feedback": "錯 —— 資料就存在樹本身的葉節點層。"
+          }
+        ],
+        "generalFeedback": "B+ 樹把導航與儲存分離:內部節點負責路由,葉節點負責儲存。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B+ Tree 內部節點",
+        "text": "<p>B+ 樹的<strong>內部節點</strong>扮演什麼角色?</p>",
+        "answers": [
+          {
+            "text": "只持有鍵,作為路由器(分隔鍵)引導搜尋往下走",
+            "fraction": 100,
+            "feedback": "正確 —— 內部節點的鍵是分隔用的副本,並非資料。"
+          },
+          {
+            "text": "存放完整的資料紀錄",
+            "fraction": 0,
+            "feedback": "錯 —— 紀錄只存在葉節點。"
+          },
+          {
+            "text": "橫向串接以支援範圍掃描",
+            "fraction": 0,
+            "feedback": "被串接的是葉節點,不是內部節點。"
+          },
+          {
+            "text": "刪除發生前一直是空的",
+            "fraction": 0,
+            "feedback": "內部節點始終攜帶分隔鍵。"
+          }
+        ],
+        "generalFeedback": "由於內部節點不帶資料,每個區塊能塞入更多分隔鍵,提高分支度。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B+ Tree 範圍掃描",
+        "text": "<p>哪一項結構特徵使 B+ 樹的<strong>範圍與中序掃描</strong>特別快速?</p>",
+        "answers": [
+          {
+            "text": "葉節點以排序好的串列彼此串接",
+            "fraction": 100,
+            "feedback": "正確 —— 找到起點後,沿著葉節點連結依序走訪即可。"
+          },
+          {
+            "text": "每個鍵都經雜湊以達 O(1) 查找",
+            "fraction": 0,
+            "feedback": "B+ 樹是有序的,不是雜湊;雜湊會破壞範圍順序。"
+          },
+          {
+            "text": "資料在每個內部節點都複製一份",
+            "fraction": 0,
+            "feedback": "內部節點只持有路由鍵,不含資料。"
+          },
+          {
+            "text": "樹在每次查詢時重新排序自己",
+            "fraction": 0,
+            "feedback": "不會重新排序;順序由結構本身維持。"
+          }
+        ],
+        "generalFeedback": "葉節點連結串列把範圍查詢變成一次下降加一次循序走訪 —— 對資料庫非常理想。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B+ Tree 分支度",
+        "text": "<p>在相同區塊大小下,與 B-tree 相比,為何 B+ 樹傾向<strong>更矮</strong>?</p>",
+        "answers": [
+          {
+            "text": "內部節點不存資料,故每個區塊能塞入更多鍵,提高分支度",
+            "fraction": 100,
+            "feedback": "正確 —— 分支度越高,相同鍵數所需的層數越少。"
+          },
+          {
+            "text": "它完全移除重複的鍵",
+            "fraction": 0,
+            "feedback": "分隔鍵反而會被複製到內部節點。"
+          },
+          {
+            "text": "它使用二元節點而非多路節點",
+            "fraction": 0,
+            "feedback": "它是多路結構,如同 B-tree。"
+          },
+          {
+            "text": "它把所有東西都存在根節點",
+            "fraction": 0,
+            "feedback": "資料在葉節點,分散於整個葉層。"
+          }
+        ],
+        "generalFeedback": "不帶資料的內部節點使分支因子最大化,降低樹高與每次查找的 I/O。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "B+ Tree 葉節點串接",
+        "text": "<p>在 B+ 樹中,葉節點彼此串接,因此可作為一個排序好的循序串列走訪。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 串接的葉節點使循序與範圍存取快速。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "葉節點串接是 B+ 樹的定義特徵。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "B+ Tree 內部資料",
+        "text": "<p>在 B+ 樹中,內部節點會連同鍵一起存放完整的資料紀錄。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 內部節點只持有分隔鍵;資料存於葉節點。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 內部節點只負責路由;紀錄全在葉節點。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "索引用途名詞",
+        "text": "<p>B+ 樹是關聯式資料庫與檔案系統所採用的標準磁碟 ______ 結構。(請以英文單字作答)</p>",
+        "answers": [
+          {
+            "text": "index",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "index*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "indexing",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "B+ Tree 與 B-Tree 差異複選",
+        "text": "<p>下列區分 B+ 樹與 B-tree 的敘述,哪些正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "B+ 樹把所有資料紀錄放在葉節點;B-tree 的內部節點也放資料",
+            "fraction": 50,
+            "feedback": "正確 —— 這是核心的結構差異。"
+          },
+          {
+            "text": "B+ 樹串接其葉節點以加速範圍掃描;一般 B-tree 則否",
+            "fraction": 50,
+            "feedback": "正確 —— 串接的葉節點是 B+ 樹的特徵。"
+          },
+          {
+            "text": "B+ 樹不平衡,而 B-tree 平衡",
+            "fraction": -50,
+            "feedback": "錯 —— 兩者都是高度平衡,所有葉節點深度相等。"
+          },
+          {
+            "text": "相同區塊大小下,B+ 樹的分支度低於 B-tree",
+            "fraction": -50,
+            "feedback": "錯 —— 不帶資料的內部節點使 B+ 樹分支度更高。"
+          }
+        ],
+        "generalFeedback": "B+ 樹把資料限制在串接的葉節點並取得更高分支度;兩種樹皆保持平衡。",
+        "single": false
+      }
+    ]
+  },
+  "tree-bst": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "BST ordering property",
+        "text": "<p>What is the defining <strong>ordering property</strong> of a binary search tree (BST)?</p>",
+        "answers": [
+          {
+            "text": "For every node, all keys in its left subtree are smaller and all keys in its right subtree are larger",
+            "fraction": 100,
+            "feedback": "Correct — left < node < right holds at every node."
+          },
+          {
+            "text": "Every node has exactly two children",
+            "fraction": 0,
+            "feedback": "That describes a full tree, not the BST ordering rule."
+          },
+          {
+            "text": "All leaves are at the same depth",
+            "fraction": 0,
+            "feedback": "That is a perfect/complete tree property, unrelated to key ordering."
+          },
+          {
+            "text": "Keys are stored only in the leaves",
+            "fraction": 0,
+            "feedback": "A BST stores keys in every node, not just leaves."
+          }
+        ],
+        "generalFeedback": "A BST keeps left subtree keys < node key < right subtree keys, which is what makes ordered search possible.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BST average search complexity",
+        "text": "<p>For a reasonably balanced BST, what is the <strong>average-case</strong> time complexity of search, insert, and delete?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — each comparison discards about half the remaining tree."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "You still descend a path proportional to the height."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a sorting bound, not a single BST operation."
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "No single operation walks the tree quadratically."
+          }
+        ],
+        "generalFeedback": "On a balanced BST the height is ~log n, so each operation follows a single root-to-node path of O(log n) steps.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BST worst case",
+        "text": "<p>Which situation causes a plain BST to degrade to <strong>O(n)</strong> per operation?</p>",
+        "answers": [
+          {
+            "text": "Inserting keys in already-sorted order, so the tree degenerates into a linked list",
+            "fraction": 100,
+            "feedback": "Correct — a skewed tree has height n, so operations become linear."
+          },
+          {
+            "text": "Inserting keys in random order",
+            "fraction": 0,
+            "feedback": "Random insertion gives expected height ~log n, not linear."
+          },
+          {
+            "text": "Storing floating-point keys instead of integers",
+            "fraction": 0,
+            "feedback": "Key type does not affect the tree's shape."
+          },
+          {
+            "text": "Using recursion instead of iteration for traversal",
+            "fraction": 0,
+            "feedback": "Implementation style does not change asymptotic height."
+          }
+        ],
+        "generalFeedback": "A plain BST is not self-balancing; sorted insertions produce a fully skewed tree of height n, giving O(n) worst-case operations.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BST in-order traversal",
+        "text": "<p>What does an <strong>in-order</strong> traversal of a BST produce?</p>",
+        "answers": [
+          {
+            "text": "The keys in ascending sorted order",
+            "fraction": 100,
+            "feedback": "Correct — visiting left, node, right yields sorted keys."
+          },
+          {
+            "text": "The keys in the order they were inserted",
+            "fraction": 0,
+            "feedback": "Traversal order depends on structure, not insertion history."
+          },
+          {
+            "text": "The keys grouped by tree level",
+            "fraction": 0,
+            "feedback": "That describes a level-order (breadth-first) traversal."
+          },
+          {
+            "text": "The keys in random order",
+            "fraction": 0,
+            "feedback": "In-order traversal is deterministic and sorted."
+          }
+        ],
+        "generalFeedback": "Because left < node < right everywhere, an in-order (left, node, right) walk emits keys in ascending order.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "BST self-balancing",
+        "text": "<p>A plain binary search tree automatically keeps itself balanced as keys are inserted and deleted.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "A plain BST has no balancing mechanism; adversarial input makes it skewed."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — balancing requires an augmented structure such as AVL or red-black trees."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "BST space complexity",
+        "text": "<p>A BST storing n keys uses O(n) space.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — one node per key, so space grows linearly with n."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Each key needs its own node, giving O(n) total space."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "BST sorted traversal term",
+        "text": "<p>Name the traversal (one word) of a BST that visits keys in ascending sorted order: ______ (traversal).</p>",
+        "answers": [
+          {
+            "text": "in-order",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "inorder",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "in-order*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "inorder*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "BST properties multi-select",
+        "text": "<p>Which statements about a plain (unbalanced) BST are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "In-order traversal returns the keys in sorted order",
+            "fraction": 50,
+            "feedback": "Yes — this is a core BST property."
+          },
+          {
+            "text": "Average-case search is O(log n) but worst-case is O(n)",
+            "fraction": 50,
+            "feedback": "Yes — balanced on average, linear when skewed."
+          },
+          {
+            "text": "It guarantees O(log n) worst-case operations without any extra machinery",
+            "fraction": -50,
+            "feedback": "No — only self-balancing variants guarantee that."
+          },
+          {
+            "text": "It stores color or balance-factor metadata in every node",
+            "fraction": -50,
+            "feedback": "No — that is red-black or AVL trees, not a plain BST."
+          }
+        ],
+        "generalFeedback": "A plain BST gives sorted in-order output and O(log n) average operations, but it is not self-balancing and stores no balance metadata, so the worst case is O(n).",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "BST 排序性質",
+        "text": "<p>二元搜尋樹(BST)最關鍵的<strong>排序性質</strong>是什麼?</p>",
+        "answers": [
+          {
+            "text": "對每個節點,左子樹的所有鍵值都比它小,右子樹的所有鍵值都比它大",
+            "fraction": 100,
+            "feedback": "正確 —— 每個節點都滿足 左 < 節點 < 右。"
+          },
+          {
+            "text": "每個節點恰好都有兩個子節點",
+            "fraction": 0,
+            "feedback": "那是完滿樹的描述,不是 BST 的排序規則。"
+          },
+          {
+            "text": "所有葉節點都在相同深度",
+            "fraction": 0,
+            "feedback": "那是完美/完全樹的性質,與鍵值排序無關。"
+          },
+          {
+            "text": "鍵值只儲存在葉節點",
+            "fraction": 0,
+            "feedback": "BST 在每個節點都儲存鍵值,不只葉節點。"
+          }
+        ],
+        "generalFeedback": "BST 維持 左子樹鍵值 < 節點鍵值 < 右子樹鍵值,這正是能做有序搜尋的原因。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BST 平均搜尋複雜度",
+        "text": "<p>對一棵大致平衡的 BST,搜尋、插入、刪除的<strong>平均情況</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 每次比較大約排除掉一半的剩餘樹。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "你仍需沿著與高度成正比的路徑下降。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是排序的界,不是單一 BST 操作。"
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "沒有任何單一操作會以平方時間走訪整棵樹。"
+          }
+        ],
+        "generalFeedback": "平衡的 BST 高度約為 log n,每個操作只沿一條根到節點的路徑走 O(log n) 步。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BST 最差情況",
+        "text": "<p>哪一種情況會讓一般 BST 每次操作退化為 <strong>O(n)</strong>?</p>",
+        "answers": [
+          {
+            "text": "以已排序的順序插入鍵值,使樹退化成一條鏈結串列",
+            "fraction": 100,
+            "feedback": "正確 —— 傾斜的樹高度為 n,操作變成線性。"
+          },
+          {
+            "text": "以隨機順序插入鍵值",
+            "fraction": 0,
+            "feedback": "隨機插入的期望高度約為 log n,不是線性。"
+          },
+          {
+            "text": "儲存浮點數鍵值而非整數",
+            "fraction": 0,
+            "feedback": "鍵值型別不會影響樹的形狀。"
+          },
+          {
+            "text": "走訪時使用遞迴而非迭代",
+            "fraction": 0,
+            "feedback": "實作方式不會改變漸進高度。"
+          }
+        ],
+        "generalFeedback": "一般 BST 不會自我平衡;已排序的插入會產生完全傾斜、高度為 n 的樹,造成 O(n) 的最差情況。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BST 中序走訪",
+        "text": "<p>對 BST 做<strong>中序</strong>走訪會產生什麼結果?</p>",
+        "answers": [
+          {
+            "text": "鍵值由小到大的排序順序",
+            "fraction": 100,
+            "feedback": "正確 —— 依 左、節點、右 走訪會得到排序後的鍵值。"
+          },
+          {
+            "text": "鍵值被插入的順序",
+            "fraction": 0,
+            "feedback": "走訪順序取決於結構,而非插入歷程。"
+          },
+          {
+            "text": "依樹的層級分組的鍵值",
+            "fraction": 0,
+            "feedback": "那是層序(廣度優先)走訪。"
+          },
+          {
+            "text": "鍵值的隨機順序",
+            "fraction": 0,
+            "feedback": "中序走訪是確定且已排序的。"
+          }
+        ],
+        "generalFeedback": "因為處處滿足 左 < 節點 < 右,中序(左、節點、右)走訪會由小到大輸出鍵值。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "BST 自我平衡",
+        "text": "<p>一般的二元搜尋樹在插入與刪除鍵值時會自動保持平衡。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "一般 BST 沒有任何平衡機制;對抗性輸入會讓它傾斜。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 平衡需要像 AVL 或紅黑樹這類擴充結構。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "BST 空間複雜度",
+        "text": "<p>儲存 n 個鍵值的 BST 使用 O(n) 空間。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 每個鍵值一個節點,空間隨 n 線性成長。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "每個鍵值需要自己的節點,總空間為 O(n)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "BST 排序走訪名詞",
+        "text": "<p>請寫出 BST 中會依由小到大排序造訪鍵值的走訪名稱(英文一詞):______ (traversal)。</p>",
+        "answers": [
+          {
+            "text": "in-order",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "inorder",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "in-order*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "inorder*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "BST 性質複選",
+        "text": "<p>關於一般(未平衡)BST,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "中序走訪會回傳排序後的鍵值",
+            "fraction": 50,
+            "feedback": "正確 —— 這是 BST 的核心性質。"
+          },
+          {
+            "text": "平均搜尋為 O(log n),但最差為 O(n)",
+            "fraction": 50,
+            "feedback": "正確 —— 平均平衡,傾斜時為線性。"
+          },
+          {
+            "text": "不需任何額外機制即可保證 O(log n) 的最差情況操作",
+            "fraction": -50,
+            "feedback": "錯 —— 只有自我平衡的變體能保證這點。"
+          },
+          {
+            "text": "它在每個節點儲存顏色或平衡因子資訊",
+            "fraction": -50,
+            "feedback": "錯 —— 那是紅黑樹或 AVL 樹,不是一般 BST。"
+          }
+        ],
+        "generalFeedback": "一般 BST 的中序輸出已排序,且平均操作為 O(log n),但它不會自我平衡也不儲存平衡資訊,因此最差情況為 O(n)。",
+        "single": false
+      }
+    ]
+  },
+  "tree-btree": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "B-Tree node capacity",
+        "text": "<p>In a B-tree of <strong>order m</strong>, how many keys and children can a single node hold at most?</p>",
+        "answers": [
+          {
+            "text": "Up to m&minus;1 keys and up to m children",
+            "fraction": 100,
+            "feedback": "Correct — a node with k keys has k+1 children, so at most m&minus;1 keys and m children."
+          },
+          {
+            "text": "Up to m keys and up to m&minus;1 children",
+            "fraction": 0,
+            "feedback": "Reversed — keys are one fewer than children."
+          },
+          {
+            "text": "Exactly 2 keys and 3 children",
+            "fraction": 0,
+            "feedback": "That describes only a 2-3 tree (order 3), not the general case."
+          },
+          {
+            "text": "Up to m keys and up to m children",
+            "fraction": 0,
+            "feedback": "Children always exceed keys by exactly one."
+          }
+        ],
+        "generalFeedback": "Order m bounds a node to m&minus;1 keys; the separating keys create m child pointers.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B-Tree leaf depth",
+        "text": "<p>What is true about the <strong>leaves</strong> of a B-tree?</p>",
+        "answers": [
+          {
+            "text": "All leaves lie at the same depth",
+            "fraction": 100,
+            "feedback": "Correct — the B-tree stays perfectly height-balanced."
+          },
+          {
+            "text": "Leaves may differ in depth by up to one level",
+            "fraction": 0,
+            "feedback": "No — every leaf is at exactly the same depth."
+          },
+          {
+            "text": "Only the leftmost path reaches a leaf",
+            "fraction": 0,
+            "feedback": "Every root-to-leaf path has equal length."
+          },
+          {
+            "text": "Leaves store no keys, only child pointers",
+            "fraction": 0,
+            "feedback": "In a B-tree leaves do store keys."
+          }
+        ],
+        "generalFeedback": "Insertions grow the tree by splitting upward, so all leaves always remain equidistant from the root.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B-Tree disk motivation",
+        "text": "<p>Why is a B-tree preferred over a binary search tree for <strong>disk-resident</strong> data?</p>",
+        "answers": [
+          {
+            "text": "High fan-out gives low height, so a search touches few nodes and few disk/block reads",
+            "fraction": 100,
+            "feedback": "Correct — each node maps to a disk block; fewer levels mean fewer I/O operations."
+          },
+          {
+            "text": "It stores every key in RAM so no disk is needed",
+            "fraction": 0,
+            "feedback": "B-trees are designed precisely for data too large for RAM."
+          },
+          {
+            "text": "It compresses keys to save disk space",
+            "fraction": 0,
+            "feedback": "The motivation is reducing I/O count, not compression."
+          },
+          {
+            "text": "It sorts data faster than quicksort",
+            "fraction": 0,
+            "feedback": "It is a search structure, not a sorting algorithm."
+          }
+        ],
+        "generalFeedback": "A disk seek is far costlier than a comparison; wide nodes minimize the number of blocks read per query.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B-Tree operation complexity",
+        "text": "<p>What is the time complexity of search, insert, and delete in a B-tree with n keys?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — the balanced height is logarithmic in n."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "That would be a degenerate list, which B-trees avoid by balancing."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "You still descend a logarithmic number of levels."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a total sorting cost, not a single operation."
+          }
+        ],
+        "generalFeedback": "Balanced height guarantees logarithmic search, insert, and delete.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "B-Tree key placement",
+        "text": "<p>In a classic B-tree, keys (and their associated data) are stored in <em>both</em> internal and leaf nodes.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — unlike a B+ tree, a B-tree keeps data in internal nodes too."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "A B-tree stores keys throughout; only the B+ tree confines data to leaves."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "B-Tree occupancy",
+        "text": "<p>Every non-root node of a B-tree of order m must hold at least &lceil;m/2&rceil;&minus;1 keys.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — this minimum-occupancy rule keeps the tree at least half full and balanced."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The lower bound &lceil;m/2&rceil;&minus;1 is exactly what guarantees balance."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Balance property term",
+        "text": "<p>A B-tree is a <em>balanced</em> multiway search tree because all of its ______ lie at the same depth. (one word)</p>",
+        "answers": [
+          {
+            "text": "leaves",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "leaf",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "leaves*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "B-Tree properties multi",
+        "text": "<p>Which statements about B-trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Node occupancy is kept between &lceil;m/2&rceil;&minus;1 and m&minus;1 keys",
+            "fraction": 50,
+            "feedback": "Yes — this bounded fill keeps the structure balanced."
+          },
+          {
+            "text": "They are designed to minimize disk/block accesses",
+            "fraction": 50,
+            "feedback": "Yes — low height means few I/O operations."
+          },
+          {
+            "text": "They confine all data to the leaves and link the leaves together",
+            "fraction": -50,
+            "feedback": "No — that describes a B+ tree, not a B-tree."
+          },
+          {
+            "text": "Each node has at most two children",
+            "fraction": -50,
+            "feedback": "No — that is a binary tree; a B-tree node has up to m children."
+          }
+        ],
+        "generalFeedback": "B-trees keep bounded occupancy for balance and wide nodes for low-I/O search; leaf-only data with linked leaves is the B+ tree.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "B-Tree 節點容量",
+        "text": "<p>在<strong>階數為 m</strong> 的 B-tree 中,單一節點最多可容納多少個鍵與多少個子節點?</p>",
+        "answers": [
+          {
+            "text": "最多 m&minus;1 個鍵、最多 m 個子節點",
+            "fraction": 100,
+            "feedback": "正確 —— 有 k 個鍵的節點有 k+1 個子節點,故最多 m&minus;1 個鍵、m 個子節點。"
+          },
+          {
+            "text": "最多 m 個鍵、最多 m&minus;1 個子節點",
+            "fraction": 0,
+            "feedback": "顛倒了 —— 鍵比子節點少一個。"
+          },
+          {
+            "text": "剛好 2 個鍵、3 個子節點",
+            "fraction": 0,
+            "feedback": "那只描述 2-3 樹(階數 3),並非一般情況。"
+          },
+          {
+            "text": "最多 m 個鍵、最多 m 個子節點",
+            "fraction": 0,
+            "feedback": "子節點數恆比鍵數多一。"
+          }
+        ],
+        "generalFeedback": "階數 m 限制每個節點最多 m&minus;1 個鍵;分隔鍵形成 m 個子節點指標。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B-Tree 葉節點深度",
+        "text": "<p>關於 B-tree 的<strong>葉節點</strong>,下列何者正確?</p>",
+        "answers": [
+          {
+            "text": "所有葉節點都位於相同深度",
+            "fraction": 100,
+            "feedback": "正確 —— B-tree 維持完美的高度平衡。"
+          },
+          {
+            "text": "葉節點深度最多可相差一層",
+            "fraction": 0,
+            "feedback": "錯 —— 每個葉節點都在完全相同的深度。"
+          },
+          {
+            "text": "只有最左路徑會抵達葉節點",
+            "fraction": 0,
+            "feedback": "每條由根到葉的路徑長度都相等。"
+          },
+          {
+            "text": "葉節點不存鍵,只存子節點指標",
+            "fraction": 0,
+            "feedback": "B-tree 的葉節點確實存放鍵。"
+          }
+        ],
+        "generalFeedback": "插入時透過向上分裂使樹長高,因此所有葉節點與根始終等距。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B-Tree 磁碟動機",
+        "text": "<p>對於<strong>存放於磁碟</strong>的資料,為何偏好 B-tree 而非二元搜尋樹?</p>",
+        "answers": [
+          {
+            "text": "高分支度使樹高很低,一次搜尋只碰觸少數節點、少數磁碟/區塊讀取",
+            "fraction": 100,
+            "feedback": "正確 —— 每個節點對應一個磁碟區塊;層數少代表 I/O 次數少。"
+          },
+          {
+            "text": "它把所有鍵放在 RAM,故不需磁碟",
+            "fraction": 0,
+            "feedback": "B-tree 正是為了處理大於 RAM 的資料而設計。"
+          },
+          {
+            "text": "它壓縮鍵以節省磁碟空間",
+            "fraction": 0,
+            "feedback": "其動機是降低 I/O 次數,而非壓縮。"
+          },
+          {
+            "text": "它排序資料比快速排序更快",
+            "fraction": 0,
+            "feedback": "它是搜尋結構,不是排序演算法。"
+          }
+        ],
+        "generalFeedback": "一次磁碟尋道遠比一次比較昂貴;寬節點使每次查詢讀取的區塊數最少。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B-Tree 操作複雜度",
+        "text": "<p>在有 n 個鍵的 B-tree 中,搜尋、插入、刪除的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 平衡的樹高與 n 呈對數關係。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "那是退化成串列的情況,B-tree 以平衡避免之。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "仍需下降對數層數。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是整體排序成本,不是單一操作。"
+          }
+        ],
+        "generalFeedback": "平衡的樹高保證搜尋、插入、刪除皆為對數時間。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "B-Tree 鍵的放置",
+        "text": "<p>在傳統 B-tree 中,鍵(及其對應資料)存放於<em>內部節點與葉節點兩者</em>。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 與 B+ 樹不同,B-tree 的內部節點也存放資料。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "B-tree 各處皆存鍵;只有 B+ 樹才把資料限制在葉節點。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "B-Tree 佔用率",
+        "text": "<p>階數為 m 的 B-tree 中,除根節點外的每個節點都必須至少持有 &lceil;m/2&rceil;&minus;1 個鍵。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 此最低佔用規則使樹至少半滿並保持平衡。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "下界 &lceil;m/2&rceil;&minus;1 正是保證平衡的條件。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "平衡性質名詞",
+        "text": "<p>B-tree 之所以是<em>平衡</em>的多路搜尋樹,是因為它所有的 ______ 都位於相同深度。(請以英文單字作答)</p>",
+        "answers": [
+          {
+            "text": "leaves",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "leaf",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "leaves*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "B-Tree 性質複選",
+        "text": "<p>關於 B-tree,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "節點佔用率維持在 &lceil;m/2&rceil;&minus;1 至 m&minus;1 個鍵之間",
+            "fraction": 50,
+            "feedback": "正確 —— 此有界填充使結構保持平衡。"
+          },
+          {
+            "text": "其設計目的是最小化磁碟/區塊存取次數",
+            "fraction": 50,
+            "feedback": "正確 —— 低樹高代表少 I/O 次數。"
+          },
+          {
+            "text": "它把所有資料限制在葉節點,並將葉節點彼此串接",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 B+ 樹,不是 B-tree。"
+          },
+          {
+            "text": "每個節點最多只有兩個子節點",
+            "fraction": -50,
+            "feedback": "錯 —— 那是二元樹;B-tree 節點最多有 m 個子節點。"
+          }
+        ],
+        "generalFeedback": "B-tree 以有界佔用維持平衡、以寬節點達成低 I/O 搜尋;資料僅存葉節點且葉節點串接的是 B+ 樹。",
+        "single": false
+      }
+    ]
+  },
+  "tree-catalan": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Number of BSTs",
+        "text": "<p>The number of structurally distinct binary trees with <em>n</em> nodes is given by which sequence?</p>",
+        "answers": [
+          {
+            "text": "The Catalan numbers",
+            "fraction": 100,
+            "feedback": "Correct — the count is the nth Catalan number."
+          },
+          {
+            "text": "The Fibonacci numbers",
+            "fraction": 0,
+            "feedback": "No — Fibonacci counts a different recurrence, not tree shapes."
+          },
+          {
+            "text": "The powers of two",
+            "fraction": 0,
+            "feedback": "No — 2^n overcounts; not every bit pattern is a valid tree shape."
+          },
+          {
+            "text": "The factorials",
+            "fraction": 0,
+            "feedback": "No — n! counts permutations, not distinct tree structures."
+          }
+        ],
+        "generalFeedback": "The number of distinct binary tree shapes on n nodes (and distinct BSTs over n keys) is the nth Catalan number.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Catalan formula",
+        "text": "<p>Which closed-form expression gives the nth Catalan number C<sub>n</sub>?</p>",
+        "answers": [
+          {
+            "text": "C(2n, n) / (n + 1)",
+            "fraction": 100,
+            "feedback": "Correct — the central binomial coefficient divided by n+1."
+          },
+          {
+            "text": "n! / 2",
+            "fraction": 0,
+            "feedback": "No — that is not the Catalan formula."
+          },
+          {
+            "text": "2^n / (n + 1)",
+            "fraction": 0,
+            "feedback": "No — the numerator is the binomial C(2n, n), not 2^n."
+          },
+          {
+            "text": "C(2n, n) * (n + 1)",
+            "fraction": 0,
+            "feedback": "No — you divide by n+1, not multiply."
+          }
+        ],
+        "generalFeedback": "C_n = C(2n, n) / (n + 1); equivalently C_n = (2n)! / ((n+1)! n!).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Catalan value n=3",
+        "text": "<p>How many structurally distinct binary trees exist with <strong>3 nodes</strong> (i.e. C<sub>3</sub>)?</p>",
+        "answers": [
+          {
+            "text": "5",
+            "fraction": 100,
+            "feedback": "Correct — C_3 = 5."
+          },
+          {
+            "text": "6",
+            "fraction": 0,
+            "feedback": "No — 6 = 3!, the number of key orderings, not distinct tree shapes."
+          },
+          {
+            "text": "3",
+            "fraction": 0,
+            "feedback": "No — there are more than 3 distinct shapes for 3 nodes."
+          },
+          {
+            "text": "8",
+            "fraction": 0,
+            "feedback": "No — 2^3 overcounts; the answer is 5."
+          }
+        ],
+        "generalFeedback": "C_0=1, C_1=1, C_2=2, C_3=5, C_4=14, C_5=42; so with 3 nodes there are 5 distinct binary tree shapes.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Catalan recurrence",
+        "text": "<p>Which recurrence generates the Catalan numbers (splitting on the root's subtree sizes)?</p>",
+        "answers": [
+          {
+            "text": "C= &Sigma;C&middot; C",
+            "fraction": 100,
+            "feedback": "Correct — sum over the left subtree size i and right subtree size n−i."
+          },
+          {
+            "text": "C= C+ C",
+            "fraction": 0,
+            "feedback": "No — that is the Fibonacci recurrence."
+          },
+          {
+            "text": "C= n &middot; C",
+            "fraction": 0,
+            "feedback": "No — that generates factorials."
+          },
+          {
+            "text": "C= 2 &middot; C",
+            "fraction": 0,
+            "feedback": "No — that generates powers of two."
+          }
+        ],
+        "generalFeedback": "Fixing the root, the left subtree has i nodes and the right has n−i, so C_{n+1} = Σ C_i·C_{n−i}.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Catalan counts BSTs",
+        "text": "<p>The number of distinct binary search trees over <em>n</em> distinct keys equals the nth Catalan number.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — each distinct shape corresponds to exactly one BST over the sorted keys."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The count of distinct BSTs is indeed the nth Catalan number."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Catalan not factorial",
+        "text": "<p>The number of distinct binary tree shapes with n nodes equals n! (n factorial).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — it is the nth Catalan number, which is smaller than n! for n > 2."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — it is the Catalan number, not n!."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Sequence name",
+        "text": "<p>The sequence 1, 1, 2, 5, 14, 42, ... that counts binary tree shapes is called the ______ numbers.</p>",
+        "answers": [
+          {
+            "text": "Catalan",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Catalan*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Catalan counts multi",
+        "text": "<p>Which of the following are counted by the nth Catalan number? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "The number of distinct binary search trees over n keys",
+            "fraction": 50,
+            "feedback": "Yes — one per distinct tree shape."
+          },
+          {
+            "text": "The number of valid strings of n balanced pairs of parentheses",
+            "fraction": 50,
+            "feedback": "Yes — this is a classic Catalan interpretation."
+          },
+          {
+            "text": "The number of permutations of n distinct elements",
+            "fraction": -50,
+            "feedback": "No — that is n!, not Catalan."
+          },
+          {
+            "text": "The number of subsets of an n-element set",
+            "fraction": -50,
+            "feedback": "No — that is 2^n, not Catalan."
+          }
+        ],
+        "generalFeedback": "Catalan counts binary tree shapes, distinct BSTs, balanced-parenthesis strings, full binary trees with n+1 leaves, and polygon triangulations — but not permutations (n!) or subsets (2^n).",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "BST 的數目",
+        "text": "<p>具有 <em>n</em> 個節點、結構相異的二元樹數目由哪一個數列給出?</p>",
+        "answers": [
+          {
+            "text": "卡塔蘭數(Catalan numbers)",
+            "fraction": 100,
+            "feedback": "正確 —— 其數目為第 n 個卡塔蘭數。"
+          },
+          {
+            "text": "費氏數(Fibonacci numbers)",
+            "fraction": 0,
+            "feedback": "錯 —— 費氏數對應不同的遞迴,並非樹形數目。"
+          },
+          {
+            "text": "2 的次方",
+            "fraction": 0,
+            "feedback": "錯 —— 2^n 會高估;並非每個位元樣式都是合法樹形。"
+          },
+          {
+            "text": "階乘",
+            "fraction": 0,
+            "feedback": "錯 —— n! 計數排列,而非相異樹結構。"
+          }
+        ],
+        "generalFeedback": "n 個節點的相異二元樹形數目(以及 n 個鍵值的相異 BST 數目)為第 n 個卡塔蘭數。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "卡塔蘭數公式",
+        "text": "<p>下列哪個封閉式給出第 n 個卡塔蘭數 C<sub>n</sub>?</p>",
+        "answers": [
+          {
+            "text": "C(2n, n) / (n + 1)",
+            "fraction": 100,
+            "feedback": "正確 —— 中央二項式係數除以 n+1。"
+          },
+          {
+            "text": "n! / 2",
+            "fraction": 0,
+            "feedback": "錯 —— 那不是卡塔蘭數公式。"
+          },
+          {
+            "text": "2^n / (n + 1)",
+            "fraction": 0,
+            "feedback": "錯 —— 分子是二項式 C(2n, n),而非 2^n。"
+          },
+          {
+            "text": "C(2n, n) * (n + 1)",
+            "fraction": 0,
+            "feedback": "錯 —— 是除以 n+1,不是相乘。"
+          }
+        ],
+        "generalFeedback": "C_n = C(2n, n) / (n + 1);等價於 C_n = (2n)! / ((n+1)! n!)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "卡塔蘭數值 n=3",
+        "text": "<p>具有 <strong>3 個節點</strong>、結構相異的二元樹有幾種(即 C<sub>3</sub>)?</p>",
+        "answers": [
+          {
+            "text": "5",
+            "fraction": 100,
+            "feedback": "正確 —— C_3 = 5。"
+          },
+          {
+            "text": "6",
+            "fraction": 0,
+            "feedback": "錯 —— 6 = 3!,是鍵值排序數,而非相異樹形數。"
+          },
+          {
+            "text": "3",
+            "fraction": 0,
+            "feedback": "錯 —— 3 個節點的相異樹形超過 3 種。"
+          },
+          {
+            "text": "8",
+            "fraction": 0,
+            "feedback": "錯 —— 2^3 會高估;答案是 5。"
+          }
+        ],
+        "generalFeedback": "C_0=1、C_1=1、C_2=2、C_3=5、C_4=14、C_5=42;故 3 個節點有 5 種相異二元樹形。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "卡塔蘭數遞迴",
+        "text": "<p>哪一條遞迴式產生卡塔蘭數(依根節點的子樹大小拆分)?</p>",
+        "answers": [
+          {
+            "text": "C= &Sigma;C&middot; C",
+            "fraction": 100,
+            "feedback": "正確 —— 對左子樹大小 i 與右子樹大小 n−i 求和。"
+          },
+          {
+            "text": "C= C+ C",
+            "fraction": 0,
+            "feedback": "錯 —— 那是費氏數遞迴。"
+          },
+          {
+            "text": "C= n &middot; C",
+            "fraction": 0,
+            "feedback": "錯 —— 那會產生階乘。"
+          },
+          {
+            "text": "C= 2 &middot; C",
+            "fraction": 0,
+            "feedback": "錯 —— 那會產生 2 的次方。"
+          }
+        ],
+        "generalFeedback": "固定根節點後,左子樹有 i 個節點、右子樹有 n−i 個,故 C_{n+1} = Σ C_i·C_{n−i}。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "卡塔蘭數計 BST",
+        "text": "<p>由 <em>n</em> 個相異鍵值構成的相異二元搜尋樹數目等於第 n 個卡塔蘭數。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 每個相異樹形恰對應排序鍵值上的一棵 BST。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "相異 BST 的數目確實是第 n 個卡塔蘭數。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "卡塔蘭數非階乘",
+        "text": "<p>n 個節點的相異二元樹形數目等於 n!(n 階乘)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它是第 n 個卡塔蘭數,對 n > 2 而言小於 n!。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 它是卡塔蘭數,而非 n!。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "數列名稱",
+        "text": "<p>計數二元樹形的數列 1, 1, 2, 5, 14, 42, ... 稱為______數(以英文作答)。</p>",
+        "answers": [
+          {
+            "text": "Catalan",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Catalan*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "卡塔蘭數計數複選",
+        "text": "<p>下列哪些可由第 n 個卡塔蘭數計數?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "n 個鍵值上的相異二元搜尋樹數目",
+            "fraction": 50,
+            "feedback": "正確 —— 每個相異樹形對應一棵。"
+          },
+          {
+            "text": "n 對括號的合法平衡括號字串數目",
+            "fraction": 50,
+            "feedback": "正確 —— 這是經典的卡塔蘭數詮釋。"
+          },
+          {
+            "text": "n 個相異元素的排列數目",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 n!,而非卡塔蘭數。"
+          },
+          {
+            "text": "n 元素集合的子集數目",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 2^n,而非卡塔蘭數。"
+          }
+        ],
+        "generalFeedback": "卡塔蘭數計數:二元樹形、相異 BST、平衡括號字串、n+1 葉的滿二元樹、多邊形三角剖分 —— 但不含排列(n!)或子集(2^n)。",
+        "single": false
+      }
+    ]
+  },
+  "tree-copy-equal": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Complexity of COPY",
+        "text": "<p>What is the time complexity of recursively copying a binary tree with <em>n</em> nodes?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "Correct — each node is visited and cloned exactly once."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No — you must touch every node, not just a root-to-leaf path."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "No — there is no per-node logarithmic factor; it is linear."
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "No — no node is processed more than once."
+          }
+        ],
+        "generalFeedback": "COPY visits every node once to allocate a clone and recurse on both subtrees, giving O(n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "How COPY works",
+        "text": "<p>Which recursive procedure correctly copies a binary tree?</p>",
+        "answers": [
+          {
+            "text": "Create a new node with the same value, then recursively copy the left and right subtrees",
+            "fraction": 100,
+            "feedback": "Correct — clone the node, then recurse on both children."
+          },
+          {
+            "text": "Return the same node reference so both trees share nodes",
+            "fraction": 0,
+            "feedback": "No — that aliases the original; a true copy allocates new nodes."
+          },
+          {
+            "text": "Copy only the root and leave children NULL",
+            "fraction": 0,
+            "feedback": "No — a copy must reproduce the entire subtree structure."
+          },
+          {
+            "text": "Copy the left subtree but link the original right subtree",
+            "fraction": 0,
+            "feedback": "No — both subtrees must be freshly copied."
+          }
+        ],
+        "generalFeedback": "COPY(t): if t is empty return empty; else make a new node with t's value and set its children to COPY(t.left) and COPY(t.right).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "EQUAL base case: both empty",
+        "text": "<p>In the EQUAL algorithm, what should be returned when <strong>both</strong> trees are empty?</p>",
+        "answers": [
+          {
+            "text": "Equal (true)",
+            "fraction": 100,
+            "feedback": "Correct — two empty trees are considered equal."
+          },
+          {
+            "text": "Not equal (false)",
+            "fraction": 0,
+            "feedback": "No — two empty trees match; this is the successful base case."
+          },
+          {
+            "text": "It depends on the depth reached",
+            "fraction": 0,
+            "feedback": "No — depth is irrelevant; both-empty always means equal."
+          },
+          {
+            "text": "Undefined behavior",
+            "fraction": 0,
+            "feedback": "No — both-empty is a well-defined base case returning true."
+          }
+        ],
+        "generalFeedback": "Base cases: both empty ⇒ equal; exactly one empty ⇒ not equal; otherwise compare values and recurse.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "EQUAL: exactly one empty",
+        "text": "<p>In EQUAL, what is returned when exactly <strong>one</strong> of the two trees is empty?</p>",
+        "answers": [
+          {
+            "text": "Not equal (false)",
+            "fraction": 100,
+            "feedback": "Correct — one empty and one non-empty cannot match."
+          },
+          {
+            "text": "Equal (true)",
+            "fraction": 0,
+            "feedback": "No — differing structure here means not equal."
+          },
+          {
+            "text": "Compare their root values",
+            "fraction": 0,
+            "feedback": "No — the empty side has no value to compare; the answer is not equal."
+          },
+          {
+            "text": "Recurse into the non-empty tree only",
+            "fraction": 0,
+            "feedback": "No — a structural mismatch is decided immediately as not equal."
+          }
+        ],
+        "generalFeedback": "If one tree ends before the other, their structures differ, so EQUAL returns false immediately.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Both are O(n)",
+        "text": "<p>Both the recursive COPY and EQUAL algorithms run in O(n) time on a tree of n nodes.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — each visits every node a constant number of times."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "They are — both are linear-time recursive traversals."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "EQUAL ignores values",
+        "text": "<p>The EQUAL algorithm checks only that two trees have the same shape, ignoring node values.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — EQUAL requires identical structure AND matching node values."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — EQUAL compares both structure and values."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Traversal order of these algorithms",
+        "text": "<p>COPY and EQUAL naturally finish a node's children before combining their results at the node — this matches which recursive traversal order? Answer with the traversal name.</p>",
+        "answers": [
+          {
+            "text": "post-order",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "postorder",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "post order",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "post-order*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Facts about COPY and EQUAL",
+        "text": "<p>Which statements about the COPY and EQUAL algorithms are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "COPY allocates a new node for every node in the original",
+            "fraction": 50,
+            "feedback": "Yes — a true copy creates fresh nodes."
+          },
+          {
+            "text": "EQUAL returns true only when structure and values both match",
+            "fraction": 50,
+            "feedback": "Yes — both must agree."
+          },
+          {
+            "text": "EQUAL of two empty trees returns not equal",
+            "fraction": -50,
+            "feedback": "No — two empty trees are equal."
+          },
+          {
+            "text": "COPY runs in O(log n) time",
+            "fraction": -50,
+            "feedback": "No — COPY is O(n); every node is cloned."
+          }
+        ],
+        "generalFeedback": "Both are O(n) recursive algorithms; COPY clones each node, and EQUAL demands matching structure and values, with both-empty ⇒ equal.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "COPY 的複雜度",
+        "text": "<p>遞迴複製一棵有 <em>n</em> 個節點的二元樹,其時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個節點只被拜訪並複製一次。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 你必須碰過每個節點,而非只走一條根到葉的路徑。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 每個節點並無額外的對數因子;它是線性的。"
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "錯 —— 沒有節點會被處理超過一次。"
+          }
+        ],
+        "generalFeedback": "COPY 拜訪每個節點一次以配置副本並對兩個子樹遞迴,因此為 O(n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "COPY 如何運作",
+        "text": "<p>哪一段遞迴程序能正確複製一棵二元樹?</p>",
+        "answers": [
+          {
+            "text": "建立一個值相同的新節點,然後遞迴複製左、右子樹",
+            "fraction": 100,
+            "feedback": "正確 —— 複製該節點,再對兩個子節點遞迴。"
+          },
+          {
+            "text": "回傳同一個節點參考,讓兩棵樹共用節點",
+            "fraction": 0,
+            "feedback": "錯 —— 那會別名到原樹;真正的複製會配置新節點。"
+          },
+          {
+            "text": "只複製根節點,並將子節點留為 NULL",
+            "fraction": 0,
+            "feedback": "錯 —— 複製必須重現整個子樹結構。"
+          },
+          {
+            "text": "複製左子樹,但連結原本的右子樹",
+            "fraction": 0,
+            "feedback": "錯 —— 兩個子樹都必須重新複製。"
+          }
+        ],
+        "generalFeedback": "COPY(t):若 t 為空則回傳空;否則以 t 的值建立新節點,並將其子節點設為 COPY(t.left) 與 COPY(t.right)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "EQUAL 基底情況:兩者皆空",
+        "text": "<p>在 EQUAL 演算法中,當<strong>兩棵</strong>樹都為空時應回傳什麼?</p>",
+        "answers": [
+          {
+            "text": "相等(true)",
+            "fraction": 100,
+            "feedback": "正確 —— 兩棵空樹視為相等。"
+          },
+          {
+            "text": "不相等(false)",
+            "fraction": 0,
+            "feedback": "錯 —— 兩棵空樹相符;這是成功的基底情況。"
+          },
+          {
+            "text": "視所達到的深度而定",
+            "fraction": 0,
+            "feedback": "錯 —— 深度無關;兩者皆空一律表示相等。"
+          },
+          {
+            "text": "未定義行為",
+            "fraction": 0,
+            "feedback": "錯 —— 兩者皆空是定義明確的基底情況,回傳 true。"
+          }
+        ],
+        "generalFeedback": "基底情況:兩者皆空 ⇒ 相等;恰有一者為空 ⇒ 不相等;否則比較值並遞迴。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "EQUAL:恰有一者為空",
+        "text": "<p>在 EQUAL 中,當兩棵樹恰有<strong>一棵</strong>為空時應回傳什麼?</p>",
+        "answers": [
+          {
+            "text": "不相等(false)",
+            "fraction": 100,
+            "feedback": "正確 —— 一空一非空無法相符。"
+          },
+          {
+            "text": "相等(true)",
+            "fraction": 0,
+            "feedback": "錯 —— 此處結構不同即表示不相等。"
+          },
+          {
+            "text": "比較它們的根值",
+            "fraction": 0,
+            "feedback": "錯 —— 空的那一側沒有值可比較;答案是不相等。"
+          },
+          {
+            "text": "只對非空的那棵樹遞迴",
+            "fraction": 0,
+            "feedback": "錯 —— 結構不符會立刻判定為不相等。"
+          }
+        ],
+        "generalFeedback": "若一棵樹比另一棵先結束,兩者結構不同,因此 EQUAL 立即回傳 false。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "兩者皆為 O(n)",
+        "text": "<p>遞迴的 COPY 與 EQUAL 演算法在 n 個節點的樹上都以 O(n) 時間執行。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 兩者都對每個節點拜訪常數次。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "確實如此 —— 兩者都是線性時間的遞迴走訪。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "EQUAL 忽略值",
+        "text": "<p>EQUAL 演算法只檢查兩棵樹是否形狀相同,並忽略節點值。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— EQUAL 要求結構相同「且」節點值相符。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— EQUAL 同時比較結構與值。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "這些演算法的走訪順序",
+        "text": "<p>COPY 與 EQUAL 都會在節點處合併結果之前先完成其子節點 —— 這對應到哪一種遞迴走訪順序?請以走訪名稱作答(英文)。</p>",
+        "answers": [
+          {
+            "text": "post-order",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "postorder",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "post order",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "post-order*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "關於 COPY 與 EQUAL 的事實",
+        "text": "<p>關於 COPY 與 EQUAL 演算法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "COPY 會為原樹中的每個節點配置一個新節點",
+            "fraction": 50,
+            "feedback": "正確 —— 真正的複製會建立新節點。"
+          },
+          {
+            "text": "只有當結構與值都相符時 EQUAL 才回傳 true",
+            "fraction": 50,
+            "feedback": "正確 —— 兩者都必須一致。"
+          },
+          {
+            "text": "對兩棵空樹進行 EQUAL 會回傳不相等",
+            "fraction": -50,
+            "feedback": "錯 —— 兩棵空樹相等。"
+          },
+          {
+            "text": "COPY 以 O(log n) 時間執行",
+            "fraction": -50,
+            "feedback": "錯 —— COPY 為 O(n);每個節點都被複製。"
+          }
+        ],
+        "generalFeedback": "兩者都是 O(n) 的遞迴演算法;COPY 複製每個節點,EQUAL 要求結構與值皆相符,且兩者皆空 ⇒ 相等。",
+        "single": false
+      }
+    ]
+  },
+  "tree-dsu": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Union-Find core operations",
+        "text": "<p>Which pair of operations does a <strong>disjoint-set (union-find)</strong> structure primarily support?</p>",
+        "answers": [
+          {
+            "text": "FIND (representative of an element's set) and UNION (merge two sets)",
+            "fraction": 100,
+            "feedback": "Correct — FIND returns a set's representative and UNION merges two sets."
+          },
+          {
+            "text": "INSERT and DELETE of a key in sorted order",
+            "fraction": 0,
+            "feedback": "That describes a search tree, not a disjoint-set structure."
+          },
+          {
+            "text": "PUSH and POP from the top",
+            "fraction": 0,
+            "feedback": "Those are stack operations."
+          },
+          {
+            "text": "ENQUEUE and DEQUEUE by priority",
+            "fraction": 0,
+            "feedback": "That describes a priority queue."
+          }
+        ],
+        "generalFeedback": "Union-find maintains a partition of elements into disjoint sets, exposing FIND (which set an element belongs to) and UNION (merge two sets).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Union-Find amortized complexity",
+        "text": "<p>With <strong>union by rank/size and path compression</strong>, what is the amortized time per operation?</p>",
+        "answers": [
+          {
+            "text": "O(&alpha;(n)) — inverse Ackermann, effectively near-constant",
+            "fraction": 100,
+            "feedback": "Correct — &alpha;(n) &le; 4 for any practical n, so operations are near-constant amortized."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "That is the bound with only one optimization; combining both gives near-constant."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "Far too slow — the whole point is near-constant amortized cost."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a sorting bound, unrelated to a single union-find operation."
+          }
+        ],
+        "generalFeedback": "Union by rank/size keeps trees shallow and path compression flattens them, giving O(&alpha;(n)) amortized, where &alpha; is the inverse Ackermann function (&le; 4 in practice).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Path compression mechanism",
+        "text": "<p>What does <strong>path compression</strong> do during a FIND operation?</p>",
+        "answers": [
+          {
+            "text": "It re-points visited nodes directly to the root, flattening the tree",
+            "fraction": 100,
+            "feedback": "Correct — later FINDs on those nodes become almost immediate."
+          },
+          {
+            "text": "It sorts the elements of the set in ascending order",
+            "fraction": 0,
+            "feedback": "Disjoint sets are unordered; no sorting happens."
+          },
+          {
+            "text": "It deletes the smaller set to save memory",
+            "fraction": 0,
+            "feedback": "No elements are deleted; sets are merged, not removed."
+          },
+          {
+            "text": "It rebalances the tree like an AVL rotation",
+            "fraction": 0,
+            "feedback": "Union-find uses no rotations; it just redirects parent pointers to the root."
+          }
+        ],
+        "generalFeedback": "Path compression makes every node visited on the way to the root point straight at the root, so subsequent FINDs are nearly O(1).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Union-Find use case",
+        "text": "<p>Which algorithm most naturally uses a disjoint-set structure?</p>",
+        "answers": [
+          {
+            "text": "Kruskal's minimum spanning tree (detecting whether an edge joins two components)",
+            "fraction": 100,
+            "feedback": "Correct — union-find tracks components and rejects edges that would form a cycle."
+          },
+          {
+            "text": "Dijkstra's shortest path with a priority queue",
+            "fraction": 0,
+            "feedback": "Dijkstra relies on a priority queue, not union-find."
+          },
+          {
+            "text": "Binary search on a sorted array",
+            "fraction": 0,
+            "feedback": "That needs an ordered array, unrelated to disjoint sets."
+          },
+          {
+            "text": "In-order traversal of a BST",
+            "fraction": 0,
+            "feedback": "Traversal is a tree operation, not a set-partition problem."
+          }
+        ],
+        "generalFeedback": "Classic uses include connected components, Kruskal's MST, and cycle detection in an undirected graph — all built on FIND/UNION.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Union-Find properties (multi-select)",
+        "text": "<p>Which statements about disjoint-set structures are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Union by rank/size attaches the shorter/smaller tree under the taller/larger one",
+            "fraction": 50,
+            "feedback": "Yes — this keeps the trees shallow."
+          },
+          {
+            "text": "It maintains a partition of elements into disjoint sets",
+            "fraction": 50,
+            "feedback": "Yes — every element belongs to exactly one set."
+          },
+          {
+            "text": "It supports efficient range-sum queries over an array",
+            "fraction": -50,
+            "feedback": "No — that is a Fenwick/segment tree task, not union-find."
+          },
+          {
+            "text": "It is a self-balancing binary search tree",
+            "fraction": -50,
+            "feedback": "No — it is a forest of up-trees, not a search tree."
+          }
+        ],
+        "generalFeedback": "Union-find is a partition maintained as up-trees with union by rank/size; it does not do ordered search or range queries.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Union-Find is a BST",
+        "text": "<p>A disjoint-set (union-find) structure is a kind of self-balancing binary search tree.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — it is a forest of \"up-trees\" that only need parent pointers toward a root; there is no key ordering."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — it maintains a set partition, not an ordered search tree."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Combining both optimizations",
+        "text": "<p>Combining path compression with union by rank/size gives near-constant amortized time per operation.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — together they yield O(&alpha;(n)) amortized, effectively constant."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "They do combine to give the O(&alpha;(n)) amortized bound."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Inverse Ackermann term",
+        "text": "<p>The near-constant amortized bound of union-find is expressed with the inverse ______ function.</p>",
+        "answers": [
+          {
+            "text": "Ackermann",
+            "fraction": 100,
+            "feedback": "Correct — the bound is O(&alpha;(n)), the inverse Ackermann function."
+          },
+          {
+            "text": "Ackermann*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "並查集核心操作",
+        "text": "<p><strong>並查集(union-find)</strong>結構主要支援哪一對操作?</p>",
+        "answers": [
+          {
+            "text": "FIND(找出元素所屬集合的代表)與 UNION(合併兩個集合)",
+            "fraction": 100,
+            "feedback": "正確 —— FIND 回傳集合代表,UNION 合併兩個集合。"
+          },
+          {
+            "text": "依排序插入 INSERT 與刪除 DELETE 一個鍵",
+            "fraction": 0,
+            "feedback": "那是搜尋樹,不是並查集。"
+          },
+          {
+            "text": "從頂端 PUSH 與 POP",
+            "fraction": 0,
+            "feedback": "那是堆疊操作。"
+          },
+          {
+            "text": "依優先權 ENQUEUE 與 DEQUEUE",
+            "fraction": 0,
+            "feedback": "那是優先佇列。"
+          }
+        ],
+        "generalFeedback": "並查集維護一組互斥集合的劃分,提供 FIND(元素屬於哪個集合)與 UNION(合併兩集合)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "並查集攤還複雜度",
+        "text": "<p>採用<strong>按秩/大小合併與路徑壓縮</strong>後,每次操作的攤還時間為何?</p>",
+        "answers": [
+          {
+            "text": "O(&alpha;(n)) —— 反阿克曼函數,實際上近乎常數",
+            "fraction": 100,
+            "feedback": "正確 —— 對任何實務規模 &alpha;(n) &le; 4,故操作攤還近乎常數。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "那是只用單一優化時的界;兩者並用可達近乎常數。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "太慢了 —— 重點正是近乎常數的攤還成本。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是排序的界,與單次並查集操作無關。"
+          }
+        ],
+        "generalFeedback": "按秩/大小合併讓樹保持淺,路徑壓縮把樹壓平,得到 O(&alpha;(n)) 攤還,其中 &alpha; 為反阿克曼函數(實務上 &le; 4)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "路徑壓縮機制",
+        "text": "<p>在 FIND 操作中,<strong>路徑壓縮</strong>做了什麼?</p>",
+        "answers": [
+          {
+            "text": "把沿途經過的節點直接指向根,壓平整棵樹",
+            "fraction": 100,
+            "feedback": "正確 —— 之後對這些節點的 FIND 幾乎立即完成。"
+          },
+          {
+            "text": "把集合中的元素依遞增排序",
+            "fraction": 0,
+            "feedback": "並查集是無序的,不會排序。"
+          },
+          {
+            "text": "刪除較小的集合以節省記憶體",
+            "fraction": 0,
+            "feedback": "不會刪除任何元素;集合是被合併而非移除。"
+          },
+          {
+            "text": "像 AVL 旋轉那樣重新平衡樹",
+            "fraction": 0,
+            "feedback": "並查集不使用旋轉,只是把父指標重導向根。"
+          }
+        ],
+        "generalFeedback": "路徑壓縮讓通往根路徑上的每個節點直接指向根,後續 FIND 幾近 O(1)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "並查集應用場景",
+        "text": "<p>哪個演算法最自然地使用並查集結構?</p>",
+        "answers": [
+          {
+            "text": "Kruskal 最小生成樹(判斷一條邊是否連接兩個不同連通分量)",
+            "fraction": 100,
+            "feedback": "正確 —— 並查集追蹤連通分量並拒絕會形成環的邊。"
+          },
+          {
+            "text": "使用優先佇列的 Dijkstra 最短路徑",
+            "fraction": 0,
+            "feedback": "Dijkstra 依賴優先佇列,而非並查集。"
+          },
+          {
+            "text": "在已排序陣列上做二分搜尋",
+            "fraction": 0,
+            "feedback": "那需要有序陣列,與並查集無關。"
+          },
+          {
+            "text": "BST 的中序走訪",
+            "fraction": 0,
+            "feedback": "走訪是樹操作,不是集合劃分問題。"
+          }
+        ],
+        "generalFeedback": "經典應用包括連通分量、Kruskal 最小生成樹,以及無向圖的環偵測 —— 全都建立在 FIND/UNION 之上。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "並查集性質(複選)",
+        "text": "<p>關於並查集結構,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "按秩/大小合併會把較矮/較小的樹掛到較高/較大的樹之下",
+            "fraction": 50,
+            "feedback": "正確 —— 這可讓樹保持淺。"
+          },
+          {
+            "text": "它維護一組把元素劃分成互斥集合的劃分",
+            "fraction": 50,
+            "feedback": "正確 —— 每個元素恰屬於一個集合。"
+          },
+          {
+            "text": "它支援對陣列的高效區間求和查詢",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 Fenwick/線段樹的工作,不是並查集。"
+          },
+          {
+            "text": "它是一種自平衡二元搜尋樹",
+            "fraction": -50,
+            "feedback": "錯 —— 它是一片向上樹的森林,不是搜尋樹。"
+          }
+        ],
+        "generalFeedback": "並查集是以向上樹維護的集合劃分並搭配按秩/大小合併;它不做有序搜尋或區間查詢。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "並查集是不是 BST",
+        "text": "<p>並查集(union-find)結構是一種自平衡二元搜尋樹。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它是一片「向上樹」的森林,只需指向根的父指標,沒有鍵值排序。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 它維護集合劃分,而非有序搜尋樹。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "兩種優化並用",
+        "text": "<p>將路徑壓縮與按秩/大小合併並用,可讓每次操作達到近乎常數的攤還時間。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 兩者並用得到 O(&alpha;(n)) 攤還,實際上近乎常數。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "兩者確實並用即可達到 O(&alpha;(n)) 攤還界。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "反阿克曼名詞",
+        "text": "<p>並查集近乎常數的攤還界是以反 ______ 函數(inverse ______ function)表示。</p>",
+        "answers": [
+          {
+            "text": "Ackermann",
+            "fraction": 100,
+            "feedback": "正確 —— 該界為 O(&alpha;(n)),即反阿克曼函數。"
+          },
+          {
+            "text": "Ackermann*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "tree-expression": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Expression tree nodes",
+        "text": "<p>In a binary expression tree, what do the <strong>internal nodes</strong> and <strong>leaves</strong> represent?</p>",
+        "answers": [
+          {
+            "text": "Internal nodes are operators; leaves are operands",
+            "fraction": 100,
+            "feedback": "Correct — operators combine the results of their operand subtrees."
+          },
+          {
+            "text": "Internal nodes are operands; leaves are operators",
+            "fraction": 0,
+            "feedback": "No — it is the reverse: operators are internal, operands are leaves."
+          },
+          {
+            "text": "Every node holds both an operator and an operand",
+            "fraction": 0,
+            "feedback": "No — each node is one or the other."
+          },
+          {
+            "text": "All nodes are operands",
+            "fraction": 0,
+            "feedback": "No — operators must appear at internal nodes."
+          }
+        ],
+        "generalFeedback": "An expression tree places operators at internal nodes and operands (constants or variables) at the leaves.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Postorder gives postfix",
+        "text": "<p>Which traversal of an expression tree yields the <strong>postfix (RPN)</strong> form of the expression?</p>",
+        "answers": [
+          {
+            "text": "Post-order",
+            "fraction": 100,
+            "feedback": "Correct — visiting both subtrees before the operator produces postfix."
+          },
+          {
+            "text": "Pre-order",
+            "fraction": 0,
+            "feedback": "No — pre-order (operator first) gives prefix notation."
+          },
+          {
+            "text": "In-order",
+            "fraction": 0,
+            "feedback": "No — in-order gives infix (needs parentheses to be unambiguous)."
+          },
+          {
+            "text": "Level-order",
+            "fraction": 0,
+            "feedback": "No — a breadth-first walk does not correspond to a standard notation."
+          }
+        ],
+        "generalFeedback": "Post-order visits left, right, then root, so operators follow their operands — exactly postfix / RPN.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Inorder gives infix",
+        "text": "<p>An <strong>in-order</strong> traversal of an expression tree (with parentheses) produces which notation?</p>",
+        "answers": [
+          {
+            "text": "Infix",
+            "fraction": 100,
+            "feedback": "Correct — the operator appears between its operands, the usual infix form."
+          },
+          {
+            "text": "Postfix",
+            "fraction": 0,
+            "feedback": "No — postfix comes from post-order."
+          },
+          {
+            "text": "Prefix",
+            "fraction": 0,
+            "feedback": "No — prefix comes from pre-order."
+          },
+          {
+            "text": "Binary machine code",
+            "fraction": 0,
+            "feedback": "No — traversal order does not produce machine code."
+          }
+        ],
+        "generalFeedback": "In-order visits left subtree, root, right subtree, so the operator sits between its operands — infix (parentheses restore precedence).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Evaluation traversal",
+        "text": "<p>To evaluate an expression tree, which recursive strategy is natural?</p>",
+        "answers": [
+          {
+            "text": "Post-order: evaluate both subtrees, then apply the operator",
+            "fraction": 100,
+            "feedback": "Correct — operand values must be ready before the operator is applied."
+          },
+          {
+            "text": "Pre-order: apply the operator before evaluating subtrees",
+            "fraction": 0,
+            "feedback": "No — the operator needs its operands' values first."
+          },
+          {
+            "text": "Level-order from the root down",
+            "fraction": 0,
+            "feedback": "No — a breadth-first pass does not respect operand dependencies."
+          },
+          {
+            "text": "Evaluate only the left subtree",
+            "fraction": 0,
+            "feedback": "No — both operands are required."
+          }
+        ],
+        "generalFeedback": "Evaluation recurses post-order: compute the left value, compute the right value, then combine them with the node's operator.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Preorder is prefix",
+        "text": "<p>A pre-order traversal of an expression tree produces prefix (Polish) notation.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — visiting the operator before its operands gives prefix."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Pre-order visits root first, which is exactly prefix notation."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Operators at leaves false",
+        "text": "<p>In a binary expression tree, operators are stored at the leaf nodes.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — operators are internal nodes; leaves hold operands."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — operators are internal; operands are at the leaves."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "RPN traversal term",
+        "text": "<p>The postfix (RPN) form of an expression is produced by a ______ traversal (name the traversal, e.g. one word).</p>",
+        "answers": [
+          {
+            "text": "postorder",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "post-order",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "postfix",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "post*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Expression tree traversals multi",
+        "text": "<p>Which statements about expression trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Post-order traversal yields postfix (RPN)",
+            "fraction": 50,
+            "feedback": "Yes — operands precede their operator."
+          },
+          {
+            "text": "Operands are stored at the leaf nodes",
+            "fraction": 50,
+            "feedback": "Yes — leaves are constants or variables."
+          },
+          {
+            "text": "In-order traversal yields prefix notation",
+            "fraction": -50,
+            "feedback": "No — in-order yields infix; pre-order yields prefix."
+          },
+          {
+            "text": "Operators are stored at the leaves",
+            "fraction": -50,
+            "feedback": "No — operators are internal nodes."
+          }
+        ],
+        "generalFeedback": "Expression tree: operators internal, operands at leaves; post-order = postfix, in-order = infix, pre-order = prefix.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "運算式樹節點",
+        "text": "<p>在二元運算式樹中,<strong>內部節點</strong>與<strong>葉節點</strong>分別代表什麼?</p>",
+        "answers": [
+          {
+            "text": "內部節點是運算子;葉節點是運算元",
+            "fraction": 100,
+            "feedback": "正確 —— 運算子結合其運算元子樹的結果。"
+          },
+          {
+            "text": "內部節點是運算元;葉節點是運算子",
+            "fraction": 0,
+            "feedback": "錯 —— 剛好相反:運算子在內部,運算元在葉節點。"
+          },
+          {
+            "text": "每個節點同時含有一個運算子與一個運算元",
+            "fraction": 0,
+            "feedback": "錯 —— 每個節點只是其中一種。"
+          },
+          {
+            "text": "所有節點都是運算元",
+            "fraction": 0,
+            "feedback": "錯 —— 運算子必定出現在內部節點。"
+          }
+        ],
+        "generalFeedback": "運算式樹將運算子放在內部節點,運算元(常數或變數)放在葉節點。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "後序產生後綴",
+        "text": "<p>對運算式樹進行哪一種走訪會產生<strong>後綴(RPN)</strong>形式?</p>",
+        "answers": [
+          {
+            "text": "後序(Post-order)",
+            "fraction": 100,
+            "feedback": "正確 —— 先走訪兩個子樹再到運算子,即產生後綴。"
+          },
+          {
+            "text": "前序(Pre-order)",
+            "fraction": 0,
+            "feedback": "錯 —— 前序(運算子在先)產生前綴表示法。"
+          },
+          {
+            "text": "中序(In-order)",
+            "fraction": 0,
+            "feedback": "錯 —— 中序產生中綴(需括號才不歧義)。"
+          },
+          {
+            "text": "層序(Level-order)",
+            "fraction": 0,
+            "feedback": "錯 —— 廣度優先走訪並不對應標準表示法。"
+          }
+        ],
+        "generalFeedback": "後序走訪先左、再右、後根,運算子跟在運算元之後 —— 恰為後綴 / RPN。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "中序產生中綴",
+        "text": "<p>對運算式樹做<strong>中序</strong>走訪(加上括號)會產生哪種表示法?</p>",
+        "answers": [
+          {
+            "text": "中綴(Infix)",
+            "fraction": 100,
+            "feedback": "正確 —— 運算子出現在其運算元之間,即一般的中綴形式。"
+          },
+          {
+            "text": "後綴(Postfix)",
+            "fraction": 0,
+            "feedback": "錯 —— 後綴來自後序。"
+          },
+          {
+            "text": "前綴(Prefix)",
+            "fraction": 0,
+            "feedback": "錯 —— 前綴來自前序。"
+          },
+          {
+            "text": "二進位機器碼",
+            "fraction": 0,
+            "feedback": "錯 —— 走訪順序不會產生機器碼。"
+          }
+        ],
+        "generalFeedback": "中序走訪先左子樹、再根、後右子樹,運算子落在運算元之間 —— 即中綴(括號還原優先順序)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "求值走訪",
+        "text": "<p>要對運算式樹求值,哪一種遞迴策略最自然?</p>",
+        "answers": [
+          {
+            "text": "後序:先求兩個子樹的值,再套用運算子",
+            "fraction": 100,
+            "feedback": "正確 —— 套用運算子前必須先備妥運算元的值。"
+          },
+          {
+            "text": "前序:先套用運算子再求子樹的值",
+            "fraction": 0,
+            "feedback": "錯 —— 運算子需要先有其運算元的值。"
+          },
+          {
+            "text": "由根往下的層序",
+            "fraction": 0,
+            "feedback": "錯 —— 廣度優先走訪不遵守運算元的相依關係。"
+          },
+          {
+            "text": "只求左子樹的值",
+            "fraction": 0,
+            "feedback": "錯 —— 兩個運算元都需要。"
+          }
+        ],
+        "generalFeedback": "求值以後序遞迴:先算左值、再算右值,然後以該節點的運算子將兩者結合。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "前序是前綴",
+        "text": "<p>對運算式樹做前序走訪會產生前綴(波蘭)表示法。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 先走訪運算子再到運算元,即前綴。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "前序先走訪根,正是前綴表示法。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "運算子在葉節點為誤",
+        "text": "<p>在二元運算式樹中,運算子儲存於葉節點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 運算子是內部節點;葉節點存放運算元。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 運算子在內部;運算元在葉節點。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "RPN 走訪名詞",
+        "text": "<p>運算式的後綴(RPN)形式由______走訪產生(以英文寫出該走訪名稱)。</p>",
+        "answers": [
+          {
+            "text": "postorder",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "post-order",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "postfix",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "post*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "運算式樹走訪複選",
+        "text": "<p>關於運算式樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "後序走訪產生後綴(RPN)",
+            "fraction": 50,
+            "feedback": "正確 —— 運算元在其運算子之前。"
+          },
+          {
+            "text": "運算元儲存於葉節點",
+            "fraction": 50,
+            "feedback": "正確 —— 葉節點是常數或變數。"
+          },
+          {
+            "text": "中序走訪產生前綴表示法",
+            "fraction": -50,
+            "feedback": "錯 —— 中序產生中綴;前序才產生前綴。"
+          },
+          {
+            "text": "運算子儲存於葉節點",
+            "fraction": -50,
+            "feedback": "錯 —— 運算子是內部節點。"
+          }
+        ],
+        "generalFeedback": "運算式樹:運算子在內部、運算元在葉節點;後序=後綴、中序=中綴、前序=前綴。",
+        "single": false
+      }
+    ]
+  },
+  "tree-fenwick": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Fenwick tree operations",
+        "text": "<p>Which pair of operations does a <strong>Fenwick tree (Binary Indexed Tree)</strong> support in O(log n)?</p>",
+        "answers": [
+          {
+            "text": "Prefix-sum query and point update",
+            "fraction": 100,
+            "feedback": "Correct — a BIT computes prefix sums and applies point updates, each in O(log n)."
+          },
+          {
+            "text": "Find minimum and delete minimum",
+            "fraction": 0,
+            "feedback": "Those are heap operations, not a Fenwick tree's role."
+          },
+          {
+            "text": "Insert key and search key in sorted order",
+            "fraction": 0,
+            "feedback": "That describes a search tree."
+          },
+          {
+            "text": "Union and find of set representatives",
+            "fraction": 0,
+            "feedback": "Those are disjoint-set operations."
+          }
+        ],
+        "generalFeedback": "A Fenwick tree supports prefix-sum queries and point updates in O(log n) using the binary representation of indices.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fenwick lowbit mechanism",
+        "text": "<p>How does a Fenwick tree move between the indices it must touch during a query or update?</p>",
+        "answers": [
+          {
+            "text": "By jumping via the lowest set bit, computed as(the \"lowbit\")",
+            "fraction": 100,
+            "feedback": "Correct — adding or subtractingwalks the responsibility ranges."
+          },
+          {
+            "text": "By following left and right child pointers of a binary tree",
+            "fraction": 0,
+            "feedback": "A BIT stores no explicit child pointers; it uses index arithmetic."
+          },
+          {
+            "text": "By binary searching the array each step",
+            "fraction": 0,
+            "feedback": "No search is needed; the lowbit gives the next index directly."
+          },
+          {
+            "text": "By hashing the index into a bucket",
+            "fraction": 0,
+            "feedback": "No hashing is involved; it is pure bit manipulation."
+          }
+        ],
+        "generalFeedback": "The lowbitisolates the least-significant set bit; adding it (update) or subtracting it (query) steps through O(log n) indices.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fenwick tree space",
+        "text": "<p>How much space does a Fenwick tree use for n elements?</p>",
+        "answers": [
+          {
+            "text": "O(n) — a single array of size about n, with a small constant",
+            "fraction": 100,
+            "feedback": "Correct — a BIT is just one array, lighter than a segment tree."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "A Fenwick tree is only O(n); each index owns exactly one range."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "You still need one slot per element, so space is O(n)."
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "Far too much; a BIT is linear in space."
+          }
+        ],
+        "generalFeedback": "A Fenwick tree needs just one array of size ~n (O(n) space) with a small constant — simpler and lighter than a segment tree.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fenwick vs segment tree limitation",
+        "text": "<p>Compared with a segment tree, what is a key <strong>limitation</strong> of a plain Fenwick tree?</p>",
+        "answers": [
+          {
+            "text": "It is less general — best for invertible/prefix aggregates like sums; range-minimum is not directly supported",
+            "fraction": 100,
+            "feedback": "Correct — subtraction of prefixes needs invertibility, so range-min does not map onto a plain BIT."
+          },
+          {
+            "text": "It uses more memory than a segment tree",
+            "fraction": 0,
+            "feedback": "The opposite — a BIT is lighter, using a single O(n) array."
+          },
+          {
+            "text": "Its queries are O(n) instead of O(log n)",
+            "fraction": 0,
+            "feedback": "No — BIT queries are O(log n)."
+          },
+          {
+            "text": "It cannot perform point updates",
+            "fraction": 0,
+            "feedback": "Point updates are one of its two core operations."
+          }
+        ],
+        "generalFeedback": "A Fenwick tree is simpler and lighter than a segment tree but less general: it shines for invertible/prefix aggregates (sums), whereas range-min/max are not directly supported.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fenwick tree properties (multi-select)",
+        "text": "<p>Which statements about Fenwick trees (BITs) are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Prefix-sum queries and point updates both run in O(log n)",
+            "fraction": 50,
+            "feedback": "Yes — each touches O(log n) indices."
+          },
+          {
+            "text": "It uses only O(n) space with a small constant factor",
+            "fraction": 50,
+            "feedback": "Yes — a single array, lighter than a segment tree."
+          },
+          {
+            "text": "It naturally supports range-minimum queries like a segment tree",
+            "fraction": -50,
+            "feedback": "No — range-min is not invertible, so a plain BIT cannot do it directly."
+          },
+          {
+            "text": "It keeps its elements sorted for binary search",
+            "fraction": -50,
+            "feedback": "No — a BIT indexes by position and does not sort values."
+          }
+        ],
+        "generalFeedback": "A BIT gives O(log n) prefix sums and point updates in O(n) space via lowbit index arithmetic; it is less general than a segment tree and does not do range-min.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Fenwick lighter than segment tree",
+        "text": "<p>A Fenwick tree is generally simpler and uses less memory than a segment tree.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a BIT is a single O(n) array with a small constant and short code."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "A BIT is indeed lighter and simpler than a segment tree."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Fenwick range minimum",
+        "text": "<p>A plain Fenwick tree can directly answer range-minimum queries just as easily as prefix sums.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — range-min is not invertible, so a plain BIT cannot handle it directly; sums work because they are invertible."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a plain BIT targets invertible/prefix aggregates like sums, not range-min."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Lowbit term",
+        "text": "<p>The value <code>i &amp; -i</code> that isolates the least-significant set bit of an index is commonly called the ______.</p>",
+        "answers": [
+          {
+            "text": "lowbit",
+            "fraction": 100,
+            "feedback": "Correct — the lowbit, i & -i."
+          },
+          {
+            "text": "lowbit*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Fenwick 樹的操作",
+        "text": "<p><strong>Fenwick 樹(樹狀陣列,BIT)</strong>以 O(log n) 支援哪一對操作?</p>",
+        "answers": [
+          {
+            "text": "前綴和查詢與單點更新",
+            "fraction": 100,
+            "feedback": "正確 —— BIT 計算前綴和並做單點更新,各為 O(log n)。"
+          },
+          {
+            "text": "取最小值與刪除最小值",
+            "fraction": 0,
+            "feedback": "那是堆積(heap)操作,不是 Fenwick 樹的職責。"
+          },
+          {
+            "text": "依排序插入鍵與搜尋鍵",
+            "fraction": 0,
+            "feedback": "那是搜尋樹。"
+          },
+          {
+            "text": "集合代表的 union 與 find",
+            "fraction": 0,
+            "feedback": "那是並查集操作。"
+          }
+        ],
+        "generalFeedback": "Fenwick 樹利用索引的二進位表示,以 O(log n) 支援前綴和查詢與單點更新。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fenwick 的 lowbit 機制",
+        "text": "<p>在查詢或更新時,Fenwick 樹如何在必須碰觸的索引之間移動?</p>",
+        "answers": [
+          {
+            "text": "藉由最低位設定位元跳躍,以計算(即「lowbit」)",
+            "fraction": 100,
+            "feedback": "正確 —— 加上或減去即可走過各負責區間。"
+          },
+          {
+            "text": "沿著二元樹的左右子指標前進",
+            "fraction": 0,
+            "feedback": "BIT 不儲存明確的子指標;它使用索引運算。"
+          },
+          {
+            "text": "每一步都對陣列做二分搜尋",
+            "fraction": 0,
+            "feedback": "不需搜尋;lowbit 直接給出下一個索引。"
+          },
+          {
+            "text": "把索引雜湊到某個桶",
+            "fraction": 0,
+            "feedback": "不涉及雜湊;它純粹是位元運算。"
+          }
+        ],
+        "generalFeedback": "lowbit取出最低有效設定位元;加上它(更新)或減去它(查詢)即可走過 O(log n) 個索引。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fenwick 樹的空間",
+        "text": "<p>對 n 個元素,Fenwick 樹使用多少空間?</p>",
+        "answers": [
+          {
+            "text": "O(n) —— 單一大小約為 n 的陣列,常數很小",
+            "fraction": 100,
+            "feedback": "正確 —— BIT 只是一個陣列,比線段樹更輕量。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "Fenwick 樹只需 O(n);每個索引恰好負責一段區間。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "每個元素仍需一個位置,故空間為 O(n)。"
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "太多了;BIT 空間為線性。"
+          }
+        ],
+        "generalFeedback": "Fenwick 樹只需一個大小約 n 的陣列(O(n) 空間)且常數很小 —— 比線段樹更簡單、更輕量。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fenwick 與線段樹的限制",
+        "text": "<p>相較於線段樹,一般 Fenwick 樹的主要<strong>限制</strong>是什麼?</p>",
+        "answers": [
+          {
+            "text": "較不一般 —— 最適合可逆/前綴聚合(如求和);不直接支援區間最小值",
+            "fraction": 100,
+            "feedback": "正確 —— 前綴相減需要可逆性,故區間最小值無法對應到一般 BIT。"
+          },
+          {
+            "text": "它比線段樹使用更多記憶體",
+            "fraction": 0,
+            "feedback": "恰好相反 —— BIT 更輕量,只用單一 O(n) 陣列。"
+          },
+          {
+            "text": "它的查詢是 O(n) 而非 O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— BIT 查詢為 O(log n)。"
+          },
+          {
+            "text": "它無法執行單點更新",
+            "fraction": 0,
+            "feedback": "單點更新正是它兩大核心操作之一。"
+          }
+        ],
+        "generalFeedback": "Fenwick 樹比線段樹更簡單、更輕量,但較不一般:它擅長可逆/前綴聚合(求和),而區間最小/最大值則不直接支援。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Fenwick 樹性質(複選)",
+        "text": "<p>關於 Fenwick 樹(BIT),以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "前綴和查詢與單點更新都是 O(log n)",
+            "fraction": 50,
+            "feedback": "正確 —— 各碰觸 O(log n) 個索引。"
+          },
+          {
+            "text": "它只用 O(n) 空間且常數因子很小",
+            "fraction": 50,
+            "feedback": "正確 —— 單一陣列,比線段樹更輕量。"
+          },
+          {
+            "text": "它像線段樹一樣自然支援區間最小值查詢",
+            "fraction": -50,
+            "feedback": "錯 —— 區間最小值不可逆,故一般 BIT 無法直接做。"
+          },
+          {
+            "text": "它會把元素保持排序以便二分搜尋",
+            "fraction": -50,
+            "feedback": "錯 —— BIT 以位置索引,不對數值排序。"
+          }
+        ],
+        "generalFeedback": "BIT 透過 lowbit 索引運算,以 O(n) 空間提供 O(log n) 的前綴和與單點更新;它比線段樹較不一般,且不做區間最小值。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Fenwick 比線段樹更輕",
+        "text": "<p>Fenwick 樹通常比線段樹更簡單,且使用較少記憶體。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— BIT 是單一 O(n) 陣列,常數小、程式碼也短。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "BIT 確實比線段樹更輕量、更簡單。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Fenwick 區間最小值",
+        "text": "<p>一般 Fenwick 樹能像求前綴和一樣容易地直接回答區間最小值查詢。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 區間最小值不可逆,故一般 BIT 無法直接處理;求和可行是因為它可逆。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 一般 BIT 針對可逆/前綴聚合(如求和),而非區間最小值。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "lowbit 名詞",
+        "text": "<p>用來取出索引最低有效設定位元的值 <code>i &amp; -i</code>,通常稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "lowbit",
+            "fraction": 100,
+            "feedback": "正確 —— lowbit,即 i & -i。"
+          },
+          {
+            "text": "lowbit*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "tree-general-binary": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Name of the representation",
+        "text": "<p>Which representation lets any general (multiway) tree be stored as a binary tree?</p>",
+        "answers": [
+          {
+            "text": "Left-child, right-sibling representation",
+            "fraction": 100,
+            "feedback": "Correct — first child goes left, next sibling goes right."
+          },
+          {
+            "text": "Array (2i, 2i+1) representation",
+            "fraction": 0,
+            "feedback": "No — that stores a complete binary tree in an array, not a general tree as binary."
+          },
+          {
+            "text": "Adjacency-matrix representation",
+            "fraction": 0,
+            "feedback": "No — that is a general graph representation, not this tree mapping."
+          },
+          {
+            "text": "Threaded representation",
+            "fraction": 0,
+            "feedback": "No — threading reuses NULL pointers for traversal; it does not convert general to binary."
+          }
+        ],
+        "generalFeedback": "The left-child, right-sibling scheme reuses a binary node's two pointers as \"first child\" and \"next sibling\", encoding an arbitrary-degree tree.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "What the left pointer holds",
+        "text": "<p>In the left-child, right-sibling encoding, a node's <strong>left</strong> pointer refers to its ______.</p>",
+        "answers": [
+          {
+            "text": "First child",
+            "fraction": 100,
+            "feedback": "Correct — the left pointer points to the node's first child."
+          },
+          {
+            "text": "Next sibling",
+            "fraction": 0,
+            "feedback": "No — the next sibling is stored in the right pointer."
+          },
+          {
+            "text": "Parent",
+            "fraction": 0,
+            "feedback": "No — the encoding stores first child and next sibling, not parent."
+          },
+          {
+            "text": "Last child",
+            "fraction": 0,
+            "feedback": "No — it points to the first child; later children are reached via sibling links."
+          }
+        ],
+        "generalFeedback": "Left = first child, right = next sibling. Descending left then chaining right visits all children of a node.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "What the right pointer holds",
+        "text": "<p>In the left-child, right-sibling encoding, a node's <strong>right</strong> pointer refers to its ______.</p>",
+        "answers": [
+          {
+            "text": "Next sibling",
+            "fraction": 100,
+            "feedback": "Correct — the right pointer chains to the next sibling."
+          },
+          {
+            "text": "First child",
+            "fraction": 0,
+            "feedback": "No — the first child is stored in the left pointer."
+          },
+          {
+            "text": "Parent",
+            "fraction": 0,
+            "feedback": "No — parent links are not part of this encoding."
+          },
+          {
+            "text": "Right child in the original general tree",
+            "fraction": 0,
+            "feedback": "No — general-tree nodes have no fixed \"right child\"; the pointer holds the next sibling."
+          }
+        ],
+        "generalFeedback": "Siblings form a right-linked chain, so a node of any degree needs only two pointers.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Nature of the mapping",
+        "text": "<p>The left-child, right-sibling mapping between forests/general trees and binary trees is best described as a ______.</p>",
+        "answers": [
+          {
+            "text": "Bijection (one-to-one and reversible)",
+            "fraction": 100,
+            "feedback": "Correct — every forest maps to exactly one binary tree and back."
+          },
+          {
+            "text": "A lossy, one-way compression",
+            "fraction": 0,
+            "feedback": "No — the mapping loses no information and is fully reversible."
+          },
+          {
+            "text": "Valid only for binary trees",
+            "fraction": 0,
+            "feedback": "No — it applies to trees of arbitrary degree and to forests."
+          },
+          {
+            "text": "Valid only for balanced trees",
+            "fraction": 0,
+            "feedback": "No — balance is irrelevant to the encoding."
+          }
+        ],
+        "generalFeedback": "The encoding is a bijection: a forest of general trees corresponds to exactly one binary tree, and the process reverses uniquely.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Any forest can be encoded",
+        "text": "<p>Any general tree or forest can be represented as a binary tree using the left-child, right-sibling scheme.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the encoding works for trees of any degree and for forests."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It can — this is a standard bijection between forests and binary trees."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Right pointer stores first child",
+        "text": "<p>In the left-child, right-sibling encoding, a node's right pointer stores its first child.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — the right pointer stores the next sibling; the first child is on the left."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — right = next sibling, left = first child."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Right pointer meaning",
+        "text": "<p>In the left-child, right-sibling representation, the right pointer stores a node's next ______.</p>",
+        "answers": [
+          {
+            "text": "sibling",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "siblings",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "sibling*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Facts about the encoding",
+        "text": "<p>Which statements about the left-child, right-sibling representation are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A node's first child becomes its left pointer",
+            "fraction": 50,
+            "feedback": "Yes — first child goes left."
+          },
+          {
+            "text": "It is a bijection between forests and binary trees",
+            "fraction": 50,
+            "feedback": "Yes — the mapping is one-to-one and reversible."
+          },
+          {
+            "text": "It only works when every node has at most two children",
+            "fraction": -50,
+            "feedback": "No — it works for arbitrary degree; that is its purpose."
+          },
+          {
+            "text": "A node's next sibling becomes its left pointer",
+            "fraction": -50,
+            "feedback": "No — the next sibling becomes the right pointer."
+          }
+        ],
+        "generalFeedback": "First child = left, next sibling = right; the scheme handles any degree and is a reversible bijection with binary trees.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "表示法的名稱",
+        "text": "<p>哪一種表示法可以把任意一般(多元)樹儲存成一棵二元樹?</p>",
+        "answers": [
+          {
+            "text": "左子右兄弟(left-child, right-sibling)表示法",
+            "fraction": 100,
+            "feedback": "正確 —— 第一個子節點放左邊,下一個兄弟放右邊。"
+          },
+          {
+            "text": "陣列(2i、2i+1)表示法",
+            "fraction": 0,
+            "feedback": "錯 —— 那是把完全二元樹存進陣列,而非把一般樹表示為二元樹。"
+          },
+          {
+            "text": "相鄰矩陣表示法",
+            "fraction": 0,
+            "feedback": "錯 —— 那是一般圖的表示法,不是這個樹的對應。"
+          },
+          {
+            "text": "引線表示法",
+            "fraction": 0,
+            "feedback": "錯 —— 引線重複利用 NULL 指標以利走訪,並不會把一般樹轉成二元樹。"
+          }
+        ],
+        "generalFeedback": "左子右兄弟法把二元節點的兩個指標重新解讀為「第一個子節點」與「下一個兄弟」,即可編碼任意分支度的樹。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "左指標存放什麼",
+        "text": "<p>在左子右兄弟編碼中,節點的<strong>左</strong>指標指向它的 ______。</p>",
+        "answers": [
+          {
+            "text": "第一個子節點",
+            "fraction": 100,
+            "feedback": "正確 —— 左指標指向該節點的第一個子節點。"
+          },
+          {
+            "text": "下一個兄弟",
+            "fraction": 0,
+            "feedback": "錯 —— 下一個兄弟存放在右指標。"
+          },
+          {
+            "text": "父節點",
+            "fraction": 0,
+            "feedback": "錯 —— 此編碼存放第一個子節點與下一個兄弟,而非父節點。"
+          },
+          {
+            "text": "最後一個子節點",
+            "fraction": 0,
+            "feedback": "錯 —— 它指向第一個子節點;後面的子節點透過兄弟連結抵達。"
+          }
+        ],
+        "generalFeedback": "左 = 第一個子節點,右 = 下一個兄弟。先往左下降再沿右鏈走,即可拜訪某節點的所有子節點。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "右指標存放什麼",
+        "text": "<p>在左子右兄弟編碼中,節點的<strong>右</strong>指標指向它的 ______。</p>",
+        "answers": [
+          {
+            "text": "下一個兄弟",
+            "fraction": 100,
+            "feedback": "正確 —— 右指標串連到下一個兄弟。"
+          },
+          {
+            "text": "第一個子節點",
+            "fraction": 0,
+            "feedback": "錯 —— 第一個子節點存放在左指標。"
+          },
+          {
+            "text": "父節點",
+            "fraction": 0,
+            "feedback": "錯 —— 此編碼不包含父連結。"
+          },
+          {
+            "text": "原一般樹中的右子節點",
+            "fraction": 0,
+            "feedback": "錯 —— 一般樹節點沒有固定的「右子節點」;該指標存放下一個兄弟。"
+          }
+        ],
+        "generalFeedback": "兄弟形成一條向右串接的鏈,因此任意分支度的節點都只需要兩個指標。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "對應的本質",
+        "text": "<p>左子右兄弟法在森林/一般樹與二元樹之間的對應,最適合描述為 ______。</p>",
+        "answers": [
+          {
+            "text": "雙射(一對一且可逆)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個森林恰好對應到一棵二元樹,並可還原。"
+          },
+          {
+            "text": "有損、單向的壓縮",
+            "fraction": 0,
+            "feedback": "錯 —— 此對應不損失資訊,且完全可逆。"
+          },
+          {
+            "text": "只對二元樹有效",
+            "fraction": 0,
+            "feedback": "錯 —— 它適用於任意分支度的樹以及森林。"
+          },
+          {
+            "text": "只對平衡樹有效",
+            "fraction": 0,
+            "feedback": "錯 —— 平衡與否與此編碼無關。"
+          }
+        ],
+        "generalFeedback": "此編碼是一個雙射:一片一般樹的森林恰好對應到一棵二元樹,且過程可唯一還原。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "任意森林皆可編碼",
+        "text": "<p>任何一般樹或森林都可以用左子右兄弟法表示為一棵二元樹。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 此編碼適用於任意分支度的樹以及森林。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "確實可以 —— 這是森林與二元樹之間的標準雙射。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "右指標存放第一個子節點",
+        "text": "<p>在左子右兄弟編碼中,節點的右指標存放它的第一個子節點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 右指標存放下一個兄弟;第一個子節點在左邊。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 右 = 下一個兄弟,左 = 第一個子節點。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "右指標的意義",
+        "text": "<p>在左子右兄弟表示法中,右指標存放節點的下一個 ______。請以英文作答。</p>",
+        "answers": [
+          {
+            "text": "sibling",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "siblings",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "sibling*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "關於此編碼的事實",
+        "text": "<p>關於左子右兄弟表示法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "節點的第一個子節點成為它的左指標",
+            "fraction": 50,
+            "feedback": "正確 —— 第一個子節點放左邊。"
+          },
+          {
+            "text": "它是森林與二元樹之間的雙射",
+            "fraction": 50,
+            "feedback": "正確 —— 此對應一對一且可逆。"
+          },
+          {
+            "text": "只有當每個節點至多兩個子節點時才有效",
+            "fraction": -50,
+            "feedback": "錯 —— 它適用於任意分支度,這正是其目的。"
+          },
+          {
+            "text": "節點的下一個兄弟成為它的左指標",
+            "fraction": -50,
+            "feedback": "錯 —— 下一個兄弟成為右指標。"
+          }
+        ],
+        "generalFeedback": "第一個子節點 = 左,下一個兄弟 = 右;此法可處理任意分支度,且與二元樹之間是可逆的雙射。",
+        "single": false
+      }
+    ]
+  },
+  "tree-mway": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "m-way node structure",
+        "text": "<p>In an <strong>m-way search tree</strong>, how many keys and children may a node have at most?</p>",
+        "answers": [
+          {
+            "text": "Up to m&minus;1 keys and up to m children",
+            "fraction": 100,
+            "feedback": "Correct — m children are separated by m&minus;1 ordered keys."
+          },
+          {
+            "text": "Exactly 1 key and 2 children",
+            "fraction": 0,
+            "feedback": "That is the binary special case (m=2), not the general m-way node."
+          },
+          {
+            "text": "Up to m keys and up to m&minus;1 children",
+            "fraction": 0,
+            "feedback": "Reversed — children exceed keys by one."
+          },
+          {
+            "text": "Unlimited keys and children",
+            "fraction": 0,
+            "feedback": "The order m caps both."
+          }
+        ],
+        "generalFeedback": "An m-way search tree generalizes the BST: each node holds up to m&minus;1 keys and points to up to m subtrees.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "m-way generalizes BST",
+        "text": "<p>An m-way search tree is best described as a generalization of which structure?</p>",
+        "answers": [
+          {
+            "text": "The binary search tree, allowing more than two children per node",
+            "fraction": 100,
+            "feedback": "Correct — a BST is the m=2 case of an m-way search tree."
+          },
+          {
+            "text": "The hash table",
+            "fraction": 0,
+            "feedback": "No — m-way trees are ordered comparison structures, not hashed."
+          },
+          {
+            "text": "The heap",
+            "fraction": 0,
+            "feedback": "A heap orders by parent-child priority, not by ordered search keys."
+          },
+          {
+            "text": "The linked list",
+            "fraction": 0,
+            "feedback": "A list has no branching search order."
+          }
+        ],
+        "generalFeedback": "Raising the branching factor from 2 to m turns a binary search tree into an m-way search tree.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "m-way key ordering",
+        "text": "<p>How are keys and subtrees ordered within an m-way search tree node?</p>",
+        "answers": [
+          {
+            "text": "Keys are sorted, and the subtree between two consecutive keys holds values in that range",
+            "fraction": 100,
+            "feedback": "Correct — the ordering generalizes the BST invariant to multiple keys."
+          },
+          {
+            "text": "Keys are unordered; search must scan every subtree",
+            "fraction": 0,
+            "feedback": "No — ordered keys are what make it a search tree."
+          },
+          {
+            "text": "All keys in a subtree exceed the root's largest key",
+            "fraction": 0,
+            "feedback": "Only the rightmost subtree does; each gap has its own range."
+          },
+          {
+            "text": "Subtrees are ordered by size, not by key value",
+            "fraction": 0,
+            "feedback": "Ordering is by key value, enabling directed search."
+          }
+        ],
+        "generalFeedback": "Ordered keys partition the key space; child i covers the interval between key i&minus;1 and key i.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "m-way vs B-Tree",
+        "text": "<p>What is the relationship between an m-way search tree and a B-tree?</p>",
+        "answers": [
+          {
+            "text": "A B-tree is a balanced m-way search tree with minimum-occupancy constraints",
+            "fraction": 100,
+            "feedback": "Correct — the B-tree adds balancing and fill rules to the general m-way concept."
+          },
+          {
+            "text": "They are completely unrelated structures",
+            "fraction": 0,
+            "feedback": "No — the B-tree is a special case of the m-way search tree."
+          },
+          {
+            "text": "An m-way search tree is always balanced, a B-tree is not",
+            "fraction": 0,
+            "feedback": "Reversed — the B-tree adds the balance guarantee."
+          },
+          {
+            "text": "A B-tree allows only two children, an m-way tree allows m",
+            "fraction": 0,
+            "feedback": "Both allow up to m children; the B-tree adds occupancy rules."
+          }
+        ],
+        "generalFeedback": "The m-way search tree is the general concept; B-trees and B+ trees add the balancing rules that guarantee low height.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "m-way degeneracy",
+        "text": "<p>A plain m-way search tree with no balancing rules can degenerate and give no height guarantee.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — without occupancy/balance rules it can become tall and unbalanced."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Only the added B-tree rules guarantee balance; the bare m-way tree does not."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "m-way children count",
+        "text": "<p>In an m-way search tree, a node holding k keys has exactly k+1 children.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — k ordered keys create k+1 key-space intervals, hence k+1 subtrees."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Children always number one more than keys in a node."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Balanced special case term",
+        "text": "<p>A ______ tree is the <em>balanced</em> special case of an m-way search tree, keeping all leaves at the same depth. (one letter/word, English)</p>",
+        "answers": [
+          {
+            "text": "B",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "B-tree",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "B tree",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "m-way properties multi",
+        "text": "<p>Which statements about m-way search trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each node has up to m children and up to m&minus;1 ordered keys",
+            "fraction": 50,
+            "feedback": "Yes — this is the defining node shape."
+          },
+          {
+            "text": "They are the general concept; B-trees and B+ trees add balancing rules",
+            "fraction": 50,
+            "feedback": "Yes — balanced variants build on the m-way idea."
+          },
+          {
+            "text": "They always guarantee O(log n) height on their own",
+            "fraction": -50,
+            "feedback": "No — only balanced variants like the B-tree guarantee logarithmic height."
+          },
+          {
+            "text": "They are limited to exactly two children per node",
+            "fraction": -50,
+            "feedback": "No — that is a binary search tree; an m-way node has up to m children."
+          }
+        ],
+        "generalFeedback": "The m-way search tree generalizes the BST to m children with m&minus;1 ordered keys; balance is not automatic and is what B-trees add.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "m-way 節點結構",
+        "text": "<p>在 <strong>m 路搜尋樹(m-way search tree)</strong>中,一個節點最多可有多少個鍵與多少個子節點?</p>",
+        "answers": [
+          {
+            "text": "最多 m&minus;1 個鍵、最多 m 個子節點",
+            "fraction": 100,
+            "feedback": "正確 —— m 個子節點由 m&minus;1 個有序鍵分隔。"
+          },
+          {
+            "text": "剛好 1 個鍵、2 個子節點",
+            "fraction": 0,
+            "feedback": "那是二元的特例(m=2),不是一般的 m 路節點。"
+          },
+          {
+            "text": "最多 m 個鍵、最多 m&minus;1 個子節點",
+            "fraction": 0,
+            "feedback": "顛倒了 —— 子節點比鍵多一個。"
+          },
+          {
+            "text": "鍵與子節點皆無上限",
+            "fraction": 0,
+            "feedback": "階數 m 同時限制兩者。"
+          }
+        ],
+        "generalFeedback": "m 路搜尋樹推廣了 BST:每個節點最多持有 m&minus;1 個鍵,並指向最多 m 棵子樹。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "m-way 推廣自 BST",
+        "text": "<p>m 路搜尋樹最適合被描述為哪一種結構的推廣?</p>",
+        "answers": [
+          {
+            "text": "二元搜尋樹,允許每個節點有超過兩個子節點",
+            "fraction": 100,
+            "feedback": "正確 —— BST 是 m 路搜尋樹在 m=2 時的情況。"
+          },
+          {
+            "text": "雜湊表",
+            "fraction": 0,
+            "feedback": "錯 —— m 路樹是有序的比較結構,不是雜湊。"
+          },
+          {
+            "text": "堆積(heap)",
+            "fraction": 0,
+            "feedback": "堆積依父子優先權排序,而非依有序搜尋鍵。"
+          },
+          {
+            "text": "連結串列",
+            "fraction": 0,
+            "feedback": "串列沒有分支的搜尋順序。"
+          }
+        ],
+        "generalFeedback": "把分支因子從 2 提高到 m,就把二元搜尋樹變成 m 路搜尋樹。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "m-way 鍵的排序",
+        "text": "<p>在 m 路搜尋樹的節點內,鍵與子樹如何排序?</p>",
+        "answers": [
+          {
+            "text": "鍵為排序好的,兩個相鄰鍵之間的子樹持有落在該範圍內的值",
+            "fraction": 100,
+            "feedback": "正確 —— 此排序把 BST 不變量推廣到多個鍵。"
+          },
+          {
+            "text": "鍵無序;搜尋時必須掃描每一棵子樹",
+            "fraction": 0,
+            "feedback": "錯 —— 有序的鍵正是使它成為搜尋樹的原因。"
+          },
+          {
+            "text": "子樹中所有鍵都大於根節點的最大鍵",
+            "fraction": 0,
+            "feedback": "只有最右子樹如此;每個間隔各有其範圍。"
+          },
+          {
+            "text": "子樹依大小排序,而非依鍵值",
+            "fraction": 0,
+            "feedback": "排序依鍵值進行,才能導向式搜尋。"
+          }
+        ],
+        "generalFeedback": "有序的鍵切分鍵空間;第 i 個子節點涵蓋第 i&minus;1 個鍵與第 i 個鍵之間的區間。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "m-way 與 B-Tree",
+        "text": "<p>m 路搜尋樹與 B-tree 之間的關係為何?</p>",
+        "answers": [
+          {
+            "text": "B-tree 是一種帶有最低佔用限制的平衡 m 路搜尋樹",
+            "fraction": 100,
+            "feedback": "正確 —— B-tree 在一般 m 路概念上加入平衡與填充規則。"
+          },
+          {
+            "text": "它們是完全無關的結構",
+            "fraction": 0,
+            "feedback": "錯 —— B-tree 是 m 路搜尋樹的特例。"
+          },
+          {
+            "text": "m 路搜尋樹一定平衡,B-tree 則否",
+            "fraction": 0,
+            "feedback": "顛倒了 —— 是 B-tree 加入了平衡保證。"
+          },
+          {
+            "text": "B-tree 只允許兩個子節點,m 路樹允許 m 個",
+            "fraction": 0,
+            "feedback": "兩者都允許最多 m 個子節點;B-tree 加的是佔用規則。"
+          }
+        ],
+        "generalFeedback": "m 路搜尋樹是一般概念;B-tree 與 B+ 樹加入了保證低樹高的平衡規則。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "m-way 退化",
+        "text": "<p>沒有平衡規則的純 m 路搜尋樹可能退化,而無法提供任何樹高保證。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 缺少佔用/平衡規則時,它可能變得又高又不平衡。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "只有 B-tree 額外的規則才保證平衡;純 m 路樹不保證。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "m-way 子節點數",
+        "text": "<p>在 m 路搜尋樹中,持有 k 個鍵的節點恰有 k+1 個子節點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— k 個有序鍵形成 k+1 個鍵空間區間,故有 k+1 棵子樹。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "節點的子節點數恆比鍵數多一。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "平衡特例名詞",
+        "text": "<p>______ 樹是 m 路搜尋樹的<em>平衡</em>特例,使所有葉節點維持在相同深度。(請以英文字母/單字作答)</p>",
+        "answers": [
+          {
+            "text": "B",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "B-tree",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "B tree",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "m-way 性質複選",
+        "text": "<p>關於 m 路搜尋樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每個節點最多有 m 個子節點與最多 m&minus;1 個有序鍵",
+            "fraction": 50,
+            "feedback": "正確 —— 這是其定義性的節點形狀。"
+          },
+          {
+            "text": "它是一般概念;B-tree 與 B+ 樹在其上加入平衡規則",
+            "fraction": 50,
+            "feedback": "正確 —— 平衡變體建構於 m 路概念之上。"
+          },
+          {
+            "text": "它本身總是保證 O(log n) 的樹高",
+            "fraction": -50,
+            "feedback": "錯 —— 只有像 B-tree 的平衡變體才保證對數樹高。"
+          },
+          {
+            "text": "它每個節點僅限恰兩個子節點",
+            "fraction": -50,
+            "feedback": "錯 —— 那是二元搜尋樹;m 路節點最多有 m 個子節點。"
+          }
+        ],
+        "generalFeedback": "m 路搜尋樹把 BST 推廣為 m 個子節點與 m&minus;1 個有序鍵;平衡並非自動,那是 B-tree 所加入的。",
+        "single": false
+      }
+    ]
+  },
+  "tree-obst": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "OBST objective",
+        "text": "<p>Given keys with known search frequencies, what does the Optimal BST algorithm minimize?</p>",
+        "answers": [
+          {
+            "text": "The expected (weighted) search cost",
+            "fraction": 100,
+            "feedback": "Correct — it minimizes the frequency-weighted total depth of searches."
+          },
+          {
+            "text": "The height of the tree",
+            "fraction": 0,
+            "feedback": "No — minimizing height ignores the frequencies; a balanced tree is not always optimal here."
+          },
+          {
+            "text": "The number of nodes",
+            "fraction": 0,
+            "feedback": "No — the node count is fixed by the key set."
+          },
+          {
+            "text": "The total edge length",
+            "fraction": 0,
+            "feedback": "No — the objective is expected search cost, not edge length."
+          }
+        ],
+        "generalFeedback": "OBST arranges keys so that the sum over all keys of (frequency × depth) is minimized — the expected search cost.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "OBST technique",
+        "text": "<p>Which algorithmic technique is used to construct an Optimal BST?</p>",
+        "answers": [
+          {
+            "text": "Dynamic programming",
+            "fraction": 100,
+            "feedback": "Correct — it builds solutions for larger key ranges from optimal sub-ranges."
+          },
+          {
+            "text": "Greedy selection",
+            "fraction": 0,
+            "feedback": "No — unlike Huffman, a greedy root choice does not yield the optimum."
+          },
+          {
+            "text": "Divide and conquer without memoization",
+            "fraction": 0,
+            "feedback": "No — naive recursion recomputes overlapping subproblems; DP tables are needed."
+          },
+          {
+            "text": "Backtracking",
+            "fraction": 0,
+            "feedback": "No — the standard solution is dynamic programming."
+          }
+        ],
+        "generalFeedback": "OBST is a classic dynamic programming problem: the optimal tree over a key range combines optimal subtrees over sub-ranges.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "OBST complexity",
+        "text": "<p>What is the time complexity of the standard dynamic programming Optimal BST algorithm for <em>n</em> keys?</p>",
+        "answers": [
+          {
+            "text": "O(n^3)",
+            "fraction": 100,
+            "feedback": "Correct — O(n^2) subproblems, each trying O(n) possible roots."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "No — that is too fast; the DP fills an O(n^2) table with an inner root loop."
+          },
+          {
+            "text": "O(2^n)",
+            "fraction": 0,
+            "feedback": "No — DP avoids the exponential blow-up of trying every tree shape."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — a single pass cannot solve OBST."
+          }
+        ],
+        "generalFeedback": "There are O(n^2) key-range subproblems and each tries O(n) roots, giving O(n^3); Knuth's optimization reduces it to O(n^2).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Frequent keys placement",
+        "text": "<p>In an Optimal BST, keys that are searched more frequently tend to be placed:</p>",
+        "answers": [
+          {
+            "text": "Nearer the root",
+            "fraction": 100,
+            "feedback": "Correct — shallower depth for frequent keys lowers the expected cost."
+          },
+          {
+            "text": "In the deepest leaves",
+            "fraction": 0,
+            "feedback": "No — that would raise their access cost."
+          },
+          {
+            "text": "Always as the rightmost node",
+            "fraction": 0,
+            "feedback": "No — position depends on key order and frequencies, not a fixed slot."
+          },
+          {
+            "text": "Only in the left subtree",
+            "fraction": 0,
+            "feedback": "No — placement follows BST ordering and cost, not a fixed side."
+          }
+        ],
+        "generalFeedback": "Because cost = frequency × depth, high-frequency keys are pushed toward the root to reduce their depth.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "OBST vs balanced",
+        "text": "<p>An Optimal BST is always the same as a perfectly height-balanced BST.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — when frequencies are skewed, an unbalanced tree can have lower expected cost."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — optimality depends on frequencies, not just on balance."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "OBST maintains BST order",
+        "text": "<p>An Optimal BST must still satisfy the binary-search-tree ordering property on its keys.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it is a BST, so in-order traversal yields the keys in sorted order."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It is still a BST; only the shape is chosen to minimize cost."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "OBST technique term",
+        "text": "<p>The Optimal BST is solved by ______ programming (fill in the one-word technique name).</p>",
+        "answers": [
+          {
+            "text": "dynamic",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "dynamic*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "OBST properties multi",
+        "text": "<p>Which statements about Optimal BST construction are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It uses a dynamic programming table over ranges of consecutive keys",
+            "fraction": 50,
+            "feedback": "Yes — subproblems are contiguous key ranges."
+          },
+          {
+            "text": "It minimizes expected search cost using the key frequencies",
+            "fraction": 50,
+            "feedback": "Yes — frequencies drive the objective."
+          },
+          {
+            "text": "It is a greedy algorithm like Huffman coding",
+            "fraction": -50,
+            "feedback": "No — OBST needs DP; a greedy root choice is not optimal."
+          },
+          {
+            "text": "It ignores search frequencies and only balances the tree",
+            "fraction": -50,
+            "feedback": "No — frequencies are central to the objective."
+          }
+        ],
+        "generalFeedback": "OBST: dynamic programming over key ranges, minimizing frequency-weighted expected cost; it is not greedy and does not ignore frequencies.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "最佳 BST 目標",
+        "text": "<p>給定已知搜尋頻率的鍵值,最佳二元搜尋樹演算法要最小化什麼?</p>",
+        "answers": [
+          {
+            "text": "期望(加權)搜尋成本",
+            "fraction": 100,
+            "feedback": "正確 —— 它最小化以頻率加權的搜尋總深度。"
+          },
+          {
+            "text": "樹的高度",
+            "fraction": 0,
+            "feedback": "錯 —— 最小化高度會忽略頻率;平衡樹在此不一定最佳。"
+          },
+          {
+            "text": "節點數量",
+            "fraction": 0,
+            "feedback": "錯 —— 節點數由鍵值集合固定。"
+          },
+          {
+            "text": "邊的總長度",
+            "fraction": 0,
+            "feedback": "錯 —— 目標是期望搜尋成本,而非邊長。"
+          }
+        ],
+        "generalFeedback": "最佳 BST 安排鍵值,使所有鍵(頻率 × 深度)之總和最小,即期望搜尋成本。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "最佳 BST 技巧",
+        "text": "<p>建構最佳 BST 使用哪一種演算法技巧?</p>",
+        "answers": [
+          {
+            "text": "動態規劃",
+            "fraction": 100,
+            "feedback": "正確 —— 由較小鍵值範圍的最佳解組合出較大範圍的解。"
+          },
+          {
+            "text": "貪婪選擇",
+            "fraction": 0,
+            "feedback": "錯 —— 與霍夫曼不同,貪婪地選根並不能得到最佳解。"
+          },
+          {
+            "text": "不做記憶化的分治法",
+            "fraction": 0,
+            "feedback": "錯 —— 樸素遞迴會重算重疊子問題;需要 DP 表格。"
+          },
+          {
+            "text": "回溯法",
+            "fraction": 0,
+            "feedback": "錯 —— 標準解法是動態規劃。"
+          }
+        ],
+        "generalFeedback": "最佳 BST 是經典動態規劃問題:某鍵值範圍的最佳樹由其子範圍的最佳子樹組成。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "最佳 BST 複雜度",
+        "text": "<p>對 <em>n</em> 個鍵值,標準動態規劃最佳 BST 演算法的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(n^3)",
+            "fraction": 100,
+            "feedback": "正確 —— 有 O(n^2) 個子問題,每個嘗試 O(n) 個可能的根。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 太快了;DP 需填 O(n^2) 表格並含選根內迴圈。"
+          },
+          {
+            "text": "O(2^n)",
+            "fraction": 0,
+            "feedback": "錯 —— DP 避免了嘗試所有樹形的指數級爆炸。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 單次掃描無法解出最佳 BST。"
+          }
+        ],
+        "generalFeedback": "共有 O(n^2) 個鍵值範圍子問題,每個嘗試 O(n) 個根,故為 O(n^3);Knuth 最佳化可降為 O(n^2)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "高頻鍵值的位置",
+        "text": "<p>在最佳 BST 中,被搜尋越頻繁的鍵值傾向被放在:</p>",
+        "answers": [
+          {
+            "text": "越靠近根部",
+            "fraction": 100,
+            "feedback": "正確 —— 高頻鍵值深度較淺可降低期望成本。"
+          },
+          {
+            "text": "最深的葉節點",
+            "fraction": 0,
+            "feedback": "錯 —— 那會提高其存取成本。"
+          },
+          {
+            "text": "永遠作為最右邊的節點",
+            "fraction": 0,
+            "feedback": "錯 —— 位置取決於鍵值順序與頻率,而非固定位置。"
+          },
+          {
+            "text": "只放在左子樹",
+            "fraction": 0,
+            "feedback": "錯 —— 位置依 BST 排序與成本決定,而非固定一側。"
+          }
+        ],
+        "generalFeedback": "由於成本 = 頻率 × 深度,高頻鍵值會被推向根部以降低其深度。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "最佳 BST 與平衡樹",
+        "text": "<p>最佳 BST 永遠等同於完全高度平衡的 BST。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 當頻率偏斜時,不平衡的樹反而可能有較低的期望成本。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 最佳性取決於頻率,而非僅取決於平衡。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "最佳 BST 維持排序性質",
+        "text": "<p>最佳 BST 的鍵值仍必須滿足二元搜尋樹的排序性質。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它是一棵 BST,中序走訪會依排序輸出鍵值。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "它仍是 BST;只是選擇能最小化成本的樹形。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "最佳 BST 技巧名詞",
+        "text": "<p>最佳 BST 是以______規劃(dynamic programming)求解,填入該技巧的英文單字。</p>",
+        "answers": [
+          {
+            "text": "dynamic",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "dynamic*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "最佳 BST 性質複選",
+        "text": "<p>關於最佳 BST 的建構,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它使用對連續鍵值範圍的動態規劃表格",
+            "fraction": 50,
+            "feedback": "正確 —— 子問題是連續的鍵值範圍。"
+          },
+          {
+            "text": "它利用鍵值頻率最小化期望搜尋成本",
+            "fraction": 50,
+            "feedback": "正確 —— 頻率驅動目標函數。"
+          },
+          {
+            "text": "它像霍夫曼編碼一樣是貪婪演算法",
+            "fraction": -50,
+            "feedback": "錯 —— 最佳 BST 需要 DP;貪婪選根並非最佳。"
+          },
+          {
+            "text": "它忽略搜尋頻率,只把樹平衡化",
+            "fraction": -50,
+            "feedback": "錯 —— 頻率是目標函數的核心。"
+          }
+        ],
+        "generalFeedback": "最佳 BST:對鍵值範圍做動態規劃,最小化以頻率加權的期望成本;它並非貪婪,也不忽略頻率。",
+        "single": false
+      }
+    ]
+  },
+  "tree-radix": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Radix tree defining idea",
+        "text": "<p>What is the defining difference between a radix tree (compressed trie) and a plain trie?</p>",
+        "answers": [
+          {
+            "text": "Chains of single-child nodes are compressed, so each edge is labeled with a whole substring",
+            "fraction": 100,
+            "feedback": "Correct — that compression is exactly what defines a radix/Patricia tree."
+          },
+          {
+            "text": "Each node has exactly three children",
+            "fraction": 0,
+            "feedback": "No — that describes a ternary search tree, not a radix tree."
+          },
+          {
+            "text": "Keys are compared by hashing them to buckets",
+            "fraction": 0,
+            "feedback": "No — a radix tree still walks the key; it does not hash."
+          },
+          {
+            "text": "It stores only numeric keys, never strings",
+            "fraction": 0,
+            "feedback": "No — radix trees handle string/byte keys just like tries."
+          }
+        ],
+        "generalFeedback": "A radix tree is a trie in which every chain of single-child nodes is merged into one edge labeled with the whole shared substring.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Radix tree edge label",
+        "text": "<p>In a radix tree, what does a single <strong>edge</strong> carry?</p>",
+        "answers": [
+          {
+            "text": "A whole substring (possibly several characters)",
+            "fraction": 100,
+            "feedback": "Correct — compressed edges are labeled with multi-character substrings."
+          },
+          {
+            "text": "Exactly one character",
+            "fraction": 0,
+            "feedback": "No — that is a plain trie; the radix tree merges single-child chains."
+          },
+          {
+            "text": "A less-than / equal / greater-than pointer",
+            "fraction": 0,
+            "feedback": "No — that is a ternary search tree node."
+          },
+          {
+            "text": "A hash of the remaining key",
+            "fraction": 0,
+            "feedback": "No — radix trees store literal substrings on edges, not hashes."
+          }
+        ],
+        "generalFeedback": "Because single-child chains are compressed, a radix-tree edge is labeled with the entire shared substring rather than one character.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Radix tree benefit",
+        "text": "<p>Compared with a plain trie storing the same keys, a radix tree mainly...</p>",
+        "answers": [
+          {
+            "text": "Saves space by collapsing single-child chains, while keeping O(L) operations",
+            "fraction": 100,
+            "feedback": "Correct — fewer nodes, same O(L) time on a key of length L."
+          },
+          {
+            "text": "Reduces search time from O(L) to O(log L)",
+            "fraction": 0,
+            "feedback": "No — operations stay O(L); the win is in space, not asymptotic time."
+          },
+          {
+            "text": "Makes the structure comparison-based like a BST",
+            "fraction": 0,
+            "feedback": "No — it is still a trie; it navigates by characters, not comparisons."
+          },
+          {
+            "text": "Loses the ability to answer prefix queries",
+            "fraction": 0,
+            "feedback": "No — it keeps the same prefix-query strengths as a trie."
+          }
+        ],
+        "generalFeedback": "Compression removes redundant single-child nodes, cutting memory while search, insert, and delete of a length-L key remain O(L).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Radix tree application",
+        "text": "<p>Which application is a classic use of radix trees?</p>",
+        "answers": [
+          {
+            "text": "IP routing tables (longest-prefix match)",
+            "fraction": 100,
+            "feedback": "Correct — radix/Patricia trees are a staple of IP routing."
+          },
+          {
+            "text": "Balancing a set of numbers for median queries",
+            "fraction": 0,
+            "feedback": "No — that is order-statistic territory, not radix trees."
+          },
+          {
+            "text": "Priority-queue scheduling by key value",
+            "fraction": 0,
+            "feedback": "No — that is a heap's job, not a radix tree's."
+          },
+          {
+            "text": "Cache eviction with least-recently-used order",
+            "fraction": 0,
+            "feedback": "No — LRU uses a list plus map, not a radix tree."
+          }
+        ],
+        "generalFeedback": "Radix (Patricia) trees are widely used for IP routing tables and similar prefix-matching workloads.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Radix tree operation cost",
+        "text": "<p>Compressing a trie into a radix tree keeps search, insert, and delete of a length-L key at O(L).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — compression saves space without changing the O(L) time."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — operations remain O(L); only the node count shrinks."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Radix vs plain trie space",
+        "text": "<p>A radix tree generally uses <em>more</em> memory than the plain trie holding the same keys.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — compression removes single-child nodes, so it uses less memory."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the radix tree saves space compared with a plain trie."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Radix tree alias",
+        "text": "<p>A radix tree that compresses single-child chains is also historically known as a ______ tree (one word, the classic name).</p>",
+        "answers": [
+          {
+            "text": "Patricia",
+            "fraction": 100,
+            "feedback": "Correct — the radix tree is also called a Patricia tree/trie."
+          },
+          {
+            "text": "Patricia*",
+            "fraction": 100,
+            "feedback": "Correct — the radix tree is also called a Patricia tree/trie."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Radix tree properties",
+        "text": "<p>Which statements about radix trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "They merge single-child chains, labeling edges with whole substrings",
+            "fraction": 50,
+            "feedback": "Yes — that is the compression that defines them."
+          },
+          {
+            "text": "They keep the same prefix-query strengths as an ordinary trie",
+            "fraction": 50,
+            "feedback": "Yes — shared prefixes still lead to a common subtree."
+          },
+          {
+            "text": "They are comparison-based like a balanced BST",
+            "fraction": -50,
+            "feedback": "No — a radix tree is still a trie, navigating by characters."
+          },
+          {
+            "text": "Compression raises operation cost above O(L)",
+            "fraction": -50,
+            "feedback": "No — operations remain O(L)."
+          }
+        ],
+        "generalFeedback": "Radix trees compress single-child chains to save space, retain trie-style prefix queries, stay non-comparison-based, and keep O(L) operations.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "基數樹的定義概念",
+        "text": "<p>基數樹(壓縮 trie)與純 trie 之間的定義性差異是什麼?</p>",
+        "answers": [
+          {
+            "text": "單一子節點的鏈被壓縮,因此每條邊以一整段子字串標記",
+            "fraction": 100,
+            "feedback": "正確 —— 這種壓縮正是基數樹/Patricia 樹的定義。"
+          },
+          {
+            "text": "每個節點剛好有三個子節點",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是三元搜尋樹,不是基數樹。"
+          },
+          {
+            "text": "鍵透過雜湊到桶中來比較",
+            "fraction": 0,
+            "feedback": "錯 —— 基數樹仍逐字元走過鍵;它不做雜湊。"
+          },
+          {
+            "text": "它只儲存數值鍵,從不儲存字串",
+            "fraction": 0,
+            "feedback": "錯 —— 基數樹如 trie 一般處理字串/位元組鍵。"
+          }
+        ],
+        "generalFeedback": "基數樹是一種 trie,其中每一段單一子節點的鏈都被合併成一條以整段共享子字串標記的邊。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "基數樹邊的標記",
+        "text": "<p>在基數樹中,單一<strong>邊</strong>承載什麼?</p>",
+        "answers": [
+          {
+            "text": "一整段子字串(可能有數個字元)",
+            "fraction": 100,
+            "feedback": "正確 —— 壓縮後的邊以多字元子字串標記。"
+          },
+          {
+            "text": "剛好一個字元",
+            "fraction": 0,
+            "feedback": "錯 —— 那是純 trie;基數樹合併了單一子節點的鏈。"
+          },
+          {
+            "text": "一個小於 / 等於 / 大於的指標",
+            "fraction": 0,
+            "feedback": "錯 —— 那是三元搜尋樹的節點。"
+          },
+          {
+            "text": "剩餘鍵的雜湊值",
+            "fraction": 0,
+            "feedback": "錯 —— 基數樹在邊上儲存實際子字串,而非雜湊值。"
+          }
+        ],
+        "generalFeedback": "由於單一子節點的鏈被壓縮,基數樹的邊以整段共享子字串標記,而非單一字元。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "基數樹的好處",
+        "text": "<p>相較於儲存相同鍵的純 trie,基數樹主要...</p>",
+        "answers": [
+          {
+            "text": "透過壓縮單一子節點的鏈來節省空間,同時保持 O(L) 操作",
+            "fraction": 100,
+            "feedback": "正確 —— 節點更少,對長度 L 的鍵時間仍為 O(L)。"
+          },
+          {
+            "text": "將搜尋時間從 O(L) 降到 O(log L)",
+            "fraction": 0,
+            "feedback": "錯 —— 操作仍是 O(L);好處在空間,而非漸進時間。"
+          },
+          {
+            "text": "使結構像 BST 一樣基於比較",
+            "fraction": 0,
+            "feedback": "錯 —— 它仍是 trie;以字元導航,而非比較。"
+          },
+          {
+            "text": "失去回答前綴查詢的能力",
+            "fraction": 0,
+            "feedback": "錯 —— 它保有與 trie 相同的前綴查詢強項。"
+          }
+        ],
+        "generalFeedback": "壓縮移除多餘的單一子節點,削減記憶體;而長度 L 的鍵之搜尋、插入、刪除仍為 O(L)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "基數樹的應用",
+        "text": "<p>哪一項應用是基數樹的經典用途?</p>",
+        "answers": [
+          {
+            "text": "IP 路由表(最長前綴匹配)",
+            "fraction": 100,
+            "feedback": "正確 —— 基數樹/Patricia 樹是 IP 路由的主力。"
+          },
+          {
+            "text": "將一組數字平衡以查詢中位數",
+            "fraction": 0,
+            "feedback": "錯 —— 那是順序統計的領域,不是基數樹。"
+          },
+          {
+            "text": "依鍵值進行優先佇列排程",
+            "fraction": 0,
+            "feedback": "錯 —— 那是堆積的工作,不是基數樹。"
+          },
+          {
+            "text": "以最近最少使用順序進行快取淘汰",
+            "fraction": 0,
+            "feedback": "錯 —— LRU 使用鏈結串列加對映表,不是基數樹。"
+          }
+        ],
+        "generalFeedback": "基數樹(Patricia 樹)廣泛用於 IP 路由表以及類似的前綴匹配工作負載。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "基數樹操作成本",
+        "text": "<p>將 trie 壓縮成基數樹,長度 L 的鍵之搜尋、插入、刪除仍維持 O(L)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 壓縮節省空間而不改變 O(L) 時間。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 操作仍為 O(L);只是節點數變少。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "基數樹與純 trie 的空間",
+        "text": "<p>基數樹通常比儲存相同鍵的純 trie 使用<em>更多</em>記憶體。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 壓縮移除單一子節點,因此使用更少記憶體。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 基數樹相較純 trie 節省空間。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "基數樹別名",
+        "text": "<p>壓縮單一子節點鏈的基數樹在歷史上也被稱為 ______ tree(請填一個英文單字,經典名稱)。</p>",
+        "answers": [
+          {
+            "text": "Patricia",
+            "fraction": 100,
+            "feedback": "正確 —— 基數樹又稱為 Patricia tree/trie。"
+          },
+          {
+            "text": "Patricia*",
+            "fraction": 100,
+            "feedback": "正確 —— 基數樹又稱為 Patricia tree/trie。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "基數樹性質",
+        "text": "<p>關於基數樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它們合併單一子節點的鏈,並以整段子字串標記邊",
+            "fraction": 50,
+            "feedback": "正確 —— 這正是定義它們的壓縮。"
+          },
+          {
+            "text": "它們保有與一般 trie 相同的前綴查詢強項",
+            "fraction": 50,
+            "feedback": "正確 —— 共享前綴仍導向共同的子樹。"
+          },
+          {
+            "text": "它們像平衡 BST 一樣基於比較",
+            "fraction": -50,
+            "feedback": "錯 —— 基數樹仍是 trie,以字元導航。"
+          },
+          {
+            "text": "壓縮使操作成本高於 O(L)",
+            "fraction": -50,
+            "feedback": "錯 —— 操作仍為 O(L)。"
+          }
+        ],
+        "generalFeedback": "基數樹壓縮單一子節點的鏈以節省空間、保有 trie 式前綴查詢、維持非比較式、並保持 O(L) 操作。",
+        "single": false
+      }
+    ]
+  },
+  "tree-rb": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Red-black what it is",
+        "text": "<p>What is a <strong>red-black tree</strong>?</p>",
+        "answers": [
+          {
+            "text": "A self-balancing BST that assigns each node a red or black color and enforces color invariants",
+            "fraction": 100,
+            "feedback": "Correct — colors plus invariants keep the tree approximately balanced."
+          },
+          {
+            "text": "A BST where nodes are painted only for visualization and have no effect on balance",
+            "fraction": 0,
+            "feedback": "The colors are functional; they drive the balancing rules."
+          },
+          {
+            "text": "A tree that stores a numeric balance factor in each node",
+            "fraction": 0,
+            "feedback": "That is an AVL tree; red-black uses colors instead."
+          },
+          {
+            "text": "A heap ordered by node color",
+            "fraction": 0,
+            "feedback": "A red-black tree is a search tree, not a heap."
+          }
+        ],
+        "generalFeedback": "A red-black tree is a self-balancing BST; each node is red or black, and invariants on those colors bound the height to O(log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Red-black worst-case complexity",
+        "text": "<p>What is the <strong>worst-case</strong> time complexity of search, insert, and delete in a red-black tree?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — the color invariants keep height at most 2&middot;log(n+1)."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "That is the unbalanced-BST worst case, which red-black trees avoid."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "You still descend a logarithmic-height path."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a sorting bound, not a single operation."
+          }
+        ],
+        "generalFeedback": "Red-black invariants bound the height by 2&middot;log(n+1), so all operations run in O(log n) worst case.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Red-black balancing mechanism",
+        "text": "<p>How does a red-black tree keep itself balanced after an update?</p>",
+        "answers": [
+          {
+            "text": "By recoloring nodes and performing rotations to restore the color invariants",
+            "fraction": 100,
+            "feedback": "Correct — recoloring and a small number of rotations repair violations."
+          },
+          {
+            "text": "By requiring every node's balance factor to stay in {-1, 0, 1}",
+            "fraction": 0,
+            "feedback": "That is the AVL rule, not red-black."
+          },
+          {
+            "text": "By splaying the inserted node to the root",
+            "fraction": 0,
+            "feedback": "That is a splay tree, not red-black."
+          },
+          {
+            "text": "By rehashing all keys into a new table",
+            "fraction": 0,
+            "feedback": "Red-black trees do not use hashing."
+          }
+        ],
+        "generalFeedback": "A red-black tree restores its invariants using recoloring plus rotations; insertions and deletions need only O(1) amortized rotations.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Red-black vs AVL rotations",
+        "text": "<p>Why are red-black trees often preferred over AVL trees for <strong>update-heavy</strong> workloads?</p>",
+        "answers": [
+          {
+            "text": "They perform fewer rotations per insertion/deletion (O(1) amortized)",
+            "fraction": 100,
+            "feedback": "Correct — looser balance means cheaper rebalancing on updates."
+          },
+          {
+            "text": "They guarantee a perfectly balanced tree at all times",
+            "fraction": 0,
+            "feedback": "They are only approximately balanced; that is why updates are cheaper."
+          },
+          {
+            "text": "They allow O(1) search regardless of tree size",
+            "fraction": 0,
+            "feedback": "Search is still O(log n)."
+          },
+          {
+            "text": "They never require any rotations",
+            "fraction": 0,
+            "feedback": "They do rotate, just fewer times than AVL on average."
+          }
+        ],
+        "generalFeedback": "Red-black trees are less strictly balanced than AVL, so insertions and deletions need fewer rotations (O(1) amortized), which pays off in update-heavy workloads.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Red-black real-world use",
+        "text": "<p>Red-black trees underpin real-world libraries such as C++ <code>std::map</code>, Java's <code>TreeMap</code>, and structures in the Linux kernel.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — these are classic real-world uses of red-black trees."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "These libraries do rely on red-black trees."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Red-black is a BST",
+        "text": "<p>A red-black tree is a binary search tree and still supports in-order traversal to list keys in sorted order.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it is a BST with color invariants; in-order traversal is still sorted."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Red-black ordering is standard BST ordering, so in-order traversal is sorted."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Red-black color term",
+        "text": "<p>Besides \"red\", what is the other node color used in a red-black tree? ______.</p>",
+        "answers": [
+          {
+            "text": "black",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "black*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Red-black properties multi-select",
+        "text": "<p>Which statements about red-black trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "They guarantee O(log n) worst-case search, insert, and delete",
+            "fraction": 50,
+            "feedback": "Yes — color invariants bound the height."
+          },
+          {
+            "text": "They typically use fewer rotations on updates than AVL trees",
+            "fraction": 50,
+            "feedback": "Yes — O(1) amortized rotations makes them good for update-heavy use."
+          },
+          {
+            "text": "They keep every node's balance factor in {-1, 0, 1}",
+            "fraction": -50,
+            "feedback": "No — that is the AVL invariant, not red-black."
+          },
+          {
+            "text": "They move each accessed node to the root on every lookup",
+            "fraction": -50,
+            "feedback": "No — that is a splay tree."
+          }
+        ],
+        "generalFeedback": "Red-black trees guarantee O(log n) operations and use few rotations on updates; they rely on color invariants (not balance factors) and do not splay accessed nodes.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "紅黑樹是什麼",
+        "text": "<p><strong>紅黑樹</strong>是什麼?</p>",
+        "answers": [
+          {
+            "text": "一種自我平衡的 BST,為每個節點指定紅或黑顏色並強制顏色不變式",
+            "fraction": 100,
+            "feedback": "正確 —— 顏色加上不變式使樹維持近似平衡。"
+          },
+          {
+            "text": "一種只為視覺化上色、不影響平衡的 BST",
+            "fraction": 0,
+            "feedback": "顏色是功能性的;它驅動平衡規則。"
+          },
+          {
+            "text": "一種在每個節點儲存數值平衡因子的樹",
+            "fraction": 0,
+            "feedback": "那是 AVL 樹;紅黑樹改用顏色。"
+          },
+          {
+            "text": "一種以節點顏色排序的堆積",
+            "fraction": 0,
+            "feedback": "紅黑樹是搜尋樹,不是堆積。"
+          }
+        ],
+        "generalFeedback": "紅黑樹是自我平衡的 BST;每個節點為紅或黑,顏色不變式將高度限制在 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "紅黑樹最差情況複雜度",
+        "text": "<p>紅黑樹的搜尋、插入、刪除的<strong>最差情況</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 顏色不變式將高度限制在至多 2&middot;log(n+1)。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "那是未平衡 BST 的最差情況,紅黑樹可避免。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "你仍需沿一條對數高度的路徑下降。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是排序的界,不是單一操作。"
+          }
+        ],
+        "generalFeedback": "紅黑不變式將高度限制在 2&middot;log(n+1),因此所有操作的最差情況皆為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "紅黑樹平衡機制",
+        "text": "<p>更新後,紅黑樹如何保持自身平衡?</p>",
+        "answers": [
+          {
+            "text": "透過重新著色節點並執行旋轉,以恢復顏色不變式",
+            "fraction": 100,
+            "feedback": "正確 —— 重新著色與少量旋轉可修復違規。"
+          },
+          {
+            "text": "要求每個節點的平衡因子維持在 {-1, 0, 1}",
+            "fraction": 0,
+            "feedback": "那是 AVL 的規則,不是紅黑樹。"
+          },
+          {
+            "text": "將插入的節點伸展到根",
+            "fraction": 0,
+            "feedback": "那是伸展樹,不是紅黑樹。"
+          },
+          {
+            "text": "將所有鍵值重新雜湊到新表",
+            "fraction": 0,
+            "feedback": "紅黑樹不使用雜湊。"
+          }
+        ],
+        "generalFeedback": "紅黑樹以重新著色加旋轉恢復不變式;插入與刪除只需 O(1) 攤還次數的旋轉。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "紅黑樹與 AVL 旋轉比較",
+        "text": "<p>為何在<strong>更新頻繁</strong>的工作負載中,紅黑樹常比 AVL 樹更受青睞?</p>",
+        "answers": [
+          {
+            "text": "每次插入/刪除執行較少旋轉(O(1) 攤還)",
+            "fraction": 100,
+            "feedback": "正確 —— 較鬆的平衡使更新時的再平衡更便宜。"
+          },
+          {
+            "text": "它們隨時保證完美平衡的樹",
+            "fraction": 0,
+            "feedback": "它們只是近似平衡;正因如此更新才更便宜。"
+          },
+          {
+            "text": "不論樹大小都允許 O(1) 搜尋",
+            "fraction": 0,
+            "feedback": "搜尋仍是 O(log n)。"
+          },
+          {
+            "text": "它們完全不需要任何旋轉",
+            "fraction": 0,
+            "feedback": "它們仍會旋轉,只是平均比 AVL 少。"
+          }
+        ],
+        "generalFeedback": "紅黑樹平衡不如 AVL 嚴格,因此插入與刪除需要較少旋轉(O(1) 攤還),在更新頻繁的工作負載中更划算。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "紅黑樹的實務應用",
+        "text": "<p>紅黑樹是許多實務函式庫的基礎,例如 C++ 的 <code>std::map</code>、Java 的 <code>TreeMap</code>,以及 Linux 核心中的結構。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這些都是紅黑樹的經典實務應用。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "這些函式庫確實依賴紅黑樹。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "紅黑樹是一種 BST",
+        "text": "<p>紅黑樹是二元搜尋樹,仍可透過中序走訪依排序列出鍵值。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它是帶有顏色不變式的 BST;中序走訪仍是排序的。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "紅黑樹的排序就是標準 BST 排序,所以中序走訪是排序的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "紅黑樹顏色名詞",
+        "text": "<p>除了「紅」以外,紅黑樹使用的另一種節點顏色(英文)是什麼?______。</p>",
+        "answers": [
+          {
+            "text": "black",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "black*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "紅黑樹性質複選",
+        "text": "<p>關於紅黑樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "保證搜尋、插入、刪除的最差情況為 O(log n)",
+            "fraction": 50,
+            "feedback": "正確 —— 顏色不變式限制了高度。"
+          },
+          {
+            "text": "更新時通常比 AVL 樹使用較少旋轉",
+            "fraction": 50,
+            "feedback": "正確 —— O(1) 攤還旋轉使它適合更新頻繁的用途。"
+          },
+          {
+            "text": "使每個節點的平衡因子維持在 {-1, 0, 1}",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 AVL 的不變式,不是紅黑樹。"
+          },
+          {
+            "text": "每次查詢都將被存取節點移到根",
+            "fraction": -50,
+            "feedback": "錯 —— 那是伸展樹。"
+          }
+        ],
+        "generalFeedback": "紅黑樹保證 O(log n) 操作,且更新時旋轉次數少;它依賴顏色不變式(非平衡因子),也不會伸展被存取的節點。",
+        "single": false
+      }
+    ]
+  },
+  "tree-reconstruct": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Pair that determines a tree",
+        "text": "<p>Which pair of traversal sequences uniquely determines a binary tree?</p>",
+        "answers": [
+          {
+            "text": "Pre-order + in-order",
+            "fraction": 100,
+            "feedback": "Correct — this pair reconstructs a unique binary tree."
+          },
+          {
+            "text": "Pre-order + post-order",
+            "fraction": 0,
+            "feedback": "These do not determine a general binary tree uniquely."
+          },
+          {
+            "text": "Pre-order alone",
+            "fraction": 0,
+            "feedback": "A single traversal is ambiguous by itself."
+          },
+          {
+            "text": "In-order alone",
+            "fraction": 0,
+            "feedback": "In-order alone cannot fix the shape of the tree."
+          }
+        ],
+        "generalFeedback": "Pre-order (or post-order) supplies the root, while in-order splits left and right subtrees; that combination is enough for a unique reconstruction.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Ambiguous combination",
+        "text": "<p>Which of the following does <strong>not</strong> uniquely determine a general binary tree?</p>",
+        "answers": [
+          {
+            "text": "Pre-order + post-order",
+            "fraction": 100,
+            "feedback": "Correct — this pair is ambiguous for general binary trees."
+          },
+          {
+            "text": "Pre-order + in-order",
+            "fraction": 0,
+            "feedback": "This pair does determine a unique tree."
+          },
+          {
+            "text": "Post-order + in-order",
+            "fraction": 0,
+            "feedback": "This pair also determines a unique tree."
+          },
+          {
+            "text": "In-order + post-order",
+            "fraction": 0,
+            "feedback": "Same as post-order + in-order — it is sufficient."
+          }
+        ],
+        "generalFeedback": "Pre-order + post-order cannot distinguish, for example, a node's single child as left versus right, so the reconstruction is ambiguous.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Finding the root",
+        "text": "<p>In pre-order + in-order reconstruction, how do you identify the root of the (sub)tree?</p>",
+        "answers": [
+          {
+            "text": "It is the first element of the pre-order sequence",
+            "fraction": 100,
+            "feedback": "Correct — pre-order visits the root first."
+          },
+          {
+            "text": "It is the first element of the in-order sequence",
+            "fraction": 0,
+            "feedback": "The first in-order element is the leftmost node, not the root."
+          },
+          {
+            "text": "It is the middle element of the in-order sequence",
+            "fraction": 0,
+            "feedback": "The root's position in in-order varies; it is not always the middle."
+          },
+          {
+            "text": "It is the last element of the in-order sequence",
+            "fraction": 0,
+            "feedback": "That is the rightmost node, not necessarily the root."
+          }
+        ],
+        "generalFeedback": "Pre-order lists the root first (and post-order lists it last); locating that root within in-order then splits the two subtrees.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Role of in-order",
+        "text": "<p>Once the root is known, what does locating it inside the <em>in-order</em> sequence let you do?</p>",
+        "answers": [
+          {
+            "text": "Split the remaining nodes into the left and right subtrees",
+            "fraction": 100,
+            "feedback": "Correct — everything left of the root is the left subtree, everything right is the right subtree."
+          },
+          {
+            "text": "Determine the height of the tree directly",
+            "fraction": 0,
+            "feedback": "Height falls out of recursion, not from a single split."
+          },
+          {
+            "text": "Sort the node values",
+            "fraction": 0,
+            "feedback": "In-order of a BST is sorted, but the split is what reconstruction uses."
+          },
+          {
+            "text": "Count the number of leaves",
+            "fraction": 0,
+            "feedback": "The split identifies subtrees, not leaf counts."
+          }
+        ],
+        "generalFeedback": "In in-order traversal, all nodes before the root belong to the left subtree and all after it to the right subtree — the recursive split that drives reconstruction.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Post-order plus in-order",
+        "text": "<p>Post-order combined with in-order uniquely determines a binary tree.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the last post-order element is the root, and in-order splits the subtrees."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Post-order + in-order is sufficient, just like pre-order + in-order."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Pre-order alone",
+        "text": "<p>The pre-order sequence alone is enough to reconstruct a unique binary tree.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "A single traversal is ambiguous; you need in-order too."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — pre-order alone does not fix the tree shape."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Splitting traversal",
+        "text": "<p>Which traversal is used together with pre-order (or post-order) to split the left and right subtrees? Answer with the traversal name (hyphenated).</p>",
+        "answers": [
+          {
+            "text": "in-order",
+            "fraction": 100,
+            "feedback": "Correct — in-order splits the subtrees around the root."
+          },
+          {
+            "text": "inorder",
+            "fraction": 100,
+            "feedback": "Correct — in-order splits the subtrees around the root."
+          },
+          {
+            "text": "in order",
+            "fraction": 100,
+            "feedback": "Correct — in-order splits the subtrees around the root."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Reconstruction facts",
+        "text": "<p>Which statements about reconstructing a binary tree from traversals are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "The first element of pre-order is the root of the whole tree",
+            "fraction": 50,
+            "feedback": "Yes — pre-order visits the root first."
+          },
+          {
+            "text": "The last element of post-order is the root of the whole tree",
+            "fraction": 50,
+            "feedback": "Yes — post-order visits the root last."
+          },
+          {
+            "text": "Pre-order + post-order uniquely determine any binary tree",
+            "fraction": -50,
+            "feedback": "No — that combination is ambiguous for general binary trees."
+          },
+          {
+            "text": "In-order alone is enough to rebuild the tree",
+            "fraction": -50,
+            "feedback": "No — a single traversal cannot fix the shape."
+          }
+        ],
+        "generalFeedback": "Pre-order gives the root first and post-order gives it last; in-order then splits subtrees. But pre-order + post-order, or any single traversal alone, is not enough.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "能唯一決定樹的組合",
+        "text": "<p>下列哪一組走訪序列可以唯一決定一棵二元樹?</p>",
+        "answers": [
+          {
+            "text": "前序 + 中序",
+            "fraction": 100,
+            "feedback": "正確 —— 這組可重建出唯一的二元樹。"
+          },
+          {
+            "text": "前序 + 後序",
+            "fraction": 0,
+            "feedback": "這組無法唯一決定一般的二元樹。"
+          },
+          {
+            "text": "僅前序",
+            "fraction": 0,
+            "feedback": "單一走訪本身是不明確的。"
+          },
+          {
+            "text": "僅中序",
+            "fraction": 0,
+            "feedback": "僅中序無法固定樹的形狀。"
+          }
+        ],
+        "generalFeedback": "前序(或後序)提供根節點,而中序將左右子樹分開;此組合足以唯一重建。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "不明確的組合",
+        "text": "<p>下列哪一項<strong>無法</strong>唯一決定一般的二元樹?</p>",
+        "answers": [
+          {
+            "text": "前序 + 後序",
+            "fraction": 100,
+            "feedback": "正確 —— 對一般二元樹而言此組合是不明確的。"
+          },
+          {
+            "text": "前序 + 中序",
+            "fraction": 0,
+            "feedback": "這組確實能決定唯一的樹。"
+          },
+          {
+            "text": "後序 + 中序",
+            "fraction": 0,
+            "feedback": "這組也能決定唯一的樹。"
+          },
+          {
+            "text": "中序 + 後序",
+            "fraction": 0,
+            "feedback": "與後序 + 中序相同 —— 足以決定。"
+          }
+        ],
+        "generalFeedback": "前序 + 後序無法區分例如某節點的唯一子節點是左還是右,因此重建是不明確的。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "找出根節點",
+        "text": "<p>在前序 + 中序重建中,你如何辨識(子)樹的根節點?</p>",
+        "answers": [
+          {
+            "text": "它是前序序列的第一個元素",
+            "fraction": 100,
+            "feedback": "正確 —— 前序最先走訪根節點。"
+          },
+          {
+            "text": "它是中序序列的第一個元素",
+            "fraction": 0,
+            "feedback": "中序的第一個元素是最左節點,不是根。"
+          },
+          {
+            "text": "它是中序序列的中間元素",
+            "fraction": 0,
+            "feedback": "根在中序中的位置會變動;不一定是中間。"
+          },
+          {
+            "text": "它是中序序列的最後一個元素",
+            "fraction": 0,
+            "feedback": "那是最右節點,不一定是根。"
+          }
+        ],
+        "generalFeedback": "前序最先列出根節點(後序最後列出根節點);在中序中定位該根即可分出左右兩棵子樹。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "中序的作用",
+        "text": "<p>一旦知道根節點,在<em>中序</em>序列中定位它可以讓你做什麼?</p>",
+        "answers": [
+          {
+            "text": "將其餘節點分成左子樹與右子樹",
+            "fraction": 100,
+            "feedback": "正確 —— 根左邊全部是左子樹,右邊全部是右子樹。"
+          },
+          {
+            "text": "直接求出樹的高度",
+            "fraction": 0,
+            "feedback": "高度來自遞迴,而非單一次分割。"
+          },
+          {
+            "text": "將節點值排序",
+            "fraction": 0,
+            "feedback": "二元搜尋樹的中序是排序的,但重建用的是分割。"
+          },
+          {
+            "text": "計算葉節點的數目",
+            "fraction": 0,
+            "feedback": "分割辨識子樹,而非葉節點數目。"
+          }
+        ],
+        "generalFeedback": "在中序走訪中,根之前的所有節點屬於左子樹,之後的屬於右子樹 —— 這正是驅動重建的遞迴分割。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "後序加中序",
+        "text": "<p>後序與中序合併可唯一決定一棵二元樹。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 後序最後一個元素是根,中序再分割子樹。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "後序 + 中序是足夠的,與前序 + 中序一樣。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "僅前序",
+        "text": "<p>僅前序序列就足以重建出唯一的二元樹。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "單一走訪是不明確的;你還需要中序。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 僅前序無法固定樹的形狀。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "用來分割的走訪",
+        "text": "<p>哪一種走訪要與前序(或後序)一起使用,才能分割左右子樹?請以走訪名稱作答(英文,含連字號)。</p>",
+        "answers": [
+          {
+            "text": "in-order",
+            "fraction": 100,
+            "feedback": "正確 —— 中序以根為界分割子樹。"
+          },
+          {
+            "text": "inorder",
+            "fraction": 100,
+            "feedback": "正確 —— 中序以根為界分割子樹。"
+          },
+          {
+            "text": "in order",
+            "fraction": 100,
+            "feedback": "正確 —— 中序以根為界分割子樹。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "重建的事實",
+        "text": "<p>關於由走訪序列重建二元樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "前序的第一個元素是整棵樹的根",
+            "fraction": 50,
+            "feedback": "正確 —— 前序最先走訪根。"
+          },
+          {
+            "text": "後序的最後一個元素是整棵樹的根",
+            "fraction": 50,
+            "feedback": "正確 —— 後序最後走訪根。"
+          },
+          {
+            "text": "前序 + 後序可唯一決定任意二元樹",
+            "fraction": -50,
+            "feedback": "錯 —— 對一般二元樹此組合是不明確的。"
+          },
+          {
+            "text": "僅中序就足以重建樹",
+            "fraction": -50,
+            "feedback": "錯 —— 單一走訪無法固定形狀。"
+          }
+        ],
+        "generalFeedback": "前序最先給出根,後序最後給出根;中序再分割子樹。但前序 + 後序,或任何單一走訪,都不足夠。",
+        "single": false
+      }
+    ]
+  },
+  "tree-segment": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Segment tree query complexity",
+        "text": "<p>What is the time complexity of a <strong>range query</strong> (e.g. sum over [l, r]) on a segment tree?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — a query touches O(log n) canonical nodes."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "Only a precomputed prefix-sum array gives O(1) sum, but it cannot handle updates cheaply."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "That is a naive scan; the tree avoids it."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is the cost of many queries or a sort, not a single query."
+          }
+        ],
+        "generalFeedback": "A segment tree decomposes any range into O(log n) nodes, so both range queries and point updates run in O(log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Segment tree build and space",
+        "text": "<p>For an array of n elements, what are the typical <strong>build time</strong> and <strong>space</strong> of a segment tree?</p>",
+        "answers": [
+          {
+            "text": "Build O(n), space O(n) (about 2n–4n nodes)",
+            "fraction": 100,
+            "feedback": "Correct — a bottom-up build is linear and the node count is O(n)."
+          },
+          {
+            "text": "Build O(n log n), space O(n log n)",
+            "fraction": 0,
+            "feedback": "The plain segment tree builds in O(n) with O(n) space."
+          },
+          {
+            "text": "Build O(log n), space O(log n)",
+            "fraction": 0,
+            "feedback": "You must at least visit every element to build, so build is O(n)."
+          },
+          {
+            "text": "Build O(n^2), space O(n^2)",
+            "fraction": 0,
+            "feedback": "Far too much; the structure is linear in space."
+          }
+        ],
+        "generalFeedback": "Building a segment tree is O(n), and it stores about 2n–4n nodes, i.e. O(n) space.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Lazy propagation purpose",
+        "text": "<p>What does <strong>lazy propagation</strong> enable in a segment tree?</p>",
+        "answers": [
+          {
+            "text": "Range updates in O(log n) by deferring pending updates to child nodes",
+            "fraction": 100,
+            "feedback": "Correct — a whole range is updated by marking nodes and pushing down only when needed."
+          },
+          {
+            "text": "Sorting the underlying array in O(n)",
+            "fraction": 0,
+            "feedback": "A segment tree does not sort the array."
+          },
+          {
+            "text": "Reducing space from O(n) to O(log n)",
+            "fraction": 0,
+            "feedback": "Lazy propagation affects update time, not asymptotic space."
+          },
+          {
+            "text": "Making point queries O(1)",
+            "fraction": 0,
+            "feedback": "Queries remain O(log n); lazy propagation targets range updates."
+          }
+        ],
+        "generalFeedback": "Without lazy propagation a range update touches O(n) leaves; with it, updates are deferred and pushed down lazily, giving O(log n) range updates.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Segment tree vs Fenwick generality",
+        "text": "<p>Compared with a Fenwick tree (BIT), a segment tree is more general because it can directly support:</p>",
+        "answers": [
+          {
+            "text": "Any associative range aggregate, such as range minimum or maximum",
+            "fraction": 100,
+            "feedback": "Correct — segment trees handle min/max/gcd/etc., not just invertible sums."
+          },
+          {
+            "text": "Only prefix sums and nothing else",
+            "fraction": 0,
+            "feedback": "That is closer to what a Fenwick tree specializes in."
+          },
+          {
+            "text": "Hashing keys for O(1) lookup",
+            "fraction": 0,
+            "feedback": "That is a hash table, unrelated to segment trees."
+          },
+          {
+            "text": "Ordered predecessor/successor queries on keys",
+            "fraction": 0,
+            "feedback": "That is a balanced BST task, not a segment tree's role."
+          }
+        ],
+        "generalFeedback": "A segment tree supports any associative aggregate over a range (sum, min, max, gcd, ...), making it more general than a Fenwick tree.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Segment tree properties (multi-select)",
+        "text": "<p>Which statements about segment trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is a binary tree whose nodes represent array intervals",
+            "fraction": 50,
+            "feedback": "Yes — each internal node covers the union of its children's intervals."
+          },
+          {
+            "text": "Range queries and point updates each run in O(log n)",
+            "fraction": 50,
+            "feedback": "Yes — both operations touch O(log n) nodes."
+          },
+          {
+            "text": "It requires the underlying array to be kept sorted",
+            "fraction": -50,
+            "feedback": "No — the array is indexed by position, not sorted by value."
+          },
+          {
+            "text": "It can answer range sums but never range minimums",
+            "fraction": -50,
+            "feedback": "No — it handles min/max just as easily as sum."
+          }
+        ],
+        "generalFeedback": "A segment tree is an interval binary tree giving O(log n) range queries and updates for any associative aggregate, with no sorting requirement.",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "Segment tree range update",
+        "text": "<p>With lazy propagation, a segment tree can apply a range update in O(log n) time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — pending updates are deferred and pushed down, so range updates are O(log n)."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Lazy propagation does give O(log n) range updates."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Segment tree only sums",
+        "text": "<p>A segment tree can only compute range sums and cannot support range minimum or maximum queries.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — a segment tree supports any associative aggregate, including min and max."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — sum, min, max, gcd, and other associative aggregates all work."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Lazy technique term",
+        "text": "<p>The technique that defers pending range updates to child nodes, enabling O(log n) range updates, is called lazy ______.</p>",
+        "answers": [
+          {
+            "text": "propagation",
+            "fraction": 100,
+            "feedback": "Correct — lazy propagation."
+          },
+          {
+            "text": "propagation*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "線段樹查詢複雜度",
+        "text": "<p>在線段樹上執行一次<strong>區間查詢</strong>(例如對 [l, r] 求和)的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 一次查詢會碰觸 O(log n) 個標準節點。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "只有預先算好的前綴和陣列能 O(1) 求和,但它無法便宜地處理更新。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "那是樸素掃描;線段樹正是要避免它。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是多次查詢或排序的成本,不是單次查詢。"
+          }
+        ],
+        "generalFeedback": "線段樹把任一區間分解為 O(log n) 個節點,故區間查詢與單點更新皆為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線段樹建樹與空間",
+        "text": "<p>對 n 個元素的陣列,線段樹典型的<strong>建樹時間</strong>與<strong>空間</strong>為何?</p>",
+        "answers": [
+          {
+            "text": "建樹 O(n),空間 O(n)(約 2n–4n 個節點)",
+            "fraction": 100,
+            "feedback": "正確 —— 由下而上建樹為線性,節點數為 O(n)。"
+          },
+          {
+            "text": "建樹 O(n log n),空間 O(n log n)",
+            "fraction": 0,
+            "feedback": "一般線段樹建樹為 O(n)、空間 O(n)。"
+          },
+          {
+            "text": "建樹 O(log n),空間 O(log n)",
+            "fraction": 0,
+            "feedback": "建樹至少要走訪每個元素,故建樹為 O(n)。"
+          },
+          {
+            "text": "建樹 O(n^2),空間 O(n^2)",
+            "fraction": 0,
+            "feedback": "太多了;此結構空間為線性。"
+          }
+        ],
+        "generalFeedback": "建立線段樹為 O(n),約儲存 2n–4n 個節點,即 O(n) 空間。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "懶惰傳遞用途",
+        "text": "<p>在線段樹中,<strong>懶惰傳遞(lazy propagation)</strong>能達成什麼?</p>",
+        "answers": [
+          {
+            "text": "藉由把待處理更新延後傳給子節點,以 O(log n) 完成區間更新",
+            "fraction": 100,
+            "feedback": "正確 —— 對整個區間先標記節點,需要時才向下推送。"
+          },
+          {
+            "text": "以 O(n) 對底層陣列排序",
+            "fraction": 0,
+            "feedback": "線段樹不會對陣列排序。"
+          },
+          {
+            "text": "把空間從 O(n) 降到 O(log n)",
+            "fraction": 0,
+            "feedback": "懶惰傳遞影響的是更新時間,而非漸進空間。"
+          },
+          {
+            "text": "讓單點查詢變成 O(1)",
+            "fraction": 0,
+            "feedback": "查詢仍為 O(log n);懶惰傳遞針對的是區間更新。"
+          }
+        ],
+        "generalFeedback": "沒有懶惰傳遞時,一次區間更新會碰到 O(n) 個葉節點;有了它,更新會被延後並惰性向下推,使區間更新為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線段樹與 Fenwick 的一般性",
+        "text": "<p>相較於 Fenwick 樹(BIT),線段樹更為一般,因為它可直接支援:</p>",
+        "answers": [
+          {
+            "text": "任何可結合的區間聚合,例如區間最小值或最大值",
+            "fraction": 100,
+            "feedback": "正確 —— 線段樹可處理 min/max/gcd 等,不只是可逆的求和。"
+          },
+          {
+            "text": "只有前綴和,別無其他",
+            "fraction": 0,
+            "feedback": "那較接近 Fenwick 樹擅長的部分。"
+          },
+          {
+            "text": "對鍵做雜湊以達 O(1) 查找",
+            "fraction": 0,
+            "feedback": "那是雜湊表,與線段樹無關。"
+          },
+          {
+            "text": "對鍵做有序的前驅/後繼查詢",
+            "fraction": 0,
+            "feedback": "那是平衡 BST 的工作,不是線段樹的職責。"
+          }
+        ],
+        "generalFeedback": "線段樹支援對區間的任何可結合聚合(sum、min、max、gcd……),因此比 Fenwick 樹更一般。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線段樹性質(複選)",
+        "text": "<p>關於線段樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它是一棵二元樹,節點代表陣列的區間",
+            "fraction": 50,
+            "feedback": "正確 —— 每個內部節點涵蓋其子節點區間的聯集。"
+          },
+          {
+            "text": "區間查詢與單點更新各為 O(log n)",
+            "fraction": 50,
+            "feedback": "正確 —— 兩種操作都碰觸 O(log n) 個節點。"
+          },
+          {
+            "text": "它要求底層陣列必須保持已排序",
+            "fraction": -50,
+            "feedback": "錯 —— 陣列以位置索引,而非依值排序。"
+          },
+          {
+            "text": "它能回答區間求和,但永遠無法回答區間最小值",
+            "fraction": -50,
+            "feedback": "錯 —— 它處理 min/max 就跟 sum 一樣容易。"
+          }
+        ],
+        "generalFeedback": "線段樹是一棵區間二元樹,對任何可結合聚合提供 O(log n) 的區間查詢與更新,且不需排序。",
+        "single": false
+      },
+      {
+        "type": "truefalse",
+        "name": "線段樹區間更新",
+        "text": "<p>搭配懶惰傳遞,線段樹能以 O(log n) 完成一次區間更新。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 待處理更新被延後並向下推送,故區間更新為 O(log n)。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "懶惰傳遞確實能提供 O(log n) 的區間更新。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "線段樹只能求和",
+        "text": "<p>線段樹只能計算區間和,無法支援區間最小值或最大值查詢。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 線段樹支援任何可結合聚合,包括 min 與 max。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— sum、min、max、gcd 等可結合聚合都行。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "懶惰技術名詞",
+        "text": "<p>把待處理的區間更新延後傳給子節點、從而達成 O(log n) 區間更新的技術,稱為 lazy ______。</p>",
+        "answers": [
+          {
+            "text": "propagation",
+            "fraction": 100,
+            "feedback": "正確 —— lazy propagation(懶惰傳遞)。"
+          },
+          {
+            "text": "propagation*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      }
+    ]
+  },
+  "tree-splay": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Splay what it is",
+        "text": "<p>What best describes a <strong>splay tree</strong>?</p>",
+        "answers": [
+          {
+            "text": "A self-adjusting BST that rotates each accessed node up to the root",
+            "fraction": 100,
+            "feedback": "Correct — the splay operation moves the accessed node to the root."
+          },
+          {
+            "text": "A BST that stores a balance factor in every node",
+            "fraction": 0,
+            "feedback": "That is an AVL tree; splay trees store no balance metadata."
+          },
+          {
+            "text": "A tree that colors nodes red and black",
+            "fraction": 0,
+            "feedback": "That is a red-black tree, not a splay tree."
+          },
+          {
+            "text": "A hash table with tree-based buckets",
+            "fraction": 0,
+            "feedback": "A splay tree is a search tree, not a hash structure."
+          }
+        ],
+        "generalFeedback": "A splay tree is a self-adjusting BST; every access splays (rotates) the touched node up to the root, storing no explicit balance or color data.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Splay amortized complexity",
+        "text": "<p>What is the <strong>amortized</strong> time complexity of a splay tree operation?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — amortized over a sequence of operations, each costs O(log n)."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "Access still touches a path proportional to depth on average."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "A single op can be O(n), but the amortized cost is O(log n)."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is a sorting bound, not a single amortized operation."
+          }
+        ],
+        "generalFeedback": "Splay trees guarantee O(log n) amortized per operation; individual operations can be more expensive but average out over a sequence.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Splay worst-case single operation",
+        "text": "<p>What is the <strong>worst-case</strong> cost of a single splay-tree operation (not amortized)?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "Correct — one operation can traverse a long path, though the amortized cost is O(log n)."
+          },
+          {
+            "text": "O(log n) guaranteed for every single operation",
+            "fraction": 0,
+            "feedback": "That is AVL/red-black; splay only guarantees O(log n) amortized."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "A single access may follow a path of length up to n."
+          },
+          {
+            "text": "O(sqrt n)",
+            "fraction": 0,
+            "feedback": "The worst single operation is linear, not sublinear."
+          }
+        ],
+        "generalFeedback": "Unlike AVL or red-black trees, a splay tree gives no per-operation worst-case guarantee; a single operation can be O(n) while the amortized cost stays O(log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Splay locality benefit",
+        "text": "<p>What practical advantage does the splay-to-root policy give?</p>",
+        "answers": [
+          {
+            "text": "Recently accessed keys become fast to reach again (good working-set/locality performance)",
+            "fraction": 100,
+            "feedback": "Correct — splaying keeps hot keys near the root."
+          },
+          {
+            "text": "It guarantees the tree is always perfectly balanced",
+            "fraction": 0,
+            "feedback": "Splay trees are not height-balanced; they are self-adjusting."
+          },
+          {
+            "text": "It removes the need to store keys at all",
+            "fraction": 0,
+            "feedback": "Keys are still stored in every node."
+          },
+          {
+            "text": "It makes every operation strictly O(1)",
+            "fraction": 0,
+            "feedback": "Operations are O(log n) amortized, not O(1)."
+          }
+        ],
+        "generalFeedback": "Because each access moves a key to the root, frequently or recently used keys stay shallow, giving strong working-set and locality-of-reference performance.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Splay stores no balance info",
+        "text": "<p>A splay tree needs no extra per-node balance factor or color bit; balance emerges purely from the splaying rotations.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — splay trees store no explicit balance or color metadata."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Splay trees really do avoid extra balance metadata; the splay operation alone maintains amortized balance."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Splay per-operation guarantee",
+        "text": "<p>A splay tree guarantees O(log n) time for every individual operation, just like an AVL tree.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — splay trees only give O(log n) amortized; a single operation can be O(n)."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the O(log n) bound is amortized, not per-operation."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Splay operation term",
+        "text": "<p>What is the name of the operation (one word) that rotates an accessed node up to the root of the tree? ______.</p>",
+        "answers": [
+          {
+            "text": "splay",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "splay*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "splaying",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Splay properties multi-select",
+        "text": "<p>Which statements about splay trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each operation runs in O(log n) amortized time",
+            "fraction": 50,
+            "feedback": "Yes — amortized over a sequence of operations."
+          },
+          {
+            "text": "Recently accessed keys are cheap to access again",
+            "fraction": 50,
+            "feedback": "Yes — splaying gives good working-set/locality behavior."
+          },
+          {
+            "text": "Every single operation is guaranteed O(log n) in the worst case",
+            "fraction": -50,
+            "feedback": "No — a single operation can be O(n); only the amortized cost is O(log n)."
+          },
+          {
+            "text": "Each node stores a red/black color or a balance factor",
+            "fraction": -50,
+            "feedback": "No — splay trees keep no explicit balance or color metadata."
+          }
+        ],
+        "generalFeedback": "Splay trees give O(log n) amortized operations and fast repeat access to recent keys, but no per-operation worst-case guarantee, and they store no balance or color data.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "伸展樹是什麼",
+        "text": "<p>以下何者最能描述<strong>伸展樹(splay tree)</strong>?</p>",
+        "answers": [
+          {
+            "text": "一種自我調整的 BST,將每次被存取的節點旋轉到根",
+            "fraction": 100,
+            "feedback": "正確 —— 伸展操作會把被存取的節點移到根。"
+          },
+          {
+            "text": "一種在每個節點儲存平衡因子的 BST",
+            "fraction": 0,
+            "feedback": "那是 AVL 樹;伸展樹不儲存平衡資訊。"
+          },
+          {
+            "text": "一種為節點著紅黑色的樹",
+            "fraction": 0,
+            "feedback": "那是紅黑樹,不是伸展樹。"
+          },
+          {
+            "text": "一種以樹為桶的雜湊表",
+            "fraction": 0,
+            "feedback": "伸展樹是搜尋樹,不是雜湊結構。"
+          }
+        ],
+        "generalFeedback": "伸展樹是自我調整的 BST;每次存取都會將被觸及的節點伸展(旋轉)到根,且不儲存明確的平衡或顏色資料。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "伸展樹攤還複雜度",
+        "text": "<p>伸展樹操作的<strong>攤還(amortized)</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 在一連串操作上攤還,每次為 O(log n)。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "存取平均仍需觸及與深度成正比的路徑。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "單一操作可能為 O(n),但攤還成本為 O(log n)。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是排序的界,不是單一攤還操作。"
+          }
+        ],
+        "generalFeedback": "伸展樹保證每次操作攤還為 O(log n);個別操作可能較貴,但在一連串操作上平均下來為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "伸展樹單一操作最差情況",
+        "text": "<p>伸展樹單一操作的<strong>最差情況</strong>成本(非攤還)為何?</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 單一操作可能走過一條很長的路徑,雖然攤還成本為 O(log n)。"
+          },
+          {
+            "text": "每一次單一操作都保證 O(log n)",
+            "fraction": 0,
+            "feedback": "那是 AVL/紅黑樹;伸展樹只保證攤還 O(log n)。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "單一存取可能沿長度達 n 的路徑走。"
+          },
+          {
+            "text": "O(sqrt n)",
+            "fraction": 0,
+            "feedback": "最差的單一操作是線性,不是次線性。"
+          }
+        ],
+        "generalFeedback": "與 AVL 或紅黑樹不同,伸展樹不提供每次操作的最差情況保證;單一操作可能為 O(n),而攤還成本仍為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "伸展樹的區域性優勢",
+        "text": "<p>「伸展到根」的策略帶來什麼實務優勢?</p>",
+        "answers": [
+          {
+            "text": "最近存取過的鍵值再次存取會很快(良好的工作集/區域性效能)",
+            "fraction": 100,
+            "feedback": "正確 —— 伸展讓熱門鍵值靠近根。"
+          },
+          {
+            "text": "保證樹永遠完美平衡",
+            "fraction": 0,
+            "feedback": "伸展樹並非高度平衡;它是自我調整。"
+          },
+          {
+            "text": "完全不需要儲存鍵值",
+            "fraction": 0,
+            "feedback": "鍵值仍儲存在每個節點。"
+          },
+          {
+            "text": "使每個操作嚴格為 O(1)",
+            "fraction": 0,
+            "feedback": "操作是攤還 O(log n),不是 O(1)。"
+          }
+        ],
+        "generalFeedback": "因為每次存取都把鍵值移到根,經常或最近使用的鍵值會保持在淺處,帶來強大的工作集與參考區域性效能。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "伸展樹不儲存平衡資訊",
+        "text": "<p>伸展樹不需要每個節點額外的平衡因子或顏色位元;平衡純粹來自伸展的旋轉。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 伸展樹不儲存明確的平衡或顏色資訊。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "伸展樹確實不需額外的平衡資訊;僅靠伸展操作即維持攤還平衡。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "伸展樹的每次操作保證",
+        "text": "<p>伸展樹像 AVL 樹一樣,保證每一次個別操作都是 O(log n) 時間。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 伸展樹只提供攤還 O(log n);單一操作可能為 O(n)。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— O(log n) 的界是攤還的,不是每次操作的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "伸展操作名詞",
+        "text": "<p>將被存取的節點旋轉到樹根的操作(英文一詞)叫什麼?______。</p>",
+        "answers": [
+          {
+            "text": "splay",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "splay*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "splaying",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "伸展樹性質複選",
+        "text": "<p>關於伸展樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每次操作以攤還 O(log n) 時間執行",
+            "fraction": 50,
+            "feedback": "正確 —— 在一連串操作上攤還。"
+          },
+          {
+            "text": "最近存取過的鍵值再次存取很便宜",
+            "fraction": 50,
+            "feedback": "正確 —— 伸展帶來良好的工作集/區域性表現。"
+          },
+          {
+            "text": "每一次單一操作都保證最差情況 O(log n)",
+            "fraction": -50,
+            "feedback": "錯 —— 單一操作可能為 O(n);只有攤還成本為 O(log n)。"
+          },
+          {
+            "text": "每個節點儲存紅/黑顏色或平衡因子",
+            "fraction": -50,
+            "feedback": "錯 —— 伸展樹不儲存明確的平衡或顏色資訊。"
+          }
+        ],
+        "generalFeedback": "伸展樹提供攤還 O(log n) 操作與對近期鍵值的快速重複存取,但不保證每次操作的最差情況,也不儲存平衡或顏色資料。",
+        "single": false
+      }
+    ]
+  },
+  "tree-ternary": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "TST children count",
+        "text": "<p>How many children does each node of a ternary search tree (TST) have?</p>",
+        "answers": [
+          {
+            "text": "Three: less-than, equal, and greater-than",
+            "fraction": 100,
+            "feedback": "Correct — hence \"ternary\": low, equal, high."
+          },
+          {
+            "text": "Two: left and right",
+            "fraction": 0,
+            "feedback": "No — that is a binary search tree; a TST adds a middle (equal) child."
+          },
+          {
+            "text": "One per alphabet character",
+            "fraction": 0,
+            "feedback": "No — that is a plain trie node; a TST stores one character with three pointers."
+          },
+          {
+            "text": "A variable number labeled with substrings",
+            "fraction": 0,
+            "feedback": "No — that describes a radix tree, not a TST."
+          }
+        ],
+        "generalFeedback": "Each TST node holds one character and three children: less-than, equal, and greater-than — combining BST-style branching with trie descent.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "TST equal child role",
+        "text": "<p>In a TST, what happens when you follow the <strong>equal (middle)</strong> child?</p>",
+        "answers": [
+          {
+            "text": "You advance to the next character of the search key",
+            "fraction": 100,
+            "feedback": "Correct — the middle/equal child descends one position into the key."
+          },
+          {
+            "text": "You compare the same character against a larger value",
+            "fraction": 0,
+            "feedback": "No — the greater-than child, not the equal child, does that."
+          },
+          {
+            "text": "You restart the search from the root",
+            "fraction": 0,
+            "feedback": "No — descent continues; it does not restart."
+          },
+          {
+            "text": "You skip to the end of the key",
+            "fraction": 0,
+            "feedback": "No — the equal child advances by exactly one character."
+          }
+        ],
+        "generalFeedback": "Taking the equal child means the current character matched, so you move to the next character of the key — that is the trie-descent part of a TST.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "TST vs plain trie space",
+        "text": "<p>Compared with a plain trie, a ternary search tree is generally...</p>",
+        "answers": [
+          {
+            "text": "More space-efficient — no full array/map of children per node",
+            "fraction": 100,
+            "feedback": "Correct — three pointers per node instead of one slot per alphabet symbol."
+          },
+          {
+            "text": "Less space-efficient because of the extra middle child",
+            "fraction": 0,
+            "feedback": "No — three pointers beat a full per-node child array; TSTs use less space."
+          },
+          {
+            "text": "Identical in memory, differing only in speed",
+            "fraction": 0,
+            "feedback": "No — the memory profiles differ; TSTs avoid the trie's wide child arrays."
+          },
+          {
+            "text": "Unable to store variable-length strings",
+            "fraction": 0,
+            "feedback": "No — TSTs store variable-length string keys just fine."
+          }
+        ],
+        "generalFeedback": "A plain trie may reserve a child slot per alphabet symbol at every node; a TST keeps just three pointers per node, so it is more space-efficient.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "TST supported queries",
+        "text": "<p>Which capability do ternary search trees support well, like tries?</p>",
+        "answers": [
+          {
+            "text": "Prefix / autocomplete and nearest-neighbour queries",
+            "fraction": 100,
+            "feedback": "Correct — TSTs support prefix, autocomplete, and near-match lookups."
+          },
+          {
+            "text": "Constant-time hashing of the whole key",
+            "fraction": 0,
+            "feedback": "No — that is a hash table; a TST walks the key character by character."
+          },
+          {
+            "text": "Range-sum queries over numeric arrays",
+            "fraction": 0,
+            "feedback": "No — that is a Fenwick/segment tree, not a TST."
+          },
+          {
+            "text": "Maintaining a min-heap of priorities",
+            "fraction": 0,
+            "feedback": "No — heaps do that, not TSTs."
+          }
+        ],
+        "generalFeedback": "Because it descends by character like a trie, a TST supports prefix queries, autocomplete, and nearest-neighbour (near-match) searches.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "TST middle child advances",
+        "text": "<p>In a ternary search tree, following the middle (equal) child advances the search to the next character of the key.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the equal child is the trie-descent step."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — the middle child does advance to the next character."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "TST is pure BST",
+        "text": "<p>A ternary search tree is just an ordinary binary search tree with no trie-like behaviour.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — a TST combines BST-style low/high branching with trie descent through the equal child."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — the equal child gives it trie-style character-by-character descent."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "TST middle-pointer term",
+        "text": "<p>In a TST, the middle child that is taken when the current character matches is called the ______ child (one word).</p>",
+        "answers": [
+          {
+            "text": "equal",
+            "fraction": 100,
+            "feedback": "Correct — the matching path is the equal (middle) child."
+          },
+          {
+            "text": "equal*",
+            "fraction": 100,
+            "feedback": "Correct — the matching path is the equal (middle) child."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "TST properties",
+        "text": "<p>Which statements about ternary search trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each node stores one character and has three children (low, equal, high)",
+            "fraction": 50,
+            "feedback": "Yes — that is the TST node structure."
+          },
+          {
+            "text": "They are more space-efficient than a plain trie",
+            "fraction": 50,
+            "feedback": "Yes — three pointers instead of a full child array per node."
+          },
+          {
+            "text": "Each node holds a full array of children, one per alphabet symbol",
+            "fraction": -50,
+            "feedback": "No — that is a plain trie; a TST keeps only three pointers."
+          },
+          {
+            "text": "They cannot support prefix or autocomplete queries",
+            "fraction": -50,
+            "feedback": "No — TSTs support prefix, autocomplete, and nearest-neighbour queries."
+          }
+        ],
+        "generalFeedback": "A TST stores one character per node with low/equal/high children, is more space-efficient than a plain trie, and supports prefix, autocomplete, and near-match queries with lookups around O(L + log n).",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "TST 子節點數目",
+        "text": "<p>三元搜尋樹(TST)的每個節點有幾個子節點?</p>",
+        "answers": [
+          {
+            "text": "三個:小於、等於、大於",
+            "fraction": 100,
+            "feedback": "正確 —— 因此稱「三元」:低、等、高。"
+          },
+          {
+            "text": "兩個:左與右",
+            "fraction": 0,
+            "feedback": "錯 —— 那是二元搜尋樹;TST 多了一個中間(等於)子節點。"
+          },
+          {
+            "text": "每個字母字元各一個",
+            "fraction": 0,
+            "feedback": "錯 —— 那是純 trie 節點;TST 每個節點存一個字元並有三個指標。"
+          },
+          {
+            "text": "數目可變,並以子字串標記",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是基數樹,不是 TST。"
+          }
+        ],
+        "generalFeedback": "每個 TST 節點存放一個字元與三個子節點:小於、等於、大於 —— 結合 BST 式分支與 trie 式下降。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "TST 等於子節點的角色",
+        "text": "<p>在 TST 中,當你走<strong>等於(中間)</strong>子節點時會發生什麼?</p>",
+        "answers": [
+          {
+            "text": "你前進到搜尋鍵的下一個字元",
+            "fraction": 100,
+            "feedback": "正確 —— 中間/等於子節點在鍵中下降一個位置。"
+          },
+          {
+            "text": "你將同一個字元與較大的值比較",
+            "fraction": 0,
+            "feedback": "錯 —— 那是大於子節點做的,不是等於子節點。"
+          },
+          {
+            "text": "你從根重新開始搜尋",
+            "fraction": 0,
+            "feedback": "錯 —— 下降會繼續;不會重新開始。"
+          },
+          {
+            "text": "你跳到鍵的結尾",
+            "fraction": 0,
+            "feedback": "錯 —— 等於子節點剛好前進一個字元。"
+          }
+        ],
+        "generalFeedback": "走等於子節點表示目前字元已匹配,因此你移到鍵的下一個字元 —— 這就是 TST 的 trie 式下降部分。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "TST 與純 trie 的空間",
+        "text": "<p>相較於純 trie,三元搜尋樹通常...</p>",
+        "answers": [
+          {
+            "text": "更省空間 —— 每個節點不需完整的子節點陣列/對映表",
+            "fraction": 100,
+            "feedback": "正確 —— 每個節點三個指標,而非每個字母符號一個槽。"
+          },
+          {
+            "text": "因為多了中間子節點而更耗空間",
+            "fraction": 0,
+            "feedback": "錯 —— 三個指標優於每節點的完整子節點陣列;TST 使用更少空間。"
+          },
+          {
+            "text": "記憶體相同,只在速度上不同",
+            "fraction": 0,
+            "feedback": "錯 —— 記憶體特性不同;TST 避開 trie 的寬子節點陣列。"
+          },
+          {
+            "text": "無法儲存可變長度字串",
+            "fraction": 0,
+            "feedback": "錯 —— TST 完全可以儲存可變長度字串鍵。"
+          }
+        ],
+        "generalFeedback": "純 trie 可能在每個節點為每個字母符號保留一個子節點槽;TST 每個節點只保留三個指標,因此更省空間。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "TST 支援的查詢",
+        "text": "<p>三元搜尋樹和 trie 一樣,能良好支援哪一種能力?</p>",
+        "answers": [
+          {
+            "text": "前綴 / 自動完成與最近鄰查詢",
+            "fraction": 100,
+            "feedback": "正確 —— TST 支援前綴、自動完成與近似匹配查找。"
+          },
+          {
+            "text": "對整個鍵做常數時間雜湊",
+            "fraction": 0,
+            "feedback": "錯 —— 那是雜湊表;TST 逐字元走過鍵。"
+          },
+          {
+            "text": "對數值陣列做區間求和查詢",
+            "fraction": 0,
+            "feedback": "錯 —— 那是樹狀陣列/線段樹,不是 TST。"
+          },
+          {
+            "text": "維護優先權的最小堆積",
+            "fraction": 0,
+            "feedback": "錯 —— 那是堆積做的,不是 TST。"
+          }
+        ],
+        "generalFeedback": "由於它像 trie 一樣逐字元下降,TST 支援前綴查詢、自動完成與最近鄰(近似匹配)搜尋。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "TST 中間子節點會前進",
+        "text": "<p>在三元搜尋樹中,走中間(等於)子節點會使搜尋前進到鍵的下一個字元。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 等於子節點就是 trie 式下降的步驟。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 中間子節點確實會前進到下一個字元。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "TST 是純 BST",
+        "text": "<p>三元搜尋樹只是一棵普通的二元搜尋樹,沒有任何類似 trie 的行為。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— TST 結合 BST 式的低/高分支與經由等於子節點的 trie 式下降。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 等於子節點賦予它 trie 式逐字元下降。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "TST 中間指標術語",
+        "text": "<p>在 TST 中,當目前字元匹配時所走的中間子節點稱為 ______ child(請填一個英文單字)。</p>",
+        "answers": [
+          {
+            "text": "equal",
+            "fraction": 100,
+            "feedback": "正確 —— 匹配的路徑是 equal(中間)子節點。"
+          },
+          {
+            "text": "equal*",
+            "fraction": 100,
+            "feedback": "正確 —— 匹配的路徑是 equal(中間)子節點。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "TST 性質",
+        "text": "<p>關於三元搜尋樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每個節點存一個字元並有三個子節點(低、等、高)",
+            "fraction": 50,
+            "feedback": "正確 —— 這就是 TST 的節點結構。"
+          },
+          {
+            "text": "它們比純 trie 更省空間",
+            "fraction": 50,
+            "feedback": "正確 —— 每節點三個指標,而非完整子節點陣列。"
+          },
+          {
+            "text": "每個節點都放完整的子節點陣列,每個字母符號一個",
+            "fraction": -50,
+            "feedback": "錯 —— 那是純 trie;TST 只保留三個指標。"
+          },
+          {
+            "text": "它們無法支援前綴或自動完成查詢",
+            "fraction": -50,
+            "feedback": "錯 —— TST 支援前綴、自動完成與最近鄰查詢。"
+          }
+        ],
+        "generalFeedback": "TST 每個節點存一個字元並有低/等/高子節點,比純 trie 更省空間,並支援前綴、自動完成與近似匹配查詢,查找約為 O(L + log n)。",
+        "single": false
+      }
+    ]
+  },
+  "tree-threaded": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "What threads replace",
+        "text": "<p>In a threaded binary tree, what do the <strong>threads</strong> reuse or replace?</p>",
+        "answers": [
+          {
+            "text": "The otherwise-NULL child pointers",
+            "fraction": 100,
+            "feedback": "Correct — pointers that would be NULL are repurposed as threads."
+          },
+          {
+            "text": "The node's data field",
+            "fraction": 0,
+            "feedback": "No — the payload is untouched; only unused child pointers become threads."
+          },
+          {
+            "text": "The real links to existing children",
+            "fraction": 0,
+            "feedback": "No — genuine child links are kept; only NULL links become threads."
+          },
+          {
+            "text": "The root pointer of the tree",
+            "fraction": 0,
+            "feedback": "No — threading concerns the leaf-level NULL child pointers, not the root handle."
+          }
+        ],
+        "generalFeedback": "Threading fills the wasted, otherwise-NULL child pointers with useful links (threads) instead of leaving them empty.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Where a thread points",
+        "text": "<p>A thread points to a node's ______ in the traversal order.</p>",
+        "answers": [
+          {
+            "text": "In-order predecessor or successor",
+            "fraction": 100,
+            "feedback": "Correct — a left thread points to the in-order predecessor, a right thread to the in-order successor."
+          },
+          {
+            "text": "Level-order successor",
+            "fraction": 0,
+            "feedback": "No — threads follow the in-order sequence, not level-order."
+          },
+          {
+            "text": "The parent node always",
+            "fraction": 0,
+            "feedback": "No — a thread targets the in-order neighbor, which is not necessarily the parent."
+          },
+          {
+            "text": "The tree's root",
+            "fraction": 0,
+            "feedback": "No — threads point to adjacent nodes in in-order sequence."
+          }
+        ],
+        "generalFeedback": "A right thread links to the in-order successor and a left thread to the in-order predecessor, so you can walk the tree in in-order without recursion.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Main benefit of threading",
+        "text": "<p>What is the main benefit of a threaded binary tree?</p>",
+        "answers": [
+          {
+            "text": "In-order traversal without recursion or an explicit stack, in O(1) extra space",
+            "fraction": 100,
+            "feedback": "Correct — threads let you find the next node directly."
+          },
+          {
+            "text": "It makes search O(1) in the worst case",
+            "fraction": 0,
+            "feedback": "No — search cost is unchanged by threading."
+          },
+          {
+            "text": "It removes the need to store any data in nodes",
+            "fraction": 0,
+            "feedback": "No — data is still stored; only NULL pointers are reused."
+          },
+          {
+            "text": "It automatically balances the tree",
+            "fraction": 0,
+            "feedback": "No — threading does not change the tree's shape or balance."
+          }
+        ],
+        "generalFeedback": "Because each thread points at the in-order successor/predecessor, you can traverse in-order iteratively using O(1) extra space.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Distinguishing thread from child",
+        "text": "<p>How does the structure tell a real child link apart from a thread?</p>",
+        "answers": [
+          {
+            "text": "A boolean flag per pointer marks it as a child link or a thread",
+            "fraction": 100,
+            "feedback": "Correct — each node stores a tag bit for its left and right pointers."
+          },
+          {
+            "text": "Threads are always NULL",
+            "fraction": 0,
+            "feedback": "No — a thread is a non-NULL link; that is the whole point."
+          },
+          {
+            "text": "By comparing the pointer's numeric address to the root",
+            "fraction": 0,
+            "feedback": "No — a per-pointer flag is what marks the difference, not address arithmetic."
+          },
+          {
+            "text": "Real children are stored in a separate array",
+            "fraction": 0,
+            "feedback": "No — both kinds share the same pointer field, distinguished by a flag."
+          }
+        ],
+        "generalFeedback": "Each pointer carries a tag (e.g. isThread) so traversal knows whether to descend into a child or follow a thread.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Traversal without a stack",
+        "text": "<p>A threaded binary tree enables in-order traversal without recursion or an explicit stack.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — threads provide the next in-order node directly, using O(1) extra space."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It does — that is the primary purpose of threading."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Threads follow level-order",
+        "text": "<p>In a threaded binary tree, a thread points to the node's level-order successor.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — threads follow the in-order sequence, not level-order."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a thread points to the in-order predecessor or successor."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Name of the substitute pointer",
+        "text": "<p>The special link that replaces an otherwise-NULL child pointer and points to an in-order neighbor is called a ______.</p>",
+        "answers": [
+          {
+            "text": "thread",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "threads",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "thread*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Facts about threaded trees",
+        "text": "<p>Which statements about threaded binary trees are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Threads reuse pointers that would otherwise be NULL",
+            "fraction": 50,
+            "feedback": "Yes — wasted NULL child pointers become threads."
+          },
+          {
+            "text": "A boolean flag distinguishes a thread from a real child link",
+            "fraction": 50,
+            "feedback": "Yes — each pointer carries a tag bit."
+          },
+          {
+            "text": "Threading requires an auxiliary stack proportional to tree height",
+            "fraction": -50,
+            "feedback": "No — the point of threading is O(1) extra space with no stack."
+          },
+          {
+            "text": "Threads point to a node's level-order successor",
+            "fraction": -50,
+            "feedback": "No — threads point to in-order predecessor/successor."
+          }
+        ],
+        "generalFeedback": "Threads fill NULL child pointers, are marked by a flag, target in-order neighbors, and permit stackless in-order traversal in O(1) space.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "線索取代了什麼",
+        "text": "<p>在引線二元樹(threaded binary tree)中,<strong>線索(thread)</strong>重複利用或取代了什麼?</p>",
+        "answers": [
+          {
+            "text": "原本會是 NULL 的子節點指標",
+            "fraction": 100,
+            "feedback": "正確 —— 原本會是 NULL 的指標被改用為線索。"
+          },
+          {
+            "text": "節點的資料欄位",
+            "fraction": 0,
+            "feedback": "錯 —— 資料不受影響;只有未使用的子節點指標會變成線索。"
+          },
+          {
+            "text": "連往現有子節點的真實連結",
+            "fraction": 0,
+            "feedback": "錯 —— 真正的子節點連結會保留;只有 NULL 連結會變成線索。"
+          },
+          {
+            "text": "整棵樹的根指標",
+            "fraction": 0,
+            "feedback": "錯 —— 引線處理的是葉層那些 NULL 子指標,而非根的把手。"
+          }
+        ],
+        "generalFeedback": "引線會把浪費掉、原本為 NULL 的子指標填入有用的連結(線索),而不是讓它們空著。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線索指向何處",
+        "text": "<p>線索會指向某節點在走訪順序上的 ______。</p>",
+        "answers": [
+          {
+            "text": "中序前驅或後繼",
+            "fraction": 100,
+            "feedback": "正確 —— 左線索指向中序前驅,右線索指向中序後繼。"
+          },
+          {
+            "text": "層序後繼",
+            "fraction": 0,
+            "feedback": "錯 —— 線索遵循中序順序,而非層序。"
+          },
+          {
+            "text": "永遠是父節點",
+            "fraction": 0,
+            "feedback": "錯 —— 線索指向中序上的鄰居,不一定是父節點。"
+          },
+          {
+            "text": "樹的根",
+            "fraction": 0,
+            "feedback": "錯 —— 線索指向中序順序上相鄰的節點。"
+          }
+        ],
+        "generalFeedback": "右線索連往中序後繼、左線索連往中序前驅,因此不需遞迴也能以中序走訪整棵樹。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "引線的主要好處",
+        "text": "<p>引線二元樹的主要好處為何?</p>",
+        "answers": [
+          {
+            "text": "不需遞迴或明確堆疊即可中序走訪,且只用 O(1) 額外空間",
+            "fraction": 100,
+            "feedback": "正確 —— 線索讓你能直接找到下一個節點。"
+          },
+          {
+            "text": "它讓搜尋在最差情況下變成 O(1)",
+            "fraction": 0,
+            "feedback": "錯 —— 引線不會改變搜尋成本。"
+          },
+          {
+            "text": "它讓節點不再需要儲存任何資料",
+            "fraction": 0,
+            "feedback": "錯 —— 資料仍需儲存;只有 NULL 指標被重複利用。"
+          },
+          {
+            "text": "它會自動平衡這棵樹",
+            "fraction": 0,
+            "feedback": "錯 —— 引線不會改變樹的形狀或平衡。"
+          }
+        ],
+        "generalFeedback": "由於每條線索指向中序後繼/前驅,你可以用 O(1) 額外空間以迭代方式進行中序走訪。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "區分線索與子連結",
+        "text": "<p>資料結構如何區分真正的子連結與線索?</p>",
+        "answers": [
+          {
+            "text": "每個指標附帶一個布林旗標,標示它是子連結還是線索",
+            "fraction": 100,
+            "feedback": "正確 —— 每個節點為其左、右指標各存一個標記位元。"
+          },
+          {
+            "text": "線索永遠是 NULL",
+            "fraction": 0,
+            "feedback": "錯 —— 線索是非 NULL 的連結,這正是重點所在。"
+          },
+          {
+            "text": "比較指標的數值位址與根的位址",
+            "fraction": 0,
+            "feedback": "錯 —— 用來標示差異的是每個指標的旗標,而非位址運算。"
+          },
+          {
+            "text": "真正的子節點存放在另一個陣列中",
+            "fraction": 0,
+            "feedback": "錯 —— 兩者共用同一個指標欄位,由旗標區分。"
+          }
+        ],
+        "generalFeedback": "每個指標帶有一個標記(例如 isThread),讓走訪知道要往子節點下降,還是沿著線索前進。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "不需堆疊即可走訪",
+        "text": "<p>引線二元樹可以在不使用遞迴或明確堆疊的情況下進行中序走訪。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 線索直接提供下一個中序節點,只用 O(1) 額外空間。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "確實可以 —— 這正是引線的主要目的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "線索遵循層序",
+        "text": "<p>在引線二元樹中,線索指向該節點的層序後繼。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 線索遵循中序順序,而非層序。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 線索指向中序前驅或後繼。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "替代指標的名稱",
+        "text": "<p>取代原本會是 NULL 的子指標、並指向中序鄰居的特殊連結稱為 ______。請以英文作答。</p>",
+        "answers": [
+          {
+            "text": "thread",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "threads",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "thread*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "關於引線樹的事實",
+        "text": "<p>關於引線二元樹,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "線索重複利用原本會是 NULL 的指標",
+            "fraction": 50,
+            "feedback": "正確 —— 浪費掉的 NULL 子指標變成線索。"
+          },
+          {
+            "text": "用一個布林旗標區分線索與真正的子連結",
+            "fraction": 50,
+            "feedback": "正確 —— 每個指標帶有一個標記位元。"
+          },
+          {
+            "text": "引線需要一個與樹高成正比的輔助堆疊",
+            "fraction": -50,
+            "feedback": "錯 —— 引線的重點正是 O(1) 額外空間、不需堆疊。"
+          },
+          {
+            "text": "線索指向節點的層序後繼",
+            "fraction": -50,
+            "feedback": "錯 —— 線索指向中序前驅/後繼。"
+          }
+        ],
+        "generalFeedback": "線索填入 NULL 子指標、以旗標標示、指向中序鄰居,並允許以 O(1) 空間進行不需堆疊的中序走訪。",
+        "single": false
+      }
+    ]
+  },
+  "tree-traversal": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "In-order of a BST",
+        "text": "<p>Performing an <strong>in-order</strong> traversal of a binary <em>search</em> tree visits the keys in what order?</p>",
+        "answers": [
+          {
+            "text": "Ascending sorted order",
+            "fraction": 100,
+            "feedback": "Correct — in-order (left, root, right) on a BST yields keys sorted ascending."
+          },
+          {
+            "text": "The order the keys were inserted",
+            "fraction": 0,
+            "feedback": "No — insertion order is not preserved by an in-order walk."
+          },
+          {
+            "text": "Descending sorted order",
+            "fraction": 0,
+            "feedback": "No — that would require visiting right before left."
+          },
+          {
+            "text": "Level by level from the root",
+            "fraction": 0,
+            "feedback": "That is level-order, not in-order."
+          }
+        ],
+        "generalFeedback": "Because a BST keeps smaller keys left and larger keys right, visiting left, root, then right produces keys in ascending sorted order.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Pre-order visit sequence",
+        "text": "<p>In a <strong>pre-order</strong> traversal, in what order is each node's work performed?</p>",
+        "answers": [
+          {
+            "text": "Root, then left subtree, then right subtree",
+            "fraction": 100,
+            "feedback": "Correct — pre-order processes the root before its children."
+          },
+          {
+            "text": "Left subtree, then root, then right subtree",
+            "fraction": 0,
+            "feedback": "That is in-order."
+          },
+          {
+            "text": "Left subtree, then right subtree, then root",
+            "fraction": 0,
+            "feedback": "That is post-order."
+          },
+          {
+            "text": "Right subtree, then root, then left subtree",
+            "fraction": 0,
+            "feedback": "That is reverse in-order, not pre-order."
+          }
+        ],
+        "generalFeedback": "Pre-order = root, left, right. It is handy for copying a tree or printing a prefix expression.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Traversal needing a queue",
+        "text": "<p>Which traversal visits the tree level by level and is naturally implemented with a <strong>queue</strong>?</p>",
+        "answers": [
+          {
+            "text": "Level-order (breadth-first) traversal",
+            "fraction": 100,
+            "feedback": "Correct — enqueue the root, then repeatedly dequeue a node and enqueue its children."
+          },
+          {
+            "text": "Pre-order traversal",
+            "fraction": 0,
+            "feedback": "No — recursive DFS uses the call stack, not a queue."
+          },
+          {
+            "text": "In-order traversal",
+            "fraction": 0,
+            "feedback": "No — in-order is a depth-first order backed by a stack."
+          },
+          {
+            "text": "Post-order traversal",
+            "fraction": 0,
+            "feedback": "No — post-order is depth-first and uses a stack."
+          }
+        ],
+        "generalFeedback": "Level-order / BFS uses a FIFO queue; the depth-first orders (pre/in/post) use the call stack or an explicit stack.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Purpose of post-order",
+        "text": "<p>Why is <strong>post-order</strong> traversal the right choice for freeing a tree or evaluating an expression tree?</p>",
+        "answers": [
+          {
+            "text": "It processes both children before their parent",
+            "fraction": 100,
+            "feedback": "Correct — left, right, then root means children are handled before the node that owns them."
+          },
+          {
+            "text": "It processes the parent before either child",
+            "fraction": 0,
+            "feedback": "That is pre-order, which would free a parent before its children."
+          },
+          {
+            "text": "It visits nodes level by level",
+            "fraction": 0,
+            "feedback": "That is level-order, not post-order."
+          },
+          {
+            "text": "It only visits leaf nodes",
+            "fraction": 0,
+            "feedback": "No — post-order visits every node, internal and leaf."
+          }
+        ],
+        "generalFeedback": "Post-order = left, right, root. Handling children first lets you free their memory, or compute their values, before the parent needs them.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "In-order yields sorted keys",
+        "text": "<p>An in-order traversal of a binary search tree outputs its keys in ascending sorted order.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — left, root, right on a BST yields sorted keys."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It does — that is a defining property of a BST in-order walk."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Level-order uses a stack",
+        "text": "<p>Level-order (breadth-first) traversal is naturally implemented with a stack.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — a stack (LIFO) would give a depth-first order, not level-order."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — level-order uses a FIFO queue; a stack would produce a depth-first traversal."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Sorted-order traversal name",
+        "text": "<p>Which depth-first traversal (name it) visits a BST's keys in ascending sorted order? Answer with the traversal name.</p>",
+        "answers": [
+          {
+            "text": "in-order",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "inorder",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "in order",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "in-order*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Facts about DFS orders",
+        "text": "<p>Which statements about tree traversals are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Pre-order processes the root before its subtrees",
+            "fraction": 50,
+            "feedback": "Yes — pre-order is root, left, right."
+          },
+          {
+            "text": "Post-order processes the root after both subtrees",
+            "fraction": 50,
+            "feedback": "Yes — post-order is left, right, root."
+          },
+          {
+            "text": "In-order processes the root before its left subtree",
+            "fraction": -50,
+            "feedback": "No — in-order is left, root, right, so the left subtree comes first."
+          },
+          {
+            "text": "Level-order is naturally implemented with a stack",
+            "fraction": -50,
+            "feedback": "No — level-order uses a queue."
+          }
+        ],
+        "generalFeedback": "Pre = root/left/right, in = left/root/right, post = left/right/root. The DFS orders use a stack; level-order/BFS uses a queue.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "二元搜尋樹的中序走訪",
+        "text": "<p>對一棵二元<em>搜尋</em>樹進行<strong>中序(in-order)</strong>走訪,會以什麼順序拜訪各鍵值?</p>",
+        "answers": [
+          {
+            "text": "由小到大的排序順序",
+            "fraction": 100,
+            "feedback": "正確 —— 對 BST 進行中序(左、根、右)會得到由小到大排序的鍵值。"
+          },
+          {
+            "text": "鍵值被插入的順序",
+            "fraction": 0,
+            "feedback": "錯 —— 中序走訪並不會保留插入順序。"
+          },
+          {
+            "text": "由大到小的排序順序",
+            "fraction": 0,
+            "feedback": "錯 —— 那需要先拜訪右子樹再拜訪左子樹。"
+          },
+          {
+            "text": "從根開始一層一層地拜訪",
+            "fraction": 0,
+            "feedback": "那是層序(level-order),不是中序。"
+          }
+        ],
+        "generalFeedback": "由於 BST 把較小的鍵放在左邊、較大的放在右邊,依左、根、右拜訪即可得到由小到大的排序結果。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "前序的拜訪順序",
+        "text": "<p>在<strong>前序(pre-order)</strong>走訪中,每個節點的處理順序為何?</p>",
+        "answers": [
+          {
+            "text": "根,然後左子樹,再右子樹",
+            "fraction": 100,
+            "feedback": "正確 —— 前序會在拜訪子節點之前先處理根。"
+          },
+          {
+            "text": "左子樹,然後根,再右子樹",
+            "fraction": 0,
+            "feedback": "那是中序。"
+          },
+          {
+            "text": "左子樹,然後右子樹,再根",
+            "fraction": 0,
+            "feedback": "那是後序。"
+          },
+          {
+            "text": "右子樹,然後根,再左子樹",
+            "fraction": 0,
+            "feedback": "那是反向中序,不是前序。"
+          }
+        ],
+        "generalFeedback": "前序 = 根、左、右。適合用於複製樹或列印前綴(prefix)運算式。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "需要佇列的走訪",
+        "text": "<p>哪一種走訪會一層一層地拜訪樹,並自然地以<strong>佇列(queue)</strong>實作?</p>",
+        "answers": [
+          {
+            "text": "層序(廣度優先)走訪",
+            "fraction": 100,
+            "feedback": "正確 —— 先將根入列,再反覆出列一個節點並將其子節點入列。"
+          },
+          {
+            "text": "前序走訪",
+            "fraction": 0,
+            "feedback": "錯 —— 遞迴的 DFS 使用呼叫堆疊,而非佇列。"
+          },
+          {
+            "text": "中序走訪",
+            "fraction": 0,
+            "feedback": "錯 —— 中序是深度優先,以堆疊為後盾。"
+          },
+          {
+            "text": "後序走訪",
+            "fraction": 0,
+            "feedback": "錯 —— 後序是深度優先,使用堆疊。"
+          }
+        ],
+        "generalFeedback": "層序 / BFS 使用先進先出的佇列;深度優先的順序(前/中/後序)則使用呼叫堆疊或明確的堆疊。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "後序的用途",
+        "text": "<p>為什麼<strong>後序(post-order)</strong>走訪最適合用來釋放整棵樹或求值運算式樹?</p>",
+        "answers": [
+          {
+            "text": "它會在處理父節點之前先處理兩個子節點",
+            "fraction": 100,
+            "feedback": "正確 —— 左、右、根表示會在處理擁有子節點的父節點之前先處理子節點。"
+          },
+          {
+            "text": "它會在處理任一子節點之前先處理父節點",
+            "fraction": 0,
+            "feedback": "那是前序,會在子節點之前就釋放父節點。"
+          },
+          {
+            "text": "它一層一層地拜訪節點",
+            "fraction": 0,
+            "feedback": "那是層序,不是後序。"
+          },
+          {
+            "text": "它只拜訪葉節點",
+            "fraction": 0,
+            "feedback": "錯 —— 後序會拜訪所有節點,包含內部節點與葉節點。"
+          }
+        ],
+        "generalFeedback": "後序 = 左、右、根。先處理子節點,才能在父節點需要之前釋放其記憶體或計算其值。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "中序產生排序鍵值",
+        "text": "<p>對二元搜尋樹進行中序走訪,會依由小到大的排序順序輸出其鍵值。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 對 BST 依左、根、右走訪會得到排序後的鍵值。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "確實會 —— 這是 BST 中序走訪的定義性性質。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "層序使用堆疊",
+        "text": "<p>層序(廣度優先)走訪自然地以堆疊實作。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 堆疊(後進先出)會產生深度優先的順序,而非層序。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 層序使用先進先出的佇列;堆疊會產生深度優先的走訪。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "產生排序順序的走訪名稱",
+        "text": "<p>哪一種深度優先走訪(請寫出名稱)會以由小到大的排序順序拜訪 BST 的鍵值?請以走訪名稱作答(英文)。</p>",
+        "answers": [
+          {
+            "text": "in-order",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "inorder",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "in order",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "in-order*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "關於 DFS 順序的事實",
+        "text": "<p>關於樹的走訪,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "前序會在其子樹之前先處理根",
+            "fraction": 50,
+            "feedback": "正確 —— 前序是根、左、右。"
+          },
+          {
+            "text": "後序會在兩個子樹之後才處理根",
+            "fraction": 50,
+            "feedback": "正確 —— 後序是左、右、根。"
+          },
+          {
+            "text": "中序會在其左子樹之前先處理根",
+            "fraction": -50,
+            "feedback": "錯 —— 中序是左、根、右,左子樹先處理。"
+          },
+          {
+            "text": "層序自然地以堆疊實作",
+            "fraction": -50,
+            "feedback": "錯 —— 層序使用佇列。"
+          }
+        ],
+        "generalFeedback": "前序 = 根/左/右,中序 = 左/根/右,後序 = 左/右/根。DFS 順序使用堆疊;層序 / BFS 使用佇列。",
+        "single": false
+      }
+    ]
+  },
+  "tree-trie": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Trie lookup complexity",
+        "text": "<p>In a trie storing <em>n</em> keys, what is the time to search for a key of length <strong>L</strong>?</p>",
+        "answers": [
+          {
+            "text": "O(L)",
+            "fraction": 100,
+            "feedback": "Correct — you follow one edge per character, independent of n."
+          },
+          {
+            "text": "O(L log n)",
+            "fraction": 0,
+            "feedback": "No — a trie needs no comparisons against other keys; the number of stored keys does not appear."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — the cost depends on the key length, not on how many keys are stored."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No — that is a balanced-BST bound; a trie descends one node per character."
+          }
+        ],
+        "generalFeedback": "A trie descends exactly one edge per character of the query key, so search, insert, and delete are all O(L), independent of the number n of stored keys.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Trie edge meaning",
+        "text": "<p>In a standard trie, what does a single <strong>edge</strong> from a node to a child represent?</p>",
+        "answers": [
+          {
+            "text": "One character of a key",
+            "fraction": 100,
+            "feedback": "Correct — each edge is labeled with a single character."
+          },
+          {
+            "text": "A whole stored key",
+            "fraction": 0,
+            "feedback": "No — a key is spelled out along a root-to-node path, one character per edge."
+          },
+          {
+            "text": "A comparison result (less/greater)",
+            "fraction": 0,
+            "feedback": "No — a trie is not comparison-based; edges are indexed by character."
+          },
+          {
+            "text": "A compressed substring",
+            "fraction": 0,
+            "feedback": "No — that describes a radix/compressed trie, not a standard trie."
+          }
+        ],
+        "generalFeedback": "A trie stores strings by shared prefixes; each edge carries one character, and a key is read off the path from the root.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Trie strength",
+        "text": "<p>Which operation is a trie <strong>especially well suited</strong> for?</p>",
+        "answers": [
+          {
+            "text": "Prefix queries / autocomplete",
+            "fraction": 100,
+            "feedback": "Correct — all keys sharing a prefix live under one subtree."
+          },
+          {
+            "text": "Range-sum over numeric values",
+            "fraction": 0,
+            "feedback": "No — that is a job for a Fenwick/segment tree, not a trie."
+          },
+          {
+            "text": "Finding the median of a set of numbers",
+            "fraction": 0,
+            "feedback": "No — tries index strings by character, not by numeric order statistics."
+          },
+          {
+            "text": "Hashing keys to O(1) buckets",
+            "fraction": 0,
+            "feedback": "No — that describes a hash table; a trie walks the key character by character."
+          }
+        ],
+        "generalFeedback": "Because every key that shares a prefix descends through the same nodes, a trie answers \"all words starting with…\" queries by walking to the prefix node and enumerating its subtree.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Trie main drawback",
+        "text": "<p>What is the main <strong>disadvantage</strong> of a plain trie?</p>",
+        "answers": [
+          {
+            "text": "High space usage — a node or child-map per character position",
+            "fraction": 100,
+            "feedback": "Correct — a full child array/map at every node is memory-hungry."
+          },
+          {
+            "text": "Search time grows with the number of stored keys",
+            "fraction": 0,
+            "feedback": "No — search is O(L), independent of n."
+          },
+          {
+            "text": "It requires the keys to be sorted first",
+            "fraction": 0,
+            "feedback": "No — tries need no pre-sorting; insertion order does not matter."
+          },
+          {
+            "text": "It cannot answer prefix queries",
+            "fraction": 0,
+            "feedback": "No — prefix queries are exactly what tries excel at."
+          }
+        ],
+        "generalFeedback": "The classic cost of a trie is memory: each node may keep a child slot for every possible character, so many sparsely-used nodes waste space.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Trie is comparison-based",
+        "text": "<p>A trie locates a key by comparing it against other stored keys, like a binary search tree.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — a trie is not comparison-based; it indexes into children by the next character."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a trie navigates by character, never comparing whole keys."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Trie search independent of n",
+        "text": "<p>Searching a trie for a key of length L takes time proportional to L, regardless of how many keys the trie stores.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the cost is O(L), independent of n."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — the number of stored keys does not affect the O(L) walk."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Trie alias term",
+        "text": "<p>Because it stores strings by their shared leading characters, a trie is also called a ______ tree (one word).</p>",
+        "answers": [
+          {
+            "text": "prefix",
+            "fraction": 100,
+            "feedback": "Correct — a trie is also known as a prefix tree."
+          },
+          {
+            "text": "prefix*",
+            "fraction": 100,
+            "feedback": "Correct — a trie is also known as a prefix tree."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Trie properties",
+        "text": "<p>Which statements about tries are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Keys sharing a prefix share the same upper path in the tree",
+            "fraction": 50,
+            "feedback": "Yes — shared prefixes are stored once."
+          },
+          {
+            "text": "Insert, search, and delete of a length-L key are all O(L)",
+            "fraction": 50,
+            "feedback": "Yes — one edge per character for every operation."
+          },
+          {
+            "text": "A trie uses less memory than storing the keys in a hash set",
+            "fraction": -50,
+            "feedback": "No — a plain trie is typically space-hungry, not thrifty."
+          },
+          {
+            "text": "Trie search time grows as O(log n) in the number of keys",
+            "fraction": -50,
+            "feedback": "No — search is O(L) and does not depend on n."
+          }
+        ],
+        "generalFeedback": "Tries share prefixes, give O(L) operations independent of n, and excel at prefix queries — but they pay for this in space, not memory savings.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Trie 查找複雜度",
+        "text": "<p>在一個儲存 <em>n</em> 個鍵的 trie 中,搜尋一個長度為 <strong>L</strong> 的鍵需要多少時間?</p>",
+        "answers": [
+          {
+            "text": "O(L)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個字元走一條邊,與 n 無關。"
+          },
+          {
+            "text": "O(L log n)",
+            "fraction": 0,
+            "feedback": "錯 —— trie 不需與其他鍵做比較,儲存的鍵數不會出現在成本中。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 成本取決於鍵的長度,而非儲存了多少鍵。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是平衡 BST 的界;trie 每個字元下降一個節點。"
+          }
+        ],
+        "generalFeedback": "trie 對查詢鍵的每個字元剛好走一條邊,因此搜尋、插入、刪除都是 O(L),與儲存的鍵數 n 無關。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Trie 邊的意義",
+        "text": "<p>在標準 trie 中,從一個節點連到子節點的單一<strong>邊</strong>代表什麼?</p>",
+        "answers": [
+          {
+            "text": "鍵的一個字元",
+            "fraction": 100,
+            "feedback": "正確 —— 每條邊以單一字元標記。"
+          },
+          {
+            "text": "一整個儲存的鍵",
+            "fraction": 0,
+            "feedback": "錯 —— 一個鍵沿著根到節點的路徑拼出,每條邊一個字元。"
+          },
+          {
+            "text": "一個比較結果(較小/較大)",
+            "fraction": 0,
+            "feedback": "錯 —— trie 不是基於比較的;邊以字元索引。"
+          },
+          {
+            "text": "一段壓縮後的子字串",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是基數樹(壓縮 trie),不是標準 trie。"
+          }
+        ],
+        "generalFeedback": "trie 以共享前綴儲存字串;每條邊帶一個字元,鍵可從根到節點的路徑讀出。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Trie 的強項",
+        "text": "<p>trie <strong>特別適合</strong>哪一種操作?</p>",
+        "answers": [
+          {
+            "text": "前綴查詢 / 自動完成",
+            "fraction": 100,
+            "feedback": "正確 —— 所有共享前綴的鍵都位於同一棵子樹下。"
+          },
+          {
+            "text": "對數值做區間求和",
+            "fraction": 0,
+            "feedback": "錯 —— 那是樹狀陣列/線段樹的工作,不是 trie。"
+          },
+          {
+            "text": "找出一組數字的中位數",
+            "fraction": 0,
+            "feedback": "錯 —— trie 以字元索引字串,而非以數值順序統計。"
+          },
+          {
+            "text": "將鍵雜湊到 O(1) 桶中",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是雜湊表;trie 逐字元走過鍵。"
+          }
+        ],
+        "generalFeedback": "由於每個共享前綴的鍵都經過相同的節點,trie 只要走到前綴節點並列舉其子樹,即可回答「所有以…開頭的字」查詢。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Trie 主要缺點",
+        "text": "<p>純 trie 的主要<strong>缺點</strong>是什麼?</p>",
+        "answers": [
+          {
+            "text": "空間用量高 —— 每個字元位置都需一個節點或子節點對映表",
+            "fraction": 100,
+            "feedback": "正確 —— 每個節點都放完整子節點陣列/對映表,非常耗記憶體。"
+          },
+          {
+            "text": "搜尋時間隨儲存鍵數增加",
+            "fraction": 0,
+            "feedback": "錯 —— 搜尋是 O(L),與 n 無關。"
+          },
+          {
+            "text": "它要求鍵必須先排序",
+            "fraction": 0,
+            "feedback": "錯 —— trie 不需預先排序;插入順序無所謂。"
+          },
+          {
+            "text": "它無法回答前綴查詢",
+            "fraction": 0,
+            "feedback": "錯 —— 前綴查詢正是 trie 的強項。"
+          }
+        ],
+        "generalFeedback": "trie 的經典代價是記憶體:每個節點可能為所有可能字元各留一個子節點槽,因此許多稀疏使用的節點浪費空間。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Trie 是否基於比較",
+        "text": "<p>trie 像二元搜尋樹一樣,透過將鍵與其他已儲存的鍵做比較來定位。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— trie 不是基於比較的;它以下一個字元索引子節點。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— trie 以字元導航,從不比較整個鍵。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Trie 搜尋與 n 無關",
+        "text": "<p>在 trie 中搜尋一個長度為 L 的鍵,所需時間與 L 成正比,無論 trie 儲存了多少鍵。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 成本是 O(L),與 n 無關。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 儲存的鍵數不影響這個 O(L) 的走訪。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Trie 別名術語",
+        "text": "<p>因為它以共享的起始字元儲存字串,trie 又稱為 ______ tree(前綴樹,請填一個英文單字)。</p>",
+        "answers": [
+          {
+            "text": "prefix",
+            "fraction": 100,
+            "feedback": "正確 —— trie 又稱為 prefix tree(前綴樹)。"
+          },
+          {
+            "text": "prefix*",
+            "fraction": 100,
+            "feedback": "正確 —— trie 又稱為 prefix tree(前綴樹)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Trie 性質",
+        "text": "<p>關於 trie,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "共享前綴的鍵在樹中共用相同的上層路徑",
+            "fraction": 50,
+            "feedback": "正確 —— 共享前綴只儲存一次。"
+          },
+          {
+            "text": "長度為 L 的鍵之插入、搜尋、刪除都是 O(L)",
+            "fraction": 50,
+            "feedback": "正確 —— 每個操作每個字元走一條邊。"
+          },
+          {
+            "text": "trie 比用雜湊集合儲存這些鍵更省記憶體",
+            "fraction": -50,
+            "feedback": "錯 —— 純 trie 通常耗空間,並不省。"
+          },
+          {
+            "text": "trie 搜尋時間隨鍵數以 O(log n) 成長",
+            "fraction": -50,
+            "feedback": "錯 —— 搜尋是 O(L),與 n 無關。"
+          }
+        ],
+        "generalFeedback": "trie 共享前綴、提供與 n 無關的 O(L) 操作、擅長前綴查詢 —— 但代價是空間,而非節省記憶體。",
         "single": false
       }
     ]

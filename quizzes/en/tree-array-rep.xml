@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Array Representation</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Child indices</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Storing a binary tree in a 1-based array, the children of the node at index <em>i</em> are at which indices?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>2i and 2i+1</text><feedback><text>Correct — left child at 2i, right child at 2i+1.</text></feedback></answer>
+    <answer fraction="0"><text>i+1 and i+2</text><feedback><text>No — that is not how a heap-style array indexes children.</text></feedback></answer>
+    <answer fraction="0"><text>i/2 and i/2+1</text><feedback><text>No — i/2 gives the parent, not the children.</text></feedback></answer>
+    <answer fraction="0"><text>2i-1 and 2i</text><feedback><text>No — with 1-based indexing the children are 2i and 2i+1.</text></feedback></answer>
+    <generalfeedback><text>With 1-based indexing, node i has children at 2i (left) and 2i+1 (right); no pointers are needed.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Parent index</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a 1-based array representation, the parent of the node at index <em>i</em> is at which index?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>&lfloor;i/2&rfloor;</text><feedback><text>Correct — integer division of i by 2 gives the parent.</text></feedback></answer>
+    <answer fraction="0"><text>2i</text><feedback><text>No — 2i is the left child, not the parent.</text></feedback></answer>
+    <answer fraction="0"><text>i-1</text><feedback><text>No — that is the previous array slot, not the parent.</text></feedback></answer>
+    <answer fraction="0"><text>2i+1</text><feedback><text>No — 2i+1 is the right child.</text></feedback></answer>
+    <generalfeedback><text>Parent(i) = &lfloor;i/2&rfloor;, the inverse of the child formulas 2i and 2i+1.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Best fit for array storage</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The array representation is most space-efficient for which kind of tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A complete (or nearly complete) binary tree, such as a heap</text><feedback><text>Correct — complete trees leave no gaps in the array.</text></feedback></answer>
+    <answer fraction="0"><text>A long skewed tree that is essentially a linked list</text><feedback><text>No — a skewed tree wastes enormous amounts of array space.</text></feedback></answer>
+    <answer fraction="0"><text>A sparse tree with many missing nodes</text><feedback><text>No — missing nodes still consume reserved array slots.</text></feedback></answer>
+    <answer fraction="0"><text>A general tree of arbitrary degree</text><feedback><text>No — the 2i/2i+1 scheme is for binary trees.</text></feedback></answer>
+    <generalfeedback><text>Because a complete tree packs tightly with no holes, the array wastes no slots — which is exactly why heaps use it.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Drawback of array storage</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the main drawback of the array representation?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It wastes space for sparse or skewed trees</text><feedback><text>Correct — missing nodes still reserve array slots, so gaps are wasteful.</text></feedback></answer>
+    <answer fraction="0"><text>Finding a child requires following pointers</text><feedback><text>No — the array uses index arithmetic, no pointers.</text></feedback></answer>
+    <answer fraction="0"><text>The parent of a node cannot be computed</text><feedback><text>No — parent(i) = &lfloor;i/2&rfloor; is easy to compute.</text></feedback></answer>
+    <answer fraction="0"><text>It cannot store the tree's node values</text><feedback><text>No — values are stored directly in the array cells.</text></feedback></answer>
+    <generalfeedback><text>A skewed or sparse tree of height h can require up to 2^(h+1)-1 slots for only a few nodes, wasting memory.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Parent formula</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a 1-based array representation, the parent of node <em>i</em> is at index &lfloor;i/2&rfloor;.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — integer division by 2 gives the parent.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>It is true — parent(i) = &lfloor;i/2&rfloor;.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Array needs pointers</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The array representation of a binary tree requires explicit child pointers in each node.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — positions are computed with index arithmetic (2i, 2i+1), so no pointers are stored.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the array needs no pointers; indices encode the structure.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Left-child index formula</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a 1-based array, the left child of node <em>i</em> is at index ______. (Give the formula in terms of <em>i</em>.)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>2i</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>2*i</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>2i*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Facts about array representation</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the array representation of a binary tree are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Node i's children are at indices 2i and 2i+1 (1-based)</text><feedback><text>Yes — that is the child formula.</text></feedback></answer>
+    <answer fraction="50"><text>It is ideal for heaps and other complete trees</text><feedback><text>Yes — complete trees pack the array with no gaps.</text></feedback></answer>
+    <answer fraction="-50"><text>It stores structure using explicit child pointers</text><feedback><text>No — structure comes from index arithmetic, not pointers.</text></feedback></answer>
+    <answer fraction="-50"><text>It is the most space-efficient choice for a skewed tree</text><feedback><text>No — skewed trees waste huge amounts of array space.</text></feedback></answer>
+    <generalfeedback><text>Children at 2i/2i+1, parent at &lfloor;i/2&rfloor;, no pointers, great for complete trees, wasteful for sparse/skewed ones.</text></generalfeedback>
+  </question>
+</quiz>

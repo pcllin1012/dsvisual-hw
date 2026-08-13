@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Segment Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>線段樹查詢複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在線段樹上執行一次<strong>區間查詢</strong>(例如對 [l, r] 求和)的時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— 一次查詢會碰觸 O(log n) 個標準節點。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>只有預先算好的前綴和陣列能 O(1) 求和,但它無法便宜地處理更新。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>那是樸素掃描;線段樹正是要避免它。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>那是多次查詢或排序的成本,不是單次查詢。</text></feedback></answer>
+    <generalfeedback><text>線段樹把任一區間分解為 O(log n) 個節點,故區間查詢與單點更新皆為 O(log n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>線段樹建樹與空間</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對 n 個元素的陣列,線段樹典型的<strong>建樹時間</strong>與<strong>空間</strong>為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>建樹 O(n),空間 O(n)(約 2n–4n 個節點)</text><feedback><text>正確 —— 由下而上建樹為線性,節點數為 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>建樹 O(n log n),空間 O(n log n)</text><feedback><text>一般線段樹建樹為 O(n)、空間 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>建樹 O(log n),空間 O(log n)</text><feedback><text>建樹至少要走訪每個元素,故建樹為 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>建樹 O(n^2),空間 O(n^2)</text><feedback><text>太多了;此結構空間為線性。</text></feedback></answer>
+    <generalfeedback><text>建立線段樹為 O(n),約儲存 2n–4n 個節點,即 O(n) 空間。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>懶惰傳遞用途</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在線段樹中,<strong>懶惰傳遞(lazy propagation)</strong>能達成什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>藉由把待處理更新延後傳給子節點,以 O(log n) 完成區間更新</text><feedback><text>正確 —— 對整個區間先標記節點,需要時才向下推送。</text></feedback></answer>
+    <answer fraction="0"><text>以 O(n) 對底層陣列排序</text><feedback><text>線段樹不會對陣列排序。</text></feedback></answer>
+    <answer fraction="0"><text>把空間從 O(n) 降到 O(log n)</text><feedback><text>懶惰傳遞影響的是更新時間,而非漸進空間。</text></feedback></answer>
+    <answer fraction="0"><text>讓單點查詢變成 O(1)</text><feedback><text>查詢仍為 O(log n);懶惰傳遞針對的是區間更新。</text></feedback></answer>
+    <generalfeedback><text>沒有懶惰傳遞時,一次區間更新會碰到 O(n) 個葉節點;有了它,更新會被延後並惰性向下推,使區間更新為 O(log n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>線段樹與 Fenwick 的一般性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相較於 Fenwick 樹(BIT),線段樹更為一般,因為它可直接支援:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>任何可結合的區間聚合,例如區間最小值或最大值</text><feedback><text>正確 —— 線段樹可處理 min/max/gcd 等,不只是可逆的求和。</text></feedback></answer>
+    <answer fraction="0"><text>只有前綴和,別無其他</text><feedback><text>那較接近 Fenwick 樹擅長的部分。</text></feedback></answer>
+    <answer fraction="0"><text>對鍵做雜湊以達 O(1) 查找</text><feedback><text>那是雜湊表,與線段樹無關。</text></feedback></answer>
+    <answer fraction="0"><text>對鍵做有序的前驅/後繼查詢</text><feedback><text>那是平衡 BST 的工作,不是線段樹的職責。</text></feedback></answer>
+    <generalfeedback><text>線段樹支援對區間的任何可結合聚合(sum、min、max、gcd……),因此比 Fenwick 樹更一般。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>線段樹性質(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於線段樹,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它是一棵二元樹,節點代表陣列的區間</text><feedback><text>正確 —— 每個內部節點涵蓋其子節點區間的聯集。</text></feedback></answer>
+    <answer fraction="50"><text>區間查詢與單點更新各為 O(log n)</text><feedback><text>正確 —— 兩種操作都碰觸 O(log n) 個節點。</text></feedback></answer>
+    <answer fraction="-50"><text>它要求底層陣列必須保持已排序</text><feedback><text>錯 —— 陣列以位置索引,而非依值排序。</text></feedback></answer>
+    <answer fraction="-50"><text>它能回答區間求和,但永遠無法回答區間最小值</text><feedback><text>錯 —— 它處理 min/max 就跟 sum 一樣容易。</text></feedback></answer>
+    <generalfeedback><text>線段樹是一棵區間二元樹,對任何可結合聚合提供 O(log n) 的區間查詢與更新,且不需排序。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>線段樹區間更新</text></name>
+    <questiontext format="html"><text><![CDATA[<p>搭配懶惰傳遞,線段樹能以 O(log n) 完成一次區間更新。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 待處理更新被延後並向下推送,故區間更新為 O(log n)。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>懶惰傳遞確實能提供 O(log n) 的區間更新。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>線段樹只能求和</text></name>
+    <questiontext format="html"><text><![CDATA[<p>線段樹只能計算區間和,無法支援區間最小值或最大值查詢。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 線段樹支援任何可結合聚合,包括 min 與 max。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— sum、min、max、gcd 等可結合聚合都行。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>懶惰技術名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>把待處理的區間更新延後傳給子節點、從而達成 O(log n) 區間更新的技術,稱為 lazy ______。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>propagation</text><feedback><text>正確 —— lazy propagation(懶惰傳遞)。</text></feedback></answer>
+    <answer fraction="100"><text>propagation*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

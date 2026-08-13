@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Game Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>極小極大值的意義</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在賽局樹中,一個局面的<strong>極小極大值(minimax value)</strong>代表什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>假設 MIN 採最佳走法時,MAX 能保證的最佳分數</text><feedback><text>正確 —— minimax 假設對手採最佳策略。</text></feedback></answer>
+    <answer fraction="0"><text>對手所有可能走法的平均分數</text><feedback><text>minimax 假設最佳走法,而非平均。</text></feedback></answer>
+    <answer fraction="0"><text>MIN 隨機走時 MAX 得到的分數</text><feedback><text>minimax 假設對手採最佳走法,而非隨機。</text></feedback></answer>
+    <answer fraction="0"><text>葉節點的總數</text><feedback><text>那是規模的度量,不是極小極大值。</text></feedback></answer>
+    <generalfeedback><text>minimax 由下往上傳遞數值:MAX 層取子節點的最大值,MIN 層取最小值,得到雙方皆採最佳走法下的分數。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>MAX 與 MIN 層</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在賽局樹的 <strong>MIN</strong> 節點,會從子節點中選出哪個值?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>子節點中的最小值</text><feedback><text>正確 —— MIN 會極小化 MAX 的分數。</text></feedback></answer>
+    <answer fraction="0"><text>子節點中的最大值</text><feedback><text>那是 MAX 節點的作法,不是 MIN 節點。</text></feedback></answer>
+    <answer fraction="0"><text>子節點值的平均</text><feedback><text>MIN 取最小值,而非平均。</text></feedback></answer>
+    <answer fraction="0"><text>隨機的子節點值</text><feedback><text>MIN 以選最小值來採最佳走法。</text></feedback></answer>
+    <generalfeedback><text>各層交替:MAX 節點取子節點的最大值,MIN 節點取最小值,以模擬雙方皆採最佳走法。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Alpha-beta 的結果</text></name>
+    <questiontext format="html"><text><![CDATA[<p>與純 minimax 相比,<strong>alpha-beta 剪枝</strong>會回傳哪一步棋?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>與純 minimax 完全相同的走法</text><feedback><text>正確 —— alpha-beta 只略過不可能改變結果的分支。</text></feedback></answer>
+    <answer fraction="0"><text>比 minimax 能找到的更好的走法</text><feedback><text>錯 —— 它回傳相同的最佳走法,只是更快。</text></feedback></answer>
+    <answer fraction="0"><text>略差但較快的走法</text><feedback><text>alpha-beta 不犧牲品質;走法完全相同。</text></feedback></answer>
+    <answer fraction="0"><text>在最佳選項中隨機挑一步</text><feedback><text>它是精確的,回傳 minimax 的走法。</text></feedback></answer>
+    <generalfeedback><text>alpha-beta 只剪去可證明不會影響根決策的分支,因此回傳與 minimax 相同的走法,同時檢視較少的節點。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Alpha-beta 複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在理想的走法排序下,對分支度 <em>b</em> 與深度 <em>d</em>,alpha-beta 大約會探索多少節點?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(b<sup>d/2</sup>)</text><feedback><text>正確 —— 實際上使可搜尋深度加倍。</text></feedback></answer>
+    <answer fraction="0"><text>O(b<sup>d</sup>)</text><feedback><text>那是純 minimax;良好排序約可將指數減半。</text></feedback></answer>
+    <answer fraction="0"><text>O(b &middot; d)</text><feedback><text>成本是指數的,而非線性。</text></feedback></answer>
+    <answer fraction="0"><text>O(d<sup>b</sup>)</text><feedback><text>指數涉及深度,約為 d/2,底數為 b。</text></feedback></answer>
+    <generalfeedback><text>在良好走法排序下,alpha-beta 大約探索 O(b^(d/2)) 個節點,而非 O(b^d),等於在相同成本下使可達深度加倍。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Alpha-beta 相同答案</text></name>
+    <questiontext format="html"><text><![CDATA[<p>alpha-beta 剪枝可能回傳與純 minimax 不同(較差)的走法。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>它只剪去不會影響決策的分支,因此走法完全相同。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— alpha-beta 回傳與 minimax 完全相同的走法。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Alpha 與 beta 界限</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 alpha-beta 剪枝中,&alpha; 是目前 MAX 能保證的最佳值,&beta; 是目前 MIN 能保證的最佳值。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 當 &alpha; &ge; &beta; 時即可剪去該分支。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>這正是 &alpha; 與 &beta; 所追蹤的內容。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>演算法名稱</text></name>
+    <questiontext format="html"><text><![CDATA[<p>藉由交替的極大化與極小化層來計算局面值的演算法叫什麼名字?(英文,一個字)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>minimax</text><feedback><text>正確 —— minimax。</text></feedback></answer>
+    <answer fraction="100"><text>min-max</text><feedback><text>正確 —— minimax。</text></feedback></answer>
+    <answer fraction="100"><text>minmax</text><feedback><text>正確 —— minimax。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Alpha-beta 的事實</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 alpha-beta 剪枝,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它回傳與純 minimax 相同的值</text><feedback><text>正確 —— 它是精確的最佳化。</text></feedback></answer>
+    <answer fraction="50"><text>良好的走法排序能提升它的剪枝量</text><feedback><text>正確 —— 先排入強棋可剪去更多分支。</text></feedback></answer>
+    <answer fraction="-50"><text>它可能為了更快而錯過最佳走法</text><feedback><text>錯 —— 它絕不剪去可能改變決策的分支。</text></feedback></answer>
+    <answer fraction="-50"><text>它總是探索樹的每一個葉節點</text><feedback><text>錯 —— 它的重點正是略過可證明無關的分支。</text></feedback></answer>
+    <generalfeedback><text>alpha-beta 是精確的(與 minimax 同值),並受益於良好的走法排序,剪去不會影響根的分支 —— 因此它不會走訪每一個葉節點。</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Binary Search Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>BST 排序性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>二元搜尋樹(BST)最關鍵的<strong>排序性質</strong>是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>對每個節點,左子樹的所有鍵值都比它小,右子樹的所有鍵值都比它大</text><feedback><text>正確 —— 每個節點都滿足 左 &lt; 節點 &lt; 右。</text></feedback></answer>
+    <answer fraction="0"><text>每個節點恰好都有兩個子節點</text><feedback><text>那是完滿樹的描述,不是 BST 的排序規則。</text></feedback></answer>
+    <answer fraction="0"><text>所有葉節點都在相同深度</text><feedback><text>那是完美/完全樹的性質,與鍵值排序無關。</text></feedback></answer>
+    <answer fraction="0"><text>鍵值只儲存在葉節點</text><feedback><text>BST 在每個節點都儲存鍵值,不只葉節點。</text></feedback></answer>
+    <generalfeedback><text>BST 維持 左子樹鍵值 &lt; 節點鍵值 &lt; 右子樹鍵值,這正是能做有序搜尋的原因。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>BST 平均搜尋複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對一棵大致平衡的 BST,搜尋、插入、刪除的<strong>平均情況</strong>時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— 每次比較大約排除掉一半的剩餘樹。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>你仍需沿著與高度成正比的路徑下降。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>那是排序的界,不是單一 BST 操作。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>沒有任何單一操作會以平方時間走訪整棵樹。</text></feedback></answer>
+    <generalfeedback><text>平衡的 BST 高度約為 log n,每個操作只沿一條根到節點的路徑走 O(log n) 步。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>BST 最差情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪一種情況會讓一般 BST 每次操作退化為 <strong>O(n)</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>以已排序的順序插入鍵值,使樹退化成一條鏈結串列</text><feedback><text>正確 —— 傾斜的樹高度為 n,操作變成線性。</text></feedback></answer>
+    <answer fraction="0"><text>以隨機順序插入鍵值</text><feedback><text>隨機插入的期望高度約為 log n,不是線性。</text></feedback></answer>
+    <answer fraction="0"><text>儲存浮點數鍵值而非整數</text><feedback><text>鍵值型別不會影響樹的形狀。</text></feedback></answer>
+    <answer fraction="0"><text>走訪時使用遞迴而非迭代</text><feedback><text>實作方式不會改變漸進高度。</text></feedback></answer>
+    <generalfeedback><text>一般 BST 不會自我平衡;已排序的插入會產生完全傾斜、高度為 n 的樹,造成 O(n) 的最差情況。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>BST 中序走訪</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對 BST 做<strong>中序</strong>走訪會產生什麼結果?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>鍵值由小到大的排序順序</text><feedback><text>正確 —— 依 左、節點、右 走訪會得到排序後的鍵值。</text></feedback></answer>
+    <answer fraction="0"><text>鍵值被插入的順序</text><feedback><text>走訪順序取決於結構,而非插入歷程。</text></feedback></answer>
+    <answer fraction="0"><text>依樹的層級分組的鍵值</text><feedback><text>那是層序(廣度優先)走訪。</text></feedback></answer>
+    <answer fraction="0"><text>鍵值的隨機順序</text><feedback><text>中序走訪是確定且已排序的。</text></feedback></answer>
+    <generalfeedback><text>因為處處滿足 左 &lt; 節點 &lt; 右,中序(左、節點、右)走訪會由小到大輸出鍵值。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>BST 自我平衡</text></name>
+    <questiontext format="html"><text><![CDATA[<p>一般的二元搜尋樹在插入與刪除鍵值時會自動保持平衡。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>一般 BST 沒有任何平衡機制;對抗性輸入會讓它傾斜。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 平衡需要像 AVL 或紅黑樹這類擴充結構。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>BST 空間複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>儲存 n 個鍵值的 BST 使用 O(n) 空間。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 每個鍵值一個節點,空間隨 n 線性成長。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>每個鍵值需要自己的節點,總空間為 O(n)。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>BST 排序走訪名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>請寫出 BST 中會依由小到大排序造訪鍵值的走訪名稱(英文一詞):______ (traversal)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>in-order</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>inorder</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>in-order*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>inorder*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>BST 性質複選</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於一般(未平衡)BST,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>中序走訪會回傳排序後的鍵值</text><feedback><text>正確 —— 這是 BST 的核心性質。</text></feedback></answer>
+    <answer fraction="50"><text>平均搜尋為 O(log n),但最差為 O(n)</text><feedback><text>正確 —— 平均平衡,傾斜時為線性。</text></feedback></answer>
+    <answer fraction="-50"><text>不需任何額外機制即可保證 O(log n) 的最差情況操作</text><feedback><text>錯 —— 只有自我平衡的變體能保證這點。</text></feedback></answer>
+    <answer fraction="-50"><text>它在每個節點儲存顏色或平衡因子資訊</text><feedback><text>錯 —— 那是紅黑樹或 AVL 樹,不是一般 BST。</text></feedback></answer>
+    <generalfeedback><text>一般 BST 的中序輸出已排序,且平均操作為 O(log n),但它不會自我平衡也不儲存平衡資訊,因此最差情況為 O(n)。</text></generalfeedback>
+  </question>
+</quiz>

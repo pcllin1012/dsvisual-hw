@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/General and Binary Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>表示法的名稱</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪一種表示法可以把任意一般(多元)樹儲存成一棵二元樹?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>左子右兄弟(left-child, right-sibling)表示法</text><feedback><text>正確 —— 第一個子節點放左邊,下一個兄弟放右邊。</text></feedback></answer>
+    <answer fraction="0"><text>陣列(2i、2i+1)表示法</text><feedback><text>錯 —— 那是把完全二元樹存進陣列,而非把一般樹表示為二元樹。</text></feedback></answer>
+    <answer fraction="0"><text>相鄰矩陣表示法</text><feedback><text>錯 —— 那是一般圖的表示法,不是這個樹的對應。</text></feedback></answer>
+    <answer fraction="0"><text>引線表示法</text><feedback><text>錯 —— 引線重複利用 NULL 指標以利走訪,並不會把一般樹轉成二元樹。</text></feedback></answer>
+    <generalfeedback><text>左子右兄弟法把二元節點的兩個指標重新解讀為「第一個子節點」與「下一個兄弟」,即可編碼任意分支度的樹。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>左指標存放什麼</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在左子右兄弟編碼中,節點的<strong>左</strong>指標指向它的 ______。</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>第一個子節點</text><feedback><text>正確 —— 左指標指向該節點的第一個子節點。</text></feedback></answer>
+    <answer fraction="0"><text>下一個兄弟</text><feedback><text>錯 —— 下一個兄弟存放在右指標。</text></feedback></answer>
+    <answer fraction="0"><text>父節點</text><feedback><text>錯 —— 此編碼存放第一個子節點與下一個兄弟,而非父節點。</text></feedback></answer>
+    <answer fraction="0"><text>最後一個子節點</text><feedback><text>錯 —— 它指向第一個子節點;後面的子節點透過兄弟連結抵達。</text></feedback></answer>
+    <generalfeedback><text>左 = 第一個子節點,右 = 下一個兄弟。先往左下降再沿右鏈走,即可拜訪某節點的所有子節點。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>右指標存放什麼</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在左子右兄弟編碼中,節點的<strong>右</strong>指標指向它的 ______。</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>下一個兄弟</text><feedback><text>正確 —— 右指標串連到下一個兄弟。</text></feedback></answer>
+    <answer fraction="0"><text>第一個子節點</text><feedback><text>錯 —— 第一個子節點存放在左指標。</text></feedback></answer>
+    <answer fraction="0"><text>父節點</text><feedback><text>錯 —— 此編碼不包含父連結。</text></feedback></answer>
+    <answer fraction="0"><text>原一般樹中的右子節點</text><feedback><text>錯 —— 一般樹節點沒有固定的「右子節點」;該指標存放下一個兄弟。</text></feedback></answer>
+    <generalfeedback><text>兄弟形成一條向右串接的鏈,因此任意分支度的節點都只需要兩個指標。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>對應的本質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>左子右兄弟法在森林/一般樹與二元樹之間的對應,最適合描述為 ______。</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>雙射(一對一且可逆)</text><feedback><text>正確 —— 每個森林恰好對應到一棵二元樹,並可還原。</text></feedback></answer>
+    <answer fraction="0"><text>有損、單向的壓縮</text><feedback><text>錯 —— 此對應不損失資訊,且完全可逆。</text></feedback></answer>
+    <answer fraction="0"><text>只對二元樹有效</text><feedback><text>錯 —— 它適用於任意分支度的樹以及森林。</text></feedback></answer>
+    <answer fraction="0"><text>只對平衡樹有效</text><feedback><text>錯 —— 平衡與否與此編碼無關。</text></feedback></answer>
+    <generalfeedback><text>此編碼是一個雙射:一片一般樹的森林恰好對應到一棵二元樹,且過程可唯一還原。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>任意森林皆可編碼</text></name>
+    <questiontext format="html"><text><![CDATA[<p>任何一般樹或森林都可以用左子右兄弟法表示為一棵二元樹。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 此編碼適用於任意分支度的樹以及森林。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>確實可以 —— 這是森林與二元樹之間的標準雙射。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>右指標存放第一個子節點</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在左子右兄弟編碼中,節點的右指標存放它的第一個子節點。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 右指標存放下一個兄弟;第一個子節點在左邊。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 右 = 下一個兄弟,左 = 第一個子節點。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>右指標的意義</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在左子右兄弟表示法中,右指標存放節點的下一個 ______。請以英文作答。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>sibling</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>siblings</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>sibling*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>關於此編碼的事實</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於左子右兄弟表示法,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>節點的第一個子節點成為它的左指標</text><feedback><text>正確 —— 第一個子節點放左邊。</text></feedback></answer>
+    <answer fraction="50"><text>它是森林與二元樹之間的雙射</text><feedback><text>正確 —— 此對應一對一且可逆。</text></feedback></answer>
+    <answer fraction="-50"><text>只有當每個節點至多兩個子節點時才有效</text><feedback><text>錯 —— 它適用於任意分支度,這正是其目的。</text></feedback></answer>
+    <answer fraction="-50"><text>節點的下一個兄弟成為它的左指標</text><feedback><text>錯 —— 下一個兄弟成為右指標。</text></feedback></answer>
+    <generalfeedback><text>第一個子節點 = 左,下一個兄弟 = 右;此法可處理任意分支度,且與二元樹之間是可逆的雙射。</text></generalfeedback>
+  </question>
+</quiz>

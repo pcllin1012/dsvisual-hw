@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Huffman Coding</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Huffman greedy step</text></name>
+    <questiontext format="html"><text><![CDATA[<p>At each step, Huffman's algorithm merges which two nodes?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The two nodes with the lowest frequencies</text><feedback><text>Correct — greedily merge the two smallest, giving the merged node their combined frequency.</text></feedback></answer>
+    <answer fraction="0"><text>The two nodes with the highest frequencies</text><feedback><text>No — merging the largest first would give frequent symbols longer codes.</text></feedback></answer>
+    <answer fraction="0"><text>Any two adjacent nodes in the input order</text><feedback><text>No — the choice is by frequency, not position.</text></feedback></answer>
+    <answer fraction="0"><text>The node with the highest and the node with the lowest frequency</text><feedback><text>No — always the two lowest are combined.</text></feedback></answer>
+    <generalfeedback><text>Huffman is greedy: repeatedly extract the two lowest-frequency nodes from a min-heap and merge them into a parent whose frequency is their sum.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Prefix-free property</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What key property of a Huffman code makes decoding unambiguous?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>No codeword is a prefix of another codeword</text><feedback><text>Correct — this prefix-free property lets a decoder split the bitstream unambiguously.</text></feedback></answer>
+    <answer fraction="0"><text>All codewords have the same length</text><feedback><text>No — Huffman codes are variable length; that describes a fixed-length code.</text></feedback></answer>
+    <answer fraction="0"><text>Codewords are assigned in alphabetical order</text><feedback><text>No — assignment is driven by frequency, not alphabet.</text></feedback></answer>
+    <answer fraction="0"><text>Every codeword starts with a 0 bit</text><feedback><text>No — that is not a property of Huffman codes.</text></feedback></answer>
+    <generalfeedback><text>Because symbols sit only at leaves of the tree, no codeword is a prefix of another, so the decoder never needs lookahead.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Code length vs frequency</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a Huffman code, symbols that appear <strong>more frequently</strong> receive codewords that are:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Shorter</text><feedback><text>Correct — frequent symbols land near the root, giving shorter codes and minimizing total length.</text></feedback></answer>
+    <answer fraction="0"><text>Longer</text><feedback><text>No — that would increase the encoded size.</text></feedback></answer>
+    <answer fraction="0"><text>The same length as every other symbol</text><feedback><text>No — that is a fixed-length code, not Huffman.</text></feedback></answer>
+    <answer fraction="0"><text>Always exactly one bit</text><feedback><text>No — only possible with two or fewer symbols.</text></feedback></answer>
+    <generalfeedback><text>Assigning shorter codewords to more frequent symbols minimizes the expected number of bits, producing a minimum-redundancy code.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Huffman build complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using a min-heap (priority queue), what is the time to build a Huffman tree for <em>n</em> symbols?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n log n)</text><feedback><text>Correct — n-1 merges, each with O(log n) heap operations.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>No — heap operations add a log n factor unless frequencies are pre-sorted.</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>No — a naive linear scan for the minimum would give this, but a heap is faster.</text></feedback></answer>
+    <answer fraction="0"><text>O(2^n)</text><feedback><text>No — the construction is not exponential.</text></feedback></answer>
+    <generalfeedback><text>There are n-1 merges; each extract-min and insert costs O(log n), so the total is O(n log n).</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Huffman optimality</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Huffman coding produces an optimal (minimum-length) prefix code for a given set of symbol frequencies.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it is optimal among symbol-by-symbol prefix codes.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>It is provably optimal for per-symbol prefix codes.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Huffman is greedy not DP</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Huffman's algorithm requires dynamic programming to decide which nodes to merge.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — it is a greedy algorithm; the local choice of the two smallest is provably globally optimal.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — Huffman is greedy, not dynamic programming.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Prefix property term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A code in which no codeword is a prefix of another is called a ______-free code.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>prefix</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>prefix*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Huffman properties multi</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Huffman coding are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It uses a min-heap to repeatedly extract the two lowest-frequency nodes</text><feedback><text>Yes — that is the core of the greedy construction.</text></feedback></answer>
+    <answer fraction="50"><text>Symbols are stored only at the leaves of the tree</text><feedback><text>Yes — internal nodes are merged frequency sums, not symbols.</text></feedback></answer>
+    <answer fraction="-50"><text>All symbols get codewords of equal length</text><feedback><text>No — Huffman codes are variable length.</text></feedback></answer>
+    <answer fraction="-50"><text>The merged node's frequency is the product of its children's frequencies</text><feedback><text>No — it is the sum, not the product.</text></feedback></answer>
+    <generalfeedback><text>Huffman: min-heap driven greedy merges of the two smallest, symbols at leaves, variable-length codewords, merged frequency = sum of children.</text></generalfeedback>
+  </question>
+</quiz>

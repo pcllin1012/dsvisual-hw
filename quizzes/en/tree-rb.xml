@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Red-Black Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Red-black what it is</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is a <strong>red-black tree</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A self-balancing BST that assigns each node a red or black color and enforces color invariants</text><feedback><text>Correct — colors plus invariants keep the tree approximately balanced.</text></feedback></answer>
+    <answer fraction="0"><text>A BST where nodes are painted only for visualization and have no effect on balance</text><feedback><text>The colors are functional; they drive the balancing rules.</text></feedback></answer>
+    <answer fraction="0"><text>A tree that stores a numeric balance factor in each node</text><feedback><text>That is an AVL tree; red-black uses colors instead.</text></feedback></answer>
+    <answer fraction="0"><text>A heap ordered by node color</text><feedback><text>A red-black tree is a search tree, not a heap.</text></feedback></answer>
+    <generalfeedback><text>A red-black tree is a self-balancing BST; each node is red or black, and invariants on those colors bound the height to O(log n).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Red-black worst-case complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the <strong>worst-case</strong> time complexity of search, insert, and delete in a red-black tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>Correct — the color invariants keep height at most 2&middot;log(n+1).</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>That is the unbalanced-BST worst case, which red-black trees avoid.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>You still descend a logarithmic-height path.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>That is a sorting bound, not a single operation.</text></feedback></answer>
+    <generalfeedback><text>Red-black invariants bound the height by 2&middot;log(n+1), so all operations run in O(log n) worst case.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Red-black balancing mechanism</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How does a red-black tree keep itself balanced after an update?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>By recoloring nodes and performing rotations to restore the color invariants</text><feedback><text>Correct — recoloring and a small number of rotations repair violations.</text></feedback></answer>
+    <answer fraction="0"><text>By requiring every node's balance factor to stay in {-1, 0, 1}</text><feedback><text>That is the AVL rule, not red-black.</text></feedback></answer>
+    <answer fraction="0"><text>By splaying the inserted node to the root</text><feedback><text>That is a splay tree, not red-black.</text></feedback></answer>
+    <answer fraction="0"><text>By rehashing all keys into a new table</text><feedback><text>Red-black trees do not use hashing.</text></feedback></answer>
+    <generalfeedback><text>A red-black tree restores its invariants using recoloring plus rotations; insertions and deletions need only O(1) amortized rotations.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Red-black vs AVL rotations</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why are red-black trees often preferred over AVL trees for <strong>update-heavy</strong> workloads?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>They perform fewer rotations per insertion/deletion (O(1) amortized)</text><feedback><text>Correct — looser balance means cheaper rebalancing on updates.</text></feedback></answer>
+    <answer fraction="0"><text>They guarantee a perfectly balanced tree at all times</text><feedback><text>They are only approximately balanced; that is why updates are cheaper.</text></feedback></answer>
+    <answer fraction="0"><text>They allow O(1) search regardless of tree size</text><feedback><text>Search is still O(log n).</text></feedback></answer>
+    <answer fraction="0"><text>They never require any rotations</text><feedback><text>They do rotate, just fewer times than AVL on average.</text></feedback></answer>
+    <generalfeedback><text>Red-black trees are less strictly balanced than AVL, so insertions and deletions need fewer rotations (O(1) amortized), which pays off in update-heavy workloads.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Red-black real-world use</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Red-black trees underpin real-world libraries such as C++ <code>std::map</code>, Java's <code>TreeMap</code>, and structures in the Linux kernel.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — these are classic real-world uses of red-black trees.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>These libraries do rely on red-black trees.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Red-black is a BST</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A red-black tree is a binary search tree and still supports in-order traversal to list keys in sorted order.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it is a BST with color invariants; in-order traversal is still sorted.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Red-black ordering is standard BST ordering, so in-order traversal is sorted.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Red-black color term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Besides "red", what is the other node color used in a red-black tree? ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>black</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>black*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Red-black properties multi-select</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about red-black trees are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>They guarantee O(log n) worst-case search, insert, and delete</text><feedback><text>Yes — color invariants bound the height.</text></feedback></answer>
+    <answer fraction="50"><text>They typically use fewer rotations on updates than AVL trees</text><feedback><text>Yes — O(1) amortized rotations makes them good for update-heavy use.</text></feedback></answer>
+    <answer fraction="-50"><text>They keep every node's balance factor in {-1, 0, 1}</text><feedback><text>No — that is the AVL invariant, not red-black.</text></feedback></answer>
+    <answer fraction="-50"><text>They move each accessed node to the root on every lookup</text><feedback><text>No — that is a splay tree.</text></feedback></answer>
+    <generalfeedback><text>Red-black trees guarantee O(log n) operations and use few rotations on updates; they rely on color invariants (not balance factors) and do not splay accessed nodes.</text></generalfeedback>
+  </question>
+</quiz>
