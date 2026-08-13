@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Reconstruct Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Pair that determines a tree</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which pair of traversal sequences uniquely determines a binary tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Pre-order + in-order</text><feedback><text>Correct — this pair reconstructs a unique binary tree.</text></feedback></answer>
+    <answer fraction="0"><text>Pre-order + post-order</text><feedback><text>These do not determine a general binary tree uniquely.</text></feedback></answer>
+    <answer fraction="0"><text>Pre-order alone</text><feedback><text>A single traversal is ambiguous by itself.</text></feedback></answer>
+    <answer fraction="0"><text>In-order alone</text><feedback><text>In-order alone cannot fix the shape of the tree.</text></feedback></answer>
+    <generalfeedback><text>Pre-order (or post-order) supplies the root, while in-order splits left and right subtrees; that combination is enough for a unique reconstruction.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Ambiguous combination</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which of the following does <strong>not</strong> uniquely determine a general binary tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Pre-order + post-order</text><feedback><text>Correct — this pair is ambiguous for general binary trees.</text></feedback></answer>
+    <answer fraction="0"><text>Pre-order + in-order</text><feedback><text>This pair does determine a unique tree.</text></feedback></answer>
+    <answer fraction="0"><text>Post-order + in-order</text><feedback><text>This pair also determines a unique tree.</text></feedback></answer>
+    <answer fraction="0"><text>In-order + post-order</text><feedback><text>Same as post-order + in-order — it is sufficient.</text></feedback></answer>
+    <generalfeedback><text>Pre-order + post-order cannot distinguish, for example, a node's single child as left versus right, so the reconstruction is ambiguous.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Finding the root</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In pre-order + in-order reconstruction, how do you identify the root of the (sub)tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It is the first element of the pre-order sequence</text><feedback><text>Correct — pre-order visits the root first.</text></feedback></answer>
+    <answer fraction="0"><text>It is the first element of the in-order sequence</text><feedback><text>The first in-order element is the leftmost node, not the root.</text></feedback></answer>
+    <answer fraction="0"><text>It is the middle element of the in-order sequence</text><feedback><text>The root's position in in-order varies; it is not always the middle.</text></feedback></answer>
+    <answer fraction="0"><text>It is the last element of the in-order sequence</text><feedback><text>That is the rightmost node, not necessarily the root.</text></feedback></answer>
+    <generalfeedback><text>Pre-order lists the root first (and post-order lists it last); locating that root within in-order then splits the two subtrees.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Role of in-order</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Once the root is known, what does locating it inside the <em>in-order</em> sequence let you do?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Split the remaining nodes into the left and right subtrees</text><feedback><text>Correct — everything left of the root is the left subtree, everything right is the right subtree.</text></feedback></answer>
+    <answer fraction="0"><text>Determine the height of the tree directly</text><feedback><text>Height falls out of recursion, not from a single split.</text></feedback></answer>
+    <answer fraction="0"><text>Sort the node values</text><feedback><text>In-order of a BST is sorted, but the split is what reconstruction uses.</text></feedback></answer>
+    <answer fraction="0"><text>Count the number of leaves</text><feedback><text>The split identifies subtrees, not leaf counts.</text></feedback></answer>
+    <generalfeedback><text>In in-order traversal, all nodes before the root belong to the left subtree and all after it to the right subtree — the recursive split that drives reconstruction.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Post-order plus in-order</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Post-order combined with in-order uniquely determines a binary tree.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the last post-order element is the root, and in-order splits the subtrees.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Post-order + in-order is sufficient, just like pre-order + in-order.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Pre-order alone</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The pre-order sequence alone is enough to reconstruct a unique binary tree.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>A single traversal is ambiguous; you need in-order too.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — pre-order alone does not fix the tree shape.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Splitting traversal</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which traversal is used together with pre-order (or post-order) to split the left and right subtrees? Answer with the traversal name (hyphenated).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>in-order</text><feedback><text>Correct — in-order splits the subtrees around the root.</text></feedback></answer>
+    <answer fraction="100"><text>inorder</text><feedback><text>Correct — in-order splits the subtrees around the root.</text></feedback></answer>
+    <answer fraction="100"><text>in order</text><feedback><text>Correct — in-order splits the subtrees around the root.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Reconstruction facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about reconstructing a binary tree from traversals are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>The first element of pre-order is the root of the whole tree</text><feedback><text>Yes — pre-order visits the root first.</text></feedback></answer>
+    <answer fraction="50"><text>The last element of post-order is the root of the whole tree</text><feedback><text>Yes — post-order visits the root last.</text></feedback></answer>
+    <answer fraction="-50"><text>Pre-order + post-order uniquely determine any binary tree</text><feedback><text>No — that combination is ambiguous for general binary trees.</text></feedback></answer>
+    <answer fraction="-50"><text>In-order alone is enough to rebuild the tree</text><feedback><text>No — a single traversal cannot fix the shape.</text></feedback></answer>
+    <generalfeedback><text>Pre-order gives the root first and post-order gives it last; in-order then splits subtrees. But pre-order + post-order, or any single traversal alone, is not enough.</text></generalfeedback>
+  </question>
+</quiz>

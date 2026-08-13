@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Trie</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie 查找複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在一個儲存 <em>n</em> 個鍵的 trie 中,搜尋一個長度為 <strong>L</strong> 的鍵需要多少時間?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(L)</text><feedback><text>正確 —— 每個字元走一條邊,與 n 無關。</text></feedback></answer>
+    <answer fraction="0"><text>O(L log n)</text><feedback><text>錯 —— trie 不需與其他鍵做比較,儲存的鍵數不會出現在成本中。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>錯 —— 成本取決於鍵的長度,而非儲存了多少鍵。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>錯 —— 那是平衡 BST 的界;trie 每個字元下降一個節點。</text></feedback></answer>
+    <generalfeedback><text>trie 對查詢鍵的每個字元剛好走一條邊,因此搜尋、插入、刪除都是 O(L),與儲存的鍵數 n 無關。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie 邊的意義</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在標準 trie 中,從一個節點連到子節點的單一<strong>邊</strong>代表什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>鍵的一個字元</text><feedback><text>正確 —— 每條邊以單一字元標記。</text></feedback></answer>
+    <answer fraction="0"><text>一整個儲存的鍵</text><feedback><text>錯 —— 一個鍵沿著根到節點的路徑拼出,每條邊一個字元。</text></feedback></answer>
+    <answer fraction="0"><text>一個比較結果(較小/較大)</text><feedback><text>錯 —— trie 不是基於比較的;邊以字元索引。</text></feedback></answer>
+    <answer fraction="0"><text>一段壓縮後的子字串</text><feedback><text>錯 —— 那描述的是基數樹(壓縮 trie),不是標準 trie。</text></feedback></answer>
+    <generalfeedback><text>trie 以共享前綴儲存字串;每條邊帶一個字元,鍵可從根到節點的路徑讀出。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie 的強項</text></name>
+    <questiontext format="html"><text><![CDATA[<p>trie <strong>特別適合</strong>哪一種操作?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>前綴查詢 / 自動完成</text><feedback><text>正確 —— 所有共享前綴的鍵都位於同一棵子樹下。</text></feedback></answer>
+    <answer fraction="0"><text>對數值做區間求和</text><feedback><text>錯 —— 那是樹狀陣列/線段樹的工作,不是 trie。</text></feedback></answer>
+    <answer fraction="0"><text>找出一組數字的中位數</text><feedback><text>錯 —— trie 以字元索引字串,而非以數值順序統計。</text></feedback></answer>
+    <answer fraction="0"><text>將鍵雜湊到 O(1) 桶中</text><feedback><text>錯 —— 那描述的是雜湊表;trie 逐字元走過鍵。</text></feedback></answer>
+    <generalfeedback><text>由於每個共享前綴的鍵都經過相同的節點,trie 只要走到前綴節點並列舉其子樹,即可回答「所有以…開頭的字」查詢。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie 主要缺點</text></name>
+    <questiontext format="html"><text><![CDATA[<p>純 trie 的主要<strong>缺點</strong>是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>空間用量高 —— 每個字元位置都需一個節點或子節點對映表</text><feedback><text>正確 —— 每個節點都放完整子節點陣列/對映表,非常耗記憶體。</text></feedback></answer>
+    <answer fraction="0"><text>搜尋時間隨儲存鍵數增加</text><feedback><text>錯 —— 搜尋是 O(L),與 n 無關。</text></feedback></answer>
+    <answer fraction="0"><text>它要求鍵必須先排序</text><feedback><text>錯 —— trie 不需預先排序;插入順序無所謂。</text></feedback></answer>
+    <answer fraction="0"><text>它無法回答前綴查詢</text><feedback><text>錯 —— 前綴查詢正是 trie 的強項。</text></feedback></answer>
+    <generalfeedback><text>trie 的經典代價是記憶體:每個節點可能為所有可能字元各留一個子節點槽,因此許多稀疏使用的節點浪費空間。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Trie 是否基於比較</text></name>
+    <questiontext format="html"><text><![CDATA[<p>trie 像二元搜尋樹一樣,透過將鍵與其他已儲存的鍵做比較來定位。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— trie 不是基於比較的;它以下一個字元索引子節點。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— trie 以字元導航,從不比較整個鍵。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Trie 搜尋與 n 無關</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 trie 中搜尋一個長度為 L 的鍵,所需時間與 L 成正比,無論 trie 儲存了多少鍵。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 成本是 O(L),與 n 無關。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>錯 —— 儲存的鍵數不影響這個 O(L) 的走訪。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Trie 別名術語</text></name>
+    <questiontext format="html"><text><![CDATA[<p>因為它以共享的起始字元儲存字串,trie 又稱為 ______ tree(前綴樹,請填一個英文單字)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>prefix</text><feedback><text>正確 —— trie 又稱為 prefix tree(前綴樹)。</text></feedback></answer>
+    <answer fraction="100"><text>prefix*</text><feedback><text>正確 —— trie 又稱為 prefix tree(前綴樹)。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Trie 性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 trie,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>共享前綴的鍵在樹中共用相同的上層路徑</text><feedback><text>正確 —— 共享前綴只儲存一次。</text></feedback></answer>
+    <answer fraction="50"><text>長度為 L 的鍵之插入、搜尋、刪除都是 O(L)</text><feedback><text>正確 —— 每個操作每個字元走一條邊。</text></feedback></answer>
+    <answer fraction="-50"><text>trie 比用雜湊集合儲存這些鍵更省記憶體</text><feedback><text>錯 —— 純 trie 通常耗空間,並不省。</text></feedback></answer>
+    <answer fraction="-50"><text>trie 搜尋時間隨鍵數以 O(log n) 成長</text><feedback><text>錯 —— 搜尋是 O(L),與 n 無關。</text></feedback></answer>
+    <generalfeedback><text>trie 共享前綴、提供與 n 無關的 O(L) 操作、擅長前綴查詢 —— 但代價是空間,而非節省記憶體。</text></generalfeedback>
+  </question>
+</quiz>

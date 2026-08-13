@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Ternary Search Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>TST children count</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How many children does each node of a ternary search tree (TST) have?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Three: less-than, equal, and greater-than</text><feedback><text>Correct — hence "ternary": low, equal, high.</text></feedback></answer>
+    <answer fraction="0"><text>Two: left and right</text><feedback><text>No — that is a binary search tree; a TST adds a middle (equal) child.</text></feedback></answer>
+    <answer fraction="0"><text>One per alphabet character</text><feedback><text>No — that is a plain trie node; a TST stores one character with three pointers.</text></feedback></answer>
+    <answer fraction="0"><text>A variable number labeled with substrings</text><feedback><text>No — that describes a radix tree, not a TST.</text></feedback></answer>
+    <generalfeedback><text>Each TST node holds one character and three children: less-than, equal, and greater-than — combining BST-style branching with trie descent.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>TST equal child role</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a TST, what happens when you follow the <strong>equal (middle)</strong> child?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>You advance to the next character of the search key</text><feedback><text>Correct — the middle/equal child descends one position into the key.</text></feedback></answer>
+    <answer fraction="0"><text>You compare the same character against a larger value</text><feedback><text>No — the greater-than child, not the equal child, does that.</text></feedback></answer>
+    <answer fraction="0"><text>You restart the search from the root</text><feedback><text>No — descent continues; it does not restart.</text></feedback></answer>
+    <answer fraction="0"><text>You skip to the end of the key</text><feedback><text>No — the equal child advances by exactly one character.</text></feedback></answer>
+    <generalfeedback><text>Taking the equal child means the current character matched, so you move to the next character of the key — that is the trie-descent part of a TST.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>TST vs plain trie space</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Compared with a plain trie, a ternary search tree is generally...</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>More space-efficient — no full array/map of children per node</text><feedback><text>Correct — three pointers per node instead of one slot per alphabet symbol.</text></feedback></answer>
+    <answer fraction="0"><text>Less space-efficient because of the extra middle child</text><feedback><text>No — three pointers beat a full per-node child array; TSTs use less space.</text></feedback></answer>
+    <answer fraction="0"><text>Identical in memory, differing only in speed</text><feedback><text>No — the memory profiles differ; TSTs avoid the trie's wide child arrays.</text></feedback></answer>
+    <answer fraction="0"><text>Unable to store variable-length strings</text><feedback><text>No — TSTs store variable-length string keys just fine.</text></feedback></answer>
+    <generalfeedback><text>A plain trie may reserve a child slot per alphabet symbol at every node; a TST keeps just three pointers per node, so it is more space-efficient.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>TST supported queries</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which capability do ternary search trees support well, like tries?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Prefix / autocomplete and nearest-neighbour queries</text><feedback><text>Correct — TSTs support prefix, autocomplete, and near-match lookups.</text></feedback></answer>
+    <answer fraction="0"><text>Constant-time hashing of the whole key</text><feedback><text>No — that is a hash table; a TST walks the key character by character.</text></feedback></answer>
+    <answer fraction="0"><text>Range-sum queries over numeric arrays</text><feedback><text>No — that is a Fenwick/segment tree, not a TST.</text></feedback></answer>
+    <answer fraction="0"><text>Maintaining a min-heap of priorities</text><feedback><text>No — heaps do that, not TSTs.</text></feedback></answer>
+    <generalfeedback><text>Because it descends by character like a trie, a TST supports prefix queries, autocomplete, and nearest-neighbour (near-match) searches.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>TST middle child advances</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a ternary search tree, following the middle (equal) child advances the search to the next character of the key.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the equal child is the trie-descent step.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>No — the middle child does advance to the next character.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>TST is pure BST</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A ternary search tree is just an ordinary binary search tree with no trie-like behaviour.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — a TST combines BST-style low/high branching with trie descent through the equal child.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — the equal child gives it trie-style character-by-character descent.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>TST middle-pointer term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a TST, the middle child that is taken when the current character matches is called the ______ child (one word).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>equal</text><feedback><text>Correct — the matching path is the equal (middle) child.</text></feedback></answer>
+    <answer fraction="100"><text>equal*</text><feedback><text>Correct — the matching path is the equal (middle) child.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>TST properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about ternary search trees are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Each node stores one character and has three children (low, equal, high)</text><feedback><text>Yes — that is the TST node structure.</text></feedback></answer>
+    <answer fraction="50"><text>They are more space-efficient than a plain trie</text><feedback><text>Yes — three pointers instead of a full child array per node.</text></feedback></answer>
+    <answer fraction="-50"><text>Each node holds a full array of children, one per alphabet symbol</text><feedback><text>No — that is a plain trie; a TST keeps only three pointers.</text></feedback></answer>
+    <answer fraction="-50"><text>They cannot support prefix or autocomplete queries</text><feedback><text>No — TSTs support prefix, autocomplete, and nearest-neighbour queries.</text></feedback></answer>
+    <generalfeedback><text>A TST stores one character per node with low/equal/high children, is more space-efficient than a plain trie, and supports prefix, autocomplete, and near-match queries with lookups around O(L + log n).</text></generalfeedback>
+  </question>
+</quiz>

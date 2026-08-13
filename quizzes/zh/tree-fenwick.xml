@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Fenwick Tree (BIT)</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Fenwick 樹的操作</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>Fenwick 樹(樹狀陣列,BIT)</strong>以 O(log n) 支援哪一對操作?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>前綴和查詢與單點更新</text><feedback><text>正確 —— BIT 計算前綴和並做單點更新,各為 O(log n)。</text></feedback></answer>
+    <answer fraction="0"><text>取最小值與刪除最小值</text><feedback><text>那是堆積(heap)操作,不是 Fenwick 樹的職責。</text></feedback></answer>
+    <answer fraction="0"><text>依排序插入鍵與搜尋鍵</text><feedback><text>那是搜尋樹。</text></feedback></answer>
+    <answer fraction="0"><text>集合代表的 union 與 find</text><feedback><text>那是並查集操作。</text></feedback></answer>
+    <generalfeedback><text>Fenwick 樹利用索引的二進位表示,以 O(log n) 支援前綴和查詢與單點更新。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Fenwick 的 lowbit 機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在查詢或更新時,Fenwick 樹如何在必須碰觸的索引之間移動?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>藉由最低位設定位元跳躍,以 <code>i &amp; -i</code> 計算(即「lowbit」)</text><feedback><text>正確 —— 加上或減去 <code>i &amp; -i</code> 即可走過各負責區間。</text></feedback></answer>
+    <answer fraction="0"><text>沿著二元樹的左右子指標前進</text><feedback><text>BIT 不儲存明確的子指標;它使用索引運算。</text></feedback></answer>
+    <answer fraction="0"><text>每一步都對陣列做二分搜尋</text><feedback><text>不需搜尋;lowbit 直接給出下一個索引。</text></feedback></answer>
+    <answer fraction="0"><text>把索引雜湊到某個桶</text><feedback><text>不涉及雜湊;它純粹是位元運算。</text></feedback></answer>
+    <generalfeedback><text>lowbit <code>i &amp; -i</code> 取出最低有效設定位元;加上它(更新)或減去它(查詢)即可走過 O(log n) 個索引。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Fenwick 樹的空間</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對 n 個元素,Fenwick 樹使用多少空間?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n) —— 單一大小約為 n 的陣列,常數很小</text><feedback><text>正確 —— BIT 只是一個陣列,比線段樹更輕量。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>Fenwick 樹只需 O(n);每個索引恰好負責一段區間。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>每個元素仍需一個位置,故空間為 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>太多了;BIT 空間為線性。</text></feedback></answer>
+    <generalfeedback><text>Fenwick 樹只需一個大小約 n 的陣列(O(n) 空間)且常數很小 —— 比線段樹更簡單、更輕量。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Fenwick 與線段樹的限制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相較於線段樹,一般 Fenwick 樹的主要<strong>限制</strong>是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>較不一般 —— 最適合可逆/前綴聚合(如求和);不直接支援區間最小值</text><feedback><text>正確 —— 前綴相減需要可逆性,故區間最小值無法對應到一般 BIT。</text></feedback></answer>
+    <answer fraction="0"><text>它比線段樹使用更多記憶體</text><feedback><text>恰好相反 —— BIT 更輕量,只用單一 O(n) 陣列。</text></feedback></answer>
+    <answer fraction="0"><text>它的查詢是 O(n) 而非 O(log n)</text><feedback><text>錯 —— BIT 查詢為 O(log n)。</text></feedback></answer>
+    <answer fraction="0"><text>它無法執行單點更新</text><feedback><text>單點更新正是它兩大核心操作之一。</text></feedback></answer>
+    <generalfeedback><text>Fenwick 樹比線段樹更簡單、更輕量,但較不一般:它擅長可逆/前綴聚合(求和),而區間最小/最大值則不直接支援。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Fenwick 樹性質(複選)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 Fenwick 樹(BIT),以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>前綴和查詢與單點更新都是 O(log n)</text><feedback><text>正確 —— 各碰觸 O(log n) 個索引。</text></feedback></answer>
+    <answer fraction="50"><text>它只用 O(n) 空間且常數因子很小</text><feedback><text>正確 —— 單一陣列,比線段樹更輕量。</text></feedback></answer>
+    <answer fraction="-50"><text>它像線段樹一樣自然支援區間最小值查詢</text><feedback><text>錯 —— 區間最小值不可逆,故一般 BIT 無法直接做。</text></feedback></answer>
+    <answer fraction="-50"><text>它會把元素保持排序以便二分搜尋</text><feedback><text>錯 —— BIT 以位置索引,不對數值排序。</text></feedback></answer>
+    <generalfeedback><text>BIT 透過 lowbit 索引運算,以 O(n) 空間提供 O(log n) 的前綴和與單點更新;它比線段樹較不一般,且不做區間最小值。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Fenwick 比線段樹更輕</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Fenwick 樹通常比線段樹更簡單,且使用較少記憶體。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— BIT 是單一 O(n) 陣列,常數小、程式碼也短。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>BIT 確實比線段樹更輕量、更簡單。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Fenwick 區間最小值</text></name>
+    <questiontext format="html"><text><![CDATA[<p>一般 Fenwick 樹能像求前綴和一樣容易地直接回答區間最小值查詢。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 區間最小值不可逆,故一般 BIT 無法直接處理;求和可行是因為它可逆。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 一般 BIT 針對可逆/前綴聚合(如求和),而非區間最小值。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>lowbit 名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>用來取出索引最低有效設定位元的值 <code>i &amp; -i</code>,通常稱為 ______。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>lowbit</text><feedback><text>正確 —— lowbit,即 i &amp; -i。</text></feedback></answer>
+    <answer fraction="100"><text>lowbit*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

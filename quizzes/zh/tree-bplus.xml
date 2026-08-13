@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/B+ Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree 資料位置</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 B+ 樹中,實際的<strong>資料紀錄 / 資料值</strong>存放於何處?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>只存於葉節點</text><feedback><text>正確 —— 所有資料都在葉節點;內部節點只持有路由用的鍵。</text></feedback></answer>
+    <answer fraction="0"><text>只存於根節點</text><feedback><text>根節點只是內部路由器,不是資料儲存處。</text></feedback></answer>
+    <answer fraction="0"><text>內部節點與葉節點兩者皆有</text><feedback><text>那是傳統 B-tree;B+ 樹把資料限制在葉節點。</text></feedback></answer>
+    <answer fraction="0"><text>存於另一個雜湊表</text><feedback><text>錯 —— 資料就存在樹本身的葉節點層。</text></feedback></answer>
+    <generalfeedback><text>B+ 樹把導航與儲存分離:內部節點負責路由,葉節點負責儲存。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree 內部節點</text></name>
+    <questiontext format="html"><text><![CDATA[<p>B+ 樹的<strong>內部節點</strong>扮演什麼角色?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>只持有鍵,作為路由器(分隔鍵)引導搜尋往下走</text><feedback><text>正確 —— 內部節點的鍵是分隔用的副本,並非資料。</text></feedback></answer>
+    <answer fraction="0"><text>存放完整的資料紀錄</text><feedback><text>錯 —— 紀錄只存在葉節點。</text></feedback></answer>
+    <answer fraction="0"><text>橫向串接以支援範圍掃描</text><feedback><text>被串接的是葉節點,不是內部節點。</text></feedback></answer>
+    <answer fraction="0"><text>刪除發生前一直是空的</text><feedback><text>內部節點始終攜帶分隔鍵。</text></feedback></answer>
+    <generalfeedback><text>由於內部節點不帶資料,每個區塊能塞入更多分隔鍵,提高分支度。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree 範圍掃描</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪一項結構特徵使 B+ 樹的<strong>範圍與中序掃描</strong>特別快速?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>葉節點以排序好的串列彼此串接</text><feedback><text>正確 —— 找到起點後,沿著葉節點連結依序走訪即可。</text></feedback></answer>
+    <answer fraction="0"><text>每個鍵都經雜湊以達 O(1) 查找</text><feedback><text>B+ 樹是有序的,不是雜湊;雜湊會破壞範圍順序。</text></feedback></answer>
+    <answer fraction="0"><text>資料在每個內部節點都複製一份</text><feedback><text>內部節點只持有路由鍵,不含資料。</text></feedback></answer>
+    <answer fraction="0"><text>樹在每次查詢時重新排序自己</text><feedback><text>不會重新排序;順序由結構本身維持。</text></feedback></answer>
+    <generalfeedback><text>葉節點連結串列把範圍查詢變成一次下降加一次循序走訪 —— 對資料庫非常理想。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree 分支度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在相同區塊大小下,與 B-tree 相比,為何 B+ 樹傾向<strong>更矮</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>內部節點不存資料,故每個區塊能塞入更多鍵,提高分支度</text><feedback><text>正確 —— 分支度越高,相同鍵數所需的層數越少。</text></feedback></answer>
+    <answer fraction="0"><text>它完全移除重複的鍵</text><feedback><text>分隔鍵反而會被複製到內部節點。</text></feedback></answer>
+    <answer fraction="0"><text>它使用二元節點而非多路節點</text><feedback><text>它是多路結構,如同 B-tree。</text></feedback></answer>
+    <answer fraction="0"><text>它把所有東西都存在根節點</text><feedback><text>資料在葉節點,分散於整個葉層。</text></feedback></answer>
+    <generalfeedback><text>不帶資料的內部節點使分支因子最大化,降低樹高與每次查找的 I/O。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>B+ Tree 葉節點串接</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 B+ 樹中,葉節點彼此串接,因此可作為一個排序好的循序串列走訪。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 串接的葉節點使循序與範圍存取快速。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>葉節點串接是 B+ 樹的定義特徵。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>B+ Tree 內部資料</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 B+ 樹中,內部節點會連同鍵一起存放完整的資料紀錄。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 內部節點只持有分隔鍵;資料存於葉節點。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 內部節點只負責路由;紀錄全在葉節點。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>索引用途名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>B+ 樹是關聯式資料庫與檔案系統所採用的標準磁碟 ______ 結構。(請以英文單字作答)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>index</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>index*</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>indexing</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>B+ Tree 與 B-Tree 差異複選</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列區分 B+ 樹與 B-tree 的敘述,哪些正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>B+ 樹把所有資料紀錄放在葉節點;B-tree 的內部節點也放資料</text><feedback><text>正確 —— 這是核心的結構差異。</text></feedback></answer>
+    <answer fraction="50"><text>B+ 樹串接其葉節點以加速範圍掃描;一般 B-tree 則否</text><feedback><text>正確 —— 串接的葉節點是 B+ 樹的特徵。</text></feedback></answer>
+    <answer fraction="-50"><text>B+ 樹不平衡,而 B-tree 平衡</text><feedback><text>錯 —— 兩者都是高度平衡,所有葉節點深度相等。</text></feedback></answer>
+    <answer fraction="-50"><text>相同區塊大小下,B+ 樹的分支度低於 B-tree</text><feedback><text>錯 —— 不帶資料的內部節點使 B+ 樹分支度更高。</text></feedback></answer>
+    <generalfeedback><text>B+ 樹把資料限制在串接的葉節點並取得更高分支度;兩種樹皆保持平衡。</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/8-Coins Decision Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Outcomes per weighing</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When you place coins on a two-pan <strong>balance scale</strong>, how many distinct outcomes can a single weighing produce?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Three (left heavier, balanced, right heavier)</text><feedback><text>Correct — three outcomes, so the decision tree is ternary.</text></feedback></answer>
+    <answer fraction="0"><text>Two (heavier or lighter)</text><feedback><text>That ignores the balanced case; a scale has three outcomes.</text></feedback></answer>
+    <answer fraction="0"><text>Four</text><feedback><text>A single balance comparison yields only three distinguishable results.</text></feedback></answer>
+    <answer fraction="0"><text>Eight, one per coin</text><feedback><text>The number of outcomes depends on the scale, not the coin count.</text></feedback></answer>
+    <generalfeedback><text>A balance scale tilts left, stays level, or tilts right — three outcomes per weighing, which makes the decision tree ternary.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Decision tree branching factor</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The decision tree for the balance-scale coin problem is best described as which kind of tree?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A ternary tree (up to three children per node)</text><feedback><text>Correct — each weighing has three outcomes.</text></feedback></answer>
+    <answer fraction="0"><text>A binary tree (two children per node)</text><feedback><text>Binary would fit a yes/no test; a balance gives three results.</text></feedback></answer>
+    <answer fraction="0"><text>A complete graph</text><feedback><text>The structure is a rooted decision tree, not a graph.</text></feedback></answer>
+    <answer fraction="0"><text>A linked list</text><feedback><text>Each internal node branches on the weighing outcome, so it is a tree.</text></feedback></answer>
+    <generalfeedback><text>Because each weighing has three outcomes, the decision tree branches up to three ways at every internal node — a ternary tree.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Information-theoretic bound</text></name>
+    <questiontext format="html"><text><![CDATA[<p>To distinguish among <em>N</em> possible cases with a balance scale, the minimum number of weighings is at least which expression?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>&lceil;log<sub>3</sub> N&rceil;</text><feedback><text>Correct — k weighings distinguish at most 3^k cases.</text></feedback></answer>
+    <answer fraction="0"><text>&lceil;log<sub>2</sub> N&rceil;</text><feedback><text>That base assumes two outcomes; a balance gives three.</text></feedback></answer>
+    <answer fraction="0"><text>N &minus; 1</text><feedback><text>That is far more than needed; the bound is logarithmic base 3.</text></feedback></answer>
+    <answer fraction="0"><text>N / 3</text><feedback><text>The relationship is logarithmic, not linear.</text></feedback></answer>
+    <generalfeedback><text>Each weighing multiplies the number of distinguishable cases by 3, so k weighings cover 3^k cases and the lower bound is ceil(log base 3 of N).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Height equals weighings</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In the decision tree, what does the <strong>height</strong> of the tree represent?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The worst-case number of weighings needed</text><feedback><text>Correct — the longest root-to-leaf path is the worst case.</text></feedback></answer>
+    <answer fraction="0"><text>The total number of coins</text><feedback><text>Height measures path length, not the number of coins.</text></feedback></answer>
+    <answer fraction="0"><text>The number of counterfeit coins</text><feedback><text>There is exactly one counterfeit; height is about weighings.</text></feedback></answer>
+    <answer fraction="0"><text>The number of leaves</text><feedback><text>Leaves are the outcomes; height is the longest path to one.</text></feedback></answer>
+    <generalfeedback><text>Each level of the tree is one weighing, so the height (longest root-to-leaf path) equals the worst-case number of weighings.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Balance three outcomes</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A single use of a balance scale can distinguish three outcomes, which is why the decision tree is ternary rather than binary.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — left-heavy, balanced, and right-heavy give three outcomes.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The three tilt states make each weighing a three-way branch.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Eight coins two weighings</text></name>
+    <questiontext format="html"><text><![CDATA[<p>If the counterfeit among 8 coins is known to be <em>lighter</em>, two weighings are enough to identify it.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — 3^2 = 9 &ge; 8, so two weighings suffice.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>With a known-lighter counterfeit there are 8 cases and 3^2 = 9 &ge; 8.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Outcomes number</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How many distinct outcomes does one weighing on a balance scale have? Answer with a single digit.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>3</text><feedback><text>Correct — three outcomes make the tree ternary.</text></feedback></answer>
+    <answer fraction="100"><text>three</text><feedback><text>Correct — three outcomes make the tree ternary.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Decision tree facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the 8-coins balance decision tree are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Each internal node corresponds to one weighing</text><feedback><text>Yes — every internal node is a weighing.</text></feedback></answer>
+    <answer fraction="50"><text>k weighings can distinguish at most 3^k cases</text><feedback><text>Yes — each weighing triples the distinguishable cases.</text></feedback></answer>
+    <answer fraction="-50"><text>Each weighing has only two possible outcomes</text><feedback><text>No — a balance scale has three outcomes.</text></feedback></answer>
+    <answer fraction="-50"><text>The tree is binary because a coin is either counterfeit or genuine</text><feedback><text>No — branching follows the three weighing outcomes, so it is ternary.</text></feedback></answer>
+    <generalfeedback><text>Internal nodes are weighings, each with three outcomes, so k weighings cover up to 3^k cases and the tree is ternary — not binary.</text></generalfeedback>
+  </question>
+</quiz>

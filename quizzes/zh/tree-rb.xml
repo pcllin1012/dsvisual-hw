@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Red-Black Tree</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>紅黑樹是什麼</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>紅黑樹</strong>是什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一種自我平衡的 BST,為每個節點指定紅或黑顏色並強制顏色不變式</text><feedback><text>正確 —— 顏色加上不變式使樹維持近似平衡。</text></feedback></answer>
+    <answer fraction="0"><text>一種只為視覺化上色、不影響平衡的 BST</text><feedback><text>顏色是功能性的;它驅動平衡規則。</text></feedback></answer>
+    <answer fraction="0"><text>一種在每個節點儲存數值平衡因子的樹</text><feedback><text>那是 AVL 樹;紅黑樹改用顏色。</text></feedback></answer>
+    <answer fraction="0"><text>一種以節點顏色排序的堆積</text><feedback><text>紅黑樹是搜尋樹,不是堆積。</text></feedback></answer>
+    <generalfeedback><text>紅黑樹是自我平衡的 BST;每個節點為紅或黑,顏色不變式將高度限制在 O(log n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>紅黑樹最差情況複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>紅黑樹的搜尋、插入、刪除的<strong>最差情況</strong>時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— 顏色不變式將高度限制在至多 2&middot;log(n+1)。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>那是未平衡 BST 的最差情況,紅黑樹可避免。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>你仍需沿一條對數高度的路徑下降。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>那是排序的界,不是單一操作。</text></feedback></answer>
+    <generalfeedback><text>紅黑不變式將高度限制在 2&middot;log(n+1),因此所有操作的最差情況皆為 O(log n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>紅黑樹平衡機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>更新後,紅黑樹如何保持自身平衡?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>透過重新著色節點並執行旋轉,以恢復顏色不變式</text><feedback><text>正確 —— 重新著色與少量旋轉可修復違規。</text></feedback></answer>
+    <answer fraction="0"><text>要求每個節點的平衡因子維持在 {-1, 0, 1}</text><feedback><text>那是 AVL 的規則,不是紅黑樹。</text></feedback></answer>
+    <answer fraction="0"><text>將插入的節點伸展到根</text><feedback><text>那是伸展樹,不是紅黑樹。</text></feedback></answer>
+    <answer fraction="0"><text>將所有鍵值重新雜湊到新表</text><feedback><text>紅黑樹不使用雜湊。</text></feedback></answer>
+    <generalfeedback><text>紅黑樹以重新著色加旋轉恢復不變式;插入與刪除只需 O(1) 攤還次數的旋轉。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>紅黑樹與 AVL 旋轉比較</text></name>
+    <questiontext format="html"><text><![CDATA[<p>為何在<strong>更新頻繁</strong>的工作負載中,紅黑樹常比 AVL 樹更受青睞?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>每次插入/刪除執行較少旋轉(O(1) 攤還)</text><feedback><text>正確 —— 較鬆的平衡使更新時的再平衡更便宜。</text></feedback></answer>
+    <answer fraction="0"><text>它們隨時保證完美平衡的樹</text><feedback><text>它們只是近似平衡;正因如此更新才更便宜。</text></feedback></answer>
+    <answer fraction="0"><text>不論樹大小都允許 O(1) 搜尋</text><feedback><text>搜尋仍是 O(log n)。</text></feedback></answer>
+    <answer fraction="0"><text>它們完全不需要任何旋轉</text><feedback><text>它們仍會旋轉,只是平均比 AVL 少。</text></feedback></answer>
+    <generalfeedback><text>紅黑樹平衡不如 AVL 嚴格,因此插入與刪除需要較少旋轉(O(1) 攤還),在更新頻繁的工作負載中更划算。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>紅黑樹的實務應用</text></name>
+    <questiontext format="html"><text><![CDATA[<p>紅黑樹是許多實務函式庫的基礎,例如 C++ 的 <code>std::map</code>、Java 的 <code>TreeMap</code>,以及 Linux 核心中的結構。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 這些都是紅黑樹的經典實務應用。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>這些函式庫確實依賴紅黑樹。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>紅黑樹是一種 BST</text></name>
+    <questiontext format="html"><text><![CDATA[<p>紅黑樹是二元搜尋樹,仍可透過中序走訪依排序列出鍵值。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 它是帶有顏色不變式的 BST;中序走訪仍是排序的。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>紅黑樹的排序就是標準 BST 排序,所以中序走訪是排序的。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>紅黑樹顏色名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>除了「紅」以外,紅黑樹使用的另一種節點顏色(英文)是什麼?______。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>black</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>black*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>紅黑樹性質複選</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於紅黑樹,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>保證搜尋、插入、刪除的最差情況為 O(log n)</text><feedback><text>正確 —— 顏色不變式限制了高度。</text></feedback></answer>
+    <answer fraction="50"><text>更新時通常比 AVL 樹使用較少旋轉</text><feedback><text>正確 —— O(1) 攤還旋轉使它適合更新頻繁的用途。</text></feedback></answer>
+    <answer fraction="-50"><text>使每個節點的平衡因子維持在 {-1, 0, 1}</text><feedback><text>錯 —— 那是 AVL 的不變式,不是紅黑樹。</text></feedback></answer>
+    <answer fraction="-50"><text>每次查詢都將被存取節點移到根</text><feedback><text>錯 —— 那是伸展樹。</text></feedback></answer>
+    <generalfeedback><text>紅黑樹保證 O(log n) 操作,且更新時旋轉次數少;它依賴顏色不變式(非平衡因子),也不會伸展被存取的節點。</text></generalfeedback>
+  </question>
+</quiz>

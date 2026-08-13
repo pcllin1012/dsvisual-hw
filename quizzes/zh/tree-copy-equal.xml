@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Tree COPY and EQUAL</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>COPY 的複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>遞迴複製一棵有 <em>n</em> 個節點的二元樹,其時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(n)</text><feedback><text>正確 —— 每個節點只被拜訪並複製一次。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>錯 —— 你必須碰過每個節點,而非只走一條根到葉的路徑。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>錯 —— 每個節點並無額外的對數因子;它是線性的。</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>錯 —— 沒有節點會被處理超過一次。</text></feedback></answer>
+    <generalfeedback><text>COPY 拜訪每個節點一次以配置副本並對兩個子樹遞迴,因此為 O(n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>COPY 如何運作</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪一段遞迴程序能正確複製一棵二元樹?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>建立一個值相同的新節點,然後遞迴複製左、右子樹</text><feedback><text>正確 —— 複製該節點,再對兩個子節點遞迴。</text></feedback></answer>
+    <answer fraction="0"><text>回傳同一個節點參考,讓兩棵樹共用節點</text><feedback><text>錯 —— 那會別名到原樹;真正的複製會配置新節點。</text></feedback></answer>
+    <answer fraction="0"><text>只複製根節點,並將子節點留為 NULL</text><feedback><text>錯 —— 複製必須重現整個子樹結構。</text></feedback></answer>
+    <answer fraction="0"><text>複製左子樹,但連結原本的右子樹</text><feedback><text>錯 —— 兩個子樹都必須重新複製。</text></feedback></answer>
+    <generalfeedback><text>COPY(t):若 t 為空則回傳空;否則以 t 的值建立新節點,並將其子節點設為 COPY(t.left) 與 COPY(t.right)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>EQUAL 基底情況:兩者皆空</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 EQUAL 演算法中,當<strong>兩棵</strong>樹都為空時應回傳什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>相等(true)</text><feedback><text>正確 —— 兩棵空樹視為相等。</text></feedback></answer>
+    <answer fraction="0"><text>不相等(false)</text><feedback><text>錯 —— 兩棵空樹相符;這是成功的基底情況。</text></feedback></answer>
+    <answer fraction="0"><text>視所達到的深度而定</text><feedback><text>錯 —— 深度無關;兩者皆空一律表示相等。</text></feedback></answer>
+    <answer fraction="0"><text>未定義行為</text><feedback><text>錯 —— 兩者皆空是定義明確的基底情況,回傳 true。</text></feedback></answer>
+    <generalfeedback><text>基底情況:兩者皆空 ⇒ 相等;恰有一者為空 ⇒ 不相等;否則比較值並遞迴。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>EQUAL:恰有一者為空</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在 EQUAL 中,當兩棵樹恰有<strong>一棵</strong>為空時應回傳什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>不相等(false)</text><feedback><text>正確 —— 一空一非空無法相符。</text></feedback></answer>
+    <answer fraction="0"><text>相等(true)</text><feedback><text>錯 —— 此處結構不同即表示不相等。</text></feedback></answer>
+    <answer fraction="0"><text>比較它們的根值</text><feedback><text>錯 —— 空的那一側沒有值可比較;答案是不相等。</text></feedback></answer>
+    <answer fraction="0"><text>只對非空的那棵樹遞迴</text><feedback><text>錯 —— 結構不符會立刻判定為不相等。</text></feedback></answer>
+    <generalfeedback><text>若一棵樹比另一棵先結束,兩者結構不同,因此 EQUAL 立即回傳 false。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>兩者皆為 O(n)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>遞迴的 COPY 與 EQUAL 演算法在 n 個節點的樹上都以 O(n) 時間執行。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 兩者都對每個節點拜訪常數次。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>確實如此 —— 兩者都是線性時間的遞迴走訪。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>EQUAL 忽略值</text></name>
+    <questiontext format="html"><text><![CDATA[<p>EQUAL 演算法只檢查兩棵樹是否形狀相同,並忽略節點值。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— EQUAL 要求結構相同「且」節點值相符。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— EQUAL 同時比較結構與值。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>這些演算法的走訪順序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>COPY 與 EQUAL 都會在節點處合併結果之前先完成其子節點 —— 這對應到哪一種遞迴走訪順序?請以走訪名稱作答(英文)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>post-order</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>postorder</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>post order</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>post-order*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>關於 COPY 與 EQUAL 的事實</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 COPY 與 EQUAL 演算法,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>COPY 會為原樹中的每個節點配置一個新節點</text><feedback><text>正確 —— 真正的複製會建立新節點。</text></feedback></answer>
+    <answer fraction="50"><text>只有當結構與值都相符時 EQUAL 才回傳 true</text><feedback><text>正確 —— 兩者都必須一致。</text></feedback></answer>
+    <answer fraction="-50"><text>對兩棵空樹進行 EQUAL 會回傳不相等</text><feedback><text>錯 —— 兩棵空樹相等。</text></feedback></answer>
+    <answer fraction="-50"><text>COPY 以 O(log n) 時間執行</text><feedback><text>錯 —— COPY 為 O(n);每個節點都被複製。</text></feedback></answer>
+    <generalfeedback><text>兩者都是 O(n) 的遞迴演算法;COPY 複製每個節點,EQUAL 要求結構與值皆相符,且兩者皆空 ⇒ 相等。</text></generalfeedback>
+  </question>
+</quiz>
