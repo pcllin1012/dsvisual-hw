@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Quick Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Quicksort average complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the <strong>average-case</strong> time complexity of quicksort?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(n log n)</text><feedback><text>Correct — balanced partitions give log n levels of O(n) work.</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>That is the worst case, not the average.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>Comparison sorts cannot beat O(n log n) on average.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>You must at least touch every element.</text></feedback></answer>
+    <generalfeedback><text>On average each partition splits the array roughly in half, giving ~log n levels of O(n) partitioning.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Quicksort worst case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which situation triggers quicksort's &Theta;(n<sup>2</sup>) worst case?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>An already-sorted array when the pivot is always the first or last element</text><feedback><text>Yes — every partition peels off just one element.</text></feedback></answer>
+    <answer fraction="0"><text>A random array with a median-of-three pivot</text><feedback><text>That gives balanced splits, close to the average case.</text></feedback></answer>
+    <answer fraction="0"><text>An array containing only distinct primes</text><feedback><text>Element values do not by themselves cause the worst case.</text></feedback></answer>
+    <generalfeedback><text>Poor pivot choice on structured input causes maximally unbalanced partitions.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Quicksort stability</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Standard quicksort is a <em>stable</em> sorting algorithm.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>Partitioning swaps distant elements, so equal keys can be reordered.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — quicksort is not stable.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Quicksort in place</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In-place quicksort uses only O(log n) extra space on average (the recursion stack).</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — no auxiliary array; just the call stack.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Unlike merge sort, quicksort partitions in place.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Pivot term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The element chosen to partition the array around is called the ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>pivot</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>pivot*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Lomuto partition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the Lomuto partition scheme are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It scans with one index and keeps a boundary for elements &le; pivot</text><feedback><text>Yes.</text></feedback></answer>
+    <answer fraction="50"><text>After partitioning, the pivot sits in its final sorted position</text><feedback><text>Yes.</text></feedback></answer>
+    <answer fraction="-50"><text>It makes quicksort stable</text><feedback><text>No — partitioning is not stable.</text></feedback></answer>
+    <answer fraction="-50"><text>It always selects the true median as the pivot</text><feedback><text>No — it typically uses the last element.</text></feedback></answer>
+    <generalfeedback><text>Lomuto: single forward scan, boundary index, pivot lands in place; it is neither stable nor median-selecting.</text></generalfeedback>
+  </question>
+</quiz>
