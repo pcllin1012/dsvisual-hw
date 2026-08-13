@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Floyd-Warshall</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Floyd-Warshall problem solved</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What problem does Floyd-Warshall solve?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>All-pairs shortest paths</text><feedback><text>Correct — it finds the shortest distance between every pair of vertices.</text></feedback></answer>
+    <answer fraction="0"><text>Single-source shortest paths</text><feedback><text>That is Dijkstra/Bellman-Ford; Floyd-Warshall is all-pairs.</text></feedback></answer>
+    <answer fraction="0"><text>Minimum spanning tree</text><feedback><text>MST is a different problem (Prim/Kruskal).</text></feedback></answer>
+    <answer fraction="0"><text>Topological ordering</text><feedback><text>Ordering a DAG is unrelated.</text></feedback></answer>
+    <generalfeedback><text>Floyd-Warshall fills a V-by-V distance matrix with the shortest path between every ordered pair of vertices.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Floyd-Warshall technique</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Floyd-Warshall is a classic example of which algorithmic technique?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Dynamic programming over intermediate vertices</text><feedback><text>Correct — it progressively allows each vertex k as an intermediate on paths.</text></feedback></answer>
+    <answer fraction="0"><text>Greedy priority-queue selection</text><feedback><text>That describes Dijkstra, not Floyd-Warshall.</text></feedback></answer>
+    <answer fraction="0"><text>Divide and conquer</text><feedback><text>Floyd-Warshall does not split the problem into recursive halves.</text></feedback></answer>
+    <answer fraction="0"><text>Backtracking</text><feedback><text>There is no search-and-undo here; it is a triple loop DP.</text></feedback></answer>
+    <generalfeedback><text>For each intermediate vertex k it updates dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Floyd-Warshall time complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of Floyd-Warshall on V vertices?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V^3)</text><feedback><text>Correct — three nested loops over all vertices.</text></feedback></answer>
+    <answer fraction="0"><text>O(V * E)</text><feedback><text>That is Bellman-Ford (single-source).</text></feedback></answer>
+    <answer fraction="0"><text>O((V + E) log V)</text><feedback><text>That is Dijkstra with a heap.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2 log V)</text><feedback><text>The triple nested loop gives V^3, not V^2 log V.</text></feedback></answer>
+    <generalfeedback><text>The three nested loops over k, i, j each run V times, giving O(V^3).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Floyd-Warshall space and use</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which best describes Floyd-Warshall's space usage and ideal use case?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V^2) space; good for dense graphs or small V</text><feedback><text>Correct — it stores a V-by-V matrix and its V^3 cost is fine when V is small or the graph is dense.</text></feedback></answer>
+    <answer fraction="0"><text>O(V) space; good for very large sparse graphs</text><feedback><text>The matrix needs O(V^2) space, poor for huge sparse graphs.</text></feedback></answer>
+    <answer fraction="0"><text>O(1) space; good for streaming edges</text><feedback><text>It cannot run in constant space; it maintains a full matrix.</text></feedback></answer>
+    <answer fraction="0"><text>O(E) space; good for single-source queries</text><feedback><text>It is all-pairs and uses a V^2 matrix, not O(E).</text></feedback></answer>
+    <generalfeedback><text>Floyd-Warshall keeps a V-by-V matrix (O(V^2) space); its cubic time suits dense graphs and small vertex counts.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Floyd-Warshall negative edges</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Floyd-Warshall works correctly with negative edge weights as long as there is no negative cycle.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — negative edges are fine; only negative cycles break it (and can be detected on the diagonal).</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>It does handle negative edges when no negative cycle is present.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Floyd-Warshall loop structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Floyd-Warshall is implemented with a simple triple nested loop over the vertices.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — loops over intermediate k, source i, and destination j.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The canonical implementation is exactly three nested loops.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Floyd-Warshall scope term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Floyd-Warshall solves the ______ shortest-path problem (fill the hyphenated English term describing its scope, e.g. every pair).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>all-pairs</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>all pairs</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>all-pairs*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Floyd-Warshall properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Floyd-Warshall are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It computes shortest paths between all pairs of vertices</text><feedback><text>Yes — that is its defining scope.</text></feedback></answer>
+    <answer fraction="50"><text>It runs in O(V^3) time</text><feedback><text>Yes — three nested loops over V vertices.</text></feedback></answer>
+    <answer fraction="-50"><text>It uses a min-priority-queue like Dijkstra</text><feedback><text>No — it is a matrix DP, no priority queue.</text></feedback></answer>
+    <answer fraction="-50"><text>It only works on graphs with non-negative weights</text><feedback><text>No — negative edges are fine as long as no negative cycle exists.</text></feedback></answer>
+    <generalfeedback><text>Floyd-Warshall: all-pairs DP in O(V^3) time and O(V^2) space; handles negative edges (no negative cycle) and uses no priority queue.</text></generalfeedback>
+  </question>
+</quiz>

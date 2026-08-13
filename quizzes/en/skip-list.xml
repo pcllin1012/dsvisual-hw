@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Skip List</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Skip list structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What data structure is a <strong>skip list</strong> built from?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A multi-level linked list where higher levels skip over many nodes</text><feedback><text>Correct — express lanes above the base list let searches skip ahead.</text></feedback></answer>
+    <answer fraction="0"><text>A bit array indexed by k hash functions</text><feedback><text>That describes a Bloom filter, not a skip list.</text></feedback></answer>
+    <answer fraction="0"><text>A contiguous array kept in sorted order</text><feedback><text>No — a skip list is pointer-based, not array-based.</text></feedback></answer>
+    <answer fraction="0"><text>A height-balanced binary search tree with rotations</text><feedback><text>No — a skip list is an alternative to balanced BSTs and uses no rotations.</text></feedback></answer>
+    <generalfeedback><text>A skip list stacks several linked lists; the bottom holds all elements in order and each higher level is a sparse express lane over the one below.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Skip list node height</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How is the number of levels (height) of a newly inserted skip-list node decided?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Randomly, e.g. by repeatedly flipping a coin until it comes up tails</text><feedback><text>Correct — each level is promoted with probability p (often 1/2), giving expected balance.</text></feedback></answer>
+    <answer fraction="0"><text>By computing the exact median of the stored keys</text><feedback><text>No — heights are random, not derived from key values.</text></feedback></answer>
+    <answer fraction="0"><text>By hashing the key with k hash functions</text><feedback><text>No — that is a Bloom filter idea; skip lists use coin flips.</text></feedback></answer>
+    <answer fraction="0"><text>By performing tree rotations after each insert</text><feedback><text>No — skip lists never rotate; heights come from randomization.</text></feedback></answer>
+    <generalfeedback><text>Each node's height is chosen by a randomized coin-flip process, so the level structure is probabilistically balanced without any deterministic rebalancing.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Skip list expected complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the <strong>expected</strong> time complexity of search, insert, and delete in a skip list?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>Correct — the express lanes halve the search range on average.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>No — you still traverse roughly log n levels on average.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>No — that is too slow; a single operation is expected O(log n).</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>No — even the worst case for one operation is only O(n).</text></feedback></answer>
+    <generalfeedback><text>Because higher levels skip about half the remaining nodes, expected search/insert/delete cost is O(log n).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Skip list vs balanced BST</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why are skip lists often preferred over balanced binary search trees in practice?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>They are simpler to implement, needing no rotations or rebalancing logic</text><feedback><text>Correct — randomization replaces the intricate rebalancing of AVL/red-black trees.</text></feedback></answer>
+    <answer fraction="0"><text>They guarantee O(log n) worst case unlike any BST</text><feedback><text>No — a skip list's worst case is O(n); balanced BSTs give O(log n) worst case.</text></feedback></answer>
+    <answer fraction="0"><text>They use O(1) total space regardless of n</text><feedback><text>No — a skip list uses O(n) space, like a BST.</text></feedback></answer>
+    <answer fraction="0"><text>They eliminate false positives</text><feedback><text>No — false positives are a Bloom-filter concept, unrelated to skip lists.</text></feedback></answer>
+    <generalfeedback><text>Skip lists achieve BST-like performance with far simpler code, since coin-flip heights avoid explicit rotations and rebalancing.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Skip list worst case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Although expected search time is O(log n), a skip list's <em>worst-case</em> search time is O(n).</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — an unlucky sequence of coin flips can leave nearly every node at level 1.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>No — the O(log n) bound is only expected; the rare worst case degrades to O(n).</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Skip list rotations</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A skip list keeps itself balanced by performing rotations after each insertion, just like an AVL tree.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — skip lists never rotate; they rely on randomized node heights instead.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — balance is probabilistic via coin flips, with no rotations at all.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Skip list express lane term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Each horizontal express lane in a skip list, stacked above the base list, is called a ______.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>level</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>level*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>layer</text><feedback><text>Correct — a level (layer) of the skip list.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Skip list properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about skip lists are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>They are a probabilistic, randomized data structure</text><feedback><text>Yes — node heights come from random coin flips.</text></feedback></answer>
+    <answer fraction="50"><text>They keep elements in sorted order and support ordered traversal</text><feedback><text>Yes — the bottom level is a sorted linked list.</text></feedback></answer>
+    <answer fraction="-50"><text>They guarantee O(log n) time in the worst case</text><feedback><text>No — only expected time is O(log n); worst case is O(n).</text></feedback></answer>
+    <answer fraction="-50"><text>They store no keys and can only test membership</text><feedback><text>No — that is a Bloom filter; skip lists store keys and support ordered operations.</text></feedback></answer>
+    <generalfeedback><text>Skip lists are randomized, ordered structures with expected O(log n) operations and O(n) space; the worst case is O(n), and they do store their keys.</text></generalfeedback>
+  </question>
+</quiz>

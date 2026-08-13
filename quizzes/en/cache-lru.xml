@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/LRU Cache</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>LRU eviction policy</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When an <strong>LRU cache</strong> is full and a new key must be inserted, which item does it evict?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The least recently used item</text><feedback><text>Correct — LRU evicts the entry whose last access is oldest.</text></feedback></answer>
+    <answer fraction="0"><text>The most recently used item</text><feedback><text>That is the opposite; the most recent item is the one you want to keep.</text></feedback></answer>
+    <answer fraction="0"><text>A uniformly random item</text><feedback><text>That is random replacement, not LRU.</text></feedback></answer>
+    <answer fraction="0"><text>The item with the largest key</text><feedback><text>LRU orders by recency of access, not by key value.</text></feedback></answer>
+    <generalfeedback><text>LRU stands for Least Recently Used: when at capacity it discards the entry that has gone the longest without being accessed.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>LRU data structures</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which pair of structures gives an LRU cache O(1) get and put?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A hash map (key &rarr; node) plus a doubly linked list</text><feedback><text>Correct — the map gives O(1) lookup; the list gives O(1) reordering and eviction.</text></feedback></answer>
+    <answer fraction="0"><text>A single sorted array</text><feedback><text>Keeping it ordered by recency would cost O(n) per access.</text></feedback></answer>
+    <answer fraction="0"><text>A binary heap keyed by timestamp</text><feedback><text>A heap gives O(log n) updates, not O(1).</text></feedback></answer>
+    <answer fraction="0"><text>A singly linked list only</text><feedback><text>A singly linked list cannot unlink an interior node in O(1); you need a doubly linked list plus a map.</text></feedback></answer>
+    <generalfeedback><text>The standard design pairs a hash map from key to list node with a doubly linked list that orders nodes by recency, giving O(1) get and put.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>LRU access reordering</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using the head-is-most-recent convention, what happens to a node on every successful <code>get</code> or <code>put</code>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It is moved to the head of the doubly linked list</text><feedback><text>Correct — touching a node marks it most-recently-used by moving it to the head.</text></feedback></answer>
+    <answer fraction="0"><text>It is moved to the tail of the list</text><feedback><text>The tail is the least-recently-used end, reserved for eviction.</text></feedback></answer>
+    <answer fraction="0"><text>It is deleted and reinserted at a random position</text><feedback><text>LRU maintains strict recency order, not random placement.</text></feedback></answer>
+    <answer fraction="0"><text>Nothing — the list order never changes on access</text><feedback><text>Every access must update recency, or eviction would be wrong.</text></feedback></answer>
+    <generalfeedback><text>Each access relinks the node to the head (most-recently-used); the least-recently-used node therefore drifts to the tail and is evicted first.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Why doubly linked</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why does an LRU cache use a <em>doubly</em> linked list rather than a singly linked one?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Prev and next pointers let any interior node be unlinked in O(1)</text><feedback><text>Correct — with both links you splice a node out without walking the list.</text></feedback></answer>
+    <answer fraction="0"><text>It halves the memory used per node</text><feedback><text>A doubly linked list uses more memory per node, not less.</text></feedback></answer>
+    <answer fraction="0"><text>It keeps the entries sorted by key automatically</text><feedback><text>The list orders by recency, not by key, and does so manually.</text></feedback></answer>
+    <answer fraction="0"><text>It removes the need for the hash map</text><feedback><text>The map is still required for O(1) key lookup.</text></feedback></answer>
+    <generalfeedback><text>Moving a touched node to the head means removing it from its current position; only a doubly linked list can unlink an interior node in O(1) without a prior-node search.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>LRU fixed capacity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An LRU cache has a fixed capacity, and once it is full every new key forces an eviction.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the capacity is bounded, so inserting into a full cache evicts one entry.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>A cache is capacity-bounded by definition; a full cache must evict to make room.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>LRU get complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>With the hash map plus doubly linked list design, a <code>get</code> that also updates recency runs in O(log n) time.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>The map lookup and the list relinking are both O(1), so get is O(1), not O(log n).</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — get is O(1): O(1) map lookup plus O(1) move-to-head.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>LRU evicted end term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>With most-recently-used at the head, the least-recently-used node sits at the ______ of the doubly linked list, where eviction happens.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>tail</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>tail*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>LRU properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about an LRU cache are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>A hash map gives O(1) lookup from key to its list node</text><feedback><text>Yes — the map is what makes get constant time.</text></feedback></answer>
+    <answer fraction="50"><text>A doubly linked list lets a node be unlinked and moved to the head in O(1)</text><feedback><text>Yes — two-way links allow O(1) removal of an interior node.</text></feedback></answer>
+    <answer fraction="-50"><text>It evicts the most recently used item when full</text><feedback><text>No — it evicts the least recently used item.</text></feedback></answer>
+    <answer fraction="-50"><text>It has unbounded capacity and never evicts</text><feedback><text>No — a cache has a fixed capacity and evicts when full.</text></feedback></answer>
+    <generalfeedback><text>An LRU cache uses a hash map (O(1) lookup) and a doubly linked list (O(1) relink), has fixed capacity, and evicts the least recently used item.</text></generalfeedback>
+  </question>
+</quiz>

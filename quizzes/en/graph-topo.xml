@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Topological Sort</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Topological order definition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A topological ordering of a directed graph is a linear order of its vertices such that:</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>For every edge u&rarr;v, u appears before v</text><feedback><text>Correct — every directed edge points forward in the ordering.</text></feedback></answer>
+    <answer fraction="0"><text>For every edge u&rarr;v, v appears before u</text><feedback><text>That reverses the requirement; edges must point forward.</text></feedback></answer>
+    <answer fraction="0"><text>Vertices are sorted by ascending degree</text><feedback><text>Topological order is about edge direction, not degree.</text></feedback></answer>
+    <answer fraction="0"><text>Vertices are sorted by their labels</text><feedback><text>Labels are irrelevant; edge constraints define the order.</text></feedback></answer>
+    <generalfeedback><text>A topological sort lays out the vertices so that all dependencies (edges) point from earlier to later.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Topological sort existence</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A topological ordering exists if and only if the graph is:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A directed acyclic graph (DAG)</text><feedback><text>Correct — a cycle would force a vertex to precede itself, so acyclicity is required.</text></feedback></answer>
+    <answer fraction="0"><text>Connected</text><feedback><text>Connectivity is neither necessary nor sufficient; acyclicity is the condition.</text></feedback></answer>
+    <answer fraction="0"><text>Undirected</text><feedback><text>Topological order is defined for directed graphs.</text></feedback></answer>
+    <answer fraction="0"><text>Complete</text><feedback><text>A complete directed graph has cycles and no topological order.</text></feedback></answer>
+    <generalfeedback><text>Exactly the DAGs admit a topological ordering; any directed cycle makes it impossible.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Kahn's algorithm</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Kahn's algorithm for topological sort repeatedly does what?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Removes a vertex with in-degree 0 and decrements its neighbors' in-degrees</text><feedback><text>Correct — in-degree-0 vertices have no unmet dependencies and go next.</text></feedback></answer>
+    <answer fraction="0"><text>Removes the vertex with the largest out-degree first</text><feedback><text>Out-degree does not drive Kahn's algorithm.</text></feedback></answer>
+    <answer fraction="0"><text>Relaxes edges using a priority queue by weight</text><feedback><text>That describes Dijkstra, not topological sort.</text></feedback></answer>
+    <answer fraction="0"><text>Colors edges red and blue</text><feedback><text>That is the MST red-blue framework, unrelated here.</text></feedback></answer>
+    <generalfeedback><text>Kahn's algorithm maintains a queue of in-degree-0 vertices, emitting them and reducing neighbors' in-degrees until all are placed.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Topological sort complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time complexity of topological sort (Kahn's or DFS-based)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V + E)</text><feedback><text>Correct — each vertex and edge is processed a constant number of times.</text></feedback></answer>
+    <answer fraction="0"><text>O(V * E)</text><feedback><text>That is Bellman-Ford, not topological sort.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^3)</text><feedback><text>That is Floyd-Warshall.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2 log V)</text><feedback><text>Topological sort is linear in the graph size.</text></feedback></answer>
+    <generalfeedback><text>Both Kahn's algorithm and DFS post-order run in O(V + E).</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Topological sort on cyclic graph</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A directed graph that contains a cycle has no valid topological ordering.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — a cycle makes a consistent linear order impossible.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Cyclic directed graphs cannot be topologically sorted.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>DFS based topological sort</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A topological ordering can be produced by reversing the DFS post-order of a DAG.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — reversing DFS finishing times yields a valid topological order.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Reversed DFS post-order is a standard way to topologically sort a DAG.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Topological sort graph type</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A topological ordering exists exactly when the graph is a ______ (three-letter English acronym for a directed acyclic graph).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>DAG</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>dag</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>DAG*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Topological sort properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about topological sort are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It applies only to directed acyclic graphs</text><feedback><text>Yes — a cycle would make the ordering impossible.</text></feedback></answer>
+    <answer fraction="50"><text>Kahn's algorithm processes in-degree-0 vertices using a queue</text><feedback><text>Yes — that is the core of Kahn's method.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires edge weights to be non-negative</text><feedback><text>No — topological sort ignores weights entirely.</text></feedback></answer>
+    <answer fraction="-50"><text>It runs in O(V^3) time</text><feedback><text>No — it runs in O(V + E).</text></feedback></answer>
+    <generalfeedback><text>Topological sort: defined on DAGs, computed by Kahn's queue of in-degree-0 vertices or reversed DFS post-order, in O(V + E) time; weights are irrelevant.</text></generalfeedback>
+  </question>
+</quiz>

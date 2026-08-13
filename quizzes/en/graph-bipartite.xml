@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Bipartite Check</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Bipartite definition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A graph is <strong>bipartite</strong> if and only if:</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Its vertices can be 2-colored so that no edge joins two same-colored vertices</text><feedback><text>Correct — a proper 2-coloring is exactly bipartiteness.</text></feedback></answer>
+    <answer fraction="0"><text>It is connected and has no isolated vertices</text><feedback><text>No — connectivity is unrelated to bipartiteness.</text></feedback></answer>
+    <answer fraction="0"><text>Every vertex has even degree</text><feedback><text>No — that is the Eulerian condition, not bipartiteness.</text></feedback></answer>
+    <answer fraction="0"><text>It contains at least one cycle</text><feedback><text>No — a tree (no cycles) is bipartite; cycles are not required.</text></feedback></answer>
+    <generalfeedback><text>A graph is bipartite exactly when its vertices split into two sets with all edges crossing between the sets — equivalently, a proper 2-coloring exists.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Odd cycle characterization</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A graph is bipartite <strong>if and only if</strong> it contains no cycle of which length?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>No odd-length cycle</text><feedback><text>Correct — bipartite graphs have no odd cycles.</text></feedback></answer>
+    <answer fraction="0"><text>No even-length cycle</text><feedback><text>No — even cycles are perfectly fine in bipartite graphs.</text></feedback></answer>
+    <answer fraction="0"><text>No cycle of length 3 only</text><feedback><text>No — every odd cycle (5, 7, ...) is forbidden, not just triangles.</text></feedback></answer>
+    <answer fraction="0"><text>No cycle at all</text><feedback><text>No — even cycles are allowed; only odd ones are forbidden.</text></feedback></answer>
+    <generalfeedback><text>An odd cycle cannot be 2-colored, so it is the exact obstruction: bipartite ⟺ no odd-length cycle.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Checking algorithm</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which traversal-based method decides whether a graph is bipartite?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>BFS/DFS 2-coloring: color each vertex opposite to its parent and check for conflicts</text><feedback><text>Correct — alternate colors along the traversal and detect a clash.</text></feedback></answer>
+    <answer fraction="0"><text>Topological sort of the vertices</text><feedback><text>No — topological sort applies to DAGs and does not test bipartiteness.</text></feedback></answer>
+    <answer fraction="0"><text>Run Dijkstra and check for negative edges</text><feedback><text>No — that is unrelated to 2-colorability.</text></feedback></answer>
+    <answer fraction="0"><text>Count the vertices and check it is even</text><feedback><text>No — parity of |V| says nothing about bipartiteness.</text></feedback></answer>
+    <generalfeedback><text>BFS or DFS assigns alternating colors; if any edge connects two vertices that receive the same color, an odd cycle exists and the graph is not bipartite.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Time complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using adjacency lists, the BFS/DFS bipartite check runs in time:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V + E)</text><feedback><text>Correct — a single linear traversal suffices.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>That would be the adjacency-matrix bound, not adjacency lists.</text></feedback></answer>
+    <answer fraction="0"><text>O(2^V)</text><feedback><text>No — you do not try all colorings; one traversal decides it.</text></feedback></answer>
+    <answer fraction="0"><text>O(E log V)</text><feedback><text>No — no sorting or priority queue is used.</text></feedback></answer>
+    <generalfeedback><text>The 2-coloring is done in one BFS/DFS pass, examining each vertex and edge a constant number of times — O(V + E).</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Trees are bipartite</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Every tree is a bipartite graph.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — a tree has no cycles, hence no odd cycle, so it is bipartite.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Trees have no cycles at all, so certainly no odd cycle; they are bipartite.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Odd cycle not bipartite</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A single cycle of length 5 (C&#8325;) is bipartite.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — a 5-cycle is an odd cycle and cannot be 2-colored.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — an odd cycle is not bipartite.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Obstruction term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A graph fails to be bipartite exactly when it contains an ______-length cycle (fill in the English word).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>odd</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>odd*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Bipartite facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about bipartite graphs are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>A bipartite graph can be properly colored with just 2 colors</text><feedback><text>Yes — 2-colorability is the definition.</text></feedback></answer>
+    <answer fraction="50"><text>Bipartiteness can be tested in O(V + E) time</text><feedback><text>Yes — a single BFS/DFS 2-coloring pass does it.</text></feedback></answer>
+    <answer fraction="-50"><text>Every bipartite graph must contain a cycle</text><feedback><text>No — trees are bipartite and acyclic.</text></feedback></answer>
+    <answer fraction="-50"><text>A graph with an odd cycle can still be bipartite</text><feedback><text>No — an odd cycle makes 2-coloring impossible.</text></feedback></answer>
+    <generalfeedback><text>Bipartite means 2-colorable, equivalently no odd cycle, testable in O(V + E). Cycles are not required, and any odd cycle rules out bipartiteness.</text></generalfeedback>
+  </question>
+</quiz>

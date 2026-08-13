@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Prim MST</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Prim 核心策略</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>Prim</strong> 最小生成樹演算法的核心貪婪策略為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>從起點開始擴展單一棵樹,總是加入從樹跨越到非樹頂點的最小權重邊</text><feedback><text>正確 —— Prim 反覆接上最便宜的跨越邊。</text></feedback></answer>
+    <answer fraction="0"><text>將所有邊全域排序,加入不會形成環的最小邊</text><feedback><text>那是 Kruskal 演算法,不是 Prim。</text></feedback></answer>
+    <answer fraction="0"><text>每一輪讓每個元件挑選自己最便宜的出邊</text><feedback><text>那是 Borůvka 演算法。</text></feedback></answer>
+    <answer fraction="0"><text>深度優先走訪並保留遇到的第一棵生成樹</text><feedback><text>DFS 忽略權重,因此其生成樹並非最小。</text></feedback></answer>
+    <generalfeedback><text>Prim 維持一棵連通樹,每步加入連接該樹與尚未在樹中頂點的最輕邊。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Prim 優先結構</text></name>
+    <questiontext format="html"><text><![CDATA[<p>哪一種資料結構讓 Prim 能有效率地選出下一條最小跨越邊?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>最小優先佇列(min-heap 最小堆積)</text><feedback><text>正確 —— 堆積回傳前緣上最便宜的邊/頂點。</text></feedback></answer>
+    <answer fraction="0"><text>互斥集合(union-find)結構</text><feedback><text>那是 Kruskal 的環測試工具,不是 Prim 的選擇器。</text></feedback></answer>
+    <answer fraction="0"><text>一般的先進先出佇列</text><feedback><text>FIFO 佇列驅動 BFS;它不會挑選最小權重邊。</text></feedback></answer>
+    <answer fraction="0"><text>後進先出堆疊</text><feedback><text>堆疊用於 DFS;它沒有最小權重的概念。</text></feedback></answer>
+    <generalfeedback><text>以最便宜已知連接成本為鍵的最小堆積,讓 Prim 能在對數時間內取出下一條最小跨越邊。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Prim 複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>使用二元最小堆積時,對於有 V 個頂點與 E 條邊的圖,Prim 演算法的時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(E log V)</text><feedback><text>正確 —— E 次邊鬆弛各需一次 log V 的堆積更新。</text></feedback></answer>
+    <answer fraction="0"><text>由完整邊排序主導的 O(E log E)</text><feedback><text>那是 Kruskal;Prim 使用堆積,而非全域排序。</text></feedback></answer>
+    <answer fraction="0"><text>嘗試所有生成樹的 O(V!)</text><feedback><text>Prim 是貪婪且多項式的,不是暴力法。</text></feedback></answer>
+    <answer fraction="0"><text>無優先結構的 O(V + E)</text><feedback><text>堆積帶來一個 log 因子;單純 O(V + E) 是 BFS/DFS 走訪。</text></feedback></answer>
+    <generalfeedback><text>使用二元堆積時 Prim 為 O(E log V);費氏堆積可改進為 O(E + V log V)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Prim 對圖密度的偏好</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Prim 演算法(尤其是陣列/矩陣版本)通常適合哪一種圖?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>稠密圖,即 E 接近 V^2</text><feedback><text>正確 —— Prim 以頂點為中心的擴展很適合稠密圖。</text></feedback></answer>
+    <answer fraction="0"><text>僅限無權重圖</text><feedback><text>MST 需要加權邊;無權重的 MST 是顯而易見的。</text></feedback></answer>
+    <answer fraction="0"><text>僅限有向無環圖</text><feedback><text>最小生成樹定義於無向加權圖上。</text></feedback></answer>
+    <answer fraction="0"><text>僅限樹,因為樹已無多餘邊</text><feedback><text>樹本身即為其 MST;此演算法針對一般圖。</text></feedback></answer>
+    <generalfeedback><text>由於 Prim 從單一頂點向外擴展並管理各頂點的鍵值,在稠密圖上常較受青睞,而 Kruskal 則在稀疏圖上表現突出。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Prim 單一棵樹</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在每一步,Prim 目前已選的邊集合都構成單一棵連通樹(絕不會是不連通的森林)。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 與 Kruskal 逐漸成長的森林不同,Prim 始終維持一棵連通樹。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Prim 的定義特徵就是全程維持單一棵連通樹。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Prim 全域排序主張</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Prim 演算法必須先將圖的<em>所有</em>邊依權重排序,才能開始執行。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 那是 Kruskal;Prim 使用優先佇列,從不預先排序所有邊。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— Prim 從堆積中取出下一條最小邊,無需全域預排序。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Prim 定理名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Prim 的正確性建立在 ______ 性質上:跨越頂點任意分割的最小權重邊都可安全加入(該分割的單一英文單字)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>cut</text><feedback><text>正確 —— 切割性質(cut property)證成加入最小跨越邊。</text></feedback></answer>
+    <answer fraction="100"><text>cut*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Prim 性質複選</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於 Prim 演算法,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它擴展單一棵連通樹,每步加入最小跨越邊</text><feedback><text>正確 —— 這正是 Prim 的貪婪法則。</text></feedback></answer>
+    <answer fraction="50"><text>使用二元堆積時執行時間為 O(E log V)</text><feedback><text>正確 —— 這是標準的二元堆積界限。</text></feedback></answer>
+    <answer fraction="-50"><text>它使用 union-find 來拒絕會形成環的邊</text><feedback><text>錯 —— 那是 Kruskal;Prim 的單一棵樹從不需要 union-find。</text></feedback></answer>
+    <answer fraction="-50"><text>它每一輪平行地將元件數量減半</text><feedback><text>錯 —— 那是 Borůvka 演算法。</text></feedback></answer>
+    <generalfeedback><text>Prim 是以最小堆積擴展單一棵樹的貪婪演算法,執行時間 O(E log V);union-find 屬於 Kruskal,而以輪次將元件減半屬於 Borůvka。</text></generalfeedback>
+  </question>
+</quiz>

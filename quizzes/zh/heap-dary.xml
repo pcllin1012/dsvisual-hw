@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/4-ary Heap</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>d 元堆積定義</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>四元堆積(4-ary heap)</strong>與二元堆積有何不同?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>每個內部節點最多有 4 個子節點,而非 2 個</text><feedback><text>正確 —— d 元堆積把分支因子推廣為 d = 4。</text></feedback></answer>
+    <answer fraction="0"><text>每個節點存放 4 個鍵值</text><feedback><text>錯 —— 節點仍只存一個鍵;改變的只是分支數。</text></feedback></answer>
+    <answer fraction="0"><text>它放棄了堆積順序性質</text><feedback><text>錯 —— 堆積性質不變。</text></feedback></answer>
+    <answer fraction="0"><text>它必須用指標儲存,不能用陣列</text><feedback><text>錯 —— 它仍可乾淨地對應到陣列。</text></feedback></answer>
+    <generalfeedback><text>d 元堆積是二元堆積的推廣,每個節點最多有 d 個子節點;四元堆積取 d = 4。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>d 元堆積高度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對相同的 <em>n</em> 個元素而言,四元堆積相較於二元堆積:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>較淺,高度約為 log_4 n</text><feedback><text>正確 —— 分支越大層數越少,高度為 &Theta;(log_d n)。</text></feedback></answer>
+    <answer fraction="0"><text>較高,高度約為 4 log n</text><feedback><text>錯 —— 每個節點子節點越多,樹越矮而非越高。</text></feedback></answer>
+    <answer fraction="0"><text>相同高度 log_2 n</text><feedback><text>錯 —— 對數的底改為 d。</text></feedback></answer>
+    <answer fraction="0"><text>永遠剛好 4 層</text><feedback><text>錯 —— 高度仍隨 n 成長,只是較慢。</text></feedback></answer>
+    <generalfeedback><text>高度為 &Theta;(log_d n);d = 4 時樹比二元堆積更淺。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>d 元堆積取出最小值</text></name>
+    <questiontext format="html"><text><![CDATA[<p>d 元堆積取出最小值的成本為何?原因為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(d &middot; log_d n),因為向下篩每層需比較所有 d 個子節點</text><feedback><text>正確 —— 層數變少,但每層需比較 d 個子節點以找最小者。</text></feedback></answer>
+    <answer fraction="0"><text>O(log_d n),與插入相同</text><feedback><text>錯 —— 向下篩每層需掃過所有 d 個子節點,多了一個 d 因子。</text></feedback></answer>
+    <answer fraction="0"><text>O(1),因為根就是最小值</text><feedback><text>查詢最小值是 O(1),但移除並重建則不是。</text></feedback></answer>
+    <answer fraction="0"><text>O(n),必須重掃整個陣列</text><feedback><text>錯 —— 只走一條根到葉的路徑。</text></feedback></answer>
+    <generalfeedback><text>向下篩走過 log_d n 層、每層比較 d 個子節點,故取出最小值為 O(d log_d n) —— d 越大越貴。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>d 元堆積何時有利</text></name>
+    <questiontext format="html"><text><![CDATA[<p>提高 d(例如四元堆積)對哪種工作負載最有利?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>以 decrease-key 為主的工作負載,如 Dijkstra 演算法</text><feedback><text>正確 —— 較便宜的 O(log_d n) 插入/decrease-key 主導,勝過額外的取出成本。</text></feedback></answer>
+    <answer fraction="0"><text>幾乎全是取出最小值的工作負載</text><feedback><text>錯 —— d 越大取出最小值越貴。</text></feedback></answer>
+    <answer fraction="0"><text>需要穩定排序的工作負載</text><feedback><text>錯 —— 堆積與穩定性無關。</text></feedback></answer>
+    <answer fraction="0"><text>完全沒有優先權操作的工作負載</text><feedback><text>錯 —— 那樣就不會用堆積了。</text></feedback></answer>
+    <generalfeedback><text>d 越大使插入/decrease-key 更便宜(O(log_d n)),但取出最小值更貴;故當 decrease-key 主導時勝出,如 Dijkstra。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>快取友善度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>較淺的四元堆積往往比二元堆積更快取友善。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 層數更少且子節點群聚,提升參考局部性。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>層數更少且子節點聚在一起,通常改善快取行為。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>插入更便宜</text></name>
+    <questiontext format="html"><text><![CDATA[<p>因為樹較淺,插入(向上篩)在四元堆積中漸近上比二元堆積便宜。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 向上篩每層只與單一父節點比較,共 O(log_d n) 層。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>向上篩每層只與唯一父節點比較,故層數更少即工作更少。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>分支因子符號</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在「d 元堆積」中,字母 ______ 代表每個節點可擁有的子節點數。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>d</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>d*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>四元堆積取捨</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於四元堆積,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>插入 / decrease-key 成本為 O(log_4 n)</text><feedback><text>正確 —— 向上篩層數更少。</text></feedback></answer>
+    <answer fraction="50"><text>取出最小值成本為 O(4 &middot; log_4 n),因每層要比較 4 個子節點</text><feedback><text>正確 —— 那個 d 因子是較大分支的代價。</text></feedback></answer>
+    <answer fraction="-50"><text>它無法存於扁平陣列</text><feedback><text>錯 —— 索引算術可推廣:i 的子節點以類似 di-(d-2)..di+1 的公式計算。</text></feedback></answer>
+    <answer fraction="-50"><text>選越大的 d 一定使每個操作都更快</text><feedback><text>錯 —— d 越大以較便宜的插入換取較貴的取出最小值。</text></feedback></answer>
+    <generalfeedback><text>四元堆積使插入/decrease-key 更便宜(O(log_d n))但取出最小值更貴(O(d log_d n));它仍存於陣列,調整 d 是取捨而非白吃的午餐。</text></generalfeedback>
+  </question>
+</quiz>

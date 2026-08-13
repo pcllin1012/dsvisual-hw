@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Dijkstra Shortest Path</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Dijkstra edge weight requirement</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Dijkstra's algorithm is guaranteed correct only when edge weights are:</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Non-negative</text><feedback><text>Correct — once a vertex is settled it is never improved, which fails if a negative edge could later shorten its path.</text></feedback></answer>
+    <answer fraction="0"><text>All equal to 1</text><feedback><text>Unit weights are a special case; Dijkstra works for any non-negative weights.</text></feedback></answer>
+    <answer fraction="0"><text>Allowed to be negative</text><feedback><text>Negative weights break Dijkstra's greedy settling; use Bellman-Ford instead.</text></feedback></answer>
+    <answer fraction="0"><text>Integers only</text><feedback><text>Real-valued weights are fine as long as they are non-negative.</text></feedback></answer>
+    <generalfeedback><text>Dijkstra greedily finalizes the closest unsettled vertex; this is only valid when no later edge can reduce an already-finalized distance, i.e. weights are non-negative.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Dijkstra time complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using a binary min-heap as the priority queue, Dijkstra's time complexity on a graph with V vertices and E edges is:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O((V + E) log V)</text><feedback><text>Correct — each vertex extraction and each edge relaxation costs O(log V) heap work.</text></feedback></answer>
+    <answer fraction="0"><text>O(V * E)</text><feedback><text>That is Bellman-Ford's bound.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^3)</text><feedback><text>That is Floyd-Warshall's bound.</text></feedback></answer>
+    <answer fraction="0"><text>O(V + E)</text><feedback><text>A plain BFS is linear, but Dijkstra needs the log V heap factor.</text></feedback></answer>
+    <generalfeedback><text>With a binary heap there are V extract-min operations and up to E decrease-key/push operations, each O(log V), giving O((V + E) log V).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Dijkstra vertex selection</text></name>
+    <questiontext format="html"><text><![CDATA[<p>At each step, which vertex does Dijkstra settle (finalize)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The unsettled vertex with the smallest tentative distance</text><feedback><text>Correct — the greedy choice pulled from the min-priority-queue.</text></feedback></answer>
+    <answer fraction="0"><text>The unsettled vertex with the most outgoing edges</text><feedback><text>Degree does not determine selection order.</text></feedback></answer>
+    <answer fraction="0"><text>A random unsettled vertex</text><feedback><text>The algorithm is deterministic and greedy, not random.</text></feedback></answer>
+    <answer fraction="0"><text>The most recently discovered vertex</text><feedback><text>That describes a DFS-like stack order, not Dijkstra.</text></feedback></answer>
+    <generalfeedback><text>Dijkstra always extracts the minimum-distance unsettled vertex from the priority queue and relaxes its outgoing edges.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Dijkstra scope</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does one run of Dijkstra compute?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Shortest paths from one source to all other vertices</text><feedback><text>Correct — it is a single-source shortest-path algorithm.</text></feedback></answer>
+    <answer fraction="0"><text>Shortest paths between all pairs of vertices</text><feedback><text>That is all-pairs (Floyd-Warshall); one Dijkstra run is single-source.</text></feedback></answer>
+    <answer fraction="0"><text>A minimum spanning tree</text><feedback><text>That is Prim/Kruskal; Dijkstra minimizes path distance, not total tree weight.</text></feedback></answer>
+    <answer fraction="0"><text>A topological ordering</text><feedback><text>Ordering a DAG is a different problem.</text></feedback></answer>
+    <generalfeedback><text>Dijkstra fixes one source vertex and produces the shortest distance (and path) to every reachable vertex.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Dijkstra negative edges</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Dijkstra's algorithm can produce incorrect shortest distances if the graph contains a negative-weight edge.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — a settled vertex may later be reachable more cheaply via a negative edge, but Dijkstra never revisits it.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Negative edges do break Dijkstra; use Bellman-Ford for such graphs.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Dijkstra priority queue</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An efficient implementation of Dijkstra uses a min-priority-queue to select the next vertex to settle.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — a binary heap gives the O((V + E) log V) bound.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Without a priority queue, selection degrades to O(V) per step (O(V^2) total).</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Dijkstra edge operation</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The operation that tries to improve a neighbor's tentative distance using dist(u) + w(u,v) is called ______ (one word, English term).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>relax</text><feedback><text>Correct — relaxing an edge.</text></feedback></answer>
+    <answer fraction="100"><text>relaxation</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>relax*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Dijkstra properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Dijkstra's algorithm are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Once a vertex is settled, its shortest distance is final</text><feedback><text>Yes — with non-negative weights the greedy choice is provably optimal.</text></feedback></answer>
+    <answer fraction="50"><text>It relaxes the outgoing edges of each settled vertex</text><feedback><text>Yes — relaxation is the core update step.</text></feedback></answer>
+    <answer fraction="-50"><text>It correctly handles negative-weight edges</text><feedback><text>No — that requires Bellman-Ford.</text></feedback></answer>
+    <answer fraction="-50"><text>It computes all-pairs shortest paths in one run</text><feedback><text>No — one run is single-source.</text></feedback></answer>
+    <generalfeedback><text>Dijkstra: greedy min-PQ settling with final distances and edge relaxation; it is single-source and requires non-negative weights.</text></generalfeedback>
+  </question>
+</quiz>

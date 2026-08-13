@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Red-Blue Rules MST</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>藍色規則敘述</text></name>
+    <questiontext format="html"><text><![CDATA[<p>最小生成樹的<strong>藍色規則(切割規則)</strong>陳述了什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>跨越任一切割的最小權重邊,屬於某棵 MST</text><feedback><text>正確 —— 將該邊染藍(納入)。</text></feedback></answer>
+    <answer fraction="0"><text>跨越任一切割的最大權重邊,屬於某棵 MST</text><feedback><text>錯 —— 藍色規則納入最小的跨越邊,不是最大。</text></feedback></answer>
+    <answer fraction="0"><text>任一環上的最小權重邊,屬於某棵 MST</text><feedback><text>這把切割與環混淆了;環規則關注環上的最大邊。</text></feedback></answer>
+    <answer fraction="0"><text>跨越切割的每條邊都屬於 MST</text><feedback><text>只保證最小跨越邊,並非全部。</text></feedback></answer>
+    <generalfeedback><text>藍色規則:在圖的任一切割上,最便宜的跨越邊可安全地納入 MST。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>紅色規則敘述</text></name>
+    <questiontext format="html"><text><![CDATA[<p><strong>紅色規則(環規則)</strong>陳述了什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>任一環上的最大權重邊,可從某棵 MST 中排除</text><feedback><text>正確 —— 將該邊染紅(排除)。</text></feedback></answer>
+    <answer fraction="0"><text>任一環上的最小權重邊必須被排除</text><feedback><text>錯 —— 紅色規則排除環上的最大邊。</text></feedback></answer>
+    <answer fraction="0"><text>跨越任一切割的最大權重邊被排除</text><feedback><text>這混淆了切割與環;紅色規則是關於環。</text></feedback></answer>
+    <answer fraction="0"><text>環上的每條邊都被排除</text><feedback><text>只有最重的環邊可安全排除。</text></feedback></answer>
+    <generalfeedback><text>紅色規則:在任一環上,最重的邊可安全地從 MST 中捨棄。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>紅藍框架的角色</text></name>
+    <questiontext format="html"><text><![CDATA[<p>為什麼紅色與藍色規則在 MST 理論中如此重要?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>它們構成一個統一的正確性框架,Kruskal、Prim、Boruvka 都是其實例</text><feedback><text>正確 —— 每個經典 MST 演算法都是套用這兩條規則的特定策略。</text></feedback></answer>
+    <answer fraction="0"><text>它們只適用於有向圖</text><feedback><text>MST 與這些規則定義於無向加權圖。</text></feedback></answer>
+    <answer fraction="0"><text>它們計算最短路徑,而非生成樹</text><feedback><text>它們關注 MST,不是最短路徑。</text></feedback></answer>
+    <answer fraction="0"><text>它們讓邊權變得不必要</text><feedback><text>這些規則比較邊權,因此權重是必要的。</text></feedback></answer>
+    <generalfeedback><text>紅藍規則證明:貪婪地納入安全(藍)邊、排除多餘(紅)邊即可得到 MST,並統一了 Kruskal、Prim、Boruvka。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>染色的意義</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在紅藍方法中,將一條邊染成<strong>藍色</strong>代表什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>該邊被納入 MST</text><feedback><text>正確 —— 藍色代表納入。</text></feedback></answer>
+    <answer fraction="0"><text>該邊被排除於 MST 之外</text><feedback><text>那是紅色(排除),不是藍色。</text></feedback></answer>
+    <answer fraction="0"><text>該邊被暫時忽略</text><feedback><text>藍色是明確的納入決定,不是延後。</text></feedback></answer>
+    <answer fraction="0"><text>該邊形成負環</text><feedback><text>此處的 MST 理論是關於權重,不是負環。</text></feedback></answer>
+    <generalfeedback><text>藍色 = 納入(由切割規則得到的安全邊);紅色 = 排除(由環規則得到的多餘邊)。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Kruskal 與 Prim 為實例</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Kruskal 與 Prim 演算法都可視為套用紅藍規則的特定方式。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 它們是同一統一框架的實例。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>兩者確實都是紅藍規則的實例。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>切割規則方向</text></name>
+    <questiontext format="html"><text><![CDATA[<p>切割規則(藍色規則)要你納入跨越切割的最大權重邊。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 切割規則納入的是最小權重的跨越邊。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 可安全納入的是最小的跨越邊。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>藍色規則的圖論概念</text></name>
+    <questiontext format="html"><text><![CDATA[<p>藍色規則是以將頂點分成兩個集合的劃分來陳述,這種劃分稱為 ______(單字,英文術語)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>cut</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>cut*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>紅藍規則性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於紅藍規則,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>藍色(切割)規則納入跨越切割的最小邊</text><feedback><text>正確 —— 該安全邊屬於某棵 MST。</text></feedback></answer>
+    <answer fraction="50"><text>紅色(環)規則排除環上的最大邊</text><feedback><text>正確 —— 最重的環邊並非必要。</text></feedback></answer>
+    <answer fraction="-50"><text>藍色規則納入最大的跨越邊</text><feedback><text>錯 —— 它納入最小的跨越邊。</text></feedback></answer>
+    <answer fraction="-50"><text>這些規則計算全點對最短路徑</text><feedback><text>錯 —— 它們建構最小生成樹。</text></feedback></answer>
+    <generalfeedback><text>藍色規則:納入跨越切割的最小邊;紅色規則:排除環上的最大邊。兩者共同證明 MST 演算法的正確性。</text></generalfeedback>
+  </question>
+</quiz>

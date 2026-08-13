@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Skew Heap</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Skew heap character</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How is a skew heap best described?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A self-adjusting, amortized version of a leftist heap</text><feedback><text>Correct — it is the bookkeeping-free, amortized analog of a leftist heap.</text></feedback></answer>
+    <answer fraction="0"><text>An array-based complete binary heap</text><feedback><text>No — that describes a binary heap, not a skew heap.</text></feedback></answer>
+    <answer fraction="0"><text>A balanced binary search tree</text><feedback><text>No — a skew heap maintains heap order, not search order.</text></feedback></answer>
+    <answer fraction="0"><text>A heap with guaranteed O(1) worst-case merge</text><feedback><text>No — its O(log n) merge bound is amortized, not worst-case per operation.</text></feedback></answer>
+    <generalfeedback><text>A skew heap is a self-adjusting mergeable heap: the amortized, no-bookkeeping counterpart of the leftist heap.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Skew merge rule</text></name>
+    <questiontext format="html"><text><![CDATA[<p>During a skew-heap merge, after linking along the right paths, what does the algorithm do at each merged node?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Unconditionally swaps its left and right children</text><feedback><text>Correct — the unconditional child swap is the self-adjusting heuristic.</text></feedback></answer>
+    <answer fraction="0"><text>Swaps children only if the s-values violate the leftist property</text><feedback><text>No — that is the leftist heap; skew heaps swap unconditionally and track no s-values.</text></feedback></answer>
+    <answer fraction="0"><text>Recolors the node red or black</text><feedback><text>No — that belongs to red-black trees.</text></feedback></answer>
+    <answer fraction="0"><text>Rotates to rebalance heights</text><feedback><text>No — no rotations or height checks are performed.</text></feedback></answer>
+    <generalfeedback><text>As the merge descends the right paths, it unconditionally swaps the children of each node it visits — no condition, no stored balance data.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Skew complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the time bound for skew-heap merge/insert/extract-min?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n) amortized per operation</text><feedback><text>Correct — the swap heuristic guarantees a logarithmic amortized bound.</text></feedback></answer>
+    <answer fraction="0"><text>O(log n) worst-case per single operation</text><feedback><text>No — a single operation can be worse; the O(log n) bound is amortized.</text></feedback></answer>
+    <answer fraction="0"><text>O(1) amortized</text><feedback><text>No — merge-based operations are logarithmic, not constant.</text></feedback></answer>
+    <answer fraction="0"><text>O(n) per operation</text><feedback><text>No — that would defeat the purpose of the structure.</text></feedback></answer>
+    <generalfeedback><text>Skew-heap operations are O(log n) amortized; individual operations may occasionally cost more, but the amortized bound holds.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Skew vs leftist</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Compared to a leftist heap, a skew heap:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Stores no s-value / balance information, making nodes simpler</text><feedback><text>Correct — it drops the null-path-length bookkeeping entirely.</text></feedback></answer>
+    <answer fraction="0"><text>Requires an extra balance byte per node</text><feedback><text>No — it removes bookkeeping rather than adding it.</text></feedback></answer>
+    <answer fraction="0"><text>Gives worst-case rather than amortized guarantees</text><feedback><text>No — it trades the leftist worst-case bound for an amortized one.</text></feedback></answer>
+    <answer fraction="0"><text>Cannot be merged at all</text><feedback><text>No — merge is precisely its core operation.</text></feedback></answer>
+    <generalfeedback><text>A skew heap stores no s-values: it is simpler than a leftist heap and self-adjusts via unconditional swaps, at the cost of amortized (not worst-case) bounds.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Merge based ops</text></name>
+    <questiontext format="html"><text><![CDATA[<p>As in a leftist heap, insert and extract-min in a skew heap are implemented via merge.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — insert merges a singleton; extract-min merges the root's two subtrees.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Both operations are built on merge, just as in a leftist heap.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Conditional swap</text></name>
+    <questiontext format="html"><text><![CDATA[<p>A skew heap swaps a node's children only when a stored s-value indicates the leftist property is violated.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — that describes a leftist heap; a skew heap swaps unconditionally and stores no s-value.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — skew heaps swap children unconditionally, with no s-value check.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Self-adjusting action</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The self-adjusting action a skew heap performs on children at each visited node during merge is to ______ them.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>swap</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>swap*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>exchange</text><feedback><text>Correct — a synonym for swap.</text></feedback></answer>
+    <answer fraction="100"><text>exchange*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Skew heap facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about a skew heap are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It is a self-adjusting mergeable heap with O(log n) amortized operations</text><feedback><text>Yes — that is its performance profile.</text></feedback></answer>
+    <answer fraction="50"><text>Its merge unconditionally swaps children as it melds down the right paths</text><feedback><text>Yes — the unconditional swap is what makes it self-adjusting.</text></feedback></answer>
+    <answer fraction="-50"><text>It stores a null-path-length s-value in every node</text><feedback><text>No — it stores no such balance data; that is the leftist heap.</text></feedback></answer>
+    <answer fraction="-50"><text>It guarantees O(log n) worst-case per single operation</text><feedback><text>No — its bound is amortized, not per-operation worst-case.</text></feedback></answer>
+    <generalfeedback><text>A skew heap is a self-adjusting mergeable heap: unconditional child swaps during merge, O(log n) amortized cost, and no stored s-values — simpler than a leftist heap.</text></generalfeedback>
+  </question>
+</quiz>

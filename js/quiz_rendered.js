@@ -1,4 +1,1252 @@
 window.QUIZ_RENDERED = {
+  "bloom-filter": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Bloom filter purpose",
+        "text": "<p>What problem is a <strong>Bloom filter</strong> primarily designed to solve?</p>",
+        "answers": [
+          {
+            "text": "Space-efficient probabilistic set-membership testing",
+            "fraction": 100,
+            "feedback": "Correct — it answers \"is x possibly in the set?\" using very little memory."
+          },
+          {
+            "text": "Keeping elements in sorted order for range queries",
+            "fraction": 0,
+            "feedback": "No — a Bloom filter stores no order and cannot enumerate elements."
+          },
+          {
+            "text": "Estimating the frequency of items in a stream",
+            "fraction": 0,
+            "feedback": "That is a Count-Min Sketch; a Bloom filter only tracks membership."
+          },
+          {
+            "text": "Exact retrieval of stored key-value pairs",
+            "fraction": 0,
+            "feedback": "No — it stores no keys or values, only bits."
+          }
+        ],
+        "generalFeedback": "A Bloom filter is a compact probabilistic structure for set-membership queries; it trades a small false-positive rate for large space savings.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bloom filter components",
+        "text": "<p>What are the two core components of a standard Bloom filter?</p>",
+        "answers": [
+          {
+            "text": "A bit array of size m and k independent hash functions",
+            "fraction": 100,
+            "feedback": "Correct — insert sets k bits, query checks the same k bits."
+          },
+          {
+            "text": "A balanced binary search tree and a comparator",
+            "fraction": 0,
+            "feedback": "No — Bloom filters use no tree and no comparisons."
+          },
+          {
+            "text": "A 2D counter array and d hash functions",
+            "fraction": 0,
+            "feedback": "That describes a Count-Min Sketch, not a Bloom filter."
+          },
+          {
+            "text": "A linked list of buckets with random heights",
+            "fraction": 0,
+            "feedback": "That describes a skip list, not a Bloom filter."
+          }
+        ],
+        "generalFeedback": "A Bloom filter is a bit array of m bits plus k hash functions; inserting an item sets the k hashed positions to 1.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bloom filter query result",
+        "text": "<p>A Bloom filter query returns \"possibly present\" for an item. What can you conclude?</p>",
+        "answers": [
+          {
+            "text": "The item may be present or may be a false positive; you cannot be certain",
+            "fraction": 100,
+            "feedback": "Correct — a \"possibly present\" answer can be a false positive."
+          },
+          {
+            "text": "The item is definitely in the set",
+            "fraction": 0,
+            "feedback": "No — collisions can set all k bits without the item ever being inserted."
+          },
+          {
+            "text": "The item was inserted exactly once",
+            "fraction": 0,
+            "feedback": "No — a Bloom filter cannot count insertions."
+          },
+          {
+            "text": "The item is definitely absent",
+            "fraction": 0,
+            "feedback": "No — \"definitely absent\" corresponds to at least one bit being 0."
+          }
+        ],
+        "generalFeedback": "If any of the k bits is 0 the item is definitely absent; if all are 1 the item is only possibly present (false positives are allowed).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bloom filter false-positive rate",
+        "text": "<p>The false-positive rate of a Bloom filter depends on which quantities?</p>",
+        "answers": [
+          {
+            "text": "The bit-array size m, the number of inserted items n, and the number of hashes k",
+            "fraction": 100,
+            "feedback": "Correct — more bits per item lowers the rate; k can be tuned to minimize it."
+          },
+          {
+            "text": "Only the values of the items inserted",
+            "fraction": 0,
+            "feedback": "No — the rate is governed by m, n, and k, not the specific values."
+          },
+          {
+            "text": "The recursion depth of the queries",
+            "fraction": 0,
+            "feedback": "No — queries are not recursive and take fixed O(k) time."
+          },
+          {
+            "text": "Whether the array is kept sorted",
+            "fraction": 0,
+            "feedback": "No — a Bloom filter has no notion of order."
+          }
+        ],
+        "generalFeedback": "With m bits, n items, and k hashes the false-positive probability is approximately (1 - e^(-kn/m))^k, minimized when k = (m/n) ln 2.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Bloom filter no false negatives",
+        "text": "<p>A standard Bloom filter never produces a <em>false negative</em>: if an item was inserted, a query for it always returns \"possibly present\".</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — inserting sets the k bits to 1, so a later query for that item always finds them set."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — bits are only ever set to 1, never cleared, so inserted items are never reported absent."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Bloom filter deletion",
+        "text": "<p>A standard (non-counting) Bloom filter supports deleting an item by clearing its k bits to 0.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — clearing a bit could break another item that shares it, introducing false negatives."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — a standard Bloom filter cannot delete; shared bits make clearing unsafe (counting Bloom filters are needed for deletion)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Bloom filter error term",
+        "text": "<p>A Bloom filter may wrongly report an absent item as present. This kind of error is called a ______ (two words).</p>",
+        "answers": [
+          {
+            "text": "false positive",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "false positive*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "positive",
+            "fraction": 100,
+            "feedback": "Correct — the error is a false positive."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Bloom filter properties",
+        "text": "<p>Which statements about a standard Bloom filter are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is very compact because it stores no actual keys",
+            "fraction": 50,
+            "feedback": "Yes — only a bit array is kept, giving large space savings."
+          },
+          {
+            "text": "It can have false positives but never false negatives",
+            "fraction": 50,
+            "feedback": "Yes — the asymmetric error is its defining property."
+          },
+          {
+            "text": "It can list all the elements currently stored",
+            "fraction": -50,
+            "feedback": "No — it stores no keys, so enumeration is impossible."
+          },
+          {
+            "text": "It supports arbitrary deletion out of the box",
+            "fraction": -50,
+            "feedback": "No — a standard Bloom filter cannot delete items."
+          }
+        ],
+        "generalFeedback": "A Bloom filter is compact and stores no keys; it allows false positives but no false negatives, cannot enumerate, and cannot delete.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "布隆過濾器用途",
+        "text": "<p><strong>布隆過濾器(Bloom filter)</strong>主要用來解決什麼問題?</p>",
+        "answers": [
+          {
+            "text": "節省空間的機率式集合成員測試",
+            "fraction": 100,
+            "feedback": "正確 —— 它用極少記憶體回答「x 是否可能在集合中?」。"
+          },
+          {
+            "text": "維持元素排序以支援範圍查詢",
+            "fraction": 0,
+            "feedback": "錯 —— 布隆過濾器不保存順序,也無法列舉元素。"
+          },
+          {
+            "text": "估計串流中項目的出現頻率",
+            "fraction": 0,
+            "feedback": "那是 Count-Min Sketch;布隆過濾器只追蹤成員資格。"
+          },
+          {
+            "text": "精確取回所儲存的鍵值對",
+            "fraction": 0,
+            "feedback": "錯 —— 它不儲存任何鍵或值,只有位元。"
+          }
+        ],
+        "generalFeedback": "布隆過濾器是一種精簡的機率式結構,用於集合成員查詢;它以微小的偽陽性率換取大量的空間節省。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "布隆過濾器組成",
+        "text": "<p>標準布隆過濾器的兩個核心組成是什麼?</p>",
+        "answers": [
+          {
+            "text": "一個大小為 m 的位元陣列與 k 個獨立的雜湊函數",
+            "fraction": 100,
+            "feedback": "正確 —— 插入時設定 k 個位元,查詢時檢查相同的 k 個位元。"
+          },
+          {
+            "text": "一棵平衡二元搜尋樹與一個比較器",
+            "fraction": 0,
+            "feedback": "錯 —— 布隆過濾器不用樹也不做比較。"
+          },
+          {
+            "text": "一個二維計數器陣列與 d 個雜湊函數",
+            "fraction": 0,
+            "feedback": "那描述的是 Count-Min Sketch,而非布隆過濾器。"
+          },
+          {
+            "text": "一串具有隨機高度的桶所組成的鏈結串列",
+            "fraction": 0,
+            "feedback": "那描述的是跳躍串列,而非布隆過濾器。"
+          }
+        ],
+        "generalFeedback": "布隆過濾器是 m 個位元的位元陣列加上 k 個雜湊函數;插入項目會把 k 個雜湊位置設為 1。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "布隆過濾器查詢結果",
+        "text": "<p>布隆過濾器對某項目查詢回傳「可能存在」。你能得到什麼結論?</p>",
+        "answers": [
+          {
+            "text": "該項目可能存在,也可能是偽陽性;無法確定",
+            "fraction": 100,
+            "feedback": "正確 —— 「可能存在」的答案有可能是偽陽性。"
+          },
+          {
+            "text": "該項目一定在集合中",
+            "fraction": 0,
+            "feedback": "錯 —— 碰撞可能在項目從未插入的情況下把 k 個位元都設為 1。"
+          },
+          {
+            "text": "該項目恰好被插入過一次",
+            "fraction": 0,
+            "feedback": "錯 —— 布隆過濾器無法計數插入次數。"
+          },
+          {
+            "text": "該項目一定不存在",
+            "fraction": 0,
+            "feedback": "錯 —— 「一定不存在」對應到至少有一個位元為 0。"
+          }
+        ],
+        "generalFeedback": "若 k 個位元中有任一個為 0,則項目一定不存在;若全為 1,則項目僅為可能存在(允許偽陽性)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "布隆過濾器偽陽性率",
+        "text": "<p>布隆過濾器的偽陽性率取決於哪些量?</p>",
+        "answers": [
+          {
+            "text": "位元陣列大小 m、已插入項目數 n,以及雜湊數 k",
+            "fraction": 100,
+            "feedback": "正確 —— 每項目分到的位元越多,率越低;k 可調整以最小化該率。"
+          },
+          {
+            "text": "只取決於所插入項目的數值",
+            "fraction": 0,
+            "feedback": "錯 —— 該率由 m、n、k 決定,而非特定數值。"
+          },
+          {
+            "text": "查詢的遞迴深度",
+            "fraction": 0,
+            "feedback": "錯 —— 查詢不是遞迴的,只花固定的 O(k) 時間。"
+          },
+          {
+            "text": "陣列是否保持排序",
+            "fraction": 0,
+            "feedback": "錯 —— 布隆過濾器沒有順序的概念。"
+          }
+        ],
+        "generalFeedback": "在 m 個位元、n 個項目、k 個雜湊下,偽陽性機率約為 (1 - e^(-kn/m))^k,當 k = (m/n) ln 2 時最小。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "布隆過濾器無偽陰性",
+        "text": "<p>標準布隆過濾器絕不會產生<em>偽陰性</em>:若某項目已被插入,對它的查詢一定會回傳「可能存在」。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 插入會把 k 個位元設為 1,因此之後對該項目的查詢一定會找到這些已設定的位元。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 位元只會被設為 1、從不清除,所以已插入的項目絕不會被回報為不存在。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "布隆過濾器刪除",
+        "text": "<p>標準(非計數式)布隆過濾器可藉由把某項目的 k 個位元清為 0 來刪除該項目。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 清除某位元可能破壞共用該位元的其他項目,造成偽陰性。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 標準布隆過濾器無法刪除;位元共用使清除不安全(需計數式布隆過濾器才能刪除)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "布隆過濾器錯誤名詞",
+        "text": "<p>布隆過濾器可能把不存在的項目誤報為存在。這種錯誤稱為 ______(英文,兩個字)。</p>",
+        "answers": [
+          {
+            "text": "false positive",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "false positive*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "positive",
+            "fraction": 100,
+            "feedback": "正確 —— 該錯誤即偽陽性(false positive)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "布隆過濾器特性",
+        "text": "<p>關於標準布隆過濾器,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "因為不儲存實際的鍵,所以非常精簡",
+            "fraction": 50,
+            "feedback": "正確 —— 只保存位元陣列,帶來大量空間節省。"
+          },
+          {
+            "text": "它可能有偽陽性,但絕無偽陰性",
+            "fraction": 50,
+            "feedback": "正確 —— 這種不對稱的錯誤是它的定義性特徵。"
+          },
+          {
+            "text": "它能列出目前所儲存的所有元素",
+            "fraction": -50,
+            "feedback": "錯 —— 它不儲存鍵,因此無法列舉。"
+          },
+          {
+            "text": "它天生就支援任意刪除",
+            "fraction": -50,
+            "feedback": "錯 —— 標準布隆過濾器無法刪除項目。"
+          }
+        ],
+        "generalFeedback": "布隆過濾器精簡且不儲存鍵;它允許偽陽性但無偽陰性,無法列舉,也無法刪除。",
+        "single": false
+      }
+    ]
+  },
+  "cache-lru": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "LRU eviction policy",
+        "text": "<p>When an <strong>LRU cache</strong> is full and a new key must be inserted, which item does it evict?</p>",
+        "answers": [
+          {
+            "text": "The least recently used item",
+            "fraction": 100,
+            "feedback": "Correct — LRU evicts the entry whose last access is oldest."
+          },
+          {
+            "text": "The most recently used item",
+            "fraction": 0,
+            "feedback": "That is the opposite; the most recent item is the one you want to keep."
+          },
+          {
+            "text": "A uniformly random item",
+            "fraction": 0,
+            "feedback": "That is random replacement, not LRU."
+          },
+          {
+            "text": "The item with the largest key",
+            "fraction": 0,
+            "feedback": "LRU orders by recency of access, not by key value."
+          }
+        ],
+        "generalFeedback": "LRU stands for Least Recently Used: when at capacity it discards the entry that has gone the longest without being accessed.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "LRU data structures",
+        "text": "<p>Which pair of structures gives an LRU cache O(1) get and put?</p>",
+        "answers": [
+          {
+            "text": "A hash map (key &rarr; node) plus a doubly linked list",
+            "fraction": 100,
+            "feedback": "Correct — the map gives O(1) lookup; the list gives O(1) reordering and eviction."
+          },
+          {
+            "text": "A single sorted array",
+            "fraction": 0,
+            "feedback": "Keeping it ordered by recency would cost O(n) per access."
+          },
+          {
+            "text": "A binary heap keyed by timestamp",
+            "fraction": 0,
+            "feedback": "A heap gives O(log n) updates, not O(1)."
+          },
+          {
+            "text": "A singly linked list only",
+            "fraction": 0,
+            "feedback": "A singly linked list cannot unlink an interior node in O(1); you need a doubly linked list plus a map."
+          }
+        ],
+        "generalFeedback": "The standard design pairs a hash map from key to list node with a doubly linked list that orders nodes by recency, giving O(1) get and put.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "LRU access reordering",
+        "text": "<p>Using the head-is-most-recent convention, what happens to a node on every successful <code>get</code> or <code>put</code>?</p>",
+        "answers": [
+          {
+            "text": "It is moved to the head of the doubly linked list",
+            "fraction": 100,
+            "feedback": "Correct — touching a node marks it most-recently-used by moving it to the head."
+          },
+          {
+            "text": "It is moved to the tail of the list",
+            "fraction": 0,
+            "feedback": "The tail is the least-recently-used end, reserved for eviction."
+          },
+          {
+            "text": "It is deleted and reinserted at a random position",
+            "fraction": 0,
+            "feedback": "LRU maintains strict recency order, not random placement."
+          },
+          {
+            "text": "Nothing — the list order never changes on access",
+            "fraction": 0,
+            "feedback": "Every access must update recency, or eviction would be wrong."
+          }
+        ],
+        "generalFeedback": "Each access relinks the node to the head (most-recently-used); the least-recently-used node therefore drifts to the tail and is evicted first.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Why doubly linked",
+        "text": "<p>Why does an LRU cache use a <em>doubly</em> linked list rather than a singly linked one?</p>",
+        "answers": [
+          {
+            "text": "Prev and next pointers let any interior node be unlinked in O(1)",
+            "fraction": 100,
+            "feedback": "Correct — with both links you splice a node out without walking the list."
+          },
+          {
+            "text": "It halves the memory used per node",
+            "fraction": 0,
+            "feedback": "A doubly linked list uses more memory per node, not less."
+          },
+          {
+            "text": "It keeps the entries sorted by key automatically",
+            "fraction": 0,
+            "feedback": "The list orders by recency, not by key, and does so manually."
+          },
+          {
+            "text": "It removes the need for the hash map",
+            "fraction": 0,
+            "feedback": "The map is still required for O(1) key lookup."
+          }
+        ],
+        "generalFeedback": "Moving a touched node to the head means removing it from its current position; only a doubly linked list can unlink an interior node in O(1) without a prior-node search.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "LRU fixed capacity",
+        "text": "<p>An LRU cache has a fixed capacity, and once it is full every new key forces an eviction.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the capacity is bounded, so inserting into a full cache evicts one entry."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "A cache is capacity-bounded by definition; a full cache must evict to make room."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "LRU get complexity",
+        "text": "<p>With the hash map plus doubly linked list design, a <code>get</code> that also updates recency runs in O(log n) time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "The map lookup and the list relinking are both O(1), so get is O(1), not O(log n)."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — get is O(1): O(1) map lookup plus O(1) move-to-head."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "LRU evicted end term",
+        "text": "<p>With most-recently-used at the head, the least-recently-used node sits at the ______ of the doubly linked list, where eviction happens.</p>",
+        "answers": [
+          {
+            "text": "tail",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "tail*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "LRU properties",
+        "text": "<p>Which statements about an LRU cache are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A hash map gives O(1) lookup from key to its list node",
+            "fraction": 50,
+            "feedback": "Yes — the map is what makes get constant time."
+          },
+          {
+            "text": "A doubly linked list lets a node be unlinked and moved to the head in O(1)",
+            "fraction": 50,
+            "feedback": "Yes — two-way links allow O(1) removal of an interior node."
+          },
+          {
+            "text": "It evicts the most recently used item when full",
+            "fraction": -50,
+            "feedback": "No — it evicts the least recently used item."
+          },
+          {
+            "text": "It has unbounded capacity and never evicts",
+            "fraction": -50,
+            "feedback": "No — a cache has a fixed capacity and evicts when full."
+          }
+        ],
+        "generalFeedback": "An LRU cache uses a hash map (O(1) lookup) and a doubly linked list (O(1) relink), has fixed capacity, and evicts the least recently used item.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "LRU 淘汰策略",
+        "text": "<p>當 <strong>LRU 快取</strong>已滿且必須插入新鍵時,它會淘汰哪個項目?</p>",
+        "answers": [
+          {
+            "text": "最久未被使用(least recently used)的項目",
+            "fraction": 100,
+            "feedback": "正確 —— LRU 淘汰最後一次存取時間最舊的項目。"
+          },
+          {
+            "text": "最近才被使用(most recently used)的項目",
+            "fraction": 0,
+            "feedback": "那正好相反;最近使用的項目正是你想保留的。"
+          },
+          {
+            "text": "均勻隨機的一個項目",
+            "fraction": 0,
+            "feedback": "那是隨機替換,不是 LRU。"
+          },
+          {
+            "text": "鍵值最大的項目",
+            "fraction": 0,
+            "feedback": "LRU 依存取的近期程度排序,而非鍵值大小。"
+          }
+        ],
+        "generalFeedback": "LRU 代表 Least Recently Used:達到容量時,丟棄最久沒被存取的項目。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "LRU 的資料結構",
+        "text": "<p>哪一對結構能讓 LRU 快取的 get 與 put 達到 O(1)?</p>",
+        "answers": [
+          {
+            "text": "雜湊表(鍵 &rarr; 節點)加上雙向鏈結串列",
+            "fraction": 100,
+            "feedback": "正確 —— 雜湊表給 O(1) 查找;串列給 O(1) 重排與淘汰。"
+          },
+          {
+            "text": "單一已排序陣列",
+            "fraction": 0,
+            "feedback": "依近期程度維持排序,每次存取要 O(n)。"
+          },
+          {
+            "text": "以時間戳為鍵的二元堆積",
+            "fraction": 0,
+            "feedback": "堆積的更新是 O(log n),不是 O(1)。"
+          },
+          {
+            "text": "只用單向鏈結串列",
+            "fraction": 0,
+            "feedback": "單向串列無法 O(1) 解開內部節點;需要雙向鏈結串列加上雜湊表。"
+          }
+        ],
+        "generalFeedback": "標準設計是把「鍵到串列節點」的雜湊表與依近期程度排序節點的雙向鏈結串列搭配,得到 O(1) 的 get 與 put。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "LRU 存取後的重排",
+        "text": "<p>採用「頭部為最近使用」的慣例,每次成功的 <code>get</code> 或 <code>put</code> 會對節點做什麼?</p>",
+        "answers": [
+          {
+            "text": "把它移到雙向鏈結串列的頭部",
+            "fraction": 100,
+            "feedback": "正確 —— 觸碰節點就把它移到頭部,標記為最近使用。"
+          },
+          {
+            "text": "把它移到串列的尾部",
+            "fraction": 0,
+            "feedback": "尾部是最久未使用的一端,保留給淘汰。"
+          },
+          {
+            "text": "刪除它並隨機插回某個位置",
+            "fraction": 0,
+            "feedback": "LRU 維持嚴格的近期順序,而非隨機擺放。"
+          },
+          {
+            "text": "什麼都不做 —— 存取時串列順序永遠不變",
+            "fraction": 0,
+            "feedback": "每次存取都必須更新近期程度,否則淘汰會出錯。"
+          }
+        ],
+        "generalFeedback": "每次存取都把節點重新連到頭部(最近使用);因此最久未使用的節點會漂向尾部,最先被淘汰。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "為何用雙向串列",
+        "text": "<p>為什麼 LRU 快取使用<em>雙向</em>鏈結串列而非單向?</p>",
+        "answers": [
+          {
+            "text": "prev 與 next 指標讓任何內部節點都能以 O(1) 解開",
+            "fraction": 100,
+            "feedback": "正確 —— 有雙向連結就能不走訪串列而把節點抽離。"
+          },
+          {
+            "text": "它把每個節點的記憶體用量減半",
+            "fraction": 0,
+            "feedback": "雙向鏈結串列每個節點用的記憶體更多,而非更少。"
+          },
+          {
+            "text": "它自動讓項目依鍵排序",
+            "fraction": 0,
+            "feedback": "串列依近期程度排序,而非依鍵,而且是手動維護。"
+          },
+          {
+            "text": "它免除了對雜湊表的需要",
+            "fraction": 0,
+            "feedback": "仍需雜湊表來做 O(1) 的鍵查找。"
+          }
+        ],
+        "generalFeedback": "把被觸碰的節點移到頭部須先從目前位置移除;只有雙向鏈結串列能不必先找前一個節點就以 O(1) 解開內部節點。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "LRU 的固定容量",
+        "text": "<p>LRU 快取具有固定容量,一旦裝滿,每個新鍵都會迫使一次淘汰。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 容量有上限,因此往已滿的快取插入會淘汰一個項目。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "快取依定義即受容量限制;已滿的快取必須淘汰以騰出空間。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "LRU 的 get 複雜度",
+        "text": "<p>在雜湊表加雙向鏈結串列的設計中,同時更新近期程度的 <code>get</code> 執行時間為 O(log n)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "雜湊表查找與串列重連都是 O(1),因此 get 是 O(1),不是 O(log n)。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— get 是 O(1):O(1) 雜湊查找加 O(1) 移到頭部。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "LRU 淘汰端名詞",
+        "text": "<p>當最近使用置於頭部時,最久未使用的節點位於雙向鏈結串列的 ______,也就是進行淘汰之處。</p>",
+        "answers": [
+          {
+            "text": "tail",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "tail*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "LRU 的性質",
+        "text": "<p>關於 LRU 快取,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "雜湊表提供由鍵到其串列節點的 O(1) 查找",
+            "fraction": 50,
+            "feedback": "正確 —— 雜湊表正是讓 get 達到常數時間的關鍵。"
+          },
+          {
+            "text": "雙向鏈結串列讓節點能以 O(1) 解開並移到頭部",
+            "fraction": 50,
+            "feedback": "正確 —— 雙向連結允許 O(1) 移除內部節點。"
+          },
+          {
+            "text": "已滿時它淘汰最近使用的項目",
+            "fraction": -50,
+            "feedback": "錯 —— 它淘汰最久未使用的項目。"
+          },
+          {
+            "text": "它容量無上限,永不淘汰",
+            "fraction": -50,
+            "feedback": "錯 —— 快取有固定容量,滿時會淘汰。"
+          }
+        ],
+        "generalFeedback": "LRU 快取使用雜湊表(O(1) 查找)與雙向鏈結串列(O(1) 重連),容量固定,並淘汰最久未使用的項目。",
+        "single": false
+      }
+    ]
+  },
+  "count-min-sketch": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch purpose",
+        "text": "<p>What is a <strong>Count-Min Sketch</strong> primarily used for?</p>",
+        "answers": [
+          {
+            "text": "Estimating item frequencies (counts) in a data stream using sublinear space",
+            "fraction": 100,
+            "feedback": "Correct — it approximates how often each item appears while using very little memory."
+          },
+          {
+            "text": "Testing whether an item is a member of a set",
+            "fraction": 0,
+            "feedback": "That is a Bloom filter; a Count-Min Sketch estimates counts, not mere membership."
+          },
+          {
+            "text": "Keeping items sorted for ordered traversal",
+            "fraction": 0,
+            "feedback": "No — it stores counters, not ordered keys."
+          },
+          {
+            "text": "Sorting a stream in O(n) time",
+            "fraction": 0,
+            "feedback": "No — it does not sort; it summarizes frequencies."
+          }
+        ],
+        "generalFeedback": "A Count-Min Sketch is a probabilistic sketch that estimates the frequency of items in a stream using far less space than an exact counter table.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch structure",
+        "text": "<p>What is the internal structure of a Count-Min Sketch?</p>",
+        "answers": [
+          {
+            "text": "A 2D array of counters with width w and depth d, plus d hash functions (one per row)",
+            "fraction": 100,
+            "feedback": "Correct — each of the d hashes maps an item to one counter in its row."
+          },
+          {
+            "text": "A single bit array with k hash functions",
+            "fraction": 0,
+            "feedback": "That describes a Bloom filter, which uses single bits, not counters."
+          },
+          {
+            "text": "A multi-level linked list with random node heights",
+            "fraction": 0,
+            "feedback": "That describes a skip list, not a Count-Min Sketch."
+          },
+          {
+            "text": "A balanced search tree keyed by item value",
+            "fraction": 0,
+            "feedback": "No — a Count-Min Sketch uses hashed counter arrays, not a tree."
+          }
+        ],
+        "generalFeedback": "A Count-Min Sketch is a d-by-w table of integer counters; each row has its own hash function mapping items into that row's w counters.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch query",
+        "text": "<p>How does a Count-Min Sketch estimate an item's count at query time?</p>",
+        "answers": [
+          {
+            "text": "It reads the d counters the item hashes to and returns their minimum",
+            "fraction": 100,
+            "feedback": "Correct — taking the minimum discards the rows most inflated by collisions."
+          },
+          {
+            "text": "It returns the sum of the d hashed counters",
+            "fraction": 0,
+            "feedback": "No — summing would grossly overcount; the minimum is used."
+          },
+          {
+            "text": "It returns the average of all counters in the table",
+            "fraction": 0,
+            "feedback": "No — only the d counters for that specific item are consulted, and via their minimum."
+          },
+          {
+            "text": "It performs a binary search over the counters",
+            "fraction": 0,
+            "feedback": "No — counters are addressed directly by hashing; there is no search."
+          }
+        ],
+        "generalFeedback": "An update adds to one counter per row; a query takes the minimum of the item's d counters, since that value is least affected by collisions.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch error bound",
+        "text": "<p>What controls the accuracy (error) of a Count-Min Sketch estimate?</p>",
+        "answers": [
+          {
+            "text": "The width w bounds the error magnitude and the depth d bounds the failure probability",
+            "fraction": 100,
+            "feedback": "Correct — wider rows reduce collision error; more rows make a bad estimate less likely."
+          },
+          {
+            "text": "The specific values of the items counted",
+            "fraction": 0,
+            "feedback": "No — accuracy is governed by the dimensions w and d, not item values."
+          },
+          {
+            "text": "Whether the counters are kept in sorted order",
+            "fraction": 0,
+            "feedback": "No — counters are addressed by hashing and have no order."
+          },
+          {
+            "text": "The recursion depth of the update procedure",
+            "fraction": 0,
+            "feedback": "No — updates are O(d) and not recursive."
+          }
+        ],
+        "generalFeedback": "Larger width w tightens the additive error (proportional to e/w of the stream size) and larger depth d exponentially reduces the chance of exceeding that error.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Count-Min Sketch overestimate",
+        "text": "<p>A Count-Min Sketch may <em>overestimate</em> an item's true count but never underestimates it.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — collisions can only add to counters, so the reported count is always &ge; the true count."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — because counters only accumulate, the estimate can never fall below the true count."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Count-Min Sketch space",
+        "text": "<p>A Count-Min Sketch uses sublinear space: much less than storing an exact counter for every distinct item.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the fixed w-by-d table stays small even as the number of distinct items grows."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — the whole point is a compact fixed-size table rather than one counter per item."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Count-Min Sketch bias term",
+        "text": "<p>Because hash collisions only add to counters, a Count-Min Sketch can only ______ an item's true count (fill the verb, English).</p>",
+        "answers": [
+          {
+            "text": "overestimate",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "overestimate*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "overcount",
+            "fraction": 100,
+            "feedback": "Correct — it can only overcount (overestimate)."
+          },
+          {
+            "text": "over-estimate",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch properties",
+        "text": "<p>Which statements about a Count-Min Sketch are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is well suited to finding heavy hitters in a data stream",
+            "fraction": 50,
+            "feedback": "Yes — approximate high-frequency items are its classic application."
+          },
+          {
+            "text": "Its estimates are biased upward (never below the true count)",
+            "fraction": 50,
+            "feedback": "Yes — collisions only add, so it overestimates, never underestimates."
+          },
+          {
+            "text": "It stores each distinct key explicitly to allow exact counts",
+            "fraction": -50,
+            "feedback": "No — it keeps only hashed counters, giving approximate counts."
+          },
+          {
+            "text": "It can underestimate counts when the table gets crowded",
+            "fraction": -50,
+            "feedback": "No — it never underestimates; crowding only increases overestimation."
+          }
+        ],
+        "generalFeedback": "A Count-Min Sketch summarizes stream frequencies in sublinear space; it overestimates (never underestimates), stores no explicit keys, and is ideal for heavy-hitter detection.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch 用途",
+        "text": "<p><strong>Count-Min Sketch</strong>主要用來做什麼?</p>",
+        "answers": [
+          {
+            "text": "以次線性空間估計資料串流中各項目的出現頻率(計數)",
+            "fraction": 100,
+            "feedback": "正確 —— 它以極少記憶體近似每個項目出現的次數。"
+          },
+          {
+            "text": "測試某項目是否為集合的成員",
+            "fraction": 0,
+            "feedback": "那是布隆過濾器;Count-Min Sketch 估計的是計數,而非單純的成員資格。"
+          },
+          {
+            "text": "維持項目排序以支援有序走訪",
+            "fraction": 0,
+            "feedback": "錯 —— 它儲存的是計數器,而非有序的鍵。"
+          },
+          {
+            "text": "以 O(n) 時間對串流排序",
+            "fraction": 0,
+            "feedback": "錯 —— 它不排序;它彙總頻率。"
+          }
+        ],
+        "generalFeedback": "Count-Min Sketch 是一種機率式的 sketch,以遠少於精確計數表的空間估計串流中項目的頻率。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch 結構",
+        "text": "<p>Count-Min Sketch 的內部結構是什麼?</p>",
+        "answers": [
+          {
+            "text": "一個寬 w、深 d 的二維計數器陣列,加上 d 個雜湊函數(每列一個)",
+            "fraction": 100,
+            "feedback": "正確 —— d 個雜湊各將項目對映到其所在列的一個計數器。"
+          },
+          {
+            "text": "一個位元陣列加上 k 個雜湊函數",
+            "fraction": 0,
+            "feedback": "那描述的是布隆過濾器,它用單一位元而非計數器。"
+          },
+          {
+            "text": "一個具有隨機節點高度的多層鏈結串列",
+            "fraction": 0,
+            "feedback": "那描述的是跳躍串列,而非 Count-Min Sketch。"
+          },
+          {
+            "text": "一棵以項目值為鍵的平衡搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— Count-Min Sketch 使用雜湊計數器陣列,而非樹。"
+          }
+        ],
+        "generalFeedback": "Count-Min Sketch 是一個 d×w 的整數計數器表;每一列有自己的雜湊函數,將項目對映到該列的 w 個計數器之一。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch 查詢",
+        "text": "<p>Count-Min Sketch 在查詢時如何估計某項目的計數?</p>",
+        "answers": [
+          {
+            "text": "讀取該項目雜湊到的 d 個計數器,回傳其中的最小值",
+            "fraction": 100,
+            "feedback": "正確 —— 取最小值可捨棄那些因碰撞而被膨脹最多的列。"
+          },
+          {
+            "text": "回傳 d 個雜湊計數器的總和",
+            "fraction": 0,
+            "feedback": "錯 —— 加總會嚴重高估;應取最小值。"
+          },
+          {
+            "text": "回傳表中所有計數器的平均值",
+            "fraction": 0,
+            "feedback": "錯 —— 只查該特定項目的 d 個計數器,並取其最小值。"
+          },
+          {
+            "text": "對計數器執行二分搜尋",
+            "fraction": 0,
+            "feedback": "錯 —— 計數器以雜湊直接定址,沒有搜尋。"
+          }
+        ],
+        "generalFeedback": "更新時每列加到一個計數器;查詢時取該項目 d 個計數器的最小值,因為該值受碰撞影響最小。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch 誤差界",
+        "text": "<p>什麼決定了 Count-Min Sketch 估計值的準確度(誤差)?</p>",
+        "answers": [
+          {
+            "text": "寬度 w 界定誤差大小,深度 d 界定失敗機率",
+            "fraction": 100,
+            "feedback": "正確 —— 較寬的列降低碰撞誤差;較多的列使估計出錯的機率更低。"
+          },
+          {
+            "text": "所計數項目的特定數值",
+            "fraction": 0,
+            "feedback": "錯 —— 準確度由維度 w 與 d 決定,而非項目數值。"
+          },
+          {
+            "text": "計數器是否保持排序",
+            "fraction": 0,
+            "feedback": "錯 —— 計數器以雜湊定址,沒有順序。"
+          },
+          {
+            "text": "更新程序的遞迴深度",
+            "fraction": 0,
+            "feedback": "錯 —— 更新為 O(d) 且非遞迴。"
+          }
+        ],
+        "generalFeedback": "較大的寬度 w 收緊加性誤差(約為串流大小的 e/w),較大的深度 d 以指數方式降低超出該誤差的機率。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Count-Min Sketch 高估",
+        "text": "<p>Count-Min Sketch 可能<em>高估</em>某項目的真實計數,但絕不會低估。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 碰撞只會使計數器增加,所以回報的計數永遠 &ge; 真實計數。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 因為計數器只會累加,估計值絕不會低於真實計數。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Count-Min Sketch 空間",
+        "text": "<p>Count-Min Sketch 使用次線性空間:遠少於為每個相異項目各存一個精確計數器。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 固定的 w×d 表即使相異項目數增加也維持很小。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— 其重點正是用精簡的固定大小表,而非每個項目一個計數器。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Count-Min Sketch 偏差名詞",
+        "text": "<p>因為雜湊碰撞只會使計數器增加,Count-Min Sketch 對項目的真實計數只可能 ______(填動詞,英文)。</p>",
+        "answers": [
+          {
+            "text": "overestimate",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "overestimate*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "overcount",
+            "fraction": 100,
+            "feedback": "正確 —— 它只會高估(overcount / overestimate)。"
+          },
+          {
+            "text": "over-estimate",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Count-Min Sketch 特性",
+        "text": "<p>關於 Count-Min Sketch,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它很適合在資料串流中找出重量級元素(heavy hitters)",
+            "fraction": 50,
+            "feedback": "正確 —— 近似的高頻項目是它的經典應用。"
+          },
+          {
+            "text": "它的估計值偏向高估(絕不低於真實計數)",
+            "fraction": 50,
+            "feedback": "正確 —— 碰撞只會累加,所以它只高估、不低估。"
+          },
+          {
+            "text": "它明確儲存每個相異的鍵以提供精確計數",
+            "fraction": -50,
+            "feedback": "錯 —— 它只保存雜湊計數器,提供的是近似計數。"
+          },
+          {
+            "text": "當表變擁擠時它可能低估計數",
+            "fraction": -50,
+            "feedback": "錯 —— 它絕不低估;擁擠只會增加高估。"
+          }
+        ],
+        "generalFeedback": "Count-Min Sketch 以次線性空間彙總串流頻率;它只高估(絕不低估),不儲存明確的鍵,且非常適合重量級元素偵測。",
+        "single": false
+      }
+    ]
+  },
   "decision-tree-coins": {
     "en": [
       {
@@ -817,6 +2065,12346 @@ window.QUIZ_RENDERED = {
           }
         ],
         "generalFeedback": "alpha-beta 是精確的(與 minimax 同值),並受益於良好的走法排序,剪去不會影響根的分支 —— 因此它不會走訪每一個葉節點。",
+        "single": false
+      }
+    ]
+  },
+  "graph-adjlist": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Adjacency list structure",
+        "text": "<p>In an <strong>adjacency list</strong> representation of a graph, what does each vertex store?</p>",
+        "answers": [
+          {
+            "text": "A list of its neighbouring (adjacent) vertices",
+            "fraction": 100,
+            "feedback": "Correct — each vertex keeps a list of the vertices it is directly connected to."
+          },
+          {
+            "text": "A full V-length row of 0s and 1s for every other vertex",
+            "fraction": 0,
+            "feedback": "That describes a row of the adjacency matrix, not an adjacency list."
+          },
+          {
+            "text": "Only its own degree as an integer",
+            "fraction": 0,
+            "feedback": "The degree alone does not tell you which vertices are neighbours."
+          },
+          {
+            "text": "A pointer to the graph's root vertex",
+            "fraction": 0,
+            "feedback": "General graphs have no root, and that would not encode adjacency."
+          }
+        ],
+        "generalFeedback": "An adjacency list gives each vertex a list of its neighbours, so it only stores edges that actually exist.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Adjacency list space",
+        "text": "<p>What is the space complexity of an adjacency list for a graph with V vertices and E edges?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "Correct — one entry per vertex plus one node per edge (or per endpoint)."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "That is the adjacency matrix's space, not the adjacency list's."
+          },
+          {
+            "text": "O(E^2)",
+            "fraction": 0,
+            "feedback": "Storage grows linearly with edges, not quadratically."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "You must store every vertex and edge, so it cannot be constant."
+          }
+        ],
+        "generalFeedback": "An adjacency list uses O(V + E) space: V list heads plus a node for each edge appearance.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Adjacency list best use",
+        "text": "<p>An adjacency list is <strong>most</strong> space-efficient for which kind of graph?</p>",
+        "answers": [
+          {
+            "text": "A sparse graph, where E is far smaller than V^2",
+            "fraction": 100,
+            "feedback": "Correct — lists only store existing edges, ideal when edges are few."
+          },
+          {
+            "text": "A dense graph, where E is close to V^2",
+            "fraction": 0,
+            "feedback": "For dense graphs a matrix is often preferable; lists lose their space advantage."
+          },
+          {
+            "text": "A complete graph on every vertex",
+            "fraction": 0,
+            "feedback": "A complete graph is maximally dense — the worst case for adjacency-list savings."
+          },
+          {
+            "text": "Any graph with exactly V^2 edges",
+            "fraction": 0,
+            "feedback": "That is a maximally dense graph, not where lists shine."
+          }
+        ],
+        "generalFeedback": "Because it stores only real edges, an adjacency list shines on sparse graphs (E much smaller than V^2).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Iterating neighbours cost",
+        "text": "<p>Using an adjacency list, iterating over all neighbours of a vertex u costs:</p>",
+        "answers": [
+          {
+            "text": "O(degree(u))",
+            "fraction": 100,
+            "feedback": "Correct — you walk u's list, whose length is its degree."
+          },
+          {
+            "text": "O(V) regardless of degree",
+            "fraction": 0,
+            "feedback": "That is the matrix cost; a list visits only actual neighbours."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "You must visit each neighbour, so it depends on the degree."
+          },
+          {
+            "text": "O(E) for every vertex",
+            "fraction": 0,
+            "feedback": "You only traverse u's own list, not all edges in the graph."
+          }
+        ],
+        "generalFeedback": "Neighbour iteration follows u's list, costing O(degree(u)) — a key advantage on sparse graphs.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Adjacency list edge test",
+        "text": "<p>With an adjacency list, testing whether edge (u, v) exists takes O(degree(u)) time in the worst case.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — you may have to scan all of u's neighbours."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "An adjacency list has no O(1) edge lookup; you scan u's list."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Adjacency list on dense graphs",
+        "text": "<p>An adjacency list always uses less memory than an adjacency matrix, even for very dense graphs.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "On dense graphs the per-node pointer overhead can exceed a compact matrix."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — for dense graphs a matrix can be as good or better."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "List content term",
+        "text": "<p>In an adjacency list, the list attached to each vertex holds that vertex's ______ (the adjacent vertices).</p>",
+        "answers": [
+          {
+            "text": "neighbors",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "neighbours",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "neighbor*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "neighbour*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Adjacency list facts",
+        "text": "<p>Which statements about the adjacency-list representation are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It uses O(V + E) space",
+            "fraction": 50,
+            "feedback": "Yes — heads for V vertices plus one node per edge appearance."
+          },
+          {
+            "text": "Iterating a vertex's neighbours costs O(degree)",
+            "fraction": 50,
+            "feedback": "Yes — you walk only that vertex's list."
+          },
+          {
+            "text": "It supports O(1) worst-case edge existence tests",
+            "fraction": -50,
+            "feedback": "No — that is the adjacency matrix; a list must scan a vertex's neighbours."
+          },
+          {
+            "text": "It uses O(V^2) space regardless of the number of edges",
+            "fraction": -50,
+            "feedback": "No — that is the matrix; a list's size scales with E."
+          }
+        ],
+        "generalFeedback": "Adjacency lists: O(V + E) space, O(degree) neighbour scans, no O(1) edge test, and size scales with E (great for sparse graphs).",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "相鄰串列結構",
+        "text": "<p>在圖的<strong>相鄰串列(adjacency list)</strong>表示法中,每個頂點儲存什麼?</p>",
+        "answers": [
+          {
+            "text": "它的相鄰(鄰接)頂點清單",
+            "fraction": 100,
+            "feedback": "正確 —— 每個頂點保存與它直接相連的頂點清單。"
+          },
+          {
+            "text": "對每個其他頂點都有的一整列長度 V 的 0 與 1",
+            "fraction": 0,
+            "feedback": "那是相鄰矩陣的一列,不是相鄰串列。"
+          },
+          {
+            "text": "只有它自己的度數(一個整數)",
+            "fraction": 0,
+            "feedback": "只知道度數無法得知相鄰的是哪些頂點。"
+          },
+          {
+            "text": "指向圖的根頂點的指標",
+            "fraction": 0,
+            "feedback": "一般圖沒有根,而且那也無法表示相鄰關係。"
+          }
+        ],
+        "generalFeedback": "相鄰串列讓每個頂點擁有一份鄰居清單,只儲存真正存在的邊。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "相鄰串列空間",
+        "text": "<p>對於有 V 個頂點與 E 條邊的圖,相鄰串列的空間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個頂點一個表頭,每條邊(或每個端點)一個節點。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "那是相鄰矩陣的空間,不是相鄰串列。"
+          },
+          {
+            "text": "O(E^2)",
+            "fraction": 0,
+            "feedback": "儲存量隨邊數線性成長,不是平方成長。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "必須儲存每個頂點與每條邊,不可能是常數。"
+          }
+        ],
+        "generalFeedback": "相鄰串列使用 O(V + E) 空間:V 個表頭加上每條邊出現一個節點。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "相鄰串列最佳適用",
+        "text": "<p>相鄰串列對哪一種圖<strong>最</strong>省空間?</p>",
+        "answers": [
+          {
+            "text": "稀疏圖,E 遠小於 V^2",
+            "fraction": 100,
+            "feedback": "正確 —— 串列只儲存存在的邊,邊少時最理想。"
+          },
+          {
+            "text": "稠密圖,E 接近 V^2",
+            "fraction": 0,
+            "feedback": "稠密圖通常用矩陣較好;串列失去空間優勢。"
+          },
+          {
+            "text": "對所有頂點皆相連的完全圖",
+            "fraction": 0,
+            "feedback": "完全圖最稠密 —— 是相鄰串列省空間的最差情況。"
+          },
+          {
+            "text": "任何恰好有 V^2 條邊的圖",
+            "fraction": 0,
+            "feedback": "那是最稠密的圖,不是串列擅長的場景。"
+          }
+        ],
+        "generalFeedback": "因為只儲存真實的邊,相鄰串列在稀疏圖(E 遠小於 V^2)時表現最佳。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "走訪鄰居的成本",
+        "text": "<p>使用相鄰串列時,走訪頂點 u 的所有鄰居的成本為:</p>",
+        "answers": [
+          {
+            "text": "O(degree(u))",
+            "fraction": 100,
+            "feedback": "正確 —— 走過 u 的串列,長度就是它的度數。"
+          },
+          {
+            "text": "不論度數皆為 O(V)",
+            "fraction": 0,
+            "feedback": "那是矩陣的成本;串列只走訪真正的鄰居。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "必須逐一走訪每個鄰居,因此取決於度數。"
+          },
+          {
+            "text": "對每個頂點皆為 O(E)",
+            "fraction": 0,
+            "feedback": "你只走訪 u 自己的串列,而非圖中所有邊。"
+          }
+        ],
+        "generalFeedback": "走訪鄰居沿著 u 的串列進行,成本為 O(degree(u)) —— 這是稀疏圖上的關鍵優勢。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "相鄰串列的邊查詢",
+        "text": "<p>使用相鄰串列時,測試邊 (u, v) 是否存在,最差情況需要 O(degree(u)) 的時間。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 你可能必須掃過 u 的所有鄰居。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "相鄰串列沒有 O(1) 的邊查詢;必須掃 u 的串列。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "相鄰串列於稠密圖",
+        "text": "<p>相鄰串列永遠比相鄰矩陣省記憶體,即使是非常稠密的圖也是如此。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "在稠密圖上,每個節點的指標額外負擔可能超過精簡的矩陣。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 對稠密圖,矩陣可能一樣好甚至更佳。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "串列內容的名詞",
+        "text": "<p>在相鄰串列中,掛在每個頂點上的清單存放該頂點的 ______(相鄰頂點,請以英文作答)。</p>",
+        "answers": [
+          {
+            "text": "neighbors",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "neighbours",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "neighbor*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "neighbour*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "相鄰串列性質",
+        "text": "<p>關於相鄰串列表示法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它使用 O(V + E) 空間",
+            "fraction": 50,
+            "feedback": "正確 —— V 個表頭加上每條邊出現一個節點。"
+          },
+          {
+            "text": "走訪一個頂點的鄰居成本為 O(degree)",
+            "fraction": 50,
+            "feedback": "正確 —— 只走該頂點的串列。"
+          },
+          {
+            "text": "它支援最差情況 O(1) 的邊存在性測試",
+            "fraction": -50,
+            "feedback": "錯 —— 那是相鄰矩陣;串列必須掃描頂點的鄰居。"
+          },
+          {
+            "text": "不論邊數多少,它都使用 O(V^2) 空間",
+            "fraction": -50,
+            "feedback": "錯 —— 那是矩陣;串列的大小隨 E 成長。"
+          }
+        ],
+        "generalFeedback": "相鄰串列:O(V + E) 空間、O(degree) 走訪鄰居、無 O(1) 邊查詢、大小隨 E 成長(適合稀疏圖)。",
+        "single": false
+      }
+    ]
+  },
+  "graph-aoe": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "AOE network definition",
+        "text": "<p>In an <strong>Activity-On-Edge (AOE)</strong> network, what do the edges and vertices represent?</p>",
+        "answers": [
+          {
+            "text": "Edges are activities with durations; vertices are events (milestones)",
+            "fraction": 100,
+            "feedback": "Correct — AOE puts activities on edges and events on vertices."
+          },
+          {
+            "text": "Edges are events; vertices are activities",
+            "fraction": 0,
+            "feedback": "That describes an Activity-On-Vertex (AOV) network, not AOE."
+          },
+          {
+            "text": "Both edges and vertices are activities",
+            "fraction": 0,
+            "feedback": "No — only the edges carry activities in AOE."
+          },
+          {
+            "text": "Edges have no weights; only vertices are weighted",
+            "fraction": 0,
+            "feedback": "No — AOE edges carry the activity durations as weights."
+          }
+        ],
+        "generalFeedback": "An AOE network is a weighted DAG where each edge is an activity with a duration and each vertex is an event marking the completion of incoming activities.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Critical path meaning",
+        "text": "<p>The <strong>critical path</strong> in an AOE network is the ______ path from the start event to the finish event.</p>",
+        "answers": [
+          {
+            "text": "Longest — it equals the minimum project completion time",
+            "fraction": 100,
+            "feedback": "Correct — the longest path determines the shortest possible completion time."
+          },
+          {
+            "text": "Shortest — it equals the minimum project completion time",
+            "fraction": 0,
+            "feedback": "No — the critical path is the longest path, not the shortest."
+          },
+          {
+            "text": "Path with the fewest edges",
+            "fraction": 0,
+            "feedback": "No — edge count is irrelevant; total duration matters."
+          },
+          {
+            "text": "Any path with at least one zero-slack activity",
+            "fraction": 0,
+            "feedback": "No — the critical path is specifically the longest one."
+          }
+        ],
+        "generalFeedback": "Because all activities must finish for the project to complete, the longest (critical) path fixes the minimum overall completion time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Slack of critical activities",
+        "text": "<p>How much <strong>slack</strong> (allowable delay) does an activity on the critical path have?</p>",
+        "answers": [
+          {
+            "text": "Zero — delaying it delays the whole project",
+            "fraction": 100,
+            "feedback": "Correct — critical activities have zero slack."
+          },
+          {
+            "text": "Equal to the activity's duration",
+            "fraction": 0,
+            "feedback": "No — critical activities cannot be delayed at all."
+          },
+          {
+            "text": "Equal to the project length minus the path length",
+            "fraction": 0,
+            "feedback": "No — that would be positive; critical activities have zero slack."
+          },
+          {
+            "text": "Always exactly one time unit",
+            "fraction": 0,
+            "feedback": "No — the slack is exactly zero."
+          }
+        ],
+        "generalFeedback": "Slack = latest start - earliest start. On the critical path these coincide, so slack is zero and any delay pushes the finish event.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Computing event times",
+        "text": "<p>Which two passes compute the earliest and latest event times used to find the critical path?</p>",
+        "answers": [
+          {
+            "text": "A forward pass (earliest event time) then a backward pass (latest event time)",
+            "fraction": 100,
+            "feedback": "Correct — forward for earliest, backward for latest."
+          },
+          {
+            "text": "Two forward passes over the graph",
+            "fraction": 0,
+            "feedback": "No — the second pass runs backward from the finish event."
+          },
+          {
+            "text": "Dijkstra's algorithm run twice",
+            "fraction": 0,
+            "feedback": "No — event times use topological forward/backward passes on a DAG."
+          },
+          {
+            "text": "A single BFS from the start event",
+            "fraction": 0,
+            "feedback": "No — you need both a forward and a backward pass."
+          }
+        ],
+        "generalFeedback": "Processing vertices in topological order forward gives earliest event times; processing in reverse gives latest event times. Activities whose earliest = latest start are critical.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Critical path graph type",
+        "text": "<p>An AOE network must be a <em>directed acyclic graph (DAG)</em> for the critical-path method to apply.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a cycle would make event times undefined; AOE networks are DAGs."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It must be acyclic; a cycle prevents well-defined earliest/latest event times."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Uniqueness of critical path",
+        "text": "<p>An AOE network can have <em>more than one</em> critical path.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — several longest paths of equal length can coexist."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Multiple paths can tie for the longest length, so critical paths need not be unique."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Zero-delay term",
+        "text": "<p>The allowable delay of an activity without delaying the project is called its ______ (one English word).</p>",
+        "answers": [
+          {
+            "text": "slack",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "slack*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "float",
+            "fraction": 100,
+            "feedback": "Correct — \"float\" is an accepted synonym for slack."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Critical path facts",
+        "text": "<p>Which statements about the critical path are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Its total length equals the minimum project completion time",
+            "fraction": 50,
+            "feedback": "Yes — the longest path sets the shortest possible finish time."
+          },
+          {
+            "text": "Every activity on it has zero slack",
+            "fraction": 50,
+            "feedback": "Yes — critical activities cannot be delayed."
+          },
+          {
+            "text": "Shortening any non-critical activity always shortens the project",
+            "fraction": -50,
+            "feedback": "No — only shortening the critical path (up to a point) shortens the project."
+          },
+          {
+            "text": "It is the path with the smallest total edge weight",
+            "fraction": -50,
+            "feedback": "No — it is the largest total weight (longest) path."
+          }
+        ],
+        "generalFeedback": "The critical path is the longest path; its length is the minimum completion time and its activities have zero slack. Speeding up non-critical activities does not help until they too become critical.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "AOE 網路定義",
+        "text": "<p>在<strong>邊代表活動(AOE)</strong>網路中,邊與頂點分別代表什麼?</p>",
+        "answers": [
+          {
+            "text": "邊是帶有持續時間的活動;頂點是事件(里程碑)",
+            "fraction": 100,
+            "feedback": "正確 —— AOE 把活動放在邊上,事件放在頂點上。"
+          },
+          {
+            "text": "邊是事件;頂點是活動",
+            "fraction": 0,
+            "feedback": "那是頂點代表活動(AOV)網路,不是 AOE。"
+          },
+          {
+            "text": "邊與頂點都是活動",
+            "fraction": 0,
+            "feedback": "錯 —— AOE 中只有邊承載活動。"
+          },
+          {
+            "text": "邊沒有權重,只有頂點有權重",
+            "fraction": 0,
+            "feedback": "錯 —— AOE 的邊以權重表示活動的持續時間。"
+          }
+        ],
+        "generalFeedback": "AOE 網路是一個加權的有向無環圖(DAG),每條邊是帶有持續時間的活動,每個頂點是標記其入邊活動完成的事件。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "關鍵路徑的意義",
+        "text": "<p>AOE 網路中的<strong>關鍵路徑</strong>是從起始事件到結束事件的 ______ 路徑。</p>",
+        "answers": [
+          {
+            "text": "最長 —— 它等於專案的最短完成時間",
+            "fraction": 100,
+            "feedback": "正確 —— 最長路徑決定了可能的最短完成時間。"
+          },
+          {
+            "text": "最短 —— 它等於專案的最短完成時間",
+            "fraction": 0,
+            "feedback": "錯 —— 關鍵路徑是最長路徑,不是最短路徑。"
+          },
+          {
+            "text": "邊數最少的路徑",
+            "fraction": 0,
+            "feedback": "錯 —— 邊數無關,重要的是總持續時間。"
+          },
+          {
+            "text": "任何至少含一個零寬裕活動的路徑",
+            "fraction": 0,
+            "feedback": "錯 —— 關鍵路徑特指最長的那一條。"
+          }
+        ],
+        "generalFeedback": "因為所有活動都必須完成專案才算結束,所以最長(關鍵)路徑決定了整體的最短完成時間。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "關鍵活動的寬裕時間",
+        "text": "<p>位於關鍵路徑上的活動有多少<strong>寬裕時間(可容許延遲)</strong>?</p>",
+        "answers": [
+          {
+            "text": "零 —— 延遲它就會延遲整個專案",
+            "fraction": 100,
+            "feedback": "正確 —— 關鍵活動的寬裕時間為零。"
+          },
+          {
+            "text": "等於該活動的持續時間",
+            "fraction": 0,
+            "feedback": "錯 —— 關鍵活動完全不能延遲。"
+          },
+          {
+            "text": "等於專案長度減去路徑長度",
+            "fraction": 0,
+            "feedback": "錯 —— 那會是正值;關鍵活動的寬裕時間為零。"
+          },
+          {
+            "text": "永遠剛好是一個時間單位",
+            "fraction": 0,
+            "feedback": "錯 —— 寬裕時間恰好為零。"
+          }
+        ],
+        "generalFeedback": "寬裕時間 = 最晚開始 - 最早開始。關鍵路徑上兩者相等,因此寬裕時間為零,任何延遲都會推遲結束事件。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "計算事件時間",
+        "text": "<p>用來找出關鍵路徑的最早與最晚事件時間,是由哪兩趟計算得到的?</p>",
+        "answers": [
+          {
+            "text": "正向掃描(最早事件時間)再反向掃描(最晚事件時間)",
+            "fraction": 100,
+            "feedback": "正確 —— 正向求最早,反向求最晚。"
+          },
+          {
+            "text": "對圖做兩趟正向掃描",
+            "fraction": 0,
+            "feedback": "錯 —— 第二趟要從結束事件反向進行。"
+          },
+          {
+            "text": "執行兩次 Dijkstra 演算法",
+            "fraction": 0,
+            "feedback": "錯 —— 事件時間是在 DAG 上以拓樸順序做正向/反向掃描。"
+          },
+          {
+            "text": "從起始事件做單次 BFS",
+            "fraction": 0,
+            "feedback": "錯 —— 需要正向與反向兩趟。"
+          }
+        ],
+        "generalFeedback": "以拓樸順序正向處理頂點得到最早事件時間;反向處理得到最晚事件時間。最早開始等於最晚開始的活動即為關鍵活動。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "關鍵路徑的圖類型",
+        "text": "<p>AOE 網路必須是<em>有向無環圖(DAG)</em>,關鍵路徑法才能適用。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 存在環會使事件時間無法定義;AOE 網路是 DAG。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "它必須無環;環會使最早/最晚事件時間無法良好定義。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "關鍵路徑的唯一性",
+        "text": "<p>一個 AOE 網路可以有<em>不只一條</em>關鍵路徑。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 可能同時存在多條長度相同的最長路徑。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "多條路徑可能同為最長,因此關鍵路徑未必唯一。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "零延遲名詞",
+        "text": "<p>活動在不延遲專案的前提下可容許的延遲量,稱為它的 ______(一個英文單字)。</p>",
+        "answers": [
+          {
+            "text": "slack",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "slack*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "float",
+            "fraction": 100,
+            "feedback": "正確 ——「float」是 slack 可接受的同義詞。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "關鍵路徑的性質",
+        "text": "<p>關於關鍵路徑,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "其總長度等於專案的最短完成時間",
+            "fraction": 50,
+            "feedback": "正確 —— 最長路徑決定了可能的最短完成時間。"
+          },
+          {
+            "text": "其上每個活動的寬裕時間都是零",
+            "fraction": 50,
+            "feedback": "正確 —— 關鍵活動不能延遲。"
+          },
+          {
+            "text": "縮短任何非關鍵活動一定會縮短專案",
+            "fraction": -50,
+            "feedback": "錯 —— 只有縮短關鍵路徑(在一定範圍內)才會縮短專案。"
+          },
+          {
+            "text": "它是總邊權最小的路徑",
+            "fraction": -50,
+            "feedback": "錯 —— 它是總邊權最大(最長)的路徑。"
+          }
+        ],
+        "generalFeedback": "關鍵路徑是最長路徑;其長度是最短完成時間,其上活動寬裕時間為零。加速非關鍵活動在它們未成為關鍵之前並無幫助。",
+        "single": false
+      }
+    ]
+  },
+  "graph-bellman-ford": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford key advantage",
+        "text": "<p>What can Bellman-Ford do that Dijkstra cannot?</p>",
+        "answers": [
+          {
+            "text": "Handle graphs with negative-weight edges",
+            "fraction": 100,
+            "feedback": "Correct — Bellman-Ford is designed for negative weights and can detect negative cycles."
+          },
+          {
+            "text": "Run faster than Dijkstra on all graphs",
+            "fraction": 0,
+            "feedback": "The opposite — Bellman-Ford is slower; its value is generality."
+          },
+          {
+            "text": "Compute a minimum spanning tree",
+            "fraction": 0,
+            "feedback": "MST is a different problem (Prim/Kruskal)."
+          },
+          {
+            "text": "Solve all-pairs shortest paths in one run",
+            "fraction": 0,
+            "feedback": "One run is single-source, like Dijkstra."
+          }
+        ],
+        "generalFeedback": "Bellman-Ford trades speed for generality: it correctly handles negative edges and can report a negative cycle.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford relaxation count",
+        "text": "<p>In the standard Bellman-Ford algorithm, how many times is the full set of edges relaxed?</p>",
+        "answers": [
+          {
+            "text": "V - 1 times",
+            "fraction": 100,
+            "feedback": "Correct — a shortest path has at most V-1 edges, so V-1 passes suffice."
+          },
+          {
+            "text": "V times",
+            "fraction": 0,
+            "feedback": "Close, but V-1 passes are enough; a V-th pass is only used to detect negative cycles."
+          },
+          {
+            "text": "E times",
+            "fraction": 0,
+            "feedback": "It relaxes all E edges per pass, but the number of passes is V-1."
+          },
+          {
+            "text": "log V times",
+            "fraction": 0,
+            "feedback": "That is not the Bellman-Ford bound."
+          }
+        ],
+        "generalFeedback": "Because any shortest path uses at most V-1 edges, relaxing every edge V-1 times guarantees convergence.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford complexity",
+        "text": "<p>What is the time complexity of Bellman-Ford on V vertices and E edges?</p>",
+        "answers": [
+          {
+            "text": "O(V * E)",
+            "fraction": 100,
+            "feedback": "Correct — V-1 passes, each relaxing all E edges."
+          },
+          {
+            "text": "O((V + E) log V)",
+            "fraction": 0,
+            "feedback": "That is Dijkstra with a binary heap."
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "That is Floyd-Warshall."
+          },
+          {
+            "text": "O(E log E)",
+            "fraction": 0,
+            "feedback": "That resembles Kruskal's sorting cost, not Bellman-Ford."
+          }
+        ],
+        "generalFeedback": "V-1 passes times E edges per pass gives O(V * E).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford negative cycle detection",
+        "text": "<p>How does Bellman-Ford detect a negative-weight cycle reachable from the source?</p>",
+        "answers": [
+          {
+            "text": "If one more relaxation pass still improves some distance, a negative cycle exists",
+            "fraction": 100,
+            "feedback": "Correct — distances should be final after V-1 passes; further improvement signals a negative cycle."
+          },
+          {
+            "text": "If any distance becomes exactly zero",
+            "fraction": 0,
+            "feedback": "A zero distance is not evidence of a negative cycle."
+          },
+          {
+            "text": "If the priority queue empties early",
+            "fraction": 0,
+            "feedback": "Bellman-Ford does not use a priority queue."
+          },
+          {
+            "text": "If a vertex has no outgoing edges",
+            "fraction": 0,
+            "feedback": "A sink vertex says nothing about cycles."
+          }
+        ],
+        "generalFeedback": "After V-1 passes all distances are final; running a V-th pass that still relaxes an edge proves a reachable negative cycle.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Bellman-Ford negative weights",
+        "text": "<p>Bellman-Ford correctly computes shortest paths on a graph with negative edge weights but no negative cycle.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — that is exactly the case it handles."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It does handle negative edges as long as no reachable negative cycle exists."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Bellman-Ford vs Dijkstra speed",
+        "text": "<p>On a graph with only non-negative weights, Bellman-Ford is generally faster than Dijkstra.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — O(V*E) is typically slower than O((V+E) log V); prefer Dijkstra when weights are non-negative."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — Bellman-Ford is slower; its advantage is handling negative weights, not speed."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Bellman-Ford edge type",
+        "text": "<p>The main reason to choose Bellman-Ford over Dijkstra is support for ______-weight edges (one word, English term).</p>",
+        "answers": [
+          {
+            "text": "negative",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "negative*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford properties",
+        "text": "<p>Which statements about Bellman-Ford are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It can detect a negative-weight cycle",
+            "fraction": 50,
+            "feedback": "Yes — via an extra relaxation pass that still improves a distance."
+          },
+          {
+            "text": "It relaxes every edge in each of V-1 passes",
+            "fraction": 50,
+            "feedback": "Yes — that is the core loop structure."
+          },
+          {
+            "text": "It requires all edge weights to be non-negative",
+            "fraction": -50,
+            "feedback": "No — that requirement belongs to Dijkstra."
+          },
+          {
+            "text": "It runs in O(V + E) time",
+            "fraction": -50,
+            "feedback": "No — it runs in O(V * E)."
+          }
+        ],
+        "generalFeedback": "Bellman-Ford: V-1 relaxation passes over all edges, O(V*E), handles negative weights and detects negative cycles.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford 主要優勢",
+        "text": "<p>Bellman-Ford 能做到而 Dijkstra 做不到的是什麼?</p>",
+        "answers": [
+          {
+            "text": "處理含負權邊的圖",
+            "fraction": 100,
+            "feedback": "正確 —— Bellman-Ford 專為負權設計,並能偵測負環。"
+          },
+          {
+            "text": "在所有圖上都比 Dijkstra 快",
+            "fraction": 0,
+            "feedback": "正好相反 —— Bellman-Ford 較慢,其價值在於通用性。"
+          },
+          {
+            "text": "計算最小生成樹",
+            "fraction": 0,
+            "feedback": "MST 是另一個問題(Prim/Kruskal)。"
+          },
+          {
+            "text": "一次執行解出全點對最短路徑",
+            "fraction": 0,
+            "feedback": "一次執行是單源,與 Dijkstra 相同。"
+          }
+        ],
+        "generalFeedback": "Bellman-Ford 以速度換取通用性:能正確處理負邊,並可回報負環。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford 鬆弛次數",
+        "text": "<p>在標準 Bellman-Ford 演算法中,整組邊被鬆弛幾次?</p>",
+        "answers": [
+          {
+            "text": "V - 1 次",
+            "fraction": 100,
+            "feedback": "正確 —— 最短路徑至多有 V-1 條邊,故 V-1 輪即足夠。"
+          },
+          {
+            "text": "V 次",
+            "fraction": 0,
+            "feedback": "接近,但 V-1 輪已足夠;第 V 輪只用來偵測負環。"
+          },
+          {
+            "text": "E 次",
+            "fraction": 0,
+            "feedback": "每輪鬆弛全部 E 條邊,但輪數是 V-1。"
+          },
+          {
+            "text": "log V 次",
+            "fraction": 0,
+            "feedback": "那不是 Bellman-Ford 的界。"
+          }
+        ],
+        "generalFeedback": "因為任何最短路徑至多使用 V-1 條邊,對每條邊鬆弛 V-1 次即保證收斂。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford 複雜度",
+        "text": "<p>在 V 個頂點、E 條邊上,Bellman-Ford 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(V * E)",
+            "fraction": 100,
+            "feedback": "正確 —— V-1 輪,每輪鬆弛全部 E 條邊。"
+          },
+          {
+            "text": "O((V + E) log V)",
+            "fraction": 0,
+            "feedback": "那是使用二元堆積的 Dijkstra。"
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "那是 Floyd-Warshall。"
+          },
+          {
+            "text": "O(E log E)",
+            "fraction": 0,
+            "feedback": "那類似 Kruskal 的排序成本,不是 Bellman-Ford。"
+          }
+        ],
+        "generalFeedback": "V-1 輪乘上每輪 E 條邊,得 O(V * E)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford 負環偵測",
+        "text": "<p>Bellman-Ford 如何偵測從起點可達的負權環?</p>",
+        "answers": [
+          {
+            "text": "若再多做一輪鬆弛仍能改善某個距離,即存在負環",
+            "fraction": 100,
+            "feedback": "正確 —— 經 V-1 輪後距離應為最終值;仍可改善即表示有負環。"
+          },
+          {
+            "text": "若某個距離恰好變為零",
+            "fraction": 0,
+            "feedback": "距離為零並非負環的證據。"
+          },
+          {
+            "text": "若優先佇列提早清空",
+            "fraction": 0,
+            "feedback": "Bellman-Ford 不使用優先佇列。"
+          },
+          {
+            "text": "若某頂點沒有出邊",
+            "fraction": 0,
+            "feedback": "匯點頂點與環無關。"
+          }
+        ],
+        "generalFeedback": "經 V-1 輪後所有距離皆為最終值;若第 V 輪仍能鬆弛某條邊,即證明存在可達的負環。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Bellman-Ford 負權",
+        "text": "<p>對於含負權邊但沒有負環的圖,Bellman-Ford 能正確計算最短路徑。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這正是它能處理的情況。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "只要沒有可達的負環,它確實能處理負邊。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Bellman-Ford 與 Dijkstra 速度",
+        "text": "<p>在只有非負權重的圖上,Bellman-Ford 通常比 Dijkstra 快。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— O(V*E) 通常比 O((V+E) log V) 慢;權重非負時應優先選 Dijkstra。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— Bellman-Ford 較慢,其優勢是處理負權而非速度。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Bellman-Ford 邊的類型",
+        "text": "<p>選用 Bellman-Ford 而非 Dijkstra 的主要理由,是支援 ______ 權重的邊(單字,英文術語)。</p>",
+        "answers": [
+          {
+            "text": "negative",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "negative*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Bellman-Ford 性質",
+        "text": "<p>關於 Bellman-Ford,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它能偵測負權環",
+            "fraction": 50,
+            "feedback": "正確 —— 透過額外一輪仍能改善距離的鬆弛。"
+          },
+          {
+            "text": "它在 V-1 輪中的每一輪都鬆弛每條邊",
+            "fraction": 50,
+            "feedback": "正確 —— 這是核心迴圈結構。"
+          },
+          {
+            "text": "它要求所有邊權皆非負",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 Dijkstra 的要求。"
+          },
+          {
+            "text": "它以 O(V + E) 時間執行",
+            "fraction": -50,
+            "feedback": "錯 —— 它以 O(V * E) 執行。"
+          }
+        ],
+        "generalFeedback": "Bellman-Ford:對所有邊進行 V-1 輪鬆弛,O(V*E),可處理負權並偵測負環。",
+        "single": false
+      }
+    ]
+  },
+  "graph-bfs": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "BFS data structure",
+        "text": "<p>Which data structure does <strong>breadth-first search</strong> use to decide the order in which vertices are explored?</p>",
+        "answers": [
+          {
+            "text": "A FIFO queue",
+            "fraction": 100,
+            "feedback": "Correct — a queue processes vertices in the order they were discovered, level by level."
+          },
+          {
+            "text": "A LIFO stack",
+            "fraction": 0,
+            "feedback": "A stack gives depth-first order, not breadth-first."
+          },
+          {
+            "text": "A min-priority queue keyed by edge weight",
+            "fraction": 0,
+            "feedback": "That describes Dijkstra or Prim, not plain BFS."
+          },
+          {
+            "text": "A disjoint-set (union-find) structure",
+            "fraction": 0,
+            "feedback": "Union-find is used by Kruskal's MST, not by BFS."
+          }
+        ],
+        "generalFeedback": "BFS enqueues a vertex when first discovered and dequeues in FIFO order, so vertices are visited in non-decreasing distance from the source.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS shortest paths",
+        "text": "<p>On which kind of graph does BFS from a source vertex compute a <strong>shortest path</strong> (fewest edges) to every reachable vertex?</p>",
+        "answers": [
+          {
+            "text": "An unweighted graph (or one where every edge has equal weight)",
+            "fraction": 100,
+            "feedback": "Correct — with uniform edge cost, level order equals shortest-path order."
+          },
+          {
+            "text": "Any weighted graph with arbitrary positive weights",
+            "fraction": 0,
+            "feedback": "No — with unequal weights you need Dijkstra; BFS counts edges, not weight."
+          },
+          {
+            "text": "Only a directed acyclic graph",
+            "fraction": 0,
+            "feedback": "BFS works on cyclic and undirected graphs too; the key restriction is unweighted edges."
+          },
+          {
+            "text": "Only a complete graph",
+            "fraction": 0,
+            "feedback": "Completeness is irrelevant; edge weighting is what matters."
+          }
+        ],
+        "generalFeedback": "Because BFS expands vertices in order of edge-distance, the first time it reaches a vertex it has used the fewest possible edges — a shortest path when all edges cost the same.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS complexity",
+        "text": "<p>Using an adjacency list, what is the time complexity of BFS on a graph with V vertices and E edges?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "Correct — each vertex is enqueued once and each edge is examined once."
+          },
+          {
+            "text": "O(V^2) regardless of representation",
+            "fraction": 0,
+            "feedback": "O(V^2) arises with an adjacency matrix, not with an adjacency list."
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "That is Prim/Dijkstra with a heap; BFS uses a plain queue."
+          },
+          {
+            "text": "O(V!)",
+            "fraction": 0,
+            "feedback": "BFS is linear in the graph size, not factorial."
+          }
+        ],
+        "generalFeedback": "With an adjacency list every vertex and every edge is touched a constant number of times, giving O(V + E).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS visited set purpose",
+        "text": "<p>Why does BFS mark vertices with a <em>visited</em> (or discovered) set?</p>",
+        "answers": [
+          {
+            "text": "To avoid enqueuing the same vertex twice and prevent infinite loops on cycles",
+            "fraction": 100,
+            "feedback": "Correct — without it, a cycle would re-add vertices forever."
+          },
+          {
+            "text": "To sort the vertices by weight before traversal",
+            "fraction": 0,
+            "feedback": "BFS does not sort by weight; it processes in discovery order."
+          },
+          {
+            "text": "To guarantee the graph is a tree",
+            "fraction": 0,
+            "feedback": "The visited set lets BFS handle general graphs; it does not require a tree."
+          },
+          {
+            "text": "To make the traversal depth-first",
+            "fraction": 0,
+            "feedback": "The queue, not the visited set, controls order; marking is only about correctness."
+          }
+        ],
+        "generalFeedback": "Marking a vertex when discovered ensures each vertex is processed exactly once, so BFS terminates even on graphs with cycles.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "BFS neighbors before depth",
+        "text": "<p>BFS visits all neighbors of a vertex before moving on to vertices that are farther from the source.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — BFS explores level by level, finishing distance d before starting distance d+1."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "This is exactly the defining behavior of BFS."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "BFS weighted shortest path claim",
+        "text": "<p>Plain BFS always finds the minimum-<em>weight</em> path in a graph with arbitrary positive edge weights.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — BFS minimizes the number of edges, not total weight; use Dijkstra for weighted graphs."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — BFS is only shortest-path-optimal when edges are unweighted or all equal."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "BFS frontier structure",
+        "text": "<p>BFS manages its frontier of vertices to visit next using a FIFO ______ (single English word).</p>",
+        "answers": [
+          {
+            "text": "queue",
+            "fraction": 100,
+            "feedback": "Correct — a FIFO queue drives the level-order traversal."
+          },
+          {
+            "text": "queue*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS properties multi",
+        "text": "<p>Which statements about breadth-first search are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It runs in O(V + E) with an adjacency list",
+            "fraction": 50,
+            "feedback": "Yes — linear in vertices plus edges."
+          },
+          {
+            "text": "It finds shortest paths by edge count in an unweighted graph",
+            "fraction": 50,
+            "feedback": "Yes — level order gives fewest-edge paths."
+          },
+          {
+            "text": "It uses a stack and backtracks to go as deep as possible",
+            "fraction": -50,
+            "feedback": "No — that describes DFS, not BFS."
+          },
+          {
+            "text": "It requires edge weights to be sorted before it can start",
+            "fraction": -50,
+            "feedback": "No — BFS ignores weights entirely."
+          }
+        ],
+        "generalFeedback": "BFS is a queue-based, O(V + E) traversal that yields fewest-edge shortest paths in unweighted graphs; depth-first behavior and weight sorting belong to other algorithms.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "BFS 使用的資料結構",
+        "text": "<p><strong>廣度優先搜尋</strong>使用哪一種資料結構來決定頂點被探索的順序?</p>",
+        "answers": [
+          {
+            "text": "先進先出的佇列(FIFO queue)",
+            "fraction": 100,
+            "feedback": "正確 —— 佇列依頂點被發現的順序逐層處理。"
+          },
+          {
+            "text": "後進先出的堆疊(LIFO stack)",
+            "fraction": 0,
+            "feedback": "堆疊產生的是深度優先順序,不是廣度優先。"
+          },
+          {
+            "text": "以邊權重為鍵的最小優先佇列",
+            "fraction": 0,
+            "feedback": "那是 Dijkstra 或 Prim,不是單純的 BFS。"
+          },
+          {
+            "text": "互斥集合(union-find)結構",
+            "fraction": 0,
+            "feedback": "Union-find 用於 Kruskal 最小生成樹,不是 BFS。"
+          }
+        ],
+        "generalFeedback": "BFS 在頂點首次被發現時入列,並以 FIFO 順序出列,因此頂點依離起點的距離非遞減地被拜訪。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS 最短路徑",
+        "text": "<p>在哪一種圖上,從起點出發的 BFS 能計算出到每個可達頂點的<strong>最短路徑</strong>(最少邊數)?</p>",
+        "answers": [
+          {
+            "text": "無權重圖(或每條邊權重相等的圖)",
+            "fraction": 100,
+            "feedback": "正確 —— 當邊的成本一致時,層序即等於最短路徑順序。"
+          },
+          {
+            "text": "任意具有正權重的加權圖",
+            "fraction": 0,
+            "feedback": "錯 —— 權重不等時需要 Dijkstra;BFS 只計算邊數,而非權重。"
+          },
+          {
+            "text": "僅限有向無環圖",
+            "fraction": 0,
+            "feedback": "BFS 也適用於有環圖與無向圖;關鍵限制是邊必須無權重。"
+          },
+          {
+            "text": "僅限完全圖",
+            "fraction": 0,
+            "feedback": "是否為完全圖並不重要;重點在於邊是否加權。"
+          }
+        ],
+        "generalFeedback": "因為 BFS 依邊距離擴展頂點,第一次到達某頂點時所用的邊數必為最少 —— 當所有邊成本相同時即為最短路徑。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS 複雜度",
+        "text": "<p>使用鄰接串列時,對於有 V 個頂點與 E 條邊的圖,BFS 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個頂點入列一次、每條邊檢查一次。"
+          },
+          {
+            "text": "不論表示法都是 O(V^2)",
+            "fraction": 0,
+            "feedback": "O(V^2) 出現在鄰接矩陣,而非鄰接串列。"
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "那是使用堆積的 Prim/Dijkstra;BFS 使用一般佇列。"
+          },
+          {
+            "text": "O(V!)",
+            "fraction": 0,
+            "feedback": "BFS 與圖的大小成線性關係,不是階乘。"
+          }
+        ],
+        "generalFeedback": "使用鄰接串列時,每個頂點與每條邊都只被觸及常數次,因此為 O(V + E)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS 已拜訪集合的作用",
+        "text": "<p>BFS 為何要以<em>已拜訪</em>(或已發現)集合標記頂點?</p>",
+        "answers": [
+          {
+            "text": "避免同一頂點被重複入列,並防止在有環時陷入無窮迴圈",
+            "fraction": 100,
+            "feedback": "正確 —— 若不標記,環會不斷重新加入頂點。"
+          },
+          {
+            "text": "在走訪前先依權重將頂點排序",
+            "fraction": 0,
+            "feedback": "BFS 不依權重排序;它依發現順序處理。"
+          },
+          {
+            "text": "保證圖是一棵樹",
+            "fraction": 0,
+            "feedback": "已拜訪集合讓 BFS 能處理一般圖,並不要求是樹。"
+          },
+          {
+            "text": "使走訪變成深度優先",
+            "fraction": 0,
+            "feedback": "控制順序的是佇列而非標記;標記只關乎正確性。"
+          }
+        ],
+        "generalFeedback": "在頂點被發現時標記,可確保每個頂點只被處理一次,因此即使圖中有環,BFS 也會終止。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "BFS 先鄰居再深入",
+        "text": "<p>BFS 會先拜訪一個頂點的所有鄰居,才前往離起點更遠的頂點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— BFS 逐層探索,完成距離 d 才開始距離 d+1。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "這正是 BFS 的定義行為。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "BFS 加權最短路徑主張",
+        "text": "<p>在具有任意正權重的圖上,單純的 BFS 總能找到最小<em>權重</em>路徑。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— BFS 最小化的是邊數而非總權重;加權圖請用 Dijkstra。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 只有在邊無權重或全部相等時,BFS 才是最短路徑最佳解。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "BFS 前緣結構",
+        "text": "<p>BFS 使用一個先進先出的 ______(單一英文單字)來管理接下來要拜訪的頂點前緣。</p>",
+        "answers": [
+          {
+            "text": "queue",
+            "fraction": 100,
+            "feedback": "正確 —— FIFO 佇列驅動層序走訪。"
+          },
+          {
+            "text": "queue*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS 性質複選",
+        "text": "<p>關於廣度優先搜尋,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "使用鄰接串列時執行時間為 O(V + E)",
+            "fraction": 50,
+            "feedback": "正確 —— 與頂點數加邊數成線性。"
+          },
+          {
+            "text": "在無權重圖中,能以邊數找到最短路徑",
+            "fraction": 50,
+            "feedback": "正確 —— 層序給出最少邊數的路徑。"
+          },
+          {
+            "text": "它使用堆疊並回溯以盡可能深入",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 DFS,不是 BFS。"
+          },
+          {
+            "text": "它必須先將邊權重排序才能開始",
+            "fraction": -50,
+            "feedback": "錯 —— BFS 完全忽略權重。"
+          }
+        ],
+        "generalFeedback": "BFS 是以佇列為基礎、O(V + E) 的走訪,在無權重圖中產生最少邊數的最短路徑;深度優先行為與權重排序屬於其他演算法。",
+        "single": false
+      }
+    ]
+  },
+  "graph-bipartite": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Bipartite definition",
+        "text": "<p>A graph is <strong>bipartite</strong> if and only if:</p>",
+        "answers": [
+          {
+            "text": "Its vertices can be 2-colored so that no edge joins two same-colored vertices",
+            "fraction": 100,
+            "feedback": "Correct — a proper 2-coloring is exactly bipartiteness."
+          },
+          {
+            "text": "It is connected and has no isolated vertices",
+            "fraction": 0,
+            "feedback": "No — connectivity is unrelated to bipartiteness."
+          },
+          {
+            "text": "Every vertex has even degree",
+            "fraction": 0,
+            "feedback": "No — that is the Eulerian condition, not bipartiteness."
+          },
+          {
+            "text": "It contains at least one cycle",
+            "fraction": 0,
+            "feedback": "No — a tree (no cycles) is bipartite; cycles are not required."
+          }
+        ],
+        "generalFeedback": "A graph is bipartite exactly when its vertices split into two sets with all edges crossing between the sets — equivalently, a proper 2-coloring exists.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Odd cycle characterization",
+        "text": "<p>A graph is bipartite <strong>if and only if</strong> it contains no cycle of which length?</p>",
+        "answers": [
+          {
+            "text": "No odd-length cycle",
+            "fraction": 100,
+            "feedback": "Correct — bipartite graphs have no odd cycles."
+          },
+          {
+            "text": "No even-length cycle",
+            "fraction": 0,
+            "feedback": "No — even cycles are perfectly fine in bipartite graphs."
+          },
+          {
+            "text": "No cycle of length 3 only",
+            "fraction": 0,
+            "feedback": "No — every odd cycle (5, 7, ...) is forbidden, not just triangles."
+          },
+          {
+            "text": "No cycle at all",
+            "fraction": 0,
+            "feedback": "No — even cycles are allowed; only odd ones are forbidden."
+          }
+        ],
+        "generalFeedback": "An odd cycle cannot be 2-colored, so it is the exact obstruction: bipartite ⟺ no odd-length cycle.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Checking algorithm",
+        "text": "<p>Which traversal-based method decides whether a graph is bipartite?</p>",
+        "answers": [
+          {
+            "text": "BFS/DFS 2-coloring: color each vertex opposite to its parent and check for conflicts",
+            "fraction": 100,
+            "feedback": "Correct — alternate colors along the traversal and detect a clash."
+          },
+          {
+            "text": "Topological sort of the vertices",
+            "fraction": 0,
+            "feedback": "No — topological sort applies to DAGs and does not test bipartiteness."
+          },
+          {
+            "text": "Run Dijkstra and check for negative edges",
+            "fraction": 0,
+            "feedback": "No — that is unrelated to 2-colorability."
+          },
+          {
+            "text": "Count the vertices and check it is even",
+            "fraction": 0,
+            "feedback": "No — parity of |V| says nothing about bipartiteness."
+          }
+        ],
+        "generalFeedback": "BFS or DFS assigns alternating colors; if any edge connects two vertices that receive the same color, an odd cycle exists and the graph is not bipartite.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Time complexity",
+        "text": "<p>Using adjacency lists, the BFS/DFS bipartite check runs in time:</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "Correct — a single linear traversal suffices."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "That would be the adjacency-matrix bound, not adjacency lists."
+          },
+          {
+            "text": "O(2^V)",
+            "fraction": 0,
+            "feedback": "No — you do not try all colorings; one traversal decides it."
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "No — no sorting or priority queue is used."
+          }
+        ],
+        "generalFeedback": "The 2-coloring is done in one BFS/DFS pass, examining each vertex and edge a constant number of times — O(V + E).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Trees are bipartite",
+        "text": "<p>Every tree is a bipartite graph.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a tree has no cycles, hence no odd cycle, so it is bipartite."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Trees have no cycles at all, so certainly no odd cycle; they are bipartite."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Odd cycle not bipartite",
+        "text": "<p>A single cycle of length 5 (C&#8325;) is bipartite.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — a 5-cycle is an odd cycle and cannot be 2-colored."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — an odd cycle is not bipartite."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Obstruction term",
+        "text": "<p>A graph fails to be bipartite exactly when it contains an ______-length cycle (fill in the English word).</p>",
+        "answers": [
+          {
+            "text": "odd",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "odd*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Bipartite facts",
+        "text": "<p>Which statements about bipartite graphs are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "A bipartite graph can be properly colored with just 2 colors",
+            "fraction": 50,
+            "feedback": "Yes — 2-colorability is the definition."
+          },
+          {
+            "text": "Bipartiteness can be tested in O(V + E) time",
+            "fraction": 50,
+            "feedback": "Yes — a single BFS/DFS 2-coloring pass does it."
+          },
+          {
+            "text": "Every bipartite graph must contain a cycle",
+            "fraction": -50,
+            "feedback": "No — trees are bipartite and acyclic."
+          },
+          {
+            "text": "A graph with an odd cycle can still be bipartite",
+            "fraction": -50,
+            "feedback": "No — an odd cycle makes 2-coloring impossible."
+          }
+        ],
+        "generalFeedback": "Bipartite means 2-colorable, equivalently no odd cycle, testable in O(V + E). Cycles are not required, and any odd cycle rules out bipartiteness.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "二分圖定義",
+        "text": "<p>一個圖是<strong>二分圖(bipartite)</strong>,若且唯若:</p>",
+        "answers": [
+          {
+            "text": "其頂點可用兩種顏色著色,使得沒有邊連接同色的兩頂點",
+            "fraction": 100,
+            "feedback": "正確 —— 存在正當的二著色即為二分性。"
+          },
+          {
+            "text": "它是連通的且沒有孤立頂點",
+            "fraction": 0,
+            "feedback": "錯 —— 連通性與二分性無關。"
+          },
+          {
+            "text": "每個頂點的度數皆為偶數",
+            "fraction": 0,
+            "feedback": "錯 —— 那是尤拉條件,不是二分性。"
+          },
+          {
+            "text": "它至少包含一個環",
+            "fraction": 0,
+            "feedback": "錯 —— 樹(無環)也是二分圖;不需要有環。"
+          }
+        ],
+        "generalFeedback": "一個圖為二分圖,恰當其頂點可分成兩個集合、所有邊都橫跨兩集合之間 —— 等價地說,存在正當的二著色。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "奇環刻畫",
+        "text": "<p>一個圖是二分圖<strong>若且唯若</strong>它不含哪種長度的環?</p>",
+        "answers": [
+          {
+            "text": "沒有奇數長度的環",
+            "fraction": 100,
+            "feedback": "正確 —— 二分圖沒有奇環。"
+          },
+          {
+            "text": "沒有偶數長度的環",
+            "fraction": 0,
+            "feedback": "錯 —— 二分圖中偶環完全沒問題。"
+          },
+          {
+            "text": "僅沒有長度為 3 的環",
+            "fraction": 0,
+            "feedback": "錯 —— 每個奇環(5、7……)都不允許,不只三角形。"
+          },
+          {
+            "text": "完全沒有任何環",
+            "fraction": 0,
+            "feedback": "錯 —— 偶環是允許的;只有奇環不允許。"
+          }
+        ],
+        "generalFeedback": "奇環無法二著色,因此正是唯一的障礙:二分圖 ⟺ 沒有奇數長度的環。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "檢查演算法",
+        "text": "<p>哪一種以走訪為基礎的方法可判定一個圖是否為二分圖?</p>",
+        "answers": [
+          {
+            "text": "BFS/DFS 二著色:將每個頂點著成與其父節點相反的顏色並檢查衝突",
+            "fraction": 100,
+            "feedback": "正確 —— 沿走訪交替著色並偵測衝突。"
+          },
+          {
+            "text": "對頂點做拓樸排序",
+            "fraction": 0,
+            "feedback": "錯 —— 拓樸排序適用於 DAG,無法檢驗二分性。"
+          },
+          {
+            "text": "執行 Dijkstra 並檢查負邊",
+            "fraction": 0,
+            "feedback": "錯 —— 那與二著色無關。"
+          },
+          {
+            "text": "計算頂點數並檢查是否為偶數",
+            "fraction": 0,
+            "feedback": "錯 —— |V| 的奇偶性與二分性無關。"
+          }
+        ],
+        "generalFeedback": "BFS 或 DFS 交替指派顏色;若有任一邊連接兩個被指派相同顏色的頂點,即存在奇環,該圖不是二分圖。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "時間複雜度",
+        "text": "<p>使用鄰接串列,BFS/DFS 二分性檢查的執行時間為:</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "正確 —— 單次線性走訪即足夠。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "那是鄰接矩陣的界限,而非鄰接串列。"
+          },
+          {
+            "text": "O(2^V)",
+            "fraction": 0,
+            "feedback": "錯 —— 不需嘗試所有著色;單次走訪即可判定。"
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "錯 —— 過程中沒有排序或優先佇列。"
+          }
+        ],
+        "generalFeedback": "二著色在單次 BFS/DFS 掃描中完成,每個頂點與邊只被檢視常數次 —— O(V + E)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "樹是二分圖",
+        "text": "<p>每一棵樹都是二分圖。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 樹沒有環,因而沒有奇環,所以是二分圖。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "樹完全沒有環,當然沒有奇環;它們是二分圖。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "奇環非二分",
+        "text": "<p>單一長度為 5 的環(C&#8325;)是二分圖。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 5 環是奇環,無法二著色。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 奇環不是二分圖。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "障礙名詞",
+        "text": "<p>一個圖不是二分圖,恰當它包含一個 ______ 數長度的環(填入英文單字)。</p>",
+        "answers": [
+          {
+            "text": "odd",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "odd*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "二分圖的性質",
+        "text": "<p>關於二分圖,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "二分圖可以只用 2 種顏色正當著色",
+            "fraction": 50,
+            "feedback": "正確 —— 二著色性即為其定義。"
+          },
+          {
+            "text": "二分性可在 O(V + E) 時間內檢驗",
+            "fraction": 50,
+            "feedback": "正確 —— 單次 BFS/DFS 二著色掃描即可完成。"
+          },
+          {
+            "text": "每個二分圖都必定含有一個環",
+            "fraction": -50,
+            "feedback": "錯 —— 樹是二分圖且無環。"
+          },
+          {
+            "text": "含奇環的圖仍可能是二分圖",
+            "fraction": -50,
+            "feedback": "錯 —— 奇環使二著色不可能。"
+          }
+        ],
+        "generalFeedback": "二分圖即可二著色,等價於沒有奇環,可在 O(V + E) 檢驗。不需要有環,而任何奇環都排除了二分性。",
+        "single": false
+      }
+    ]
+  },
+  "graph-boruvka": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Boruvka core strategy",
+        "text": "<p>What happens in each round of <strong>Bor&#367;vka's</strong> minimum spanning tree algorithm?</p>",
+        "answers": [
+          {
+            "text": "Every current component picks its cheapest outgoing edge, and all of those edges are added at once",
+            "fraction": 100,
+            "feedback": "Correct — Borůvka merges many components in parallel each round."
+          },
+          {
+            "text": "A single global smallest edge is added, then the whole edge list is re-sorted",
+            "fraction": 0,
+            "feedback": "That resembles Kruskal's one-edge-at-a-time process, not Borůvka's per-component rounds."
+          },
+          {
+            "text": "One tree grows by absorbing the cheapest crossing edge from a heap",
+            "fraction": 0,
+            "feedback": "That is Prim's single-tree growth, not Borůvka's."
+          },
+          {
+            "text": "Vertices are explored depth-first and dead branches are pruned",
+            "fraction": 0,
+            "feedback": "That describes DFS, which does not build an MST by weight."
+          }
+        ],
+        "generalFeedback": "Each Borůvka round has every component simultaneously choose its minimum-weight outgoing edge; all chosen edges are contracted together.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Boruvka rounds count",
+        "text": "<p>Why does Borůvka's algorithm finish in O(log V) rounds?</p>",
+        "answers": [
+          {
+            "text": "Each round at least halves the number of components",
+            "fraction": 100,
+            "feedback": "Correct — since every component merges with at least one other, the count at least halves."
+          },
+          {
+            "text": "Each round removes exactly one edge from the graph",
+            "fraction": 0,
+            "feedback": "No — many edges are added per round, and components shrink geometrically."
+          },
+          {
+            "text": "Each round doubles the number of components",
+            "fraction": 0,
+            "feedback": "Components decrease, not increase, each round."
+          },
+          {
+            "text": "The number of rounds equals the number of edges",
+            "fraction": 0,
+            "feedback": "Rounds are logarithmic, far fewer than E."
+          }
+        ],
+        "generalFeedback": "Because each component joins at least one neighbor, the number of components drops by at least half per round, giving O(log V) rounds.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Boruvka complexity",
+        "text": "<p>What is the overall time complexity of Borůvka's algorithm on a graph with V vertices and E edges?</p>",
+        "answers": [
+          {
+            "text": "O(E log V)",
+            "fraction": 100,
+            "feedback": "Correct — O(log V) rounds, each scanning O(E) edges."
+          },
+          {
+            "text": "O(V!) trying all spanning trees",
+            "fraction": 0,
+            "feedback": "Borůvka is polynomial and greedy, not brute force."
+          },
+          {
+            "text": "O(V + E) with a single pass",
+            "fraction": 0,
+            "feedback": "There are O(log V) rounds, adding a log factor over one pass."
+          },
+          {
+            "text": "O(E^2) from re-sorting edges every round",
+            "fraction": 0,
+            "feedback": "Borůvka needs no full sort; each round is a linear edge scan."
+          }
+        ],
+        "generalFeedback": "Each of the O(log V) rounds scans O(E) edges to find every component's cheapest outgoing edge, giving O(E log V).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Boruvka distinguishing feature",
+        "text": "<p>Which practical feature most distinguishes Borůvka's algorithm from Prim's and Kruskal's?</p>",
+        "answers": [
+          {
+            "text": "Its per-component, per-round structure makes it naturally parallelizable",
+            "fraction": 100,
+            "feedback": "Correct — all components can choose their cheapest edge independently and simultaneously."
+          },
+          {
+            "text": "It is the only MST algorithm that ignores edge weights",
+            "fraction": 0,
+            "feedback": "No — Borůvka uses weights to pick each component's cheapest edge."
+          },
+          {
+            "text": "It requires the graph to be directed and acyclic",
+            "fraction": 0,
+            "feedback": "No — MST algorithms work on undirected weighted graphs."
+          },
+          {
+            "text": "It can only run on complete graphs",
+            "fraction": 0,
+            "feedback": "No — Borůvka works on any connected weighted graph."
+          }
+        ],
+        "generalFeedback": "Because components make independent local choices each round, Borůvka maps cleanly onto parallel hardware — a key reason it remains relevant.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Boruvka parallel",
+        "text": "<p>Because each component selects its cheapest edge independently, Borůvka's algorithm is well suited to <em>parallel</em> implementation.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — independent per-component choices parallelize naturally."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Parallelizability is one of Borůvka's hallmark advantages."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Boruvka oldest",
+        "text": "<p>Borůvka's algorithm is historically the oldest of the well-known minimum spanning tree algorithms.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — Borůvka published it in 1926, before Kruskal's and Prim's algorithms."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It is indeed the oldest, predating both Kruskal and Prim."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Boruvka unit term",
+        "text": "<p>In each Borůvka round, the cheapest outgoing edge is chosen by every current ______ (single English word for a connected group of vertices; \"component\" or \"supervertex\").</p>",
+        "answers": [
+          {
+            "text": "component",
+            "fraction": 100,
+            "feedback": "Correct — every connected component picks its cheapest outgoing edge."
+          },
+          {
+            "text": "component*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "supervertex*",
+            "fraction": 100,
+            "feedback": "Correct — merged components are often called supervertices."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Boruvka properties multi",
+        "text": "<p>Which statements about Borůvka's algorithm are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each round at least halves the number of components, so it runs in O(E log V)",
+            "fraction": 50,
+            "feedback": "Yes — geometric shrinkage gives O(log V) rounds of O(E) work."
+          },
+          {
+            "text": "It is naturally parallelizable because components choose edges independently",
+            "fraction": 50,
+            "feedback": "Yes — a defining advantage of Borůvka."
+          },
+          {
+            "text": "It grows exactly one tree from a single start vertex using a min-heap",
+            "fraction": -50,
+            "feedback": "No — that is Prim; Borůvka merges many components at once."
+          },
+          {
+            "text": "It processes one globally smallest edge per step and never merges in parallel",
+            "fraction": -50,
+            "feedback": "No — that resembles Kruskal; Borůvka adds many edges per round."
+          }
+        ],
+        "generalFeedback": "Borůvka runs in O(E log V) by halving components each round and is naturally parallel; single-tree heap growth is Prim, and one-edge-at-a-time is Kruskal.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Borůvka 核心策略",
+        "text": "<p><strong>Bor&#367;vka</strong> 最小生成樹演算法在每一輪會發生什麼?</p>",
+        "answers": [
+          {
+            "text": "每個目前的元件挑選自己最便宜的出邊,並將所有這些邊一次加入",
+            "fraction": 100,
+            "feedback": "正確 —— Borůvka 每輪平行合併許多元件。"
+          },
+          {
+            "text": "加入單一條全域最小邊,再將整個邊串列重新排序",
+            "fraction": 0,
+            "feedback": "那較像 Kruskal 一次一邊的流程,而非 Borůvka 的逐元件輪次。"
+          },
+          {
+            "text": "單一棵樹藉由從堆積吸收最便宜跨越邊而成長",
+            "fraction": 0,
+            "feedback": "那是 Prim 的單一棵樹成長,不是 Borůvka。"
+          },
+          {
+            "text": "頂點以深度優先探索,並修剪死路分支",
+            "fraction": 0,
+            "feedback": "那是 DFS,不會依權重建構 MST。"
+          }
+        ],
+        "generalFeedback": "Borůvka 每一輪讓每個元件同時選出其最小權重出邊;所有被選中的邊一起收縮。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Borůvka 輪數",
+        "text": "<p>Borůvka 演算法為何在 O(log V) 輪內結束?</p>",
+        "answers": [
+          {
+            "text": "每一輪至少將元件數量減半",
+            "fraction": 100,
+            "feedback": "正確 —— 由於每個元件至少與另一個合併,數量至少減半。"
+          },
+          {
+            "text": "每一輪恰好從圖中移除一條邊",
+            "fraction": 0,
+            "feedback": "錯 —— 每輪加入許多邊,元件呈幾何級數縮減。"
+          },
+          {
+            "text": "每一輪將元件數量加倍",
+            "fraction": 0,
+            "feedback": "元件每輪是減少而非增加。"
+          },
+          {
+            "text": "輪數等於邊的數量",
+            "fraction": 0,
+            "feedback": "輪數是對數級,遠少於 E。"
+          }
+        ],
+        "generalFeedback": "因為每個元件至少與一個鄰居合併,元件數量每輪至少減半,故為 O(log V) 輪。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Borůvka 複雜度",
+        "text": "<p>對於有 V 個頂點與 E 條邊的圖,Borůvka 演算法的整體時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(E log V)",
+            "fraction": 100,
+            "feedback": "正確 —— O(log V) 輪,每輪掃描 O(E) 條邊。"
+          },
+          {
+            "text": "嘗試所有生成樹的 O(V!)",
+            "fraction": 0,
+            "feedback": "Borůvka 是多項式且貪婪的,不是暴力法。"
+          },
+          {
+            "text": "單趟掃描的 O(V + E)",
+            "fraction": 0,
+            "feedback": "有 O(log V) 輪,較單趟多一個 log 因子。"
+          },
+          {
+            "text": "每輪重新排序邊的 O(E^2)",
+            "fraction": 0,
+            "feedback": "Borůvka 不需完整排序;每輪是線性的邊掃描。"
+          }
+        ],
+        "generalFeedback": "O(log V) 輪中每輪掃描 O(E) 條邊以找出每個元件最便宜的出邊,故為 O(E log V)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Borůvka 的特色",
+        "text": "<p>哪一個實務特徵最能使 Borůvka 演算法有別於 Prim 與 Kruskal?</p>",
+        "answers": [
+          {
+            "text": "其逐元件、逐輪的結構使它天生易於平行化",
+            "fraction": 100,
+            "feedback": "正確 —— 所有元件可獨立且同時選出各自最便宜的邊。"
+          },
+          {
+            "text": "它是唯一忽略邊權重的 MST 演算法",
+            "fraction": 0,
+            "feedback": "錯 —— Borůvka 使用權重來挑選每個元件最便宜的邊。"
+          },
+          {
+            "text": "它要求圖必須是有向且無環的",
+            "fraction": 0,
+            "feedback": "錯 —— MST 演算法適用於無向加權圖。"
+          },
+          {
+            "text": "它只能在完全圖上執行",
+            "fraction": 0,
+            "feedback": "錯 —— Borůvka 適用於任何連通加權圖。"
+          }
+        ],
+        "generalFeedback": "由於各元件每輪做出獨立的局部選擇,Borůvka 能俐落地對應到平行硬體 —— 這是它至今仍具重要性的關鍵原因。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Borůvka 平行",
+        "text": "<p>由於每個元件獨立選出自己最便宜的邊,Borůvka 演算法很適合<em>平行</em>實作。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 各元件獨立的選擇能自然平行化。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "可平行化是 Borůvka 的招牌優勢之一。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Borůvka 最古老",
+        "text": "<p>在著名的最小生成樹演算法中,Borůvka 演算法在歷史上是最古老的。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— Borůvka 於 1926 年發表,早於 Kruskal 與 Prim 演算法。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "它確實最古老,早於 Kruskal 與 Prim。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Borůvka 單位名詞",
+        "text": "<p>在每一輪 Borůvka 中,最便宜的出邊由每個目前的 ______ 選出(代表一群連通頂點的單一英文單字;\"component\" 或 \"supervertex\")。</p>",
+        "answers": [
+          {
+            "text": "component",
+            "fraction": 100,
+            "feedback": "正確 —— 每個連通元件挑選自己最便宜的出邊。"
+          },
+          {
+            "text": "component*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "supervertex*",
+            "fraction": 100,
+            "feedback": "正確 —— 合併後的元件常稱為超級頂點(supervertex)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Borůvka 性質複選",
+        "text": "<p>關於 Borůvka 演算法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每一輪至少將元件數量減半,故執行時間為 O(E log V)",
+            "fraction": 50,
+            "feedback": "正確 —— 幾何級數縮減帶來 O(log V) 輪、每輪 O(E) 工作。"
+          },
+          {
+            "text": "因元件獨立選邊,它天生易於平行化",
+            "fraction": 50,
+            "feedback": "正確 —— 這是 Borůvka 的定義性優勢。"
+          },
+          {
+            "text": "它使用最小堆積從單一起點恰好擴展一棵樹",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 Prim;Borůvka 一次合併許多元件。"
+          },
+          {
+            "text": "它每步處理一條全域最小邊,且從不平行合併",
+            "fraction": -50,
+            "feedback": "錯 —— 那較像 Kruskal;Borůvka 每輪加入許多邊。"
+          }
+        ],
+        "generalFeedback": "Borůvka 藉由每輪將元件減半而以 O(E log V) 執行,且天生可平行;單一棵樹的堆積成長屬於 Prim,一次一邊屬於 Kruskal。",
+        "single": false
+      }
+    ]
+  },
+  "graph-closure": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Transitive closure definition",
+        "text": "<p>The <strong>transitive closure</strong> of a graph records, for every ordered pair (u, v), whether:</p>",
+        "answers": [
+          {
+            "text": "v is reachable from u by some directed path",
+            "fraction": 100,
+            "feedback": "Correct — closure answers reachability for every pair."
+          },
+          {
+            "text": "There is a direct edge from u to v",
+            "fraction": 0,
+            "feedback": "No — that is the adjacency matrix, not the closure."
+          },
+          {
+            "text": "The shortest-path distance from u to v",
+            "fraction": 0,
+            "feedback": "No — closure records reachability (yes/no), not distances."
+          },
+          {
+            "text": "u and v share a common neighbor",
+            "fraction": 0,
+            "feedback": "No — closure is about reachability along paths of any length."
+          }
+        ],
+        "generalFeedback": "The transitive closure is the reachability matrix: entry (u, v) is 1 exactly when a directed path from u to v exists (of any length).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Warshall's algorithm",
+        "text": "<p>Which classic algorithm computes the transitive closure using boolean matrix operations?</p>",
+        "answers": [
+          {
+            "text": "Warshall's algorithm — the boolean version of Floyd-Warshall",
+            "fraction": 100,
+            "feedback": "Correct — Warshall's is the boolean OR/AND analogue."
+          },
+          {
+            "text": "Kruskal's algorithm",
+            "fraction": 0,
+            "feedback": "No — Kruskal's builds a minimum spanning tree."
+          },
+          {
+            "text": "Prim's algorithm",
+            "fraction": 0,
+            "feedback": "No — Prim's also builds a minimum spanning tree."
+          },
+          {
+            "text": "Bellman-Ford algorithm",
+            "fraction": 0,
+            "feedback": "No — Bellman-Ford computes shortest paths, not closure."
+          }
+        ],
+        "generalFeedback": "Warshall's algorithm mirrors Floyd-Warshall but replaces min/+ with logical OR/AND: reach[i][j] |= reach[i][k] && reach[k][j].",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Warshall complexity",
+        "text": "<p>What is the time complexity of Warshall's transitive-closure algorithm on V vertices?</p>",
+        "answers": [
+          {
+            "text": "O(V^3)",
+            "fraction": 100,
+            "feedback": "Correct — three nested loops over the vertices."
+          },
+          {
+            "text": "O(V + E)",
+            "fraction": 0,
+            "feedback": "No — that is a single BFS/DFS; Warshall's is cubic."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "No — the intermediate-vertex loop adds a third factor of V."
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "No — Warshall's uses a dense triple loop, not edge sorting."
+          }
+        ],
+        "generalFeedback": "Warshall's runs three nested loops (intermediate k, source i, target j) over V vertices, giving O(V^3).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Traversal alternative",
+        "text": "<p>Besides Warshall's algorithm, how else can the full transitive closure be computed?</p>",
+        "answers": [
+          {
+            "text": "Run BFS or DFS from every vertex and record all vertices reached",
+            "fraction": 100,
+            "feedback": "Correct — one traversal per source gives that source's reachable set."
+          },
+          {
+            "text": "Run a single DFS from one vertex",
+            "fraction": 0,
+            "feedback": "No — that only gives reachability from one source, not all pairs."
+          },
+          {
+            "text": "Sort the edges by weight",
+            "fraction": 0,
+            "feedback": "No — sorting edges does not compute reachability."
+          },
+          {
+            "text": "Compute a topological order once",
+            "fraction": 0,
+            "feedback": "No — a topological order alone does not give pairwise reachability."
+          }
+        ],
+        "generalFeedback": "Launching BFS/DFS from each of the V vertices records that vertex's reachable set; together they form the closure in O(V(V + E)) time.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Reachability matrix",
+        "text": "<p>The transitive closure is also called the <em>reachability matrix</em> of the graph.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the closure is exactly the reachability matrix."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The transitive closure and the reachability matrix are the same thing."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Closure vs shortest path",
+        "text": "<p>The transitive closure stores the exact shortest-path distance between every pair of vertices.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — it stores only reachability (a boolean), not distances."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — closure records only whether a path exists, not its length."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Reachability term",
+        "text": "<p>Entry (u, v) of the transitive closure is 1 exactly when v is ______ from u (fill in the English word).</p>",
+        "answers": [
+          {
+            "text": "reachable",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "reachable*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Warshall*",
+            "fraction": 100,
+            "feedback": "Accepted — Warshall's algorithm computes it."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Transitive closure facts",
+        "text": "<p>Which statements about the transitive closure are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Warshall's algorithm computes it in O(V^3) using boolean OR/AND",
+            "fraction": 50,
+            "feedback": "Yes — it is the boolean form of Floyd-Warshall."
+          },
+          {
+            "text": "Running BFS/DFS from each vertex also yields the closure",
+            "fraction": 50,
+            "feedback": "Yes — each source's reachable set forms one row."
+          },
+          {
+            "text": "It records edge weights rather than reachability",
+            "fraction": -50,
+            "feedback": "No — it records reachability (booleans), not weights."
+          },
+          {
+            "text": "It can be computed in O(V + E) with a single traversal",
+            "fraction": -50,
+            "feedback": "No — one traversal gives only one source's reachability, not all pairs."
+          }
+        ],
+        "generalFeedback": "The closure is a reachability matrix computable by Warshall's O(V^3) boolean algorithm or by per-vertex BFS/DFS. It stores booleans, not weights, and needs work per source.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "遞移閉包定義",
+        "text": "<p>圖的<strong>遞移閉包(transitive closure)</strong>對每個有序對 (u, v) 記錄的是:</p>",
+        "answers": [
+          {
+            "text": "v 是否可經由某條有向路徑從 u 到達",
+            "fraction": 100,
+            "feedback": "正確 —— 閉包回答每一對的可達性。"
+          },
+          {
+            "text": "是否存在從 u 到 v 的直接邊",
+            "fraction": 0,
+            "feedback": "錯 —— 那是鄰接矩陣,不是閉包。"
+          },
+          {
+            "text": "從 u 到 v 的最短路徑距離",
+            "fraction": 0,
+            "feedback": "錯 —— 閉包記錄可達性(是/否),不是距離。"
+          },
+          {
+            "text": "u 與 v 是否共享一個鄰居",
+            "fraction": 0,
+            "feedback": "錯 —— 閉包關注的是沿任意長度路徑的可達性。"
+          }
+        ],
+        "generalFeedback": "遞移閉包就是可達性矩陣:項目 (u, v) 為 1,恰當存在一條(任意長度的)從 u 到 v 的有向路徑。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Warshall 演算法",
+        "text": "<p>哪一個經典演算法以布林矩陣運算計算遞移閉包?</p>",
+        "answers": [
+          {
+            "text": "Warshall 演算法 —— Floyd-Warshall 的布林版本",
+            "fraction": 100,
+            "feedback": "正確 —— Warshall 是其布林 OR/AND 類比。"
+          },
+          {
+            "text": "Kruskal 演算法",
+            "fraction": 0,
+            "feedback": "錯 —— Kruskal 建構最小生成樹。"
+          },
+          {
+            "text": "Prim 演算法",
+            "fraction": 0,
+            "feedback": "錯 —— Prim 同樣建構最小生成樹。"
+          },
+          {
+            "text": "Bellman-Ford 演算法",
+            "fraction": 0,
+            "feedback": "錯 —— Bellman-Ford 計算最短路徑,不是閉包。"
+          }
+        ],
+        "generalFeedback": "Warshall 演算法對應 Floyd-Warshall,但以邏輯 OR/AND 取代 min/+:reach[i][j] |= reach[i][k] && reach[k][j]。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Warshall 複雜度",
+        "text": "<p>對 V 個頂點,Warshall 遞移閉包演算法的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(V^3)",
+            "fraction": 100,
+            "feedback": "正確 —— 對頂點做三層巢狀迴圈。"
+          },
+          {
+            "text": "O(V + E)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是單次 BFS/DFS;Warshall 是立方級。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "錯 —— 中介頂點迴圈再乘上一個 V 因子。"
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "錯 —— Warshall 使用稠密的三層迴圈,而非邊排序。"
+          }
+        ],
+        "generalFeedback": "Warshall 對 V 個頂點執行三層巢狀迴圈(中介 k、來源 i、目標 j),得到 O(V^3)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "走訪替代法",
+        "text": "<p>除了 Warshall 演算法,還能如何計算完整的遞移閉包?</p>",
+        "answers": [
+          {
+            "text": "從每個頂點執行 BFS 或 DFS,並記錄所有可達的頂點",
+            "fraction": 100,
+            "feedback": "正確 —— 每個來源做一次走訪即得該來源的可達集合。"
+          },
+          {
+            "text": "只從一個頂點執行單次 DFS",
+            "fraction": 0,
+            "feedback": "錯 —— 那只得到單一來源的可達性,非全部配對。"
+          },
+          {
+            "text": "依權重將邊排序",
+            "fraction": 0,
+            "feedback": "錯 —— 排序邊無法計算可達性。"
+          },
+          {
+            "text": "只計算一次拓樸順序",
+            "fraction": 0,
+            "feedback": "錯 —— 單有拓樸順序無法得到成對的可達性。"
+          }
+        ],
+        "generalFeedback": "從 V 個頂點各自啟動 BFS/DFS,記錄該頂點的可達集合;合起來即在 O(V(V + E)) 時間內構成閉包。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "可達性矩陣",
+        "text": "<p>遞移閉包也稱為圖的<em>可達性矩陣</em>。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 閉包正是可達性矩陣。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "遞移閉包與可達性矩陣是同一回事。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "閉包與最短路徑",
+        "text": "<p>遞移閉包儲存每對頂點之間確切的最短路徑距離。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它只儲存可達性(布林值),不是距離。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 閉包只記錄是否存在路徑,不記錄其長度。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "可達性名詞",
+        "text": "<p>遞移閉包的項目 (u, v) 為 1,恰當 v 從 u 是 ______ 的(填入英文單字)。</p>",
+        "answers": [
+          {
+            "text": "reachable",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "reachable*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Warshall*",
+            "fraction": 100,
+            "feedback": "可接受 —— Warshall 演算法可計算它。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "遞移閉包的性質",
+        "text": "<p>關於遞移閉包,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "Warshall 演算法以布林 OR/AND 在 O(V^3) 內計算它",
+            "fraction": 50,
+            "feedback": "正確 —— 它是 Floyd-Warshall 的布林形式。"
+          },
+          {
+            "text": "從每個頂點執行 BFS/DFS 也能得到閉包",
+            "fraction": 50,
+            "feedback": "正確 —— 每個來源的可達集合構成一列。"
+          },
+          {
+            "text": "它記錄的是邊權而非可達性",
+            "fraction": -50,
+            "feedback": "錯 —— 它記錄可達性(布林值),不是權重。"
+          },
+          {
+            "text": "它可用單次走訪在 O(V + E) 內算出",
+            "fraction": -50,
+            "feedback": "錯 —— 一次走訪只得到單一來源的可達性,非全部配對。"
+          }
+        ],
+        "generalFeedback": "閉包是可達性矩陣,可用 Warshall 的 O(V^3) 布林演算法或逐頂點 BFS/DFS 計算。它儲存布林值而非權重,且需對每個來源做工。",
+        "single": false
+      }
+    ]
+  },
+  "graph-components": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Connected component definition",
+        "text": "<p>In an <strong>undirected</strong> graph, a <strong>connected component</strong> is best defined as:</p>",
+        "answers": [
+          {
+            "text": "A maximal set of vertices that are all mutually reachable",
+            "fraction": 100,
+            "feedback": "Correct — a maximal mutually-reachable vertex set."
+          },
+          {
+            "text": "Any path between two vertices",
+            "fraction": 0,
+            "feedback": "No — a component is a set of vertices, not a single path."
+          },
+          {
+            "text": "The set of all edges incident to a vertex",
+            "fraction": 0,
+            "feedback": "No — that is a vertex's adjacency, not a component."
+          },
+          {
+            "text": "A cycle that visits every vertex once",
+            "fraction": 0,
+            "feedback": "No — that describes a Hamiltonian cycle."
+          }
+        ],
+        "generalFeedback": "A connected component is a maximal subset of vertices such that a path exists between every pair; \"maximal\" means it cannot be extended by adding more reachable vertices.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Finding all components",
+        "text": "<p>What is the standard traversal-based method to find <em>all</em> connected components?</p>",
+        "answers": [
+          {
+            "text": "Run BFS or DFS from each not-yet-visited vertex; each traversal marks one component",
+            "fraction": 100,
+            "feedback": "Correct — one traversal per unvisited start yields one component."
+          },
+          {
+            "text": "Run a single BFS from vertex 0 only",
+            "fraction": 0,
+            "feedback": "No — one BFS reaches only the component containing vertex 0."
+          },
+          {
+            "text": "Run Dijkstra from every vertex",
+            "fraction": 0,
+            "feedback": "No — shortest paths are unnecessary; plain BFS/DFS suffices."
+          },
+          {
+            "text": "Sort the edges and scan them once",
+            "fraction": 0,
+            "feedback": "No — sorting edges alone does not group vertices into components."
+          }
+        ],
+        "generalFeedback": "Loop over all vertices; whenever you hit an unvisited one, launch BFS/DFS to mark its whole component, then increment the component count.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Time complexity",
+        "text": "<p>Using BFS/DFS with adjacency lists, the time to find all connected components is:</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "Correct — each vertex and edge is examined a constant number of times."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "That would hold for an adjacency matrix, not adjacency lists."
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "No — no priority queue or sorting is involved."
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "No — that is far more work than a linear traversal requires."
+          }
+        ],
+        "generalFeedback": "Every vertex is visited once and every edge traversed a constant number of times, giving linear O(V + E) time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Alternative structure",
+        "text": "<p>Besides BFS/DFS, which data structure is commonly used to maintain connected components as edges are added?</p>",
+        "answers": [
+          {
+            "text": "Union-Find (disjoint-set union)",
+            "fraction": 100,
+            "feedback": "Correct — union-find merges sets as edges connect vertices."
+          },
+          {
+            "text": "A min-heap",
+            "fraction": 0,
+            "feedback": "No — heaps order by key; they do not track connectivity."
+          },
+          {
+            "text": "A hash table of edge weights",
+            "fraction": 0,
+            "feedback": "No — that stores weights, not component membership."
+          },
+          {
+            "text": "A balanced binary search tree of vertices",
+            "fraction": 0,
+            "feedback": "No — a BST orders keys but does not group connected sets."
+          }
+        ],
+        "generalFeedback": "Union-Find with union-by-rank and path compression answers \"same component?\" and merges components in near-constant amortized time, ideal for incremental edge insertion.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Directed graphs",
+        "text": "<p>The term \"connected components\" (as opposed to <em>strongly</em> connected components) applies to <em>undirected</em> graphs.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — plain connected components are defined on undirected graphs."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Undirected graphs have connected components; directed graphs have strongly connected components."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Single component graph",
+        "text": "<p>A graph is called <em>connected</em> when it has exactly one connected component.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — one component covering all vertices means the graph is connected."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "By definition a connected graph consists of a single component."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Component term",
+        "text": "<p>A maximal set of mutually reachable vertices in an undirected graph is called a connected ______ (one English word).</p>",
+        "answers": [
+          {
+            "text": "component",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "component*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Connected component facts",
+        "text": "<p>Which statements about connected components are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each vertex belongs to exactly one connected component",
+            "fraction": 50,
+            "feedback": "Yes — components partition the vertex set."
+          },
+          {
+            "text": "BFS and DFS discover the same components",
+            "fraction": 50,
+            "feedback": "Yes — the components are a property of the graph, not the traversal order."
+          },
+          {
+            "text": "A graph with n vertices always has exactly one component",
+            "fraction": -50,
+            "feedback": "No — a graph can have many components, up to n isolated vertices."
+          },
+          {
+            "text": "Finding components requires sorting the vertices first",
+            "fraction": -50,
+            "feedback": "No — a simple BFS/DFS sweep needs no sorting."
+          }
+        ],
+        "generalFeedback": "Components partition the vertices; every vertex is in exactly one. Both BFS and DFS find the same partition in O(V + E) with no sorting required.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "連通分量定義",
+        "text": "<p>在<strong>無向</strong>圖中,<strong>連通分量</strong>最佳的定義是:</p>",
+        "answers": [
+          {
+            "text": "一個彼此皆可互相到達的頂點極大集合",
+            "fraction": 100,
+            "feedback": "正確 —— 一個彼此可互相到達的極大頂點集合。"
+          },
+          {
+            "text": "兩頂點之間的任一條路徑",
+            "fraction": 0,
+            "feedback": "錯 —— 分量是一組頂點,而非單一路徑。"
+          },
+          {
+            "text": "與某頂點相連的所有邊之集合",
+            "fraction": 0,
+            "feedback": "錯 —— 那是某頂點的鄰接關係,不是分量。"
+          },
+          {
+            "text": "恰好走訪每個頂點一次的環",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是漢米爾頓環。"
+          }
+        ],
+        "generalFeedback": "連通分量是一個極大的頂點子集,其中任兩頂點之間都存在路徑;「極大」表示無法再加入更多可到達的頂點來擴充它。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "找出所有分量",
+        "text": "<p>找出<em>所有</em>連通分量的標準走訪方法是什麼?</p>",
+        "answers": [
+          {
+            "text": "從每個尚未拜訪的頂點執行 BFS 或 DFS;每次走訪標記出一個分量",
+            "fraction": 100,
+            "feedback": "正確 —— 每個未拜訪起點做一次走訪即得到一個分量。"
+          },
+          {
+            "text": "只從頂點 0 執行單一次 BFS",
+            "fraction": 0,
+            "feedback": "錯 —— 一次 BFS 只能到達含頂點 0 的那個分量。"
+          },
+          {
+            "text": "從每個頂點執行 Dijkstra",
+            "fraction": 0,
+            "feedback": "錯 —— 不需要最短路徑,單純的 BFS/DFS 就足夠。"
+          },
+          {
+            "text": "將邊排序後掃描一次",
+            "fraction": 0,
+            "feedback": "錯 —— 僅排序邊無法將頂點分組成分量。"
+          }
+        ],
+        "generalFeedback": "遍歷所有頂點;每遇到一個未拜訪的頂點,就啟動 BFS/DFS 標記其整個分量,然後將分量計數加一。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "時間複雜度",
+        "text": "<p>使用鄰接串列以 BFS/DFS 找出所有連通分量的時間為:</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個頂點與邊只被檢視常數次。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "那適用於鄰接矩陣,而非鄰接串列。"
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "錯 —— 過程中沒有優先佇列或排序。"
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "錯 —— 那遠比線性走訪所需的工作量多。"
+          }
+        ],
+        "generalFeedback": "每個頂點被拜訪一次,每條邊被走訪常數次,因此為線性 O(V + E) 時間。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "替代資料結構",
+        "text": "<p>除了 BFS/DFS,在加入邊時常用哪種資料結構來維護連通分量?</p>",
+        "answers": [
+          {
+            "text": "並查集(Union-Find,不相交集合)",
+            "fraction": 100,
+            "feedback": "正確 —— 並查集會在邊連接頂點時合併集合。"
+          },
+          {
+            "text": "最小堆積",
+            "fraction": 0,
+            "feedback": "錯 —— 堆積依鍵值排序,無法追蹤連通性。"
+          },
+          {
+            "text": "邊權的雜湊表",
+            "fraction": 0,
+            "feedback": "錯 —— 那儲存的是權重,不是分量歸屬。"
+          },
+          {
+            "text": "頂點的平衡二元搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— BST 排序鍵值,但不會將連通集合分組。"
+          }
+        ],
+        "generalFeedback": "採用按秩合併與路徑壓縮的並查集,能以近乎常數的攤銷時間回答「同一分量?」並合併分量,非常適合逐步插入邊。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "有向圖",
+        "text": "<p>「連通分量」一詞(相對於<em>強</em>連通分量)適用於<em>無向</em>圖。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 一般的連通分量定義在無向圖上。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "無向圖有連通分量;有向圖有強連通分量。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "單一分量的圖",
+        "text": "<p>當一個圖恰好只有一個連通分量時,稱它為<em>連通的</em>。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 涵蓋所有頂點的單一分量表示該圖為連通。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "依定義,連通圖由單一分量構成。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "分量名詞",
+        "text": "<p>無向圖中一個彼此可互相到達的頂點極大集合,稱為連通 ______(一個英文單字)。</p>",
+        "answers": [
+          {
+            "text": "component",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "component*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "連通分量的性質",
+        "text": "<p>關於連通分量,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每個頂點恰屬於一個連通分量",
+            "fraction": 50,
+            "feedback": "正確 —— 分量對頂點集合構成一個劃分。"
+          },
+          {
+            "text": "BFS 與 DFS 會找出相同的分量",
+            "fraction": 50,
+            "feedback": "正確 —— 分量是圖的性質,與走訪順序無關。"
+          },
+          {
+            "text": "含 n 個頂點的圖一定恰好有一個分量",
+            "fraction": -50,
+            "feedback": "錯 —— 圖可以有許多分量,最多可達 n 個孤立頂點。"
+          },
+          {
+            "text": "找出分量前必須先將頂點排序",
+            "fraction": -50,
+            "feedback": "錯 —— 單純的 BFS/DFS 掃描不需要排序。"
+          }
+        ],
+        "generalFeedback": "分量劃分頂點集合;每個頂點恰屬於一個。BFS 與 DFS 都能以 O(V + E) 找出相同的劃分,且不需排序。",
+        "single": false
+      }
+    ]
+  },
+  "graph-dfs": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "DFS core behavior",
+        "text": "<p>What best describes the core behavior of <strong>depth-first search</strong>?</p>",
+        "answers": [
+          {
+            "text": "It goes as deep as possible along a path, then backtracks when it can go no further",
+            "fraction": 100,
+            "feedback": "Correct — DFS dives deep and backtracks at dead ends."
+          },
+          {
+            "text": "It visits all vertices at distance d before any at distance d+1",
+            "fraction": 0,
+            "feedback": "That is breadth-first search, not DFS."
+          },
+          {
+            "text": "It repeatedly adds the globally cheapest edge that avoids a cycle",
+            "fraction": 0,
+            "feedback": "That describes Kruskal's MST algorithm."
+          },
+          {
+            "text": "It grows a tree by adding the minimum crossing edge each step",
+            "fraction": 0,
+            "feedback": "That describes Prim's MST algorithm."
+          }
+        ],
+        "generalFeedback": "DFS follows one branch to its end, backtracking whenever the current vertex has no unvisited neighbors.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS explicit data structure",
+        "text": "<p>An iterative (non-recursive) DFS explicitly manages its frontier with which data structure?</p>",
+        "answers": [
+          {
+            "text": "A LIFO stack",
+            "fraction": 100,
+            "feedback": "Correct — a stack reproduces the last-in-first-out order that recursion gives."
+          },
+          {
+            "text": "A FIFO queue",
+            "fraction": 0,
+            "feedback": "A queue produces breadth-first order, not depth-first."
+          },
+          {
+            "text": "A min-heap keyed by weight",
+            "fraction": 0,
+            "feedback": "DFS ignores weights; a min-heap belongs to Prim or Dijkstra."
+          },
+          {
+            "text": "A hash map of edge weights",
+            "fraction": 0,
+            "feedback": "DFS orders vertices by depth, not by any weight map."
+          }
+        ],
+        "generalFeedback": "Recursion uses the call stack implicitly; an iterative DFS makes that stack explicit to achieve LIFO exploration.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS complexity",
+        "text": "<p>Using an adjacency list, what is the time complexity of DFS on a graph with V vertices and E edges?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "Correct — each vertex and edge is processed a constant number of times."
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "That is Prim/Dijkstra with a heap; DFS needs no priority queue."
+          },
+          {
+            "text": "O(V log V) always",
+            "fraction": 0,
+            "feedback": "DFS does no sorting; it is linear in V + E."
+          },
+          {
+            "text": "O(2^V)",
+            "fraction": 0,
+            "feedback": "DFS visits each vertex once, so it is linear, not exponential."
+          }
+        ],
+        "generalFeedback": "Like BFS, DFS touches every vertex once and scans every edge once, giving O(V + E).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS application",
+        "text": "<p>Which classic task is DFS the natural basis for?</p>",
+        "answers": [
+          {
+            "text": "Topological sorting of a directed acyclic graph",
+            "fraction": 100,
+            "feedback": "Correct — finishing times from DFS give a topological order."
+          },
+          {
+            "text": "Computing fewest-edge shortest paths in an unweighted graph",
+            "fraction": 0,
+            "feedback": "That is BFS's specialty, not DFS."
+          },
+          {
+            "text": "Building a minimum spanning tree greedily by weight",
+            "fraction": 0,
+            "feedback": "That is Kruskal or Prim, which sort or prioritize by weight."
+          },
+          {
+            "text": "Halving the number of components each round in parallel",
+            "fraction": 0,
+            "feedback": "That describes Borůvka's MST algorithm."
+          }
+        ],
+        "generalFeedback": "DFS underpins topological sort, cycle detection, connected components, and strongly connected components (SCC).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS backtracking",
+        "text": "<p>When DFS reaches a vertex whose neighbors are all already visited, it <em>backtracks</em> to the most recent vertex that still has unexplored neighbors.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — backtracking to the latest branching point is exactly how DFS proceeds."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Backtracking at dead ends is the defining mechanic of DFS."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS shortest path claim",
+        "text": "<p>DFS always finds the path with the fewest edges between two vertices in an unweighted graph.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — DFS may reach a target by a long, deep detour; use BFS for fewest-edge paths."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — DFS gives no shortest-path guarantee; BFS does that for unweighted graphs."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "DFS explicit structure term",
+        "text": "<p>Aside from recursion, an iterative DFS drives its traversal with an explicit LIFO ______ (single English word).</p>",
+        "answers": [
+          {
+            "text": "stack",
+            "fraction": 100,
+            "feedback": "Correct — a LIFO stack mirrors the recursion order."
+          },
+          {
+            "text": "stack*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS properties multi",
+        "text": "<p>Which statements about depth-first search are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It runs in O(V + E) with an adjacency list",
+            "fraction": 50,
+            "feedback": "Yes — linear in vertices plus edges."
+          },
+          {
+            "text": "It can be used to detect cycles and to find connected components",
+            "fraction": 50,
+            "feedback": "Yes — both are standard DFS applications."
+          },
+          {
+            "text": "It uses a FIFO queue to explore level by level",
+            "fraction": -50,
+            "feedback": "No — that is BFS; DFS uses a stack/recursion."
+          },
+          {
+            "text": "It guarantees the fewest-edge path in an unweighted graph",
+            "fraction": -50,
+            "feedback": "No — that guarantee belongs to BFS, not DFS."
+          }
+        ],
+        "generalFeedback": "DFS is a stack/recursion-based O(V + E) traversal used for cycle detection, components, and topological sort; queue-based level order and fewest-edge shortest paths belong to BFS.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "DFS 核心行為",
+        "text": "<p>下列何者最能描述<strong>深度優先搜尋</strong>的核心行為?</p>",
+        "answers": [
+          {
+            "text": "沿著一條路徑盡可能深入,無法再前進時就回溯",
+            "fraction": 100,
+            "feedback": "正確 —— DFS 深入探索,遇到死路便回溯。"
+          },
+          {
+            "text": "先拜訪所有距離 d 的頂點,才拜訪任何距離 d+1 的頂點",
+            "fraction": 0,
+            "feedback": "那是廣度優先搜尋,不是 DFS。"
+          },
+          {
+            "text": "反覆加入不會形成環的全域最便宜邊",
+            "fraction": 0,
+            "feedback": "那是 Kruskal 最小生成樹演算法。"
+          },
+          {
+            "text": "每步加入最小跨越邊來擴展一棵樹",
+            "fraction": 0,
+            "feedback": "那是 Prim 最小生成樹演算法。"
+          }
+        ],
+        "generalFeedback": "DFS 沿一個分支走到底,當目前頂點沒有未拜訪鄰居時便回溯。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS 明確使用的資料結構",
+        "text": "<p>迭代式(非遞迴)DFS 明確地以哪一種資料結構管理其前緣?</p>",
+        "answers": [
+          {
+            "text": "後進先出的堆疊(LIFO stack)",
+            "fraction": 100,
+            "feedback": "正確 —— 堆疊重現遞迴所給的後進先出順序。"
+          },
+          {
+            "text": "先進先出的佇列(FIFO queue)",
+            "fraction": 0,
+            "feedback": "佇列產生廣度優先順序,不是深度優先。"
+          },
+          {
+            "text": "以權重為鍵的最小堆積",
+            "fraction": 0,
+            "feedback": "DFS 忽略權重;最小堆積屬於 Prim 或 Dijkstra。"
+          },
+          {
+            "text": "邊權重的雜湊表",
+            "fraction": 0,
+            "feedback": "DFS 依深度排序頂點,而非依任何權重表。"
+          }
+        ],
+        "generalFeedback": "遞迴隱含使用呼叫堆疊;迭代式 DFS 將該堆疊明確化以達成 LIFO 探索。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS 複雜度",
+        "text": "<p>使用鄰接串列時,對於有 V 個頂點與 E 條邊的圖,DFS 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個頂點與每條邊都只被處理常數次。"
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "那是使用堆積的 Prim/Dijkstra;DFS 不需要優先佇列。"
+          },
+          {
+            "text": "永遠是 O(V log V)",
+            "fraction": 0,
+            "feedback": "DFS 不做排序;它與 V + E 成線性。"
+          },
+          {
+            "text": "O(2^V)",
+            "fraction": 0,
+            "feedback": "DFS 每個頂點只拜訪一次,因此是線性而非指數。"
+          }
+        ],
+        "generalFeedback": "與 BFS 相同,DFS 每個頂點觸及一次、每條邊掃描一次,因此為 O(V + E)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS 應用",
+        "text": "<p>DFS 是下列哪一個經典任務的自然基礎?</p>",
+        "answers": [
+          {
+            "text": "有向無環圖的拓樸排序",
+            "fraction": 100,
+            "feedback": "正確 —— DFS 的完成時間可得出拓樸順序。"
+          },
+          {
+            "text": "在無權重圖中計算最少邊數的最短路徑",
+            "fraction": 0,
+            "feedback": "那是 BFS 的專長,不是 DFS。"
+          },
+          {
+            "text": "依權重貪婪地建構最小生成樹",
+            "fraction": 0,
+            "feedback": "那是 Kruskal 或 Prim,它們依權重排序或排優先序。"
+          },
+          {
+            "text": "每一輪平行地將元件數量減半",
+            "fraction": 0,
+            "feedback": "那是 Borůvka 最小生成樹演算法。"
+          }
+        ],
+        "generalFeedback": "DFS 是拓樸排序、環偵測、連通元件與強連通元件(SCC)的基礎。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS 回溯",
+        "text": "<p>當 DFS 到達一個鄰居全部已拜訪的頂點時,它會<em>回溯</em>到最近一個仍有未探索鄰居的頂點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 回溯到最近的分支點正是 DFS 的運作方式。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "在死路回溯是 DFS 的定義機制。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS 最短路徑主張",
+        "text": "<p>在無權重圖中,DFS 總能找到兩頂點之間邊數最少的路徑。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— DFS 可能經由又長又深的繞路到達目標;最少邊數請用 BFS。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— DFS 不保證最短路徑;無權重圖的最短路徑由 BFS 完成。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "DFS 明確結構名詞",
+        "text": "<p>除了遞迴之外,迭代式 DFS 以一個明確的後進先出 ______(單一英文單字)來驅動走訪。</p>",
+        "answers": [
+          {
+            "text": "stack",
+            "fraction": 100,
+            "feedback": "正確 —— LIFO 堆疊反映遞迴順序。"
+          },
+          {
+            "text": "stack*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS 性質複選",
+        "text": "<p>關於深度優先搜尋,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "使用鄰接串列時執行時間為 O(V + E)",
+            "fraction": 50,
+            "feedback": "正確 —— 與頂點數加邊數成線性。"
+          },
+          {
+            "text": "可用於偵測環以及尋找連通元件",
+            "fraction": 50,
+            "feedback": "正確 —— 兩者都是標準的 DFS 應用。"
+          },
+          {
+            "text": "它使用先進先出佇列逐層探索",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 BFS;DFS 使用堆疊/遞迴。"
+          },
+          {
+            "text": "它保證在無權重圖中給出最少邊數的路徑",
+            "fraction": -50,
+            "feedback": "錯 —— 該保證屬於 BFS,而非 DFS。"
+          }
+        ],
+        "generalFeedback": "DFS 是以堆疊/遞迴為基礎、O(V + E) 的走訪,用於環偵測、連通元件與拓樸排序;以佇列進行的層序與最少邊數最短路徑屬於 BFS。",
+        "single": false
+      }
+    ]
+  },
+  "graph-dijkstra": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Dijkstra edge weight requirement",
+        "text": "<p>Dijkstra's algorithm is guaranteed correct only when edge weights are:</p>",
+        "answers": [
+          {
+            "text": "Non-negative",
+            "fraction": 100,
+            "feedback": "Correct — once a vertex is settled it is never improved, which fails if a negative edge could later shorten its path."
+          },
+          {
+            "text": "All equal to 1",
+            "fraction": 0,
+            "feedback": "Unit weights are a special case; Dijkstra works for any non-negative weights."
+          },
+          {
+            "text": "Allowed to be negative",
+            "fraction": 0,
+            "feedback": "Negative weights break Dijkstra's greedy settling; use Bellman-Ford instead."
+          },
+          {
+            "text": "Integers only",
+            "fraction": 0,
+            "feedback": "Real-valued weights are fine as long as they are non-negative."
+          }
+        ],
+        "generalFeedback": "Dijkstra greedily finalizes the closest unsettled vertex; this is only valid when no later edge can reduce an already-finalized distance, i.e. weights are non-negative.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra time complexity",
+        "text": "<p>Using a binary min-heap as the priority queue, Dijkstra's time complexity on a graph with V vertices and E edges is:</p>",
+        "answers": [
+          {
+            "text": "O((V + E) log V)",
+            "fraction": 100,
+            "feedback": "Correct — each vertex extraction and each edge relaxation costs O(log V) heap work."
+          },
+          {
+            "text": "O(V * E)",
+            "fraction": 0,
+            "feedback": "That is Bellman-Ford's bound."
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "That is Floyd-Warshall's bound."
+          },
+          {
+            "text": "O(V + E)",
+            "fraction": 0,
+            "feedback": "A plain BFS is linear, but Dijkstra needs the log V heap factor."
+          }
+        ],
+        "generalFeedback": "With a binary heap there are V extract-min operations and up to E decrease-key/push operations, each O(log V), giving O((V + E) log V).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra vertex selection",
+        "text": "<p>At each step, which vertex does Dijkstra settle (finalize)?</p>",
+        "answers": [
+          {
+            "text": "The unsettled vertex with the smallest tentative distance",
+            "fraction": 100,
+            "feedback": "Correct — the greedy choice pulled from the min-priority-queue."
+          },
+          {
+            "text": "The unsettled vertex with the most outgoing edges",
+            "fraction": 0,
+            "feedback": "Degree does not determine selection order."
+          },
+          {
+            "text": "A random unsettled vertex",
+            "fraction": 0,
+            "feedback": "The algorithm is deterministic and greedy, not random."
+          },
+          {
+            "text": "The most recently discovered vertex",
+            "fraction": 0,
+            "feedback": "That describes a DFS-like stack order, not Dijkstra."
+          }
+        ],
+        "generalFeedback": "Dijkstra always extracts the minimum-distance unsettled vertex from the priority queue and relaxes its outgoing edges.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra scope",
+        "text": "<p>What does one run of Dijkstra compute?</p>",
+        "answers": [
+          {
+            "text": "Shortest paths from one source to all other vertices",
+            "fraction": 100,
+            "feedback": "Correct — it is a single-source shortest-path algorithm."
+          },
+          {
+            "text": "Shortest paths between all pairs of vertices",
+            "fraction": 0,
+            "feedback": "That is all-pairs (Floyd-Warshall); one Dijkstra run is single-source."
+          },
+          {
+            "text": "A minimum spanning tree",
+            "fraction": 0,
+            "feedback": "That is Prim/Kruskal; Dijkstra minimizes path distance, not total tree weight."
+          },
+          {
+            "text": "A topological ordering",
+            "fraction": 0,
+            "feedback": "Ordering a DAG is a different problem."
+          }
+        ],
+        "generalFeedback": "Dijkstra fixes one source vertex and produces the shortest distance (and path) to every reachable vertex.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Dijkstra negative edges",
+        "text": "<p>Dijkstra's algorithm can produce incorrect shortest distances if the graph contains a negative-weight edge.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a settled vertex may later be reachable more cheaply via a negative edge, but Dijkstra never revisits it."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Negative edges do break Dijkstra; use Bellman-Ford for such graphs."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Dijkstra priority queue",
+        "text": "<p>An efficient implementation of Dijkstra uses a min-priority-queue to select the next vertex to settle.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a binary heap gives the O((V + E) log V) bound."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Without a priority queue, selection degrades to O(V) per step (O(V^2) total)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Dijkstra edge operation",
+        "text": "<p>The operation that tries to improve a neighbor's tentative distance using dist(u) + w(u,v) is called ______ (one word, English term).</p>",
+        "answers": [
+          {
+            "text": "relax",
+            "fraction": 100,
+            "feedback": "Correct — relaxing an edge."
+          },
+          {
+            "text": "relaxation",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "relax*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra properties",
+        "text": "<p>Which statements about Dijkstra's algorithm are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Once a vertex is settled, its shortest distance is final",
+            "fraction": 50,
+            "feedback": "Yes — with non-negative weights the greedy choice is provably optimal."
+          },
+          {
+            "text": "It relaxes the outgoing edges of each settled vertex",
+            "fraction": 50,
+            "feedback": "Yes — relaxation is the core update step."
+          },
+          {
+            "text": "It correctly handles negative-weight edges",
+            "fraction": -50,
+            "feedback": "No — that requires Bellman-Ford."
+          },
+          {
+            "text": "It computes all-pairs shortest paths in one run",
+            "fraction": -50,
+            "feedback": "No — one run is single-source."
+          }
+        ],
+        "generalFeedback": "Dijkstra: greedy min-PQ settling with final distances and edge relaxation; it is single-source and requires non-negative weights.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Dijkstra 邊權需求",
+        "text": "<p>Dijkstra 演算法只有在邊權滿足下列何者時才保證正確?</p>",
+        "answers": [
+          {
+            "text": "非負",
+            "fraction": 100,
+            "feedback": "正確 —— 一旦頂點被定案就不再更新,若存在負邊可能後來縮短其路徑,便會出錯。"
+          },
+          {
+            "text": "全部等於 1",
+            "fraction": 0,
+            "feedback": "單位權重只是特例;Dijkstra 適用於任何非負權重。"
+          },
+          {
+            "text": "可以為負",
+            "fraction": 0,
+            "feedback": "負權會破壞 Dijkstra 的貪婪定案;應改用 Bellman-Ford。"
+          },
+          {
+            "text": "只能是整數",
+            "fraction": 0,
+            "feedback": "只要非負,實數權重也可以。"
+          }
+        ],
+        "generalFeedback": "Dijkstra 會貪婪地定案最近的未定案頂點;只有在沒有後續邊能縮短已定案距離(即權重非負)時才有效。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra 時間複雜度",
+        "text": "<p>以二元最小堆積作為優先佇列,在 V 個頂點、E 條邊的圖上,Dijkstra 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O((V + E) log V)",
+            "fraction": 100,
+            "feedback": "正確 —— 每次取出頂點與每次鬆弛邊都需 O(log V) 的堆積操作。"
+          },
+          {
+            "text": "O(V * E)",
+            "fraction": 0,
+            "feedback": "那是 Bellman-Ford 的界。"
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "那是 Floyd-Warshall 的界。"
+          },
+          {
+            "text": "O(V + E)",
+            "fraction": 0,
+            "feedback": "純 BFS 是線性,但 Dijkstra 需要 log V 的堆積因子。"
+          }
+        ],
+        "generalFeedback": "使用二元堆積時共有 V 次 extract-min 與至多 E 次 decrease-key/push,每次 O(log V),合計 O((V + E) log V)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra 頂點選擇",
+        "text": "<p>每一步中,Dijkstra 會定案(finalize)哪個頂點?</p>",
+        "answers": [
+          {
+            "text": "暫定距離最小的未定案頂點",
+            "fraction": 100,
+            "feedback": "正確 —— 由最小優先佇列取出的貪婪選擇。"
+          },
+          {
+            "text": "出邊數最多的未定案頂點",
+            "fraction": 0,
+            "feedback": "分支度並不決定選取順序。"
+          },
+          {
+            "text": "隨機一個未定案頂點",
+            "fraction": 0,
+            "feedback": "此演算法是確定性且貪婪的,不是隨機。"
+          },
+          {
+            "text": "最近才被發現的頂點",
+            "fraction": 0,
+            "feedback": "那描述的是 DFS 的堆疊順序,不是 Dijkstra。"
+          }
+        ],
+        "generalFeedback": "Dijkstra 總是從優先佇列取出距離最小的未定案頂點,並鬆弛其出邊。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra 範圍",
+        "text": "<p>執行一次 Dijkstra 會計算出什麼?</p>",
+        "answers": [
+          {
+            "text": "從單一起點到所有其他頂點的最短路徑",
+            "fraction": 100,
+            "feedback": "正確 —— 這是單源最短路徑演算法。"
+          },
+          {
+            "text": "所有頂點對之間的最短路徑",
+            "fraction": 0,
+            "feedback": "那是全點對(Floyd-Warshall);單次 Dijkstra 是單源。"
+          },
+          {
+            "text": "最小生成樹",
+            "fraction": 0,
+            "feedback": "那是 Prim/Kruskal;Dijkstra 最小化路徑距離,不是樹的總權重。"
+          },
+          {
+            "text": "拓撲排序",
+            "fraction": 0,
+            "feedback": "對 DAG 排序是另一個問題。"
+          }
+        ],
+        "generalFeedback": "Dijkstra 固定一個起點,並產生到每個可達頂點的最短距離(與路徑)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Dijkstra 負邊",
+        "text": "<p>若圖中含有負權邊,Dijkstra 演算法可能算出錯誤的最短距離。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 已定案的頂點日後可能經由負邊以更低成本到達,但 Dijkstra 不會重新造訪它。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "負邊確實會破壞 Dijkstra;此類圖應使用 Bellman-Ford。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Dijkstra 優先佇列",
+        "text": "<p>Dijkstra 的高效實作會使用最小優先佇列來選擇下一個要定案的頂點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 二元堆積可達到 O((V + E) log V) 的界。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "沒有優先佇列時,選取每步退化為 O(V)(總計 O(V^2))。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Dijkstra 邊操作",
+        "text": "<p>用 dist(u) + w(u,v) 嘗試改善鄰居暫定距離的操作稱為 ______(單字,英文術語)。</p>",
+        "answers": [
+          {
+            "text": "relax",
+            "fraction": 100,
+            "feedback": "正確 —— 鬆弛(relax)一條邊。"
+          },
+          {
+            "text": "relaxation",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "relax*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra 性質",
+        "text": "<p>關於 Dijkstra 演算法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "頂點一旦被定案,其最短距離即為最終值",
+            "fraction": 50,
+            "feedback": "正確 —— 在非負權重下,貪婪選擇可證明為最佳。"
+          },
+          {
+            "text": "它會鬆弛每個已定案頂點的出邊",
+            "fraction": 50,
+            "feedback": "正確 —— 鬆弛是核心更新步驟。"
+          },
+          {
+            "text": "它能正確處理負權邊",
+            "fraction": -50,
+            "feedback": "錯 —— 那需要 Bellman-Ford。"
+          },
+          {
+            "text": "它一次執行就能算出全點對最短路徑",
+            "fraction": -50,
+            "feedback": "錯 —— 一次執行是單源。"
+          }
+        ],
+        "generalFeedback": "Dijkstra:以最小優先佇列貪婪定案、距離為最終值並鬆弛邊;它是單源且需非負權重。",
+        "single": false
+      }
+    ]
+  },
+  "graph-floyd-warshall": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall problem solved",
+        "text": "<p>What problem does Floyd-Warshall solve?</p>",
+        "answers": [
+          {
+            "text": "All-pairs shortest paths",
+            "fraction": 100,
+            "feedback": "Correct — it finds the shortest distance between every pair of vertices."
+          },
+          {
+            "text": "Single-source shortest paths",
+            "fraction": 0,
+            "feedback": "That is Dijkstra/Bellman-Ford; Floyd-Warshall is all-pairs."
+          },
+          {
+            "text": "Minimum spanning tree",
+            "fraction": 0,
+            "feedback": "MST is a different problem (Prim/Kruskal)."
+          },
+          {
+            "text": "Topological ordering",
+            "fraction": 0,
+            "feedback": "Ordering a DAG is unrelated."
+          }
+        ],
+        "generalFeedback": "Floyd-Warshall fills a V-by-V distance matrix with the shortest path between every ordered pair of vertices.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall technique",
+        "text": "<p>Floyd-Warshall is a classic example of which algorithmic technique?</p>",
+        "answers": [
+          {
+            "text": "Dynamic programming over intermediate vertices",
+            "fraction": 100,
+            "feedback": "Correct — it progressively allows each vertex k as an intermediate on paths."
+          },
+          {
+            "text": "Greedy priority-queue selection",
+            "fraction": 0,
+            "feedback": "That describes Dijkstra, not Floyd-Warshall."
+          },
+          {
+            "text": "Divide and conquer",
+            "fraction": 0,
+            "feedback": "Floyd-Warshall does not split the problem into recursive halves."
+          },
+          {
+            "text": "Backtracking",
+            "fraction": 0,
+            "feedback": "There is no search-and-undo here; it is a triple loop DP."
+          }
+        ],
+        "generalFeedback": "For each intermediate vertex k it updates dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall time complexity",
+        "text": "<p>What is the time complexity of Floyd-Warshall on V vertices?</p>",
+        "answers": [
+          {
+            "text": "O(V^3)",
+            "fraction": 100,
+            "feedback": "Correct — three nested loops over all vertices."
+          },
+          {
+            "text": "O(V * E)",
+            "fraction": 0,
+            "feedback": "That is Bellman-Ford (single-source)."
+          },
+          {
+            "text": "O((V + E) log V)",
+            "fraction": 0,
+            "feedback": "That is Dijkstra with a heap."
+          },
+          {
+            "text": "O(V^2 log V)",
+            "fraction": 0,
+            "feedback": "The triple nested loop gives V^3, not V^2 log V."
+          }
+        ],
+        "generalFeedback": "The three nested loops over k, i, j each run V times, giving O(V^3).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall space and use",
+        "text": "<p>Which best describes Floyd-Warshall's space usage and ideal use case?</p>",
+        "answers": [
+          {
+            "text": "O(V^2) space; good for dense graphs or small V",
+            "fraction": 100,
+            "feedback": "Correct — it stores a V-by-V matrix and its V^3 cost is fine when V is small or the graph is dense."
+          },
+          {
+            "text": "O(V) space; good for very large sparse graphs",
+            "fraction": 0,
+            "feedback": "The matrix needs O(V^2) space, poor for huge sparse graphs."
+          },
+          {
+            "text": "O(1) space; good for streaming edges",
+            "fraction": 0,
+            "feedback": "It cannot run in constant space; it maintains a full matrix."
+          },
+          {
+            "text": "O(E) space; good for single-source queries",
+            "fraction": 0,
+            "feedback": "It is all-pairs and uses a V^2 matrix, not O(E)."
+          }
+        ],
+        "generalFeedback": "Floyd-Warshall keeps a V-by-V matrix (O(V^2) space); its cubic time suits dense graphs and small vertex counts.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Floyd-Warshall negative edges",
+        "text": "<p>Floyd-Warshall works correctly with negative edge weights as long as there is no negative cycle.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — negative edges are fine; only negative cycles break it (and can be detected on the diagonal)."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It does handle negative edges when no negative cycle is present."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Floyd-Warshall loop structure",
+        "text": "<p>Floyd-Warshall is implemented with a simple triple nested loop over the vertices.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — loops over intermediate k, source i, and destination j."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The canonical implementation is exactly three nested loops."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Floyd-Warshall scope term",
+        "text": "<p>Floyd-Warshall solves the ______ shortest-path problem (fill the hyphenated English term describing its scope, e.g. every pair).</p>",
+        "answers": [
+          {
+            "text": "all-pairs",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "all pairs",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "all-pairs*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall properties",
+        "text": "<p>Which statements about Floyd-Warshall are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It computes shortest paths between all pairs of vertices",
+            "fraction": 50,
+            "feedback": "Yes — that is its defining scope."
+          },
+          {
+            "text": "It runs in O(V^3) time",
+            "fraction": 50,
+            "feedback": "Yes — three nested loops over V vertices."
+          },
+          {
+            "text": "It uses a min-priority-queue like Dijkstra",
+            "fraction": -50,
+            "feedback": "No — it is a matrix DP, no priority queue."
+          },
+          {
+            "text": "It only works on graphs with non-negative weights",
+            "fraction": -50,
+            "feedback": "No — negative edges are fine as long as no negative cycle exists."
+          }
+        ],
+        "generalFeedback": "Floyd-Warshall: all-pairs DP in O(V^3) time and O(V^2) space; handles negative edges (no negative cycle) and uses no priority queue.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall 解決的問題",
+        "text": "<p>Floyd-Warshall 解決什麼問題?</p>",
+        "answers": [
+          {
+            "text": "全點對最短路徑",
+            "fraction": 100,
+            "feedback": "正確 —— 它求出每一對頂點之間的最短距離。"
+          },
+          {
+            "text": "單源最短路徑",
+            "fraction": 0,
+            "feedback": "那是 Dijkstra/Bellman-Ford;Floyd-Warshall 是全點對。"
+          },
+          {
+            "text": "最小生成樹",
+            "fraction": 0,
+            "feedback": "MST 是另一個問題(Prim/Kruskal)。"
+          },
+          {
+            "text": "拓撲排序",
+            "fraction": 0,
+            "feedback": "對 DAG 排序與此無關。"
+          }
+        ],
+        "generalFeedback": "Floyd-Warshall 以一個 V×V 距離矩陣填入每一組有序頂點對之間的最短路徑。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall 技巧",
+        "text": "<p>Floyd-Warshall 是下列哪種演算法技巧的經典範例?</p>",
+        "answers": [
+          {
+            "text": "以中間頂點為維度的動態規劃",
+            "fraction": 100,
+            "feedback": "正確 —— 逐步允許每個頂點 k 作為路徑上的中間點。"
+          },
+          {
+            "text": "貪婪的優先佇列選取",
+            "fraction": 0,
+            "feedback": "那描述的是 Dijkstra,不是 Floyd-Warshall。"
+          },
+          {
+            "text": "分治法",
+            "fraction": 0,
+            "feedback": "Floyd-Warshall 並不把問題遞迴地切成兩半。"
+          },
+          {
+            "text": "回溯法",
+            "fraction": 0,
+            "feedback": "這裡沒有搜尋與回退;它是三重迴圈的 DP。"
+          }
+        ],
+        "generalFeedback": "對每個中間頂點 k,更新 dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall 時間複雜度",
+        "text": "<p>在 V 個頂點上,Floyd-Warshall 的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(V^3)",
+            "fraction": 100,
+            "feedback": "正確 —— 對所有頂點的三重巢狀迴圈。"
+          },
+          {
+            "text": "O(V * E)",
+            "fraction": 0,
+            "feedback": "那是 Bellman-Ford(單源)。"
+          },
+          {
+            "text": "O((V + E) log V)",
+            "fraction": 0,
+            "feedback": "那是使用堆積的 Dijkstra。"
+          },
+          {
+            "text": "O(V^2 log V)",
+            "fraction": 0,
+            "feedback": "三重巢狀迴圈得 V^3,不是 V^2 log V。"
+          }
+        ],
+        "generalFeedback": "對 k、i、j 的三重巢狀迴圈各執行 V 次,得 O(V^3)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall 空間與用途",
+        "text": "<p>下列何者最能描述 Floyd-Warshall 的空間使用與理想適用情境?</p>",
+        "answers": [
+          {
+            "text": "O(V^2) 空間;適合稠密圖或小 V",
+            "fraction": 100,
+            "feedback": "正確 —— 它存一個 V×V 矩陣,當 V 小或圖稠密時其 V^3 成本可接受。"
+          },
+          {
+            "text": "O(V) 空間;適合超大稀疏圖",
+            "fraction": 0,
+            "feedback": "矩陣需 O(V^2) 空間,不利於巨大稀疏圖。"
+          },
+          {
+            "text": "O(1) 空間;適合串流邊",
+            "fraction": 0,
+            "feedback": "它無法以常數空間執行;需維護完整矩陣。"
+          },
+          {
+            "text": "O(E) 空間;適合單源查詢",
+            "fraction": 0,
+            "feedback": "它是全點對且使用 V^2 矩陣,不是 O(E)。"
+          }
+        ],
+        "generalFeedback": "Floyd-Warshall 維護一個 V×V 矩陣(O(V^2) 空間);其立方時間適合稠密圖與較小的頂點數。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Floyd-Warshall 負邊",
+        "text": "<p>只要沒有負環,Floyd-Warshall 便能正確處理含負權邊的圖。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 負邊沒問題;只有負環會破壞它(且可由對角線偵測)。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "沒有負環時它確實能處理負邊。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Floyd-Warshall 迴圈結構",
+        "text": "<p>Floyd-Warshall 以對頂點的簡單三重巢狀迴圈實作。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 對中間點 k、起點 i、終點 j 的迴圈。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "其標準實作正是三重巢狀迴圈。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Floyd-Warshall 範圍術語",
+        "text": "<p>Floyd-Warshall 解決 ______ 最短路徑問題(填描述其範圍的英文連字術語,即每一對)。</p>",
+        "answers": [
+          {
+            "text": "all-pairs",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "all pairs",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "all-pairs*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Floyd-Warshall 性質",
+        "text": "<p>關於 Floyd-Warshall,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它計算所有頂點對之間的最短路徑",
+            "fraction": 50,
+            "feedback": "正確 —— 這是其定義範圍。"
+          },
+          {
+            "text": "它以 O(V^3) 時間執行",
+            "fraction": 50,
+            "feedback": "正確 —— 對 V 個頂點的三重巢狀迴圈。"
+          },
+          {
+            "text": "它像 Dijkstra 一樣使用最小優先佇列",
+            "fraction": -50,
+            "feedback": "錯 —— 它是矩陣 DP,不用優先佇列。"
+          },
+          {
+            "text": "它只適用於非負權重的圖",
+            "fraction": -50,
+            "feedback": "錯 —— 只要沒有負環,負邊也可以。"
+          }
+        ],
+        "generalFeedback": "Floyd-Warshall:全點對 DP,O(V^3) 時間、O(V^2) 空間;可處理負邊(無負環)且不用優先佇列。",
+        "single": false
+      }
+    ]
+  },
+  "graph-kruskal": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Kruskal core strategy",
+        "text": "<p>What is the core greedy strategy of <strong>Kruskal's</strong> minimum spanning tree algorithm?</p>",
+        "answers": [
+          {
+            "text": "Sort all edges by weight, then add the next-smallest edge that does not form a cycle",
+            "fraction": 100,
+            "feedback": "Correct — Kruskal grows a forest by adding safe, globally cheapest edges."
+          },
+          {
+            "text": "Grow one tree from a start vertex by adding the cheapest crossing edge",
+            "fraction": 0,
+            "feedback": "That is Prim's algorithm, not Kruskal's."
+          },
+          {
+            "text": "Let every component pick its cheapest outgoing edge each round",
+            "fraction": 0,
+            "feedback": "That is Borůvka's algorithm."
+          },
+          {
+            "text": "Explore depth-first and keep the first spanning tree found",
+            "fraction": 0,
+            "feedback": "DFS builds a spanning tree but ignores weights, so it is not minimum."
+          }
+        ],
+        "generalFeedback": "Kruskal considers edges in nondecreasing weight order and accepts each one unless it would connect two vertices already in the same component.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kruskal cycle test structure",
+        "text": "<p>Which data structure does Kruskal use to test efficiently whether adding an edge would create a cycle?</p>",
+        "answers": [
+          {
+            "text": "A disjoint-set (union-find) structure",
+            "fraction": 100,
+            "feedback": "Correct — find checks if endpoints share a set; union merges them."
+          },
+          {
+            "text": "A min-priority queue of vertices",
+            "fraction": 0,
+            "feedback": "That is Prim's tool; Kruskal sorts edges and uses union-find."
+          },
+          {
+            "text": "A FIFO queue",
+            "fraction": 0,
+            "feedback": "A queue is for BFS traversal, not cycle testing in Kruskal."
+          },
+          {
+            "text": "A balanced binary search tree of edge weights",
+            "fraction": 0,
+            "feedback": "Sorting handles weights; cycle testing needs union-find."
+          }
+        ],
+        "generalFeedback": "Union-find gives near-constant amortized find/union, so each cycle test when adding an edge is very cheap.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kruskal complexity",
+        "text": "<p>What dominates the running time of Kruskal's algorithm on a graph with E edges?</p>",
+        "answers": [
+          {
+            "text": "O(E log E) — dominated by sorting the edges",
+            "fraction": 100,
+            "feedback": "Correct — the sort dominates; union-find operations are nearly linear."
+          },
+          {
+            "text": "O(V^2) from scanning a matrix each step",
+            "fraction": 0,
+            "feedback": "That is a dense-Prim bound, not Kruskal's."
+          },
+          {
+            "text": "O(V!) from trying all spanning trees",
+            "fraction": 0,
+            "feedback": "Kruskal is greedy and polynomial, not brute force."
+          },
+          {
+            "text": "O(E) with no sorting at all",
+            "fraction": 0,
+            "feedback": "Kruskal must order edges by weight, so sorting cost applies."
+          }
+        ],
+        "generalFeedback": "Sorting the E edges costs O(E log E); the subsequent union-find work is almost linear, so the sort dominates.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kruskal graph density preference",
+        "text": "<p>For which kind of graph is Kruskal's algorithm often a particularly good fit?</p>",
+        "answers": [
+          {
+            "text": "Sparse graphs, where E is small relative to V^2",
+            "fraction": 100,
+            "feedback": "Correct — few edges keep the dominant edge-sort cheap."
+          },
+          {
+            "text": "Only complete graphs",
+            "fraction": 0,
+            "feedback": "Kruskal works on any connected weighted graph and shines on sparse ones."
+          },
+          {
+            "text": "Only unweighted graphs",
+            "fraction": 0,
+            "feedback": "MST algorithms need edge weights; unweighted MST is trivial."
+          },
+          {
+            "text": "Only directed acyclic graphs",
+            "fraction": 0,
+            "feedback": "MSTs are defined on undirected weighted graphs."
+          }
+        ],
+        "generalFeedback": "Because Kruskal's cost is driven by sorting E edges, it is attractive when E is small — that is, on sparse graphs.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Kruskal edge order",
+        "text": "<p>Kruskal's algorithm considers edges in <em>nondecreasing</em> order of weight.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — it processes the smallest available edge first."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Sorting edges from smallest to largest is central to Kruskal."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Kruskal cycle acceptance",
+        "text": "<p>Kruskal adds an edge even when both of its endpoints are already in the same connected component.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — that edge would form a cycle, so Kruskal rejects it."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — an edge whose endpoints share a component is skipped to avoid a cycle."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Kruskal cycle structure term",
+        "text": "<p>Kruskal tests for cycles using a disjoint-set structure also known by the hyphenated English name ______ (e.g. \"union-find\").</p>",
+        "answers": [
+          {
+            "text": "union-find",
+            "fraction": 100,
+            "feedback": "Correct — the disjoint-set / union-find structure."
+          },
+          {
+            "text": "union find",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "disjoint-set*",
+            "fraction": 100,
+            "feedback": "Correct — also called a disjoint-set structure."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Kruskal properties multi",
+        "text": "<p>Which statements about Kruskal's algorithm are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is a greedy algorithm that adds globally cheapest safe edges",
+            "fraction": 50,
+            "feedback": "Yes — it always takes the smallest edge that avoids a cycle."
+          },
+          {
+            "text": "Its running time is dominated by sorting the edges, O(E log E)",
+            "fraction": 50,
+            "feedback": "Yes — sorting is the bottleneck."
+          },
+          {
+            "text": "It uses a min-priority queue to grow a single tree from a start vertex",
+            "fraction": -50,
+            "feedback": "No — that is Prim's approach, not Kruskal's."
+          },
+          {
+            "text": "It ignores edge weights entirely",
+            "fraction": -50,
+            "feedback": "No — Kruskal sorts by weight; weights are essential."
+          }
+        ],
+        "generalFeedback": "Kruskal is a greedy, sort-then-union-find algorithm running in O(E log E); it grows a forest by weight order, unlike Prim's single-tree priority-queue growth.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Kruskal 核心策略",
+        "text": "<p><strong>Kruskal</strong> 最小生成樹演算法的核心貪婪策略為何?</p>",
+        "answers": [
+          {
+            "text": "將所有邊依權重排序,再加入不會形成環的次小邊",
+            "fraction": 100,
+            "feedback": "正確 —— Kruskal 藉由加入安全且全域最便宜的邊來擴展森林。"
+          },
+          {
+            "text": "從起點開始擴展單一棵樹,加入最便宜的跨越邊",
+            "fraction": 0,
+            "feedback": "那是 Prim 演算法,不是 Kruskal。"
+          },
+          {
+            "text": "每一輪讓每個元件挑選自己最便宜的出邊",
+            "fraction": 0,
+            "feedback": "那是 Borůvka 演算法。"
+          },
+          {
+            "text": "深度優先探索並保留找到的第一棵生成樹",
+            "fraction": 0,
+            "feedback": "DFS 建生成樹但忽略權重,因此不是最小的。"
+          }
+        ],
+        "generalFeedback": "Kruskal 依權重非遞減順序考慮邊,除非該邊會連接兩個已在同一元件的頂點,否則就接受它。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kruskal 環偵測結構",
+        "text": "<p>Kruskal 使用哪一種資料結構來有效率地測試加入某邊是否會形成環?</p>",
+        "answers": [
+          {
+            "text": "互斥集合(union-find)結構",
+            "fraction": 100,
+            "feedback": "正確 —— find 檢查兩端點是否同集合,union 將其合併。"
+          },
+          {
+            "text": "頂點的最小優先佇列",
+            "fraction": 0,
+            "feedback": "那是 Prim 的工具;Kruskal 排序邊並使用 union-find。"
+          },
+          {
+            "text": "先進先出佇列",
+            "fraction": 0,
+            "feedback": "佇列用於 BFS 走訪,而非 Kruskal 的環測試。"
+          },
+          {
+            "text": "邊權重的平衡二元搜尋樹",
+            "fraction": 0,
+            "feedback": "排序處理權重;環測試需要 union-find。"
+          }
+        ],
+        "generalFeedback": "Union-find 提供近乎常數的攤銷 find/union,因此加入邊時的每次環測試都非常便宜。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kruskal 複雜度",
+        "text": "<p>對於有 E 條邊的圖,Kruskal 演算法的執行時間由何者主導?</p>",
+        "answers": [
+          {
+            "text": "O(E log E) —— 由排序邊主導",
+            "fraction": 100,
+            "feedback": "正確 —— 排序主導;union-find 運算近乎線性。"
+          },
+          {
+            "text": "O(V^2) —— 每步掃描矩陣",
+            "fraction": 0,
+            "feedback": "那是稠密圖 Prim 的界限,不是 Kruskal。"
+          },
+          {
+            "text": "O(V!) —— 嘗試所有生成樹",
+            "fraction": 0,
+            "feedback": "Kruskal 是貪婪且多項式的,不是暴力法。"
+          },
+          {
+            "text": "完全不需排序的 O(E)",
+            "fraction": 0,
+            "feedback": "Kruskal 必須依權重排序邊,因此有排序成本。"
+          }
+        ],
+        "generalFeedback": "排序 E 條邊需 O(E log E);後續 union-find 工作近乎線性,故排序主導。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kruskal 對圖密度的偏好",
+        "text": "<p>Kruskal 演算法特別適合哪一種圖?</p>",
+        "answers": [
+          {
+            "text": "稀疏圖,即 E 相對於 V^2 較小",
+            "fraction": 100,
+            "feedback": "正確 —— 邊少使主導的邊排序成本維持低廉。"
+          },
+          {
+            "text": "僅限完全圖",
+            "fraction": 0,
+            "feedback": "Kruskal 適用於任何連通加權圖,並在稀疏圖上表現突出。"
+          },
+          {
+            "text": "僅限無權重圖",
+            "fraction": 0,
+            "feedback": "最小生成樹演算法需要邊權重;無權重的 MST 是顯而易見的。"
+          },
+          {
+            "text": "僅限有向無環圖",
+            "fraction": 0,
+            "feedback": "最小生成樹定義於無向加權圖上。"
+          }
+        ],
+        "generalFeedback": "由於 Kruskal 的成本由排序 E 條邊驅動,當 E 較小時(即稀疏圖)特別有吸引力。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Kruskal 邊的順序",
+        "text": "<p>Kruskal 演算法以權重<em>非遞減</em>的順序考慮各邊。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它先處理目前可用的最小邊。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "將邊由小到大排序是 Kruskal 的核心。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Kruskal 對環的接受",
+        "text": "<p>即使某邊的兩端點已在同一連通元件中,Kruskal 仍會加入該邊。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 該邊會形成環,因此 Kruskal 會拒絕它。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 兩端點同屬一元件的邊會被略過以避免形成環。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Kruskal 環結構名詞",
+        "text": "<p>Kruskal 使用一種互斥集合結構來測試環,其連字號英文名稱為 ______(例如 \"union-find\")。</p>",
+        "answers": [
+          {
+            "text": "union-find",
+            "fraction": 100,
+            "feedback": "正確 —— 互斥集合 / union-find 結構。"
+          },
+          {
+            "text": "union find",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "disjoint-set*",
+            "fraction": 100,
+            "feedback": "正確 —— 亦稱互斥集合結構。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Kruskal 性質複選",
+        "text": "<p>關於 Kruskal 演算法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它是加入全域最便宜安全邊的貪婪演算法",
+            "fraction": 50,
+            "feedback": "正確 —— 它總是取不會形成環的最小邊。"
+          },
+          {
+            "text": "其執行時間由排序邊主導,O(E log E)",
+            "fraction": 50,
+            "feedback": "正確 —— 排序是瓶頸。"
+          },
+          {
+            "text": "它使用最小優先佇列從起點擴展單一棵樹",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 Prim 的做法,不是 Kruskal。"
+          },
+          {
+            "text": "它完全忽略邊權重",
+            "fraction": -50,
+            "feedback": "錯 —— Kruskal 依權重排序;權重是必要的。"
+          }
+        ],
+        "generalFeedback": "Kruskal 是先排序再用 union-find 的貪婪演算法,執行時間 O(E log E);它依權重順序擴展森林,不同於 Prim 以優先佇列擴展單一棵樹。",
+        "single": false
+      }
+    ]
+  },
+  "graph-matrix": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Matrix entry meaning",
+        "text": "<p>In an <strong>adjacency matrix</strong> M of a graph, what does entry M[i][j] typically hold?</p>",
+        "answers": [
+          {
+            "text": "1 (or the weight) if an edge connects i and j, else 0",
+            "fraction": 100,
+            "feedback": "Correct — the entry records whether (and how strongly) i and j are adjacent."
+          },
+          {
+            "text": "A pointer to the next neighbour of vertex i",
+            "fraction": 0,
+            "feedback": "That describes an adjacency list node, not a matrix cell."
+          },
+          {
+            "text": "The degree of vertex i",
+            "fraction": 0,
+            "feedback": "A single cell records one pair's adjacency, not a vertex's degree."
+          },
+          {
+            "text": "The total number of edges E",
+            "fraction": 0,
+            "feedback": "E is a global count, not the value of one cell."
+          }
+        ],
+        "generalFeedback": "M[i][j] is 1 or the edge weight when i and j are adjacent, and 0 otherwise.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Matrix space",
+        "text": "<p>What is the space complexity of an adjacency matrix for a graph with V vertices?</p>",
+        "answers": [
+          {
+            "text": "O(V^2)",
+            "fraction": 100,
+            "feedback": "Correct — a V×V table has V^2 cells regardless of the edge count."
+          },
+          {
+            "text": "O(V + E)",
+            "fraction": 0,
+            "feedback": "That is the adjacency list; the matrix always uses V^2 cells."
+          },
+          {
+            "text": "O(E)",
+            "fraction": 0,
+            "feedback": "The matrix reserves space for all vertex pairs, not just existing edges."
+          },
+          {
+            "text": "O(V)",
+            "fraction": 0,
+            "feedback": "A V×V table is quadratic, not linear, in V."
+          }
+        ],
+        "generalFeedback": "An adjacency matrix is a V×V table, so it always uses O(V^2) space no matter how many edges exist.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Matrix edge lookup",
+        "text": "<p>Using an adjacency matrix, how long does it take to test whether edge (u, v) exists?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — you read the single cell M[u][v] directly."
+          },
+          {
+            "text": "O(degree(u))",
+            "fraction": 0,
+            "feedback": "That is the adjacency list; the matrix indexes directly."
+          },
+          {
+            "text": "O(V)",
+            "fraction": 0,
+            "feedback": "Reading one cell is constant time, not linear."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "That is the whole table's size, not the cost of a single lookup."
+          }
+        ],
+        "generalFeedback": "Direct indexing gives O(1) edge tests — the adjacency matrix's headline advantage.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Iterating neighbours in matrix",
+        "text": "<p>Using an adjacency matrix, iterating over all neighbours of a vertex u costs:</p>",
+        "answers": [
+          {
+            "text": "O(V), because you must scan the entire row of u",
+            "fraction": 100,
+            "feedback": "Correct — you check every one of the V cells in u's row."
+          },
+          {
+            "text": "O(degree(u)), visiting only real neighbours",
+            "fraction": 0,
+            "feedback": "That is the adjacency list; the matrix must scan all V columns."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "You cannot list all neighbours in constant time from a matrix."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "Scanning one row is O(V), not the whole matrix."
+          }
+        ],
+        "generalFeedback": "To enumerate u's neighbours you scan all V entries of u's row, costing O(V) even if u has few neighbours.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Matrix best for dense",
+        "text": "<p>An adjacency matrix is a good choice for dense graphs or when fast O(1) edge tests are needed.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — dense graphs use the cells well, and edge lookup is O(1)."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Dense graphs and fast edge tests are exactly where the matrix excels."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Matrix wasteful for sparse",
+        "text": "<p>An adjacency matrix wastes memory on a sparse graph because it reserves V^2 cells even when E is tiny.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — most cells stay 0 when the graph is sparse."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "With few edges most of the V^2 cells are wasted zeros."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Matrix space order term",
+        "text": "<p>The space used by an adjacency matrix grows on the order of V raised to what power? Answer with a single number.</p>",
+        "answers": [
+          {
+            "text": "2",
+            "fraction": 100,
+            "feedback": "Correct — O(V^2)."
+          },
+          {
+            "text": "two",
+            "fraction": 100,
+            "feedback": "Correct — O(V^2)."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Matrix facts",
+        "text": "<p>Which statements about the adjacency-matrix representation are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It supports O(1) edge-existence tests",
+            "fraction": 50,
+            "feedback": "Yes — direct indexing into M[u][v]."
+          },
+          {
+            "text": "It uses O(V^2) space regardless of the number of edges",
+            "fraction": 50,
+            "feedback": "Yes — a full V×V table."
+          },
+          {
+            "text": "Iterating a vertex's neighbours costs only O(degree)",
+            "fraction": -50,
+            "feedback": "No — you must scan the whole row, costing O(V)."
+          },
+          {
+            "text": "It is the most space-efficient choice for very sparse graphs",
+            "fraction": -50,
+            "feedback": "No — it wastes space on sparse graphs; adjacency lists are better there."
+          }
+        ],
+        "generalFeedback": "Adjacency matrix: O(1) edge tests, O(V^2) space, O(V) neighbour scans, and wasteful on sparse graphs (best for dense ones).",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "矩陣元素的意義",
+        "text": "<p>在圖的<strong>相鄰矩陣(adjacency matrix)</strong> M 中,元素 M[i][j] 通常存放什麼?</p>",
+        "answers": [
+          {
+            "text": "若 i 與 j 有邊相連則為 1(或權重),否則為 0",
+            "fraction": 100,
+            "feedback": "正確 —— 該元素記錄 i 與 j 是否(以及多強地)相鄰。"
+          },
+          {
+            "text": "指向頂點 i 下一個鄰居的指標",
+            "fraction": 0,
+            "feedback": "那是相鄰串列的節點,不是矩陣的一格。"
+          },
+          {
+            "text": "頂點 i 的度數",
+            "fraction": 0,
+            "feedback": "單一格記錄一對頂點的相鄰關係,而非頂點的度數。"
+          },
+          {
+            "text": "邊的總數 E",
+            "fraction": 0,
+            "feedback": "E 是整體計數,不是單一格的值。"
+          }
+        ],
+        "generalFeedback": "當 i 與 j 相鄰時 M[i][j] 為 1 或邊的權重,否則為 0。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "矩陣空間",
+        "text": "<p>對於有 V 個頂點的圖,相鄰矩陣的空間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(V^2)",
+            "fraction": 100,
+            "feedback": "正確 —— V×V 的表格有 V^2 個格子,與邊數無關。"
+          },
+          {
+            "text": "O(V + E)",
+            "fraction": 0,
+            "feedback": "那是相鄰串列;矩陣永遠使用 V^2 個格子。"
+          },
+          {
+            "text": "O(E)",
+            "fraction": 0,
+            "feedback": "矩陣為所有頂點對保留空間,而非只有存在的邊。"
+          },
+          {
+            "text": "O(V)",
+            "fraction": 0,
+            "feedback": "V×V 表格對 V 是平方而非線性。"
+          }
+        ],
+        "generalFeedback": "相鄰矩陣是 V×V 的表格,不論有幾條邊都使用 O(V^2) 空間。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "矩陣的邊查詢",
+        "text": "<p>使用相鄰矩陣時,測試邊 (u, v) 是否存在需要多久?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 直接讀取單一格 M[u][v]。"
+          },
+          {
+            "text": "O(degree(u))",
+            "fraction": 0,
+            "feedback": "那是相鄰串列;矩陣可直接索引。"
+          },
+          {
+            "text": "O(V)",
+            "fraction": 0,
+            "feedback": "讀取一格是常數時間,而非線性。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "那是整張表的大小,不是單次查詢的成本。"
+          }
+        ],
+        "generalFeedback": "直接索引使邊測試為 O(1) —— 這是相鄰矩陣最主要的優勢。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "在矩陣中走訪鄰居",
+        "text": "<p>使用相鄰矩陣時,走訪頂點 u 的所有鄰居的成本為:</p>",
+        "answers": [
+          {
+            "text": "O(V),因為必須掃過 u 的整列",
+            "fraction": 100,
+            "feedback": "正確 —— 你要檢查 u 那一列的全部 V 個格子。"
+          },
+          {
+            "text": "O(degree(u)),只走訪真正的鄰居",
+            "fraction": 0,
+            "feedback": "那是相鄰串列;矩陣必須掃過全部 V 欄。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "無法在常數時間內從矩陣列出所有鄰居。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "掃一列是 O(V),而非整張矩陣。"
+          }
+        ],
+        "generalFeedback": "要列舉 u 的鄰居,必須掃過 u 那一列的全部 V 格,即使 u 的鄰居很少也是 O(V)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "矩陣適合稠密圖",
+        "text": "<p>當圖很稠密,或需要快速的 O(1) 邊測試時,相鄰矩陣是不錯的選擇。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 稠密圖能充分利用格子,且邊查詢為 O(1)。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "稠密圖與快速邊測試正是矩陣的強項。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "矩陣對稀疏圖浪費",
+        "text": "<p>相鄰矩陣對稀疏圖會浪費記憶體,因為即使 E 很小,它仍保留 V^2 個格子。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 圖稀疏時大多數格子維持為 0。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "邊很少時,V^2 個格子大多是浪費掉的 0。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "矩陣空間階數的名詞",
+        "text": "<p>相鄰矩陣所使用的空間大約按 V 的幾次方成長?請以單一數字作答。</p>",
+        "answers": [
+          {
+            "text": "2",
+            "fraction": 100,
+            "feedback": "正確 —— O(V^2)。"
+          },
+          {
+            "text": "two",
+            "fraction": 100,
+            "feedback": "正確 —— O(V^2)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "矩陣性質",
+        "text": "<p>關於相鄰矩陣表示法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它支援 O(1) 的邊存在性測試",
+            "fraction": 50,
+            "feedback": "正確 —— 直接索引 M[u][v]。"
+          },
+          {
+            "text": "不論邊數多少,它都使用 O(V^2) 空間",
+            "fraction": 50,
+            "feedback": "正確 —— 一張完整的 V×V 表。"
+          },
+          {
+            "text": "走訪一個頂點的鄰居只需 O(degree)",
+            "fraction": -50,
+            "feedback": "錯 —— 必須掃過整列,成本為 O(V)。"
+          },
+          {
+            "text": "對非常稀疏的圖它是最省空間的選擇",
+            "fraction": -50,
+            "feedback": "錯 —— 它對稀疏圖浪費空間;那種情況相鄰串列較佳。"
+          }
+        ],
+        "generalFeedback": "相鄰矩陣:O(1) 邊測試、O(V^2) 空間、O(V) 走訪鄰居,且對稀疏圖浪費(最適合稠密圖)。",
+        "single": false
+      }
+    ]
+  },
+  "graph-multilist": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Multilist node meaning",
+        "text": "<p>In an <strong>adjacency multilist</strong> for an undirected graph, what does a single list node represent?</p>",
+        "answers": [
+          {
+            "text": "One edge, shared and linked into both of its endpoints' lists",
+            "fraction": 100,
+            "feedback": "Correct — a multilist is edge-oriented; each edge is a single shared node."
+          },
+          {
+            "text": "One vertex and its degree",
+            "fraction": 0,
+            "feedback": "The multilist is organised around edges, not per-vertex counters."
+          },
+          {
+            "text": "An entire V-length matrix row",
+            "fraction": 0,
+            "feedback": "That is the adjacency matrix, not a multilist node."
+          },
+          {
+            "text": "A separate copy of the edge for each endpoint",
+            "fraction": 0,
+            "feedback": "A plain adjacency list duplicates edges; the multilist deliberately does not."
+          }
+        ],
+        "generalFeedback": "An adjacency multilist is edge-oriented: each edge is one shared node threaded into both endpoints' lists.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Edge stored once",
+        "text": "<p>Compared with a plain adjacency list, how many times does an adjacency multilist store each undirected edge?</p>",
+        "answers": [
+          {
+            "text": "Once — as a single node shared by both endpoints",
+            "fraction": 100,
+            "feedback": "Correct — the edge node is shared, so it is stored exactly once."
+          },
+          {
+            "text": "Twice — once in each endpoint's list",
+            "fraction": 0,
+            "feedback": "That is the plain adjacency list; the multilist avoids the duplicate."
+          },
+          {
+            "text": "V times — once per vertex",
+            "fraction": 0,
+            "feedback": "An edge only involves its two endpoints, not every vertex."
+          },
+          {
+            "text": "Never — edges are recomputed on demand",
+            "fraction": 0,
+            "feedback": "Edges are stored explicitly as nodes."
+          }
+        ],
+        "generalFeedback": "A multilist stores each undirected edge once as a shared node, unlike a plain adjacency list which stores it twice.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Multilist orientation",
+        "text": "<p>The adjacency multilist is best described as which kind of representation?</p>",
+        "answers": [
+          {
+            "text": "An edge-oriented representation for undirected graphs",
+            "fraction": 100,
+            "feedback": "Correct — nodes correspond to edges, shared between endpoints."
+          },
+          {
+            "text": "A purely vertex-oriented array of counters",
+            "fraction": 0,
+            "feedback": "The multilist centres on edge nodes, not per-vertex counters."
+          },
+          {
+            "text": "A dense V×V table of bits",
+            "fraction": 0,
+            "feedback": "That is the adjacency matrix."
+          },
+          {
+            "text": "A representation only usable for directed graphs",
+            "fraction": 0,
+            "feedback": "The multilist is designed for undirected graphs."
+          }
+        ],
+        "generalFeedback": "The multilist is an edge-oriented structure for undirected graphs where each edge is a shared node.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Multilist use case",
+        "text": "<p>Why is the shared-edge-node design of a multilist convenient?</p>",
+        "answers": [
+          {
+            "text": "You can mark an edge as visited once and see it from both endpoints",
+            "fraction": 100,
+            "feedback": "Correct — a single shared node makes edge marking during traversal easy."
+          },
+          {
+            "text": "It makes edge lookup O(1) like a matrix",
+            "fraction": 0,
+            "feedback": "Edge lookup still requires walking a list; O(1) lookup is the matrix's trait."
+          },
+          {
+            "text": "It removes the need to store vertices at all",
+            "fraction": 0,
+            "feedback": "Vertices still head their lists of edge nodes."
+          },
+          {
+            "text": "It converts the graph into a directed graph",
+            "fraction": 0,
+            "feedback": "The multilist represents the same undirected graph."
+          }
+        ],
+        "generalFeedback": "Because each edge is one shared node, marking or traversing an edge once is visible from both endpoints — handy in edge-based algorithms.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Shared edge node",
+        "text": "<p>In an adjacency multilist, each edge node is linked into the lists of both of its endpoints.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the single edge node belongs to both endpoints' lists."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The whole point of the multilist is that both endpoints share the one edge node."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Multilist vs adjacency list duplication",
+        "text": "<p>A plain adjacency list stores an undirected edge twice, whereas an adjacency multilist stores it only once.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the multilist's shared node avoids the duplicate the adjacency list keeps."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "An adjacency list does duplicate the edge; the multilist stores it once."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Multilist unit term",
+        "text": "<p>In an adjacency multilist, each shared node corresponds to one ______ of the graph.</p>",
+        "answers": [
+          {
+            "text": "edge",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "edge*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Multilist facts",
+        "text": "<p>Which statements about the adjacency multilist are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Each undirected edge is represented by exactly one shared node",
+            "fraction": 50,
+            "feedback": "Yes — that is the defining feature."
+          },
+          {
+            "text": "An edge node is threaded into both of its endpoints' lists",
+            "fraction": 50,
+            "feedback": "Yes — it is reachable from both endpoints."
+          },
+          {
+            "text": "It duplicates every edge, once per endpoint, like a plain adjacency list",
+            "fraction": -50,
+            "feedback": "No — the multilist shares one node instead of duplicating."
+          },
+          {
+            "text": "It provides O(1) edge-existence tests like an adjacency matrix",
+            "fraction": -50,
+            "feedback": "No — O(1) edge tests are the matrix's property, not the multilist's."
+          }
+        ],
+        "generalFeedback": "Multilist: each edge is one shared node linked from both endpoints, stored once (not duplicated), and it does not give O(1) matrix-style lookups.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "多重串列節點的意義",
+        "text": "<p>在無向圖的<strong>相鄰多重串列(adjacency multilist)</strong>中,單一個串列節點代表什麼?</p>",
+        "answers": [
+          {
+            "text": "一條邊,被共用並串接進它兩個端點的串列中",
+            "fraction": 100,
+            "feedback": "正確 —— 多重串列以邊為導向;每條邊是單一個共用節點。"
+          },
+          {
+            "text": "一個頂點及其度數",
+            "fraction": 0,
+            "feedback": "多重串列以邊為核心,不是以每個頂點的計數器為主。"
+          },
+          {
+            "text": "一整列長度 V 的矩陣列",
+            "fraction": 0,
+            "feedback": "那是相鄰矩陣,不是多重串列的節點。"
+          },
+          {
+            "text": "為每個端點各存一份邊的副本",
+            "fraction": 0,
+            "feedback": "普通相鄰串列會重複儲存邊;多重串列刻意不這麼做。"
+          }
+        ],
+        "generalFeedback": "相鄰多重串列以邊為導向:每條邊是一個共用節點,串進兩個端點的串列中。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "邊只存一次",
+        "text": "<p>與普通相鄰串列相比,相鄰多重串列將每條無向邊儲存幾次?</p>",
+        "answers": [
+          {
+            "text": "一次 —— 由兩個端點共用同一個節點",
+            "fraction": 100,
+            "feedback": "正確 —— 邊節點被共用,因此恰好只存一次。"
+          },
+          {
+            "text": "兩次 —— 每個端點的串列各存一次",
+            "fraction": 0,
+            "feedback": "那是普通相鄰串列;多重串列避免了這個重複。"
+          },
+          {
+            "text": "V 次 —— 每個頂點各存一次",
+            "fraction": 0,
+            "feedback": "一條邊只牽涉兩個端點,而非每個頂點。"
+          },
+          {
+            "text": "不儲存 —— 邊在需要時才重新計算",
+            "fraction": 0,
+            "feedback": "邊會被明確地存成節點。"
+          }
+        ],
+        "generalFeedback": "多重串列以共用節點將每條無向邊只存一次,不像普通相鄰串列會存兩次。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "多重串列的導向",
+        "text": "<p>相鄰多重串列最適合被描述為哪一種表示法?</p>",
+        "answers": [
+          {
+            "text": "一種以邊為導向、用於無向圖的表示法",
+            "fraction": 100,
+            "feedback": "正確 —— 節點對應到邊,由兩端點共用。"
+          },
+          {
+            "text": "純粹以頂點為導向的計數器陣列",
+            "fraction": 0,
+            "feedback": "多重串列以邊節點為核心,而非每頂點計數器。"
+          },
+          {
+            "text": "一張稠密的 V×V 位元表",
+            "fraction": 0,
+            "feedback": "那是相鄰矩陣。"
+          },
+          {
+            "text": "一種只能用於有向圖的表示法",
+            "fraction": 0,
+            "feedback": "多重串列是為無向圖而設計的。"
+          }
+        ],
+        "generalFeedback": "多重串列是用於無向圖、以邊為導向的結構,每條邊是一個共用節點。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "多重串列的用途",
+        "text": "<p>多重串列採用「共用邊節點」的設計,為何方便?</p>",
+        "answers": [
+          {
+            "text": "你可以只標記一條邊為已造訪,並從兩個端點都看得到",
+            "fraction": 100,
+            "feedback": "正確 —— 單一共用節點讓遍歷時的邊標記變得容易。"
+          },
+          {
+            "text": "它讓邊查詢像矩陣一樣達到 O(1)",
+            "fraction": 0,
+            "feedback": "邊查詢仍需走串列;O(1) 查詢是矩陣的特性。"
+          },
+          {
+            "text": "它讓頂點完全不需要被儲存",
+            "fraction": 0,
+            "feedback": "頂點仍作為其邊節點串列的表頭。"
+          },
+          {
+            "text": "它把圖轉換成有向圖",
+            "fraction": 0,
+            "feedback": "多重串列表示的仍是同一張無向圖。"
+          }
+        ],
+        "generalFeedback": "因為每條邊是一個共用節點,只標記或遍歷一次即可從兩端點看到 —— 在以邊為基礎的演算法中很方便。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "共用的邊節點",
+        "text": "<p>在相鄰多重串列中,每個邊節點都被串接進它兩個端點的串列裡。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 單一邊節點同時屬於兩個端點的串列。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "多重串列的重點正是兩個端點共用同一個邊節點。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "多重串列與相鄰串列的重複",
+        "text": "<p>普通相鄰串列將一條無向邊儲存兩次,而相鄰多重串列只儲存一次。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 多重串列以共用節點避免了相鄰串列保留的重複。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "相鄰串列確實會重複儲存該邊;多重串列只存一次。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "多重串列單位的名詞",
+        "text": "<p>在相鄰多重串列中,每個共用節點對應到圖的一條 ______(請以英文作答)。</p>",
+        "answers": [
+          {
+            "text": "edge",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "edge*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "多重串列性質",
+        "text": "<p>關於相鄰多重串列,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "每條無向邊恰由一個共用節點表示",
+            "fraction": 50,
+            "feedback": "正確 —— 這是它的定義特徵。"
+          },
+          {
+            "text": "一個邊節點被串進它兩個端點的串列中",
+            "fraction": 50,
+            "feedback": "正確 —— 從兩個端點都可到達它。"
+          },
+          {
+            "text": "它像普通相鄰串列一樣,每條邊按端點重複儲存一次",
+            "fraction": -50,
+            "feedback": "錯 —— 多重串列共用一個節點,而非重複儲存。"
+          },
+          {
+            "text": "它像相鄰矩陣一樣提供 O(1) 的邊存在性測試",
+            "fraction": -50,
+            "feedback": "錯 —— O(1) 邊查詢是矩陣的性質,不是多重串列的。"
+          }
+        ],
+        "generalFeedback": "多重串列:每條邊是一個共用節點、由兩端點串接、只存一次(不重複),且不提供矩陣式的 O(1) 查詢。",
+        "single": false
+      }
+    ]
+  },
+  "graph-prim": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Prim core strategy",
+        "text": "<p>What is the core greedy strategy of <strong>Prim's</strong> minimum spanning tree algorithm?</p>",
+        "answers": [
+          {
+            "text": "Grow a single tree from a start vertex, always adding the minimum-weight edge that crosses from the tree to a non-tree vertex",
+            "fraction": 100,
+            "feedback": "Correct — Prim repeatedly attaches the cheapest crossing edge."
+          },
+          {
+            "text": "Sort all edges globally and add the smallest that avoids a cycle",
+            "fraction": 0,
+            "feedback": "That is Kruskal's algorithm, not Prim's."
+          },
+          {
+            "text": "Have every component pick its cheapest outgoing edge each round",
+            "fraction": 0,
+            "feedback": "That is Borůvka's algorithm."
+          },
+          {
+            "text": "Traverse depth-first and keep the first spanning tree encountered",
+            "fraction": 0,
+            "feedback": "DFS ignores weights, so its spanning tree is not minimum."
+          }
+        ],
+        "generalFeedback": "Prim keeps one connected tree and, at each step, adds the lightest edge that connects the tree to a vertex not yet in it.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Prim priority structure",
+        "text": "<p>Which data structure lets Prim efficiently select the next minimum crossing edge?</p>",
+        "answers": [
+          {
+            "text": "A min-priority queue (min-heap)",
+            "fraction": 100,
+            "feedback": "Correct — the heap returns the cheapest edge/vertex on the frontier."
+          },
+          {
+            "text": "A disjoint-set (union-find) structure",
+            "fraction": 0,
+            "feedback": "That is Kruskal's cycle-testing tool, not Prim's selector."
+          },
+          {
+            "text": "A plain FIFO queue",
+            "fraction": 0,
+            "feedback": "A FIFO queue drives BFS; it does not pick minimum-weight edges."
+          },
+          {
+            "text": "A LIFO stack",
+            "fraction": 0,
+            "feedback": "A stack is for DFS; it has no notion of minimum weight."
+          }
+        ],
+        "generalFeedback": "A min-heap keyed by the cheapest known connection cost lets Prim extract the next minimum crossing edge in logarithmic time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Prim complexity",
+        "text": "<p>With a binary min-heap, what is the time complexity of Prim's algorithm on a graph with V vertices and E edges?</p>",
+        "answers": [
+          {
+            "text": "O(E log V)",
+            "fraction": 100,
+            "feedback": "Correct — each of E edge relaxations costs a log V heap update."
+          },
+          {
+            "text": "O(E log E) dominated by a full edge sort",
+            "fraction": 0,
+            "feedback": "That is Kruskal; Prim uses a heap, not a global sort."
+          },
+          {
+            "text": "O(V!) trying all spanning trees",
+            "fraction": 0,
+            "feedback": "Prim is greedy and polynomial, not brute force."
+          },
+          {
+            "text": "O(V + E) with no priority structure",
+            "fraction": 0,
+            "feedback": "The heap adds a log factor; plain O(V + E) is BFS/DFS traversal."
+          }
+        ],
+        "generalFeedback": "With a binary heap Prim runs in O(E log V); a Fibonacci heap improves this to O(E + V log V).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Prim graph density preference",
+        "text": "<p>Prim's algorithm (especially the array/matrix variant) is often a good fit for which kind of graph?</p>",
+        "answers": [
+          {
+            "text": "Dense graphs, where E is close to V^2",
+            "fraction": 100,
+            "feedback": "Correct — Prim's vertex-centric growth suits dense graphs well."
+          },
+          {
+            "text": "Only unweighted graphs",
+            "fraction": 0,
+            "feedback": "MST requires weighted edges; unweighted MST is trivial."
+          },
+          {
+            "text": "Only directed acyclic graphs",
+            "fraction": 0,
+            "feedback": "MSTs are defined on undirected weighted graphs."
+          },
+          {
+            "text": "Only trees, which already have no extra edges",
+            "fraction": 0,
+            "feedback": "A tree is already its own MST; the algorithm targets general graphs."
+          }
+        ],
+        "generalFeedback": "Because Prim grows outward from one vertex managing per-vertex keys, it is often preferred on dense graphs, whereas Kruskal shines on sparse ones.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Prim single tree",
+        "text": "<p>At every step, the set of edges Prim has chosen so far forms a single connected tree (never a disconnected forest).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — Prim always keeps one connected tree, unlike Kruskal's growing forest."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Prim's defining trait is maintaining a single connected tree throughout."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Prim global sort claim",
+        "text": "<p>Prim's algorithm requires first sorting <em>all</em> edges of the graph by weight before it can begin.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — that is Kruskal; Prim uses a priority queue and never sorts all edges up front."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — Prim pulls the next minimum edge from a heap, without a global pre-sort."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Prim theorem term",
+        "text": "<p>Prim's correctness rests on the ______ property: the minimum-weight edge crossing any partition of the vertices is safe to add (single English word for that partition).</p>",
+        "answers": [
+          {
+            "text": "cut",
+            "fraction": 100,
+            "feedback": "Correct — the cut property justifies adding the minimum crossing edge."
+          },
+          {
+            "text": "cut*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Prim properties multi",
+        "text": "<p>Which statements about Prim's algorithm are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It grows one connected tree, adding the minimum crossing edge each step",
+            "fraction": 50,
+            "feedback": "Yes — that is exactly Prim's greedy rule."
+          },
+          {
+            "text": "With a binary heap it runs in O(E log V)",
+            "fraction": 50,
+            "feedback": "Yes — that is the standard binary-heap bound."
+          },
+          {
+            "text": "It uses union-find to reject edges that create cycles",
+            "fraction": -50,
+            "feedback": "No — that is Kruskal; Prim's single tree never needs union-find."
+          },
+          {
+            "text": "It halves the number of components each round in parallel",
+            "fraction": -50,
+            "feedback": "No — that describes Borůvka's algorithm."
+          }
+        ],
+        "generalFeedback": "Prim is a greedy, single-tree, min-heap algorithm running in O(E log V); union-find belongs to Kruskal and round-based component halving to Borůvka.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "Prim 核心策略",
+        "text": "<p><strong>Prim</strong> 最小生成樹演算法的核心貪婪策略為何?</p>",
+        "answers": [
+          {
+            "text": "從起點開始擴展單一棵樹,總是加入從樹跨越到非樹頂點的最小權重邊",
+            "fraction": 100,
+            "feedback": "正確 —— Prim 反覆接上最便宜的跨越邊。"
+          },
+          {
+            "text": "將所有邊全域排序,加入不會形成環的最小邊",
+            "fraction": 0,
+            "feedback": "那是 Kruskal 演算法,不是 Prim。"
+          },
+          {
+            "text": "每一輪讓每個元件挑選自己最便宜的出邊",
+            "fraction": 0,
+            "feedback": "那是 Borůvka 演算法。"
+          },
+          {
+            "text": "深度優先走訪並保留遇到的第一棵生成樹",
+            "fraction": 0,
+            "feedback": "DFS 忽略權重,因此其生成樹並非最小。"
+          }
+        ],
+        "generalFeedback": "Prim 維持一棵連通樹,每步加入連接該樹與尚未在樹中頂點的最輕邊。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Prim 優先結構",
+        "text": "<p>哪一種資料結構讓 Prim 能有效率地選出下一條最小跨越邊?</p>",
+        "answers": [
+          {
+            "text": "最小優先佇列(min-heap 最小堆積)",
+            "fraction": 100,
+            "feedback": "正確 —— 堆積回傳前緣上最便宜的邊/頂點。"
+          },
+          {
+            "text": "互斥集合(union-find)結構",
+            "fraction": 0,
+            "feedback": "那是 Kruskal 的環測試工具,不是 Prim 的選擇器。"
+          },
+          {
+            "text": "一般的先進先出佇列",
+            "fraction": 0,
+            "feedback": "FIFO 佇列驅動 BFS;它不會挑選最小權重邊。"
+          },
+          {
+            "text": "後進先出堆疊",
+            "fraction": 0,
+            "feedback": "堆疊用於 DFS;它沒有最小權重的概念。"
+          }
+        ],
+        "generalFeedback": "以最便宜已知連接成本為鍵的最小堆積,讓 Prim 能在對數時間內取出下一條最小跨越邊。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Prim 複雜度",
+        "text": "<p>使用二元最小堆積時,對於有 V 個頂點與 E 條邊的圖,Prim 演算法的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(E log V)",
+            "fraction": 100,
+            "feedback": "正確 —— E 次邊鬆弛各需一次 log V 的堆積更新。"
+          },
+          {
+            "text": "由完整邊排序主導的 O(E log E)",
+            "fraction": 0,
+            "feedback": "那是 Kruskal;Prim 使用堆積,而非全域排序。"
+          },
+          {
+            "text": "嘗試所有生成樹的 O(V!)",
+            "fraction": 0,
+            "feedback": "Prim 是貪婪且多項式的,不是暴力法。"
+          },
+          {
+            "text": "無優先結構的 O(V + E)",
+            "fraction": 0,
+            "feedback": "堆積帶來一個 log 因子;單純 O(V + E) 是 BFS/DFS 走訪。"
+          }
+        ],
+        "generalFeedback": "使用二元堆積時 Prim 為 O(E log V);費氏堆積可改進為 O(E + V log V)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Prim 對圖密度的偏好",
+        "text": "<p>Prim 演算法(尤其是陣列/矩陣版本)通常適合哪一種圖?</p>",
+        "answers": [
+          {
+            "text": "稠密圖,即 E 接近 V^2",
+            "fraction": 100,
+            "feedback": "正確 —— Prim 以頂點為中心的擴展很適合稠密圖。"
+          },
+          {
+            "text": "僅限無權重圖",
+            "fraction": 0,
+            "feedback": "MST 需要加權邊;無權重的 MST 是顯而易見的。"
+          },
+          {
+            "text": "僅限有向無環圖",
+            "fraction": 0,
+            "feedback": "最小生成樹定義於無向加權圖上。"
+          },
+          {
+            "text": "僅限樹,因為樹已無多餘邊",
+            "fraction": 0,
+            "feedback": "樹本身即為其 MST;此演算法針對一般圖。"
+          }
+        ],
+        "generalFeedback": "由於 Prim 從單一頂點向外擴展並管理各頂點的鍵值,在稠密圖上常較受青睞,而 Kruskal 則在稀疏圖上表現突出。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Prim 單一棵樹",
+        "text": "<p>在每一步,Prim 目前已選的邊集合都構成單一棵連通樹(絕不會是不連通的森林)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 與 Kruskal 逐漸成長的森林不同,Prim 始終維持一棵連通樹。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Prim 的定義特徵就是全程維持單一棵連通樹。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Prim 全域排序主張",
+        "text": "<p>Prim 演算法必須先將圖的<em>所有</em>邊依權重排序,才能開始執行。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 Kruskal;Prim 使用優先佇列,從不預先排序所有邊。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— Prim 從堆積中取出下一條最小邊,無需全域預排序。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Prim 定理名詞",
+        "text": "<p>Prim 的正確性建立在 ______ 性質上:跨越頂點任意分割的最小權重邊都可安全加入(該分割的單一英文單字)。</p>",
+        "answers": [
+          {
+            "text": "cut",
+            "fraction": 100,
+            "feedback": "正確 —— 切割性質(cut property)證成加入最小跨越邊。"
+          },
+          {
+            "text": "cut*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Prim 性質複選",
+        "text": "<p>關於 Prim 演算法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它擴展單一棵連通樹,每步加入最小跨越邊",
+            "fraction": 50,
+            "feedback": "正確 —— 這正是 Prim 的貪婪法則。"
+          },
+          {
+            "text": "使用二元堆積時執行時間為 O(E log V)",
+            "fraction": 50,
+            "feedback": "正確 —— 這是標準的二元堆積界限。"
+          },
+          {
+            "text": "它使用 union-find 來拒絕會形成環的邊",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 Kruskal;Prim 的單一棵樹從不需要 union-find。"
+          },
+          {
+            "text": "它每一輪平行地將元件數量減半",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 Borůvka 演算法。"
+          }
+        ],
+        "generalFeedback": "Prim 是以最小堆積擴展單一棵樹的貪婪演算法,執行時間 O(E log V);union-find 屬於 Kruskal,而以輪次將元件減半屬於 Borůvka。",
+        "single": false
+      }
+    ]
+  },
+  "graph-redblue": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Blue rule statement",
+        "text": "<p>What does the <strong>blue rule (cut rule)</strong> for minimum spanning trees state?</p>",
+        "answers": [
+          {
+            "text": "The minimum-weight edge crossing any cut belongs to some MST",
+            "fraction": 100,
+            "feedback": "Correct — color that edge blue (include it)."
+          },
+          {
+            "text": "The maximum-weight edge crossing any cut belongs to some MST",
+            "fraction": 0,
+            "feedback": "No — the blue rule includes the minimum crossing edge, not the maximum."
+          },
+          {
+            "text": "The minimum-weight edge on any cycle belongs to some MST",
+            "fraction": 0,
+            "feedback": "That confuses the cut with the cycle; the cycle rule concerns the maximum edge on a cycle."
+          },
+          {
+            "text": "Every edge crossing a cut belongs to the MST",
+            "fraction": 0,
+            "feedback": "Only the minimum crossing edge is guaranteed, not all of them."
+          }
+        ],
+        "generalFeedback": "Blue rule: across any cut of the graph, the cheapest crossing edge is safe to include in an MST.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Red rule statement",
+        "text": "<p>What does the <strong>red rule (cycle rule)</strong> state?</p>",
+        "answers": [
+          {
+            "text": "The maximum-weight edge on any cycle can be excluded from some MST",
+            "fraction": 100,
+            "feedback": "Correct — color that edge red (exclude it)."
+          },
+          {
+            "text": "The minimum-weight edge on any cycle must be excluded",
+            "fraction": 0,
+            "feedback": "No — the red rule excludes the maximum edge of a cycle."
+          },
+          {
+            "text": "The maximum-weight edge crossing any cut is excluded",
+            "fraction": 0,
+            "feedback": "That mixes up cut and cycle; the red rule is about cycles."
+          },
+          {
+            "text": "Every edge on a cycle is excluded",
+            "fraction": 0,
+            "feedback": "Only the heaviest cycle edge is safe to exclude."
+          }
+        ],
+        "generalFeedback": "Red rule: on any cycle, the heaviest edge is safe to drop from an MST.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Red-Blue framework role",
+        "text": "<p>Why are the red and blue rules important in MST theory?</p>",
+        "answers": [
+          {
+            "text": "They form a unifying correctness framework of which Kruskal, Prim, and Boruvka are instances",
+            "fraction": 100,
+            "feedback": "Correct — each classic MST algorithm is a particular strategy for applying these two rules."
+          },
+          {
+            "text": "They only apply to directed graphs",
+            "fraction": 0,
+            "feedback": "MSTs and these rules are defined on undirected weighted graphs."
+          },
+          {
+            "text": "They compute shortest paths, not spanning trees",
+            "fraction": 0,
+            "feedback": "They concern MSTs, not shortest paths."
+          },
+          {
+            "text": "They replace the need for edge weights",
+            "fraction": 0,
+            "feedback": "The rules compare edge weights, so weights are essential."
+          }
+        ],
+        "generalFeedback": "The red-blue rules prove that greedily including safe (blue) edges and excluding useless (red) edges yields an MST, unifying Kruskal, Prim, and Boruvka.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Coloring meaning",
+        "text": "<p>In the red-blue method, what does coloring an edge <strong>blue</strong> mean?</p>",
+        "answers": [
+          {
+            "text": "The edge is accepted into the MST",
+            "fraction": 100,
+            "feedback": "Correct — blue means included."
+          },
+          {
+            "text": "The edge is rejected from the MST",
+            "fraction": 0,
+            "feedback": "That is red (excluded), not blue."
+          },
+          {
+            "text": "The edge is temporarily ignored",
+            "fraction": 0,
+            "feedback": "Blue is a definite include decision, not a deferral."
+          },
+          {
+            "text": "The edge forms a negative cycle",
+            "fraction": 0,
+            "feedback": "MST theory here is about weight, not negative cycles."
+          }
+        ],
+        "generalFeedback": "Blue = include (safe edge via the cut rule); red = exclude (useless edge via the cycle rule).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Kruskal Prim instances",
+        "text": "<p>Kruskal's and Prim's algorithms can both be viewed as specific ways of applying the red-blue rules.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — they are instances of the same unifying framework."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Both are indeed instances of the red-blue rules."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Cut rule direction",
+        "text": "<p>The cut rule (blue rule) tells you to include the maximum-weight edge crossing a cut.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — the cut rule includes the minimum-weight crossing edge."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — it is the minimum crossing edge that is safe to include."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Blue rule graph concept",
+        "text": "<p>The blue rule is stated in terms of a partition of the vertices into two sets, called a ______ (one word, English term).</p>",
+        "answers": [
+          {
+            "text": "cut",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "cut*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Red-Blue properties",
+        "text": "<p>Which statements about the red-blue rules are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "The blue (cut) rule includes the minimum edge crossing a cut",
+            "fraction": 50,
+            "feedback": "Yes — that safe edge belongs to some MST."
+          },
+          {
+            "text": "The red (cycle) rule excludes the maximum edge on a cycle",
+            "fraction": 50,
+            "feedback": "Yes — the heaviest cycle edge is not needed."
+          },
+          {
+            "text": "The blue rule includes the maximum crossing edge",
+            "fraction": -50,
+            "feedback": "No — it includes the minimum crossing edge."
+          },
+          {
+            "text": "The rules compute all-pairs shortest paths",
+            "fraction": -50,
+            "feedback": "No — they build a minimum spanning tree."
+          }
+        ],
+        "generalFeedback": "Blue rule: minimum edge across a cut is included; red rule: maximum edge on a cycle is excluded. Together they prove MST algorithms correct.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "藍色規則敘述",
+        "text": "<p>最小生成樹的<strong>藍色規則(切割規則)</strong>陳述了什麼?</p>",
+        "answers": [
+          {
+            "text": "跨越任一切割的最小權重邊,屬於某棵 MST",
+            "fraction": 100,
+            "feedback": "正確 —— 將該邊染藍(納入)。"
+          },
+          {
+            "text": "跨越任一切割的最大權重邊,屬於某棵 MST",
+            "fraction": 0,
+            "feedback": "錯 —— 藍色規則納入最小的跨越邊,不是最大。"
+          },
+          {
+            "text": "任一環上的最小權重邊,屬於某棵 MST",
+            "fraction": 0,
+            "feedback": "這把切割與環混淆了;環規則關注環上的最大邊。"
+          },
+          {
+            "text": "跨越切割的每條邊都屬於 MST",
+            "fraction": 0,
+            "feedback": "只保證最小跨越邊,並非全部。"
+          }
+        ],
+        "generalFeedback": "藍色規則:在圖的任一切割上,最便宜的跨越邊可安全地納入 MST。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "紅色規則敘述",
+        "text": "<p><strong>紅色規則(環規則)</strong>陳述了什麼?</p>",
+        "answers": [
+          {
+            "text": "任一環上的最大權重邊,可從某棵 MST 中排除",
+            "fraction": 100,
+            "feedback": "正確 —— 將該邊染紅(排除)。"
+          },
+          {
+            "text": "任一環上的最小權重邊必須被排除",
+            "fraction": 0,
+            "feedback": "錯 —— 紅色規則排除環上的最大邊。"
+          },
+          {
+            "text": "跨越任一切割的最大權重邊被排除",
+            "fraction": 0,
+            "feedback": "這混淆了切割與環;紅色規則是關於環。"
+          },
+          {
+            "text": "環上的每條邊都被排除",
+            "fraction": 0,
+            "feedback": "只有最重的環邊可安全排除。"
+          }
+        ],
+        "generalFeedback": "紅色規則:在任一環上,最重的邊可安全地從 MST 中捨棄。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "紅藍框架的角色",
+        "text": "<p>為什麼紅色與藍色規則在 MST 理論中如此重要?</p>",
+        "answers": [
+          {
+            "text": "它們構成一個統一的正確性框架,Kruskal、Prim、Boruvka 都是其實例",
+            "fraction": 100,
+            "feedback": "正確 —— 每個經典 MST 演算法都是套用這兩條規則的特定策略。"
+          },
+          {
+            "text": "它們只適用於有向圖",
+            "fraction": 0,
+            "feedback": "MST 與這些規則定義於無向加權圖。"
+          },
+          {
+            "text": "它們計算最短路徑,而非生成樹",
+            "fraction": 0,
+            "feedback": "它們關注 MST,不是最短路徑。"
+          },
+          {
+            "text": "它們讓邊權變得不必要",
+            "fraction": 0,
+            "feedback": "這些規則比較邊權,因此權重是必要的。"
+          }
+        ],
+        "generalFeedback": "紅藍規則證明:貪婪地納入安全(藍)邊、排除多餘(紅)邊即可得到 MST,並統一了 Kruskal、Prim、Boruvka。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "染色的意義",
+        "text": "<p>在紅藍方法中,將一條邊染成<strong>藍色</strong>代表什麼?</p>",
+        "answers": [
+          {
+            "text": "該邊被納入 MST",
+            "fraction": 100,
+            "feedback": "正確 —— 藍色代表納入。"
+          },
+          {
+            "text": "該邊被排除於 MST 之外",
+            "fraction": 0,
+            "feedback": "那是紅色(排除),不是藍色。"
+          },
+          {
+            "text": "該邊被暫時忽略",
+            "fraction": 0,
+            "feedback": "藍色是明確的納入決定,不是延後。"
+          },
+          {
+            "text": "該邊形成負環",
+            "fraction": 0,
+            "feedback": "此處的 MST 理論是關於權重,不是負環。"
+          }
+        ],
+        "generalFeedback": "藍色 = 納入(由切割規則得到的安全邊);紅色 = 排除(由環規則得到的多餘邊)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Kruskal 與 Prim 為實例",
+        "text": "<p>Kruskal 與 Prim 演算法都可視為套用紅藍規則的特定方式。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 它們是同一統一框架的實例。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "兩者確實都是紅藍規則的實例。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "切割規則方向",
+        "text": "<p>切割規則(藍色規則)要你納入跨越切割的最大權重邊。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 切割規則納入的是最小權重的跨越邊。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 可安全納入的是最小的跨越邊。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "藍色規則的圖論概念",
+        "text": "<p>藍色規則是以將頂點分成兩個集合的劃分來陳述,這種劃分稱為 ______(單字,英文術語)。</p>",
+        "answers": [
+          {
+            "text": "cut",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "cut*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "紅藍規則性質",
+        "text": "<p>關於紅藍規則,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "藍色(切割)規則納入跨越切割的最小邊",
+            "fraction": 50,
+            "feedback": "正確 —— 該安全邊屬於某棵 MST。"
+          },
+          {
+            "text": "紅色(環)規則排除環上的最大邊",
+            "fraction": 50,
+            "feedback": "正確 —— 最重的環邊並非必要。"
+          },
+          {
+            "text": "藍色規則納入最大的跨越邊",
+            "fraction": -50,
+            "feedback": "錯 —— 它納入最小的跨越邊。"
+          },
+          {
+            "text": "這些規則計算全點對最短路徑",
+            "fraction": -50,
+            "feedback": "錯 —— 它們建構最小生成樹。"
+          }
+        ],
+        "generalFeedback": "藍色規則:納入跨越切割的最小邊;紅色規則:排除環上的最大邊。兩者共同證明 MST 演算法的正確性。",
+        "single": false
+      }
+    ]
+  },
+  "graph-scc": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "SCC definition",
+        "text": "<p>In a <strong>directed</strong> graph, a <strong>strongly connected component (SCC)</strong> is a maximal set of vertices such that:</p>",
+        "answers": [
+          {
+            "text": "Every vertex can reach every other vertex in the set (both directions)",
+            "fraction": 100,
+            "feedback": "Correct — mutual reachability in both directions defines an SCC."
+          },
+          {
+            "text": "Every vertex has the same out-degree",
+            "fraction": 0,
+            "feedback": "No — degree equality is irrelevant to strong connectivity."
+          },
+          {
+            "text": "The vertices form a single directed path",
+            "fraction": 0,
+            "feedback": "No — an SCC requires mutual reachability, not just a path."
+          },
+          {
+            "text": "There is at least one vertex reaching all others",
+            "fraction": 0,
+            "feedback": "No — every vertex must reach every other, not just one hub."
+          }
+        ],
+        "generalFeedback": "An SCC is a maximal vertex set in which, for every pair (u, v), u reaches v and v reaches u — mutual reachability.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Tarjan's algorithm",
+        "text": "<p>Tarjan's SCC algorithm finds all components using:</p>",
+        "answers": [
+          {
+            "text": "A single DFS that maintains low-link values and a stack",
+            "fraction": 100,
+            "feedback": "Correct — one DFS pass with discovery indices and low-link values."
+          },
+          {
+            "text": "Two DFS passes on the same graph orientation",
+            "fraction": 0,
+            "feedback": "No — that resembles Kosaraju's, and its second pass uses the transpose."
+          },
+          {
+            "text": "Repeated BFS from every vertex",
+            "fraction": 0,
+            "feedback": "No — Tarjan's uses a single DFS, not per-vertex BFS."
+          },
+          {
+            "text": "Sorting vertices by out-degree",
+            "fraction": 0,
+            "feedback": "No — degree sorting does not identify SCCs."
+          }
+        ],
+        "generalFeedback": "Tarjan's performs one DFS, tracking each vertex's discovery index and low-link (lowest reachable index); when low-link equals the vertex's own index, the stack top down to that vertex forms an SCC.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kosaraju's algorithm",
+        "text": "<p>Kosaraju's SCC algorithm runs two DFS passes. On which graph is the <em>second</em> pass performed?</p>",
+        "answers": [
+          {
+            "text": "On the transposed (reversed) graph",
+            "fraction": 100,
+            "feedback": "Correct — the second DFS runs on the edge-reversed graph."
+          },
+          {
+            "text": "On the same original graph again",
+            "fraction": 0,
+            "feedback": "No — the second pass uses the transpose, that is the key step."
+          },
+          {
+            "text": "On the undirected version of the graph",
+            "fraction": 0,
+            "feedback": "No — it uses the transpose (reversed directions), not an undirected graph."
+          },
+          {
+            "text": "On the minimum spanning tree of the graph",
+            "fraction": 0,
+            "feedback": "No — no spanning tree is involved."
+          }
+        ],
+        "generalFeedback": "Kosaraju's: first DFS records finish times; then DFS the transposed graph in decreasing finish-time order — each resulting tree is one SCC.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "SCC complexity",
+        "text": "<p>With adjacency lists, both Tarjan's and Kosaraju's SCC algorithms run in time:</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "Correct — linear in the size of the graph."
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "No — that is Warshall's transitive-closure bound, not SCC."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "No — with adjacency lists SCCs are found in linear time."
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "No — no priority queue or sorting by weight is needed."
+          }
+        ],
+        "generalFeedback": "Each performs a constant number of DFS passes, each O(V + E), so the total is linear O(V + E).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Condensation is a DAG",
+        "text": "<p>Contracting each strongly connected component to a single vertex yields a directed acyclic graph (the <em>condensation</em>).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the condensation of SCCs is always a DAG."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Any cycle among SCCs would merge them into one, so the condensation is acyclic."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "SCC needs direction",
+        "text": "<p>Strongly connected components are defined for <em>directed</em> graphs.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — SCCs are a directed-graph concept; undirected graphs use plain connected components."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "SCCs require edge directions; undirected graphs have connected components instead."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "SCC algorithm name",
+        "text": "<p>Name one linear-time algorithm that finds strongly connected components with a single DFS and low-link values (one English surname).</p>",
+        "answers": [
+          {
+            "text": "Tarjan",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Tarjan*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "Kosaraju*",
+            "fraction": 100,
+            "feedback": "Accepted — Kosaraju's is the other linear-time SCC algorithm (two DFS passes)."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "SCC facts",
+        "text": "<p>Which statements about strongly connected components are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Tarjan's and Kosaraju's both find SCCs in O(V + E)",
+            "fraction": 50,
+            "feedback": "Yes — both are linear-time DFS-based algorithms."
+          },
+          {
+            "text": "Contracting each SCC produces a DAG (the condensation)",
+            "fraction": 50,
+            "feedback": "Yes — the condensation is always acyclic."
+          },
+          {
+            "text": "SCCs are defined for undirected graphs",
+            "fraction": -50,
+            "feedback": "No — undirected graphs use connected components; SCCs need directions."
+          },
+          {
+            "text": "Kosaraju's second DFS runs on the original (un-reversed) graph",
+            "fraction": -50,
+            "feedback": "No — the second pass runs on the transposed (reversed) graph."
+          }
+        ],
+        "generalFeedback": "SCCs are a directed-graph notion found in O(V + E) by Tarjan's (one DFS) or Kosaraju's (two DFS, second on the transpose); contracting them gives a DAG.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "強連通分量定義",
+        "text": "<p>在<strong>有向</strong>圖中,<strong>強連通分量(SCC)</strong>是一個滿足下列條件的頂點極大集合:</p>",
+        "answers": [
+          {
+            "text": "集合中每個頂點都能到達其他每個頂點(雙向皆可)",
+            "fraction": 100,
+            "feedback": "正確 —— 雙向互相可達即定義了 SCC。"
+          },
+          {
+            "text": "每個頂點的出度都相同",
+            "fraction": 0,
+            "feedback": "錯 —— 度數是否相等與強連通性無關。"
+          },
+          {
+            "text": "這些頂點構成一條單一有向路徑",
+            "fraction": 0,
+            "feedback": "錯 —— SCC 要求互相可達,不只是一條路徑。"
+          },
+          {
+            "text": "至少有一個頂點能到達其餘所有頂點",
+            "fraction": 0,
+            "feedback": "錯 —— 必須是每個頂點都能到達其他每個,而非僅一個樞紐。"
+          }
+        ],
+        "generalFeedback": "SCC 是一個極大頂點集合,對其中每一對 (u, v),u 都能到達 v 且 v 都能到達 u —— 互相可達。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Tarjan 演算法",
+        "text": "<p>Tarjan 的 SCC 演算法使用什麼方式找出所有分量?</p>",
+        "answers": [
+          {
+            "text": "單次 DFS,維護 low-link 值與一個堆疊",
+            "fraction": 100,
+            "feedback": "正確 —— 單趟 DFS,搭配發現索引與 low-link 值。"
+          },
+          {
+            "text": "在同一圖向上做兩趟 DFS",
+            "fraction": 0,
+            "feedback": "錯 —— 那類似 Kosaraju,而它第二趟用的是轉置圖。"
+          },
+          {
+            "text": "從每個頂點重複做 BFS",
+            "fraction": 0,
+            "feedback": "錯 —— Tarjan 使用單次 DFS,而非逐頂點 BFS。"
+          },
+          {
+            "text": "依出度將頂點排序",
+            "fraction": 0,
+            "feedback": "錯 —— 度數排序無法辨識 SCC。"
+          }
+        ],
+        "generalFeedback": "Tarjan 執行一趟 DFS,追蹤每個頂點的發現索引與 low-link(可達的最小索引);當 low-link 等於頂點自身索引時,堆疊頂端往下到該頂點即構成一個 SCC。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kosaraju 演算法",
+        "text": "<p>Kosaraju 的 SCC 演算法執行兩趟 DFS。<em>第二</em>趟是在哪個圖上進行?</p>",
+        "answers": [
+          {
+            "text": "在轉置(反向)圖上",
+            "fraction": 100,
+            "feedback": "正確 —— 第二趟 DFS 在邊反向後的圖上進行。"
+          },
+          {
+            "text": "再一次在原本的圖上",
+            "fraction": 0,
+            "feedback": "錯 —— 第二趟使用轉置圖,那正是關鍵步驟。"
+          },
+          {
+            "text": "在圖的無向版本上",
+            "fraction": 0,
+            "feedback": "錯 —— 它使用轉置(方向反轉)圖,而非無向圖。"
+          },
+          {
+            "text": "在圖的最小生成樹上",
+            "fraction": 0,
+            "feedback": "錯 —— 過程中不涉及生成樹。"
+          }
+        ],
+        "generalFeedback": "Kosaraju:第一趟 DFS 記錄完成時間;接著依完成時間遞減順序在轉置圖上做 DFS —— 每棵所得的樹即為一個 SCC。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "SCC 複雜度",
+        "text": "<p>使用鄰接串列,Tarjan 與 Kosaraju 的 SCC 演算法執行時間皆為:</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "正確 —— 與圖的大小成線性。"
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是 Warshall 遞移閉包的界限,不是 SCC。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "錯 —— 使用鄰接串列可在線性時間內找出 SCC。"
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "錯 —— 不需要優先佇列或依權重排序。"
+          }
+        ],
+        "generalFeedback": "兩者各執行常數次 DFS,每次 O(V + E),因此總計為線性 O(V + E)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "縮併圖是 DAG",
+        "text": "<p>將每個強連通分量縮併成單一頂點,會得到一個有向無環圖(即<em>縮併圖 condensation</em>)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— SCC 的縮併圖必為 DAG。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "SCC 之間若存在環,會使它們合併為一;因此縮併圖是無環的。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "SCC 需要方向",
+        "text": "<p>強連通分量是為<em>有向</em>圖所定義的。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— SCC 是有向圖的概念;無向圖使用一般的連通分量。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "SCC 需要邊的方向;無向圖則有連通分量。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "SCC 演算法名稱",
+        "text": "<p>說出一個以單次 DFS 與 low-link 值找出強連通分量的線性時間演算法(一個英文姓氏)。</p>",
+        "answers": [
+          {
+            "text": "Tarjan",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Tarjan*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "Kosaraju*",
+            "fraction": 100,
+            "feedback": "可接受 —— Kosaraju 是另一個線性時間 SCC 演算法(兩趟 DFS)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "SCC 的性質",
+        "text": "<p>關於強連通分量,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "Tarjan 與 Kosaraju 都能在 O(V + E) 內找出 SCC",
+            "fraction": 50,
+            "feedback": "正確 —— 兩者都是以 DFS 為基礎的線性時間演算法。"
+          },
+          {
+            "text": "縮併每個 SCC 會產生一個 DAG(縮併圖)",
+            "fraction": 50,
+            "feedback": "正確 —— 縮併圖必為無環。"
+          },
+          {
+            "text": "SCC 是為無向圖所定義的",
+            "fraction": -50,
+            "feedback": "錯 —— 無向圖使用連通分量;SCC 需要方向。"
+          },
+          {
+            "text": "Kosaraju 的第二趟 DFS 在原本(未反向)的圖上進行",
+            "fraction": -50,
+            "feedback": "錯 —— 第二趟在轉置(反向)圖上進行。"
+          }
+        ],
+        "generalFeedback": "SCC 是有向圖的概念,可由 Tarjan(單次 DFS)或 Kosaraju(兩趟 DFS,第二趟在轉置圖)以 O(V + E) 找出;縮併後得到 DAG。",
+        "single": false
+      }
+    ]
+  },
+  "graph-topo": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Topological order definition",
+        "text": "<p>A topological ordering of a directed graph is a linear order of its vertices such that:</p>",
+        "answers": [
+          {
+            "text": "For every edge u&rarr;v, u appears before v",
+            "fraction": 100,
+            "feedback": "Correct — every directed edge points forward in the ordering."
+          },
+          {
+            "text": "For every edge u&rarr;v, v appears before u",
+            "fraction": 0,
+            "feedback": "That reverses the requirement; edges must point forward."
+          },
+          {
+            "text": "Vertices are sorted by ascending degree",
+            "fraction": 0,
+            "feedback": "Topological order is about edge direction, not degree."
+          },
+          {
+            "text": "Vertices are sorted by their labels",
+            "fraction": 0,
+            "feedback": "Labels are irrelevant; edge constraints define the order."
+          }
+        ],
+        "generalFeedback": "A topological sort lays out the vertices so that all dependencies (edges) point from earlier to later.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Topological sort existence",
+        "text": "<p>A topological ordering exists if and only if the graph is:</p>",
+        "answers": [
+          {
+            "text": "A directed acyclic graph (DAG)",
+            "fraction": 100,
+            "feedback": "Correct — a cycle would force a vertex to precede itself, so acyclicity is required."
+          },
+          {
+            "text": "Connected",
+            "fraction": 0,
+            "feedback": "Connectivity is neither necessary nor sufficient; acyclicity is the condition."
+          },
+          {
+            "text": "Undirected",
+            "fraction": 0,
+            "feedback": "Topological order is defined for directed graphs."
+          },
+          {
+            "text": "Complete",
+            "fraction": 0,
+            "feedback": "A complete directed graph has cycles and no topological order."
+          }
+        ],
+        "generalFeedback": "Exactly the DAGs admit a topological ordering; any directed cycle makes it impossible.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kahn's algorithm",
+        "text": "<p>Kahn's algorithm for topological sort repeatedly does what?</p>",
+        "answers": [
+          {
+            "text": "Removes a vertex with in-degree 0 and decrements its neighbors' in-degrees",
+            "fraction": 100,
+            "feedback": "Correct — in-degree-0 vertices have no unmet dependencies and go next."
+          },
+          {
+            "text": "Removes the vertex with the largest out-degree first",
+            "fraction": 0,
+            "feedback": "Out-degree does not drive Kahn's algorithm."
+          },
+          {
+            "text": "Relaxes edges using a priority queue by weight",
+            "fraction": 0,
+            "feedback": "That describes Dijkstra, not topological sort."
+          },
+          {
+            "text": "Colors edges red and blue",
+            "fraction": 0,
+            "feedback": "That is the MST red-blue framework, unrelated here."
+          }
+        ],
+        "generalFeedback": "Kahn's algorithm maintains a queue of in-degree-0 vertices, emitting them and reducing neighbors' in-degrees until all are placed.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Topological sort complexity",
+        "text": "<p>What is the time complexity of topological sort (Kahn's or DFS-based)?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "Correct — each vertex and edge is processed a constant number of times."
+          },
+          {
+            "text": "O(V * E)",
+            "fraction": 0,
+            "feedback": "That is Bellman-Ford, not topological sort."
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "That is Floyd-Warshall."
+          },
+          {
+            "text": "O(V^2 log V)",
+            "fraction": 0,
+            "feedback": "Topological sort is linear in the graph size."
+          }
+        ],
+        "generalFeedback": "Both Kahn's algorithm and DFS post-order run in O(V + E).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Topological sort on cyclic graph",
+        "text": "<p>A directed graph that contains a cycle has no valid topological ordering.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — a cycle makes a consistent linear order impossible."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Cyclic directed graphs cannot be topologically sorted."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS based topological sort",
+        "text": "<p>A topological ordering can be produced by reversing the DFS post-order of a DAG.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — reversing DFS finishing times yields a valid topological order."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Reversed DFS post-order is a standard way to topologically sort a DAG."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Topological sort graph type",
+        "text": "<p>A topological ordering exists exactly when the graph is a ______ (three-letter English acronym for a directed acyclic graph).</p>",
+        "answers": [
+          {
+            "text": "DAG",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "dag",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "DAG*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Topological sort properties",
+        "text": "<p>Which statements about topological sort are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It applies only to directed acyclic graphs",
+            "fraction": 50,
+            "feedback": "Yes — a cycle would make the ordering impossible."
+          },
+          {
+            "text": "Kahn's algorithm processes in-degree-0 vertices using a queue",
+            "fraction": 50,
+            "feedback": "Yes — that is the core of Kahn's method."
+          },
+          {
+            "text": "It requires edge weights to be non-negative",
+            "fraction": -50,
+            "feedback": "No — topological sort ignores weights entirely."
+          },
+          {
+            "text": "It runs in O(V^3) time",
+            "fraction": -50,
+            "feedback": "No — it runs in O(V + E)."
+          }
+        ],
+        "generalFeedback": "Topological sort: defined on DAGs, computed by Kahn's queue of in-degree-0 vertices or reversed DFS post-order, in O(V + E) time; weights are irrelevant.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "拓撲排序定義",
+        "text": "<p>有向圖的拓撲排序是一種頂點的線性排列,使得:</p>",
+        "answers": [
+          {
+            "text": "對每一條邊 u&rarr;v,u 都出現在 v 之前",
+            "fraction": 100,
+            "feedback": "正確 —— 每條有向邊在排序中都朝前指。"
+          },
+          {
+            "text": "對每一條邊 u&rarr;v,v 都出現在 u 之前",
+            "fraction": 0,
+            "feedback": "這把需求反了;邊必須朝前指。"
+          },
+          {
+            "text": "頂點依分支度遞增排序",
+            "fraction": 0,
+            "feedback": "拓撲排序關乎邊的方向,不是分支度。"
+          },
+          {
+            "text": "頂點依其標籤排序",
+            "fraction": 0,
+            "feedback": "標籤無關;定義排序的是邊的限制。"
+          }
+        ],
+        "generalFeedback": "拓撲排序把頂點排開,使所有相依關係(邊)都由較前指向較後。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "拓撲排序存在性",
+        "text": "<p>拓撲排序存在,若且唯若該圖是:</p>",
+        "answers": [
+          {
+            "text": "有向無環圖(DAG)",
+            "fraction": 100,
+            "feedback": "正確 —— 環會迫使某頂點排在自己之前,故必須無環。"
+          },
+          {
+            "text": "連通的",
+            "fraction": 0,
+            "feedback": "連通既非必要也非充分;條件是無環。"
+          },
+          {
+            "text": "無向的",
+            "fraction": 0,
+            "feedback": "拓撲排序是為有向圖定義的。"
+          },
+          {
+            "text": "完全的",
+            "fraction": 0,
+            "feedback": "完全有向圖含環,沒有拓撲排序。"
+          }
+        ],
+        "generalFeedback": "恰好是 DAG 才有拓撲排序;任何有向環都使其不可能。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Kahn 演算法",
+        "text": "<p>拓撲排序的 Kahn 演算法反覆執行什麼?</p>",
+        "answers": [
+          {
+            "text": "移除入度為 0 的頂點,並將其鄰居的入度減 1",
+            "fraction": 100,
+            "feedback": "正確 —— 入度為 0 的頂點沒有未滿足的相依,可接著輸出。"
+          },
+          {
+            "text": "先移除出度最大的頂點",
+            "fraction": 0,
+            "feedback": "出度並非 Kahn 演算法的依據。"
+          },
+          {
+            "text": "用依權重的優先佇列鬆弛邊",
+            "fraction": 0,
+            "feedback": "那描述的是 Dijkstra,不是拓撲排序。"
+          },
+          {
+            "text": "把邊染成紅色與藍色",
+            "fraction": 0,
+            "feedback": "那是 MST 的紅藍框架,與此無關。"
+          }
+        ],
+        "generalFeedback": "Kahn 演算法維護一個入度為 0 頂點的佇列,將它們輸出並減少鄰居入度,直到全部就位。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "拓撲排序複雜度",
+        "text": "<p>拓撲排序(Kahn 或以 DFS 為基礎)的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個頂點與邊都被處理常數次。"
+          },
+          {
+            "text": "O(V * E)",
+            "fraction": 0,
+            "feedback": "那是 Bellman-Ford,不是拓撲排序。"
+          },
+          {
+            "text": "O(V^3)",
+            "fraction": 0,
+            "feedback": "那是 Floyd-Warshall。"
+          },
+          {
+            "text": "O(V^2 log V)",
+            "fraction": 0,
+            "feedback": "拓撲排序對圖的大小是線性的。"
+          }
+        ],
+        "generalFeedback": "Kahn 演算法與 DFS 後序皆以 O(V + E) 執行。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "有環圖的拓撲排序",
+        "text": "<p>含有環的有向圖沒有有效的拓撲排序。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 環使一致的線性排序不可能。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "有環的有向圖無法進行拓撲排序。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "以 DFS 為基礎的拓撲排序",
+        "text": "<p>對 DAG 進行 DFS 後序並反轉,即可產生拓撲排序。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 反轉 DFS 完成時間可得到有效的拓撲排序。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "反轉 DFS 後序是對 DAG 拓撲排序的標準方法。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "拓撲排序的圖類型",
+        "text": "<p>拓撲排序恰好在該圖是 ______ 時存在(有向無環圖的三個字母英文縮寫)。</p>",
+        "answers": [
+          {
+            "text": "DAG",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "dag",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "DAG*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "拓撲排序性質",
+        "text": "<p>關於拓撲排序,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它只適用於有向無環圖",
+            "fraction": 50,
+            "feedback": "正確 —— 環會使排序不可能。"
+          },
+          {
+            "text": "Kahn 演算法用佇列處理入度為 0 的頂點",
+            "fraction": 50,
+            "feedback": "正確 —— 這是 Kahn 方法的核心。"
+          },
+          {
+            "text": "它要求邊權為非負",
+            "fraction": -50,
+            "feedback": "錯 —— 拓撲排序完全忽略權重。"
+          },
+          {
+            "text": "它以 O(V^3) 時間執行",
+            "fraction": -50,
+            "feedback": "錯 —— 它以 O(V + E) 執行。"
+          }
+        ],
+        "generalFeedback": "拓撲排序:定義於 DAG,以 Kahn 的入度為 0 頂點佇列或反轉 DFS 後序計算,時間 O(V + E);與權重無關。",
+        "single": false
+      }
+    ]
+  },
+  "graph-traversal": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "BFS data structure",
+        "text": "<p>Which auxiliary data structure does <strong>breadth-first search (BFS)</strong> use to decide which vertex to visit next?</p>",
+        "answers": [
+          {
+            "text": "A queue (FIFO)",
+            "fraction": 100,
+            "feedback": "Correct — BFS uses a queue to explore vertices level by level."
+          },
+          {
+            "text": "A stack (LIFO)",
+            "fraction": 0,
+            "feedback": "A stack drives DFS, not BFS."
+          },
+          {
+            "text": "A min-heap priority queue",
+            "fraction": 0,
+            "feedback": "That is used by Dijkstra, not plain BFS."
+          },
+          {
+            "text": "A hash table of edge weights",
+            "fraction": 0,
+            "feedback": "BFS does not need edge weights; it uses a queue."
+          }
+        ],
+        "generalFeedback": "BFS relies on a FIFO queue so vertices are processed in the order they are discovered — level by level.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS behaviour",
+        "text": "<p>Which description best matches <strong>depth-first search (DFS)</strong>?</p>",
+        "answers": [
+          {
+            "text": "It goes as deep as possible along a branch, then backtracks, using a stack or recursion",
+            "fraction": 100,
+            "feedback": "Correct — DFS dives deep and backtracks, driven by a stack (often the call stack)."
+          },
+          {
+            "text": "It visits all vertices at the current distance before going deeper, using a queue",
+            "fraction": 0,
+            "feedback": "That describes BFS, not DFS."
+          },
+          {
+            "text": "It always visits vertices in ascending index order",
+            "fraction": 0,
+            "feedback": "Visit order depends on the graph and start vertex, not the index."
+          },
+          {
+            "text": "It requires edge weights to pick the cheapest vertex",
+            "fraction": 0,
+            "feedback": "That is a weighted shortest-path algorithm, not DFS."
+          }
+        ],
+        "generalFeedback": "DFS explores one branch fully, backtracking via a stack or recursion, and underpins topological sort, cycle detection, and SCC.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS shortest path",
+        "text": "<p>On an <strong>unweighted</strong> graph, BFS from a source finds:</p>",
+        "answers": [
+          {
+            "text": "The shortest path (fewest edges) from the source to each reachable vertex",
+            "fraction": 100,
+            "feedback": "Correct — level-by-level exploration yields minimum edge counts."
+          },
+          {
+            "text": "The path with the largest total edge weight",
+            "fraction": 0,
+            "feedback": "BFS ignores weights and does not maximise anything."
+          },
+          {
+            "text": "A minimum spanning tree by weight",
+            "fraction": 0,
+            "feedback": "That is Prim's or Kruskal's algorithm, not BFS."
+          },
+          {
+            "text": "A topological ordering of the vertices",
+            "fraction": 0,
+            "feedback": "Topological sort is usually built with DFS, not BFS distances."
+          }
+        ],
+        "generalFeedback": "Because BFS expands outward one level at a time, the first time it reaches a vertex is via a path with the fewest edges.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Traversal time complexity",
+        "text": "<p>Using adjacency lists, both BFS and DFS run in what time on a graph with V vertices and E edges?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "Correct — each vertex and each edge is examined a constant number of times."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "That would be the cost with an adjacency matrix, not adjacency lists."
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "That is Dijkstra with a heap, not plain BFS/DFS."
+          },
+          {
+            "text": "O(V!)",
+            "fraction": 0,
+            "feedback": "Traversal is linear in the graph size, not factorial."
+          }
+        ],
+        "generalFeedback": "With adjacency lists each vertex is dequeued/visited once and each edge scanned once, giving O(V + E).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS applications",
+        "text": "<p>DFS underpins algorithms such as topological sort, cycle detection, and finding strongly connected components.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — these classic algorithms are built on DFS."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Topological sort, cycle detection, and SCC all rely on DFS."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "BFS weighted shortest path claim",
+        "text": "<p>Plain BFS finds the minimum-weight shortest path on a graph with arbitrary positive edge weights.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "BFS counts edges, not weights; weighted shortest paths need Dijkstra."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — BFS only minimises the number of edges on unweighted graphs."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "BFS structure term",
+        "text": "<p>Breadth-first search manages vertices to visit using a FIFO ______.</p>",
+        "answers": [
+          {
+            "text": "queue",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "queue*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS vs DFS facts",
+        "text": "<p>Which statements comparing BFS and DFS are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "BFS uses a queue and finds shortest paths (fewest edges) on unweighted graphs",
+            "fraction": 50,
+            "feedback": "Yes — level-order exploration with a FIFO queue."
+          },
+          {
+            "text": "DFS uses a stack or recursion and explores deep before backtracking",
+            "fraction": 50,
+            "feedback": "Yes — that is the essence of depth-first search."
+          },
+          {
+            "text": "BFS uses a stack while DFS uses a queue",
+            "fraction": -50,
+            "feedback": "No — it is the other way around: BFS uses a queue, DFS a stack."
+          },
+          {
+            "text": "Both run in O(V^2) time when adjacency lists are used",
+            "fraction": -50,
+            "feedback": "No — with adjacency lists both run in O(V + E)."
+          }
+        ],
+        "generalFeedback": "BFS = queue, level order, shortest unweighted paths; DFS = stack/recursion, deep then backtrack; both O(V + E) with adjacency lists.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "BFS 使用的資料結構",
+        "text": "<p><strong>廣度優先搜尋(BFS)</strong>使用哪一種輔助資料結構來決定下一個要造訪的頂點?</p>",
+        "answers": [
+          {
+            "text": "佇列(queue,FIFO)",
+            "fraction": 100,
+            "feedback": "正確 —— BFS 用佇列逐層探索頂點。"
+          },
+          {
+            "text": "堆疊(stack,LIFO)",
+            "fraction": 0,
+            "feedback": "堆疊驅動的是 DFS,不是 BFS。"
+          },
+          {
+            "text": "最小堆積優先佇列",
+            "fraction": 0,
+            "feedback": "那用於 Dijkstra,不是普通 BFS。"
+          },
+          {
+            "text": "存放邊權重的雜湊表",
+            "fraction": 0,
+            "feedback": "BFS 不需要邊權重;它使用佇列。"
+          }
+        ],
+        "generalFeedback": "BFS 依賴 FIFO 佇列,依頂點被發現的順序處理 —— 逐層進行。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "DFS 的行為",
+        "text": "<p>哪個描述最符合<strong>深度優先搜尋(DFS)</strong>?</p>",
+        "answers": [
+          {
+            "text": "沿著一條分支盡量往深走,再回溯,使用堆疊或遞迴",
+            "fraction": 100,
+            "feedback": "正確 —— DFS 深入後回溯,由堆疊(常是呼叫堆疊)驅動。"
+          },
+          {
+            "text": "先造訪目前距離的所有頂點再往深走,使用佇列",
+            "fraction": 0,
+            "feedback": "那描述的是 BFS,不是 DFS。"
+          },
+          {
+            "text": "永遠依索引由小到大造訪頂點",
+            "fraction": 0,
+            "feedback": "造訪順序取決於圖與起點,而非索引。"
+          },
+          {
+            "text": "需要邊權重來挑選成本最低的頂點",
+            "fraction": 0,
+            "feedback": "那是加權最短路徑演算法,不是 DFS。"
+          }
+        ],
+        "generalFeedback": "DFS 完整探索一條分支,經由堆疊或遞迴回溯,並支撐拓撲排序、環偵測與強連通元件。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS 最短路徑",
+        "text": "<p>在<strong>無權重</strong>圖上,從某來源出發的 BFS 會找出:</p>",
+        "answers": [
+          {
+            "text": "從來源到每個可達頂點的最短路徑(最少邊數)",
+            "fraction": 100,
+            "feedback": "正確 —— 逐層探索得到最少的邊數。"
+          },
+          {
+            "text": "總邊權重最大的路徑",
+            "fraction": 0,
+            "feedback": "BFS 忽略權重,也不會最大化任何東西。"
+          },
+          {
+            "text": "依權重的最小生成樹",
+            "fraction": 0,
+            "feedback": "那是 Prim 或 Kruskal,不是 BFS。"
+          },
+          {
+            "text": "頂點的拓撲排序",
+            "fraction": 0,
+            "feedback": "拓撲排序通常用 DFS 建立,而非 BFS 的距離。"
+          }
+        ],
+        "generalFeedback": "由於 BFS 一次向外擴展一層,第一次到達某頂點時走的就是邊數最少的路徑。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "走訪時間複雜度",
+        "text": "<p>使用相鄰串列時,BFS 與 DFS 在有 V 個頂點與 E 條邊的圖上執行時間為何?</p>",
+        "answers": [
+          {
+            "text": "O(V + E)",
+            "fraction": 100,
+            "feedback": "正確 —— 每個頂點與每條邊都只被檢視常數次。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "那是使用相鄰矩陣的成本,不是相鄰串列。"
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "那是搭配堆積的 Dijkstra,不是普通 BFS/DFS。"
+          },
+          {
+            "text": "O(V!)",
+            "fraction": 0,
+            "feedback": "走訪對圖的大小是線性,不是階乘。"
+          }
+        ],
+        "generalFeedback": "使用相鄰串列時,每個頂點被取出/造訪一次、每條邊被掃過一次,得 O(V + E)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "DFS 的應用",
+        "text": "<p>DFS 支撐了拓撲排序、環偵測,以及尋找強連通元件等演算法。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 這些經典演算法都建立在 DFS 之上。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "拓撲排序、環偵測與強連通元件都依賴 DFS。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "BFS 加權最短路徑的說法",
+        "text": "<p>在具有任意正邊權重的圖上,普通 BFS 能找出最小權重的最短路徑。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "BFS 計算的是邊數而非權重;加權最短路徑需要 Dijkstra。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— BFS 只在無權重圖上最小化邊的數目。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "BFS 結構的名詞",
+        "text": "<p>廣度優先搜尋使用一個 FIFO 的 ______ 來管理待造訪的頂點(請以英文作答)。</p>",
+        "answers": [
+          {
+            "text": "queue",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "queue*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "BFS 與 DFS 的比較",
+        "text": "<p>關於 BFS 與 DFS 的比較,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "BFS 使用佇列,並在無權重圖上找出最短路徑(最少邊數)",
+            "fraction": 50,
+            "feedback": "正確 —— 以 FIFO 佇列進行層序探索。"
+          },
+          {
+            "text": "DFS 使用堆疊或遞迴,先深入再回溯",
+            "fraction": 50,
+            "feedback": "正確 —— 這是深度優先搜尋的精髓。"
+          },
+          {
+            "text": "BFS 使用堆疊,而 DFS 使用佇列",
+            "fraction": -50,
+            "feedback": "錯 —— 剛好相反:BFS 用佇列,DFS 用堆疊。"
+          },
+          {
+            "text": "使用相鄰串列時兩者皆為 O(V^2) 時間",
+            "fraction": -50,
+            "feedback": "錯 —— 使用相鄰串列時兩者皆為 O(V + E)。"
+          }
+        ],
+        "generalFeedback": "BFS = 佇列、層序、無權重最短路徑;DFS = 堆疊/遞迴、先深入再回溯;使用相鄰串列時兩者皆為 O(V + E)。",
+        "single": false
+      }
+    ]
+  },
+  "graph": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Undirected edge definition",
+        "text": "<p>In an <strong>undirected</strong> graph, an edge between vertices u and v is best described as which of the following?</p>",
+        "answers": [
+          {
+            "text": "An unordered pair {u, v} that can be traversed in either direction",
+            "fraction": 100,
+            "feedback": "Correct — undirected edges have no direction, so {u, v} = {v, u}."
+          },
+          {
+            "text": "An ordered pair (u, v) that can only be traversed from u to v",
+            "fraction": 0,
+            "feedback": "That describes a directed edge (arc), not an undirected edge."
+          },
+          {
+            "text": "A self-loop that always connects a vertex to itself",
+            "fraction": 0,
+            "feedback": "A self-loop is a special case, not the general definition of an edge."
+          },
+          {
+            "text": "A weight value assigned to a single vertex",
+            "fraction": 0,
+            "feedback": "Edges connect two vertices; they are not vertex weights."
+          }
+        ],
+        "generalFeedback": "An undirected edge is an unordered pair {u, v}; it can be crossed both ways and is the same as {v, u}.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Vertex degree",
+        "text": "<p>The <strong>degree</strong> of a vertex in an undirected graph is defined as:</p>",
+        "answers": [
+          {
+            "text": "The number of edges incident to that vertex",
+            "fraction": 100,
+            "feedback": "Correct — degree counts the edges touching the vertex."
+          },
+          {
+            "text": "The number of vertices in the whole graph",
+            "fraction": 0,
+            "feedback": "That is V, not the degree of one vertex."
+          },
+          {
+            "text": "The length of the longest path starting at that vertex",
+            "fraction": 0,
+            "feedback": "That is unrelated to degree."
+          },
+          {
+            "text": "The total number of edges E in the graph",
+            "fraction": 0,
+            "feedback": "That is the edge count, not a single vertex's degree."
+          }
+        ],
+        "generalFeedback": "A vertex's degree is simply how many edges are incident to it.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Handshaking sum of degrees",
+        "text": "<p>By the handshaking lemma, the <strong>sum of the degrees</strong> of all vertices in an undirected graph with E edges equals:</p>",
+        "answers": [
+          {
+            "text": "2E",
+            "fraction": 100,
+            "feedback": "Correct — each edge contributes 1 to the degree of each of its two endpoints."
+          },
+          {
+            "text": "E",
+            "fraction": 0,
+            "feedback": "Each edge is counted once per endpoint, so the total is twice E."
+          },
+          {
+            "text": "V",
+            "fraction": 0,
+            "feedback": "The number of vertices is unrelated to the degree sum."
+          },
+          {
+            "text": "E / 2",
+            "fraction": 0,
+            "feedback": "The sum is larger than E, not smaller."
+          }
+        ],
+        "generalFeedback": "Every edge adds 1 to the degree of each endpoint, so the degrees sum to 2E (handshaking lemma).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Cycle definition",
+        "text": "<p>Which term names a path that starts and ends at the <em>same</em> vertex without repeating any edge?</p>",
+        "answers": [
+          {
+            "text": "A cycle",
+            "fraction": 100,
+            "feedback": "Correct — a closed path returning to its start is a cycle."
+          },
+          {
+            "text": "A subgraph",
+            "fraction": 0,
+            "feedback": "A subgraph is any subset of vertices and edges, not specifically a closed path."
+          },
+          {
+            "text": "A spanning tree",
+            "fraction": 0,
+            "feedback": "A spanning tree is acyclic and connects all vertices; it has no cycle."
+          },
+          {
+            "text": "A degree",
+            "fraction": 0,
+            "feedback": "Degree counts incident edges, not a path."
+          }
+        ],
+        "generalFeedback": "A cycle is a closed path that returns to its starting vertex without reusing an edge.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Connected graph",
+        "text": "<p>An undirected graph is <em>connected</em> if there is a path between every pair of vertices.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — connectivity means every pair of vertices is joined by some path."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "By definition, a connected graph has a path between any two vertices."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Undirected edge direction",
+        "text": "<p>In an undirected graph, the edge {u, v} is different from the edge {v, u}.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "They are the same unordered pair; undirected edges have no direction."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — {u, v} and {v, u} denote the same undirected edge."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Incident edge count term",
+        "text": "<p>The number of edges incident to a vertex in an undirected graph is called its ______.</p>",
+        "answers": [
+          {
+            "text": "degree",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "degree*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Undirected graph facts",
+        "text": "<p>Which statements about undirected graphs are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "The sum of all vertex degrees equals 2E",
+            "fraction": 50,
+            "feedback": "Yes — the handshaking lemma."
+          },
+          {
+            "text": "A subgraph consists of a subset of the vertices and edges of the graph",
+            "fraction": 50,
+            "feedback": "Yes — that is the definition of a subgraph."
+          },
+          {
+            "text": "Every edge must be traversed in one fixed direction only",
+            "fraction": -50,
+            "feedback": "No — undirected edges can be crossed either way."
+          },
+          {
+            "text": "The degree of a vertex always equals V",
+            "fraction": -50,
+            "feedback": "No — degree depends on incident edges, not the vertex count."
+          }
+        ],
+        "generalFeedback": "Undirected graphs: degrees sum to 2E, subgraphs are subsets, edges are bidirectional, and degree counts incident edges (not V).",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "無向邊的定義",
+        "text": "<p>在<strong>無向</strong>圖中,連接頂點 u 與 v 的邊,以下哪個描述最正確?</p>",
+        "answers": [
+          {
+            "text": "一個無序對 {u, v},可以雙向通行",
+            "fraction": 100,
+            "feedback": "正確 —— 無向邊沒有方向,因此 {u, v} = {v, u}。"
+          },
+          {
+            "text": "一個有序對 (u, v),只能從 u 走到 v",
+            "fraction": 0,
+            "feedback": "那是有向邊(弧),不是無向邊。"
+          },
+          {
+            "text": "一個永遠把頂點連到自己的自環",
+            "fraction": 0,
+            "feedback": "自環是特例,不是邊的一般定義。"
+          },
+          {
+            "text": "指派給單一頂點的權重值",
+            "fraction": 0,
+            "feedback": "邊連接兩個頂點,不是頂點的權重。"
+          }
+        ],
+        "generalFeedback": "無向邊是無序對 {u, v},可雙向通行,且與 {v, u} 相同。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "頂點的度數",
+        "text": "<p>無向圖中一個頂點的<strong>度數(degree)</strong>定義為:</p>",
+        "answers": [
+          {
+            "text": "與該頂點相連(相鄰接)的邊數",
+            "fraction": 100,
+            "feedback": "正確 —— 度數計算碰觸該頂點的邊數。"
+          },
+          {
+            "text": "整張圖中的頂點數",
+            "fraction": 0,
+            "feedback": "那是 V,不是單一頂點的度數。"
+          },
+          {
+            "text": "從該頂點出發最長路徑的長度",
+            "fraction": 0,
+            "feedback": "那與度數無關。"
+          },
+          {
+            "text": "整張圖的邊數 E",
+            "fraction": 0,
+            "feedback": "那是邊的總數,不是單一頂點的度數。"
+          }
+        ],
+        "generalFeedback": "頂點的度數就是與它相連的邊數。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "握手引理度數和",
+        "text": "<p>依據握手引理,在有 E 條邊的無向圖中,所有頂點的<strong>度數總和</strong>等於:</p>",
+        "answers": [
+          {
+            "text": "2E",
+            "fraction": 100,
+            "feedback": "正確 —— 每條邊為它的兩個端點各貢獻 1 的度數。"
+          },
+          {
+            "text": "E",
+            "fraction": 0,
+            "feedback": "每條邊在兩端各被計一次,因此總和是 E 的兩倍。"
+          },
+          {
+            "text": "V",
+            "fraction": 0,
+            "feedback": "頂點數與度數總和無關。"
+          },
+          {
+            "text": "E / 2",
+            "fraction": 0,
+            "feedback": "總和比 E 大,不是比 E 小。"
+          }
+        ],
+        "generalFeedback": "每條邊為兩端點各加 1 的度數,因此度數總和為 2E(握手引理)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "環的定義",
+        "text": "<p>哪個名詞指的是「起點與終點為<em>同一</em>頂點,且不重複使用任何邊」的路徑?</p>",
+        "answers": [
+          {
+            "text": "環(cycle)",
+            "fraction": 100,
+            "feedback": "正確 —— 回到起點的封閉路徑就是環。"
+          },
+          {
+            "text": "子圖(subgraph)",
+            "fraction": 0,
+            "feedback": "子圖是頂點與邊的任意子集,不一定是封閉路徑。"
+          },
+          {
+            "text": "生成樹(spanning tree)",
+            "fraction": 0,
+            "feedback": "生成樹無環且連接所有頂點,沒有環。"
+          },
+          {
+            "text": "度數(degree)",
+            "fraction": 0,
+            "feedback": "度數計算相連的邊,不是路徑。"
+          }
+        ],
+        "generalFeedback": "環是回到起點、且不重複使用邊的封閉路徑。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "連通圖",
+        "text": "<p>若無向圖中「任意一對頂點之間都存在一條路徑」,則稱該圖為<em>連通</em>的。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 連通即任意兩頂點間都有路徑相連。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "依定義,連通圖任意兩頂點間都有路徑。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "無向邊的方向",
+        "text": "<p>在無向圖中,邊 {u, v} 與邊 {v, u} 是不同的邊。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "它們是相同的無序對;無向邊沒有方向。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— {u, v} 與 {v, u} 表示同一條無向邊。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "相連邊數的名詞",
+        "text": "<p>在無向圖中,與一個頂點相連的邊數稱為該頂點的 ______(請以英文作答)。</p>",
+        "answers": [
+          {
+            "text": "degree",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "degree*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "無向圖的性質",
+        "text": "<p>關於無向圖,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "所有頂點的度數總和等於 2E",
+            "fraction": 50,
+            "feedback": "正確 —— 這是握手引理。"
+          },
+          {
+            "text": "子圖由圖的部分頂點與部分邊所組成",
+            "fraction": 50,
+            "feedback": "正確 —— 這是子圖的定義。"
+          },
+          {
+            "text": "每條邊都只能朝一個固定方向通行",
+            "fraction": -50,
+            "feedback": "錯 —— 無向邊可雙向通行。"
+          },
+          {
+            "text": "頂點的度數永遠等於 V",
+            "fraction": -50,
+            "feedback": "錯 —— 度數取決於相連的邊,而非頂點數。"
+          }
+        ],
+        "generalFeedback": "無向圖:度數總和為 2E、子圖是子集、邊可雙向通行、度數計算相連的邊(而非 V)。",
+        "single": false
+      }
+    ]
+  },
+  "hash-bucket": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Bucketing core idea",
+        "text": "<p>What is the core idea of <strong>bucketing</strong>?</p>",
+        "answers": [
+          {
+            "text": "Partition keys into buckets by a hash or value range, each bucket holding several entries in a small secondary structure",
+            "fraction": 100,
+            "feedback": "Correct — items are grouped into buckets, then searched within a bucket."
+          },
+          {
+            "text": "Store every key in a single global sorted array",
+            "fraction": 0,
+            "feedback": "That is not bucketing; bucketing splits keys across many buckets."
+          },
+          {
+            "text": "Probe forward to the next free slot on every collision",
+            "fraction": 0,
+            "feedback": "That is open addressing, not bucketing."
+          },
+          {
+            "text": "Compress keys with a prefix tree",
+            "fraction": 0,
+            "feedback": "That describes a trie, unrelated to bucketing."
+          }
+        ],
+        "generalFeedback": "Bucketing distributes keys into buckets (by hash or by value range); each bucket then holds a small group of entries in its own secondary structure.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bucket contents",
+        "text": "<p>Within a single bucket, how are the entries typically organized?</p>",
+        "answers": [
+          {
+            "text": "In a small secondary structure (list or array) searched locally",
+            "fraction": 100,
+            "feedback": "Correct — a bucket holds a handful of entries searched within that bucket."
+          },
+          {
+            "text": "Always exactly one entry, never more",
+            "fraction": 0,
+            "feedback": "Buckets are designed to hold several entries."
+          },
+          {
+            "text": "As a self-balancing tree of the entire dataset",
+            "fraction": 0,
+            "feedback": "A bucket holds only its local group, not the whole dataset."
+          },
+          {
+            "text": "As tombstoned slots in the global array",
+            "fraction": 0,
+            "feedback": "Tombstones belong to open addressing, not bucketing."
+          }
+        ],
+        "generalFeedback": "Each bucket keeps a small secondary container of the few entries assigned to it, so a lookup narrows to one bucket then searches locally.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bucketing trade-off",
+        "text": "<p>What trade-off does bucketing make?</p>",
+        "answers": [
+          {
+            "text": "It gives up pure O(1) direct indexing in exchange for a short per-bucket search",
+            "fraction": 100,
+            "feedback": "Correct — you locate a bucket, then search within it."
+          },
+          {
+            "text": "It guarantees O(log n) worst case like a balanced tree",
+            "fraction": 0,
+            "feedback": "Bucket search is local and short, not a tree-height bound."
+          },
+          {
+            "text": "It removes all collisions by construction",
+            "fraction": 0,
+            "feedback": "Multiple keys still share a bucket; that is the collision handled locally."
+          },
+          {
+            "text": "It stores each key in its own dedicated array cell only",
+            "fraction": 0,
+            "feedback": "That is direct indexing; bucketing groups several keys per bucket."
+          }
+        ],
+        "generalFeedback": "Bucketing trades away one-step direct indexing for the modest cost of searching a small bucket, in return for grouping and even distribution.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Bucketing best case",
+        "text": "<p>When does bucketing perform best?</p>",
+        "answers": [
+          {
+            "text": "When keys spread evenly, so every bucket holds only a few entries",
+            "fraction": 100,
+            "feedback": "Correct — even distribution keeps each bucket small and searches fast."
+          },
+          {
+            "text": "When almost all keys fall into one bucket",
+            "fraction": 0,
+            "feedback": "That overloads a single bucket, giving slow linear search."
+          },
+          {
+            "text": "When there is exactly one bucket for the whole dataset",
+            "fraction": 0,
+            "feedback": "A single bucket degenerates into one big linear search."
+          },
+          {
+            "text": "When each bucket is a balanced tree of the whole dataset",
+            "fraction": 0,
+            "feedback": "A bucket holds only its local group, not the whole dataset."
+          }
+        ],
+        "generalFeedback": "Bucketing shines when the partition spreads keys evenly, so no bucket grows large and each local search stays short.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Bucketing relatives",
+        "text": "<p>Bucketing is closely related to hash chaining and to bucket sort, all of which group keys into buckets.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — all three partition keys into buckets and process each bucket."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "They share the same grouping-into-buckets idea."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Uneven bucket distribution",
+        "text": "<p>If keys distribute very unevenly across buckets, one overloaded bucket can dominate the search cost.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — an overloaded bucket holds many entries, so searching it is slow."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Skew concentrates entries in a few buckets, hurting performance."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Bucketing container term",
+        "text": "<p>Each partition that groups keys mapping to the same range or hash value is called a ______.</p>",
+        "answers": [
+          {
+            "text": "bucket",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "bucket*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Bucketing properties",
+        "text": "<p>Which statements about bucketing are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Keys can be assigned to buckets by a hash or by a value range",
+            "fraction": 50,
+            "feedback": "Yes — both hashing and range-partitioning are common bucketing schemes."
+          },
+          {
+            "text": "Performance depends on how evenly keys spread across buckets",
+            "fraction": 50,
+            "feedback": "Yes — even distribution keeps every bucket small and searches fast."
+          },
+          {
+            "text": "Every bucket may hold at most one entry",
+            "fraction": -50,
+            "feedback": "No — a bucket is meant to hold several entries in a secondary structure."
+          },
+          {
+            "text": "Bucketing eliminates the need to search within a bucket",
+            "fraction": -50,
+            "feedback": "No — after locating the bucket you still search among its entries."
+          }
+        ],
+        "generalFeedback": "Bucketing assigns keys by hash or range and relies on even spread; each bucket holds several entries that must still be searched locally.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "分桶的核心概念",
+        "text": "<p><strong>分桶(bucketing)</strong>的核心概念是什麼?</p>",
+        "answers": [
+          {
+            "text": "依雜湊或數值範圍把鍵分配到各個桶,每個桶以小型次級結構存放數個項目",
+            "fraction": 100,
+            "feedback": "正確 —— 項目被分組到桶中,再於桶內搜尋。"
+          },
+          {
+            "text": "把每個鍵都存進單一的全域已排序陣列",
+            "fraction": 0,
+            "feedback": "那不是分桶;分桶把鍵拆散到許多桶中。"
+          },
+          {
+            "text": "每次碰撞就往前探測到下一個空槽",
+            "fraction": 0,
+            "feedback": "那是開放定址法,不是分桶。"
+          },
+          {
+            "text": "用前綴樹壓縮鍵",
+            "fraction": 0,
+            "feedback": "那描述的是 trie,與分桶無關。"
+          }
+        ],
+        "generalFeedback": "分桶把鍵分散到各桶(依雜湊或數值範圍);每個桶再以自己的次級結構存放一小群項目。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "桶的內容",
+        "text": "<p>在單一桶內,項目通常如何組織?</p>",
+        "answers": [
+          {
+            "text": "以小型次級結構(串列或陣列)於本地搜尋",
+            "fraction": 100,
+            "feedback": "正確 —— 一個桶存放少量項目,並在該桶內搜尋。"
+          },
+          {
+            "text": "永遠剛好一個項目,絕不多於一個",
+            "fraction": 0,
+            "feedback": "桶的設計是為了存放數個項目。"
+          },
+          {
+            "text": "整個資料集的自平衡樹",
+            "fraction": 0,
+            "feedback": "一個桶只存放它本地的那一群,而非整個資料集。"
+          },
+          {
+            "text": "全域陣列中的墓碑槽位",
+            "fraction": 0,
+            "feedback": "墓碑屬於開放定址法,不是分桶。"
+          }
+        ],
+        "generalFeedback": "每個桶保存一個小型次級容器,存放分配給它的少數項目;查找時先縮小到某個桶,再於本地搜尋。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "分桶的取捨",
+        "text": "<p>分桶做了什麼取捨?</p>",
+        "answers": [
+          {
+            "text": "放棄純粹 O(1) 的直接索引,換取每個桶內的短暫搜尋",
+            "fraction": 100,
+            "feedback": "正確 —— 你先定位到某個桶,再於其中搜尋。"
+          },
+          {
+            "text": "像平衡樹一樣保證最差 O(log n)",
+            "fraction": 0,
+            "feedback": "桶內搜尋是本地且短的,不是樹高的界限。"
+          },
+          {
+            "text": "從結構上完全消除碰撞",
+            "fraction": 0,
+            "feedback": "多個鍵仍會共用一個桶;那正是於本地處理的碰撞。"
+          },
+          {
+            "text": "每個鍵只存在自己專屬的一個陣列元素中",
+            "fraction": 0,
+            "feedback": "那是直接索引;分桶把數個鍵分到同一桶。"
+          }
+        ],
+        "generalFeedback": "分桶放棄一步到位的直接索引,換取搜尋小桶的適度成本,以取得分組與均勻分布的好處。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "分桶的最佳情況",
+        "text": "<p>分桶在什麼情況下表現最好?</p>",
+        "answers": [
+          {
+            "text": "當鍵均勻分布,使每個桶只存放少數項目",
+            "fraction": 100,
+            "feedback": "正確 —— 均勻分布使每個桶都小、搜尋快。"
+          },
+          {
+            "text": "當幾乎所有鍵都落入同一個桶",
+            "fraction": 0,
+            "feedback": "那會使單一桶過載,造成緩慢的線性搜尋。"
+          },
+          {
+            "text": "當整個資料集只有恰好一個桶",
+            "fraction": 0,
+            "feedback": "單一桶會退化成一次龐大的線性搜尋。"
+          },
+          {
+            "text": "當每個桶都是整個資料集的平衡樹",
+            "fraction": 0,
+            "feedback": "一個桶只存放它本地的那一群,而非整個資料集。"
+          }
+        ],
+        "generalFeedback": "分桶在分區能把鍵均勻分散時最出色,如此沒有桶會變大,每次本地搜尋都保持短。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "分桶的相關方法",
+        "text": "<p>分桶與雜湊鏈結法及桶排序密切相關,三者都把鍵分組到桶中。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 三者都把鍵分到桶中並逐桶處理。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "它們共用相同的「分組到桶」概念。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "不均勻的桶分布",
+        "text": "<p>若鍵在各桶間分布非常不均勻,一個過載的桶可能主導搜尋成本。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 過載的桶存放許多項目,搜尋它會很慢。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "傾斜會把項目集中到少數桶,損害效能。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "分桶容器名詞",
+        "text": "<p>每個把映射到相同範圍或雜湊值的鍵分在一起的分區,稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "bucket",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "bucket*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "分桶的性質",
+        "text": "<p>關於分桶,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "鍵可以依雜湊或依數值範圍被分配到桶",
+            "fraction": 50,
+            "feedback": "正確 —— 雜湊與範圍分區都是常見的分桶方案。"
+          },
+          {
+            "text": "效能取決於鍵在各桶間分布得多均勻",
+            "fraction": 50,
+            "feedback": "正確 —— 均勻分布使每個桶都小、搜尋快。"
+          },
+          {
+            "text": "每個桶至多只能存放一個項目",
+            "fraction": -50,
+            "feedback": "錯 —— 桶的用意是以次級結構存放數個項目。"
+          },
+          {
+            "text": "分桶消除了在桶內搜尋的需要",
+            "fraction": -50,
+            "feedback": "錯 —— 定位到桶之後,仍需在其項目間搜尋。"
+          }
+        ],
+        "generalFeedback": "分桶依雜湊或範圍分配鍵並仰賴均勻分布;每個桶存放數個項目,仍必須於本地搜尋。",
+        "single": false
+      }
+    ]
+  },
+  "hash-chain": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Chaining bucket contents",
+        "text": "<p>In a hash table using <strong>separate chaining</strong>, what does each bucket (table slot) hold?</p>",
+        "answers": [
+          {
+            "text": "A linked list (or similar structure) of all entries that hash to that slot",
+            "fraction": 100,
+            "feedback": "Correct — colliding keys are stored together in the chain at that bucket."
+          },
+          {
+            "text": "Exactly one entry, with overflow probed into the next free slot",
+            "fraction": 0,
+            "feedback": "That describes open addressing, not chaining."
+          },
+          {
+            "text": "A sorted array that is rebuilt on every insertion",
+            "fraction": 0,
+            "feedback": "Standard chaining uses an unsorted list; no full rebuild per insert."
+          },
+          {
+            "text": "A pointer to the previous bucket in the table",
+            "fraction": 0,
+            "feedback": "Buckets are independent; they do not chain to each other."
+          }
+        ],
+        "generalFeedback": "Separate chaining resolves collisions by keeping, at each slot, a secondary container (usually a linked list) of every key mapped there.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Chaining average cost",
+        "text": "<p>With a good hash function and load factor &alpha; = n/m kept small, what is the <strong>average</strong> time for search, insert, and delete in a chained hash table?</p>",
+        "answers": [
+          {
+            "text": "O(1) expected",
+            "fraction": 100,
+            "feedback": "Correct — the expected chain length is &alpha;, treated as a constant when &alpha; is bounded."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No tree search is involved; chains are scanned linearly and are short on average."
+          },
+          {
+            "text": "O(n) always",
+            "fraction": 0,
+            "feedback": "That is the worst case, not the average with a good hash."
+          },
+          {
+            "text": "O(m)",
+            "fraction": 0,
+            "feedback": "Cost depends on chain length (~&alpha;), not the number of slots."
+          }
+        ],
+        "generalFeedback": "The expected number of probes is proportional to the average chain length &alpha; = n/m; keeping &alpha; = O(1) gives O(1) expected operations.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Chaining worst case",
+        "text": "<p>What input makes a chained hash table degrade to <em>&Theta;(n)</em> per operation?</p>",
+        "answers": [
+          {
+            "text": "All n keys hash to the same bucket, forming one long chain",
+            "fraction": 100,
+            "feedback": "Correct — the operation then scans a single list of length n."
+          },
+          {
+            "text": "The keys are inserted in sorted order",
+            "fraction": 0,
+            "feedback": "Insertion order does not matter to a hash table."
+          },
+          {
+            "text": "The load factor is exactly 0.75",
+            "fraction": 0,
+            "feedback": "A moderate load factor still gives O(1) expected time."
+          },
+          {
+            "text": "The table has more slots than items",
+            "fraction": 0,
+            "feedback": "That lowers &alpha; and improves performance."
+          }
+        ],
+        "generalFeedback": "If every key collides into one bucket, the chain has length n and every operation becomes a linear list traversal.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Chaining vs open addressing",
+        "text": "<p>Which is a genuine advantage of separate chaining <em>over</em> open addressing?</p>",
+        "answers": [
+          {
+            "text": "Deletion is straightforward — no tombstone markers are needed",
+            "fraction": 100,
+            "feedback": "Correct — you simply unlink the node from its chain."
+          },
+          {
+            "text": "It stores everything in the table array with no pointer overhead",
+            "fraction": 0,
+            "feedback": "That is a benefit of open addressing; chaining adds pointer overhead."
+          },
+          {
+            "text": "It guarantees O(1) worst-case operations",
+            "fraction": 0,
+            "feedback": "Chaining is O(1) only on average; a bad hash gives O(n)."
+          },
+          {
+            "text": "It has better cache locality than a contiguous array",
+            "fraction": 0,
+            "feedback": "Scattered list nodes usually have worse locality than open addressing."
+          }
+        ],
+        "generalFeedback": "Chaining deletes in O(1) by unlinking and needs no tombstones, but pays in pointer memory and poorer cache locality.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Chaining load factor above 1",
+        "text": "<p>In separate chaining the load factor &alpha; = n/m may exceed 1, because chains can keep growing and the table never \"fills up\".</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — there is no fixed capacity; a bucket's chain simply lengthens."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Unlike open addressing, chaining has no hard ceiling on &alpha;."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Chaining memory overhead",
+        "text": "<p>Separate chaining needs no extra memory beyond the table array itself.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Each list node carries at least one extra pointer, adding overhead."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — pointers (and node allocations) impose extra memory cost."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Collision-resolution term",
+        "text": "<p>Storing all keys that map to the same slot together in a linked list is the collision-resolution strategy called separate ______.</p>",
+        "answers": [
+          {
+            "text": "chaining",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "chaining*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "chain",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Chaining properties",
+        "text": "<p>Which statements about separate chaining are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Deletion is simple: just unlink the node from its chain",
+            "fraction": 50,
+            "feedback": "Yes — no tombstones are required, unlike open addressing."
+          },
+          {
+            "text": "The load factor &alpha; can be greater than 1",
+            "fraction": 50,
+            "feedback": "Yes — chains grow without a fixed capacity limit."
+          },
+          {
+            "text": "All entries are stored directly inside the table array with no external nodes",
+            "fraction": -50,
+            "feedback": "No — that is open addressing; chaining stores entries in external list nodes."
+          },
+          {
+            "text": "It guarantees O(1) worst-case time regardless of the hash function",
+            "fraction": -50,
+            "feedback": "No — a bad hash can pile all keys into one chain, giving O(n)."
+          }
+        ],
+        "generalFeedback": "Chaining allows easy deletion and &alpha; > 1, but stores entries in external nodes and only gives O(1) on average, not in the worst case.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "鏈結桶的內容",
+        "text": "<p>在使用<strong>分離鏈結法(separate chaining)</strong>的雜湊表中,每個桶(表格槽位)存放什麼?</p>",
+        "answers": [
+          {
+            "text": "一條由所有雜湊到該槽的項目組成的鏈結串列(或類似結構)",
+            "fraction": 100,
+            "feedback": "正確 —— 發生碰撞的鍵值一起存放在該桶的鏈中。"
+          },
+          {
+            "text": "剛好一個項目,溢出時探測到下一個空槽",
+            "fraction": 0,
+            "feedback": "那是開放定址法,不是鏈結法。"
+          },
+          {
+            "text": "每次插入都會重建的已排序陣列",
+            "fraction": 0,
+            "feedback": "標準鏈結法使用未排序的串列;不會每次插入就整個重建。"
+          },
+          {
+            "text": "指向表中前一個桶的指標",
+            "fraction": 0,
+            "feedback": "各桶彼此獨立,不會互相串接。"
+          }
+        ],
+        "generalFeedback": "分離鏈結法在每個槽位保存一個次級容器(通常是鏈結串列),存放所有映射到該處的鍵值,以解決碰撞。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結法的平均成本",
+        "text": "<p>在良好的雜湊函數下並將負載因子 &alpha; = n/m 維持得小,鏈結雜湊表的搜尋、插入、刪除<strong>平均</strong>時間為何?</p>",
+        "answers": [
+          {
+            "text": "期望 O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 期望鏈長為 &alpha;,當 &alpha; 有界時視為常數。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "不涉及樹狀搜尋;鏈是線性掃描,且平均很短。"
+          },
+          {
+            "text": "永遠 O(n)",
+            "fraction": 0,
+            "feedback": "那是最差情況,不是良好雜湊下的平均。"
+          },
+          {
+            "text": "O(m)",
+            "fraction": 0,
+            "feedback": "成本取決於鏈長(約 &alpha;),而非槽位數。"
+          }
+        ],
+        "generalFeedback": "期望探測次數與平均鏈長 &alpha; = n/m 成正比;維持 &alpha; = O(1) 即得期望 O(1) 的操作。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結法的最差情況",
+        "text": "<p>什麼輸入會使鏈結雜湊表退化為每次操作 <em>&Theta;(n)</em>?</p>",
+        "answers": [
+          {
+            "text": "全部 n 個鍵都雜湊到同一個桶,形成一條長鏈",
+            "fraction": 100,
+            "feedback": "正確 —— 操作因而要掃描一條長度為 n 的串列。"
+          },
+          {
+            "text": "鍵以排序順序插入",
+            "fraction": 0,
+            "feedback": "插入順序對雜湊表沒有影響。"
+          },
+          {
+            "text": "負載因子剛好是 0.75",
+            "fraction": 0,
+            "feedback": "中等的負載因子仍給出期望 O(1)。"
+          },
+          {
+            "text": "表的槽位數多於項目數",
+            "fraction": 0,
+            "feedback": "那會降低 &alpha; 並提升效能。"
+          }
+        ],
+        "generalFeedback": "若每個鍵都碰撞進同一個桶,鏈長為 n,每次操作就變成線性的串列走訪。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結法 vs 開放定址",
+        "text": "<p>下列哪一項是分離鏈結法<em>相對於</em>開放定址法的真正優勢?</p>",
+        "answers": [
+          {
+            "text": "刪除很直接 —— 不需要墓碑標記",
+            "fraction": 100,
+            "feedback": "正確 —— 只要把節點從鏈中解開即可。"
+          },
+          {
+            "text": "它把一切存在表格陣列中,沒有指標開銷",
+            "fraction": 0,
+            "feedback": "那是開放定址法的好處;鏈結法會增加指標開銷。"
+          },
+          {
+            "text": "它保證最差情況 O(1) 的操作",
+            "fraction": 0,
+            "feedback": "鏈結法只在平均情況下 O(1);不良雜湊會給出 O(n)。"
+          },
+          {
+            "text": "它比連續陣列有更好的快取區域性",
+            "fraction": 0,
+            "feedback": "分散的串列節點通常比開放定址法的區域性更差。"
+          }
+        ],
+        "generalFeedback": "鏈結法以解開節點的方式 O(1) 刪除且不需墓碑,但代價是指標記憶體與較差的快取區域性。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "鏈結法負載因子可大於 1",
+        "text": "<p>在分離鏈結法中,負載因子 &alpha; = n/m 可以超過 1,因為鏈可以持續增長,表格永遠不會「裝滿」。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 沒有固定容量上限,桶的鏈只是變長。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "與開放定址法不同,鏈結法對 &alpha; 沒有硬性上限。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "鏈結法的記憶體開銷",
+        "text": "<p>分離鏈結法除了表格陣列本身之外不需要任何額外記憶體。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "每個串列節點至少多帶一個指標,造成額外開銷。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 指標(以及節點配置)帶來額外記憶體成本。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "碰撞解決法名詞",
+        "text": "<p>把所有映射到同一槽的鍵值以鏈結串列一起存放的碰撞解決策略,稱為 separate ______。</p>",
+        "answers": [
+          {
+            "text": "chaining",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "chaining*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "chain",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "鏈結法的性質",
+        "text": "<p>關於分離鏈結法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "刪除很簡單:只要把節點從其鏈中解開即可",
+            "fraction": 50,
+            "feedback": "正確 —— 不像開放定址法需要墓碑標記。"
+          },
+          {
+            "text": "負載因子 &alpha; 可以大於 1",
+            "fraction": 50,
+            "feedback": "正確 —— 鏈無固定容量上限地增長。"
+          },
+          {
+            "text": "所有項目都直接存在表格陣列內,沒有外部節點",
+            "fraction": -50,
+            "feedback": "錯 —— 那是開放定址法;鏈結法把項目存在外部串列節點中。"
+          },
+          {
+            "text": "無論雜湊函數如何,都保證最差 O(1) 時間",
+            "fraction": -50,
+            "feedback": "錯 —— 不良雜湊會把所有鍵擠進一條鏈,退化為 O(n)。"
+          }
+        ],
+        "generalFeedback": "鏈結法便於刪除且 &alpha; 可大於 1,但項目存於外部節點,且只在平均情況下為 O(1),最差情況並非如此。",
+        "single": false
+      }
+    ]
+  },
+  "hash-open": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Open addressing storage",
+        "text": "<p>In <strong>open addressing</strong>, where are the entries stored?</p>",
+        "answers": [
+          {
+            "text": "Directly in the table array itself — one entry per slot",
+            "fraction": 100,
+            "feedback": "Correct — no external lists; every element lives in a table slot."
+          },
+          {
+            "text": "In a linked list hanging off each bucket",
+            "fraction": 0,
+            "feedback": "That is separate chaining, not open addressing."
+          },
+          {
+            "text": "In a separate overflow file on disk",
+            "fraction": 0,
+            "feedback": "Open addressing keeps everything inside the in-memory array."
+          },
+          {
+            "text": "In a balanced tree indexed by hash value",
+            "fraction": 0,
+            "feedback": "No tree is used; slots are plain array cells."
+          }
+        ],
+        "generalFeedback": "Open addressing stores all n entries inside the m-slot array, so it needs no external node structures.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Collision handling by probing",
+        "text": "<p>When a key hashes to an occupied slot in open addressing, what happens next?</p>",
+        "answers": [
+          {
+            "text": "It probes a sequence of alternative slots until an empty one is found",
+            "fraction": 100,
+            "feedback": "Correct — linear probing, quadratic probing, or double hashing generate the probe sequence."
+          },
+          {
+            "text": "It appends the key to a linked list at that slot",
+            "fraction": 0,
+            "feedback": "That is chaining, not probing."
+          },
+          {
+            "text": "It immediately doubles the table before inserting",
+            "fraction": 0,
+            "feedback": "Resizing may happen later, but the immediate response to a collision is probing."
+          },
+          {
+            "text": "It overwrites the existing entry",
+            "fraction": 0,
+            "feedback": "That would lose data; probing preserves both keys."
+          }
+        ],
+        "generalFeedback": "Open addressing resolves collisions by probing: it examines a deterministic sequence of slots (linear, quadratic, or double hashing) until it finds a free cell.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Linear probing clustering",
+        "text": "<p>Which problem is characteristic of <em>linear probing</em>?</p>",
+        "answers": [
+          {
+            "text": "Primary clustering — long runs of filled slots that lengthen future probes",
+            "fraction": 100,
+            "feedback": "Correct — contiguous occupied blocks grow and merge, hurting performance."
+          },
+          {
+            "text": "It cannot be implemented without extra pointers",
+            "fraction": 0,
+            "feedback": "Linear probing needs no pointers; it just steps to the next slot."
+          },
+          {
+            "text": "It requires the table size to be prime for double hashing",
+            "fraction": 0,
+            "feedback": "That constraint relates to double hashing, not linear probing's clustering."
+          },
+          {
+            "text": "It makes the load factor exceed 1",
+            "fraction": 0,
+            "feedback": "Open addressing keeps &alpha; < 1; clustering is about probe length, not &alpha; > 1."
+          }
+        ],
+        "generalFeedback": "Linear probing steps one slot at a time, so occupied cells clump into long contiguous runs (primary clustering) that make later probe sequences longer.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Double hashing benefit",
+        "text": "<p>Why is <em>double hashing</em> often preferred over linear probing?</p>",
+        "answers": [
+          {
+            "text": "A second hash function spreads probes out, reducing clustering",
+            "fraction": 100,
+            "feedback": "Correct — the step size varies per key, avoiding the long contiguous runs of linear probing."
+          },
+          {
+            "text": "It removes the need to keep the load factor below 1",
+            "fraction": 0,
+            "feedback": "All open addressing keeps &alpha; < 1; the probe scheme does not change that."
+          },
+          {
+            "text": "It converts the table into a chained structure",
+            "fraction": 0,
+            "feedback": "Double hashing is still open addressing; no chains are used."
+          },
+          {
+            "text": "It eliminates the need for tombstones on deletion",
+            "fraction": 0,
+            "feedback": "Deletion still needs tombstones regardless of the probe scheme."
+          }
+        ],
+        "generalFeedback": "Double hashing uses a second hash to compute the step, so different keys follow different probe sequences and primary clustering is largely avoided.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Open addressing load factor",
+        "text": "<p>In open addressing the load factor &alpha; = n/m must stay below 1, because every entry occupies a distinct slot and the table can fill up.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — you cannot store more items than slots, so &alpha; < 1."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Unlike chaining, open addressing has a hard capacity of m entries."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Deletion needs tombstones",
+        "text": "<p>Deleting from an open-addressing table can simply blank the slot, with no special marker needed.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "Blanking a slot can break probe chains for other keys; a tombstone marker is required."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — deletion must leave a tombstone so later probes still traverse past the removed slot."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Deletion marker term",
+        "text": "<p>The special \"deleted\" marker left in a slot so that probe sequences keep working after a removal is called a ______.</p>",
+        "answers": [
+          {
+            "text": "tombstone",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "tombstone*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Open addressing properties",
+        "text": "<p>Which statements about open addressing are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Linear, quadratic, and double hashing are all probing schemes it can use",
+            "fraction": 50,
+            "feedback": "Yes — these are the standard probe-sequence strategies."
+          },
+          {
+            "text": "Deletion typically leaves a tombstone marker in the slot",
+            "fraction": 50,
+            "feedback": "Yes — otherwise probe chains would break."
+          },
+          {
+            "text": "The load factor can freely exceed 1",
+            "fraction": -50,
+            "feedback": "No — with one entry per slot, &alpha; < 1 always."
+          },
+          {
+            "text": "Each slot holds a linked list of colliding keys",
+            "fraction": -50,
+            "feedback": "No — that is separate chaining; open addressing keeps one entry per slot."
+          }
+        ],
+        "generalFeedback": "Open addressing probes (linear/quadratic/double) with &alpha; < 1 and uses tombstones on deletion; it does not chain lists or allow &alpha; > 1.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "開放定址的儲存方式",
+        "text": "<p>在<strong>開放定址法(open addressing)</strong>中,項目儲存在哪裡?</p>",
+        "answers": [
+          {
+            "text": "直接存在表格陣列本身 —— 每個槽存一個項目",
+            "fraction": 100,
+            "feedback": "正確 —— 沒有外部串列;每個元素都住在表格槽位中。"
+          },
+          {
+            "text": "存在掛於每個桶下的鏈結串列中",
+            "fraction": 0,
+            "feedback": "那是分離鏈結法,不是開放定址法。"
+          },
+          {
+            "text": "存在磁碟上另一個獨立的溢出檔案",
+            "fraction": 0,
+            "feedback": "開放定址法把一切保留在記憶體中的陣列裡。"
+          },
+          {
+            "text": "存在以雜湊值索引的平衡樹中",
+            "fraction": 0,
+            "feedback": "不使用樹;槽位就是單純的陣列元素。"
+          }
+        ],
+        "generalFeedback": "開放定址法把全部 n 個項目存進 m 個槽的陣列裡,因此不需要外部節點結構。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "以探測處理碰撞",
+        "text": "<p>當某個鍵在開放定址法中雜湊到一個已被佔用的槽時,接著會發生什麼?</p>",
+        "answers": [
+          {
+            "text": "它會探測(probe)一連串替代槽位,直到找到空槽為止",
+            "fraction": 100,
+            "feedback": "正確 —— 線性探測、二次探測或雙重雜湊會產生探測序列。"
+          },
+          {
+            "text": "把該鍵接到該槽的鏈結串列尾端",
+            "fraction": 0,
+            "feedback": "那是鏈結法,不是探測。"
+          },
+          {
+            "text": "插入前立即把表格容量加倍",
+            "fraction": 0,
+            "feedback": "擴充也許稍後會發生,但碰撞的立即反應是探測。"
+          },
+          {
+            "text": "覆寫既有的項目",
+            "fraction": 0,
+            "feedback": "那會遺失資料;探測會保留兩個鍵。"
+          }
+        ],
+        "generalFeedback": "開放定址法以探測解決碰撞:依確定性的槽位序列(線性、二次或雙重雜湊)逐一檢查,直到找到空的元素。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "線性探測的群聚",
+        "text": "<p>哪個問題是<em>線性探測(linear probing)</em>的特徵?</p>",
+        "answers": [
+          {
+            "text": "主群聚(primary clustering)—— 連續佔用的長串槽位使後續探測變長",
+            "fraction": 100,
+            "feedback": "正確 —— 相鄰的佔用區塊會增長並合併,損害效能。"
+          },
+          {
+            "text": "沒有額外指標就無法實作",
+            "fraction": 0,
+            "feedback": "線性探測不需指標;它只是走到下一個槽。"
+          },
+          {
+            "text": "它要求表格大小為質數才能做雙重雜湊",
+            "fraction": 0,
+            "feedback": "那個限制與雙重雜湊有關,而非線性探測的群聚。"
+          },
+          {
+            "text": "它會讓負載因子超過 1",
+            "fraction": 0,
+            "feedback": "開放定址法維持 &alpha; < 1;群聚談的是探測長度,不是 &alpha; > 1。"
+          }
+        ],
+        "generalFeedback": "線性探測每次只前進一個槽,因此佔用元素會聚成連續的長串(主群聚),使後續探測序列變長。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "雙重雜湊的好處",
+        "text": "<p>為什麼<em>雙重雜湊(double hashing)</em>常比線性探測更受青睞?</p>",
+        "answers": [
+          {
+            "text": "用第二個雜湊函數分散探測位置,減少群聚",
+            "fraction": 100,
+            "feedback": "正確 —— 步長依鍵而異,避免線性探測那種連續長串。"
+          },
+          {
+            "text": "它免除了把負載因子維持在 1 以下的需要",
+            "fraction": 0,
+            "feedback": "所有開放定址法都維持 &alpha; < 1;探測方案不改變這點。"
+          },
+          {
+            "text": "它把表格轉換成鏈結結構",
+            "fraction": 0,
+            "feedback": "雙重雜湊仍是開放定址法;不使用鏈。"
+          },
+          {
+            "text": "它消除了刪除時對墓碑的需要",
+            "fraction": 0,
+            "feedback": "無論採用哪種探測方案,刪除仍需要墓碑。"
+          }
+        ],
+        "generalFeedback": "雙重雜湊以第二個雜湊計算步長,使不同鍵走不同的探測序列,因而大致避免主群聚。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "開放定址的負載因子",
+        "text": "<p>在開放定址法中,負載因子 &alpha; = n/m 必須維持在 1 以下,因為每個項目佔用一個不同的槽,表格會被裝滿。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 項目數不可能多於槽位數,所以 &alpha; < 1。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "與鏈結法不同,開放定址法有 m 個項目的硬性容量上限。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "刪除需要墓碑",
+        "text": "<p>從開放定址表刪除時,可以直接把槽清空,不需要任何特殊標記。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "直接清空槽可能中斷其他鍵的探測鏈;必須留下墓碑標記。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 刪除必須留下墓碑,後續探測才能越過被移除的槽繼續走。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "刪除標記名詞",
+        "text": "<p>刪除後留在槽中、讓探測序列仍能運作的特殊「已刪除」標記,稱為 ______。</p>",
+        "answers": [
+          {
+            "text": "tombstone",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "tombstone*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "開放定址的性質",
+        "text": "<p>關於開放定址法,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "線性探測、二次探測與雙重雜湊都是它可用的探測方案",
+            "fraction": 50,
+            "feedback": "正確 —— 這些是標準的探測序列策略。"
+          },
+          {
+            "text": "刪除通常會在槽中留下墓碑標記",
+            "fraction": 50,
+            "feedback": "正確 —— 否則探測鏈會斷裂。"
+          },
+          {
+            "text": "負載因子可以自由超過 1",
+            "fraction": -50,
+            "feedback": "錯 —— 每槽一項,&alpha; 恆小於 1。"
+          },
+          {
+            "text": "每個槽存放一條由碰撞鍵組成的鏈結串列",
+            "fraction": -50,
+            "feedback": "錯 —— 那是分離鏈結法;開放定址法每槽只存一項。"
+          }
+        ],
+        "generalFeedback": "開放定址法以探測(線性/二次/雙重)進行,&alpha; < 1,刪除時使用墓碑;它不串接串列,也不允許 &alpha; > 1。",
+        "single": false
+      }
+    ]
+  },
+  "heap-binary": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Binary heap structure",
+        "text": "<p>What underlying structure best describes a binary heap?</p>",
+        "answers": [
+          {
+            "text": "A complete binary tree, usually stored in an array",
+            "fraction": 100,
+            "feedback": "Correct — the completeness lets it pack contiguously into an array."
+          },
+          {
+            "text": "A binary search tree kept in sorted order",
+            "fraction": 0,
+            "feedback": "No — a heap only orders parent vs child, not left vs right."
+          },
+          {
+            "text": "A linked list of nodes with parent pointers",
+            "fraction": 0,
+            "feedback": "No — the standard implementation is an array, not a linked list."
+          },
+          {
+            "text": "A balanced red-black tree",
+            "fraction": 0,
+            "feedback": "No — that is a different, more complex structure."
+          }
+        ],
+        "generalFeedback": "A binary heap is a complete binary tree satisfying the heap property, and completeness makes an array representation natural and pointer-free.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Extract-min cost",
+        "text": "<p>In a min binary heap of <em>n</em> elements, what is the time complexity of <strong>extract-min</strong>?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — after removing the root you sift down along one root-to-leaf path."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "That is find-min; removing it requires restoring the heap."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — sift-down touches only one path of height log n."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "No — that is the cost of extracting all n elements."
+          }
+        ],
+        "generalFeedback": "Extract-min moves the last element to the root and sifts it down one path of height O(log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Parent index (1-based)",
+        "text": "<p>Using a <strong>1-based</strong> array, the parent of the node at index <em>i</em> is stored at which index?</p>",
+        "answers": [
+          {
+            "text": "&lfloor;i/2&rfloor;",
+            "fraction": 100,
+            "feedback": "Correct — children are at 2i and 2i+1, so the parent is at floor(i/2)."
+          },
+          {
+            "text": "2i",
+            "fraction": 0,
+            "feedback": "No — 2i is a child index, not the parent."
+          },
+          {
+            "text": "i - 1",
+            "fraction": 0,
+            "feedback": "No — that is not how the implicit tree maps to the array."
+          },
+          {
+            "text": "&lfloor;i/2&rfloor; - 1",
+            "fraction": 0,
+            "feedback": "No — that off-by-one applies to 0-based indexing, not 1-based."
+          }
+        ],
+        "generalFeedback": "In a 1-based array the parent of i is floor(i/2) and the children of i are 2i and 2i+1.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Build-heap cost",
+        "text": "<p>Building a heap from an unordered array of <em>n</em> elements via bottom-up heapify runs in:</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "Correct — a tighter analysis over node heights sums to linear time."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "That is the loose bound; the tight bound for bottom-up build is O(n)."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No — you must process every element."
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "No — heapify is far cheaper than that."
+          }
+        ],
+        "generalFeedback": "Most nodes are near the bottom with tiny sift-down cost; summing height*count telescopes to O(n).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Find-min constant time",
+        "text": "<p>In a min binary heap, finding the minimum element takes O(1) time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the minimum is always at the root (array index 1)."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "The minimum is always the root, so it is O(1)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Heap sorted order",
+        "text": "<p>An in-order traversal of a binary heap visits the elements in sorted order.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — a heap only constrains parent vs child, not left vs right siblings."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — heaps are not sorted like a BST; only the min/max is at the root."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Left child index",
+        "text": "<p>In a <strong>1-based</strong> array heap, the left child of the node at index <em>i</em> is stored at index ______ (answer as an expression in i).</p>",
+        "answers": [
+          {
+            "text": "2i",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "2*i",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "2i*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Binary heap facts",
+        "text": "<p>Which statements about a binary min-heap are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Insert runs in O(log n) via sift-up",
+            "fraction": 50,
+            "feedback": "Yes — a new leaf bubbles up at most one path height."
+          },
+          {
+            "text": "It is the standard array-based priority-queue implementation",
+            "fraction": 50,
+            "feedback": "Yes — heaps back most priority queues."
+          },
+          {
+            "text": "The array representation needs child pointers per node",
+            "fraction": -50,
+            "feedback": "No — indices are computed arithmetically, no pointers stored."
+          },
+          {
+            "text": "Every left subtree holds smaller keys than every right subtree",
+            "fraction": -50,
+            "feedback": "No — that is a BST property; heaps do not order siblings."
+          }
+        ],
+        "generalFeedback": "Binary heaps give O(log n) insert/extract and O(1) find-min, store no pointers, and back most priority queues; they are not search-ordered like a BST.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "二元堆積結構",
+        "text": "<p>下列何者最能描述二元堆積(binary heap)的底層結構?</p>",
+        "answers": [
+          {
+            "text": "一棵完全二元樹,通常以陣列儲存",
+            "fraction": 100,
+            "feedback": "正確 —— 完全性讓它能連續地塞進陣列中。"
+          },
+          {
+            "text": "一棵維持排序的二元搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— 堆積只規範父子順序,不規範左右順序。"
+          },
+          {
+            "text": "一串具有父指標的節點鏈結串列",
+            "fraction": 0,
+            "feedback": "錯 —— 標準實作是陣列,而非鏈結串列。"
+          },
+          {
+            "text": "一棵平衡的紅黑樹",
+            "fraction": 0,
+            "feedback": "錯 —— 那是另一種更複雜的結構。"
+          }
+        ],
+        "generalFeedback": "二元堆積是滿足堆積性質的完全二元樹,完全性使得陣列表示法自然且不需指標。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "取出最小值成本",
+        "text": "<p>在含 <em>n</em> 個元素的最小二元堆積中,<strong>取出最小值(extract-min)</strong>的時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 移除根之後沿一條根到葉的路徑向下篩。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "那是查詢最小值;移除它需要重建堆積。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 向下篩只碰一條高度為 log n 的路徑。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 那是取出全部 n 個元素的成本。"
+          }
+        ],
+        "generalFeedback": "取出最小值把最後一個元素移到根,再沿高度 O(log n) 的一條路徑向下篩。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "父節點索引(1 起始)",
+        "text": "<p>使用<strong>以 1 為起始</strong>的陣列,索引 <em>i</em> 的節點,其父節點存放在哪個索引?</p>",
+        "answers": [
+          {
+            "text": "&lfloor;i/2&rfloor;",
+            "fraction": 100,
+            "feedback": "正確 —— 子節點在 2i 與 2i+1,故父節點在 floor(i/2)。"
+          },
+          {
+            "text": "2i",
+            "fraction": 0,
+            "feedback": "錯 —— 2i 是子節點索引,不是父節點。"
+          },
+          {
+            "text": "i - 1",
+            "fraction": 0,
+            "feedback": "錯 —— 隱式樹與陣列的對應不是這樣。"
+          },
+          {
+            "text": "&lfloor;i/2&rfloor; - 1",
+            "fraction": 0,
+            "feedback": "錯 —— 那個差一是用於以 0 為起始的索引,而非以 1 為起始。"
+          }
+        ],
+        "generalFeedback": "以 1 為起始的陣列中,i 的父節點在 floor(i/2),i 的子節點在 2i 與 2i+1。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "建堆成本",
+        "text": "<p>以由下而上的 heapify 從 <em>n</em> 個無序元素建立堆積,執行時間為:</p>",
+        "answers": [
+          {
+            "text": "O(n)",
+            "fraction": 100,
+            "feedback": "正確 —— 依節點高度做更緊的分析,總和為線性時間。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "那是寬鬆界;由下而上建堆的緊界是 O(n)。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 必須處理每一個元素。"
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "錯 —— heapify 遠比這便宜。"
+          }
+        ],
+        "generalFeedback": "大多數節點靠近底部、向下篩成本極小;將高度乘以節點數求和會收斂為 O(n)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "查詢最小值為常數時間",
+        "text": "<p>在最小二元堆積中,查詢最小元素只需 O(1) 時間。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 最小值永遠在根(陣列索引 1)。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "最小值永遠是根,故為 O(1)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "堆積的排序順序",
+        "text": "<p>對二元堆積做中序走訪會依排序順序拜訪元素。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 堆積只限制父子關係,不限制左右兄弟。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 堆積不像 BST 那樣有序;只有最小/最大值在根。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "左子節點索引",
+        "text": "<p>在<strong>以 1 為起始</strong>的陣列堆積中,索引 <em>i</em> 的節點,其左子節點存放在索引 ______(以 i 的算式作答)。</p>",
+        "answers": [
+          {
+            "text": "2i",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "2*i",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "2i*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "二元堆積敘述",
+        "text": "<p>關於二元最小堆積,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "插入透過向上篩以 O(log n) 完成",
+            "fraction": 50,
+            "feedback": "正確 —— 新葉節點最多向上冒泡一條路徑高度。"
+          },
+          {
+            "text": "它是標準的陣列式優先佇列實作",
+            "fraction": 50,
+            "feedback": "正確 —— 多數優先佇列以堆積為底層。"
+          },
+          {
+            "text": "陣列表示法每個節點需要子指標",
+            "fraction": -50,
+            "feedback": "錯 —— 索引以算術計算,不需儲存指標。"
+          },
+          {
+            "text": "每個左子樹的鍵值都小於每個右子樹",
+            "fraction": -50,
+            "feedback": "錯 —— 那是 BST 性質;堆積不規範兄弟順序。"
+          }
+        ],
+        "generalFeedback": "二元堆積提供 O(log n) 插入/取出與 O(1) 查詢最小值,不儲存指標,是多數優先佇列的底層;它不像 BST 那樣具搜尋順序。",
+        "single": false
+      }
+    ]
+  },
+  "heap-binomial": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Binomial heap structure",
+        "text": "<p>A binomial heap is best described as a...</p>",
+        "answers": [
+          {
+            "text": "Forest (collection) of binomial trees, at most one of each order",
+            "fraction": 100,
+            "feedback": "Correct — the roots are linked in a root list, at most one tree per order."
+          },
+          {
+            "text": "A single balanced binary search tree",
+            "fraction": 0,
+            "feedback": "No — it is a forest of heap-ordered binomial trees, not a BST."
+          },
+          {
+            "text": "An array-based complete binary tree",
+            "fraction": 0,
+            "feedback": "That describes a binary heap, not a binomial heap."
+          },
+          {
+            "text": "A doubly linked list of unordered keys",
+            "fraction": 0,
+            "feedback": "No — the trees are heap-ordered binomial trees."
+          }
+        ],
+        "generalFeedback": "A binomial heap is a forest of heap-ordered binomial trees, with at most one tree of each order, so its shape mirrors the binary representation of n.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Nodes in B_k",
+        "text": "<p>How many nodes does a binomial tree <em>B<sub>k</sub></em> contain?</p>",
+        "answers": [
+          {
+            "text": "Exactly 2^k",
+            "fraction": 100,
+            "feedback": "Correct — B_k has exactly 2^k nodes and height k."
+          },
+          {
+            "text": "k^2",
+            "fraction": 0,
+            "feedback": "No — the count is exponential in k, namely 2^k."
+          },
+          {
+            "text": "2k - 1",
+            "fraction": 0,
+            "feedback": "No — that is not the size of a binomial tree."
+          },
+          {
+            "text": "k log k",
+            "fraction": 0,
+            "feedback": "No — B_k has exactly 2^k nodes."
+          }
+        ],
+        "generalFeedback": "B_k is formed by linking two B_(k-1) trees, so |B_k| = 2·|B_(k-1)| = 2^k, and it has height k.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Merge and binary addition",
+        "text": "<p>Merging (union of) two binomial heaps most resembles which operation?</p>",
+        "answers": [
+          {
+            "text": "Binary addition of the two heaps' order sequences, carrying when two trees share an order",
+            "fraction": 100,
+            "feedback": "Correct — equal-order trees link into the next order, exactly like a carry in binary addition."
+          },
+          {
+            "text": "Rebalancing rotations as in an AVL tree",
+            "fraction": 0,
+            "feedback": "No — binomial heaps do not use rotations."
+          },
+          {
+            "text": "Rehashing all keys into a new table",
+            "fraction": 0,
+            "feedback": "No — merge links trees; there is no hashing."
+          },
+          {
+            "text": "A full re-sort of every key",
+            "fraction": 0,
+            "feedback": "No — union just walks the two root lists in O(log n)."
+          }
+        ],
+        "generalFeedback": "Union walks the two root lists in increasing order; two trees of the same order link into one of the next order, exactly like carrying in binary addition, giving O(log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Extract-min cost",
+        "text": "<p>What is the worst-case time of <strong>extract-min</strong> in a binomial heap of n elements?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — find the min root, then union the children back into the heap, all O(log n)."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "No — the minimum can be any of up to log n roots, so it is O(log n)."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — extract-min is O(log n), not linear."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "No — a single extract-min is O(log n)."
+          }
+        ],
+        "generalFeedback": "Extract-min scans the O(log n) roots to find the minimum, removes it, and unions its children (themselves a binomial heap) back in, all in O(log n).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Insert amortized cost",
+        "text": "<p>Inserting a single element into a binomial heap takes O(1) <em>amortized</em> time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — like incrementing a binary counter, insert is O(log n) worst case but O(1) amortized."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Insert is O(log n) worst case but O(1) amortized, analogous to a binary counter increment."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Structure mirrors binary",
+        "text": "<p>A binomial heap with n elements contains a binomial tree of order k exactly when bit k is set in the binary representation of n.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — the set of tree orders is precisely the set of 1-bits of n."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It is true — since B_k holds 2^k nodes, the present orders are exactly the 1-bits of n."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Tree family name",
+        "text": "<p>A binomial heap is a forest of heap-ordered ______ trees. (one word)</p>",
+        "answers": [
+          {
+            "text": "binomial",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "binomial*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Binomial heap properties",
+        "text": "<p>Which statements about binomial heaps are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Merge, insert, and extract-min each run in O(log n) worst-case time",
+            "fraction": 50,
+            "feedback": "Yes — the mergeable-heap operations are all O(log n)."
+          },
+          {
+            "text": "The number of trees is at most floor(log2 n) + 1",
+            "fraction": 50,
+            "feedback": "Yes — one tree per set bit of n, so at most ~log n trees."
+          },
+          {
+            "text": "Every operation, including extract-min, runs in O(1) time",
+            "fraction": -50,
+            "feedback": "No — extract-min is O(log n); only insert is O(1) amortized."
+          },
+          {
+            "text": "It stores its nodes in a single contiguous array like a binary heap",
+            "fraction": -50,
+            "feedback": "No — it uses linked binomial trees, not one contiguous array."
+          }
+        ],
+        "generalFeedback": "Binomial heaps support O(log n) merge/insert/extract-min with at most ~log n trees; they are pointer-based forests, and only insert is O(1) amortized.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "二項堆積結構",
+        "text": "<p>二項堆積(binomial heap)最貼切的描述是...</p>",
+        "answers": [
+          {
+            "text": "由二項樹組成的森林(集合),每種階數至多一棵",
+            "fraction": 100,
+            "feedback": "正確 —— 各樹根串接成根串列,每種階數至多一棵樹。"
+          },
+          {
+            "text": "單一棵平衡的二元搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— 它是堆積序的二項樹森林,不是 BST。"
+          },
+          {
+            "text": "以陣列表示的完全二元樹",
+            "fraction": 0,
+            "feedback": "那是二元堆積(binary heap),不是二項堆積。"
+          },
+          {
+            "text": "一條存放無序鍵值的雙向鏈結串列",
+            "fraction": 0,
+            "feedback": "錯 —— 這些樹是堆積序的二項樹。"
+          }
+        ],
+        "generalFeedback": "二項堆積是由堆積序二項樹組成的森林,每種階數至多一棵,因此其形狀對應 n 的二進位表示。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "B_k 的節點數",
+        "text": "<p>一棵二項樹 <em>B<sub>k</sub></em> 含有多少個節點?</p>",
+        "answers": [
+          {
+            "text": "恰為 2^k",
+            "fraction": 100,
+            "feedback": "正確 —— B_k 恰有 2^k 個節點,高度為 k。"
+          },
+          {
+            "text": "k^2",
+            "fraction": 0,
+            "feedback": "錯 —— 節點數對 k 呈指數,為 2^k。"
+          },
+          {
+            "text": "2k - 1",
+            "fraction": 0,
+            "feedback": "錯 —— 那不是二項樹的大小。"
+          },
+          {
+            "text": "k log k",
+            "fraction": 0,
+            "feedback": "錯 —— B_k 恰有 2^k 個節點。"
+          }
+        ],
+        "generalFeedback": "B_k 由兩棵 B_(k-1) 連結而成,故 |B_k| = 2·|B_(k-1)| = 2^k,高度為 k。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "合併與二進位加法",
+        "text": "<p>合併(union)兩個二項堆積最像下列哪一種運算?</p>",
+        "answers": [
+          {
+            "text": "對兩堆積的階數序列做二進位加法,當兩棵樹同階時產生進位",
+            "fraction": 100,
+            "feedback": "正確 —— 同階的樹連結成更高一階,正如二進位加法的進位。"
+          },
+          {
+            "text": "像 AVL 樹那樣以旋轉重新平衡",
+            "fraction": 0,
+            "feedback": "錯 —— 二項堆積不使用旋轉。"
+          },
+          {
+            "text": "把所有鍵值重新雜湊到新表",
+            "fraction": 0,
+            "feedback": "錯 —— 合併是連結樹,並無雜湊。"
+          },
+          {
+            "text": "將所有鍵值全部重新排序",
+            "fraction": 0,
+            "feedback": "錯 —— union 只走訪兩條根串列,為 O(log n)。"
+          }
+        ],
+        "generalFeedback": "Union 依階數遞增走訪兩條根串列;同階的兩棵樹連結成更高一階,正如二進位加法的進位,故為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "取出最小值的成本",
+        "text": "<p>在含 n 個元素的二項堆積中,<strong>取出最小值(extract-min)</strong>的最差時間為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 找出最小根後,再將其子樹 union 回堆積,皆為 O(log n)。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "錯 —— 最小值可能落在至多 log n 個根之一,故為 O(log n)。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— extract-min 為 O(log n),不是線性。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 單次 extract-min 為 O(log n)。"
+          }
+        ],
+        "generalFeedback": "Extract-min 掃描 O(log n) 個根找出最小值,移除後把其子樹(本身即一個二項堆積)union 回去,皆為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "插入的攤還成本",
+        "text": "<p>將單一元素插入二項堆積的<em>攤還(amortized)</em>時間為 O(1)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 如同二進位計數器遞增,插入最差為 O(log n),但攤還為 O(1)。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "插入最差為 O(log n),但攤還為 O(1),類比於二進位計數器的遞增。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "結構對應二進位",
+        "text": "<p>含 n 個元素的二項堆積,恰在 n 的二進位表示中第 k 位為 1 時,才含有一棵階數為 k 的二項樹。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 存在的樹階數集合正是 n 的所有 1 位元。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "此為真 —— 因 B_k 含 2^k 個節點,故存在的階數正是 n 的 1 位元。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "樹族名稱",
+        "text": "<p>二項堆積是由堆積序的 ______ 樹組成的森林。(請以英文單字作答)</p>",
+        "answers": [
+          {
+            "text": "binomial",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "binomial*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "二項堆積性質",
+        "text": "<p>關於二項堆積,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "合併、插入與取出最小值皆為最差 O(log n) 時間",
+            "fraction": 50,
+            "feedback": "正確 —— 可合併堆積的各項操作皆為 O(log n)。"
+          },
+          {
+            "text": "樹的數目至多為 floor(log2 n) + 1",
+            "fraction": 50,
+            "feedback": "正確 —— n 每個為 1 的位元對應一棵樹,故至多約 log n 棵。"
+          },
+          {
+            "text": "包含取出最小值在內的每個操作都是 O(1)",
+            "fraction": -50,
+            "feedback": "錯 —— extract-min 為 O(log n);只有插入是 O(1) 攤還。"
+          },
+          {
+            "text": "它像二元堆積一樣把節點存於單一連續陣列中",
+            "fraction": -50,
+            "feedback": "錯 —— 它使用鏈結的二項樹,而非單一連續陣列。"
+          }
+        ],
+        "generalFeedback": "二項堆積支援 O(log n) 的合併/插入/取出最小值,樹數至多約 log n;它是以指標連結的森林,且只有插入是 O(1) 攤還。",
+        "single": false
+      }
+    ]
+  },
+  "heap-dary": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "d-ary heap definition",
+        "text": "<p>How does a <strong>4-ary heap</strong> differ from a binary heap?</p>",
+        "answers": [
+          {
+            "text": "Each internal node has up to 4 children instead of 2",
+            "fraction": 100,
+            "feedback": "Correct — a d-ary heap generalizes the branching factor to d = 4."
+          },
+          {
+            "text": "It stores 4 keys in every node",
+            "fraction": 0,
+            "feedback": "No — nodes still hold one key; only the fan-out changes."
+          },
+          {
+            "text": "It drops the heap-order property",
+            "fraction": 0,
+            "feedback": "No — the heap property is unchanged."
+          },
+          {
+            "text": "It must be stored with pointers, not an array",
+            "fraction": 0,
+            "feedback": "No — it still maps cleanly onto an array."
+          }
+        ],
+        "generalFeedback": "A d-ary heap is a binary-heap generalization where each node has up to d children; a 4-ary heap uses d = 4.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "d-ary height",
+        "text": "<p>Compared with a binary heap on the same <em>n</em> elements, a 4-ary heap is:</p>",
+        "answers": [
+          {
+            "text": "Shallower, with height about log_4 n",
+            "fraction": 100,
+            "feedback": "Correct — larger fan-out means fewer levels, height &Theta;(log_d n)."
+          },
+          {
+            "text": "Taller, with height about 4 log n",
+            "fraction": 0,
+            "feedback": "No — more children per node makes the tree shorter, not taller."
+          },
+          {
+            "text": "The same height, log_2 n",
+            "fraction": 0,
+            "feedback": "No — the base of the logarithm changes to d."
+          },
+          {
+            "text": "Always exactly 4 levels",
+            "fraction": 0,
+            "feedback": "No — height still grows with n, just more slowly."
+          }
+        ],
+        "generalFeedback": "Height is &Theta;(log_d n); with d = 4 the tree is shallower than a binary heap.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Extract-min in d-ary",
+        "text": "<p>What is the extract-min cost of a d-ary heap, and why?</p>",
+        "answers": [
+          {
+            "text": "O(d &middot; log_d n), because sift-down compares all d children at each level",
+            "fraction": 100,
+            "feedback": "Correct — fewer levels but d comparisons per level to find the smallest child."
+          },
+          {
+            "text": "O(log_d n), the same as insert",
+            "fraction": 0,
+            "feedback": "No — sift-down must scan all d children each level, adding a factor of d."
+          },
+          {
+            "text": "O(1), because the root is the minimum",
+            "fraction": 0,
+            "feedback": "Finding the min is O(1), but removing and restoring is not."
+          },
+          {
+            "text": "O(n), it must rescan the whole array",
+            "fraction": 0,
+            "feedback": "No — only one root-to-leaf path is traversed."
+          }
+        ],
+        "generalFeedback": "Sift-down visits log_d n levels and compares d children at each, so extract-min is O(d log_d n) — larger d makes it costlier.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "When d-ary helps",
+        "text": "<p>For which workload is increasing d (e.g. a 4-ary heap) most beneficial?</p>",
+        "answers": [
+          {
+            "text": "Decrease-key-heavy workloads such as Dijkstra's algorithm",
+            "fraction": 100,
+            "feedback": "Correct — cheaper O(log_d n) inserts/decrease-keys dominate the extra extract cost."
+          },
+          {
+            "text": "Workloads that are almost all extract-min",
+            "fraction": 0,
+            "feedback": "No — extract-min gets more expensive as d grows."
+          },
+          {
+            "text": "Workloads needing a stable sort",
+            "fraction": 0,
+            "feedback": "No — heaps are not about stability."
+          },
+          {
+            "text": "Workloads with no priority operations at all",
+            "fraction": 0,
+            "feedback": "No — then you would not use a heap."
+          }
+        ],
+        "generalFeedback": "Larger d cheapens insert/decrease-key (O(log_d n)) while making extract-min pricier, so it wins when decrease-key dominates, as in Dijkstra.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Cache friendliness",
+        "text": "<p>A shallower 4-ary heap tends to be more cache-friendly than a binary heap.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — fewer levels and clustered children improve locality of reference."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Fewer levels and grouped children generally improve cache behavior."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Insert cheaper",
+        "text": "<p>Insert (sift-up) is asymptotically cheaper in a 4-ary heap than in a binary heap because the tree is shallower.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — sift-up only compares against one parent per level, over O(log_d n) levels."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Sift-up compares only with the single parent each level, so fewer levels means less work."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Branching factor symbol",
+        "text": "<p>In a \"d-ary heap\", the letter ______ denotes the number of children each node may have.</p>",
+        "answers": [
+          {
+            "text": "d",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "d*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "4-ary heap trade-offs",
+        "text": "<p>Which statements about a 4-ary heap are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Insert / decrease-key cost O(log_4 n)",
+            "fraction": 50,
+            "feedback": "Yes — sift-up over fewer levels."
+          },
+          {
+            "text": "Extract-min costs O(4 &middot; log_4 n) due to comparing 4 children per level",
+            "fraction": 50,
+            "feedback": "Yes — that d factor is the price of a larger fan-out."
+          },
+          {
+            "text": "It cannot be stored in a flat array",
+            "fraction": -50,
+            "feedback": "No — index arithmetic generalizes: children of i are di-(d-2)..di+1 style formulas."
+          },
+          {
+            "text": "Choosing d larger always speeds up every operation",
+            "fraction": -50,
+            "feedback": "No — larger d trades cheaper insert for costlier extract-min."
+          }
+        ],
+        "generalFeedback": "A 4-ary heap makes insert/decrease-key cheaper (O(log_d n)) but extract-min costlier (O(d log_d n)); it still lives in an array, and tuning d is a trade-off, not a free win.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "d 元堆積定義",
+        "text": "<p><strong>四元堆積(4-ary heap)</strong>與二元堆積有何不同?</p>",
+        "answers": [
+          {
+            "text": "每個內部節點最多有 4 個子節點,而非 2 個",
+            "fraction": 100,
+            "feedback": "正確 —— d 元堆積把分支因子推廣為 d = 4。"
+          },
+          {
+            "text": "每個節點存放 4 個鍵值",
+            "fraction": 0,
+            "feedback": "錯 —— 節點仍只存一個鍵;改變的只是分支數。"
+          },
+          {
+            "text": "它放棄了堆積順序性質",
+            "fraction": 0,
+            "feedback": "錯 —— 堆積性質不變。"
+          },
+          {
+            "text": "它必須用指標儲存,不能用陣列",
+            "fraction": 0,
+            "feedback": "錯 —— 它仍可乾淨地對應到陣列。"
+          }
+        ],
+        "generalFeedback": "d 元堆積是二元堆積的推廣,每個節點最多有 d 個子節點;四元堆積取 d = 4。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "d 元堆積高度",
+        "text": "<p>對相同的 <em>n</em> 個元素而言,四元堆積相較於二元堆積:</p>",
+        "answers": [
+          {
+            "text": "較淺,高度約為 log_4 n",
+            "fraction": 100,
+            "feedback": "正確 —— 分支越大層數越少,高度為 &Theta;(log_d n)。"
+          },
+          {
+            "text": "較高,高度約為 4 log n",
+            "fraction": 0,
+            "feedback": "錯 —— 每個節點子節點越多,樹越矮而非越高。"
+          },
+          {
+            "text": "相同高度 log_2 n",
+            "fraction": 0,
+            "feedback": "錯 —— 對數的底改為 d。"
+          },
+          {
+            "text": "永遠剛好 4 層",
+            "fraction": 0,
+            "feedback": "錯 —— 高度仍隨 n 成長,只是較慢。"
+          }
+        ],
+        "generalFeedback": "高度為 &Theta;(log_d n);d = 4 時樹比二元堆積更淺。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "d 元堆積取出最小值",
+        "text": "<p>d 元堆積取出最小值的成本為何?原因為何?</p>",
+        "answers": [
+          {
+            "text": "O(d &middot; log_d n),因為向下篩每層需比較所有 d 個子節點",
+            "fraction": 100,
+            "feedback": "正確 —— 層數變少,但每層需比較 d 個子節點以找最小者。"
+          },
+          {
+            "text": "O(log_d n),與插入相同",
+            "fraction": 0,
+            "feedback": "錯 —— 向下篩每層需掃過所有 d 個子節點,多了一個 d 因子。"
+          },
+          {
+            "text": "O(1),因為根就是最小值",
+            "fraction": 0,
+            "feedback": "查詢最小值是 O(1),但移除並重建則不是。"
+          },
+          {
+            "text": "O(n),必須重掃整個陣列",
+            "fraction": 0,
+            "feedback": "錯 —— 只走一條根到葉的路徑。"
+          }
+        ],
+        "generalFeedback": "向下篩走過 log_d n 層、每層比較 d 個子節點,故取出最小值為 O(d log_d n) —— d 越大越貴。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "d 元堆積何時有利",
+        "text": "<p>提高 d(例如四元堆積)對哪種工作負載最有利?</p>",
+        "answers": [
+          {
+            "text": "以 decrease-key 為主的工作負載,如 Dijkstra 演算法",
+            "fraction": 100,
+            "feedback": "正確 —— 較便宜的 O(log_d n) 插入/decrease-key 主導,勝過額外的取出成本。"
+          },
+          {
+            "text": "幾乎全是取出最小值的工作負載",
+            "fraction": 0,
+            "feedback": "錯 —— d 越大取出最小值越貴。"
+          },
+          {
+            "text": "需要穩定排序的工作負載",
+            "fraction": 0,
+            "feedback": "錯 —— 堆積與穩定性無關。"
+          },
+          {
+            "text": "完全沒有優先權操作的工作負載",
+            "fraction": 0,
+            "feedback": "錯 —— 那樣就不會用堆積了。"
+          }
+        ],
+        "generalFeedback": "d 越大使插入/decrease-key 更便宜(O(log_d n)),但取出最小值更貴;故當 decrease-key 主導時勝出,如 Dijkstra。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "快取友善度",
+        "text": "<p>較淺的四元堆積往往比二元堆積更快取友善。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 層數更少且子節點群聚,提升參考局部性。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "層數更少且子節點聚在一起,通常改善快取行為。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "插入更便宜",
+        "text": "<p>因為樹較淺,插入(向上篩)在四元堆積中漸近上比二元堆積便宜。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 向上篩每層只與單一父節點比較,共 O(log_d n) 層。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "向上篩每層只與唯一父節點比較,故層數更少即工作更少。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "分支因子符號",
+        "text": "<p>在「d 元堆積」中,字母 ______ 代表每個節點可擁有的子節點數。</p>",
+        "answers": [
+          {
+            "text": "d",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "d*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "四元堆積取捨",
+        "text": "<p>關於四元堆積,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "插入 / decrease-key 成本為 O(log_4 n)",
+            "fraction": 50,
+            "feedback": "正確 —— 向上篩層數更少。"
+          },
+          {
+            "text": "取出最小值成本為 O(4 &middot; log_4 n),因每層要比較 4 個子節點",
+            "fraction": 50,
+            "feedback": "正確 —— 那個 d 因子是較大分支的代價。"
+          },
+          {
+            "text": "它無法存於扁平陣列",
+            "fraction": -50,
+            "feedback": "錯 —— 索引算術可推廣:i 的子節點以類似 di-(d-2)..di+1 的公式計算。"
+          },
+          {
+            "text": "選越大的 d 一定使每個操作都更快",
+            "fraction": -50,
+            "feedback": "錯 —— d 越大以較便宜的插入換取較貴的取出最小值。"
+          }
+        ],
+        "generalFeedback": "四元堆積使插入/decrease-key 更便宜(O(log_d n))但取出最小值更貴(O(d log_d n));它仍存於陣列,調整 d 是取捨而非白吃的午餐。",
+        "single": false
+      }
+    ]
+  },
+  "heap-fibonacci": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Decrease-key amortized cost",
+        "text": "<p>What is the <strong>amortized</strong> cost of <em>decrease-key</em> in a Fibonacci heap?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — this fast decrease-key is the Fibonacci heap's signature property."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No — decrease-key is O(1) amortized; extract-min is the O(log n) one."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — it is O(1) amortized via cutting and cascading cuts."
+          },
+          {
+            "text": "O(log log n)",
+            "fraction": 0,
+            "feedback": "No — the amortized bound is O(1)."
+          }
+        ],
+        "generalFeedback": "Decrease-key cuts the node from its parent (possibly triggering cascading cuts) in O(1) amortized time — the property that makes Fibonacci heaps attractive for Dijkstra and Prim.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Extract-min cost",
+        "text": "<p>What is the amortized cost of <strong>extract-min</strong> in a Fibonacci heap?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — extract-min consolidates the root list and is O(log n) amortized."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "No — insert, find-min, decrease-key, and merge are O(1); extract-min is O(log n)."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — consolidation gives O(log n) amortized."
+          },
+          {
+            "text": "O(sqrt n)",
+            "fraction": 0,
+            "feedback": "No — the amortized bound is O(log n)."
+          }
+        ],
+        "generalFeedback": "Extract-min removes the min root and then consolidates trees of equal degree, paying the deferred work; amortized this is O(log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Dijkstra with Fibonacci heap",
+        "text": "<p>Using a Fibonacci heap as the priority queue, Dijkstra's algorithm runs in which time bound?</p>",
+        "answers": [
+          {
+            "text": "O(E + V log V)",
+            "fraction": 100,
+            "feedback": "Correct — O(1) decrease-key across E edges plus O(log V) extract-min over V vertices."
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "That is the binary-heap bound; the Fibonacci heap improves it to O(E + V log V)."
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "That is the simple array bound, not the Fibonacci-heap result."
+          },
+          {
+            "text": "O(E + V)",
+            "fraction": 0,
+            "feedback": "No — the V extract-min operations still cost O(V log V) in total."
+          }
+        ],
+        "generalFeedback": "The O(1) amortized decrease-key removes the log factor from the E relaxations, so Dijkstra (and Prim) reach O(E + V log V).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Mechanism",
+        "text": "<p>Which mechanism does a Fibonacci heap rely on to achieve its bounds?</p>",
+        "answers": [
+          {
+            "text": "Lazy consolidation of the root list plus cascading cuts using marked nodes",
+            "fraction": 100,
+            "feedback": "Correct — work is deferred until extract-min, and marks bound the damage from cuts."
+          },
+          {
+            "text": "Rotations to keep every tree height-balanced",
+            "fraction": 0,
+            "feedback": "No — Fibonacci heaps do not rotate; they cut and consolidate lazily."
+          },
+          {
+            "text": "Storing all keys in a single sorted array",
+            "fraction": 0,
+            "feedback": "No — it is a lazy forest of heap-ordered trees."
+          },
+          {
+            "text": "Hashing keys into buckets",
+            "fraction": 0,
+            "feedback": "No — there is no hashing involved."
+          }
+        ],
+        "generalFeedback": "Inserts and merges just splice into the root list (lazy); consolidation happens only at extract-min, and cascading cuts on marked nodes keep trees from degrading.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Insert and merge O(1)",
+        "text": "<p>In a Fibonacci heap, insert and merge each take O(1) amortized time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — both just splice into the root list, deferring real work to extract-min."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Both insert and merge are O(1) amortized; the deferred work is paid at extract-min."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Constant factors",
+        "text": "<p>Despite excellent asymptotic bounds, Fibonacci heaps are often slower than simpler heaps in practice due to large constant factors.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — bookkeeping overhead makes them lose to binary or pairing heaps on typical inputs."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It is true — their constant factors and pointer overhead often make them slower in real use."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Cut policy term",
+        "text": "<p>Cutting a node whose second child is lost, and possibly its parent in turn, is called a ______ cut. (one word)</p>",
+        "answers": [
+          {
+            "text": "cascading",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "cascading*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Fibonacci heap O(1) operations",
+        "text": "<p>Which operations run in O(1) <em>amortized</em> time in a Fibonacci heap? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "decrease-key",
+            "fraction": 50,
+            "feedback": "Yes — O(1) amortized, the heap's headline feature."
+          },
+          {
+            "text": "find-min",
+            "fraction": 50,
+            "feedback": "Yes — a pointer to the minimum root gives O(1)."
+          },
+          {
+            "text": "extract-min",
+            "fraction": -50,
+            "feedback": "No — extract-min is O(log n) amortized, not O(1)."
+          },
+          {
+            "text": "search for an arbitrary key",
+            "fraction": -50,
+            "feedback": "No — arbitrary search is not a supported O(1) heap operation."
+          }
+        ],
+        "generalFeedback": "Insert, find-min, decrease-key, and merge are O(1) amortized; extract-min is O(log n) amortized, and arbitrary search is not an efficient heap operation.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "減少鍵值的攤還成本",
+        "text": "<p>在費氏堆積(Fibonacci heap)中,<em>減少鍵值(decrease-key)</em>的<strong>攤還</strong>成本為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 這個快速的 decrease-key 正是費氏堆積的招牌特性。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— decrease-key 為 O(1) 攤還;O(log n) 的是 extract-min。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 透過切斷與連鎖切斷,為 O(1) 攤還。"
+          },
+          {
+            "text": "O(log log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 攤還界為 O(1)。"
+          }
+        ],
+        "generalFeedback": "Decrease-key 將節點自其父節點切下(可能觸發連鎖切斷),以 O(1) 攤還完成 —— 這正是費氏堆積對 Dijkstra 與 Prim 具吸引力的原因。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "取出最小值的成本",
+        "text": "<p>在費氏堆積中,<strong>取出最小值(extract-min)</strong>的攤還成本為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— extract-min 會整併根串列,為 O(log n) 攤還。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "錯 —— 插入、找最小、decrease-key 與合併為 O(1);extract-min 為 O(log n)。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 整併使其為 O(log n) 攤還。"
+          },
+          {
+            "text": "O(sqrt n)",
+            "fraction": 0,
+            "feedback": "錯 —— 攤還界為 O(log n)。"
+          }
+        ],
+        "generalFeedback": "Extract-min 移除最小根後,整併同度數的樹以支付先前延後的工作;攤還後為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "以費氏堆積實作 Dijkstra",
+        "text": "<p>以費氏堆積作為優先佇列時,Dijkstra 演算法的時間界為何?</p>",
+        "answers": [
+          {
+            "text": "O(E + V log V)",
+            "fraction": 100,
+            "feedback": "正確 —— E 條邊上 O(1) 的 decrease-key,加上 V 個頂點各 O(log V) 的 extract-min。"
+          },
+          {
+            "text": "O(E log V)",
+            "fraction": 0,
+            "feedback": "那是二元堆積的界;費氏堆積將其改進為 O(E + V log V)。"
+          },
+          {
+            "text": "O(V^2)",
+            "fraction": 0,
+            "feedback": "那是簡單陣列的界,不是費氏堆積的結果。"
+          },
+          {
+            "text": "O(E + V)",
+            "fraction": 0,
+            "feedback": "錯 —— V 次 extract-min 合計仍需 O(V log V)。"
+          }
+        ],
+        "generalFeedback": "O(1) 攤還的 decrease-key 消去了 E 次鬆弛的 log 因子,使 Dijkstra(與 Prim)達到 O(E + V log V)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "運作機制",
+        "text": "<p>費氏堆積依賴哪一種機制達成其時間界?</p>",
+        "answers": [
+          {
+            "text": "對根串列採惰性整併,並以標記節點進行連鎖切斷",
+            "fraction": 100,
+            "feedback": "正確 —— 工作延後到 extract-min 才處理,標記則限制切斷造成的破壞。"
+          },
+          {
+            "text": "以旋轉維持每棵樹高度平衡",
+            "fraction": 0,
+            "feedback": "錯 —— 費氏堆積不旋轉;它以惰性方式切斷與整併。"
+          },
+          {
+            "text": "將所有鍵值存於單一已排序陣列",
+            "fraction": 0,
+            "feedback": "錯 —— 它是堆積序樹的惰性森林。"
+          },
+          {
+            "text": "將鍵值雜湊到桶中",
+            "fraction": 0,
+            "feedback": "錯 —— 並不涉及雜湊。"
+          }
+        ],
+        "generalFeedback": "插入與合併僅將節點接入根串列(惰性);整併只在 extract-min 時發生,對標記節點的連鎖切斷則避免樹結構退化。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "插入與合併為 O(1)",
+        "text": "<p>在費氏堆積中,插入與合併的攤還時間各為 O(1)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 兩者都只是接入根串列,把實際工作延後到 extract-min。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "插入與合併皆為 O(1) 攤還;延後的工作在 extract-min 時支付。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "常數因子",
+        "text": "<p>儘管漸進界極佳,費氏堆積因常數因子龐大,實務上常比更簡單的堆積更慢。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 記帳開銷使其在一般輸入上輸給二元堆積或配對堆積。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "此為真 —— 其常數因子與指標開銷常使實務上更慢。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "切斷策略名詞",
+        "text": "<p>當一個節點失去第二個子節點時將其切下,並可能連帶切下其父節點,這稱為 ______ 切斷。(請以英文單字作答)</p>",
+        "answers": [
+          {
+            "text": "cascading",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "cascading*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "費氏堆積的 O(1) 操作",
+        "text": "<p>在費氏堆積中,哪些操作是 O(1) <em>攤還</em>時間?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "decrease-key(減少鍵值)",
+            "fraction": 50,
+            "feedback": "正確 —— O(1) 攤還,是此堆積的招牌特性。"
+          },
+          {
+            "text": "find-min(找最小)",
+            "fraction": 50,
+            "feedback": "正確 —— 以指標指向最小根即得 O(1)。"
+          },
+          {
+            "text": "extract-min(取出最小)",
+            "fraction": -50,
+            "feedback": "錯 —— extract-min 為 O(log n) 攤還,不是 O(1)。"
+          },
+          {
+            "text": "搜尋任意鍵值",
+            "fraction": -50,
+            "feedback": "錯 —— 任意搜尋並非堆積所支援的 O(1) 操作。"
+          }
+        ],
+        "generalFeedback": "插入、找最小、decrease-key 與合併為 O(1) 攤還;extract-min 為 O(log n) 攤還,而任意搜尋並非高效的堆積操作。",
+        "single": false
+      }
+    ]
+  },
+  "heap-leftist": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Leftist heap purpose",
+        "text": "<p>What is the defining capability of a leftist heap?</p>",
+        "answers": [
+          {
+            "text": "Efficiently(melding) two heaps in O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — leftist heaps are mergeable heaps built around a fast meld."
+          },
+          {
+            "text": "O(1) worst-case extract-min",
+            "fraction": 0,
+            "feedback": "No — extract-min is O(log n), built on top of merge."
+          },
+          {
+            "text": "Storing keys in a flat array without pointers",
+            "fraction": 0,
+            "feedback": "No — leftist heaps are pointer-based binary trees."
+          },
+          {
+            "text": "Keeping elements in fully sorted order",
+            "fraction": 0,
+            "feedback": "No — it only maintains the heap-order property."
+          }
+        ],
+        "generalFeedback": "A leftist heap is a mergeable (meldable) heap whose signature operation is O(log n) merge; insert and extract-min are expressed via merge.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Null path length",
+        "text": "<p>The leftist property is stated in terms of which per-node quantity?</p>",
+        "answers": [
+          {
+            "text": "The null-path length (s-value): distance to the nearest null descendant",
+            "fraction": 100,
+            "feedback": "Correct — the s-value drives the leftist invariant."
+          },
+          {
+            "text": "The subtree size (number of nodes)",
+            "fraction": 0,
+            "feedback": "No — leftist heaps balance on path length, not size."
+          },
+          {
+            "text": "The node's key value",
+            "fraction": 0,
+            "feedback": "No — that governs heap order, not the leftist shape."
+          },
+          {
+            "text": "The node's color (red or black)",
+            "fraction": 0,
+            "feedback": "No — that belongs to red-black trees."
+          }
+        ],
+        "generalFeedback": "Each node stores its null-path length (s-value), the distance to the closest missing child; the leftist property compares s-values of the two children.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Leftist invariant",
+        "text": "<p>The leftist property requires that, for every node:</p>",
+        "answers": [
+          {
+            "text": "The left child's s-value is &ge; the right child's s-value",
+            "fraction": 100,
+            "feedback": "Correct — this keeps the short spine on the right."
+          },
+          {
+            "text": "The left child's key is &le; the right child's key",
+            "fraction": 0,
+            "feedback": "No — that is not the leftist property; siblings are unordered."
+          },
+          {
+            "text": "Both subtrees have equal height",
+            "fraction": 0,
+            "feedback": "No — leftist heaps are deliberately unbalanced."
+          },
+          {
+            "text": "The right child must be null",
+            "fraction": 0,
+            "feedback": "No — the right spine is short but not necessarily empty."
+          }
+        ],
+        "generalFeedback": "For every node, s(left) &ge; s(right); this pushes the shortest path to the right, keeping the right spine O(log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Right spine length",
+        "text": "<p>Why can leftist-heap merge run in O(log n)?</p>",
+        "answers": [
+          {
+            "text": "Merging only walks the two right spines, and each right spine has length O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — the leftist property bounds the right spine, so merge is logarithmic."
+          },
+          {
+            "text": "Because it copies both heaps into a sorted array first",
+            "fraction": 0,
+            "feedback": "No — merge is done in place along the right paths, no array copy."
+          },
+          {
+            "text": "Because the tree is perfectly balanced",
+            "fraction": 0,
+            "feedback": "No — leftist heaps are not height-balanced."
+          },
+          {
+            "text": "Because every node has O(1) children to visit",
+            "fraction": 0,
+            "feedback": "Bounded children alone would not bound total work; the short right spine does."
+          }
+        ],
+        "generalFeedback": "Merge recurses down the two right spines; the leftist invariant guarantees each right spine is O(log n), so merge is O(log n).",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Merge builds ops",
+        "text": "<p>In a leftist heap, both insert and extract-min are implemented as special cases of merge.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — insert merges a one-node heap; extract-min merges the root's two children."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Both are expressed via merge: insert melds a singleton, extract-min melds the two subtrees."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Balanced shape",
+        "text": "<p>A leftist heap is a height-balanced tree in which the left and right subtrees have nearly equal height.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — it is intentionally unbalanced, biased so the right spine stays short."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — leftist heaps are deliberately lopsided, not height-balanced."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Core operation",
+        "text": "<p>The single core operation on which a leftist heap's insert and delete-min are built is called ______ (also known as meld).</p>",
+        "answers": [
+          {
+            "text": "merge",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "merge*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "meld",
+            "fraction": 100,
+            "feedback": "Correct — meld is a synonym."
+          },
+          {
+            "text": "meld*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Leftist heap facts",
+        "text": "<p>Which statements about a leftist heap are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is a mergeable (meldable) heap supporting O(log n) merge",
+            "fraction": 50,
+            "feedback": "Yes — that is its defining feature."
+          },
+          {
+            "text": "Each node stores a null-path-length (s-value) used to maintain the invariant",
+            "fraction": 50,
+            "feedback": "Yes — the s-value is the bookkeeping it maintains."
+          },
+          {
+            "text": "It is stored in an implicit array like a binary heap",
+            "fraction": -50,
+            "feedback": "No — it is a pointer-linked binary tree, not an implicit array."
+          },
+          {
+            "text": "Its two subtrees are kept balanced in height",
+            "fraction": -50,
+            "feedback": "No — it is biased so the right spine stays short, not balanced."
+          }
+        ],
+        "generalFeedback": "A leftist heap is a pointer-based mergeable heap: O(log n) merge, per-node s-values, and an intentionally lopsided (short right spine) shape rather than height balance.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "左偏堆積用途",
+        "text": "<p>左偏堆積(leftist heap)最具代表性的能力是什麼?</p>",
+        "answers": [
+          {
+            "text": "能以 O(log n) 高效(meld)兩個堆積",
+            "fraction": 100,
+            "feedback": "正確 —— 左偏堆積是圍繞快速合併打造的可合併堆積。"
+          },
+          {
+            "text": "最差情況 O(1) 的取出最小值",
+            "fraction": 0,
+            "feedback": "錯 —— 取出最小值是 O(log n),建立在合併之上。"
+          },
+          {
+            "text": "不用指標而以扁平陣列儲存鍵值",
+            "fraction": 0,
+            "feedback": "錯 —— 左偏堆積是以指標連接的二元樹。"
+          },
+          {
+            "text": "將元素維持完全排序",
+            "fraction": 0,
+            "feedback": "錯 —— 它只維持堆積順序性質。"
+          }
+        ],
+        "generalFeedback": "左偏堆積是可合併(meldable)堆積,其招牌操作是 O(log n) 合併;插入與取出最小值皆以合併表示。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "零路徑長",
+        "text": "<p>左偏性質是以每個節點的哪個量來陳述?</p>",
+        "answers": [
+          {
+            "text": "零路徑長(s 值):到最近空子孫的距離",
+            "fraction": 100,
+            "feedback": "正確 —— s 值驅動左偏不變量。"
+          },
+          {
+            "text": "子樹大小(節點數)",
+            "fraction": 0,
+            "feedback": "錯 —— 左偏堆積以路徑長平衡,而非大小。"
+          },
+          {
+            "text": "節點的鍵值",
+            "fraction": 0,
+            "feedback": "錯 —— 那決定堆積順序,而非左偏形狀。"
+          },
+          {
+            "text": "節點的顏色(紅或黑)",
+            "fraction": 0,
+            "feedback": "錯 —— 那屬於紅黑樹。"
+          }
+        ],
+        "generalFeedback": "每個節點儲存其零路徑長(s 值),即到最近缺失子節點的距離;左偏性質比較兩個子節點的 s 值。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "左偏不變量",
+        "text": "<p>左偏性質要求:對每個節點而言,</p>",
+        "answers": [
+          {
+            "text": "左子節點的 s 值 &ge; 右子節點的 s 值",
+            "fraction": 100,
+            "feedback": "正確 —— 這使短脊保持在右側。"
+          },
+          {
+            "text": "左子節點的鍵值 &le; 右子節點的鍵值",
+            "fraction": 0,
+            "feedback": "錯 —— 那不是左偏性質;兄弟間無順序。"
+          },
+          {
+            "text": "兩棵子樹高度相等",
+            "fraction": 0,
+            "feedback": "錯 —— 左偏堆積刻意不平衡。"
+          },
+          {
+            "text": "右子節點必須為空",
+            "fraction": 0,
+            "feedback": "錯 —— 右脊很短但不一定為空。"
+          }
+        ],
+        "generalFeedback": "對每個節點,s(左) &ge; s(右);這把最短路徑推到右側,使右脊維持 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "右脊長度",
+        "text": "<p>為何左偏堆積的合併能以 O(log n) 執行?</p>",
+        "answers": [
+          {
+            "text": "合併只沿兩條右脊行走,而每條右脊長度為 O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 左偏性質界定右脊,故合併為對數時間。"
+          },
+          {
+            "text": "因為它先把兩個堆積複製進排序陣列",
+            "fraction": 0,
+            "feedback": "錯 —— 合併沿右路徑就地進行,不需陣列複製。"
+          },
+          {
+            "text": "因為樹是完美平衡的",
+            "fraction": 0,
+            "feedback": "錯 —— 左偏堆積並非高度平衡。"
+          },
+          {
+            "text": "因為每個節點只有 O(1) 個子節點要拜訪",
+            "fraction": 0,
+            "feedback": "僅子節點數有界不足以界定總工作量;是短右脊做到的。"
+          }
+        ],
+        "generalFeedback": "合併沿兩條右脊遞迴;左偏不變量保證每條右脊為 O(log n),故合併為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "合併構築操作",
+        "text": "<p>在左偏堆積中,插入與取出最小值都實作為合併的特例。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 插入合併一個單節點堆積;取出最小值合併根的兩個子節點。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "兩者皆以合併表示:插入合併一個單例,取出最小值合併兩棵子樹。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "平衡形狀",
+        "text": "<p>左偏堆積是一棵高度平衡的樹,其左右子樹高度幾乎相等。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 它刻意不平衡,偏向讓右脊保持很短。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 左偏堆積刻意偏斜,並非高度平衡。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "核心操作",
+        "text": "<p>左偏堆積的插入與刪除最小值所賴以建立的單一核心操作稱為 ______(亦稱 meld)。</p>",
+        "answers": [
+          {
+            "text": "merge",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "merge*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "meld",
+            "fraction": 100,
+            "feedback": "正確 —— meld 為同義詞。"
+          },
+          {
+            "text": "meld*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "左偏堆積敘述",
+        "text": "<p>關於左偏堆積,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它是支援 O(log n) 合併的可合併(meldable)堆積",
+            "fraction": 50,
+            "feedback": "正確 —— 那是它的定義特徵。"
+          },
+          {
+            "text": "每個節點儲存零路徑長(s 值)以維持不變量",
+            "fraction": 50,
+            "feedback": "正確 —— s 值是它維護的記帳資訊。"
+          },
+          {
+            "text": "它像二元堆積一樣存於隱式陣列",
+            "fraction": -50,
+            "feedback": "錯 —— 它是指標連接的二元樹,並非隱式陣列。"
+          },
+          {
+            "text": "它的兩棵子樹保持高度平衡",
+            "fraction": -50,
+            "feedback": "錯 —— 它偏斜以維持右脊短,並非平衡。"
+          }
+        ],
+        "generalFeedback": "左偏堆積是以指標為基礎的可合併堆積:O(log n) 合併、每節點 s 值、以及刻意偏斜(右脊短)的形狀,而非高度平衡。",
+        "single": false
+      }
+    ]
+  },
+  "heap-pairing": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Pairing heap character",
+        "text": "<p>A pairing heap is best characterized as a...</p>",
+        "answers": [
+          {
+            "text": "Simple self-adjusting heap-ordered multiway tree",
+            "fraction": 100,
+            "feedback": "Correct — one heap-ordered tree that restructures itself as operations run."
+          },
+          {
+            "text": "Strictly height-balanced binary search tree",
+            "fraction": 0,
+            "feedback": "No — it is a self-adjusting heap, not a balanced BST."
+          },
+          {
+            "text": "Array-based complete binary tree",
+            "fraction": 0,
+            "feedback": "That describes a binary heap, not a pairing heap."
+          },
+          {
+            "text": "Forest of binomial trees",
+            "fraction": 0,
+            "feedback": "No — that is a binomial heap; a pairing heap is a single multiway tree."
+          }
+        ],
+        "generalFeedback": "A pairing heap is a single heap-ordered multiway tree that is self-adjusting: it does no explicit balancing, restructuring only during operations, which keeps it simple and fast in practice.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Merge cost",
+        "text": "<p>What is the cost of <strong>merge (meld)</strong> of two pairing heaps?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "Correct — merge just links the root with the larger key under the other root."
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "No — merge is O(1); extract-min is the O(log n) amortized one."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — merging is a single constant-time link."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "No — merge is O(1)."
+          }
+        ],
+        "generalFeedback": "Melding compares the two roots and makes the larger-key root a child of the smaller — a single O(1) link. Insert is merge with a one-node heap, also O(1).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Extract-min cost",
+        "text": "<p>What is the amortized cost of <strong>extract-min</strong> in a pairing heap?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — remove the root, then pair up and merge the children, O(log n) amortized."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "No — insert and merge are O(1), but extract-min is O(log n) amortized."
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "No — the amortized cost is O(log n)."
+          },
+          {
+            "text": "O(sqrt n)",
+            "fraction": 0,
+            "feedback": "No — the amortized bound is O(log n)."
+          }
+        ],
+        "generalFeedback": "Extract-min deletes the root and then combines the orphaned children — the \"pairing\" pass that gives the structure its name — in O(log n) amortized time.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Practical standing",
+        "text": "<p>How do pairing heaps compare with Fibonacci heaps in practice?</p>",
+        "answers": [
+          {
+            "text": "Simpler to implement and often faster in real use, despite weaker proven bounds",
+            "fraction": 100,
+            "feedback": "Correct — their simplicity and low constants usually win in practice."
+          },
+          {
+            "text": "More complex to implement and always slower",
+            "fraction": 0,
+            "feedback": "No — pairing heaps are the simpler and typically faster of the two."
+          },
+          {
+            "text": "Identical code with identical constants",
+            "fraction": 0,
+            "feedback": "No — they are structurally different and pairing heaps have lower overhead."
+          },
+          {
+            "text": "Only usable for integer keys",
+            "fraction": 0,
+            "feedback": "No — pairing heaps work with any comparable keys."
+          }
+        ],
+        "generalFeedback": "Pairing heaps trade some theoretical guarantees for simplicity and low constant factors, so they typically outperform Fibonacci heaps in real workloads.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Decrease-key bound was open",
+        "text": "<p>The exact amortized complexity of decrease-key in pairing heaps was a long-standing open problem.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — its precise decrease-key bound resisted analysis for years, though it is very fast in practice."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "It is true — the tight decrease-key bound was open for a long time."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Insert cost",
+        "text": "<p>Inserting a new element into a pairing heap takes O(1) time.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — insert is just an O(1) meld with a single-node heap."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Insert is O(1): it melds the new node with the existing root."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Structure name",
+        "text": "<p>The self-adjusting heap whose extract-min combines children in a \"two-at-a-time\" pass is the ______ heap. (one word)</p>",
+        "answers": [
+          {
+            "text": "pairing",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "pairing*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Pairing heap properties",
+        "text": "<p>Which statements about pairing heaps are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "Insert and merge run in O(1) time",
+            "fraction": 50,
+            "feedback": "Yes — both are constant-time links."
+          },
+          {
+            "text": "They are simpler to implement than Fibonacci heaps",
+            "fraction": 50,
+            "feedback": "Yes — that simplicity is a major reason they are used."
+          },
+          {
+            "text": "Extract-min runs in O(1) amortized time",
+            "fraction": -50,
+            "feedback": "No — extract-min is O(log n) amortized."
+          },
+          {
+            "text": "They require explicit height-balancing rotations",
+            "fraction": -50,
+            "feedback": "No — pairing heaps are self-adjusting and do no explicit balancing."
+          }
+        ],
+        "generalFeedback": "Pairing heaps offer O(1) insert/merge and O(log n) amortized extract-min; they are self-adjusting (no rotations) and simpler than Fibonacci heaps.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "配對堆積的特性",
+        "text": "<p>配對堆積(pairing heap)最貼切的描述是...</p>",
+        "answers": [
+          {
+            "text": "簡單的自我調整、堆積序多元樹",
+            "fraction": 100,
+            "feedback": "正確 —— 單一棵堆積序樹,隨操作進行自我重整。"
+          },
+          {
+            "text": "嚴格高度平衡的二元搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— 它是自我調整的堆積,不是平衡 BST。"
+          },
+          {
+            "text": "以陣列表示的完全二元樹",
+            "fraction": 0,
+            "feedback": "那是二元堆積,不是配對堆積。"
+          },
+          {
+            "text": "二項樹的森林",
+            "fraction": 0,
+            "feedback": "錯 —— 那是二項堆積;配對堆積是單一棵多元樹。"
+          }
+        ],
+        "generalFeedback": "配對堆積是單一棵堆積序多元樹,具自我調整性:不做顯式平衡,僅在操作時重整,因而簡單且實務上很快。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "合併的成本",
+        "text": "<p>兩個配對堆積的<strong>合併(meld)</strong>成本為何?</p>",
+        "answers": [
+          {
+            "text": "O(1)",
+            "fraction": 100,
+            "feedback": "正確 —— 合併只是把鍵值較大的根連結到另一個根之下。"
+          },
+          {
+            "text": "O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 合併為 O(1);O(log n) 攤還的是 extract-min。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 合併只是一次常數時間的連結。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 合併為 O(1)。"
+          }
+        ],
+        "generalFeedback": "合併比較兩個根,將鍵值較大的根變成較小者的子節點 —— 單一次 O(1) 連結。插入即與單節點堆積合併,同樣為 O(1)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "取出最小值的成本",
+        "text": "<p>在配對堆積中,<strong>取出最小值(extract-min)</strong>的攤還成本為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 移除根後,將子節點配對並合併,為 O(log n) 攤還。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "錯 —— 插入與合併為 O(1),但 extract-min 為 O(log n) 攤還。"
+          },
+          {
+            "text": "O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 攤還成本為 O(log n)。"
+          },
+          {
+            "text": "O(sqrt n)",
+            "fraction": 0,
+            "feedback": "錯 —— 攤還界為 O(log n)。"
+          }
+        ],
+        "generalFeedback": "Extract-min 刪除根後,再合併失去父節點的子樹 —— 這道「配對」流程正是其名稱由來 —— 為 O(log n) 攤還。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "實務上的地位",
+        "text": "<p>實務上,配對堆積與費氏堆積相比如何?</p>",
+        "answers": [
+          {
+            "text": "更易實作,且實際使用常更快,儘管已證明的界較弱",
+            "fraction": 100,
+            "feedback": "正確 —— 其簡單性與較小的常數在實務上通常勝出。"
+          },
+          {
+            "text": "更難實作,且一律較慢",
+            "fraction": 0,
+            "feedback": "錯 —— 配對堆積是兩者中較簡單、通常較快的一方。"
+          },
+          {
+            "text": "程式碼相同、常數也相同",
+            "fraction": 0,
+            "feedback": "錯 —— 兩者結構不同,配對堆積開銷較低。"
+          },
+          {
+            "text": "只能用於整數鍵值",
+            "fraction": 0,
+            "feedback": "錯 —— 配對堆積適用於任何可比較的鍵值。"
+          }
+        ],
+        "generalFeedback": "配對堆積以部分理論保證換取簡單性與較小的常數因子,因此在實際工作負載中通常勝過費氏堆積。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "減少鍵值的界曾是未解問題",
+        "text": "<p>配對堆積中 decrease-key 的確切攤還複雜度曾是長期未解的問題。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 其精確的 decrease-key 界多年難以分析,儘管實務上非常快。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "此為真 —— 緊確的 decrease-key 界曾長期未解。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "插入的成本",
+        "text": "<p>將新元素插入配對堆積需 O(1) 時間。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 插入只是與單節點堆積做一次 O(1) 合併。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "插入為 O(1):它將新節點與現有根合併。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "結構名稱",
+        "text": "<p>在 extract-min 時以「每次兩兩」流程合併子節點的自我調整堆積,稱為 ______ 堆積。(請以英文單字作答)</p>",
+        "answers": [
+          {
+            "text": "pairing",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "pairing*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "配對堆積性質",
+        "text": "<p>關於配對堆積,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "插入與合併皆為 O(1) 時間",
+            "fraction": 50,
+            "feedback": "正確 —— 兩者都是常數時間的連結。"
+          },
+          {
+            "text": "比費氏堆積更易實作",
+            "fraction": 50,
+            "feedback": "正確 —— 這種簡單性正是它被採用的主要原因。"
+          },
+          {
+            "text": "取出最小值為 O(1) 攤還時間",
+            "fraction": -50,
+            "feedback": "錯 —— extract-min 為 O(log n) 攤還。"
+          },
+          {
+            "text": "需要顯式的高度平衡旋轉",
+            "fraction": -50,
+            "feedback": "錯 —— 配對堆積是自我調整的,不做顯式平衡。"
+          }
+        ],
+        "generalFeedback": "配對堆積提供 O(1) 的插入/合併與 O(log n) 攤還的 extract-min;它是自我調整的(無旋轉),且比費氏堆積簡單。",
+        "single": false
+      }
+    ]
+  },
+  "heap-skew": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Skew heap character",
+        "text": "<p>How is a skew heap best described?</p>",
+        "answers": [
+          {
+            "text": "A self-adjusting, amortized version of a leftist heap",
+            "fraction": 100,
+            "feedback": "Correct — it is the bookkeeping-free, amortized analog of a leftist heap."
+          },
+          {
+            "text": "An array-based complete binary heap",
+            "fraction": 0,
+            "feedback": "No — that describes a binary heap, not a skew heap."
+          },
+          {
+            "text": "A balanced binary search tree",
+            "fraction": 0,
+            "feedback": "No — a skew heap maintains heap order, not search order."
+          },
+          {
+            "text": "A heap with guaranteed O(1) worst-case merge",
+            "fraction": 0,
+            "feedback": "No — its O(log n) merge bound is amortized, not worst-case per operation."
+          }
+        ],
+        "generalFeedback": "A skew heap is a self-adjusting mergeable heap: the amortized, no-bookkeeping counterpart of the leftist heap.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Skew merge rule",
+        "text": "<p>During a skew-heap merge, after linking along the right paths, what does the algorithm do at each merged node?</p>",
+        "answers": [
+          {
+            "text": "Unconditionally swaps its left and right children",
+            "fraction": 100,
+            "feedback": "Correct — the unconditional child swap is the self-adjusting heuristic."
+          },
+          {
+            "text": "Swaps children only if the s-values violate the leftist property",
+            "fraction": 0,
+            "feedback": "No — that is the leftist heap; skew heaps swap unconditionally and track no s-values."
+          },
+          {
+            "text": "Recolors the node red or black",
+            "fraction": 0,
+            "feedback": "No — that belongs to red-black trees."
+          },
+          {
+            "text": "Rotates to rebalance heights",
+            "fraction": 0,
+            "feedback": "No — no rotations or height checks are performed."
+          }
+        ],
+        "generalFeedback": "As the merge descends the right paths, it unconditionally swaps the children of each node it visits — no condition, no stored balance data.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Skew complexity",
+        "text": "<p>What is the time bound for skew-heap merge/insert/extract-min?</p>",
+        "answers": [
+          {
+            "text": "O(log n) amortized per operation",
+            "fraction": 100,
+            "feedback": "Correct — the swap heuristic guarantees a logarithmic amortized bound."
+          },
+          {
+            "text": "O(log n) worst-case per single operation",
+            "fraction": 0,
+            "feedback": "No — a single operation can be worse; the O(log n) bound is amortized."
+          },
+          {
+            "text": "O(1) amortized",
+            "fraction": 0,
+            "feedback": "No — merge-based operations are logarithmic, not constant."
+          },
+          {
+            "text": "O(n) per operation",
+            "fraction": 0,
+            "feedback": "No — that would defeat the purpose of the structure."
+          }
+        ],
+        "generalFeedback": "Skew-heap operations are O(log n) amortized; individual operations may occasionally cost more, but the amortized bound holds.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Skew vs leftist",
+        "text": "<p>Compared to a leftist heap, a skew heap:</p>",
+        "answers": [
+          {
+            "text": "Stores no s-value / balance information, making nodes simpler",
+            "fraction": 100,
+            "feedback": "Correct — it drops the null-path-length bookkeeping entirely."
+          },
+          {
+            "text": "Requires an extra balance byte per node",
+            "fraction": 0,
+            "feedback": "No — it removes bookkeeping rather than adding it."
+          },
+          {
+            "text": "Gives worst-case rather than amortized guarantees",
+            "fraction": 0,
+            "feedback": "No — it trades the leftist worst-case bound for an amortized one."
+          },
+          {
+            "text": "Cannot be merged at all",
+            "fraction": 0,
+            "feedback": "No — merge is precisely its core operation."
+          }
+        ],
+        "generalFeedback": "A skew heap stores no s-values: it is simpler than a leftist heap and self-adjusts via unconditional swaps, at the cost of amortized (not worst-case) bounds.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Merge based ops",
+        "text": "<p>As in a leftist heap, insert and extract-min in a skew heap are implemented via merge.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — insert merges a singleton; extract-min merges the root's two subtrees."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "Both operations are built on merge, just as in a leftist heap."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Conditional swap",
+        "text": "<p>A skew heap swaps a node's children only when a stored s-value indicates the leftist property is violated.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — that describes a leftist heap; a skew heap swaps unconditionally and stores no s-value."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — skew heaps swap children unconditionally, with no s-value check."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Self-adjusting action",
+        "text": "<p>The self-adjusting action a skew heap performs on children at each visited node during merge is to ______ them.</p>",
+        "answers": [
+          {
+            "text": "swap",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "swap*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "exchange",
+            "fraction": 100,
+            "feedback": "Correct — a synonym for swap."
+          },
+          {
+            "text": "exchange*",
+            "fraction": 100,
+            "feedback": "Correct."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Skew heap facts",
+        "text": "<p>Which statements about a skew heap are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "It is a self-adjusting mergeable heap with O(log n) amortized operations",
+            "fraction": 50,
+            "feedback": "Yes — that is its performance profile."
+          },
+          {
+            "text": "Its merge unconditionally swaps children as it melds down the right paths",
+            "fraction": 50,
+            "feedback": "Yes — the unconditional swap is what makes it self-adjusting."
+          },
+          {
+            "text": "It stores a null-path-length s-value in every node",
+            "fraction": -50,
+            "feedback": "No — it stores no such balance data; that is the leftist heap."
+          },
+          {
+            "text": "It guarantees O(log n) worst-case per single operation",
+            "fraction": -50,
+            "feedback": "No — its bound is amortized, not per-operation worst-case."
+          }
+        ],
+        "generalFeedback": "A skew heap is a self-adjusting mergeable heap: unconditional child swaps during merge, O(log n) amortized cost, and no stored s-values — simpler than a leftist heap.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "斜堆積特性",
+        "text": "<p>下列何者最能描述斜堆積(skew heap)?</p>",
+        "answers": [
+          {
+            "text": "左偏堆積的自我調整、攤銷版本",
+            "fraction": 100,
+            "feedback": "正確 —— 它是左偏堆積免記帳的攤銷對應版本。"
+          },
+          {
+            "text": "陣列式的完全二元堆積",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是二元堆積,而非斜堆積。"
+          },
+          {
+            "text": "平衡的二元搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— 斜堆積維持堆積順序,而非搜尋順序。"
+          },
+          {
+            "text": "保證最差情況 O(1) 合併的堆積",
+            "fraction": 0,
+            "feedback": "錯 —— 其 O(log n) 合併界是攤銷的,而非單一操作最差情況。"
+          }
+        ],
+        "generalFeedback": "斜堆積是自我調整的可合併堆積:是左偏堆積的攤銷、免記帳對應版本。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "斜堆積合併規則",
+        "text": "<p>斜堆積合併時,沿右路徑連接後,演算法在每個合併節點會做什麼?</p>",
+        "answers": [
+          {
+            "text": "無條件交換其左右子節點",
+            "fraction": 100,
+            "feedback": "正確 —— 無條件交換子節點就是其自我調整的啟發式。"
+          },
+          {
+            "text": "僅當 s 值違反左偏性質時才交換子節點",
+            "fraction": 0,
+            "feedback": "錯 —— 那是左偏堆積;斜堆積無條件交換且不追蹤 s 值。"
+          },
+          {
+            "text": "將節點重新染成紅或黑",
+            "fraction": 0,
+            "feedback": "錯 —— 那屬於紅黑樹。"
+          },
+          {
+            "text": "旋轉以重新平衡高度",
+            "fraction": 0,
+            "feedback": "錯 —— 它不做任何旋轉或高度檢查。"
+          }
+        ],
+        "generalFeedback": "合併沿右路徑向下時,對所拜訪的每個節點無條件交換其子節點 —— 沒有條件、也不儲存平衡資料。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "斜堆積複雜度",
+        "text": "<p>斜堆積的合併/插入/取出最小值的時間界為何?</p>",
+        "answers": [
+          {
+            "text": "每次操作攤銷 O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 交換啟發式保證對數的攤銷界。"
+          },
+          {
+            "text": "每次單一操作最差情況 O(log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 單次操作可能更差;O(log n) 界是攤銷的。"
+          },
+          {
+            "text": "攤銷 O(1)",
+            "fraction": 0,
+            "feedback": "錯 —— 以合併為基礎的操作是對數,而非常數。"
+          },
+          {
+            "text": "每次操作 O(n)",
+            "fraction": 0,
+            "feedback": "錯 —— 那會使此結構失去意義。"
+          }
+        ],
+        "generalFeedback": "斜堆積操作攤銷為 O(log n);個別操作偶爾可能較貴,但攤銷界成立。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "斜堆積 vs 左偏堆積",
+        "text": "<p>相較於左偏堆積,斜堆積:</p>",
+        "answers": [
+          {
+            "text": "不儲存 s 值/平衡資訊,使節點更簡單",
+            "fraction": 100,
+            "feedback": "正確 —— 它完全捨棄零路徑長的記帳。"
+          },
+          {
+            "text": "每個節點需要額外一個平衡位元組",
+            "fraction": 0,
+            "feedback": "錯 —— 它是移除記帳,而非增加。"
+          },
+          {
+            "text": "提供最差情況而非攤銷保證",
+            "fraction": 0,
+            "feedback": "錯 —— 它以攤銷界取代左偏的最差情況界。"
+          },
+          {
+            "text": "根本無法合併",
+            "fraction": 0,
+            "feedback": "錯 —— 合併正是它的核心操作。"
+          }
+        ],
+        "generalFeedback": "斜堆積不儲存 s 值:它比左偏堆積更簡單,靠無條件交換自我調整,代價是攤銷(而非最差情況)界。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "以合併為基礎的操作",
+        "text": "<p>如同左偏堆積,斜堆積的插入與取出最小值皆透過合併實作。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 插入合併一個單例;取出最小值合併根的兩棵子樹。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "兩個操作都建立在合併之上,正如左偏堆積。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "有條件交換",
+        "text": "<p>斜堆積僅在儲存的 s 值顯示左偏性質被違反時,才交換節點的子節點。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 那描述的是左偏堆積;斜堆積無條件交換且不儲存 s 值。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 斜堆積無條件交換子節點,不做 s 值檢查。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "自我調整動作",
+        "text": "<p>斜堆積在合併時,對每個所拜訪節點的子節點所執行的自我調整動作是將它們 ______(以英文作答)。</p>",
+        "answers": [
+          {
+            "text": "swap",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "swap*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "exchange",
+            "fraction": 100,
+            "feedback": "正確 —— swap 的同義詞。"
+          },
+          {
+            "text": "exchange*",
+            "fraction": 100,
+            "feedback": "正確。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "斜堆積敘述",
+        "text": "<p>關於斜堆積,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它是自我調整的可合併堆積,操作攤銷 O(log n)",
+            "fraction": 50,
+            "feedback": "正確 —— 那是它的效能輪廓。"
+          },
+          {
+            "text": "其合併沿右路徑向下時無條件交換子節點",
+            "fraction": 50,
+            "feedback": "正確 —— 無條件交換使它自我調整。"
+          },
+          {
+            "text": "它在每個節點儲存零路徑長 s 值",
+            "fraction": -50,
+            "feedback": "錯 —— 它不儲存此類平衡資料;那是左偏堆積。"
+          },
+          {
+            "text": "它保證每次單一操作最差情況 O(log n)",
+            "fraction": -50,
+            "feedback": "錯 —— 其界是攤銷的,而非單次操作最差情況。"
+          }
+        ],
+        "generalFeedback": "斜堆積是自我調整的可合併堆積:合併時無條件交換子節點、攤銷 O(log n) 成本、不儲存 s 值 —— 比左偏堆積更簡單。",
         "single": false
       }
     ]
@@ -5304,6 +18892,422 @@ window.QUIZ_RENDERED = {
         ],
         "generalFeedback": "",
         "usecase": false
+      }
+    ]
+  },
+  "skip-list": {
+    "en": [
+      {
+        "type": "multichoice",
+        "name": "Skip list structure",
+        "text": "<p>What data structure is a <strong>skip list</strong> built from?</p>",
+        "answers": [
+          {
+            "text": "A multi-level linked list where higher levels skip over many nodes",
+            "fraction": 100,
+            "feedback": "Correct — express lanes above the base list let searches skip ahead."
+          },
+          {
+            "text": "A bit array indexed by k hash functions",
+            "fraction": 0,
+            "feedback": "That describes a Bloom filter, not a skip list."
+          },
+          {
+            "text": "A contiguous array kept in sorted order",
+            "fraction": 0,
+            "feedback": "No — a skip list is pointer-based, not array-based."
+          },
+          {
+            "text": "A height-balanced binary search tree with rotations",
+            "fraction": 0,
+            "feedback": "No — a skip list is an alternative to balanced BSTs and uses no rotations."
+          }
+        ],
+        "generalFeedback": "A skip list stacks several linked lists; the bottom holds all elements in order and each higher level is a sparse express lane over the one below.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Skip list node height",
+        "text": "<p>How is the number of levels (height) of a newly inserted skip-list node decided?</p>",
+        "answers": [
+          {
+            "text": "Randomly, e.g. by repeatedly flipping a coin until it comes up tails",
+            "fraction": 100,
+            "feedback": "Correct — each level is promoted with probability p (often 1/2), giving expected balance."
+          },
+          {
+            "text": "By computing the exact median of the stored keys",
+            "fraction": 0,
+            "feedback": "No — heights are random, not derived from key values."
+          },
+          {
+            "text": "By hashing the key with k hash functions",
+            "fraction": 0,
+            "feedback": "No — that is a Bloom filter idea; skip lists use coin flips."
+          },
+          {
+            "text": "By performing tree rotations after each insert",
+            "fraction": 0,
+            "feedback": "No — skip lists never rotate; heights come from randomization."
+          }
+        ],
+        "generalFeedback": "Each node's height is chosen by a randomized coin-flip process, so the level structure is probabilistically balanced without any deterministic rebalancing.",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Skip list expected complexity",
+        "text": "<p>What is the <strong>expected</strong> time complexity of search, insert, and delete in a skip list?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "Correct — the express lanes halve the search range on average."
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "No — you still traverse roughly log n levels on average."
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "No — that is too slow; a single operation is expected O(log n)."
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "No — even the worst case for one operation is only O(n)."
+          }
+        ],
+        "generalFeedback": "Because higher levels skip about half the remaining nodes, expected search/insert/delete cost is O(log n).",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "Skip list vs balanced BST",
+        "text": "<p>Why are skip lists often preferred over balanced binary search trees in practice?</p>",
+        "answers": [
+          {
+            "text": "They are simpler to implement, needing no rotations or rebalancing logic",
+            "fraction": 100,
+            "feedback": "Correct — randomization replaces the intricate rebalancing of AVL/red-black trees."
+          },
+          {
+            "text": "They guarantee O(log n) worst case unlike any BST",
+            "fraction": 0,
+            "feedback": "No — a skip list's worst case is O(n); balanced BSTs give O(log n) worst case."
+          },
+          {
+            "text": "They use O(1) total space regardless of n",
+            "fraction": 0,
+            "feedback": "No — a skip list uses O(n) space, like a BST."
+          },
+          {
+            "text": "They eliminate false positives",
+            "fraction": 0,
+            "feedback": "No — false positives are a Bloom-filter concept, unrelated to skip lists."
+          }
+        ],
+        "generalFeedback": "Skip lists achieve BST-like performance with far simpler code, since coin-flip heights avoid explicit rotations and rebalancing.",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "Skip list worst case",
+        "text": "<p>Although expected search time is O(log n), a skip list's <em>worst-case</em> search time is O(n).</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "Correct — an unlucky sequence of coin flips can leave nearly every node at level 1."
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "No — the O(log n) bound is only expected; the rare worst case degrades to O(n)."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "Skip list rotations",
+        "text": "<p>A skip list keeps itself balanced by performing rotations after each insertion, just like an AVL tree.</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "No — skip lists never rotate; they rely on randomized node heights instead."
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "Correct — balance is probabilistic via coin flips, with no rotations at all."
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "Skip list express lane term",
+        "text": "<p>Each horizontal express lane in a skip list, stacked above the base list, is called a ______.</p>",
+        "answers": [
+          {
+            "text": "level",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "level*",
+            "fraction": 100,
+            "feedback": "Correct."
+          },
+          {
+            "text": "layer",
+            "fraction": 100,
+            "feedback": "Correct — a level (layer) of the skip list."
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "Skip list properties",
+        "text": "<p>Which statements about skip lists are true? <em>(select all that apply)</em></p>",
+        "answers": [
+          {
+            "text": "They are a probabilistic, randomized data structure",
+            "fraction": 50,
+            "feedback": "Yes — node heights come from random coin flips."
+          },
+          {
+            "text": "They keep elements in sorted order and support ordered traversal",
+            "fraction": 50,
+            "feedback": "Yes — the bottom level is a sorted linked list."
+          },
+          {
+            "text": "They guarantee O(log n) time in the worst case",
+            "fraction": -50,
+            "feedback": "No — only expected time is O(log n); worst case is O(n)."
+          },
+          {
+            "text": "They store no keys and can only test membership",
+            "fraction": -50,
+            "feedback": "No — that is a Bloom filter; skip lists store keys and support ordered operations."
+          }
+        ],
+        "generalFeedback": "Skip lists are randomized, ordered structures with expected O(log n) operations and O(n) space; the worst case is O(n), and they do store their keys.",
+        "single": false
+      }
+    ],
+    "zh": [
+      {
+        "type": "multichoice",
+        "name": "跳躍串列結構",
+        "text": "<p><strong>跳躍串列(skip list)</strong>是由什麼資料結構建構而成?</p>",
+        "answers": [
+          {
+            "text": "一個多層鏈結串列,較高層可跳過許多節點",
+            "fraction": 100,
+            "feedback": "正確 —— 位於基底串列之上的快速通道讓搜尋能向前跳躍。"
+          },
+          {
+            "text": "以 k 個雜湊函數索引的位元陣列",
+            "fraction": 0,
+            "feedback": "那描述的是布隆過濾器,而非跳躍串列。"
+          },
+          {
+            "text": "一個保持排序的連續陣列",
+            "fraction": 0,
+            "feedback": "錯 —— 跳躍串列以指標為基礎,而非陣列。"
+          },
+          {
+            "text": "一棵帶旋轉的高度平衡二元搜尋樹",
+            "fraction": 0,
+            "feedback": "錯 —— 跳躍串列是平衡 BST 的替代方案,且不使用旋轉。"
+          }
+        ],
+        "generalFeedback": "跳躍串列堆疊多個鏈結串列;最底層依序保存所有元素,每個較高層都是其下一層之上的稀疏快速通道。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "跳躍串列節點高度",
+        "text": "<p>新插入的跳躍串列節點,其層數(高度)是如何決定的?</p>",
+        "answers": [
+          {
+            "text": "隨機決定,例如反覆擲硬幣直到出現反面為止",
+            "fraction": 100,
+            "feedback": "正確 —— 每一層以機率 p(常為 1/2)晉升,達到期望上的平衡。"
+          },
+          {
+            "text": "計算所儲存鍵的精確中位數",
+            "fraction": 0,
+            "feedback": "錯 —— 高度是隨機的,而非由鍵值推導。"
+          },
+          {
+            "text": "以 k 個雜湊函數對鍵做雜湊",
+            "fraction": 0,
+            "feedback": "錯 —— 那是布隆過濾器的做法;跳躍串列用擲硬幣。"
+          },
+          {
+            "text": "在每次插入後執行樹旋轉",
+            "fraction": 0,
+            "feedback": "錯 —— 跳躍串列從不旋轉;高度來自隨機化。"
+          }
+        ],
+        "generalFeedback": "每個節點的高度由隨機擲硬幣的過程選定,因此層次結構在機率上是平衡的,不需任何確定性的再平衡。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "跳躍串列期望複雜度",
+        "text": "<p>跳躍串列中搜尋、插入、刪除的<strong>期望</strong>時間複雜度為何?</p>",
+        "answers": [
+          {
+            "text": "O(log n)",
+            "fraction": 100,
+            "feedback": "正確 —— 快速通道平均將搜尋範圍減半。"
+          },
+          {
+            "text": "O(1)",
+            "fraction": 0,
+            "feedback": "錯 —— 平均仍需走過約 log n 層。"
+          },
+          {
+            "text": "O(n log n)",
+            "fraction": 0,
+            "feedback": "錯 —— 太慢;單一操作的期望為 O(log n)。"
+          },
+          {
+            "text": "O(n^2)",
+            "fraction": 0,
+            "feedback": "錯 —— 即使是單一操作的最差情況也只是 O(n)。"
+          }
+        ],
+        "generalFeedback": "因為較高層平均跳過約一半的剩餘節點,搜尋/插入/刪除的期望成本為 O(log n)。",
+        "single": true
+      },
+      {
+        "type": "multichoice",
+        "name": "跳躍串列與平衡 BST 比較",
+        "text": "<p>實務上為何常偏好使用跳躍串列而非平衡二元搜尋樹?</p>",
+        "answers": [
+          {
+            "text": "實作更簡單,不需旋轉或再平衡邏輯",
+            "fraction": 100,
+            "feedback": "正確 —— 隨機化取代了 AVL/紅黑樹複雜的再平衡。"
+          },
+          {
+            "text": "它們保證 O(log n) 最差情況,勝過任何 BST",
+            "fraction": 0,
+            "feedback": "錯 —— 跳躍串列最差情況為 O(n);平衡 BST 才提供 O(log n) 最差情況。"
+          },
+          {
+            "text": "不論 n 多大都只用 O(1) 總空間",
+            "fraction": 0,
+            "feedback": "錯 —— 跳躍串列使用 O(n) 空間,與 BST 相同。"
+          },
+          {
+            "text": "它們能消除偽陽性",
+            "fraction": 0,
+            "feedback": "錯 —— 偽陽性是布隆過濾器的概念,與跳躍串列無關。"
+          }
+        ],
+        "generalFeedback": "跳躍串列以更簡單的程式碼達到接近 BST 的效能,因為擲硬幣高度免去了明確的旋轉與再平衡。",
+        "single": true
+      },
+      {
+        "type": "truefalse",
+        "name": "跳躍串列最差情況",
+        "text": "<p>雖然期望搜尋時間為 O(log n),但跳躍串列的<em>最差情況</em>搜尋時間為 O(n)。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 100,
+            "feedback": "正確 —— 一連串不走運的擲硬幣可能讓幾乎所有節點都停在第 1 層。"
+          },
+          {
+            "text": "false",
+            "fraction": 0,
+            "feedback": "錯 —— O(log n) 只是期望值;罕見的最差情況會退化為 O(n)。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "truefalse",
+        "name": "跳躍串列旋轉",
+        "text": "<p>跳躍串列會像 AVL 樹一樣,在每次插入後執行旋轉來維持自身平衡。</p>",
+        "answers": [
+          {
+            "text": "true",
+            "fraction": 0,
+            "feedback": "錯 —— 跳躍串列從不旋轉;它改以隨機化的節點高度來達成。"
+          },
+          {
+            "text": "false",
+            "fraction": 100,
+            "feedback": "正確 —— 平衡是透過擲硬幣以機率方式達成,完全沒有旋轉。"
+          }
+        ],
+        "generalFeedback": ""
+      },
+      {
+        "type": "shortanswer",
+        "name": "跳躍串列快速通道名詞",
+        "text": "<p>跳躍串列中,堆疊於基底串列之上的每一條水平快速通道稱為一個 ______(英文)。</p>",
+        "answers": [
+          {
+            "text": "level",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "level*",
+            "fraction": 100,
+            "feedback": "正確。"
+          },
+          {
+            "text": "layer",
+            "fraction": 100,
+            "feedback": "正確 —— 跳躍串列的一個層(level/layer)。"
+          }
+        ],
+        "generalFeedback": "",
+        "usecase": false
+      },
+      {
+        "type": "multichoice",
+        "name": "跳躍串列特性",
+        "text": "<p>關於跳躍串列,以下哪些敘述正確?<em>(複選)</em></p>",
+        "answers": [
+          {
+            "text": "它是一種機率式、隨機化的資料結構",
+            "fraction": 50,
+            "feedback": "正確 —— 節點高度來自隨機擲硬幣。"
+          },
+          {
+            "text": "它保持元素排序,並支援有序走訪",
+            "fraction": 50,
+            "feedback": "正確 —— 最底層是一個排序的鏈結串列。"
+          },
+          {
+            "text": "它保證最差情況為 O(log n) 時間",
+            "fraction": -50,
+            "feedback": "錯 —— 只有期望時間為 O(log n);最差情況為 O(n)。"
+          },
+          {
+            "text": "它不儲存鍵,只能測試成員資格",
+            "fraction": -50,
+            "feedback": "錯 —— 那是布隆過濾器;跳躍串列儲存鍵並支援有序操作。"
+          }
+        ],
+        "generalFeedback": "跳躍串列是隨機化的有序結構,操作期望為 O(log n)、空間為 O(n);最差情況為 O(n),且它確實儲存鍵。",
+        "single": false
       }
     ]
   },

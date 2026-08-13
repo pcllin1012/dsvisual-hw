@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Binary Heap</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Binary heap structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What underlying structure best describes a binary heap?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A complete binary tree, usually stored in an array</text><feedback><text>Correct — the completeness lets it pack contiguously into an array.</text></feedback></answer>
+    <answer fraction="0"><text>A binary search tree kept in sorted order</text><feedback><text>No — a heap only orders parent vs child, not left vs right.</text></feedback></answer>
+    <answer fraction="0"><text>A linked list of nodes with parent pointers</text><feedback><text>No — the standard implementation is an array, not a linked list.</text></feedback></answer>
+    <answer fraction="0"><text>A balanced red-black tree</text><feedback><text>No — that is a different, more complex structure.</text></feedback></answer>
+    <generalfeedback><text>A binary heap is a complete binary tree satisfying the heap property, and completeness makes an array representation natural and pointer-free.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Extract-min cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a min binary heap of <em>n</em> elements, what is the time complexity of <strong>extract-min</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>Correct — after removing the root you sift down along one root-to-leaf path.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>That is find-min; removing it requires restoring the heap.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>No — sift-down touches only one path of height log n.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>No — that is the cost of extracting all n elements.</text></feedback></answer>
+    <generalfeedback><text>Extract-min moves the last element to the root and sifts it down one path of height O(log n).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Parent index (1-based)</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using a <strong>1-based</strong> array, the parent of the node at index <em>i</em> is stored at which index?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>&lfloor;i/2&rfloor;</text><feedback><text>Correct — children are at 2i and 2i+1, so the parent is at floor(i/2).</text></feedback></answer>
+    <answer fraction="0"><text>2i</text><feedback><text>No — 2i is a child index, not the parent.</text></feedback></answer>
+    <answer fraction="0"><text>i - 1</text><feedback><text>No — that is not how the implicit tree maps to the array.</text></feedback></answer>
+    <answer fraction="0"><text>&lfloor;i/2&rfloor; - 1</text><feedback><text>No — that off-by-one applies to 0-based indexing, not 1-based.</text></feedback></answer>
+    <generalfeedback><text>In a 1-based array the parent of i is floor(i/2) and the children of i are 2i and 2i+1.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Build-heap cost</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Building a heap from an unordered array of <em>n</em> elements via bottom-up heapify runs in:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>Correct — a tighter analysis over node heights sums to linear time.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>That is the loose bound; the tight bound for bottom-up build is O(n).</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>No — you must process every element.</text></feedback></answer>
+    <answer fraction="0"><text>O(n^2)</text><feedback><text>No — heapify is far cheaper than that.</text></feedback></answer>
+    <generalfeedback><text>Most nodes are near the bottom with tiny sift-down cost; summing height*count telescopes to O(n).</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Find-min constant time</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a min binary heap, finding the minimum element takes O(1) time.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the minimum is always at the root (array index 1).</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The minimum is always the root, so it is O(1).</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Heap sorted order</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An in-order traversal of a binary heap visits the elements in sorted order.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — a heap only constrains parent vs child, not left vs right siblings.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — heaps are not sorted like a BST; only the min/max is at the root.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Left child index</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In a <strong>1-based</strong> array heap, the left child of the node at index <em>i</em> is stored at index ______ (answer as an expression in i).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>2i</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>2*i</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>2i*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Binary heap facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about a binary min-heap are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Insert runs in O(log n) via sift-up</text><feedback><text>Yes — a new leaf bubbles up at most one path height.</text></feedback></answer>
+    <answer fraction="50"><text>It is the standard array-based priority-queue implementation</text><feedback><text>Yes — heaps back most priority queues.</text></feedback></answer>
+    <answer fraction="-50"><text>The array representation needs child pointers per node</text><feedback><text>No — indices are computed arithmetically, no pointers stored.</text></feedback></answer>
+    <answer fraction="-50"><text>Every left subtree holds smaller keys than every right subtree</text><feedback><text>No — that is a BST property; heaps do not order siblings.</text></feedback></answer>
+    <generalfeedback><text>Binary heaps give O(log n) insert/extract and O(1) find-min, store no pointers, and back most priority queues; they are not search-ordered like a BST.</text></generalfeedback>
+  </question>
+</quiz>

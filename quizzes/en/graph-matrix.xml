@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Adjacency Matrix</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Matrix entry meaning</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an <strong>adjacency matrix</strong> M of a graph, what does entry M[i][j] typically hold?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>1 (or the weight) if an edge connects i and j, else 0</text><feedback><text>Correct — the entry records whether (and how strongly) i and j are adjacent.</text></feedback></answer>
+    <answer fraction="0"><text>A pointer to the next neighbour of vertex i</text><feedback><text>That describes an adjacency list node, not a matrix cell.</text></feedback></answer>
+    <answer fraction="0"><text>The degree of vertex i</text><feedback><text>A single cell records one pair's adjacency, not a vertex's degree.</text></feedback></answer>
+    <answer fraction="0"><text>The total number of edges E</text><feedback><text>E is a global count, not the value of one cell.</text></feedback></answer>
+    <generalfeedback><text>M[i][j] is 1 or the edge weight when i and j are adjacent, and 0 otherwise.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Matrix space</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the space complexity of an adjacency matrix for a graph with V vertices?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V^2)</text><feedback><text>Correct — a V×V table has V^2 cells regardless of the edge count.</text></feedback></answer>
+    <answer fraction="0"><text>O(V + E)</text><feedback><text>That is the adjacency list; the matrix always uses V^2 cells.</text></feedback></answer>
+    <answer fraction="0"><text>O(E)</text><feedback><text>The matrix reserves space for all vertex pairs, not just existing edges.</text></feedback></answer>
+    <answer fraction="0"><text>O(V)</text><feedback><text>A V×V table is quadratic, not linear, in V.</text></feedback></answer>
+    <generalfeedback><text>An adjacency matrix is a V×V table, so it always uses O(V^2) space no matter how many edges exist.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Matrix edge lookup</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using an adjacency matrix, how long does it take to test whether edge (u, v) exists?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(1)</text><feedback><text>Correct — you read the single cell M[u][v] directly.</text></feedback></answer>
+    <answer fraction="0"><text>O(degree(u))</text><feedback><text>That is the adjacency list; the matrix indexes directly.</text></feedback></answer>
+    <answer fraction="0"><text>O(V)</text><feedback><text>Reading one cell is constant time, not linear.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>That is the whole table's size, not the cost of a single lookup.</text></feedback></answer>
+    <generalfeedback><text>Direct indexing gives O(1) edge tests — the adjacency matrix's headline advantage.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Iterating neighbours in matrix</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using an adjacency matrix, iterating over all neighbours of a vertex u costs:</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V), because you must scan the entire row of u</text><feedback><text>Correct — you check every one of the V cells in u's row.</text></feedback></answer>
+    <answer fraction="0"><text>O(degree(u)), visiting only real neighbours</text><feedback><text>That is the adjacency list; the matrix must scan all V columns.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>You cannot list all neighbours in constant time from a matrix.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2)</text><feedback><text>Scanning one row is O(V), not the whole matrix.</text></feedback></answer>
+    <generalfeedback><text>To enumerate u's neighbours you scan all V entries of u's row, costing O(V) even if u has few neighbours.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Matrix best for dense</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An adjacency matrix is a good choice for dense graphs or when fast O(1) edge tests are needed.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — dense graphs use the cells well, and edge lookup is O(1).</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Dense graphs and fast edge tests are exactly where the matrix excels.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Matrix wasteful for sparse</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An adjacency matrix wastes memory on a sparse graph because it reserves V^2 cells even when E is tiny.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — most cells stay 0 when the graph is sparse.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>With few edges most of the V^2 cells are wasted zeros.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Matrix space order term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The space used by an adjacency matrix grows on the order of V raised to what power? Answer with a single number.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>2</text><feedback><text>Correct — O(V^2).</text></feedback></answer>
+    <answer fraction="100"><text>two</text><feedback><text>Correct — O(V^2).</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Matrix facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the adjacency-matrix representation are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It supports O(1) edge-existence tests</text><feedback><text>Yes — direct indexing into M[u][v].</text></feedback></answer>
+    <answer fraction="50"><text>It uses O(V^2) space regardless of the number of edges</text><feedback><text>Yes — a full V×V table.</text></feedback></answer>
+    <answer fraction="-50"><text>Iterating a vertex's neighbours costs only O(degree)</text><feedback><text>No — you must scan the whole row, costing O(V).</text></feedback></answer>
+    <answer fraction="-50"><text>It is the most space-efficient choice for very sparse graphs</text><feedback><text>No — it wastes space on sparse graphs; adjacency lists are better there.</text></feedback></answer>
+    <generalfeedback><text>Adjacency matrix: O(1) edge tests, O(V^2) space, O(V) neighbour scans, and wasteful on sparse graphs (best for dense ones).</text></generalfeedback>
+  </question>
+</quiz>

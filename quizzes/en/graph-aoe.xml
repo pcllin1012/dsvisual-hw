@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/AOE Network and Critical Path</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>AOE network definition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In an <strong>Activity-On-Edge (AOE)</strong> network, what do the edges and vertices represent?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Edges are activities with durations; vertices are events (milestones)</text><feedback><text>Correct — AOE puts activities on edges and events on vertices.</text></feedback></answer>
+    <answer fraction="0"><text>Edges are events; vertices are activities</text><feedback><text>That describes an Activity-On-Vertex (AOV) network, not AOE.</text></feedback></answer>
+    <answer fraction="0"><text>Both edges and vertices are activities</text><feedback><text>No — only the edges carry activities in AOE.</text></feedback></answer>
+    <answer fraction="0"><text>Edges have no weights; only vertices are weighted</text><feedback><text>No — AOE edges carry the activity durations as weights.</text></feedback></answer>
+    <generalfeedback><text>An AOE network is a weighted DAG where each edge is an activity with a duration and each vertex is an event marking the completion of incoming activities.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Critical path meaning</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The <strong>critical path</strong> in an AOE network is the ______ path from the start event to the finish event.</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Longest — it equals the minimum project completion time</text><feedback><text>Correct — the longest path determines the shortest possible completion time.</text></feedback></answer>
+    <answer fraction="0"><text>Shortest — it equals the minimum project completion time</text><feedback><text>No — the critical path is the longest path, not the shortest.</text></feedback></answer>
+    <answer fraction="0"><text>Path with the fewest edges</text><feedback><text>No — edge count is irrelevant; total duration matters.</text></feedback></answer>
+    <answer fraction="0"><text>Any path with at least one zero-slack activity</text><feedback><text>No — the critical path is specifically the longest one.</text></feedback></answer>
+    <generalfeedback><text>Because all activities must finish for the project to complete, the longest (critical) path fixes the minimum overall completion time.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Slack of critical activities</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How much <strong>slack</strong> (allowable delay) does an activity on the critical path have?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Zero — delaying it delays the whole project</text><feedback><text>Correct — critical activities have zero slack.</text></feedback></answer>
+    <answer fraction="0"><text>Equal to the activity's duration</text><feedback><text>No — critical activities cannot be delayed at all.</text></feedback></answer>
+    <answer fraction="0"><text>Equal to the project length minus the path length</text><feedback><text>No — that would be positive; critical activities have zero slack.</text></feedback></answer>
+    <answer fraction="0"><text>Always exactly one time unit</text><feedback><text>No — the slack is exactly zero.</text></feedback></answer>
+    <generalfeedback><text>Slack = latest start - earliest start. On the critical path these coincide, so slack is zero and any delay pushes the finish event.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Computing event times</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which two passes compute the earliest and latest event times used to find the critical path?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A forward pass (earliest event time) then a backward pass (latest event time)</text><feedback><text>Correct — forward for earliest, backward for latest.</text></feedback></answer>
+    <answer fraction="0"><text>Two forward passes over the graph</text><feedback><text>No — the second pass runs backward from the finish event.</text></feedback></answer>
+    <answer fraction="0"><text>Dijkstra's algorithm run twice</text><feedback><text>No — event times use topological forward/backward passes on a DAG.</text></feedback></answer>
+    <answer fraction="0"><text>A single BFS from the start event</text><feedback><text>No — you need both a forward and a backward pass.</text></feedback></answer>
+    <generalfeedback><text>Processing vertices in topological order forward gives earliest event times; processing in reverse gives latest event times. Activities whose earliest = latest start are critical.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Critical path graph type</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An AOE network must be a <em>directed acyclic graph (DAG)</em> for the critical-path method to apply.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — a cycle would make event times undefined; AOE networks are DAGs.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>It must be acyclic; a cycle prevents well-defined earliest/latest event times.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Uniqueness of critical path</text></name>
+    <questiontext format="html"><text><![CDATA[<p>An AOE network can have <em>more than one</em> critical path.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — several longest paths of equal length can coexist.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Multiple paths can tie for the longest length, so critical paths need not be unique.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Zero-delay term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The allowable delay of an activity without delaying the project is called its ______ (one English word).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>slack</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>slack*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>float</text><feedback><text>Correct — "float" is an accepted synonym for slack.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Critical path facts</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the critical path are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>Its total length equals the minimum project completion time</text><feedback><text>Yes — the longest path sets the shortest possible finish time.</text></feedback></answer>
+    <answer fraction="50"><text>Every activity on it has zero slack</text><feedback><text>Yes — critical activities cannot be delayed.</text></feedback></answer>
+    <answer fraction="-50"><text>Shortening any non-critical activity always shortens the project</text><feedback><text>No — only shortening the critical path (up to a point) shortens the project.</text></feedback></answer>
+    <answer fraction="-50"><text>It is the path with the smallest total edge weight</text><feedback><text>No — it is the largest total weight (longest) path.</text></feedback></answer>
+    <generalfeedback><text>The critical path is the longest path; its length is the minimum completion time and its activities have zero slack. Speeding up non-critical activities does not help until they too become critical.</text></generalfeedback>
+  </question>
+</quiz>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Breadth-First Search</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>BFS data structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which data structure does <strong>breadth-first search</strong> use to decide the order in which vertices are explored?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>A FIFO queue</text><feedback><text>Correct — a queue processes vertices in the order they were discovered, level by level.</text></feedback></answer>
+    <answer fraction="0"><text>A LIFO stack</text><feedback><text>A stack gives depth-first order, not breadth-first.</text></feedback></answer>
+    <answer fraction="0"><text>A min-priority queue keyed by edge weight</text><feedback><text>That describes Dijkstra or Prim, not plain BFS.</text></feedback></answer>
+    <answer fraction="0"><text>A disjoint-set (union-find) structure</text><feedback><text>Union-find is used by Kruskal's MST, not by BFS.</text></feedback></answer>
+    <generalfeedback><text>BFS enqueues a vertex when first discovered and dequeues in FIFO order, so vertices are visited in non-decreasing distance from the source.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>BFS shortest paths</text></name>
+    <questiontext format="html"><text><![CDATA[<p>On which kind of graph does BFS from a source vertex compute a <strong>shortest path</strong> (fewest edges) to every reachable vertex?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>An unweighted graph (or one where every edge has equal weight)</text><feedback><text>Correct — with uniform edge cost, level order equals shortest-path order.</text></feedback></answer>
+    <answer fraction="0"><text>Any weighted graph with arbitrary positive weights</text><feedback><text>No — with unequal weights you need Dijkstra; BFS counts edges, not weight.</text></feedback></answer>
+    <answer fraction="0"><text>Only a directed acyclic graph</text><feedback><text>BFS works on cyclic and undirected graphs too; the key restriction is unweighted edges.</text></feedback></answer>
+    <answer fraction="0"><text>Only a complete graph</text><feedback><text>Completeness is irrelevant; edge weighting is what matters.</text></feedback></answer>
+    <generalfeedback><text>Because BFS expands vertices in order of edge-distance, the first time it reaches a vertex it has used the fewest possible edges — a shortest path when all edges cost the same.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>BFS complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Using an adjacency list, what is the time complexity of BFS on a graph with V vertices and E edges?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(V + E)</text><feedback><text>Correct — each vertex is enqueued once and each edge is examined once.</text></feedback></answer>
+    <answer fraction="0"><text>O(V^2) regardless of representation</text><feedback><text>O(V^2) arises with an adjacency matrix, not with an adjacency list.</text></feedback></answer>
+    <answer fraction="0"><text>O(E log V)</text><feedback><text>That is Prim/Dijkstra with a heap; BFS uses a plain queue.</text></feedback></answer>
+    <answer fraction="0"><text>O(V!)</text><feedback><text>BFS is linear in the graph size, not factorial.</text></feedback></answer>
+    <generalfeedback><text>With an adjacency list every vertex and every edge is touched a constant number of times, giving O(V + E).</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>BFS visited set purpose</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why does BFS mark vertices with a <em>visited</em> (or discovered) set?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>To avoid enqueuing the same vertex twice and prevent infinite loops on cycles</text><feedback><text>Correct — without it, a cycle would re-add vertices forever.</text></feedback></answer>
+    <answer fraction="0"><text>To sort the vertices by weight before traversal</text><feedback><text>BFS does not sort by weight; it processes in discovery order.</text></feedback></answer>
+    <answer fraction="0"><text>To guarantee the graph is a tree</text><feedback><text>The visited set lets BFS handle general graphs; it does not require a tree.</text></feedback></answer>
+    <answer fraction="0"><text>To make the traversal depth-first</text><feedback><text>The queue, not the visited set, controls order; marking is only about correctness.</text></feedback></answer>
+    <generalfeedback><text>Marking a vertex when discovered ensures each vertex is processed exactly once, so BFS terminates even on graphs with cycles.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>BFS neighbors before depth</text></name>
+    <questiontext format="html"><text><![CDATA[<p>BFS visits all neighbors of a vertex before moving on to vertices that are farther from the source.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — BFS explores level by level, finishing distance d before starting distance d+1.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>This is exactly the defining behavior of BFS.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>BFS weighted shortest path claim</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Plain BFS always finds the minimum-<em>weight</em> path in a graph with arbitrary positive edge weights.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — BFS minimizes the number of edges, not total weight; use Dijkstra for weighted graphs.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — BFS is only shortest-path-optimal when edges are unweighted or all equal.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>BFS frontier structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>BFS manages its frontier of vertices to visit next using a FIFO ______ (single English word).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>queue</text><feedback><text>Correct — a FIFO queue drives the level-order traversal.</text></feedback></answer>
+    <answer fraction="100"><text>queue*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>BFS properties multi</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about breadth-first search are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It runs in O(V + E) with an adjacency list</text><feedback><text>Yes — linear in vertices plus edges.</text></feedback></answer>
+    <answer fraction="50"><text>It finds shortest paths by edge count in an unweighted graph</text><feedback><text>Yes — level order gives fewest-edge paths.</text></feedback></answer>
+    <answer fraction="-50"><text>It uses a stack and backtracks to go as deep as possible</text><feedback><text>No — that describes DFS, not BFS.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires edge weights to be sorted before it can start</text><feedback><text>No — BFS ignores weights entirely.</text></feedback></answer>
+    <generalfeedback><text>BFS is a queue-based, O(V + E) traversal that yields fewest-edge shortest paths in unweighted graphs; depth-first behavior and weight sorting belong to other algorithms.</text></generalfeedback>
+  </question>
+</quiz>

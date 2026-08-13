@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Red-Blue Rules MST</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Blue rule statement</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does the <strong>blue rule (cut rule)</strong> for minimum spanning trees state?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>The minimum-weight edge crossing any cut belongs to some MST</text><feedback><text>Correct — color that edge blue (include it).</text></feedback></answer>
+    <answer fraction="0"><text>The maximum-weight edge crossing any cut belongs to some MST</text><feedback><text>No — the blue rule includes the minimum crossing edge, not the maximum.</text></feedback></answer>
+    <answer fraction="0"><text>The minimum-weight edge on any cycle belongs to some MST</text><feedback><text>That confuses the cut with the cycle; the cycle rule concerns the maximum edge on a cycle.</text></feedback></answer>
+    <answer fraction="0"><text>Every edge crossing a cut belongs to the MST</text><feedback><text>Only the minimum crossing edge is guaranteed, not all of them.</text></feedback></answer>
+    <generalfeedback><text>Blue rule: across any cut of the graph, the cheapest crossing edge is safe to include in an MST.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Red rule statement</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What does the <strong>red rule (cycle rule)</strong> state?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The maximum-weight edge on any cycle can be excluded from some MST</text><feedback><text>Correct — color that edge red (exclude it).</text></feedback></answer>
+    <answer fraction="0"><text>The minimum-weight edge on any cycle must be excluded</text><feedback><text>No — the red rule excludes the maximum edge of a cycle.</text></feedback></answer>
+    <answer fraction="0"><text>The maximum-weight edge crossing any cut is excluded</text><feedback><text>That mixes up cut and cycle; the red rule is about cycles.</text></feedback></answer>
+    <answer fraction="0"><text>Every edge on a cycle is excluded</text><feedback><text>Only the heaviest cycle edge is safe to exclude.</text></feedback></answer>
+    <generalfeedback><text>Red rule: on any cycle, the heaviest edge is safe to drop from an MST.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Red-Blue framework role</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why are the red and blue rules important in MST theory?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>They form a unifying correctness framework of which Kruskal, Prim, and Boruvka are instances</text><feedback><text>Correct — each classic MST algorithm is a particular strategy for applying these two rules.</text></feedback></answer>
+    <answer fraction="0"><text>They only apply to directed graphs</text><feedback><text>MSTs and these rules are defined on undirected weighted graphs.</text></feedback></answer>
+    <answer fraction="0"><text>They compute shortest paths, not spanning trees</text><feedback><text>They concern MSTs, not shortest paths.</text></feedback></answer>
+    <answer fraction="0"><text>They replace the need for edge weights</text><feedback><text>The rules compare edge weights, so weights are essential.</text></feedback></answer>
+    <generalfeedback><text>The red-blue rules prove that greedily including safe (blue) edges and excluding useless (red) edges yields an MST, unifying Kruskal, Prim, and Boruvka.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Coloring meaning</text></name>
+    <questiontext format="html"><text><![CDATA[<p>In the red-blue method, what does coloring an edge <strong>blue</strong> mean?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>The edge is accepted into the MST</text><feedback><text>Correct — blue means included.</text></feedback></answer>
+    <answer fraction="0"><text>The edge is rejected from the MST</text><feedback><text>That is red (excluded), not blue.</text></feedback></answer>
+    <answer fraction="0"><text>The edge is temporarily ignored</text><feedback><text>Blue is a definite include decision, not a deferral.</text></feedback></answer>
+    <answer fraction="0"><text>The edge forms a negative cycle</text><feedback><text>MST theory here is about weight, not negative cycles.</text></feedback></answer>
+    <generalfeedback><text>Blue = include (safe edge via the cut rule); red = exclude (useless edge via the cycle rule).</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Kruskal Prim instances</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Kruskal's and Prim's algorithms can both be viewed as specific ways of applying the red-blue rules.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — they are instances of the same unifying framework.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Both are indeed instances of the red-blue rules.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Cut rule direction</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The cut rule (blue rule) tells you to include the maximum-weight edge crossing a cut.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — the cut rule includes the minimum-weight crossing edge.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — it is the minimum crossing edge that is safe to include.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Blue rule graph concept</text></name>
+    <questiontext format="html"><text><![CDATA[<p>The blue rule is stated in terms of a partition of the vertices into two sets, called a ______ (one word, English term).</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>cut</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>cut*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>Red-Blue properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about the red-blue rules are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>The blue (cut) rule includes the minimum edge crossing a cut</text><feedback><text>Yes — that safe edge belongs to some MST.</text></feedback></answer>
+    <answer fraction="50"><text>The red (cycle) rule excludes the maximum edge on a cycle</text><feedback><text>Yes — the heaviest cycle edge is not needed.</text></feedback></answer>
+    <answer fraction="-50"><text>The blue rule includes the maximum crossing edge</text><feedback><text>No — it includes the minimum crossing edge.</text></feedback></answer>
+    <answer fraction="-50"><text>The rules compute all-pairs shortest paths</text><feedback><text>No — they build a minimum spanning tree.</text></feedback></answer>
+    <generalfeedback><text>Blue rule: minimum edge across a cut is included; red rule: maximum edge on a cycle is excluded. Together they prove MST algorithms correct.</text></generalfeedback>
+  </question>
+</quiz>

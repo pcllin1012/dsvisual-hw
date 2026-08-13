@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Adjacency Multilist</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>多重串列節點的意義</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在無向圖的<strong>相鄰多重串列(adjacency multilist)</strong>中,單一個串列節點代表什麼?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>一條邊,被共用並串接進它兩個端點的串列中</text><feedback><text>正確 —— 多重串列以邊為導向;每條邊是單一個共用節點。</text></feedback></answer>
+    <answer fraction="0"><text>一個頂點及其度數</text><feedback><text>多重串列以邊為核心,不是以每個頂點的計數器為主。</text></feedback></answer>
+    <answer fraction="0"><text>一整列長度 V 的矩陣列</text><feedback><text>那是相鄰矩陣,不是多重串列的節點。</text></feedback></answer>
+    <answer fraction="0"><text>為每個端點各存一份邊的副本</text><feedback><text>普通相鄰串列會重複儲存邊;多重串列刻意不這麼做。</text></feedback></answer>
+    <generalfeedback><text>相鄰多重串列以邊為導向:每條邊是一個共用節點,串進兩個端點的串列中。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>邊只存一次</text></name>
+    <questiontext format="html"><text><![CDATA[<p>與普通相鄰串列相比,相鄰多重串列將每條無向邊儲存幾次?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>一次 —— 由兩個端點共用同一個節點</text><feedback><text>正確 —— 邊節點被共用,因此恰好只存一次。</text></feedback></answer>
+    <answer fraction="0"><text>兩次 —— 每個端點的串列各存一次</text><feedback><text>那是普通相鄰串列;多重串列避免了這個重複。</text></feedback></answer>
+    <answer fraction="0"><text>V 次 —— 每個頂點各存一次</text><feedback><text>一條邊只牽涉兩個端點,而非每個頂點。</text></feedback></answer>
+    <answer fraction="0"><text>不儲存 —— 邊在需要時才重新計算</text><feedback><text>邊會被明確地存成節點。</text></feedback></answer>
+    <generalfeedback><text>多重串列以共用節點將每條無向邊只存一次,不像普通相鄰串列會存兩次。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>多重串列的導向</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相鄰多重串列最適合被描述為哪一種表示法?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>一種以邊為導向、用於無向圖的表示法</text><feedback><text>正確 —— 節點對應到邊,由兩端點共用。</text></feedback></answer>
+    <answer fraction="0"><text>純粹以頂點為導向的計數器陣列</text><feedback><text>多重串列以邊節點為核心,而非每頂點計數器。</text></feedback></answer>
+    <answer fraction="0"><text>一張稠密的 V×V 位元表</text><feedback><text>那是相鄰矩陣。</text></feedback></answer>
+    <answer fraction="0"><text>一種只能用於有向圖的表示法</text><feedback><text>多重串列是為無向圖而設計的。</text></feedback></answer>
+    <generalfeedback><text>多重串列是用於無向圖、以邊為導向的結構,每條邊是一個共用節點。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>多重串列的用途</text></name>
+    <questiontext format="html"><text><![CDATA[<p>多重串列採用「共用邊節點」的設計,為何方便?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>你可以只標記一條邊為已造訪,並從兩個端點都看得到</text><feedback><text>正確 —— 單一共用節點讓遍歷時的邊標記變得容易。</text></feedback></answer>
+    <answer fraction="0"><text>它讓邊查詢像矩陣一樣達到 O(1)</text><feedback><text>邊查詢仍需走串列;O(1) 查詢是矩陣的特性。</text></feedback></answer>
+    <answer fraction="0"><text>它讓頂點完全不需要被儲存</text><feedback><text>頂點仍作為其邊節點串列的表頭。</text></feedback></answer>
+    <answer fraction="0"><text>它把圖轉換成有向圖</text><feedback><text>多重串列表示的仍是同一張無向圖。</text></feedback></answer>
+    <generalfeedback><text>因為每條邊是一個共用節點,只標記或遍歷一次即可從兩端點看到 —— 在以邊為基礎的演算法中很方便。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>共用的邊節點</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在相鄰多重串列中,每個邊節點都被串接進它兩個端點的串列裡。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 單一邊節點同時屬於兩個端點的串列。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>多重串列的重點正是兩個端點共用同一個邊節點。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>多重串列與相鄰串列的重複</text></name>
+    <questiontext format="html"><text><![CDATA[<p>普通相鄰串列將一條無向邊儲存兩次,而相鄰多重串列只儲存一次。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 多重串列以共用節點避免了相鄰串列保留的重複。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>相鄰串列確實會重複儲存該邊;多重串列只存一次。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>多重串列單位的名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在相鄰多重串列中,每個共用節點對應到圖的一條 ______(請以英文作答)。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>edge</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>edge*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>多重串列性質</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於相鄰多重串列,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>每條無向邊恰由一個共用節點表示</text><feedback><text>正確 —— 這是它的定義特徵。</text></feedback></answer>
+    <answer fraction="50"><text>一個邊節點被串進它兩個端點的串列中</text><feedback><text>正確 —— 從兩個端點都可到達它。</text></feedback></answer>
+    <answer fraction="-50"><text>它像普通相鄰串列一樣,每條邊按端點重複儲存一次</text><feedback><text>錯 —— 多重串列共用一個節點,而非重複儲存。</text></feedback></answer>
+    <answer fraction="-50"><text>它像相鄰矩陣一樣提供 O(1) 的邊存在性測試</text><feedback><text>錯 —— O(1) 邊查詢是矩陣的性質,不是多重串列的。</text></feedback></answer>
+    <generalfeedback><text>多重串列:每條邊是一個共用節點、由兩端點串接、只存一次(不重複),且不提供矩陣式的 O(1) 查詢。</text></generalfeedback>
+  </question>
+</quiz>
