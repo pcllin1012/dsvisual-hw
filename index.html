@@ -326,6 +326,17 @@
                 </div>
             </div>
         </div>
+
+        <div id="quiz-viewer" class="quizviewer-overlay" data-testid="quiz-viewer" hidden>
+            <div class="quizviewer-panel" role="dialog" aria-modal="true" aria-labelledby="quiz-viewer-title" tabindex="-1">
+                <div class="quizviewer-bar">
+                    <h2 id="quiz-viewer-title" class="quizviewer-title">Self-Test</h2>
+                    <button type="button" id="quiz-lang-toggle" class="quiz-lang-toggle" aria-label="Switch language">EN</button>
+                    <button type="button" class="quizviewer-close" data-quiz-close data-testid="quizviewer-close" aria-label="Close">×</button>
+                </div>
+                <div id="quiz-viewer-body" class="quizviewer-body" data-testid="quizviewer-body"></div>
+            </div>
+        </div>
     </div>
 
     <button type="button" id="viz-focus-exit" class="viz-focus-exit" hidden
@@ -503,6 +514,10 @@
     <script src="js/viz/viz_trie.js" defer></script>
     <script src="js/viz/viz_graph_workbench.js" defer></script>
     <script src="js/viz/viz_graph_drag.js" defer></script>
+    <script src="js/quiz_attempts.js" defer></script>
+    <script src="js/quiz_grade.js" defer></script>
+    <script src="js/quiz_rendered.js" defer></script>
+    <script src="js/quiz.js" defer></script>
     <script src="js/app.js" defer></script>
 </body>
 </html>

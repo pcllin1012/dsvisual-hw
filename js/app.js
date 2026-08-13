@@ -640,6 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${useCodeDrawer ? `<button type="button" class="btn secondary code-drawer-toggle" data-testid="code-drawer-toggle" aria-expanded="false" aria-haspopup="dialog">&lt;/&gt; ${method.file}</button>` : ''}
                     <button type="button" class="btn secondary viz-focus-toggle" data-testid="viz-focus-toggle" aria-pressed="${document.body.classList.contains('viz-focus') ? 'true' : 'false'}" data-i18n-aria-label="aria.fullscreen-toggle" aria-label="Toggle fullscreen focus mode" title="${t('btn.fullscreen')}">⛶ ${t('btn.fullscreen')}</button>
                     <button type="button" class="btn secondary method-slides-btn" data-method="${method.id}">Slides</button>
+                    ${(window.QUIZ_RENDERED && window.QUIZ_RENDERED[method.id]) ? `<button type="button" class="btn secondary method-quiz-btn" data-method="${method.id}" data-testid="method-quiz-btn">${t('btn.quiz')}</button>` : ''}
                 </div>
             </div>
             <div class="method-section-grid${useCodeDrawer ? ' method-section-grid--full' : ''}">
@@ -662,6 +663,8 @@ document.addEventListener('DOMContentLoaded', () => {
             </aside>` : ''}
         `;
         section.querySelector('.method-slides-btn').addEventListener('click', () => openSlides(method.id));
+        const quizBtn = section.querySelector('.method-quiz-btn');
+        if (quizBtn) quizBtn.addEventListener('click', () => { if (window.QuizViewer) window.QuizViewer.open(method.id); });
         const codeDrawerToggle = section.querySelector('.code-drawer-toggle');
         if (codeDrawerToggle) {
             const drawer = section.querySelector('.code-drawer');
