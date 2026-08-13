@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Aho-Corasick</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>What Aho-Corasick solves</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What problem does the Aho-Corasick algorithm solve?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Finding all occurrences of a set of patterns in a text in one pass</text><feedback><text>Correct — it is a multi-pattern exact matching algorithm.</text></feedback></answer>
+    <answer fraction="0"><text>Sorting the patterns lexicographically</text><feedback><text>No — it matches, it does not sort.</text></feedback></answer>
+    <answer fraction="0"><text>Finding the longest common subsequence of two strings</text><feedback><text>No — that is a different dynamic-programming problem.</text></feedback></answer>
+    <answer fraction="0"><text>Matching a single pattern only, like KMP</text><feedback><text>No — Aho-Corasick handles many patterns at once.</text></feedback></answer>
+    <generalfeedback><text>Aho-Corasick locates every occurrence of any pattern from a dictionary during a single scan of the text.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Underlying data structure</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Aho-Corasick first builds which data structure from all the patterns?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A trie of all the patterns</text><feedback><text>Correct — the patterns share prefixes in a trie.</text></feedback></answer>
+    <answer fraction="0"><text>A binary search tree keyed by pattern length</text><feedback><text>No — it uses a trie, not a BST.</text></feedback></answer>
+    <answer fraction="0"><text>A hash table of rolling hashes</text><feedback><text>No — that is Rabin-Karp's approach.</text></feedback></answer>
+    <answer fraction="0"><text>A min-heap of characters</text><feedback><text>No — no heap is involved.</text></feedback></answer>
+    <generalfeedback><text>All patterns are inserted into a trie; shared prefixes collapse onto shared paths.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Aho-Corasick complexity</text></name>
+    <questiontext format="html"><text><![CDATA[<p>With n = text length, m = total length of all patterns, and z = number of matches reported, what is Aho-Corasick's time complexity?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n + m + z)</text><feedback><text>Correct — build the automaton in O(m), scan in O(n), and report z matches.</text></feedback></answer>
+    <answer fraction="0"><text>O(n * m)</text><feedback><text>No — that would be re-scanning per pattern; Aho-Corasick avoids it.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log m)</text><feedback><text>No — there is no logarithmic factor.</text></feedback></answer>
+    <answer fraction="0"><text>O(m^2 + n)</text><feedback><text>No — automaton construction is linear in m.</text></feedback></answer>
+    <generalfeedback><text>O(m) to build the trie plus failure links, O(n) for the single text pass, plus O(z) to output each match.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Failure links role</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the role of the <strong>failure links</strong> added to the Aho-Corasick trie?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>They generalize KMP's failure function to fall back to the longest proper suffix that is a trie prefix</text><feedback><text>Correct — they redirect the scan without re-reading text.</text></feedback></answer>
+    <answer fraction="0"><text>They sort the trie's children alphabetically</text><feedback><text>No — failure links do not sort anything.</text></feedback></answer>
+    <answer fraction="0"><text>They store the rolling hash of each node</text><feedback><text>No — Aho-Corasick does not use hashing.</text></feedback></answer>
+    <answer fraction="0"><text>They delete matched patterns from the trie</text><feedback><text>No — nodes are not removed during matching.</text></feedback></answer>
+    <generalfeedback><text>A failure link points from a node to the node representing the longest proper suffix that is also a prefix present in the trie — KMP's idea extended to many patterns.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Properties of Aho-Corasick</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about Aho-Corasick are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It performs multi-pattern matching in a single pass over the text</text><feedback><text>Yes — all patterns are matched simultaneously.</text></feedback></answer>
+    <answer fraction="50"><text>It adds failure links (and output links) to a trie of the patterns</text><feedback><text>Yes — that is exactly how the automaton is built.</text></feedback></answer>
+    <answer fraction="-50"><text>It can only search for a single pattern at a time</text><feedback><text>No — its whole point is handling a set of patterns.</text></feedback></answer>
+    <answer fraction="-50"><text>It relies on a rolling hash like Rabin-Karp</text><feedback><text>No — it uses a trie automaton, not hashing.</text></feedback></answer>
+    <generalfeedback><text>Aho-Corasick = trie + failure links + output links, scanning the text once to find all patterns.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Aho-Corasick applications</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Aho-Corasick is used by tools such as <code>grep -F</code>/<code>fgrep</code>, antivirus signature scanning, and intrusion-detection systems.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — these all screen text against a large set of fixed patterns.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>These are classic real-world uses of Aho-Corasick.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Failure vs KMP</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Aho-Corasick's failure links generalize KMP's failure function from one pattern to a whole set of patterns.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it is the multi-pattern extension of the same fall-back idea.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>Failure links are precisely the multi-pattern generalization of KMP's failure function.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Automaton skeleton term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Aho-Corasick builds its automaton on top of which prefix-tree data structure? (one word)</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>trie</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>trie*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

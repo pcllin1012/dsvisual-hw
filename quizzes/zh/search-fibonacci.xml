@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Fibonacci Search</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>費氏搜尋核心機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列何者最能描述費氏搜尋的<strong>核心機制</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>使用由費氏數列導出的分割點來縮小已排序範圍,而非總是對半縮小</text><feedback><text>正確 —— 連續的費氏數決定探測位置。</text></feedback></answer>
+    <answer fraction="0"><text>從頭開始依序掃描每個元素</text><feedback><text>那是線性搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>總是比較正中間元素以將區間對半</text><feedback><text>那是二分搜尋;費氏搜尋以費氏數分割,並非剛好對半。</text></feedback></answer>
+    <answer fraction="0"><text>依據目標的數值估算探測位置</text><feedback><text>那是內插搜尋。</text></feedback></answer>
+    <generalfeedback><text>費氏搜尋使用連續費氏數來選擇分割點,並偏向檢查範圍前段的元素。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>費氏搜尋複雜度</text></name>
+    <questiontext format="html"><text><![CDATA[<p>對 n 個元素,費氏搜尋在最差情況下需要多少比較次數(時間複雜度)?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>正確 —— 與二分搜尋相同,以對數方式縮小範圍。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>那是線性搜尋;費氏搜尋為對數級。</text></feedback></answer>
+    <answer fraction="0"><text>O(log log n)</text><feedback><text>那是內插搜尋在均勻分布資料上的平均情況。</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>太大了;費氏搜尋為 O(log n)。</text></feedback></answer>
+    <generalfeedback><text>費氏搜尋每步以固定比例縮小區間,因此需要 O(log n) 次比較。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>費氏搜尋前提條件</text></name>
+    <questiontext format="html"><text><![CDATA[<p>為使費氏搜尋正確運作,輸入必須滿足哪個<strong>前提條件</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>陣列必須已排序</text><feedback><text>正確 —— 與二分搜尋相同,仰賴順序來捨棄部分範圍。</text></feedback></answer>
+    <answer fraction="0"><text>陣列必須未排序</text><feedback><text>錯 —— 需要順序。</text></feedback></answer>
+    <answer fraction="0"><text>數值必須均勻分布</text><feedback><text>那對內插搜尋才重要,而非費氏搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>陣列長度本身必須是費氏數</text><feedback><text>錯 —— 演算法只是取不小於 n 的最小費氏數;長度不必是費氏數。</text></feedback></answer>
+    <generalfeedback><text>費氏搜尋需要已排序陣列;接著僅用費氏數來挑選分割點。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>費氏搜尋的優勢</text></name>
+    <questiontext format="html"><text><![CDATA[<p>相較於二分搜尋,費氏搜尋的獨特優勢為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>它只用加法與減法計算分割點,避免使用除法</text><feedback><text>正確 —— 在除法或中點索引計算成本高昂的年代特別有用。</text></feedback></answer>
+    <answer fraction="0"><text>它可在未排序資料上運作</text><feedback><text>錯 —— 它仍需要已排序陣列。</text></feedback></answer>
+    <answer fraction="0"><text>它達到 O(1) 最差情況時間</text><feedback><text>錯 —— 它是 O(log n),與二分搜尋相同。</text></feedback></answer>
+    <answer fraction="0"><text>它完全不需要任何比較</text><feedback><text>錯 —— 它仍需將元素與目標比較。</text></feedback></answer>
+    <generalfeedback><text>費氏搜尋以費氏數的加減來推進索引,因此不需除法即可找到分割位置。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>費氏搜尋特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於費氏搜尋,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它需要已排序陣列</text><feedback><text>正確 —— 需要順序才能捨棄部分範圍。</text></feedback></answer>
+    <answer fraction="50"><text>它只用加法與減法(不用除法)來找分割點</text><feedback><text>正確 —— 這是它的歷史賣點。</text></feedback></answer>
+    <answer fraction="-50"><text>它以 O(n log n) 時間執行</text><feedback><text>錯 —— 它做 O(log n) 次比較。</text></feedback></answer>
+    <answer fraction="-50"><text>它可在未排序陣列上運作</text><feedback><text>錯 —— 它需要已排序輸入。</text></feedback></answer>
+    <generalfeedback><text>費氏搜尋:O(log n) 次比較、已排序輸入、以費氏數提供免除法的分割點、O(1) 空間。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>費氏搜尋是否需要排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>費氏搜尋需要輸入陣列已排序。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 它仰賴順序來排除部分範圍。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>錯 —— 與二分搜尋相同,它需要已排序輸入。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>費氏搜尋是否使用除法</text></name>
+    <questiontext format="html"><text><![CDATA[<p>費氏搜尋必須執行除法來計算每個分割點。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 它以費氏數的加減來推進索引,避免除法。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 它只需加法與減法,不用除法。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>費氏搜尋所用的數列</text></name>
+    <questiontext format="html"><text><![CDATA[<p>此搜尋法的分割點是使用 ______ 數列中的數字來選擇。請以一個英文單字命名它。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Fibonacci</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>Fib*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

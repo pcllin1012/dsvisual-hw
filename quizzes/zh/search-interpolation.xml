@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Interpolation Search</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>內插搜尋核心機制</text></name>
+    <questiontext format="html"><text><![CDATA[<p>下列何者最能描述內插搜尋的<strong>核心機制</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>依據目標值相對於範圍端點的位置來估算探測位置,就像在電話簿中查名字一樣</text><feedback><text>正確 —— 它內插目標可能所在之處,而非總是探測中間。</text></feedback></answer>
+    <answer fraction="0"><text>總是比較正中間元素以將區間對半</text><feedback><text>那是二分搜尋;內插搜尋依數值預測位置。</text></feedback></answer>
+    <answer fraction="0"><text>從頭開始依序掃描每個元素</text><feedback><text>那是線性搜尋。</text></feedback></answer>
+    <answer fraction="0"><text>使用費氏數列分割範圍</text><feedback><text>那是費氏搜尋。</text></feedback></answer>
+    <generalfeedback><text>內插搜尋以目標值在最低與最高鍵值之間的內插來計算探測索引 —— 一種字典/電話簿式的查找。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>內插搜尋平均情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在已排序且<strong>均勻分布</strong>的數值資料上,內插搜尋的<strong>平均情況</strong>時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log log n)</text><feedback><text>正確 —— 在均勻資料上估算非常精準,得到 O(log log n)。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>那是二分搜尋;在均勻資料上內插搜尋更好。</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>那是在偏斜資料上的最差情況,不是均勻資料的平均。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>太樂觀了;平均為 O(log log n)。</text></feedback></answer>
+    <generalfeedback><text>當鍵值均勻分布時,依數值的估算會非常接近目標,平均為 O(log log n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>內插搜尋最差情況</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在偏斜/非均勻資料上,內插搜尋的<strong>最差情況</strong>時間複雜度為何?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(n)</text><feedback><text>正確 —— 嚴重偏斜的分布使每次估算都很差,退化為線性掃描。</text></feedback></answer>
+    <answer fraction="0"><text>O(log log n)</text><feedback><text>那只是均勻分布資料上的平均情況。</text></feedback></answer>
+    <answer fraction="0"><text>O(log n)</text><feedback><text>錯 —— 與二分搜尋不同,內插搜尋在偏斜資料上可能退化為 O(n)。</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>對最差情況而言太樂觀了。</text></feedback></answer>
+    <generalfeedback><text>若資料高度非均勻,內插的探測會一再偏離,因此最差情況為 O(n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>內插搜尋前提條件</text></name>
+    <questiontext format="html"><text><![CDATA[<p>在哪種條件下內插搜尋表現最佳?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>資料已排序,且其數值大致均勻分布</text><feedback><text>正確 —— 需要排序,而均勻的數值使估算精準。</text></feedback></answer>
+    <answer fraction="0"><text>資料未排序但均勻分布</text><feedback><text>錯 —— 與二分搜尋相同,它仍需已排序輸入。</text></feedback></answer>
+    <answer fraction="0"><text>資料已排序但嚴重偏斜</text><feedback><text>偏斜會傷害它 —— 那是 O(n) 最差情況。</text></feedback></answer>
+    <answer fraction="0"><text>任何未排序陣列</text><feedback><text>錯 —— 它需要已排序輸入才能內插位置。</text></feedback></answer>
+    <generalfeedback><text>內插搜尋需要已排序輸入,並在數值均勻分布時表現出色;偏斜會使它退化趨近 O(n)。</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>內插搜尋特性</text></name>
+    <questiontext format="html"><text><![CDATA[<p>關於內插搜尋,以下哪些敘述正確?<em>(複選)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>它需要輸入已排序</text><feedback><text>正確 —— 它在有序範圍內內插位置。</text></feedback></answer>
+    <answer fraction="50"><text>在均勻資料上平均為 O(log log n),但在偏斜資料上最差為 O(n)</text><feedback><text>正確 —— 效能高度取決於分布。</text></feedback></answer>
+    <answer fraction="-50"><text>它在未排序陣列上也能正確運作</text><feedback><text>錯 —— 它需要已排序輸入。</text></feedback></answer>
+    <answer fraction="-50"><text>即使在高度偏斜資料上也保證 O(log n)</text><feedback><text>錯 —— 在偏斜資料上它可能退化為 O(n)。</text></feedback></answer>
+    <generalfeedback><text>內插搜尋:已排序輸入、依數值探測、均勻資料平均 O(log log n)、最差 O(n)、O(1) 空間。</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>內插搜尋是否需要排序</text></name>
+    <questiontext format="html"><text><![CDATA[<p>內插搜尋需要輸入陣列已排序。</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>正確 —— 它在有序範圍內內插探測位置。</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>錯 —— 需要已排序輸入。</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>偏斜資料上內插與二分之比較</text></name>
+    <questiontext format="html"><text><![CDATA[<p>內插搜尋永遠比二分搜尋快,即使在高度偏斜的資料上也是如此。</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>錯 —— 在偏斜/非均勻資料上它可能退化為 O(n),比二分搜尋的 O(log n) 更差。</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>正確 —— 它的優勢只在均勻分布資料上成立。</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>內插搜尋估算名詞</text></name>
+    <questiontext format="html"><text><![CDATA[<p>此搜尋法透過將目標值在範圍端點之間做線性 ______ 來估算探測位置。請以一個英文單字作答。</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>interpolation</text><feedback><text>正確。</text></feedback></answer>
+    <answer fraction="100"><text>interpol*</text><feedback><text>正確。</text></feedback></answer>
+  </question>
+</quiz>

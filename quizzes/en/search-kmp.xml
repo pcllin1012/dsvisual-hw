@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/KMP (Knuth-Morris-Pratt)</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>KMP purpose</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What problem does the <strong>Knuth-Morris-Pratt (KMP)</strong> algorithm solve?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Finding all occurrences of a pattern string inside a text string</text><feedback><text>Correct — KMP is a single-pattern exact string-matching algorithm.</text></feedback></answer>
+    <answer fraction="0"><text>Sorting a text string into lexicographic order</text><feedback><text>No — KMP does not sort; it searches for a pattern.</text></feedback></answer>
+    <answer fraction="0"><text>Compressing a text string</text><feedback><text>No — that is data compression, unrelated to KMP.</text></feedback></answer>
+    <answer fraction="0"><text>Computing the edit distance between two strings</text><feedback><text>No — that is dynamic-programming alignment, not KMP.</text></feedback></answer>
+    <generalfeedback><text>KMP locates every occurrence of a pattern of length m within a text of length n using a precomputed failure function.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>KMP search time</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the <strong>worst-case</strong> total time complexity of KMP (preprocessing plus search)?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>O(n + m)</text><feedback><text>Correct — building the table is O(m) and the scan is O(n), giving guaranteed linear time.</text></feedback></answer>
+    <answer fraction="0"><text>O(n &times; m)</text><feedback><text>No — that is the naive brute-force worst case; KMP avoids it via the failure function.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log m)</text><feedback><text>No — KMP has no logarithmic factor.</text></feedback></answer>
+    <answer fraction="0"><text>O(m^2)</text><feedback><text>No — even the table construction is linear O(m).</text></feedback></answer>
+    <generalfeedback><text>KMP is optimal for single-pattern search: O(m) preprocessing plus O(n) scanning equals O(n + m) worst case.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>KMP space</text></name>
+    <questiontext format="html"><text><![CDATA[<p>How much extra space does KMP use for its prefix/failure table?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(m)</text><feedback><text>Correct — the failure function stores one entry per pattern character.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>No — the table depends on the pattern length m, not the text length n.</text></feedback></answer>
+    <answer fraction="0"><text>O(n + m)</text><feedback><text>No — no per-text-character table is stored.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>No — the failure table needs m entries.</text></feedback></answer>
+    <generalfeedback><text>KMP precomputes an LPS/failure array of length m, so extra space is O(m).</text></generalfeedback>
+  </question>
+  <question type="shortanswer">
+    <name><text>LPS acronym</text></name>
+    <questiontext format="html"><text><![CDATA[<p>KMP's failure function stores, for each prefix, the length of the longest proper prefix that is also a ______ of that prefix. Give the missing word.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>suffix</text><feedback><text>Correct — LPS = Longest Proper Prefix which is also a Suffix.</text></feedback></answer>
+    <answer fraction="100"><text>suffix*</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>KMP when to use</text></name>
+    <questiontext format="html"><text><![CDATA[<p>When is KMP the best fit?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>When you need a guaranteed linear-time single-pattern search with no risk of quadratic blowup</text><feedback><text>Correct — KMP's worst-case O(n + m) guarantee is its main selling point.</text></feedback></answer>
+    <answer fraction="0"><text>When you must search for hundreds of patterns at once</text><feedback><text>No — that favors Rabin-Karp's multi-pattern hashing.</text></feedback></answer>
+    <answer fraction="0"><text>When the alphabet is huge and you want maximum average-case skipping</text><feedback><text>No — large-skip behavior is Boyer-Moore's niche.</text></feedback></answer>
+    <answer fraction="0"><text>When you need to sort the text</text><feedback><text>No — KMP does not sort.</text></feedback></answer>
+    <generalfeedback><text>Choose KMP when a hard worst-case linear guarantee for one pattern matters more than average-case skipping.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>KMP no text backtracking</text></name>
+    <questiontext format="html"><text><![CDATA[<p>During the search phase, KMP never moves the <em>text</em> pointer backward: on a mismatch it only shifts the pattern using the failure table.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — the text index only advances; the failure function repositions the pattern instead.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>No — never backtracking the text is exactly what makes KMP linear.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>KMP right to left claim</text></name>
+    <questiontext format="html"><text><![CDATA[<p>KMP compares the pattern against the text from <em>right to left</em> within each alignment.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — that describes Boyer-Moore; KMP compares left to right.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — KMP scans left to right; right-to-left comparison is Boyer-Moore.</text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>KMP properties multi</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about KMP are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It guarantees O(n + m) time even on adversarial inputs</text><feedback><text>Yes — KMP's linear bound is worst-case, not just average.</text></feedback></answer>
+    <answer fraction="50"><text>The failure table lets it reuse already-matched characters after a mismatch</text><feedback><text>Yes — that reuse is why the text pointer never backs up.</text></feedback></answer>
+    <answer fraction="-50"><text>It requires O(n) extra space proportional to the text length</text><feedback><text>No — extra space is O(m), tied to the pattern length.</text></feedback></answer>
+    <answer fraction="-50"><text>It skips ahead using a bad-character heuristic</text><feedback><text>No — the bad-character heuristic belongs to Boyer-Moore.</text></feedback></answer>
+    <generalfeedback><text>KMP: guaranteed O(n + m) time, O(m) space, reuses matched prefixes via the failure function; heuristic skipping is Boyer-Moore.</text></generalfeedback>
+  </question>
+</quiz>

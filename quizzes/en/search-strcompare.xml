@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/String Matching Compared</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Right-to-left scan</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which classic algorithm compares the pattern against the text <strong>right-to-left</strong>, enabling large skips?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Boyer-Moore</text><feedback><text>Correct — its bad-character and good-suffix rules exploit right-to-left scanning.</text></feedback></answer>
+    <answer fraction="0"><text>KMP</text><feedback><text>No — KMP scans left-to-right using its failure function.</text></feedback></answer>
+    <answer fraction="0"><text>Rabin-Karp</text><feedback><text>No — Rabin-Karp compares hashes of left-to-right windows.</text></feedback></answer>
+    <answer fraction="0"><text>Naive matching</text><feedback><text>No — naive matching scans left-to-right with no skips.</text></feedback></answer>
+    <generalfeedback><text>Boyer-Moore matches from the pattern's end, letting mismatches shift the pattern far ahead.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Rolling hash owner</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which algorithm identifies candidate matches using a <strong>rolling hash</strong>?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Rabin-Karp</text><feedback><text>Correct — it slides a rolling hash over the text and compares hash values.</text></feedback></answer>
+    <answer fraction="0"><text>KMP</text><feedback><text>No — KMP uses a prefix/failure function, not hashing.</text></feedback></answer>
+    <answer fraction="0"><text>Boyer-Moore</text><feedback><text>No — Boyer-Moore uses skip tables, not hashing.</text></feedback></answer>
+    <answer fraction="0"><text>Z-algorithm</text><feedback><text>No — the Z-algorithm uses the Z-array, not hashing.</text></feedback></answer>
+    <generalfeedback><text>Rabin-Karp hashes each text window in O(1) amortized via a rolling hash, then verifies hits.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Failure function owner</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which algorithm precomputes a <strong>prefix/failure function (LPS)</strong> and never backtracks in the text?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>KMP</text><feedback><text>Correct — the LPS table lets KMP advance the text pointer monotonically.</text></feedback></answer>
+    <answer fraction="0"><text>Boyer-Moore</text><feedback><text>No — Boyer-Moore uses bad-character and good-suffix rules.</text></feedback></answer>
+    <answer fraction="0"><text>Rabin-Karp</text><feedback><text>No — Rabin-Karp relies on hashing, not an LPS table.</text></feedback></answer>
+    <answer fraction="0"><text>Naive matching</text><feedback><text>No — naive matching does backtrack the text pointer.</text></feedback></answer>
+    <generalfeedback><text>KMP's longest-proper-prefix-suffix (LPS) array tells it how far to shift the pattern without re-reading text.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Properties of Boyer-Moore</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about <strong>Boyer-Moore</strong> are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It scans the pattern right-to-left</text><feedback><text>Yes — matching starts from the pattern's last character.</text></feedback></answer>
+    <answer fraction="50"><text>It achieves sublinear average time with big skips on large alphabets</text><feedback><text>Yes — the bad-character rule shines when the alphabet is large.</text></feedback></answer>
+    <answer fraction="-50"><text>It uses a rolling hash to find candidates</text><feedback><text>No — that is Rabin-Karp.</text></feedback></answer>
+    <answer fraction="-50"><text>It is the best choice for searching many patterns at once</text><feedback><text>No — Rabin-Karp (or Aho-Corasick) handles multiple patterns better.</text></feedback></answer>
+    <generalfeedback><text>Boyer-Moore is a single-pattern method: right-to-left scan, skip heuristics, sublinear on average for large alphabets.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Multiple patterns at once</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Among these three, which is best suited to searching for <strong>multiple patterns at once</strong> by hashing each pattern?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>Rabin-Karp</text><feedback><text>Correct — one text hash can be compared against a set of pattern hashes.</text></feedback></answer>
+    <answer fraction="0"><text>Boyer-Moore</text><feedback><text>No — its skip tables are geared to a single pattern.</text></feedback></answer>
+    <answer fraction="0"><text>KMP</text><feedback><text>No — KMP's failure function is built for one pattern.</text></feedback></answer>
+    <generalfeedback><text>By storing many pattern hashes in a set, Rabin-Karp screens for any of them in one pass.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>All find exact matches</text></name>
+    <questiontext format="html"><text><![CDATA[<p>KMP, Boyer-Moore, and Rabin-Karp all solve the <em>exact</em> string matching problem.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — all three report exact occurrences; they differ in strategy.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>All three do find exact matches.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>KMP linear time</text></name>
+    <questiontext format="html"><text><![CDATA[<p>KMP runs in O(n + m) worst-case time, and Rabin-Karp runs in O(n + m) on average.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — KMP is linear worst-case; Rabin-Karp is linear on average (worst case O(n*m)).</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>KMP is O(n+m) worst-case and Rabin-Karp is O(n+m) average.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Rolling hash algorithm</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Name the algorithm that finds candidate matches by comparing a rolling hash of each text window against the pattern's hash.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>Rabin-Karp</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>Rabin*Karp</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>Rabin Karp</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>

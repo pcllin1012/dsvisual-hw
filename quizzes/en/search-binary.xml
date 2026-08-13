@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Binary Search</text></category>
+  </question>
+  <question type="multichoice">
+    <name><text>Binary search core mechanism</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which best describes the <strong>core mechanism</strong> of binary search?</p>]]></text></questiontext>
+    <single>true</single>
+    <shuffleanswers>1</shuffleanswers>
+    <answer fraction="100"><text>Compare the target with the middle element and discard the half that cannot contain it, repeatedly halving the interval</text><feedback><text>Correct — each comparison halves the remaining search space.</text></feedback></answer>
+    <answer fraction="0"><text>Scan every element in order from the start</text><feedback><text>That is linear search.</text></feedback></answer>
+    <answer fraction="0"><text>Estimate the probe position from the target's value</text><feedback><text>That is interpolation search.</text></feedback></answer>
+    <answer fraction="0"><text>Split the interval using Fibonacci numbers</text><feedback><text>That is Fibonacci search.</text></feedback></answer>
+    <generalfeedback><text>Binary search repeatedly compares the middle element and eliminates half of the remaining range.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Binary search worst case</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What is the <strong>worst-case</strong> time complexity of binary search over n elements?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>Correct — halving the range gives about log&#8322; n steps.</text></feedback></answer>
+    <answer fraction="0"><text>O(n)</text><feedback><text>That is linear search; binary search halves each step.</text></feedback></answer>
+    <answer fraction="0"><text>O(1)</text><feedback><text>Only the best case (target at the middle) is constant.</text></feedback></answer>
+    <answer fraction="0"><text>O(n log n)</text><feedback><text>Too large; a single search is logarithmic.</text></feedback></answer>
+    <generalfeedback><text>Each step discards half the elements, so at most ~log&#8322; n comparisons are needed.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Binary search precondition</text></name>
+    <questiontext format="html"><text><![CDATA[<p>What <strong>precondition</strong> must the input array satisfy for binary search to be correct?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>It must be sorted</text><feedback><text>Correct — binary search relies on order to decide which half to keep.</text></feedback></answer>
+    <answer fraction="0"><text>It must be unsorted</text><feedback><text>No — without order the halving logic breaks.</text></feedback></answer>
+    <answer fraction="0"><text>Its values must be uniformly distributed</text><feedback><text>Uniform distribution helps interpolation search, not binary search.</text></feedback></answer>
+    <answer fraction="0"><text>It must contain only distinct values</text><feedback><text>No — binary search works with duplicates too.</text></feedback></answer>
+    <generalfeedback><text>Binary search requires a sorted array (and random access) so it can rule out half the range at each comparison.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Binary search on linked lists</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Why is binary search a poor fit for a singly linked list?</p>]]></text></questiontext>
+    <single>true</single>
+    <answer fraction="100"><text>A linked list lacks O(1) random access, so reaching the middle element is itself O(n)</text><feedback><text>Correct — jumping to the midpoint costs O(n), defeating the speedup.</text></feedback></answer>
+    <answer fraction="0"><text>Linked lists cannot store sorted data</text><feedback><text>No — a linked list can certainly be kept in sorted order.</text></feedback></answer>
+    <answer fraction="0"><text>Binary search only works on floating-point values</text><feedback><text>No — it works on any ordered keys.</text></feedback></answer>
+    <answer fraction="0"><text>Linked lists use too much memory</text><feedback><text>Not the reason; the issue is indexing cost.</text></feedback></answer>
+    <generalfeedback><text>Binary search needs O(1) indexing to reach the midpoint; a linked list only offers sequential access.</text></generalfeedback>
+  </question>
+  <question type="multichoice">
+    <name><text>Binary search properties</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Which statements about binary search are true? <em>(select all that apply)</em></p>]]></text></questiontext>
+    <single>false</single>
+    <answer fraction="50"><text>It runs in O(log n) time in the worst case</text><feedback><text>Yes — the range halves each step.</text></feedback></answer>
+    <answer fraction="50"><text>It requires the array to be sorted</text><feedback><text>Yes — order is what lets it discard half the range.</text></feedback></answer>
+    <answer fraction="-50"><text>It works correctly on unsorted arrays</text><feedback><text>No — it requires sorted input.</text></feedback></answer>
+    <answer fraction="-50"><text>It runs in O(n) time in the worst case</text><feedback><text>No — that is linear search; binary search is O(log n).</text></feedback></answer>
+    <generalfeedback><text>Binary search: O(log n) worst case, requires sorted input and random access.</text></generalfeedback>
+  </question>
+  <question type="truefalse">
+    <name><text>Binary search on unsorted data</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Binary search returns correct results on an unsorted array.</p>]]></text></questiontext>
+    <answer fraction="0"><text>true</text><feedback><text>No — without a sorted order the discarded half may contain the target.</text></feedback></answer>
+    <answer fraction="100"><text>false</text><feedback><text>Correct — binary search requires the array to be sorted.</text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>Binary search space</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Iterative binary search uses only O(1) extra (auxiliary) space.</p>]]></text></questiontext>
+    <answer fraction="100"><text>true</text><feedback><text>Correct — it keeps just a few index variables.</text></feedback></answer>
+    <answer fraction="0"><text>false</text><feedback><text>The iterative version needs only constant extra space.</text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>Binary search complexity term</text></name>
+    <questiontext format="html"><text><![CDATA[<p>Binary search's worst-case time is O(____ n). Fill in the three-letter function name that goes in the blank.</p>]]></text></questiontext>
+    <usecase>0</usecase>
+    <answer fraction="100"><text>log</text><feedback><text>Correct — O(log n).</text></feedback></answer>
+    <answer fraction="100"><text>log*</text><feedback><text>Correct.</text></feedback></answer>
+    <answer fraction="100"><text>O(log n)</text><feedback><text>Correct.</text></feedback></answer>
+  </question>
+</quiz>
