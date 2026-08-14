@@ -17,3 +17,4 @@ tree_test
 *_test
 search_binary
 search_linear
+dist/
