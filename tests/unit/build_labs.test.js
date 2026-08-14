@@ -10,6 +10,12 @@ test('mdToHtml renders headings, paragraphs, and fenced code, escaping HTML', ()
   assert.match(html, /<pre><code>1 2 3\n<\/code><\/pre>/);
 });
 
+test('mdToHtml renders bold and italic emphasis', () => {
+  const html = mdToHtml('**bold** and *em*');
+  assert.match(html, /<strong>bold<\/strong>/);
+  assert.match(html, /<em>em<\/em>/);
+});
+
 test('buildLabs maps graph-dijkstra with public fields and no hidden data', () => {
   const R = buildLabs();
   assert.ok(R['graph-dijkstra'], 'graph-dijkstra present');

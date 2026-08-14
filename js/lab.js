@@ -34,7 +34,9 @@
     var meta = [];
     if (lab.difficulty) meta.push(t('lab.difficulty', 'Difficulty') + ' ' + '★'.repeat(lab.difficulty));
     if (lab.week) meta.push(t('lab.week', 'Week') + ' ' + lab.week);
-    var dsjudgeAttrs = lab.dsjudgeUrl ? ('href="' + lab.dsjudgeUrl + '" target="_blank" rel="noopener"') : 'aria-disabled="true" disabled';
+    var dsjudgeControl = lab.dsjudgeUrl
+      ? '<a class="btn secondary" data-testid="lab-dsjudge" href="' + lab.dsjudgeUrl + '" target="_blank" rel="noopener">' + t('lab.dsjudgeSoon', 'Practice on dsjudge (coming soon)') + '</a>'
+      : '<button type="button" class="btn secondary" data-testid="lab-dsjudge" aria-disabled="true" disabled>' + t('lab.dsjudgeSoon', 'Practice on dsjudge (coming soon)') + '</button>';
     body.innerHTML =
       '<div class="lab-head"><h3>' + esc(title) + '</h3><div class="lab-meta muted">' + meta.map(esc).join(' · ') + '</div></div>'
       + '<div class="lab-statement" data-testid="lab-statement">' + stmt + '</div>'
@@ -42,7 +44,7 @@
       + '<div class="lab-samples" data-testid="lab-samples">' + lab.samples.map(sampleBlock).join('') + '</div>'
       + '<div class="lab-actions">'
       + '<a class="btn primary" data-testid="lab-open-repo" href="' + lab.repoUrl + '" target="_blank" rel="noopener">' + t('lab.openRepo', 'Open practice repo') + ' ↗</a> '
-      + '<button type="button" class="btn secondary" data-testid="lab-dsjudge" ' + dsjudgeAttrs + '>' + t('lab.dsjudgeSoon', 'Practice on dsjudge (coming soon)') + '</button>'
+      + dsjudgeControl
       + '</div>';
     var lt = document.getElementById('lab-lang-toggle'); if (lt) lt.textContent = lang === 'zh' ? 'EN' : '中';
   }

@@ -10,13 +10,25 @@ test.describe('lab entry point', () => {
     await page.goto('file://' + path.resolve(__dirname, '../index.html'));
   });
 
-  test('Lab button shows on graph-dijkstra, hidden when no lab', async ({ page }) => {
+  test('Lab button shows on graph-dijkstra when a LAB_RENDERED entry exists', async ({ page }) => {
     await loadMethod(page, 'graph-dijkstra');
     await expect(page.locator('[data-method-section="graph-dijkstra"] .method-lab-btn')).toBeVisible();
-    // simulate a lab-less method: drop its entry before its (non-default) group first renders
-    await page.evaluate(() => { if (window.LAB_RENDERED) delete window.LAB_RENDERED['graph-bfs']; });
+  });
+
+  test('Lab button hidden when its LAB_RENDERED entry is removed before first render', async ({ page }) => {
+    // graph-bfs has no entry to begin with (no-op deletion, kept for coverage of the
+    // "never had a lab" path); graph-dijkstra DOES have one, so deleting it here is the
+    // case that actually exercises removal-gating end to end.
+    await page.evaluate(() => {
+      if (window.LAB_RENDERED) {
+        delete window.LAB_RENDERED['graph-bfs'];
+        delete window.LAB_RENDERED['graph-dijkstra'];
+      }
+    });
     await loadMethod(page, 'graph-bfs');
     await expect(page.locator('[data-method-section="graph-bfs"] .method-lab-btn')).toHaveCount(0);
+    await loadMethod(page, 'graph-dijkstra');
+    await expect(page.locator('[data-method-section="graph-dijkstra"] .method-lab-btn')).toHaveCount(0);
   });
 
   test('opening Lab shows statement, samples, repo link, disabled dsjudge button', async ({ page }) => {

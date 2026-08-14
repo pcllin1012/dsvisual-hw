@@ -15,7 +15,9 @@ function mdToHtml(md) {
   let i = 0, para = [], list = null;
   const flushPara = () => { if (para.length) { out.push('<p>' + inline(para.join(' ')) + '</p>'); para = []; } };
   const flushList = () => { if (list) { out.push('<ul>' + list.map((li) => '<li>' + inline(li) + '</li>').join('') + '</ul>'); list = null; } };
-  const inline = (s) => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>');
+  const inline = (s) => esc(s).replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>');
   while (i < lines.length) {
     const line = lines[i];
     if (line.startsWith('```')) {
