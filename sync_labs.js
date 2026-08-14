@@ -27,12 +27,20 @@ function copyIfExists(src, dst) {
 }
 
 function syncSlug(slug) {
-  const src = path.join(DSJUDGE, 'problems', slug);
+  const src = path.join(DSJUDGE, 'problems', slug);            // built (samples + meta live here)
+  const srcAuthor = path.join(DSJUDGE, 'problems-src', slug);  // authoring source (holds the en statement)
   if (!fs.existsSync(src)) throw new Error('dsjudge problem not found: ' + src);
   const dst = path.join(LABS, slug);
   fs.mkdirSync(path.join(dst, 'samples'), { recursive: true });
-  copyIfExists(path.join(src, 'statement.md'), path.join(dst, 'statement.md'));
-  copyIfExists(path.join(src, 'statement.en.md'), path.join(dst, 'statement.en.md')); // may be absent
+  // Statements: prefer the built dir, fall back to the authoring source. dsjudge's
+  // build does not always propagate statement.en.md into problems/, so read the en
+  // (and zh) statement from problems-src/ when the built dir lacks it.
+  const copyStatement = (name) => {
+    if (!copyIfExists(path.join(src, name), path.join(dst, name)))
+      copyIfExists(path.join(srcAuthor, name), path.join(dst, name)); // may still be absent
+  };
+  copyStatement('statement.md');
+  copyStatement('statement.en.md');
   for (const f of fs.readdirSync(path.join(src, 'samples'))) {
     fs.copyFileSync(path.join(src, 'samples', f), path.join(dst, 'samples', f));
   }

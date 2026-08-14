@@ -44,4 +44,17 @@ test.describe('lab entry point', () => {
     await page.keyboard.press('Escape');
     await expect(v).toBeHidden();
   });
+
+  test('statement renders in English and toggles to Chinese', async ({ page }) => {
+    await loadMethod(page, 'graph-dijkstra');
+    await page.locator('[data-method-section="graph-dijkstra"] .method-lab-btn').click();
+    const v = page.locator('#lab-viewer');
+    const stmt = v.locator('[data-testid="lab-statement"]');
+    // default lang is en (set in beforeEach): the English statement, not the zh fallback
+    await expect(stmt).toContainText(/Single-Source Shortest Path|shortest path/i);
+    await expect(stmt).not.toContainText('單源最短路徑');
+    // toggling switches to the Chinese statement
+    await v.locator('#lab-lang-toggle').click();
+    await expect(stmt).toContainText('單源最短路徑');
+  });
 });
