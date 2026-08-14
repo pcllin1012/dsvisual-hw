@@ -1,0 +1,9 @@
+{
+  "graph-dijkstra": [
+    {
+      "slug": "dijkstra",
+      "repoUrl": "https://github.com/nycu-cs-course-ds/ds2026-lab-dijkstra",
+      "dsjudgeUrl": null
+    }
+  ]
+}

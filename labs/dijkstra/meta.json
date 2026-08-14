@@ -1,0 +1,10 @@
+{
+  "title": "Dijkstra 最短路",
+  "topic": "graphs",
+  "week": 7,
+  "difficulty": 3,
+  "tags": [
+    "graph",
+    "shortest-path"
+  ]
+}
