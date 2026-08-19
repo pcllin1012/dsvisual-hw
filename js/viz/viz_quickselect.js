@@ -25,6 +25,37 @@
 
   const DEFAULT = { arr: [7,2,1,6,8,5,3], k: 4 };
 
+  // 獨立出的核心 Quickselect 演算法（供測試與內部使用）
+  function quickselect(inputArr, k) {
+    const a = inputArr.slice();
+    let l = 0, r = a.length - 1;
+    if (a.length === 0) return undefined;
+    if (k < 1) k = 1;
+    if (k > a.length) k = a.length;
+
+    while (l <= r) {
+      if (l === r) return a[l];
+      const pivotVal = a[r];
+      let i = l - 1;
+      for (let j = l; j < r; j++) {
+        if (a[j] <= pivotVal) {
+          i++;
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+      }
+      [a[i + 1], a[r]] = [a[r], a[i + 1]];
+      const p = i + 1;
+
+      if (p - l === k - 1) return a[p];
+      else if (p - l > k - 1) r = p - 1;
+      else {
+        k = k - (p - l + 1);
+        l = p + 1;
+      }
+    }
+    return a[l];
+  }
+
   // Build frames for median-of-medians quickselect (illustrative, deterministic)
   function quickselectFrames(inputArr, k) {
     const a = inputArr.slice();
@@ -36,13 +67,11 @@
     if (n === 0) { snap({}, { zh: '空陣列', en: 'Empty array' }); return frames; }
     if (k < 1) k = 1; if (k > n) k = n;
 
-    // Helper: find median-of-5 medians, but compute pivot value without recursive frames
     function choosePivot(l, r) {
-      const len = r - l + 1;
       const groups = [];
       for (let i = l; i <= r; i += 5) groups.push(a.slice(i, Math.min(i + 5, r + 1)));
       const medians = groups.map((g) => { const s = g.slice().sort((x,y)=>x-y); return s[Math.floor(s.length/2)]; });
-      // show groups & medians
+      
       const hi = {};
       groups.forEach((g, gi) => {
         for (let j = 0; j < g.length; j++) {
@@ -50,21 +79,24 @@
           hi[idx] = 'group' + gi;
         }
       });
-      // mark medians
       medians.forEach((m) => { const idx = a.indexOf(m); if (idx >= 0) hi[idx] = 'median'; });
       snap(hi, { zh: '分組取中位數 (每組最多5個)', en: 'Group into 5s and take medians' });
-      // compute median-of-medians value (deterministic)
+
       const med = medians.slice().sort((x,y)=>x-y)[Math.floor(medians.length/2)];
-      // ensure pivot chosen corresponds to a position in original array
-      let pivotIdx = a.indexOf(med);
-      if (pivotIdx === -1) pivotIdx = Math.floor((l + r)/2);
+      
+      let pivotIdx = -1;
+      for (let idx = l; idx <= r; idx++) {
+        if (a[idx] === med) {
+          pivotIdx = idx;
+          break;
+        }
+      }
+      if (pivotIdx === -1) pivotIdx = Math.floor((l + r) / 2);
       return pivotIdx;
     }
 
-    // Lomuto partition with frames (pivot index given)
     function partition(l, r, pivotIdx) {
       const pivotVal = a[pivotIdx];
-      // move pivot to end
       [a[pivotIdx], a[r]] = [a[r], a[pivotIdx]];
       snap({ [r]: 'pivot' }, { zh: '選 pivot=' + pivotVal, en: 'Pick pivot=' + pivotVal });
       let i = l - 1;
@@ -78,7 +110,6 @@
       return p;
     }
 
-    // Recursive selection loop (non-recursive in frames but follows logic)
     let l = 0, r = n - 1;
     while (l <= r) {
       if (l === r) { const hi = {}; hi[l] = 'found'; snap(hi, { zh: '單元素，命中', en: 'Single element; found' }); break; }
@@ -137,9 +168,15 @@
     rebuild();
   }
 
-  global.VizRegistry.attach('select-quickselect', {
-    render: renderQuickselect,
-    code: () => (typeof codeQuickselect !== 'undefined' ? codeQuickselect : ''),
-    layout: { host: 'dynamic', codeDrawer: true },
-  });
-})(typeof window !== 'undefined' ? window : globalThis);
+  if (typeof global !== 'undefined' && global.VizRegistry) {
+    global.VizRegistry.attach('select-quickselect', {
+      render: renderQuickselect,
+      code: () => (typeof codeQuickselect !== 'undefined' ? codeQuickselect : ''),
+      layout: { host: 'dynamic', codeDrawer: true }
+    });
+  }
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { quickselect, quickselectFrames, renderQuickselect };
+  }
+})(typeof window !== 'undefined' ? window : global);
